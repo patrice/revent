@@ -1,0 +1,22 @@
+<%= error_messages_for 'event' %>
+
+<!--[form:event]-->
+<p><label for="event_name">Name</label><br/>
+<%= text_field 'event', 'name'  %></p>
+
+<p><label for="event_description">Description</label><br/>
+<%= text_area 'event', 'description'  %></p>
+
+<p><label for="event_location">Location</label><br/>
+<%= text_area 'event', 'location'  %></p>
+
+<p><label for="event_start">Start</label><br/>
+<%= datetime_select 'event', 'start'  %></p>
+
+<p><label for="event_end">End</label><br/>
+<%= datetime_select 'event', 'end'  %></p>
+
+<p><label for="event_group_id">Event Group</label><br/>
+<%= select 'event', 'event_group_id', EventGroup.find(:all).collect {|eg| [eg.name, eg.id]} %>
+<!--[eoform:event]-->
+

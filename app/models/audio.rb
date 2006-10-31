@@ -1,0 +1,2 @@
+class Audio < Media
+end

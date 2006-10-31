@@ -1,0 +1,27 @@
+<h1>Listing reports</h1>
+
+<table>
+  <tr>
+  <% for column in Report.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for report in @reports %>
+  <tr>
+  <% for column in Report.content_columns %>
+    <td><%=h report.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => report %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => report %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => report }, :confirm => 'Are you sure?', :post => true %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @report_pages.current.previous } if @report_pages.current.previous %>
+<%= link_to 'Next page', { :page => @report_pages.current.next } if @report_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New report', :action => 'new' %>

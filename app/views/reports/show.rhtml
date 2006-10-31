@@ -1,0 +1,11 @@
+<% for column in Report.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @report.send(column.name) %>
+</p>
+<% end %>
+<% @report.medias.each do |m| -%>
+<%= image_tag m.public_filename %><br/>
+<% end -%>
+
+<%= link_to 'Edit', :action => 'edit', :id => @report %> |
+<%= link_to 'Back', :action => 'list' %>
