@@ -62,4 +62,18 @@ class EventsController < ApplicationController
   def reports
     @event = Event.find(params[:id])
   end
+
+  def map
+    @map = Cartographer::Gmap.new( 'mymap' )
+    @map.init do |m|
+      m.center = [37.775558, -122.415553]
+      m.zoom = 11
+      m.debug = true
+      m.controls = [:zoom, :large]
+    end
+    @map.markers << Cartographer::Gmarker.new( :position => [37.775558, -122.415553], :info_window => 'Clicky clicky!!', :map => @map )
+    @map.markers << Cartographer::Gmarker.new( :position => [37.739326, -122.416666], :info_window => 'Clicky clicky!!', :map => @map )
+    @map.markers << Cartographer::Gmarker.new( :position => [37.752430, -122.415327], :info_window => 'Clicky clicky!!', :map => @map )
+    @map.markers << Cartographer::Gmarker.new( :position => [37.851993, -122.270131], :info_window => 'Clicky clicky!!', :map => @map )
+  end
 end
