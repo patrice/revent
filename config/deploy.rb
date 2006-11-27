@@ -30,7 +30,7 @@ role :db,  "gertie.radicaldesigns.org", :primary => true
 # OPTIONAL VARIABLES
 # =============================================================================
 set :deploy_to, "/var/www/#{application}" # defaults to "/u/apps/#{application}"
-# set :user, "flippy"            # defaults to the currently logged in user
+set :user, "daysofaction"            # defaults to the currently logged in user
 # set :scm, :darcs               # defaults to :subversion
 # set :svn, "/path/to/svn"       # defaults to searching the PATH
 # set :darcs, "/path/to/darcs"   # defaults to searching the PATH
@@ -132,7 +132,7 @@ desc <<-DESC
 Spinner is run by the default cold_deploy task. Instead of using script/spinner, we're just gonna rely on Mongrel to keep itself up.
 DESC
 task :spinner, :roles => :app do
-  application_port = 3007
+  application_port = 3030
   run "mongrel_rails start -e development -p #{application_port} -d -c #{current_path}"
 end
 
@@ -146,3 +146,11 @@ task :restart, :roles => :app do
   end
 end
 
+desc "tail production log files" 
+task :tail_logs, :roles => :app do
+  run "tail -f #{shared_path}/log/development.log" do |channel, stream, data|
+    puts  # for an extra line break before the host name
+    puts "#{channel[:host]}: #{data}" 
+    break if stream == :err    
+  end
+end
