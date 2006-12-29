@@ -71,9 +71,11 @@ class EventsController < ApplicationController
       m.debug = true
       m.controls = [:zoom, :large]
     end
-    @map.markers << Cartographer::Gmarker.new( :position => [37.775558, -122.415553], :info_window => 'Clicky clicky!!', :map => @map )
-    @map.markers << Cartographer::Gmarker.new( :position => [37.739326, -122.416666], :info_window => 'Clicky clicky!!', :map => @map )
-    @map.markers << Cartographer::Gmarker.new( :position => [37.752430, -122.415327], :info_window => 'Clicky clicky!!', :map => @map )
-    @map.markers << Cartographer::Gmarker.new( :position => [37.851993, -122.270131], :info_window => 'Clicky clicky!!', :map => @map )
+    require 'google_geocode'
+    gg = GoogleGeocode.new 'ABQIAAAA9C-o-5_7dL0qOO28APyPUxQ2WXyPj6XHTbmLYROhNmBusUo8jRQoG-wSQAaDAoAcjXHg7JK2z_Aqew'
+    location = gg.locate '1370 Mission St, San Francisco, CA'
+    @map.markers << Cartographer::Gmarker.new( :position => location.coordinates, :info_window => 'Clicky clicky!!', :map => @map )
+    location = gg.locate '503 Cortland Ave, San Francisco, CA'
+    @map.markers << Cartographer::Gmarker.new( :position => location.coordinates, :info_window => 'David blows goats', :map => @map )
   end
 end
