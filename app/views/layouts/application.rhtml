@@ -3,6 +3,7 @@
 <%= Cartographer::Gmap::Header.header_for(request) %>
 </head>
 <body>
+  <%= flash[:notice] %>
 	<%= yield %>
 </body>
 </html>

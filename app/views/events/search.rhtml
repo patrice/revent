@@ -1,0 +1,29 @@
+<div id="event-container">
+	<div id="event-map-container">
+		<div id="eventmap" style="width: 350px; height: 400px; border: 7px solid #ccc; margin-left:15px;">
+		</div>
+    <%= @map.to_html %>
+    <%#= gmaps_auto_center_and_zoom @map %>
+		<div id="event-map-footer">
+      <%= link_to 'Click here', home_url %> to go back to the national map and see all the <%= @event_group.name.pluralize %> across the country.
+		</div>
+	</div>
+	
+	<div id="event-list-container">
+		<div id="event-list-intro">
+			<div class="event-list-intro-title">
+        <%= @event_group.name.pluralize %> in <%= @search_area %>
+			</div>
+			<div class="event-list-intro-results">
+				Found <%= pluralize @event_group.events.length, @event_group.name %>
+			</div>
+		</div>
+
+    <%= render :partial => "list_item", :collection => @events %>
+
+		<div id="event-list-footer">
+		<a href="">Sign up to host a <%= @event_group.name %></a>
+		</div>
+		
+	</div>
+</div>
