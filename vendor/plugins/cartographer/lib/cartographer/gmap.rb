@@ -1,6 +1,4 @@
 class Cartographer::Gmap
-  include Reloadable
-  
   attr_accessor :dom_id, :draggable, :polylines,:type, :controls,
   :markers, :center, :zoom, :icons, :debug
 

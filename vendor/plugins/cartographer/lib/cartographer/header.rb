@@ -9,8 +9,6 @@
 # Allows for the IE extension for polyline drawing.
 
 class Cartographer::Header
-  include Reloadable
-  
   attr_accessor :uri, :version
   @@keys = YAML.load(File.new("#{RAILS_ROOT}/config/cartographer-config.yml"))
   @version = 2

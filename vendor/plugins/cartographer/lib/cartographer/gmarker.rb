@@ -1,5 +1,4 @@
 class Cartographer::Gmarker
-  include Reloadable
   attr_accessor :name, :icon, :position, :click, :info_window, :map
 
   def initialize(options = {})
