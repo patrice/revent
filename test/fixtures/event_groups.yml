@@ -1,5 +1,4 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-first:
+house_parties:
   id: 1
-another:
-  id: 2
+  name: house party

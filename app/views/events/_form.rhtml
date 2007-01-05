@@ -5,10 +5,16 @@
 <%= text_field 'event', 'name'  %></p>
 
 <p><label for="event_description">Description</label><br/>
-<%= text_area 'event', 'description'  %></p>
+<%= text_area 'event', 'description', :rows => 5  %></p>
 
 <p><label for="event_location">Location</label><br/>
-<%= text_area 'event', 'location'  %></p>
+<%= text_area 'event', 'location', :rows => 3  %></p>
+
+<p><label for="event_city">City</label><br/>
+<%= text_field 'event', 'city', :rows => 3  %></p>
+
+<p><label for="event_state">State</label><br/>
+<%= text_field 'event', 'state', :rows => 3  %></p>
 
 <p><label for="event_start">Start</label><br/>
 <%= datetime_select 'event', 'start'  %></p>

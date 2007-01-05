@@ -22,8 +22,8 @@ class ReportsController < ApplicationController
 
   def create
     @report = Report.new(params[:report])
-    params[:media].each do |i,m|
-      @report.medias.create(:uploaded_data => m) unless m.nil?
+    params[:attachment].each do |i,m|
+      @report.attachments.create(:uploaded_data => m) unless m.nil?
     end
 
     if @report.save

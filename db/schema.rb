@@ -2,7 +2,25 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 6) do
+ActiveRecord::Schema.define(:version => 7) do
+
+  create_table "attachments", :force => true do |t|
+    t.column "content_type", :string
+    t.column "filename",     :string
+    t.column "size",         :integer
+    t.column "parent_id",    :integer
+    t.column "thumbnail",    :string
+    t.column "width",        :integer
+    t.column "height",       :integer
+    t.column "caption",      :string
+    t.column "url",          :string
+    t.column "position",     :integer
+    t.column "author",       :string
+    t.column "type",         :string
+    t.column "user_id",      :integer
+    t.column "event_id",     :integer
+    t.column "report_id",    :integer
+  end
 
   create_table "event_groups", :force => true do |t|
     t.column "name",              :string
@@ -22,23 +40,6 @@ ActiveRecord::Schema.define(:version => 6) do
     t.column "host_id",           :integer
     t.column "start",             :datetime
     t.column "end",               :datetime
-  end
-
-  create_table "medias", :force => true do |t|
-    t.column "content_type", :string
-    t.column "filename",     :string
-    t.column "size",         :integer
-    t.column "parent_id",    :integer
-    t.column "thumbnail",    :string
-    t.column "width",        :integer
-    t.column "height",       :integer
-    t.column "caption",      :string
-    t.column "url",          :string
-    t.column "position",     :integer
-    t.column "author",       :string
-    t.column "type",         :string
-    t.column "user_id",      :integer
-    t.column "event_id",     :integer
   end
 
   create_table "reports", :force => true do |t|

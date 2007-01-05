@@ -1,6 +1,7 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
+ASSET_PATH = File.join(RAILS_ROOT, 'test/fixtures/tmp/assets') unless Object.const_defined?(:ASSET_PATH)
 
 class Test::Unit::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
@@ -25,4 +26,15 @@ class Test::Unit::TestCase
   self.use_instantiated_fixtures  = false
 
   # Add more helper methods to be used by all tests here...
+
+  def use_temp_file(path)
+    temp_path = File.join(ASSET_PATH, File.basename(path))
+    FileUtils.cp path, temp_path
+    yield temp_path
+  end
+
+  def assert_file_exists(file, message = nil)
+    message ||= "File not found: #{file}"
+    assert File.file?(file), message
+  end
 end

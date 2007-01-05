@@ -1,5 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-first:
+davids:
   id: 1
-another:
+  event_group_id: 1
+  name: david's house party
+austins:
   id: 2
+  event_group_id: 1
+  name: austin's house party
