@@ -1,15 +1,15 @@
 <%= error_messages_for 'report' %>
 
 <!--[form:report]-->
-<p><label for="event_id">Event ID</label><br/>
-<%= select 'report', 'event_id', Event.find(:all).collect {|e| [e.name, e.id]} %>
+<p><label for="event_id">Event</label><br/>
+<%= f.select 'event_id', Event.find(:all).collect {|e| ["#{e.state} - #{e.city}", e.id]} %>
 
 <p><label for="report_text">Text</label><br/>
-<%= text_area 'report', 'text'  %></p>
+<%= f.text_area 'text', :rows => 5 %></p>
 
-<p>Upload pictures or stuff<br/>
-<%= file_field_tag 'media[1]' %><br/>
-<%= file_field_tag 'media[2]' %><br/>
-<%= file_field_tag 'media[3]' %><br/>
+<p>Upload images, audio or video<br/>
+<%= file_field_tag 'attachment[]' %><br/>
+<%= file_field_tag 'attachment[]' %><br/>
+<%= file_field_tag 'attachment[]' %><br/>
 <!--[eoform:report]-->
 

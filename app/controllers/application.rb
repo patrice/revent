@@ -2,4 +2,6 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
+  session :session_key => '_daysofaction_session_id'
+  layout 'truemajority'
 end

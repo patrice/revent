@@ -1,9 +1,28 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<%= Cartographer::Gmap::Header.header_for(request) %>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>Days of Action</title>
+  <%= stylesheet_link_tag 'application' %>
+  <%= stylesheet_link_tag 'yui/reset-fonts-grids' %>
+  <%= Cartographer::Gmap::Header.header_for(request) %>
 </head>
 <body>
-  <%= flash[:notice] %>
-	<%= yield %>
+  <div id="doc2" class="yui-t5">
+    <div id="hd">
+        <div id="login-box"><% if logged_in? %>hi<% else %><%= render 'account/login' %><% end %></div>
+    </div>
+    <div id="bd">
+      <div id="flash"><%= flash[:notice] %></div>
+      <%= yield %>
+    </div>
+    <div id="ft">
+      <% restrict_to "developer" do %>
+        <div id="developer">
+          <%= link_to 'load fixtures', :controller => :site, :action => :load_fixtures, :id => :test %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </body>
 </html>

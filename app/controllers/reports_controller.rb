@@ -22,9 +22,11 @@ class ReportsController < ApplicationController
 
   def create
     @report = Report.new(params[:report])
-    params[:attachment].each do |i,m|
-      @report.attachments.create(:uploaded_data => m) unless m.nil?
+    @attachments = []
+    params[:attachment].each do |file|
+      @attachments << @report.attachments.build(:uploaded_data => file) unless file.blank?
     end
+    Attachment.transaction { @attachments.each &:save! }
 
     if @report.save
       flash[:notice] = 'Report was successfully created.'

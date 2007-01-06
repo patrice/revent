@@ -1,11 +1,65 @@
-<% for column in Report.content_columns %>
-<p>
-  <b><%= column.human_name %>:</b> <%=h @report.send(column.name) %>
-</p>
-<% end %>
-<% @report.medias.each do |m| -%>
-<%= image_tag m.public_filename %><br/>
-<% end -%>
+<div id="detail-container">
+	<div class="intro-title">
+	</div>
+	<div class="intro-text">
+		See all reports <a href="">here</a>.  For full size pictures click on any picture below.<br>
+		Read press coverage <a href="">here</a>
+	</div>
+	<div id="report_text">
+			<h1><%= @report.event.name %><br><%= @report.event.city %>,<%= @report.event.state %></h1>
+			<b><%= @report.event.start.strftime('%B %e, %Y') %></b>
+			<h2><%#= @report.title %></h2>
+			<b>By:<%#= event.report.user.name %></b><br>
+			<%= @report.text %>
+	</div>
 
-<%= link_to 'Edit', :action => 'edit', :id => @report %> |
-<%= link_to 'Back', :action => 'list' %>
+  <% if @report.attachments.any? {|a| a.audio?} %>
+	<div id="report_audios">
+    <% @report.attachments.find_all {|a| a.audio?}.each do |audio| %>
+		<div class="report_audio">
+			<a href=""><img src="<%= @audio.filename %>" alt="Click Here to Listen to Audio Report"></a>
+			<div style="media-caption">
+				<%= @audio.caption %>
+			</div>
+		</div>
+    <% end %>
+	<div>
+  <% end %>
+
+  <% if @report.attachments.any? {|a| a.video?} %>
+	<div id="report_videos">
+    <% @report.attachments.find_all {|a| a.video?}.each do |video| %>
+		<div class="report_video">
+			<a href=""><img src="<%= video.filename %>" alt="Click Here to Watch Video of Event"></a>
+			<div style="media-caption">
+				<%= video.caption %>
+			</div>
+		</div>	
+    <% end %>
+	<div>
+  <% end %>
+	
+  <% if @report.attachments.any? {|a| a.image?} %>
+	<div id="report_images">
+    <% @report.attachments.find_all {|a| a.image?}.each do |image| %>
+		<div class="report_image">
+			<a href="" rel="lightbox">	</a>
+      <%= image.filename %>
+			<div style="media-caption">
+				<%= image.caption %>
+			</div>
+		</div>
+    <% end %>
+	</div>
+  <% end %>
+	
+	<div id="report_press">
+	To speak to the local coordinator of this event please call <%= @report.event.host.phone %>
+	</div>
+	
+	<div id="report_comments">
+	<h2>Commments</h2>
+	</div>
+
+
+</div>

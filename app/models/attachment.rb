@@ -1,7 +1,7 @@
 class Attachment < ActiveRecord::Base
   # NOTE: lifted wholesale from Mephisto
   # used for extra mime types that dont follow the convention
-  @@extra_content_types = { :audio => ['application/ogg'], :movie => ['application/x-shockwave-flash'], :pdf => ['application/pdf'] }.freeze
+  @@extra_content_types = { :audio => ['application/ogg'], :video => ['application/x-shockwave-flash'], :pdf => ['application/pdf'] }.freeze
   cattr_reader :extra_content_types
 
   # use #send due to a ruby 1.8.2 issue
@@ -10,7 +10,7 @@ class Attachment < ActiveRecord::Base
   @@image_condition = send(:sanitize_sql, ['content_type IN (?)', Technoweenie::ActsAsAttachment.content_types]).freeze
   @@other_condition = send(:sanitize_sql, [
     'content_type NOT LIKE ? AND content_type NOT LIKE ? AND content_type NOT IN (?)',
-    'audio%', 'video%', (extra_content_types[:video] + extra_content_types[:audio] + Technoweenie::AttachmentFu.content_types)]).freeze
+    'audio%', 'video%', (extra_content_types[:video] + extra_content_types[:audio] + Technoweenie::ActsAsAttachment.content_types)]).freeze
   cattr_reader *%w(video audio image other).collect! { |t| "#{t}_condition".to_sym }
 
   class << self
@@ -43,7 +43,7 @@ class Attachment < ActiveRecord::Base
     end
   end
 
-  acts_as_attachment :storage => :file_system
+  acts_as_attachment :storage => :file_system, :content_type => :image, :thumbnails => { :thumb => [50,50], :pic => [ 100,100 ] }
   validates_as_attachment
 
   [:video, :audio, :other, :pdf].each do |content|

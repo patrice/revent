@@ -10,4 +10,7 @@
 
 
 <h2>add report</h2>
-<%= render :partial => 'reports/form', :locals => { :report => Report.new(:event_id => @event.id) } %>
+<% form_for :report, Report.new(:event_id => @event.id), :url => { :controller => 'reports', :action => 'create' }, :html => { :multipart => true } do |f| -%>
+<%= render :partial => 'reports/form', :locals => { :f => f } %>
+<%= submit_tag %>
+<% end -%>

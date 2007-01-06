@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :event_groups
   has_many :reports
   has_many :attending, :through => 'rsvps', :source => :event
+  has_and_belongs_to_many :roles
 
   # Virtual attribute for the unencrypted password
   attr_accessor :password

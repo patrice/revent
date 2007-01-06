@@ -1,9 +1,21 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-davids:
+first:
   id: 1
   event_group_id: 1
-  name: david's house party
-austins:
+  host_id: 4
+  name: seth's house party
+  location: 503 cortland ave, san francisco, CA
+  city: San Francisco
+  state: CA
+  start: <%= 1.day.from_now.to_s :db %>
+  end: <%= 2.days.from_now.to_s :db %>
+another:
   id: 2
   event_group_id: 1
-  name: austin's house party
+  host_id: 3
+  name: tech space
+  location: 1370 Mission St, San Francisco, CA
+  city: San Francisco
+  state: CA
+  start: <%= 1.day.from_now.to_s :db %>
+  end: <%= 2.days.from_now.to_s :db %>

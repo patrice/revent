@@ -15,4 +15,49 @@ aaron:
   crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
   # activation_code: aaronscode # only if you're activating new signups
   created_at: <%= 1.days.ago.to_s :db %>
+matt:
+  id: 3
+  login: matt
+  email: matt@truemajority.radicaldesigns.org
+  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  created_at: <%= 1.days.ago.to_s :db %>
+  first_name: Matt
+  last_name: Holland
+  phone: (802) 860-6858
+  street: 191 Bank Street
+  street_2: Third Floor
+  city: Burlington
+  state: VT
+  postal_code: 05401
+action_host:
+  id: 4
+  login: hosty
+  email: host@daysofaction.org
+  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  created_at: <%= 1.days.ago.to_s :db %>
+  first_name: Hosty
+  last_name: McHost
+  phone: (415) 123-4567
+  street: 123 main st
+  street_2: apt 1
+  city: San Francisco
+  state: CA
+  postal_code: 94110
+action_attendee:
+  id: 5
+  login: attendee
+  email: attendee@daysofaction.org
+  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  created_at: <%= 1.days.ago.to_s :db %>
+  first_name: Attendee
+  last_name: McAttender
+  phone: (415) 234-5678
+  street: 321 market st
+  street_2: apt 2
+  city: San Francisco
+  state: CA
+  postal_code: 94103
 

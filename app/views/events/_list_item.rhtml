@@ -1,6 +1,6 @@
 		<div class="event-list-element">
 			<div class="event-list-location">
-				<a href=""><%= list_item.location %></a>
+        <%= link_to list_item.location, :action => 'show', :id => list_item.id %>
 			</div>
 			<div class="event-list-address">
 				<%#= list_item.address %>
