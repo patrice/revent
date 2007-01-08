@@ -4,10 +4,18 @@
 <p><label for="event_id">Event</label><br/>
 <%= f.select 'event_id', Event.find(:all).collect {|e| ["#{e.state} - #{e.city}: #{e.name}", e.id]} %>
 
-<p><label for="report_text">Text</label><br/>
-<%= f.text_area 'text', :rows => 5 %></p>
+<p><label for="report_text">Tell Us About What Happened at Your Event:</label><br/>
+<%= f.text_area 'text', :rows => 7 %></p>
+
+<p><label for="report_name">Your Name:</label><br/>
+<%= f.text_field 'name', :rows => 3  %>/p>
+
+<p><label for="report_email">Your Email Address (will not be public):</label><br/>
+<%= f.text_field 'email', :rows => 3  %></p>
 
 <p>Upload images, audio or video<br/>
+<%= file_field_tag 'attachment[]' %><br/>
+<%= file_field_tag 'attachment[]' %><br/>
 <%= file_field_tag 'attachment[]' %><br/>
 <%= file_field_tag 'attachment[]' %><br/>
 <%= file_field_tag 'attachment[]' %><br/>
