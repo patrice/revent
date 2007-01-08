@@ -2,7 +2,7 @@
 
 <!--[form:report]-->
 <p><label for="event_id">Event</label><br/>
-<%= f.select 'event_id', Event.find(:all).collect {|e| ["#{e.state} - #{e.city}", e.id]} %>
+<%= f.select 'event_id', Event.find(:all).collect {|e| ["#{e.state} - #{e.city}: #{e.name}", e.id]} %>
 
 <p><label for="report_text">Text</label><br/>
 <%= f.text_area 'text', :rows => 5 %></p>
