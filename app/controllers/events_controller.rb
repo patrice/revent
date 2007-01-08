@@ -74,18 +74,27 @@ class EventsController < ApplicationController
     gg = GoogleGeocode.new 'ABQIAAAA9C-o-5_7dL0qOO28APyPUxQ2WXyPj6XHTbmLYROhNmBusUo8jRQoG-wSQAaDAoAcjXHg7JK2z_Aqew'
     @events = @event_group.events
     @events.each do |e|
-      location = gg.locate e.location
+      if e.latitude && e.longitude
+        Struct.new('LocStruct', :coordinates)
+        location = Struct::LocStruct.new([e.latitude,e.longitude])
+      else
+        begin
+          location = gg.locate e.location
+        rescue GoogleGeocode::AddressError
+          location = gg.locate e.postal_code
+        end
+      end
       @map.markers << Cartographer::Gmarker.new( :position => location.coordinates )
     end
   end
 
   def search
-    @event_group = EventGroup.find(1)
+    @event_group = EventGroup.find(1, :include => :events)
     @events = @event_group.events
     @map = Cartographer::Gmap.new('eventmap')
     @map.init do |m|
-      m.center = @map_center
-      m.zoom = @map_zoom
+      m.center = @map_center || [37.160317,-95.800781]
+      m.zoom = @map_zoom || 3
       m.controls = [:zoom, :large]
     end
   end

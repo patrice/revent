@@ -5,6 +5,7 @@
   <title>Days of Action</title>
   <%= stylesheet_link_tag 'application' %>
   <%= stylesheet_link_tag 'yui/reset-fonts-grids' %>
+  <%= stylesheet_link_tag 'lightbox' %>
   <%= Cartographer::Gmap::Header.header_for(request) %>
 </head>
 <body>
@@ -17,11 +18,7 @@
       <%= yield %>
     </div>
     <div id="ft">
-      <% restrict_to "developer" do %>
-        <div id="developer">
-          <%= link_to 'load fixtures', :controller => :site, :action => :load_fixtures, :id => :test %>
-        </div>
-      <% end %>
+      <%= render "shared/developer" %>
     </div>
   </div>
 </body>

@@ -54,4 +54,9 @@ class ReportsController < ApplicationController
     Report.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+
+  def lightbox
+    @attachment = Attachment.find(params[:id])
+    render :layout => false
+  end
 end
