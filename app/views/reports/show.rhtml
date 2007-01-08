@@ -2,11 +2,11 @@
 	<div class="intro-title">
 	</div>
 	<div class="intro-text">
-		See all reports <a href="">here</a>.  For full size pictures click on any picture below.<br>
-		Read press coverage <a href="">here</a>
+		See all reports <a href="/reports">here</a>.  For full size pictures click on any picture below.<br>
+	<!--	Read press coverage <a href="/reports/press">here</a> -->
 	</div>
 	<div id="report_text">
-			<h1><%= @report.event.name %><br><%= @report.event.city %>,<%= @report.event.state %></h1>
+			<h1><%= @report.event.name %></h1><h3><%= @report.event.city %>,<%= @report.event.state %><h3>
 			<b><%= @report.event.start.strftime('%B %e, %Y') %></b>
 			<h2><%#= @report.title %></h2>
 			<b>By:<%#= event.report.user.name %></b><br>
