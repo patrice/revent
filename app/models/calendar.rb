@@ -1,4 +1,4 @@
-class EventGroup < ActiveRecord::Base
+class Calendar < ActiveRecord::Base
   has_many :events
 
   #XXX:DELETEME mock methods

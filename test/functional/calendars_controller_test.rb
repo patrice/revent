@@ -1,14 +1,14 @@
 require File.dirname(__FILE__) + '/../test_helper'
-require 'event_groups_controller'
+require 'calendars_controller'
 
 # Re-raise errors caught by the controller.
-class EventGroupsController; def rescue_action(e) raise e end; end
+class CalendarsController; def rescue_action(e) raise e end; end
 
-class EventGroupsControllerTest < Test::Unit::TestCase
-  fixtures :event_groups
+class CalendarsControllerTest < Test::Unit::TestCase
+  fixtures :calendars
 
   def setup
-    @controller = EventGroupsController.new
+    @controller = CalendarsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
@@ -25,7 +25,7 @@ class EventGroupsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'list'
 
-    assert_not_nil assigns(:event_groups)
+    assert_not_nil assigns(:calendars)
   end
 
   def test_show
@@ -34,8 +34,8 @@ class EventGroupsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'show'
 
-    assert_not_nil assigns(:event_group)
-    assert assigns(:event_group).valid?
+    assert_not_nil assigns(:calendar)
+    assert assigns(:calendar).valid?
   end
 
   def test_new
@@ -44,18 +44,18 @@ class EventGroupsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'new'
 
-    assert_not_nil assigns(:event_group)
+    assert_not_nil assigns(:calendar)
   end
 
   def test_create
-    num_event_groups = EventGroup.count
+    num_calendars = Calendar.count
 
-    post :create, :event_group => {}
+    post :create, :calendar => {}
 
     assert_response :redirect
     assert_redirected_to :action => 'list'
 
-    assert_equal num_event_groups + 1, EventGroup.count
+    assert_equal num_calendars + 1, Calendar.count
   end
 
   def test_edit
@@ -64,8 +64,8 @@ class EventGroupsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'edit'
 
-    assert_not_nil assigns(:event_group)
-    assert assigns(:event_group).valid?
+    assert_not_nil assigns(:calendar)
+    assert assigns(:calendar).valid?
   end
 
   def test_update
@@ -75,14 +75,14 @@ class EventGroupsControllerTest < Test::Unit::TestCase
   end
 
   def test_destroy
-    assert_not_nil EventGroup.find(1)
+    assert_not_nil Calendar.find(1)
 
     post :destroy, :id => 1
     assert_response :redirect
     assert_redirected_to :action => 'list'
 
     assert_raise(ActiveRecord::RecordNotFound) {
-      EventGroup.find(1)
+      Calendar.find(1)
     }
   end
 end

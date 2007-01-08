@@ -2,7 +2,7 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
   has_many :medias
   has_many :events
-  has_many :event_groups
+  has_many :calendars
   has_many :reports
   has_many :attending, :through => 'rsvps', :source => :event
   has_and_belongs_to_many :roles

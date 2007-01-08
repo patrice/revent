@@ -1,7 +1,7 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 first:
   id: 1
-  event_group_id: 1
+  calendar_id: 1
   host_id: 4
   name: seth's house party
   location: 503 cortland ave, san francisco, CA
@@ -11,7 +11,7 @@ first:
   end: <%= 2.days.from_now.to_s :db %>
 another:
   id: 2
-  event_group_id: 1
+  calendar_id: 1
   host_id: 3
   name: tech space
   location: 1370 Mission St, San Francisco, CA

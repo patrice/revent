@@ -1,13 +1,13 @@
 <div id="national-container">
   <div id="national-intro">
     <div class="national-intro-text">
-      <%= @event_group.national_intro_text %>
+      <%= @calendar.national_intro_text %>
     </div>
     <div class="national-intro-count">
-      There are <%= pluralize @event_group.events.length, @event_group.name %> in <%= @event_group.events.collect {|e| e.state }.uniq.length %> states.
+      There are <%= pluralize @calendar.events.length, @calendar.name %> in <%= @calendar.events.collect {|e| e.state }.uniq.length %> states.
     </div>
     <div class="national-intro-directions">
-       Click on a state or enter your zip code to find <%= @event_group.name.pluralize %> near you...
+       Click on a state or enter your zip code to find <%= @calendar.name.pluralize %> near you...
     </div>
   </div>
   <div id="national-map-container">
@@ -24,6 +24,6 @@
     <%= gmaps_state_click @map %>
   </div>
   <div id="national-footer">
-    <%= @event_group.national_footer_text %>
+    <%= @calendar.national_footer_text %>
   </div>
 </div>

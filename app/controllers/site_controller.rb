@@ -6,7 +6,7 @@ class SiteController < ApplicationController
     case params[:id]
     when 'test'
       require 'active_record/fixtures'
-        ['event_groups.yml', 'events.yml', 'reports.yml'].each do |fixture_file| Fixtures.create_fixtures(File.join('test','fixtures'), File.basename(fixture_file, '.*'))
+        ['calendars.yml', 'events.yml', 'reports.yml'].each do |fixture_file| Fixtures.create_fixtures(File.join('test','fixtures'), File.basename(fixture_file, '.*'))
       end
     when 'dia'
       opts = YAML.load_file(File.join(RAILS_ROOT,'config','democracyinaction-config.yml'))
@@ -16,7 +16,7 @@ class SiteController < ApplicationController
       flash[:notice] = events.length.to_s + " events added from DIA"
       events.each do |e|
         my_event = Event.find_or_create_by_service_foreign_key(e['event_KEY'])
-        my_event.event_group_id=1
+        my_event.calendar_id=1
         my_event.name = e['Event_Name']
         my_event.description = e['Description']
         my_event.location = e['Address']

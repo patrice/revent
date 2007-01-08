@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  belongs_to :event_group
+  belongs_to :calendar
   belongs_to :host, :class_name => 'User', :foreign_key => 'host_id'
   has_many :reports, :order => 'position'
   has_many :rsvps

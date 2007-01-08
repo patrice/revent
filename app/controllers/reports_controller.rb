@@ -1,6 +1,6 @@
 class ReportsController < ApplicationController
   def index
-    @event_group = EventGroup.find(:first)
+    @calendar = Calendar.find(:first)
     @events = Event.find(:all, :include => :reports)
     @events = @events.select { |e| !e.reports.empty? }
   end
@@ -26,7 +26,7 @@ class ReportsController < ApplicationController
     @attachments = []
     params[:attachment].each do |file|
       @attachments << @report.attachments.build(:uploaded_data => file) unless file.blank?
-    end
+    end if params[:attachment]
     Attachment.transaction { @attachments.each &:save! }
 
     if @report.save

@@ -5,24 +5,24 @@
     <%= @map.to_html %>
     <%#= gmaps_auto_center_and_zoom @map %>
 		<div id="event-map-footer">
-      <%= link_to 'Click here', home_url %> to go back to the national map and see all the <%= @event_group.name.pluralize %> across the country.
+      <%= link_to 'Click here', home_url %> to go back to the national map and see all the <%= @calendar.name.pluralize %> across the country.
 		</div>
 	</div>
 	
 	<div id="event-list-container">
 		<div id="event-list-intro">
 			<div class="event-list-intro-title">
-        <%= @event_group.name.pluralize %> in <%= @search_area %>
+        <%= @calendar.name.pluralize %> in <%= @search_area %>
 			</div>
 			<div class="event-list-intro-results">
-				Found <%= pluralize @event_group.events.length, @event_group.name %>
+				Found <%= pluralize @calendar.events.length, @calendar.name %>
 			</div>
 		</div>
 
     <%= render :partial => "list_item", :collection => @events %>
 
 		<div id="event-list-footer">
-		<a href="">Sign up to host a <%= @event_group.name %></a>
+		<a href="">Sign up to host a <%= @calendar.name %></a>
 		</div>
 		
 	</div>
