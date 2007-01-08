@@ -1,7 +1,8 @@
 class ReportsController < ApplicationController
   def index
-    list
-    render :action => 'list'
+    @event_group = EventGroup.find(:first)
+    @events = Event.find(:all, :include => :reports)
+    @events = @events.select { |e| !e.reports.empty? }
   end
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)

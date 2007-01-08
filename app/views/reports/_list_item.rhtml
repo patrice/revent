@@ -1,0 +1,19 @@
+<div class="report-list-element">
+	<div class="report-list-image">
+		<%= image_tag list_item.reports.first.attachments.first.public_filename(:thumb) %>
+	</div>
+	<div class="report-list-audio">
+		<img src="img/original/audio2.gif">
+	</div>
+	<div class="report-list-basics">
+		<div style="report-list-title">
+			<a href=""><%= list_item.city %>, <%= list_item.state %></a>
+		</div>
+		<div style="report-list-text">
+			<%= truncate list_item.reports.first.text, 100 %>
+		</div>
+		<div style="report-list-more">
+      <%= link_to "[[Read More]]", :controller => "events", :action => "reports", :id => list_item.id %>
+		</div>
+	</div>
+</div>

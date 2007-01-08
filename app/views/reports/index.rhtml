@@ -1,0 +1,9 @@
+<div id='detail-container'>
+	<div class="intro-title">
+		<%= @event_group.name %> Reports
+	</div>
+	<div class="intro-text">
+		Read press coverage <a href="">here</a>
+	</div>
+  <%= render :partial => 'list_item', :collection => @events %>
+</div>

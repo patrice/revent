@@ -5,4 +5,12 @@ class Event < ActiveRecord::Base
   has_many :rsvps
   has_many :attendees, :through => 'rsvps', :source => :user
   has_many :attachments, :through => 'attachables'
+
+  def contact_phone
+    if host? && host.phone?
+      return host.phone
+    else
+      return ''
+    end
+  end
 end
