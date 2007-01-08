@@ -32,3 +32,9 @@ PADDING-TOP: 10px;
 #intro-text H1{ 
 font-size:17px
 }
+
+#login-box{ 
+text-align:right
+}
+
+body { background-color: #cccccc; }
