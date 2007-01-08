@@ -1,0 +1,19 @@
+
+#report_text{
+display:block;
+PADDING-BOTTOM: 10px;
+
+
+}
+
+#report_images{
+display:block;
+PADDING-BOTTOM: 10px;
+PADDING-TOP: 10px;
+}
+
+
+.report_image{
+PADDING-TOP: 10px;
+PADDING-BOTTOM: 10px;
+text-align:center;
