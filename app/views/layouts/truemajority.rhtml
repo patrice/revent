@@ -61,7 +61,11 @@
   <div class="bodytext" style='padding : 10px; width : 460px;'>
 	
 	<div id="hd">
-        <div id="login-box"><% if logged_in? %>hi<% else %><%= render 'account/login' %><% end %></div>
+        <div id="login-box">
+
+<% if logged_in? %><%= link_to "Log Out", :controller => 'account', :action => 'logout' %><% else %><%= link_to "Log In", :controller => 'account', :action => 'login' %> | <%= render 'account/login' %><% end %>
+
+		</div>
     </div>
     <div id="bd">
       <div id="flash"><%= flash[:notice] %></div>
