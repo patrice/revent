@@ -4,10 +4,12 @@
   <title>Take Action: TrueMajorityACTION.org</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
   <link rel="stylesheet" href="http://www.truemajorityaction.org/stylesnew.css" type="text/css">
+  <%= stylesheet_link_tag 'application' %>
   <%= stylesheet_link_tag 'lightbox' %>
   <%= javascript_include_tag :defaults %>
   <%= javascript_include_tag 'lightbox' %>
   <%= Cartographer::Gmap::Header.header_for(request) %>
+
 </head>
 
 <body bgcolor="#CCCCCC" topmargin="10" marginheight="10">
@@ -56,8 +58,14 @@
     	<td width="620" colspan="3" height="500" valign="top"> 
 	
   <div class="bodytext" style='padding : 10px; width : 460px;'>
-    <%= flash[:notice] %>
-    <%= yield %>
+	
+	<div id="hd">
+        <div id="login-box"><% if logged_in? %>hi<% else %><%= render 'account/login' %><% end %></div>
+    </div>
+    <div id="bd">
+      <div id="flash"><%= flash[:notice] %></div>
+      <%= yield %>
+    </div>
     <%= render "shared/developer" %>
 	</div>
 <p><br></p>
