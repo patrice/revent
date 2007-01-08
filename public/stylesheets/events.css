@@ -5,7 +5,7 @@ PADDING-BOTTOM: 10px;
 }
 
 #report_text H1{ 
-font-size:15px
+font-size:19px
 }
 
 #report_images{
@@ -25,16 +25,24 @@ background-color:red;
 border:2px solid blue;
 }
 
-.intro-text{
-PADDING-TOP: 10px;
+#detail-container{ 
+PADDING-TOP: 0px;
+PADDING-BOTTOM: 0px;
 }
 
-#intro-text H1{ 
-font-size:17px
+.intro-text{
+
+}
+
+.intro-title { 
+font-size:21px;
 }
 
 #login-box{ 
 text-align:right
 }
+
+
+
 
 body { background-color: #cccccc; }
