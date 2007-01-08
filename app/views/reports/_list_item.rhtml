@@ -1,6 +1,6 @@
 <div class="report-list-element">
 	<div class="report-list-image">
-		<%= image_tag list_item.reports.first.attachments.first.public_filename(:thumb) %>
+    <%= image_tag list_item.reports.first.attachments.first.public_filename(:thumb) if list_item.reports.first.attachments.any? {|a| a.image?} %>
 	</div>
 	<div class="report-list-audio">
 		<img src="img/original/audio2.gif">
