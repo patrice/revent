@@ -1,0 +1,30 @@
+<h1>Listing :TABLE:s</h1>
+
+<table cellpadding=4 border=on>
+  <tr>
+  <% for column in :CLASS:.columns %>
+    <th><%= column %></th>
+  <% end %>
+  </tr>
+
+<% for :TABLE: in @:TABLE:s %>
+  <tr>
+  <% for column in :CLASS:.columns %>
+		<% value = :TABLE:.send(column) %>
+    <td><%= if value and (link = :CLASS:.isLink(column))
+							 link_to value, :controller => link.table, :action => 'show', :id => value
+						else
+							value
+						end %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => :TABLE:.key %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => :TABLE:.key %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => :TABLE:.key }, :confirm => 'Are you sure?', :post => true %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New :TABLE:', :action => 'new' %>
+

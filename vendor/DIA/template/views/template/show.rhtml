@@ -1,0 +1,16 @@
+<% for column in :CLASS:.atts.keys %>
+<p>
+  <b><%= column %>:</b>  
+		 <% value = @:TABLE:.send(column) %>
+     <%= if value and (link = :CLASS:.isLink(column))
+					 link_to value, :controller => link.table, :action => 'show', :id => value
+				 else
+						value
+				 end %></td>
+	
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @:TABLE:.key %> |
+<%= link_to 'Back', :action => 'list' %>
+
