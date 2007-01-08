@@ -2,7 +2,7 @@
 	<div class="intro-title">
 	</div>
 	<div class="intro-text">
-		See all reports <a href="/reports">here</a>.  For full size pictures click on any picture below.<br>
+		See all reports <a href="/reports">here</a>.<br>
 	<!--	Read press coverage <a href="/reports/press">here</a> -->
 	</div>
 	<div id="report_text">
@@ -41,6 +41,7 @@
 	
   <% if @report.attachments.any? {|a| a.image?} %>
 	<div id="report_images">
+		For full size pictures click on any picture below.<br>
     <% @report.attachments.find_all {|a| a.image?}.each do |image| %>
 		<div class="report_image">
       <%= link_to(image_tag(image.public_filename(:thumb)), {:controller => :reports, :action => :lightbox, :id => image.id}, :class => 'lbOn') %>
