@@ -2,8 +2,10 @@
 #report_text{
 display:block;
 PADDING-BOTTOM: 10px;
+}
 
-
+#report_text H1{ 
+font-size:15px
 }
 
 #report_images{
@@ -12,9 +14,21 @@ PADDING-BOTTOM: 10px;
 PADDING-TOP: 10px;
 }
 
-
 .report_image{
 PADDING-TOP: 10px;
 PADDING-BOTTOM: 10px;
 text-align:center;
+}
+
+#report_images img {
+background-color:red;
+border:2px solid blue;
+}
+
+.intro-text{
+PADDING-TOP: 10px;
+}
+
+#intro-text H1{ 
+font-size:17px
 }
