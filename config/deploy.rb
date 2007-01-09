@@ -10,6 +10,10 @@
 # correspond to. The deploy_to path must be the path on each machine that will
 # form the root of the application path.
 
+set :keep_releases, 3
+task :before_deploy do
+  cleanup
+end
 set :application, "daysofaction"
 set :repository, "https://svn.radicaldesigns.org/#{application}"
 
@@ -22,15 +26,15 @@ set :repository, "https://svn.radicaldesigns.org/#{application}"
 # be used to single out a specific subset of boxes in a particular role, like
 # :primary => true.
 
-role :web, "gertie.radicaldesigns.org"
-role :app, "gertie.radicaldesigns.org"
-role :db,  "gertie.radicaldesigns.org", :primary => true
+role :web, "radical@75.126.58.234"
+role :app, "radical@75.126.58.234"
+role :db,  "radical@75.126.58.234", :primary => true
 
 # =============================================================================
 # OPTIONAL VARIABLES
 # =============================================================================
-set :deploy_to, "/var/www/#{application}" # defaults to "/u/apps/#{application}"
-set :user, "daysofaction"            # defaults to the currently logged in user
+set :deploy_to, "~/apps/#{application}" # defaults to "/u/apps/#{application}"
+# set :user, "flippy"            # defaults to the currently logged in user
 # set :scm, :darcs               # defaults to :subversion
 # set :svn, "/path/to/svn"       # defaults to searching the PATH
 # set :darcs, "/path/to/darcs"   # defaults to searching the PATH
@@ -120,20 +124,12 @@ task :long_deploy do
   enable_web
 end
 
-task :after_update_code, :roles => :app, :except => {:no_symlink => true} do
-  run <<-CMD
-    cd #{release_path} &&
-    ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml &&
-    ln -nfs #{shared_path}/config/cartographer-config.yml #{release_path}/config/cartographer-config.yml
-  CMD
-end
-
 desc <<-DESC
 Spinner is run by the default cold_deploy task. Instead of using script/spinner, we're just gonna rely on Mongrel to keep itself up.
 DESC
 task :spinner, :roles => :app do
-  application_port = 3030
-  run "mongrel_rails start -e development -p #{application_port} -d -c #{current_path}"
+  application_port = 4178
+  run "mongrel_rails start -e production -p #{application_port} -d -c #{current_path}"
 end
 
 desc "Restart the web server"
@@ -146,11 +142,16 @@ task :restart, :roles => :app do
   end
 end
 
-desc "tail production log files" 
-task :tail_logs, :roles => :app do
-  run "tail -f #{shared_path}/log/development.log" do |channel, stream, data|
-    puts  # for an extra line break before the host name
-    puts "#{channel[:host]}: #{data}" 
-    break if stream == :err    
-  end
+task :after_update_code, :roles => :app, :except => {:no_symlink => true} do
+  run <<-CMD
+    cd #{release_path} &&
+    ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml &&
+    ln -nfs #{shared_path}/config/cartographer-config.yml #{release_path}/config/cartographer-config.yml &&
+    ln -nfs #{shared_path}/config/democracyinaction-config.yml #{release_path}/config/democracyinaction-config.yml &&
+  CMD
 end
+
+task :after_symlink, :roles => :app , :except => {:no_symlink => true} do
+  sudo "ln -nfs #{shared_path}/public/attachments #{release_path}/public/attachments"
+  sudo "ln -nfs #{shared_path}/vendor/rails #{release_path}/vendor/rails"
+end 
