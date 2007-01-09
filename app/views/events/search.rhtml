@@ -19,11 +19,14 @@
 			</div>
 		</div>
 
-    <%= render :partial => "list_item", :collection => @events %>
+    <%= render :partial => "report_item", :collection => @events %>
 
-		<div id="event-list-footer">
-		<a href="">Sign up to host a <%= @calendar.name %></a>
-		</div>
-		
+
+	</div>
+	<div id="event-list-footer">
+	<!--<a href="">Sign up to host a <%= @calendar.name %></a>-->
+	</div>
+	<div id="report_add">
+	Add Your Own <a href='/report/add'>Report of the <%= @calendar.name %></a>
 	</div>
 </div>

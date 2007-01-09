@@ -1,9 +1,9 @@
 <div id="national-container">
   <div id="national-intro">
-    <div class="national-intro-text">
-      <%=  @calendar.name %>
+    <div class="intro-text">
+      <%= @calendar.name %> Reports
     </div>
-    <div class="national-intro-count">
+    <div class="intro-count">
       There are <%= pluralize @calendar.events.length, @calendar.name %> in <%= @calendar.events.collect {|e| e.state }.uniq.length %> states.
     </div>
     <div class="national-intro-directions">
@@ -24,6 +24,6 @@
     <%= gmaps_state_click @map %>
   </div>
   <div id="national-footer">
-   
+    <%= @calendar.national_footer_text %>
   </div>
 </div>

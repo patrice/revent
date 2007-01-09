@@ -2,8 +2,11 @@
 	<div class="intro-title">
 		<%= @calendar.name %> Reports
 	</div>
+	<div class="report_add">
+	Add Your Own <a href='/reports/new'>Report of the Event</a>
+	</div>
 	<div class="intro-text">
-		Read press coverage <a href="">here</a>
+		<!--Read press coverage <a href="">here</a> -->
 	</div>
   <%= render :partial => 'list_item', :collection => @events %>
 </div>

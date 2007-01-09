@@ -1,11 +1,8 @@
 <%= error_messages_for 'report' %>
 
 <!--[form:report]-->
-<p><label for="event_id">Event</label><br/>
+<p><label for="event_id">Select Your Event</label><br/>
 <%= f.select 'event_id', Event.find(:all).collect {|e| ["#{e.state} - #{e.city}: #{e.name}", e.id]} %>
-
-<p><label for="report_text">Tell Us About What Happened at Your Event:</label><br/>
-<%= f.text_area 'text', :rows => 7 %></p>
 
 <p><label for="report_name">Your Name:</label><br/>
 <%#= f.text_field 'reporter_name' %></p>
@@ -13,9 +10,13 @@
 <p><label for="report_email">Your Email Address (will not be public):</label><br/>
 <%= text_field 'user', 'email' %></p>
 
-<p>Upload images, audio or video<br/>
-<% 1.upto 5 do |i| %>
-<p><%= file_field_tag "attachment[#{i}]" %><%= text_field_tag "caption[#{i}]" %></p>
+<p><label for="report_text">Tell Us About What Happened at Your Event:</label><br/>
+<%= f.text_area 'text', :rows => 7 %></p>
+
+<h3>Upload images, audio or video</h3>
+<p>
+<% 1.upto 4 do |i| %>
+<p>File:<br><%= file_field_tag "attachment[#{i}]" %><br>Caption:<br><%= text_area_tag "caption[#{i}]" %></p>
 <% end %>
 <!--[eoform:report]-->
 
