@@ -34,8 +34,6 @@ class ReportsController < ApplicationController
       @attachments << @report.attachments.build({:caption => params[:caption][index]}.merge(:uploaded_data => file)) unless file.blank?
     end if params[:attachment]
     Attachment.transaction { @attachments.each &:save! }
-    @report.user = User.find_or_initialize_by_email(params[:user][:email])
-    @report.user.save_with_validation(false)
 
     if @report.save
       flash[:notice] = 'Report was successfully created.'
