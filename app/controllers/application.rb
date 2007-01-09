@@ -2,6 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
+  before_filter :login_from_cookie
   session :session_key => '_daysofaction_session_id'
   layout 'truemajority'
 end

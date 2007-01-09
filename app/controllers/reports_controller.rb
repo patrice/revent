@@ -19,15 +19,21 @@ class ReportsController < ApplicationController
 
   def new
     @report = Report.new
+    if params[:service] && params[:service_foreign_key]
+      @report.event = Event.find_or_import_by_service_foreign_key(params[:service_foreign_key])
+    end
+    @user = logged_in? ? current_user : User.new
   end
 
   def create
     @report = Report.new(params[:report])
     @attachments = []
-    params[:attachment].each do |file|
-      @attachments << @report.attachments.build(:uploaded_data => file) unless file.blank?
+    params[:attachment].each do |index, file|
+      @attachments << @report.attachments.build({:caption => params[:caption][index]}.merge(:uploaded_data => file)) unless file.blank?
     end if params[:attachment]
     Attachment.transaction { @attachments.each &:save! }
+    @report.user = User.find_or_initialize_by_email(params[:user][:email])
+    @report.user.save_with_validation(false)
 
     if @report.save
       flash[:notice] = 'Report was successfully created.'
@@ -57,7 +63,9 @@ class ReportsController < ApplicationController
   end
 
   def lightbox
-    @attachment = Attachment.find(params[:id])
+    @parent = Attachment.find(params[:id])
+    return unless @parent
+    @attachment = @parent.thumbnails.find_by_thumbnail('lightbox')
     render :layout => false
   end
 end

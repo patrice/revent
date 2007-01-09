@@ -8,16 +8,14 @@
 <%= f.text_area 'text', :rows => 7 %></p>
 
 <p><label for="report_name">Your Name:</label><br/>
-</p>
+<%#= f.text_field 'reporter_name' %></p>
 
 <p><label for="report_email">Your Email Address (will not be public):</label><br/>
-</p>
+<%= text_field 'user', 'email' %></p>
 
 <p>Upload images, audio or video<br/>
-<p><%= file_field_tag 'attachment[]' %></p>
-<p><%= file_field_tag 'attachment[]' %></p>
-<p><%= file_field_tag 'attachment[]' %></p>
-<p><%= file_field_tag 'attachment[]' %></p>
-<p><%= file_field_tag 'attachment[]' %></p>
+<% 1.upto 5 do |i| %>
+<p><%= file_field_tag "attachment[#{i}]" %><%= text_field_tag "caption[#{i}]" %></p>
+<% end %>
 <!--[eoform:report]-->
 

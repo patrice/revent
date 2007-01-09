@@ -90,7 +90,7 @@ class EventsController < ApplicationController
 
   def search
     @calendar = Calendar.find(1, :include => :events)
-    @events = @calendar.events
+    @events ||= @calendar.events
     @map = Cartographer::Gmap.new('eventmap')
     @map.init do |m|
       m.center = @map_center || [37.160317,-95.800781]

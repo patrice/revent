@@ -46,7 +46,7 @@
 		For full size pictures click on any picture below.<br>
     <% @report.attachments.find_all {|a| a.image?}.each do |image| %>
 		<div class="report_image">
-      <%= link_to(image_tag(image.public_filename(:thumb)), {:controller => :reports, :action => :lightbox, :id => image.id}, :class => 'lbOn') %>
+      <%= link_to(image_tag(image.public_filename(:display)), {:controller => :reports, :action => :lightbox, :id => image.id}, :class => 'lbOn') %>
 			<div style="media-caption">
 				<%= image.caption %>
 			</div>
