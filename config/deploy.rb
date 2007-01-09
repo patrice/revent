@@ -10,6 +10,7 @@
 # correspond to. The deploy_to path must be the path on each machine that will
 # form the root of the application path.
 
+set :use_sudo, false
 set :keep_releases, 3
 task :before_deploy do
   cleanup
@@ -147,11 +148,14 @@ task :after_update_code, :roles => :app, :except => {:no_symlink => true} do
     cd #{release_path} &&
     ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml &&
     ln -nfs #{shared_path}/config/cartographer-config.yml #{release_path}/config/cartographer-config.yml &&
-    ln -nfs #{shared_path}/config/democracyinaction-config.yml #{release_path}/config/democracyinaction-config.yml &&
+    ln -nfs #{shared_path}/config/democracyinaction-config.yml #{release_path}/config/democracyinaction-config.yml
   CMD
 end
 
 task :after_symlink, :roles => :app , :except => {:no_symlink => true} do
-  sudo "ln -nfs #{shared_path}/public/attachments #{release_path}/public/attachments"
-  sudo "ln -nfs #{shared_path}/vendor/rails #{release_path}/vendor/rails"
+  run <<-CMD
+    cd #{release_path} &&
+    ln -nfs #{shared_path}/public/attachments #{release_path}/public/attachments &&
+    ln -nfs #{shared_path}/vendor/rails #{release_path}/vendor/rails
+  CMD
 end 
