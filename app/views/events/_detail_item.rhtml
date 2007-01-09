@@ -2,8 +2,10 @@
 	<div id="report_text">
 
 			
-			<%= detail_item.text %>
-			<br><b>By:<%#= event.report.user.name %></b>
+			<%= simple_format(detail_item.text) %>
+			 <% if detail_item.reporter_name %>
+			<div class="report-by">By:<%= detail_item.reporter_name %></div>
+			<% end %>
 	</div>
 
   <% if detail_item.attachments.any? {|a| a.audio?} %>
