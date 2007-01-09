@@ -4,8 +4,7 @@ class ReportsController < ApplicationController
 
   def index
     @calendar = Calendar.find(:first)
-    @events = Event.find(:all, :include => :reports)
-    @events = @events.select { |e| !e.reports.empty? }
+    @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ['reports.position = ?', 1], :order => "events.state, events.city")
   end
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
@@ -17,7 +16,7 @@ class ReportsController < ApplicationController
   end
 
   def show
-    @report = Report.find(params[:id])
+    @report = Report.find_published(params[:id], :include => :attachments)
   end
 
   def new

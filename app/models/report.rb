@@ -18,4 +18,10 @@ class Report < ActiveRecord::Base
   def unpublish
     update_attribute(:status, UNPUBLISHED)
   end
+
+  def self.find_published(*args)
+    with_scope :find => { :conditions => [ 'status = ?', PUBLISHED ] } do
+      find(*args)
+    end
+  end
 end
