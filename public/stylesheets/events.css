@@ -31,18 +31,121 @@ PADDING-BOTTOM: 0px;
 }
 
 .intro-text{
-
+PADDING-BOTTOM: 10px;
 }
 
 .intro-title { 
 font-size:21px;
+font-weight: bold;
+PADDING-BOTTOM: 10px;
 }
 
 #login-box{ 
 text-align:right
 }
 
+#developer{
+border:1px solid black; 
+background-color:#cccccc; color:#000000;
+padding: 5px 5px 5px 15px;
+margin:20px;
 
+}
+
+
+.report-list-element{
+display:block;
+PADDING-BOTTOM: 10px;
+PADDING-TOP: 10px;
+}
+
+
+
+.report-list-image {
+	float: left;
+	height: 100px;
+	padding-right: 10px; 
+	
+	}
+.report-list-image img {
+	border: 1px solid #cccccc;
+	}
+
+.report-list-basics {
+	margin-left: 110px;
+
+	}
+.report-list-title {
+	display: block;
+	margin-bottom: 5px;
+	}
+.report-list-text {
+	margin-bottom: 2px;
+	}
+.report-list-more {
+	margin-bottom: 2px;
+         text-align:right;
+	}
+
+#report_press{
+	display: none;
+}
+
+#report_comments{
+	display: none;
+}
+
+
+
+
+#event-map-container{
+	float: left;
+	width: 400px;
+	padding-right: 10px; 
+}
+
+#event-list-container{
+       margin-left: 410px;
+}
+
+.event-list-intro-title{
+
+font-size:17px;
+font-weight: bold;
+PADDING-BOTTOM: 10px;
+
+}
+
+#event-list-intro{
+	PADDING-BOTTOM: 10px;
+}
+
+
+.event-list-element{
+	PADDING-BOTTOM: 12px;
+}
+	
+.event-list-city{
+font-size:13px;
+font-weight: bold;
+}
+
+	
+	
+	
+
+
+
+
+
+
+
+	
+
+	
+	
+	
+	
 
 
 body { background-color: #cccccc; }
