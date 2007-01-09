@@ -1,6 +1,6 @@
 <% restrict_to "admin" do %>
   <div id="admin">
 	<b>Admin Tools:</b><br>
-    <%= link_to 'List Reports', :controller => :reports, :action => :list %> | <%= link_to 'Add Report', :controller => :reports, :action => :new %>
+    <%= link_to 'List Reports', :controller => :reports, :action => :list %> | <%= link_to 'Add Report', :controller => :reports, :action => :new %>  |   <%= link_to 'List Events', :controller => :events, :action => :list %> | <%= link_to 'Add Event', :controller => :events, :action => :new %>
   </div>
 <% end %>
