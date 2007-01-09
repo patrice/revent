@@ -1,4 +1,7 @@
 class ReportsController < ApplicationController
+  before_filter :login_required, :only => [:list, :edit, :update, :destroy, :publish, :unpublish]
+  access_control [:list, :edit, :update, :destroy, :publish, :unpublish] => 'admin'
+
   def index
     @calendar = Calendar.find(:first)
     @events = Event.find(:all, :include => :reports)
@@ -10,7 +13,7 @@ class ReportsController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @report_pages, @reports = paginate :reports, :per_page => 10
+    @report_pages, @reports = paginate :reports, :select => "reports.*, reports.status = '#{Report::PUBLISHED}' as published", :joins => "LEFT OUTER JOIN events ON events.id=event_id", :order => "published DESC, state, city", :per_page => 10
   end
 
   def show
@@ -26,7 +29,7 @@ class ReportsController < ApplicationController
   end
 
   def create
-    @report = Report.new(params[:report])
+    @report = Report.new(params[:report].merge(:status => Report::PUBLISHED))
     @attachments = []
     params[:attachment].each do |index, file|
       @attachments << @report.attachments.build({:caption => params[:caption][index]}.merge(:uploaded_data => file)) unless file.blank?
@@ -58,8 +61,15 @@ class ReportsController < ApplicationController
   end
 
   def destroy
-    Report.find(params[:id]).destroy
-    redirect_to :action => 'list'
+    @report = Report.find(params[:id]).destroy
+    respond_to do |wants|
+      wants.html { redirect_to :action => 'list' }
+      wants.js do
+        render :update do |page|
+          page.remove "report_#{@report.id}"
+        end
+      end
+    end
   end
 
   def lightbox
@@ -67,5 +77,31 @@ class ReportsController < ApplicationController
     return unless @parent
     @attachment = @parent.thumbnails.find_by_thumbnail('lightbox')
     render :layout => false
+  end
+
+  def publish
+    @report = Report.find(params[:id])
+    @report.publish
+    respond_to do |wants|
+      wants.html { redirect_to :action => 'show', :id => @report }
+      wants.js do
+        render :update do |page|
+          page.alert "Report has been published"
+        end
+      end
+    end
+  end
+
+  def unpublish
+    @report = Report.find(params[:id])
+    @report.unpublish
+    respond_to do |wants|
+      wants.html { redirect_to :action => 'list' }
+      wants.js do
+        render :update do |page|
+          page.alert "Report has been unpublished"
+        end
+      end
+    end
   end
 end
