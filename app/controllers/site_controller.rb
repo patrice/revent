@@ -10,7 +10,7 @@ class SiteController < ApplicationController
       end
     when 'dia'
       opts = YAML.load_file(File.join(RAILS_ROOT,'config','democracyinaction-config.yml'))
-      require 'DIA_API'
+      require 'DIA_API_Simple'
       api = DIA_API_Simple.new opts
       events = api.get('event')
       flash[:notice] = events.length.to_s + " events added from DIA"
