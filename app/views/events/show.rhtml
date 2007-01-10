@@ -8,7 +8,7 @@ Add Your Own <a href='/reports/new'>Report of the Event</a>
 <div class="report-intro-text">
 	See all reports <a href="/reports">here</a>.<br><br>
 		<h2><%= @event.name %></h1>
-		<h3><%= @event.city %>,<%= @event.state %><h3>
+		<h3><%= @event.city %>, <%= @event.state %><h3>
 		<b><%= @event.start.strftime('%B %e, %Y') %></b>
 		
 <!--	Read press coverage <a href="/reports/press">here</a> -->
@@ -18,6 +18,13 @@ Add Your Own <a href='/reports/new'>Report of the Event</a>
 <% if !@event.reports.empty? -%>
 <div>
 <%= render :partial=>"events/detail_item", :collection=> @event.reports  %>
+
+</div>
+<% end -%>
+<% if @event.reports.empty? -%>
+<div id='report-none'>
+There are no reports for this event.<br>
+If you attended this event please <a href='/reports/new'>submit a report</a>
 
 </div>
 <% end -%>
