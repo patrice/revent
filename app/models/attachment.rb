@@ -43,7 +43,7 @@ class Attachment < ActiveRecord::Base
     end
   end
 
-  acts_as_attachment :storage => :file_system, :content_type => :image, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }
+  acts_as_attachment :storage => :file_system, :content_type => :image, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 2.megabytes
   validates_as_attachment
 
   [:video, :audio, :other, :pdf].each do |content|
