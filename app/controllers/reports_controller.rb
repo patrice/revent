@@ -104,4 +104,9 @@ class ReportsController < ApplicationController
       end
     end
   end
+  def widget
+    @report = Report.find(params[:id])
+    render :layout=>false
+  end
+    
 end
