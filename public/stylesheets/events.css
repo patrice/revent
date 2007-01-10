@@ -1,29 +1,5 @@
 
-#report_text{
-display:block;
-PADDING-BOTTOM: 10px;
-}
-
-#report_text H1{ 
-font-size:19px
-}
-
-#report_images{
-display:block;
-PADDING-BOTTOM: 10px;
-PADDING-TOP: 10px;
-}
-
-.report_image{
-PADDING-TOP: 10px;
-PADDING-BOTTOM: 10px;
-text-align:center;
-}
-
-#report_images img {
-background-color:red;
-border:2px solid blue;
-}
+/**** MASTER CSS ****/
 
 #detail-container{ 
 PADDING-TOP: 0px;
@@ -45,6 +21,9 @@ PADDING-BOTTOM: 10px;
 text-align:right
 }
 
+
+/**** TOOL BARS ****/
+
 #developer{
 border:1px solid black; 
 background-color:#cccccc; color:#000000;
@@ -61,6 +40,7 @@ margin:20px;
 }
 
 
+/**** REPORT LIST PAGE ****/
 
 .report-list-element{
 display:block;
@@ -68,33 +48,100 @@ PADDING-BOTTOM: 10px;
 PADDING-TOP: 10px;
 }
 
-
-
 .report-list-image {
 	float: left;
 	height: 100px;
+
 	padding-right: 10px; 
 	
 	}
-.report-list-image img {
-	border: 1px solid #cccccc;
+.report-list-image  img{
+	border:1px solid black; 
+
 	}
 
 .report-list-basics {
 	margin-left: 110px;
+height: 90px;
 
 	}
 .report-list-title {
+        font-size:17px;
 	display: block;
-	margin-bottom: 5px;
+	margin-bottom: 8px;
+       font-weight:bold;
 	}
+.report-list-title a{
+	color:#C42021;
+	}
+
 .report-list-text {
+        font-size:12px;
+
+        line-height:18px;
 	margin-bottom: 2px;
 	}
 .report-list-more {
 	margin-bottom: 2px;
          text-align:right;
+         font-size:12px;
 	}
+
+.report-list-more a{
+	color:#C42021;
+	}
+
+
+/**** REPORT DETAIL PAGE ****/
+
+
+.report-intro-text{
+display:block;
+PADDING-BOTTOM: 1px;
+
+}
+.report-intro-text H2{
+font-size:18px;
+color:#C42021;
+line-height:2px;
+}
+.report-intro-text H3{
+font-size:16px;
+}
+
+#report_text{
+display:block;
+PADDING-BOTTOM: 18px;
+}
+
+#report_text p{
+font-size:12px;
+}
+.report-by{
+font-size:13px;
+font-weight:bold;
+text-align:right
+}
+
+
+
+#report_images{
+display:block;
+PADDING-BOTTOM: 10px;
+PADDING-TOP: 10px;
+}
+
+.report_image{
+PADDING-TOP: 10px;
+PADDING-BOTTOM: 10px;
+text-align:center;
+}
+
+#report_images img {
+background-color:red;
+border:2px solid blue;
+}
+
 
 #report_press{
 	display: none;
@@ -104,6 +151,7 @@ PADDING-TOP: 10px;
 	display: none;
 }
 
+/**** Event MAP List PAGE ****/
 
 
 
@@ -139,19 +187,6 @@ font-size:13px;
 font-weight: bold;
 }
 
-	
-	
-	
-
-
-
-
-
-
-
-	
-
-	
 	
 	
 	
