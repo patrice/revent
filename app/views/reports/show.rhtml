@@ -45,7 +45,10 @@
 	<div id="report_images">
 		For full size pictures click on any picture below.<br>
     <% @report.attachments.find_all {|a| a.image?}.each do |image| %>
-		<div class="report_image">
+    <div class="report_image" id="attachment_<%= image.id %>">
+      <% restrict_to 'admin' do %>
+      <div><%= link_to_remote "delete this image", :url => { :controller => "attachments", :action => "destroy", :id => image.id } %></div>
+      <% end %>
       <%= link_to(image_tag(image.public_filename(:display)), {:controller => :reports, :action => :lightbox, :id => image.id}, :class => 'lbOn') %>
 			<div style="media-caption">
 				<%= image.caption %>
@@ -64,7 +67,7 @@
 	</div>
 
 	<div id="report_add">
-	Add Your Own <a href='/report/add'>Report of the Event</a>
+    Add Your Own <%= link_to "Report of the Event", :controller => "reports", :action => "new" %>
 	</div>
 
 </div>

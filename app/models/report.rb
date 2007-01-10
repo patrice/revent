@@ -14,6 +14,14 @@ class Report < ActiveRecord::Base
     PUBLISHED == status
   end
 
+  def self.publish(id)
+    update(id, :status => PUBLISHED)
+  end
+
+  def self.unpublish(id)
+    update(id, :status => UNPUBLISHED)
+  end
+
   def publish
     update_attribute(:status, PUBLISHED)
   end

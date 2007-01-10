@@ -4,6 +4,8 @@ class ReportsController < ApplicationController
   before_filter :login_required, :only => ADMIN_METHODS
   access_control ADMIN_METHODS => 'admin'
 
+  caches_page :show
+
   def index
     @calendar = Calendar.find(:first)
     @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ['reports.position = ?', 1], :order => "events.state, events.city")
@@ -53,6 +55,7 @@ class ReportsController < ApplicationController
   def update
     @report = Report.find(params[:id])
     if @report.update_attributes(params[:report])
+      expire_page :action => "show", :id => @report
       flash[:notice] = 'Report was successfully updated.'
       redirect_to :action => 'show', :id => @report
     else
@@ -62,6 +65,7 @@ class ReportsController < ApplicationController
 
   def destroy
     @report = Report.find(params[:id]).destroy
+    expire_page :action => "show", :id => @report
     respond_to do |wants|
       wants.html { redirect_to :action => 'list' }
       wants.js do
@@ -80,8 +84,9 @@ class ReportsController < ApplicationController
   end
 
   def publish
-    @report = Report.find(params[:id])
-    @report.publish
+    @report = Report.publish(params[:id])
+    expire_page :action => "show", :id => @report
+    expire_page admin_url(:action => "show", :id => @report)
     respond_to do |wants|
       wants.html { redirect_to :action => 'show', :id => @report }
       wants.js do
@@ -93,8 +98,8 @@ class ReportsController < ApplicationController
   end
 
   def unpublish
-    @report = Report.find(params[:id])
-    @report.unpublish
+    @report = Report.unpublish(params[:id])
+    expire_page :action => "show", :id => @report
     respond_to do |wants|
       wants.html { redirect_to :action => 'list' }
       wants.js do
@@ -104,9 +109,9 @@ class ReportsController < ApplicationController
       end
     end
   end
+
   def widget
     @report = Report.find_published(params[:id] || :first,:order=>'RAND()')
     render :layout=>false
   end
-    
 end
