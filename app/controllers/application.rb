@@ -4,5 +4,6 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   before_filter :login_from_cookie
   session :session_key => '_daysofaction_session_id'
+  session :off, :if => Proc.new { |req| !(true == req.parameters[:admin]) }
   layout 'truemajority'
 end

@@ -1,6 +1,8 @@
 class ReportsController < ApplicationController
-  before_filter :login_required, :only => [:list, :edit, :update, :destroy, :publish, :unpublish]
-  access_control [:list, :edit, :update, :destroy, :publish, :unpublish] => 'admin'
+  ADMIN_METHODS = [:list, :edit, :update, :destroy, :publish, :unpublish]
+  session :disabled => false, :only => ADMIN_METHODS
+  before_filter :login_required, :only => ADMIN_METHODS
+  access_control ADMIN_METHODS => 'admin'
 
   def index
     @calendar = Calendar.find(:first)
