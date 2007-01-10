@@ -50,6 +50,9 @@ end
 #   inflect.irregular 'person', 'people'
 #   inflect.uncountable %w( fish sheep )
 # end
+Inflector.inflections do |inflect|
+  inflect.plural /^(.*) of (.*)/i, '\1s of \2'
+end
 
 # Include your application configuration below
 include Cartographer

@@ -104,9 +104,19 @@ class EventsController < ApplicationController
     @zip = ZipCode.find_by_zip(params[:zip])
     @map_center = [@zip.latitude,@zip.longitude]
     @map_zoom = 12
+    @zips = @zip.find_objects_within_radius(50) do |min_lat, min_lon, max_lat, max_lon|
+      ZipCode.find(:all, 
+                   :conditions => [ "(latitude > ? AND longitude > ? AND latitude < ? AND longitude < ? ) ", 
+                        min_lat, 
+                        min_lon, 
+                        max_lat, 
+                        max_lon])
+    end
+    @events = Event.find(:all, :conditions => "postal_code IN (#{@zips.collect {|z| z.zip}.join(',')})")
     search
     render :action => "search"
   end
+
   def by_state
     @search_area = params[:state]
     @map_center = DaysOfAction::Geo::STATE_CENTERS[params[:state].to_sym]
