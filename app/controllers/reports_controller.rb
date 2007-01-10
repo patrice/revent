@@ -42,7 +42,7 @@ class ReportsController < ApplicationController
 
     if @report.save
       flash[:notice] = 'Report was successfully created.'
-      redirect_to :action => 'list'
+      redirect_to :action => 'index'
     else
       render :action => 'new'
     end
