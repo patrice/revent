@@ -11,14 +11,13 @@
 		<!--Read press coverage <a href="">here</a> -->
 	</div>
 	<div id='report-search'>
-		
-      <% form_tag :action => 'by_zip' do -%>
+      <% form_tag :action => 'search' do -%>
        Enter Your Zip Code to Find a Report Near You:
         <%= text_field_tag "zip", '', {:size=>10} %>
         <%= submit_tag "GO" %>
       <% end -%>
-
-    </div>
+  </div>
+  <%= @search_results_message %>
 <hr>	
   <%= render :partial => 'list_item', :collection => @reports %>
 </div>

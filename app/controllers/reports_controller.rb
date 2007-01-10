@@ -119,4 +119,20 @@ class ReportsController < ApplicationController
     @report = Report.find_published(params[:id] || :first,:order=>'RAND()')
     render :layout=>false
   end
+
+  def search
+    @zip = ZipCode.find_by_zip(params[:zip])
+    @zips = @zip.find_objects_within_radius(100) do |min_lat, min_lon, max_lat, max_lon|
+      ZipCode.find(:all, 
+                   :conditions => [ "(latitude > ? AND longitude > ? AND latitude < ? AND longitude < ? ) ", 
+                        min_lat, 
+                        min_lon, 
+                        max_lat, 
+                        max_lon])
+    end
+    @reports = Report.find_published(:all, :include => :event, :conditions => "events.postal_code IN (#{@zips.collect {|z| z.zip}.join(',')})")
+    @calendar = Calendar.find(:first)
+    @search_results_message = "Found #{@reports.length} reports within 100 miles of #{@zip.zip}"
+    render :action => 'index'
+  end
 end
