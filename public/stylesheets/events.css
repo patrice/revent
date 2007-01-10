@@ -92,6 +92,17 @@ height: 90px;
 	}
 
 
+#report-search{
+	color:#C42021;
+font-size:13px;
+PADDING-BOTTOM: 20px;
+	}
+
+ #report-search input{
+color: #000;
+
+border: 1px solid #000
+}
 /**** REPORT DETAIL PAGE ****/
 
 
@@ -101,12 +112,17 @@ PADDING-BOTTOM: 1px;
 
 }
 .report-intro-text H2{
-font-size:18px;
+font-size:20px;
 color:#C42021;
-line-height:2px;
+
 }
 .report-intro-text H3{
-font-size:16px;
+font-size:18px;
+line-height:px;
+}
+.report-intro-text b{
+font-size:14px;
+line-height:8px;
 }
 
 #report_text{

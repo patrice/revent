@@ -6,15 +6,15 @@
 	Add Your Own <a href='/reports/new'>Report of the Event</a>
 	</div>
 	<div class="intro-text">
-		<br>There are <%= Report.count_published %> reports from  <%= Event.count %> scheduled events.<br><br>
-		Enter your zip to find a report from an event near you:
-		<br>
+		<br>There are <%= Report.count_published %> reports from  <%= Event.count %> scheduled events.
+	
 		<!--Read press coverage <a href="">here</a> -->
 	</div>
 	<div id='report-search'>
+		
       <% form_tag :action => 'by_zip' do -%>
-        Search by Zip: 
-        <%= text_field_tag "zip" %>
+       Enter Your Zip Code to Find a Report Near You:
+        <%= text_field_tag "zip", '', {:size=>10} %>
         <%= submit_tag "GO" %>
       <% end -%>
     </div>
