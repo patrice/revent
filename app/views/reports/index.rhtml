@@ -6,6 +6,7 @@
 	Add Your Own <a href='/reports/new'>Report of the Event</a>
 	</div>
 	<div class="intro-text">
+		<br>There are <%= Report.count_published %> reports from  <%= Event.count %> scheduled events.<br><br>
 		<!--Read press coverage <a href="">here</a> -->
 	</div>
   <%= render :partial => 'list_item', :collection => @reports %>

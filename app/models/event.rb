@@ -40,5 +40,9 @@ class Event < ActiveRecord::Base
     def count_with_reports
       find(:all, :include => :reports).select {|e| !e.reports.empty?}.length
     end
+ 
+    def count_with_reports_published
+      find(:all, :include => :reports).select {|e| !e.reports.find_published.empty?}.length
+    end
   end
 end

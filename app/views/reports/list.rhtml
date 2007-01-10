@@ -1,6 +1,6 @@
 <h1>Listing reports</h1>
 
-Listing <%= Report.count %> reports for <%= Event.count_with_reports %> out of a possible <%= Event.count %> events.
+Listing <%= Report.count %> reports for <%= Event.count_with_reports %> events out of a possible <%= Event.count %> events.<br><br>
 
 <table>
   <tr>
@@ -11,7 +11,7 @@ Listing <%= Report.count %> reports for <%= Event.count_with_reports %> out of a
   <tr id="report_<%= report.id %>">
     <td><%= report.event.state %></td>
     <td><%= report.event.city %></td>
-    <td><%= truncate report.text %></td>
+    <td><%= truncate report.text,55 %></td>
     <td><%= report.status %></td>
     <td><%= link_to 'Show', :action => 'show', :id => report %></td>
     <td><%= link_to 'Edit', :action => 'edit', :id => report %></td>
