@@ -36,5 +36,9 @@ class Event < ActiveRecord::Base
                    :latitude => e['Latitude'],
                    :longitude => e['Longitude'])
     end
+
+    def count_with_reports
+      find(:all, :include => :reports).select {|e| !e.reports.empty?}.length
+    end
   end
 end
