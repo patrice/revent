@@ -19,9 +19,9 @@
 	<div id="report_audios">
     <% @report.attachments.find_all {|a| a.audio?}.each do |audio| %>
 		<div class="report_audio">
-			<a href=""><img src="<%= @audio.filename %>" alt="Click Here to Listen to Audio Report"></a>
+			<a href=""><img src="<%= audio.filename %>" alt="Click Here to Listen to Audio Report"></a>
 			<div style="media-caption">
-				<%= @audio.caption %>
+				<%= audio.caption %>
 			</div>
 		</div>
     <% end %>
