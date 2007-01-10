@@ -7,7 +7,17 @@
 	</div>
 	<div class="intro-text">
 		<br>There are <%= Report.count_published %> reports from  <%= Event.count %> scheduled events.<br><br>
+		Enter your zip to find a report from an event near you:
+		<br>
 		<!--Read press coverage <a href="">here</a> -->
 	</div>
+	<div id='report-search'>
+      <% form_tag :action => 'by_zip' do -%>
+        Search by Zip: 
+        <%= text_field_tag "zip" %>
+        <%= submit_tag "GO" %>
+      <% end -%>
+    </div>
+	
   <%= render :partial => 'list_item', :collection => @reports %>
 </div>
