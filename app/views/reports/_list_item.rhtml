@@ -14,7 +14,7 @@
 			 <%= link_to "#{list_item.event.city}, #{list_item.event.state}", :controller => "events", :action => "show", :id => list_item.event.id %>		
 		</div>
 		<div class="report-list-text">
-			<%= truncate list_item.text, 350 %>
+			<%= truncate list_item.text, 325 %>
 		</div>
 		<div class="report-list-more">
       <%= link_to "[[Read More]]", :controller => "events", :action => "show", :id => list_item.event.id %>
