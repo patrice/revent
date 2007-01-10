@@ -4,9 +4,6 @@
 		<div class="report-list-image">
     		<%= image_tag list_item.attachments.first.public_filename(:list) if list_item.attachments.any? {|a| a.image?} %>
 		</div>
-		<div class="report-list-audio">
-			<img src="img/original/audio2.gif">
-		</div>
 
 	</div>
 	<div class="report-list-basics">
