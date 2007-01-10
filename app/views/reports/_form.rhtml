@@ -2,7 +2,7 @@
 
 <!--[form:report]-->
 <p><label for="event_id">Select Your Event</label><br/>
-<%= f.select 'event_id', Event.find(:all).collect {|e| ["#{e.state} - #{e.city}: #{e.name}", e.id]} %>
+<%= f.select 'event_id', Event.find(:all, :order=>"state,city").collect {|e| ["#{e.state} - #{e.city}: #{truncate e.name,30}", e.id]}, :include_blank=>true%>
 
 <p><label for="report_name">Your Name:</label><br/>
 <%= f.text_field 'reporter_name' %></p>
