@@ -38,7 +38,12 @@ class ReportsController < ApplicationController
     params[:attachment].each do |index, file|
       @attachments << @report.attachments.build({:caption => params[:caption][index]}.merge(:uploaded_data => file)) unless file.blank?
     end if params[:attachment]
-    Attachment.transaction { @attachments.each &:save! }
+    begin
+      Attachment.transaction do 
+        @attachments.each &:save! 
+      end
+    rescue ActiveRecord::RecordInvalid
+    end
 
     if @report.save
       flash[:notice] = 'Report was successfully created.'
