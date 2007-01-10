@@ -105,7 +105,7 @@ class ReportsController < ApplicationController
     end
   end
   def widget
-    @report = Report.find(params[:id])
+    @report = Report.find_published(params[:id] || :first,:order=>'RAND()')
     render :layout=>false
   end
     
