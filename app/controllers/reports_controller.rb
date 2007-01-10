@@ -29,7 +29,6 @@ class ReportsController < ApplicationController
     if params[:service] && params[:service_foreign_key]
       @report.event = Event.find_or_import_by_service_foreign_key(params[:service_foreign_key])
     end
-    @user = logged_in? ? current_user : User.new
   end
 
   def create

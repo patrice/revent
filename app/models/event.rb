@@ -24,6 +24,7 @@ class Event < ActiveRecord::Base
       require 'DIA_API_Simple'
       api = DIA_API_Simple.new opts
       e = api.get('event', :key => key).first
+      return unless e
       Event.create(:service_foreign_key => e['event_KEY'],
                    :calendar_id => 1,
                    :name => e['Event_Name'],
