@@ -4,16 +4,11 @@
 <head>
 <title>AmericaSaysNO.org</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-
-
   <%= stylesheet_link_tag 'application' %>
   <%= stylesheet_link_tag 'events' %>
   <%= stylesheet_link_tag 'lightbox' %>
   <%= javascript_include_tag :defaults %>
   <%= javascript_include_tag 'lightbox' %>
- 
-  
-  
 <link rel="stylesheet" href="http://www.truemajority.org/stylesheets/stylesnew.css" type="text/css">
 
 </head>
@@ -43,36 +38,46 @@
 
                         <a href="http://www.democracyinaction.org/dia/organizationsORG/truemajority/event/distributedEventSearch.jsp?distributed_event_KEY=242"><img src="http://www.truemajority.org/images/dia_findevent.gif" width="100" height="50" border="0"></a><br>
                         <a href="http://www.democracyinaction.org/dia/organizationsORG/truemajority/event/distributedEventSignup.jsp?distributed_event_KEY=242"><img src="http://www.truemajority.org/images/dia_hostevent.gif" width="100" height="50" border="0"></a><br>
-                        <a href="http://www.truemajorityaction.org/dia_eventkit.php"><img src="http://www.truemajority.org/images/dia_eventkit.gif" width="100" height="50" border="0"></a><br><br>
+                        <a href="http://www.truemajorityaction.org/dia_eventkit.php"><img src="http://www.truemajority.org/images/dia_eventkit.gif" width="100" height="50" border="0"></a><br>
+                        <a href="http://action.truemajority.org/campaign/mandate_peace/"><img src="http://www.truemajorityaction.org/images/dia_petition.gif" width="100" height="50" border="0"></a><br>
+
+                        <a href="https://secure.truemajority.org/03/america_says_no"><img src="http://www.truemajority.org/images/dia_donate.gif" width="100" height="50" border="0"></a><br><br>
+
 
 <a href="http://www.cafepress.com/americasaysno.98963781"><img src="http://truemajorityaction.org/images/asn_bumbersticker.gif" border="0"></a>
 <br><br>
 <a href="http://www.cafepress.com/americasaysno.98963775"><img src="http://truemajorityaction.org/images/asn_button.gif" border="0"></a>
+<br><br>
+<a href="http://www.unitedforpeace.org"><img src="http://truemajority.org/images/asn_next.gif" border="0"></a>
+
 
 <p><b>
 
 <a href="http://www.unitedforpeace.org/" class="headline4">United for Peace & Justice</a><br>
 <a href="http://www.democracyforamerica.com/" class="headline4">Democracy For America</a><br>
+
 <a href="http://www.truemajorityaction.org/" class="headline4">TrueMajorityACTION.org</a><br>
 <a href="http://www.codepinkalert.org/" class="headline4">CodePink</a><br>
 <a href="http://www.themmob.org/" class="headline4">Mainstreet Moms</a><br>
-
 <a href="http://www.pdamerica.org/" class="headline4">Progressive Democrats of America</a><br>
-<a href="http://www.now.org" class="headline4">National Organization for Women (NOW)</a><br>
-<a href="http://www.uua.org/" class="headline4">Unitarian Universalist Association of Congregations</a><br>
+<a href="http://www.workingforchange.com" class="headline4">Act For Change</a><br>
 <a href="http://www.faithfulamerica.org/" class="headline4">Faithful America</a><br>
+<a href="http://www.now.org" class="headline4">National Organization for Women (NOW)</a><br>
+<a href="http://www.uusc.org/index.shtml" class="headline4">Unitarian Universalist Service Committee</a><br>
 <a href="http://wand.org/" class="headline4">Women's Action for New Directions (WAND)</a><br>
-<a href="http://www.umc-gbcs.org" class="headline4">United Methodist Church General Board of Church and Society</a><br>
-<a href="http://www.psr.org" class="headline4">Physicians for Social Responsibility (PSR)</a><br>
-<a href="http://www.workingforchange.com" class="headline4">Working Assets</a><br>
-<a href="http://www.dcfordemocracy.org/" class="headline4">DC for Democracy</a><br>
 
+<a href="http://www.naacp.org/home/" class="headline4">National Association for the Advancement of Colored People</a><br>
+<a href="http://www.umc-gbcs.org" class="headline4">United Methodist General Board of Church and Society</a><br>
+<a href="http://www.psr.org" class="headline4">Physicians for Social Responsibility (PSR)</a><br>
+<a href="http://www.dcfordemocracy.org/" class="headline4">DC for Democracy</a><br>
 <a href="http://www.sojo.net/" class="headline4">Sojourners</a><br>
 <a href="http://www.uslaboragainstwar.org/" class="headline4">U.S. Labor Against the War</a><br>
 <a href="http://www.peace-action.org/" class="headline4">Peace Action</a><br>
 <a href="http://2020vision.org" class="headline4">20/20 Vision</a><br>
 <a href="http://www.feminist.org/" class="headline4">Feminist Majority</a><br>
 
+<a href="http://www.afsc.org/" class="headline4">American Friends Service Committee</a><br>
+<a href="http://www.naacp.org/" class="headline4">NAACP</a><br>
 </b></p>
 
 
@@ -161,16 +166,18 @@
 -->
 
 
+
      </td><td width="20">&nbsp;</td>
-     <td width="550" height="500" valign="top" align="left" class="bodytext">
+     <td width="550" height="500" valign="top" align="center" class="bodytext">
+		
 		
       <div id="flash"><%= flash[:notice] %></div>
       <%= yield %>
    
  <%= render "shared/admin" %> 
 	<%= render "shared/developer" %>
-</td>
 
+</td>
   		</tr>
 
 
@@ -183,8 +190,8 @@
      <tr>
     <td width="755" colspan="2" height="5"><img src="http://www.truemajority.org/images/top_bar.gif" height="5" width="755"></td>
   </tr>
-
 </table>
+
 <p><br></p>
 
 
@@ -203,18 +210,4 @@ urchinTracker();
 </script>
 
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-

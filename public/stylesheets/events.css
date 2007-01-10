@@ -93,10 +93,22 @@ height: 90px;
 
 
 #report-search{
+
+border:1px solid black; 
+background-color:#cccccc; color:#000000;
+padding: 5px 5px 5px 10px;
+margin-left:10px;
+margin-bottom:10px;
 	color:#C42021;
 font-size:13px;
-PADDING-BOTTOM: 20px;
+
 	}
+
+ #report-search input{
+color: #000;
+border: 1px solid #000
+}
+
 
  #report-search input{
 color: #000;

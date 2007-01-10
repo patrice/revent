@@ -17,7 +17,8 @@
         <%= text_field_tag "zip", '', {:size=>10} %>
         <%= submit_tag "GO" %>
       <% end -%>
+
     </div>
-	
+<hr>	
   <%= render :partial => 'list_item', :collection => @reports %>
 </div>
