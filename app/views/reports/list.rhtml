@@ -13,14 +13,14 @@ Listing <%= Report.count %> reports for <%= Event.count_with_reports %> events o
     <td><%= report.event.city %></td>
     <td><%= truncate report.text,55 %></td>
     <td><%= report.status %></td>
-    <td><%= link_to 'Show', :action => 'show', :id => report %></td>
-    <td><%= link_to 'Edit', :action => 'edit', :id => report %></td>
-    <td><%= link_to_remote 'Destroy', :url => { :action => 'destroy', :id => report }, :confirm => 'Are you sure?', :method => 'post' %></td>
+    <td><%= link_to 'Show', admin_url(:action => 'show', :id => report) %></td>
+    <td><%= link_to 'Edit', admin_url(:action => 'edit', :id => report) %></td>
+    <td><%= link_to_remote admin_url('Destroy', :url => { :action => 'destroy', :id => report }, :confirm => 'Are you sure?', :method => 'post') %></td>
     <td>
       <% if report.published? -%>
-        <%= link_to_remote 'Unpublish', :url => { :action => 'unpublish', :id => report }, :method => 'post' %>
+        <%= link_to_remote admin_url('Unpublish', :url => { :action => 'unpublish', :id => report }, :method => 'post') %>
       <% else %>
-        <%= link_to_remote 'Publish', :url => { :action => 'publish', :id => report }, :method => 'post' %>
+        <%= link_to_remote admin_url('Publish', :url => { :action => 'publish', :id => report }, :method => 'post') %>
       <% end %>
     </td>
 
