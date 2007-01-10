@@ -18,7 +18,8 @@ class ReportsController < ApplicationController
   end
 
   def show
-    @report = Report.find_published(params[:id], :include => :attachments)
+    method = logged_in? && current_user.admin? ? 'find' : 'find_published'
+    @report = Report.send(method,params[:id], :include => :attachments)
   end
 
   def new
@@ -30,7 +31,7 @@ class ReportsController < ApplicationController
   end
 
   def create
-    @report = Report.new(params[:report].merge(:status => Report::PUBLISHED))
+    @report = Report.new(params[:report])
     @attachments = []
     params[:attachment].each do |index, file|
       @attachments << @report.attachments.build({:caption => params[:caption][index]}.merge(:uploaded_data => file)) unless file.blank?

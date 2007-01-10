@@ -7,6 +7,10 @@ class User < ActiveRecord::Base
   has_many :attending, :through => 'rsvps', :source => :event
   has_and_belongs_to_many :roles
 
+  def admin?
+    roles.detect {|r| 'admin' == r.title}
+  end
+
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 

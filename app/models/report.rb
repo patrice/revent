@@ -3,6 +3,9 @@ class Report < ActiveRecord::Base
   belongs_to :user
   acts_as_list :scope => :event
   has_many :attachments
+  def before_create
+    self.status = Report::PUBLISHED
+  end
 
   PUBLISHED = 'published'
   UNPUBLISHED = 'unpublished'
