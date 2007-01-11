@@ -11,7 +11,7 @@
 		<!--Read press coverage <a href="">here</a> -->
 	</div>
 	<div id='report-search'>
-      <% form_tag :action => 'search' do -%>
+      <% form_tag '/reports/search' do -%>
        Enter Your Zip Code to Find a Report Near You:
         <%= text_field_tag "zip", '', {:size=>10} %>
         <%= submit_tag "GO" %>
@@ -19,5 +19,15 @@
   </div>
   <%= @search_results_message %>
 <hr>	
+<div>
+<span style="float:left;" class="previous-page"><%= link_to 'Previous page', { :page => @report_pages.current.previous } if @report_pages.current.previous %></span>
+<span style="float:right;margin-right:0;"><%= link_to 'Next page', { :page => @report_pages.current.next }.merge(@search_params || {}) if @report_pages.current.next %></span>
+</div>
+
   <%= render :partial => 'list_item', :collection => @reports %>
+
+  <div>
+    <span style="float:left;" class="previous-page"><%= link_to 'Previous page', { :page => @report_pages.current.previous } if @report_pages.current.previous %></span>
+    <span style="float:right;margin-right:0;"><%= link_to 'Next page', { :page => @report_pages.current.next }.merge(@search_params || {}) if @report_pages.current.next %></span>
+  </div>
 </div>

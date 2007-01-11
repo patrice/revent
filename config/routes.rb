@@ -23,6 +23,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'reports/new/:service/:service_foreign_key', :controller => "reports", :action => "new"
   map.admin 'admin/:controller/:action/:id', :admin => true
 
+  map.connect ':controller/page/:page', :action => 'index'
+  map.connect ':controller/search/zip/:zip/:page', :action => 'search'
   # Allow downloading Web Service WSDL as a file with an extension
   # instead of a file named 'wsdl'
   map.connect ':controller/service.wsdl', :action => 'wsdl'

@@ -4,11 +4,12 @@ class ReportsController < ApplicationController
   before_filter :login_required, :only => ADMIN_METHODS
   access_control ADMIN_METHODS => 'admin'
 
-  caches_page :show
+  caches_page :show, :index
 
   def index
     @calendar = Calendar.find(:first)
-    @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ['reports.position = ?', 1], :order => "events.state, events.city")
+    @report_pages = Paginator.new self, Report.count_published, 30, params[:page]
+    @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ['reports.position = ?', 1], :order => "events.state, events.city", :limit  =>  @report_pages.items_per_page, :offset =>  @report_pages.current.offset)
   end
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
@@ -59,7 +60,7 @@ class ReportsController < ApplicationController
   def update
     @report = Report.find(params[:id])
     if @report.update_attributes(params[:report])
-      expire_page :action => "show", :id => @report
+      expire_page_caches(@report)
       flash[:notice] = 'Report was successfully updated.'
       redirect_to :action => 'show', :id => @report
     else
@@ -69,7 +70,7 @@ class ReportsController < ApplicationController
 
   def destroy
     @report = Report.find(params[:id]).destroy
-    expire_page :action => "show", :id => @report
+    expire_page_caches(@report)
     respond_to do |wants|
       wants.html { redirect_to :action => 'list' }
       wants.js do
@@ -89,8 +90,7 @@ class ReportsController < ApplicationController
 
   def publish
     @report = Report.publish(params[:id])
-    expire_page :action => "show", :id => @report
-    expire_page admin_url(:action => "show", :id => @report)
+    expire_page_caches(@report)
     respond_to do |wants|
       wants.html { redirect_to :action => 'show', :id => @report }
       wants.js do
@@ -103,7 +103,7 @@ class ReportsController < ApplicationController
 
   def unpublish
     @report = Report.unpublish(params[:id])
-    expire_page :action => "show", :id => @report
+    expire_page_caches(@report)
     respond_to do |wants|
       wants.html { redirect_to :action => 'list' }
       wants.js do
@@ -129,9 +129,20 @@ class ReportsController < ApplicationController
                         max_lat, 
                         max_lon])
     end
-    @reports = Report.find_published(:all, :include => :event, :conditions => "events.postal_code IN (#{@zips.collect {|z| z.zip}.join(',')})")
+    @report_pages = Paginator.new self, Report.count_published(:include => :event, :conditions => ["reports.position = ? AND events.postal_code IN (?)", 1, @zips.collect {|z| z.zip}]), 30, params[:page]
+    @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ["reports.position = ? AND events.postal_code IN (?)", 1, @zips.collect {|z| z.zip}], :order => "events.state, events.city", :limit => @report_pages.items_per_page, :offset => @report_pages.current.offset)
     @calendar = Calendar.find(:first)
-    @search_results_message = "Found #{@reports.length} reports within 100 miles of #{@zip.zip}"
+    @search_results_message = "Showing reports within 100 miles of #{@zip.zip}"
+    @search_params = {:zip => @zip.zip}
     render :action => 'index'
   end
+
+  protected
+    def expire_page_caches(report = nil)
+      expire_page :action => "show", :id => report
+      expire_page :controller => "events", :action => "show", :id => report.event
+      FileUtils.rm_rf(File.join(RAILS_ROOT,'public','reports','page')) rescue Errno::ENOENT
+      FileUtils.rm(File.join(RAILS_ROOT,'public','index.html')) rescue Errno::ENOENT
+      RAILS_DEFAULT_LOGGER.info("Caches fully swept.")
+    end
 end

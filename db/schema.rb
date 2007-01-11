@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 13) do
+ActiveRecord::Schema.define(:version => 15) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(:version => 13) do
     t.column "event_id",     :integer
     t.column "report_id",    :integer
   end
+
+  add_index "attachments", ["report_id"], :name => "index_attachments_on_report_id"
 
   create_table "calendars", :force => true do |t|
     t.column "name",              :string
@@ -45,6 +47,10 @@ ActiveRecord::Schema.define(:version => 13) do
     t.column "longitude",           :float
   end
 
+  add_index "events", ["latitude", "longitude"], :name => "index_events_on_latitude_and_longitude"
+  add_index "events", ["postal_code"], :name => "index_events_on_postal_code"
+  add_index "events", ["state", "city"], :name => "index_events_on_state_and_city"
+
   create_table "reports", :force => true do |t|
     t.column "event_id",       :integer
     t.column "user_id",        :integer
@@ -54,6 +60,10 @@ ActiveRecord::Schema.define(:version => 13) do
     t.column "reporter_name",  :string
     t.column "reporter_email", :string
   end
+
+  add_index "reports", ["event_id"], :name => "index_reports_on_event_id"
+  add_index "reports", ["status", "position"], :name => "index_reports_on_status_and_position"
+  add_index "reports", ["status"], :name => "index_reports_on_status"
 
   create_table "roles", :force => true do |t|
     t.column "title", :string
@@ -94,9 +104,14 @@ ActiveRecord::Schema.define(:version => 13) do
     t.column "zip",       :string
     t.column "city",      :string
     t.column "state",     :string, :limit => 2
-    t.column "latitude",  :string
-    t.column "longitude", :string
+    t.column "latitude",  :float
+    t.column "longitude", :float
     t.column "zip_class", :string
   end
+
+  add_index "zip_codes", ["zip"], :name => "index_zip_codes_on_zip"
+  add_index "zip_codes", ["latitude"], :name => "index_zip_codes_on_latitude"
+  add_index "zip_codes", ["longitude"], :name => "index_zip_codes_on_longitude"
+  add_index "zip_codes", ["latitude", "longitude"], :name => "index_zip_codes_on_latitude_and_longitude"
 
 end
