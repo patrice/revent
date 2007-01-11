@@ -62,8 +62,8 @@ ActiveRecord::Schema.define(:version => 15) do
   end
 
   add_index "reports", ["event_id"], :name => "index_reports_on_event_id"
-  add_index "reports", ["status", "position"], :name => "index_reports_on_status_and_position"
   add_index "reports", ["status"], :name => "index_reports_on_status"
+  add_index "reports", ["status", "position"], :name => "index_reports_on_status_and_position"
 
   create_table "roles", :force => true do |t|
     t.column "title", :string
