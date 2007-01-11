@@ -46,6 +46,7 @@ class ReportsController < ApplicationController
     end
 
     if @report.save
+      expire_page_caches(@report)
       flash[:notice] = 'Report was successfully created.'
       redirect_to :action => 'index'
     else
