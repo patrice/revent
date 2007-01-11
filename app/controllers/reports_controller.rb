@@ -120,6 +120,7 @@ class ReportsController < ApplicationController
   end
 
   def search
+    redirect_to :action => 'index' and return unless params[:zip]
     @zip = ZipCode.find_by_zip(params[:zip])
     @zips = @zip.find_objects_within_radius(100) do |min_lat, min_lon, max_lat, max_lon|
       ZipCode.find(:all, 
