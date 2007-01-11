@@ -56,3 +56,5 @@ end
 
 # Include your application configuration below
 include Cartographer
+ExceptionNotifier.exception_recipients = %w(seth@radicaldesigns.org)
+ExceptionNotifier.email_prefix = "[ERROR - AmericaSaysNO] "
