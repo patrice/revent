@@ -156,6 +156,7 @@ task :after_symlink, :roles => :app , :except => {:no_symlink => true} do
   run <<-CMD
     cd #{release_path} &&
     ln -nfs #{shared_path}/public/attachments #{release_path}/public/attachments &&
-    ln -nfs #{shared_path}/vendor/rails #{release_path}/vendor/rails
+    ln -nfs #{shared_path}/vendor/rails #{release_path}/vendor/rails &&
+    ln -nfs #{release_path/public/index.html #{release_path/public/reports/index.html
   CMD
 end 

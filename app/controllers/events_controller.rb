@@ -12,7 +12,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = Event.find(params[:id])
+    @event = Event.find(params[:id], :include => [:reports => [:attachments]])
   end
 
   def new
@@ -125,5 +125,13 @@ class EventsController < ApplicationController
     @map_zoom = 4
     search
     render :action => "search"
+  end
+
+  def description
+    @event = Event.find(params[:id])
+    render :update do |page|
+      page.replace_html 'report_event_description', "<h3>Event Description</h3>#{@event.description}"
+      page.show 'report_event_description'
+    end
   end
 end

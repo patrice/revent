@@ -115,8 +115,15 @@ class ReportsController < ApplicationController
   end
 
   def widget
-    @report = Report.find_published(params[:id] || :first,:order=>'RAND()')
-    render :layout=>false
+    if params[:id]
+      @report = Report.find_published(params[:id], :include => :attachments)
+      @image = @report.attachments.first
+    else
+#      @image = Attachment.find(:first, :joins => 'LEFT OUTER JOIN reports ON attachments.report_id = reports.id', :conditions => ['report_id AND reports.status = ?', Report::PUBLISHED], :order => 'RAND()')
+      @image = Attachment.find(:first, :include => [:report => :event], :conditions => ['report_id AND reports.status = ?', Report::PUBLISHED], :order => 'RAND()')
+      @report = @image.report
+    end
+    render :layout => false
   end
 
   def search
