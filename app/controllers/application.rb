@@ -7,5 +7,16 @@ class ApplicationController < ActionController::Base
   session :session_key => '_daysofaction_session_id'
   session :off, :if => Proc.new { |req| !(true == req.parameters[:admin]) }
   #layout 'tmaction'
-  layout 'truemajority'
+  layout :get_layout_from_domain
+  
+  def get_layout_from_domain
+    case request.host
+    when 'americasaysno.radicaldesigns.org'
+      'truemajority'
+    when 'truemajorityaction.radicaldesigns.org'
+      'tmaction'
+    else
+      'truemajority'
+    end
+  end
 end
