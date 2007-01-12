@@ -7,5 +7,5 @@ class ApplicationController < ActionController::Base
   session :session_key => '_daysofaction_session_id'
   session :off, :if => Proc.new { |req| !(true == req.parameters[:admin]) }
   #layout 'tmaction'
-  layout 'turemajority'
+  layout 'truemajority'
 end
