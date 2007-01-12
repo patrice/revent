@@ -2,7 +2,7 @@
 	<div class="report_text">
 
 			
-			<%= auto_link simple_format(detail_item.text) %>
+			<%= simple_format(detail_item.text) %>
 			 <% if detail_item.reporter_name %>
 			<div class="report-by">By:<%= detail_item.reporter_name %></div>
 			<% end %>
