@@ -12,6 +12,8 @@ ActionController::Routing::Routes.draw do |map|
   # You can have the root of your site routed by hooking up '' 
   # -- just remember to delete public/index.html.
   # map.connect '', :controller => "welcome"
+
+  map.hosted_home ':host', :controller => 'reports', :host => /truemajority/
   map.home '', :controller => "reports"
   map.zip_search "events/search/:zip",  :controller => "events",
                                         :action => "by_zip",
@@ -22,12 +24,13 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect 'reports/new/:service/:service_foreign_key', :controller => "reports", :action => "new"
   map.admin 'admin/:controller/:action/:id', :admin => true
-  map.tmhome 'truemajority', :host => "truemajority", :controller => "reports"
-  map.tmaction 'truemajority/:controller/:action/:id', :host => "truemajority"
-  map.hosted ':host/:controller/:action/:id'
 
   map.connect ':controller/page/:page', :action => 'index'
+  map.connect ':host/:controller/page/:page', :action => 'index'
+  map.connect ':host/:controller/search/zip/:zip/:page', :action => 'search'
   map.connect ':controller/search/zip/:zip/:page', :action => 'search'
+  map.hosted ':host/:controller/:action/:id'
+
   # Allow downloading Web Service WSDL as a file with an extension
   # instead of a file named 'wsdl'
   map.connect ':controller/service.wsdl', :action => 'wsdl'

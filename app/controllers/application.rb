@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   #layout 'tmaction'
   #layout :get_layout_from_domain
   layout :get_layout_from_route
-  
+
   def get_layout_from_route
     if 'truemajority' == params[:host]
       return 'tmaction'
