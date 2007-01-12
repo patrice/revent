@@ -3,10 +3,10 @@
 		
 </div>
 <div class="report_add">
-Add Your Own <a href='/reports/new'>Report of the Event</a>
+  Add Your Own <%= link_to 'Report of the Event', :controller => "reports", :action => "new" %>
 </div>
 <div class="report-intro-text">
-	See all <a href="/reports">Event Reports</a>.<br><br>
+  See all <%= link_to 'Event Reports', :controller => 'reports', :action => 'index' %>.<br><br>
 		<h2><%= @event.name %></h2>
 		<h3><%= @event.city %>, <%= @event.state %></h3>
 		<b><%= @event.start.strftime('%B %e, %Y') %></b>
@@ -15,20 +15,13 @@ Add Your Own <a href='/reports/new'>Report of the Event</a>
 </div>
 
 
-<% if !@event.reports.empty? -%>
-<div>
-<%= render :partial=>"events/detail_item", :collection=> @event.reports  %>
-
-</div>
-<% end -%>
 <% if @event.reports.empty? -%>
 <div id='report-none'>
 There are no reports for this event.<br>
-If you attended this event please <a href='/reports/new'>submit a report</a>
-
+If you attended this event please <%= link_to 'submit a report', :controller => "reports", :action => "new" %>
+</div>
+<% else -%>
+<div>
+<%= render :partial => "events/detail_item", :collection => @event.reports  %>
 </div>
 <% end -%>
-
-
-
-

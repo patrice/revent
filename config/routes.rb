@@ -22,6 +22,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect 'reports/new/:service/:service_foreign_key', :controller => "reports", :action => "new"
   map.admin 'admin/:controller/:action/:id', :admin => true
+  map.tmhome 'truemajority', :host => "truemajority", :controller => "reports"
+  map.tmaction 'truemajority/:controller/:action/:id', :host => "truemajority"
+  map.hosted ':host/:controller/:action/:id'
 
   map.connect ':controller/page/:page', :action => 'index'
   map.connect ':controller/search/zip/:zip/:page', :action => 'search'

@@ -3,7 +3,7 @@
 		<%= @calendar.name %> Reports
 	</div>
 	<div class="report_add">
-	Add Your Own <a href='/reports/new'>Report of the Event</a>
+    Add Your Own <%= link_to 'Report of the Event', :controller => "reports", :action => "new" %>
 	</div>
 	<div class="intro-text">
 		<br>There are <%= Report.count_published %> reports from  <%= Event.count %> scheduled events.
@@ -11,7 +11,7 @@
 		<!--Read press coverage <a href="">here</a> -->
 	</div>
 	<div id='report-search'>
-      <% form_tag '/reports/search' do -%>
+    <% form_tag :controller => "reports", :action => "search" do -%>
        Enter Your Zip Code to Find a Report Near You:
         <%= text_field_tag "zip", '', {:size=>10} %>
         <%= submit_tag "GO" %>
