@@ -4,6 +4,15 @@ class ReportsController < ApplicationController
   before_filter :login_required, :only => ADMIN_METHODS
   access_control ADMIN_METHODS => 'admin'
 
+  before_filter do |controller|
+    if controller.params[:host] == 'truemajority' && controller.action_name == 'index' &&
+      !(controller.params[:page])
+      controller.page_cache_directory = File.join(RAILS_ROOT,"public","truemajority")
+    else
+      controller.page_cache_directory = File.join(RAILS_ROOT,"public")
+    end
+  end
+
   caches_page :show, :index
 
   def index
