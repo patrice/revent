@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  ADMIN_METHODS = [:list, :edit, :update, :destroy, :publish, :unpublish]
+  ADMIN_METHODS = [:new, :create, :list, :edit, :update, :destroy, :publish, :unpublish]
   session :disabled => false, :only => ADMIN_METHODS
   before_filter :login_required, :only => ADMIN_METHODS
   access_control ADMIN_METHODS => 'admin'
@@ -80,9 +80,9 @@ class EventsController < ApplicationController
     require 'google_geocode'
     gg = GoogleGeocode.new 'ABQIAAAA9C-o-5_7dL0qOO28APyPUxQ2WXyPj6XHTbmLYROhNmBusUo8jRQoG-wSQAaDAoAcjXHg7JK2z_Aqew'
     @events = @calendar.events
+    Struct.new('LocStruct', :coordinates)
     @events.each do |e|
       if e.latitude && e.longitude
-        Struct.new('LocStruct', :coordinates)
         location = Struct::LocStruct.new([e.latitude,e.longitude])
       else
         begin
