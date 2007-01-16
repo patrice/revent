@@ -1,0 +1,162 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="Search" href="http://www.stepitup2007.org/search.php">
+<link rel="icon" href="" type="image/x-icon" />
+  <%= stylesheet_link_tag 'scaffold', 'events', 'lightbox' %>
+  <%= javascript_include_tag 'prototype', 'lightbox' %>
+<link rel="stylesheet" type="text/css" href="http://www.stepitup2007.org/styles_default.css">
+<link rel="stylesheet" type="text/css" href="http://www.stepitup2007.org/custom/styles.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.stepitup2007.org/rssfeed.php"><title>Step It Up 2007&nbsp;:&nbsp;Index</title>
+<script language="Javascript"  type="text/javascript" src="/scripts/functions.js"></script>
+<!--
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+function MM_validateForm() { //v4.0
+  var i,p,q,nm,test,num,min,max,errors='',args=MM_validateForm.arguments;
+  for (i=0; i<(args.length-2); i+=3) { test=args[i+2]; val=MM_findObj(args[i]);
+    if (val) { nm=val.name; if ((val=val.value)!="") {
+      if (test.indexOf('isEmail')!=-1) { p=val.indexOf('@');
+        if (p<1 || p==(val.length-1)) errors+='- '+nm+' must contain an e-mail address.\n';
+      } else if (test!='R') { num = parseFloat(val);
+        if (isNaN(val)) errors+='- '+nm+' must contain a number.\n';
+        if (test.indexOf('inRange') != -1) { p=test.indexOf(':');
+          min=test.substring(8,p); max=test.substring(p+1);
+          if (num<min || max<num) errors+='- '+nm+' must contain a number between '+min+' and '+max+'.\n';
+    } } } else if (test.charAt(0) == 'R') errors += '- '+nm+' is required.\n'; }
+  } if (errors) alert('The following error(s) occurred:\n'+errors);
+  document.MM_returnValue = (errors == '');
+}
+//-->
+</script></head>
+<body><table width="768" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><a href="index.php"><img src="http://www.stepitup2007.org/img/header_d.jpg" width="768" height="220" border="0" usemap="#Map"></a></td>
+
+  </tr>
+  <tr>
+    <td background="http://www.stepitup2007.org/img/bg_body.gif"><table width="768" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="40">&nbsp;</td>
+        <td valign="top">
+		  <div id="flash"><%= flash[:notice] %></div>
+      <%= yield %>
+   
+ <%= render "shared/admin" %> 
+	<%= render "shared/developer" %>
+		
+		
+		
+		</td>
+        <td width="32">&nbsp;</td>
+        <td width="214" valign="top"> <div id="rightColumn">
+  <div class="rightColumnBox">
+   <img src="http://www.stepitup2007.org/img/title_startanevent.gif"><div class="rightColumnText"><div class='sideitem'>Interested in organizing an action in your community?<br> 
+
+<b style='text-align:center;'><a href='http://www.stepitup2007.org/signup'>SIGN UP NOW</a></b> and we'll get you started with everything you need.</div></div><img src="http://www.stepitup2007.org/img/graphic_01.gif"><div class="rightColumnText"><div class='sideitem'>There are already <b>117</b> events planned in <b>34</b> states across<br/>the country!<div id="nav_find"> <a href="http://www.stepitup2007.org/events">Find an Action Near You</a></div>But we still need hundreds and hundreds more in every city, state, and county.
+
+
+
+
+</div></div><img src="http://www.stepitup2007.org/img/title_stayinformed.gif"><div class="rightColumnText"><div class='sideitem'>Not quite ready to start your own action? Want to stay informed? Sign up here and we'll keep you posted.</p>
+  <p align="center">
+  <table cellpadding="5" cellspacing="0" border="0">
+    <form method="POST" action="http://www.democracyinaction.org/dia/api/process.jsp">
+<input type="hidden" name="organization_KEY" value="1879" />
+<input type="hidden" name="redirect" value="http://www.stepitup2007.org/article.php?id=46">
+<input type="hidden" name="link" value="groups">
+<input type="hidden" name="linkKey" value="50837">
+<input type="hidden" name="table" value="supporter" />
+   <tr>
+    <td colspan="2">
+
+    <input type="text" name="First_Name" value="name" class="formInput"  onClick = "this.value='';"><br/>
+    <img src="http://www.stepitup2007.org/img/slug.gif" alt="" width="140" height="4" hspace="0" vspace="0" border="0"><br/>
+    <input type="text" name="Email" value="email (required)" class="formInput"  onClick = "this.value='';"><br/>
+    <img src="http://www.stepitup2007.org/img/slug.gif" alt="" width="140" height="4" hspace="0" vspace="0" border="0"><br/>
+    </td>
+   </tr>
+   <tr>
+    <td><input type="text" name="Zip" value="zip" size="7"  onClick = "this.value='';"></td>
+    <td align="right"><input type="image" src="http://www.stepitup2007.org/img/go.gif" value="Go" alt="Go" onclick="MM_validateForm('email','','RisEmail');return document.MM_returnValue"></td>
+
+   </tr>
+  </form>
+  </table>
+  
+  
+  
+
+
+</div></div><img src="http://www.stepitup2007.org/img/title_faqs.gif"><div class="rightColumnText"><div class='sideitem'><a href="article.php?id=29" class="sidelist">Why are we asking for 80% carbon cuts by 2050?</a></div><div class='sideitem'><a href="article.php?id=30" class="sidelist">Will Congress listen?</a></div><div class='sideitem'><a href="article.php?id=31" class="sidelist">Why not just have a march on Washington?</a></div><div class='sideitem'><a href="article.php?id=32" class="sidelist">How big should my rally be?</a></div></div><a href="section.php?id=4"><img src="http://www.stepitup2007.org/img/graphic_morewaystohelp.gif" border=0></a><div class="rightColumnText"><div class='sideitem'><a></a></div></div><img src="http://www.stepitup2007.org/img/friends.jpg"><div class="rightColumnText"><div class='sideitem'><div class="side_logo">
+<a href="http://www.StopGlobalWarming.org">
+<img src="http://www.stepitup2007.org/img/partners_logos_01.gif" border=0></a>
+</div>
+<div class="side_logo">
+<a href="http://climatechallenge.org/">
+
+<img src="http://www.stepitup2007.org/img/partners_logos_02.gif" border=0></a>
+</div>
+<div class="side_logo">
+<a href="http://www.nrdc.org/">
+<img src="http://www.stepitup2007.org/img/partners_logos_03.gif" border=0></a>
+</div>
+<div class="side_logo">
+<a href="http://www.reefrelief.org/">
+<img src="http://www.stepitup2007.org/img/partners_logos_04.gif" border=0></a>
+</div>
+<div class="side_logo">
+<a href="http://www.bluefront.org">
+<img src="http://www.stepitup2007.org/img/partners_logos_05.gif" border=0></a>
+</div>
+<div class="side_logo">
+<a href="http://www.oriononline.org/">
+<img src="http://www.stepitup2007.org/img/original/orion.gif" border=0></a>
+
+</div>
+<div class="side_logo">
+<a href="http://www.grist.org">
+<img src="http://www.stepitup2007.org/img/original/grist_1.gif" border=0></a>
+</div>
+<div class="side_logo">
+<a href="http://www.newdream.org/">
+<img src="http://www.stepitup2007.org/img/original/newamerican.gif" border=0></a>
+</div>
+<div class="side_logo">
+<a href="http://www.appalachianvoices.org/">
+<img src="http://www.stepitup2007.org/img/original/AppVoices.gif" border=0></a>
+</div></div></div>
+   </div>
+</div> </td>
+
+        <td width="35"></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="32" background="http://www.stepitup2007.org/img/bg_body.gif"><br><br><br>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td>  <div align="center" style="width:768px; color:#999999; background-image: url(http://www.stepitup2007.org/img/bg_body.gif); background-repeat: repeat-y; font-size:9px; ">StepItUp 2007 | <a href="&#x6d;&#x61;&#00105;&#x6c;&#x74;&#x6f;&#x3a;&#115;&#00116;&#00101;&#x70;&#105;&#00116;&#x75;&#x70;&#0050;&#0048;&#x30;&#x37;&#64;&#103;&#x6d;&#0097;&#x69;&#00108;&#x2e;&#x63;&#x6f;&#00109;" class="grey">&#00115;&#x74;&#00101;&#112;&#x69;&#00116;&#00117;&#00112;&#50;&#0048;&#x30;&#55;&#x40;&#x67;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#x63;&#x6f;&#109;</a>
+
+<!-- END OF MUNGED LINK --></div> </td>
+        </tr>
+        <tr>
+          <td><img src="http://www.stepitup2007.org/img/footer.gif" width="768" height="32"></td>
+        </tr>
+      </table>
+   </td>
+  </tr>
+</table>
+
+<map name="Map">
+  <area shape="rect" coords="651,168,766,210" href="http://www.stepitup2007.org/donate">
+</map>
+</body>
+</html>
