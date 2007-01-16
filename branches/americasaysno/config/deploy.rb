@@ -16,7 +16,7 @@ task :before_deploy do
   cleanup
 end
 set :application, "daysofaction"
-set :repository, "https://svn.radicaldesigns.org/#{application}"
+set :repository, "https://svn.radicaldesigns.org/#{application}/branches/americasaysno"
 
 # =============================================================================
 # ROLES
