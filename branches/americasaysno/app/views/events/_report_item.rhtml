@@ -1,0 +1,20 @@
+	<div class="event-list-element">
+		<div class="event-list-city">
+		
+		 <%= link_to "#{report_item.city}, #{report_item.state}",  :action => 'show', :id => report_item.id %>
+		</div>
+		<div class="event-list-location">
+  <%= report_item.name %>
+		</div>
+		<div class="event-list-address">
+			<%#= report_item.address %>
+		</div>
+
+
+<% if @distance_from_search -%>
+<div class="event-list-miles">
+  <%= @distance_from_search %> miles away
+</div>
+<% end -%>
+
+	</div>

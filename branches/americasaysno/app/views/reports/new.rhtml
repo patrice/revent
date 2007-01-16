@@ -1,0 +1,17 @@
+<div id='detail-container'>
+	<div class="intro-title">
+		Tell us what happened at your event
+	</div>
+
+	<div class="intro-text">
+		
+	</div>
+
+<% form_for :report, @report, :url => { :action => 'create' }, :html => { :multipart => true } do |f| -%>
+  <%= render :partial => 'form', :locals => { :f => f } %>
+  <%= submit_tag "Create" %>
+<% end -%>
+
+<%= link_to 'Back', :action => 'list' %>
+
+</div>
