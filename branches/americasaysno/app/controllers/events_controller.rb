@@ -1,4 +1,9 @@
 class EventsController < ApplicationController
+  ADMIN_METHODS = [:list, :edit, :update, :destroy, :publish, :unpublish]
+  session :disabled => false, :only => ADMIN_METHODS
+  before_filter :login_required, :only => ADMIN_METHODS
+  access_control ADMIN_METHODS => 'admin'
+
   include DaysOfAction::Geo
 
   caches_page :show
