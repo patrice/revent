@@ -1,0 +1,29 @@
+<div id="national-container">
+  <div id="national-intro">
+    <div class="intro-text">
+      <%= @calendar.name %> Reports
+    </div>
+    <div class="intro-count">
+      There are <%= pluralize @calendar.events.length, @calendar.name %> in <%= @calendar.events.collect {|e| e.state }.uniq.length %> states.
+    </div>
+    <div class="national-intro-directions">
+       Click on a state or enter your zip code to find <%= @calendar.name.pluralize %> near you...
+    </div>
+  </div>
+  <div id="national-map-container">
+    <div id='national-map-search'>
+      <% form_tag :action => 'by_zip' do -%>
+        Search by Zip: 
+        <%= text_field_tag "zip" %>
+        <%= submit_tag "GO" %>
+      <% end -%>
+    </div>
+    <div id="nationalmap" style='width:613px;height:314px;border:7px solid #ccc;margin-left:15px;margin-bottom:5px;'>
+    </div>
+    <%= @map.to_html %>
+    <%= gmaps_state_click @map %>
+  </div>
+  <div id="national-footer">
+    <%= @calendar.national_footer_text %>
+  </div>
+</div>

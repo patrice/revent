@@ -1,0 +1,33 @@
+<div id='detail-container'>
+	<div class="intro-title">
+		<%= @calendar.name %> Reports
+	</div>
+	<div class="report_add">
+    Add Your Own <%= link_to 'Report of the Event', :controller => "reports", :action => "new" %>
+	</div>
+	<div class="intro-text">
+		<br>There are <%= Report.count_published %> reports from  <%= Event.count %> scheduled events.
+	
+		<!--Read press coverage <a href="">here</a> -->
+	</div>
+	<div id='report-search'>
+    <% form_tag :controller => "reports", :action => "search" do -%>
+       Enter Your Zip Code to Find a Report Near You:
+        <%= text_field_tag "zip", '', {:size=>10} %>
+        <%= submit_tag "GO" %>
+      <% end -%>
+  </div>
+  <%= @search_results_message %>
+<hr>	
+<div>
+<span style="float:left;" class="previous-page"><%= link_to 'Previous page', { :page => @report_pages.current.previous } if @report_pages.current.previous %></span>
+<span style="float:right;margin-right:0;"><%= link_to 'Next page', { :page => @report_pages.current.next }.merge(@search_params || {}) if @report_pages.current.next %></span>
+</div>
+
+  <%= render :partial => 'list_item', :collection => @reports %>
+
+  <div>
+    <span style="float:left;" class="previous-page"><%= link_to 'Previous page', { :page => @report_pages.current.previous } if @report_pages.current.previous %></span>
+    <span style="float:right;margin-right:0;"><%= link_to 'Next page', { :page => @report_pages.current.next }.merge(@search_params || {}) if @report_pages.current.next %></span>
+  </div>
+</div>
