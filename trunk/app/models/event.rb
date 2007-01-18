@@ -14,6 +14,10 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def past?
+    start < Time.now
+  end
+
   class << self
     def find_or_import_by_service_foreign_key(key)
       event = Event.find_by_service_foreign_key(key) || import_by_service_foreign_key(key)

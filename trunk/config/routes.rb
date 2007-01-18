@@ -14,7 +14,7 @@ ActionController::Routing::Routes.draw do |map|
   # map.connect '', :controller => "welcome"
 
   map.hosted_home ':host', :controller => 'reports', :host => /truemajority/
-  map.home '', :controller => "reports"
+  map.home '', :controller => "events"
   map.zip_search "events/search/:zip",  :controller => "events",
                                         :action => "by_zip",
                                         :requirements => { :zip => /\d{5}/ }

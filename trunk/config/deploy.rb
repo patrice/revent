@@ -16,7 +16,7 @@ task :before_deploy do
   cleanup
 end
 set :application, "daysofaction"
-set :repository, "https://svn.radicaldesigns.org/#{application}"
+set :repository, "https://svn.radicaldesigns.org/#{application}/trunk"
 
 # =============================================================================
 # ROLES
@@ -34,7 +34,7 @@ role :db,  "radical@75.126.58.234", :primary => true
 # =============================================================================
 # OPTIONAL VARIABLES
 # =============================================================================
-set :deploy_to, "~/apps/#{application}" # defaults to "/u/apps/#{application}"
+set :deploy_to, "~/apps/stepitup" # defaults to "/u/apps/#{application}"
 # set :user, "flippy"            # defaults to the currently logged in user
 # set :scm, :darcs               # defaults to :subversion
 # set :svn, "/path/to/svn"       # defaults to searching the PATH

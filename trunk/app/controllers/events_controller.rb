@@ -64,6 +64,7 @@ class EventsController < ApplicationController
 
   def index
     @calendar = Calendar.find(1)
+    @events = @calendar.events
 
     @map = Cartographer::Gmap.new( 'nationalmap' )
     @map.init do |m|
@@ -72,9 +73,9 @@ class EventsController < ApplicationController
       m.controls = [:zoom, :large]
       m.debug = true
     end
+=begin
     require 'google_geocode'
     gg = GoogleGeocode.new 'ABQIAAAA9C-o-5_7dL0qOO28APyPUxQ2WXyPj6XHTbmLYROhNmBusUo8jRQoG-wSQAaDAoAcjXHg7JK2z_Aqew'
-    @events = @calendar.events
     @events.each do |e|
       if e.latitude && e.longitude
         Struct.new('LocStruct', :coordinates)
@@ -88,6 +89,7 @@ class EventsController < ApplicationController
       end
       @map.markers << Cartographer::Gmarker.new( :position => location.coordinates )
     end
+=end
   end
 
   def search

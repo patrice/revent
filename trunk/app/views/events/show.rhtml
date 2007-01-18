@@ -2,11 +2,15 @@
 		Event Report
 		
 </div>
+<% if @event.past? -%>
 <div class="report_add">
   Add Your Own <%= link_to 'Report of the Event', :controller => "reports", :action => "new" %>
 </div>
+<% end -%>
 <div class="report-intro-text">
+  <% if @event.past? -%>
   See all <%= link_to 'Event Reports', :controller => 'reports', :action => 'index' %>.<br><br>
+  <% end -%>
 		<h2><%= @event.name %></h2>
 		<h3><%= @event.city %>, <%= @event.state %></h3>
 		<b><%= @event.start.strftime('%B %e, %Y') %></b>
@@ -15,13 +19,20 @@
 </div>
 
 
-<% if @event.reports.empty? -%>
-<div id='report-none'>
-There are no reports for this event.<br>
-If you attended this event please <%= link_to 'submit a report', :controller => "reports", :action => "new" %>
-</div>
+<% if @event.past? -%>
+  <% if @event.reports.empty? -%>
+  <div id='report-none'>
+  There are no reports for this event.<br>
+  If you attended this event please <%= link_to 'submit a report', :controller => "reports", :action => "new" %>
+  </div>
+  <% else -%>
+  <div>
+  <%= render :partial => "events/detail_item", :collection => @event.reports  %>
+  </div>
+  <% end -%>
 <% else -%>
-<div>
-<%= render :partial => "events/detail_item", :collection => @event.reports  %>
-</div>
+<p>
+<%= link_to 'rsvp for this event', "http://democracyinaction.org/dia/organizations/SIU/event/distributedEvent.jsp?event_KEY=#{ @event.service_foreign_key }" %>
+<%= render "events/rsvp" %>
+</p>
 <% end -%>

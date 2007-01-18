@@ -7,8 +7,8 @@ class ApplicationController < ActionController::Base
   session :session_key => '_daysofaction_session_id'
   session :off, :if => Proc.new { |req| !(true == req.parameters[:admin]) }
   #layout 'tmaction'
-  #layout :get_layout_from_domain
-  layout :get_layout_from_route
+  layout :get_layout_from_domain
+  #layout :get_layout_from_route
 
   def get_layout_from_route
     if 'truemajority' == params[:host]
@@ -20,10 +20,12 @@ class ApplicationController < ActionController::Base
 
   def get_layout_from_domain
     case request.host
-    when 'americasaysno.radicaldesigns.org'
+    when 'americasaysno.radicaldesigns.org', 'local_americasaysno.org'
       'truemajority'
     when 'truemajorityaction.radicaldesigns.org'
       'tmaction'
+    when 'stepitup2007.org', 'local_stepitup.org'
+      'stepitup'
     else
       'truemajority'
     end
