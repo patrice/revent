@@ -20,6 +20,9 @@
   <p id="description"><%= @event.description %></p>
   <p id="location"><%= @event.location %></p>
   <p id="directions"><%= @event.directions %></p>
+
+  <div id="eventmap" style="width: 500px; height: 300px"></div>
+  <%= @map.to_html %>
 </div>
 
 <% if @event.past? -%>
@@ -35,7 +38,6 @@
   <% end -%>
 <% else -%>
 <p>
-<%= link_to 'rsvp for this event', "http://democracyinaction.org/dia/organizations/SIU/event/distributedEvent.jsp?event_KEY=#{ @event.service_foreign_key }" %>
 <%= render "events/rsvp" %>
 </p>
 <% end -%>

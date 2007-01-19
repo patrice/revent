@@ -25,6 +25,13 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id], :include => [:reports => [:attachments]])
+    @map = Cartographer::Gmap.new('eventmap')
+    @map.init do |m|
+      m.center = [@event.latitude, @event.longitude]
+      m.controls = [:zoom, :large]
+      m.zoom = 15
+    end
+    @map.markers << Cartographer::Gmarker.new( :position => [@event.latitude,@event.longitude] )
   end
 
   def new
