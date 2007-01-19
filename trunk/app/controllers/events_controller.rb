@@ -1,11 +1,19 @@
 class EventsController < ApplicationController
   include DaysOfAction::Geo
 
-  caches_page :show
+  caches_page :show, :flashmap
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => :post, :only => [ :destroy, :create, :update ],
          :redirect_to => { :action => :list }
+
+  def flashmap
+    @events = Event.find(:all, :conditions => ["latitude != ? and longitude != ?", 0, 0])
+    respond_to do |format|
+      format.xml { render :layout => false }
+    end
+  end
+
 
   def list
     @event_pages, @events = paginate :events, :per_page => 10

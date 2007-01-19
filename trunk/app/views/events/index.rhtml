@@ -18,10 +18,7 @@
         <%= submit_tag "GO" %>
       <% end -%>
     </div>
-    <div id="nationalmap" style='width:613px;height:314px;border:7px solid #ccc;margin-left:15px;margin-bottom:5px;'>
-    </div>
-    <%= @map.to_html %>
-    <%= gmaps_state_click @map %>
+    <%= render :partial => "flashmap" %>
   </div>
   <div id="national-footer">
    
