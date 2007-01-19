@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 16) do
+ActiveRecord::Schema.define(:version => 17) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(:version => 16) do
     t.column "service_foreign_key", :string
     t.column "latitude",            :float
     t.column "longitude",           :float
+    t.column "directions",          :string
   end
 
   add_index "events", ["latitude", "longitude"], :name => "index_events_on_latitude_and_longitude"

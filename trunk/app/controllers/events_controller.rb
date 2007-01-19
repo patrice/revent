@@ -14,6 +14,10 @@ class EventsController < ApplicationController
     end
   end
 
+  def total
+    @events = Event.find(:all)
+    render :layout => false
+  end
 
   def list
     @event_pages, @events = paginate :events, :per_page => 10

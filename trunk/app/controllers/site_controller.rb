@@ -27,6 +27,7 @@ class SiteController < ApplicationController
         my_event.end = e['End']
         my_event.latitude = e['Latitude']
         my_event.longitude = e['Longitude']
+        my_event.directions = e['Directions']
         my_event.save!
       end
     end

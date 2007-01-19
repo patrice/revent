@@ -1,6 +1,7 @@
 <div class="intro-title">
+  <% if @event.past? %>
 		Event Report
-		
+  <% end %>
 </div>
 <% if @event.past? -%>
 <div class="report_add">
@@ -11,13 +12,15 @@
   <% if @event.past? -%>
   See all <%= link_to 'Event Reports', :controller => 'reports', :action => 'index' %>.<br><br>
   <% end -%>
-		<h2><%= @event.name %></h2>
-		<h3><%= @event.city %>, <%= @event.state %></h3>
-		<b><%= @event.start.strftime('%B %e, %Y') %></b>
-		
-<!--	Read press coverage <a href="/reports/press">here</a> -->
-</div>
 
+  <h2><%= @event.name %></h2>
+  <h3><%= @event.city %>, <%= @event.state %></h3>
+  <p id="postal-code"><%= @event.postal_code %></p>
+  <p id="start"><b><%= @event.start.strftime('%B %e, %Y') %></b></p>
+  <p id="description"><%= @event.description %></p>
+  <p id="location"><%= @event.location %></p>
+  <p id="directions"><%= @event.directions %></p>
+</div>
 
 <% if @event.past? -%>
   <% if @event.reports.empty? -%>
@@ -27,7 +30,7 @@
   </div>
   <% else -%>
   <div>
-  <%= render :partial => "events/detail_item", :collection => @event.reports  %>
+  <%= render :partial => "events/report_detail", :collection => @event.reports  %>
   </div>
   <% end -%>
 <% else -%>
