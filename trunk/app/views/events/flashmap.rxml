@@ -1,7 +1,7 @@
 xml.instruct! :xml, :version=>"1.0", :encoding=>"iso-8859-1"
 xml.us_states do
   xml.state( :id => "outline_color" ) { xml.color 777777 }
-  xml.state( :id=>"default_color" ) { xml.color 'CC0000' }
+  xml.state( :id=>"default_color" ) { xml.color 'EBD897' }
   xml.state( :id=>"background_color" ) { xml.color 'FFFFFF' }
   xml.state( :id=>"default_point" ) { xml.color('FF0000'); xml.size(3) }
 
