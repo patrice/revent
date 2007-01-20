@@ -204,10 +204,13 @@ padding-bottom: 15px;
 }
 
 #event-map-container{
-	float: left;
-	width: 400px;
+	
+	width: 500px;
 	padding-right: 10px; 
+padding-bottom: 15px; 
 }
+
+
 
 #event-list-container{
        margin-left: 10px;
