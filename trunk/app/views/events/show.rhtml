@@ -1,3 +1,4 @@
+<%= render :partial => 'nav' %>
 <div class="intro-title">
   <% if @event.past? %>
 		Event Report
@@ -17,11 +18,20 @@
   <h3><%= @event.city %>, <%= @event.state %></h3>
   <p id="postal-code"><%= @event.postal_code %></p>
   <p id="start"><b><%= @event.start.strftime('%B %e, %Y') %></b></p>
+  <b>Event Description:</b><br>
   <p id="description"><%= @event.description %></p>
+  <b>Location:</b><br>
   <p id="location"><%= @event.location %></p>
+<% if @event.directions %>
+  <b>Directions:</b><br>
   <p id="directions"><%= @event.directions %></p>
+<% end -%>
+<p>
+	
 
-  <div id="eventmap" style="width: 500px; height: 300px"></div>
+</p>
+
+  <div id="eventmap" style="width: 300px; height: 200px"></div>
   <%= @map.to_html %>
 </div>
 
@@ -37,7 +47,5 @@
   </div>
   <% end -%>
 <% else -%>
-<p>
 <%= render "events/rsvp" %>
-</p>
 <% end -%>
