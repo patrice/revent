@@ -181,7 +181,27 @@ border:2px solid blue;
 
 /**** Event MAP List PAGE ****/
 
+#description{
+padding-bottom: 15px; 
+}
 
+#description b{
+line-height: 19px; 
+}
+
+#location{
+padding-bottom: 15px; 
+}
+
+#location b{
+line-height: 19px; 
+}
+
+#nav-event{
+display:block;
+text-align: right;
+padding-bottom: 15px; 
+}
 
 #event-map-container{
 	float: left;

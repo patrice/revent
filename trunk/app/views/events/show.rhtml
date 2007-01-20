@@ -16,24 +16,18 @@
 
   <h2><%= @event.name %></h2>
   <h3><%= @event.city %>, <%= @event.state %></h3>
-  <p id="postal-code"><%= @event.postal_code %></p>
-  <p id="start"><b><%= @event.start.strftime('%B %e, %Y') %></b></p>
-  <b>Event Description:</b><br>
-  <p id="description"><%= @event.description %></p>
-  <b>Location:</b><br>
-  <p id="location"><%= @event.location %></p>
+  <p class="start"><b><%= @event.start.strftime('%B %e, %Y  %I:%M%p') %> to <%= @event.end.strftime('%I:%M%p') %></b></p>
+ 
+  <div id="description"> <b>Event Description:</b><br><%= @event.description %></div>
+  
+  <div id="location"><b>Location:</b><br><%= @event.location %></div>
 <% if @event.directions %>
-  <b>Directions:</b><br>
-  <p id="directions"><%= @event.directions %></p>
+  
+  <div id="directions"><b>Directions:</b><br><%= @event.directions %></div>
 <% end -%>
-<p>
-	
-
-</p>
-
-  <div id="eventmap" style="width: 300px; height: 200px"></div>
-  <%= @map.to_html %>
-</div>
+  <p><a href="#" onclick="window.open('http://democracyinaction.org/dia/api/event/email.jsp?event_KEY=<%= @event.service_foreign_key %>','','width=500,height=350'); return false;">Questions? Email the Host</a>
+	</p>
+<p></p>
 
 <% if @event.past? -%>
   <% if @event.reports.empty? -%>
@@ -49,3 +43,7 @@
 <% else -%>
 <%= render "events/rsvp" %>
 <% end -%>
+
+<div id="eventmap" style="width: 400px; height: 300px"></div>
+  <%= @map.to_html %>
+</div>
