@@ -3,7 +3,7 @@
 		<div id="eventmap" style="width: 350px; height: 400px; border: 7px solid #ccc; margin-left:15px;">
 		</div>
     <%= @map.to_html %>
-    <%#= gmaps_auto_center_and_zoom @map %>
+    <%= gmaps_auto_center_and_zoom(@map) if @auto_center %>
 		<div id="event-map-footer">
       <%= link_to 'Click here', home_url %> to go back to the national map and see all the <%= @calendar.name.pluralize %> across the country.
 		</div>

@@ -28,6 +28,28 @@ else {
     html << "/* ]]> */</script> "
     return @debug ? html.join("\n") : html.join.gsub(/\s+/, ' ')
 =end
+    latitudes = map.markers.collect {|m| m.position[0]}.compact.sort
+    longitudes = map.markers.collect {|m| m.position[1]}.compact.sort
+    html = []
+    html << "<script type=\"text/javascript\">\n/* <![CDATA[ */\n"  
+    html << "
+function auto_center_and_zoom() { 
+    var bounds = new GLatLngBounds(new GLatLng(#{latitudes.first}, #{longitudes.first}), new GLatLng(#{latitudes.last}, #{longitudes.last}));
+    eventmap.setZoom(eventmap.getBoundsZoomLevel(bounds));
+    eventmap.setCenter(bounds.getCenter());
+}"
+    html << "
+if (typeof window.onload != 'function')
+  window.onload = auto_center_and_zoom();
+else {
+  old_before_auto_center_and_zoom_#{@dom_id} = window.onload;
+  window.onload = function() { 
+    old_before_auto_center_and_zoom_#{@dom_id}(); 
+    auto_center_and_zoom();
+  }
+}"      
+    html << "/* ]]> */</script> "
+    return @debug ? html.join("\n") : html.join.gsub(/\s+/, ' ')
   end
 
   def state_centers

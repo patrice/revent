@@ -8,7 +8,7 @@ class EventsController < ApplicationController
          :redirect_to => { :action => :list }
 
   def flashmap
-    @events = Event.find(:all, :conditions => ["latitude != ? and longitude != ?", 0, 0])
+    @events = Event.find(:all, :conditions => ["postal_code != ?", 0])
     respond_to do |format|
       format.xml { render :layout => false }
     end
@@ -78,47 +78,41 @@ class EventsController < ApplicationController
   end
 
   def reports
-    @event = Event.find(params[:id], :include => :reports)
+    if params[:id]
+      @event = Event.find(params[:id], :include => :reports)
+    else
+      redirect_to :controller => :reports, :action => :index
+    end
   end
 
   def index
-    @calendar = Calendar.find(1)
+    @calendar = Calendar.find(1, :include => :events)
     @events = @calendar.events
-
-    @map = Cartographer::Gmap.new( 'nationalmap' )
-    @map.init do |m|
-      m.center = [37.160317,-95.800781]
-      m.zoom = 3
-      m.controls = [:zoom, :large]
-      m.debug = true
-    end
-=begin
-    require 'google_geocode'
-    gg = GoogleGeocode.new 'ABQIAAAA9C-o-5_7dL0qOO28APyPUxQ2WXyPj6XHTbmLYROhNmBusUo8jRQoG-wSQAaDAoAcjXHg7JK2z_Aqew'
-    @events.each do |e|
-      if e.latitude && e.longitude
-        Struct.new('LocStruct', :coordinates)
-        location = Struct::LocStruct.new([e.latitude,e.longitude])
-      else
-        begin
-          location = gg.locate e.location
-        rescue GoogleGeocode::AddressError
-          location = gg.locate e.postal_code
-        end
-      end
-      @map.markers << Cartographer::Gmarker.new( :position => location.coordinates )
-    end
-=end
   end
 
   def search
-    @calendar = Calendar.find(1, :include => :events)
+    @calendar = Calendar.find(1)
+    extract_search_params
     @events ||= @calendar.events
     @map = Cartographer::Gmap.new('eventmap')
     @map.init do |m|
       m.center = @map_center || [37.160317,-95.800781]
       m.zoom = @map_zoom || 3
       m.controls = [:zoom, :large]
+    end
+    @events.each do |e|
+      @map.markers << Cartographer::Gmarker.new( :position => [e.latitude,e.longitude] ) if e.latitude && e.longitude
+    end
+    latitudes = @events.collect {|e| e.latitude}.compact.sort
+    longitudes = @events.collect {|e| e.longitude}.compact.sort
+    @bounds = [latitudes.first, longitudes.first]
+  end
+
+  def extract_search_params
+    if params[:zip]
+      by_zip
+    elsif params[:state]
+      by_state
     end
   end
 
@@ -136,16 +130,14 @@ class EventsController < ApplicationController
                         max_lon])
     end
     @events = Event.find(:all, :conditions => "postal_code IN (#{@zips.collect {|z| z.zip}.join(',')})")
-    search
-    render :action => "search"
+    @auto_center = true
   end
 
   def by_state
     @search_area = params[:state]
+    @events = Event.find(:all, :conditions => ["state = ?", params[:state]])
     @map_center = DaysOfAction::Geo::STATE_CENTERS[params[:state].to_sym]
-    @map_zoom = 4
-    search
-    render :action => "search"
+    @map_zoom = DaysOfAction::Geo::STATE_ZOOM_LEVELS[params[:state].to_sym]
   end
 
   def description

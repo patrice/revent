@@ -6,6 +6,27 @@ class Event < ActiveRecord::Base
   has_many :attendees, :through => 'rsvps', :source => :user
   has_many :attachments, :through => 'attachables'
 
+  def zip_latitude
+    @zip ||= ZipCode.find_by_zip(postal_code)
+    @zip.latitude
+  end
+
+  def zip_longitude
+    @zip ||= ZipCode.find_by_zip(postal_code)
+    @zip.longitude
+  end
+
+  def national_map_coordinates
+    @zip ||= ZipCode.find_by_zip(postal_code)
+    if @zip
+      [@zip.latitude, @zip.longitude]
+    elsif latitude && longitude
+      [latitude, longitude]
+    else
+      false
+    end
+  end
+
   def contact_phone
     if host? && host.phone?
       return host.phone

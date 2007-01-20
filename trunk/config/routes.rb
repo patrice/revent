@@ -13,13 +13,14 @@ ActionController::Routing::Routes.draw do |map|
   # -- just remember to delete public/index.html.
   # map.connect '', :controller => "welcome"
 
+#  raise Calendar.find(:first).inspect => WORKS!!!
   map.hosted_home ':host', :controller => 'reports', :host => /truemajority/
   map.home '', :controller => "events"
-  map.zip_search "events/search/:zip",  :controller => "events",
-                                        :action => "by_zip",
+  map.zip_search "events/search/zip/:zip",  :controller => "events",
+                                        :action => "search",
                                         :requirements => { :zip => /\d{5}/ }
-  map.state_search "events/search/:state", :controller => "events",
-                                           :action => "by_state",
+  map.state_search "events/search/state/:state", :controller => "events",
+                                           :action => "search",
                                            :requirements => { :state => /\w{2}/ }
 
   map.connect 'reports/new/:service/:service_foreign_key', :controller => "reports", :action => "new"

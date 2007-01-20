@@ -12,9 +12,11 @@
   </div>
   <div id="national-map-container">
     <div id='national-map-search'>
-      <% form_tag :action => 'by_zip' do -%>
+      <% form_tag :action => 'search' do -%>
         Search by Zip: 
-        <%= text_field_tag "zip" %>
+        <%= text_field_tag 'zip' %>
+        or State:
+        <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='/events/search/state/' + this.value" %>
         <%= submit_tag "GO" %>
       <% end -%>
     </div>
