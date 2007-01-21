@@ -6,12 +6,18 @@ class Event < ActiveRecord::Base
   has_many :attendees, :through => 'rsvps', :source => :user
   has_many :attachments, :through => 'attachables'
 
+  def address_for_geocode
+    [location, city, state, postal_code].compact.join(', ').gsub /\n/, ' '
+  end
+
   def zip_latitude
+    return attributes["zip_latitude"] if attributes["zip_latitude"]
     @zip ||= ZipCode.find_by_zip(postal_code)
     @zip.latitude
   end
 
   def zip_longitude
+    return attributes["zip_longitude"] if attributes["zip_longitude"]
     @zip ||= ZipCode.find_by_zip(postal_code)
     @zip.longitude
   end

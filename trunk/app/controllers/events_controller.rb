@@ -8,7 +8,7 @@ class EventsController < ApplicationController
          :redirect_to => { :action => :list }
 
   def flashmap
-    @events = Event.find(:all, :conditions => ["postal_code != ?", 0])
+    @events = Event.find(:all, :conditions => ["postal_code != ?", 0], :joins => "INNER JOIN zip_codes ON zip_codes.zip = postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude")
     respond_to do |format|
       format.xml { render :layout => false }
     end
@@ -25,13 +25,24 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id], :include => [:reports => [:attachments]])
-    @map = Cartographer::Gmap.new('eventmap')
-    @map.init do |m|
-      m.center = [@event.latitude, @event.longitude]
-      m.controls = [:zoom, :large]
-      m.zoom = 15
+    gmaps = Cartographer::Header.new
+    if gmaps.has_key? request.env["HTTP_HOST"]
+      application_id = gmaps.value_for request.env["HTTP_HOST"]
+      require 'google_geocode'
+      gg = GoogleGeocode::Accuracy.new application_id
+      @map = false
+      begin
+        loc = gg.locate @event.address_for_geocode
+        @map = Cartographer::Gmap.new('eventmap')
+        @map.init do |m|
+          m.center = loc.coordinates
+          m.controls = [:zoom, :large]
+          m.zoom = 15
+        end
+        @map.markers << Cartographer::Gmarker.new( :position => loc.coordinates )
+      rescue GoogleGeocode::AddressError
+      end
     end
-    @map.markers << Cartographer::Gmarker.new( :position => [@event.latitude,@event.longitude] )
   end
 
   def new
@@ -101,7 +112,7 @@ class EventsController < ApplicationController
       m.controls = [:zoom, :large]
     end
     @events.each do |e|
-      @map.markers << Cartographer::Gmarker.new( :position => [e.latitude,e.longitude] ) if e.latitude && e.longitude
+      @map.markers << Cartographer::Gmarker.new( :position => [e.latitude,e.longitude], :click => "window.location.href='#{url_for :controller => 'events', :action => 'show', :id => e.id}';" ) if e.latitude && e.longitude
     end
     latitudes = @events.collect {|e| e.latitude}.compact.sort
     longitudes = @events.collect {|e| e.longitude}.compact.sort

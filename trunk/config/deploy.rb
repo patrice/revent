@@ -129,7 +129,7 @@ desc <<-DESC
 Spinner is run by the default cold_deploy task. Instead of using script/spinner, we're just gonna rely on Mongrel to keep itself up.
 DESC
 task :spinner, :roles => :app do
-  application_port = 4178
+  application_port = 41781
   run "mongrel_rails start -e production -p #{application_port} -d -c #{current_path}"
 end
 
