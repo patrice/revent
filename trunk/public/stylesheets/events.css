@@ -24,19 +24,23 @@ text-align:right
 
 /**** TOOL BARS ****/
 
+#flash{
+border:1px solid black; 
+background-color:#cccccc; color:#000000;
+padding: 5px 5px 5px 15px;
+margin:20px;
+}
 #developer{
 border:1px solid black; 
 background-color:#cccccc; color:#000000;
 padding: 5px 5px 5px 15px;
 margin:20px;
-
 }
 #admin{
 border:1px solid black; 
 background-color:#FFFFCC; color:000000;
 padding: 5px 5px 5px 15px;
 margin:20px;
-
 }
 
 

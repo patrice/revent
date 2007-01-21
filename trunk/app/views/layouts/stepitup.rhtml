@@ -46,15 +46,11 @@ function MM_validateForm() { //v4.0
       <tr>
         <td width="40">&nbsp;</td>
         <td valign="top">
-		  <div id="flash"><%= flash[:notice] %></div>
-      <%= yield %>
-   
- <%= render "shared/admin" %> 
-	<%= render "shared/developer" %>
-		
-		
-		
-		</td>
+          <div id="flash"><%= flash[:notice] %></div>
+          <%= yield %>
+          <%= render "shared/admin" %> 
+          <%= render "shared/developer" %>
+        </td>
         <td width="32">&nbsp;</td>
         <td width="214" valign="top"> <div id="rightColumn">
   <div class="rightColumnBox">
