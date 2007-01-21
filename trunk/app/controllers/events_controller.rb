@@ -53,6 +53,7 @@ class EventsController < ApplicationController
     @event = Event.new(params[:event])
     if @event.save
       flash[:notice] = 'Event was successfully created.'
+      expire_page_caches(@event)
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -67,6 +68,7 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     if @event.update_attributes(params[:event])
       flash[:notice] = 'Event was successfully updated.'
+      expire_page_caches(@event)
       redirect_to :action => 'show', :id => @event
     else
       render :action => 'edit'
@@ -158,4 +160,11 @@ class EventsController < ApplicationController
       page.show 'report_event_description'
     end
   end
+
+  protected
+    def expire_page_caches(event = nil)
+      FileUtils.rm_rf(File.join(RAILS_ROOT,'public','events')) rescue Errno::ENOENT
+      FileUtils.rm(File.join(RAILS_ROOT,'public','index.html')) rescue Errno::ENOENT
+      RAILS_DEFAULT_LOGGER.info("Caches fully swept.")
+    end
 end
