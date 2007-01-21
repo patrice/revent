@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
       'truemajority'
     when 'truemajorityaction.radicaldesigns.org'
       'tmaction'
-    when 'stepitup2007.org', 'local_stepitup.org'
+    when 'events.stepitup2007.org', 'local_stepitup.org'
       'stepitup'
     else
       'truemajority'
