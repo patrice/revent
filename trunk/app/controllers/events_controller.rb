@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   include DaysOfAction::Geo
 
-  caches_page :show, :flashmap
+  caches_page :index, :show, :flashmap, :total
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => :post, :only => [ :destroy, :create, :update ],
