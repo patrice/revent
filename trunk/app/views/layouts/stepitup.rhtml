@@ -5,7 +5,7 @@
 <link rel="icon" href="" type="image/x-icon" />
   <%= stylesheet_link_tag 'scaffold', 'events', 'lightbox' %>
   <%= javascript_include_tag 'prototype', 'lightbox' %>
-  <%= Cartographer::Gmap::Header.header_for(request) %>
+  <%= Cartographer::Gmap::Header.header_for(request) if @map %>
 <link rel="stylesheet" type="text/css" href="http://www.stepitup2007.org/styles_default.css">
 <link rel="stylesheet" type="text/css" href="http://www.stepitup2007.org/custom/styles.css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.stepitup2007.org/rssfeed.php"><title>Step It Up 2007&nbsp;:&nbsp;Index</title>

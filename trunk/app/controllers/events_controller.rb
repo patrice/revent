@@ -25,23 +25,16 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id], :include => [:reports => [:attachments]])
-    gmaps = Cartographer::Header.new
-    if gmaps.has_key? request.env["HTTP_HOST"]
-      application_id = gmaps.value_for request.env["HTTP_HOST"]
-      require 'google_geocode'
-      gg = GoogleGeocode::Accuracy.new application_id
-      @map = false
-      begin
-        loc = gg.locate @event.address_for_geocode
-        @map = Cartographer::Gmap.new('eventmap')
-        @map.init do |m|
-          m.center = loc.coordinates
-          m.controls = [:zoom, :large]
-          m.zoom = 15
-        end
-        @map.markers << Cartographer::Gmarker.new( :position => loc.coordinates )
-      rescue GoogleGeocode::AddressError
+    if @event.latitude && @event.longitude
+      @map = Cartographer::Gmap.new('eventmap')
+      @map.init do |m|
+        m.center = [@event.latitude, @event.longitude]
+        m.controls = [:zoom, :large]
+        m.zoom = 15
       end
+      @map.markers << Cartographer::Gmarker.new( :position => [@event.latitude, @event.longitude] )
+    else
+      @map = false
     end
   end
 
