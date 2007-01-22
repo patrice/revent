@@ -1,1 +1,1 @@
-There are already <b><%= @events.length %></b> events planned in <b><%= @events.collect {|e| e.state }.uniq.length %></b> states across the country!
+There are already <b><%= Event.count %></b> events planned in <b><%= Event.find(:all).collect {|e| e.state }.uniq.length %></b> states across the country!
