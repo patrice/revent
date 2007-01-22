@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   include DaysOfAction::Geo
 
-  caches_page :index, :show, :flashmap, :total
+  caches_page :index, :show, :flashmap, :total, :by_state
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => :post, :only => [ :destroy, :create, :update ],
@@ -122,6 +122,7 @@ class EventsController < ApplicationController
   end
 
   def extract_search_params
+    return if @search_performed
     if params[:zip]
       by_zip
     elsif params[:state]
@@ -144,6 +145,9 @@ class EventsController < ApplicationController
     end
     @events = Event.find(:all, :conditions => "postal_code IN (#{@zips.collect {|z| z.zip}.join(',')})")
     @auto_center = true
+    @search_performed = true
+    search
+    render :action => 'search'
   end
 
   def by_state
@@ -151,6 +155,9 @@ class EventsController < ApplicationController
     @events = Event.find(:all, :conditions => ["state = ?", params[:state]])
     @map_center = DaysOfAction::Geo::STATE_CENTERS[params[:state].to_sym]
     @map_zoom = DaysOfAction::Geo::STATE_ZOOM_LEVELS[params[:state].to_sym]
+    @search_performed = true
+    search
+    render :action => 'search'
   end
 
   def description
