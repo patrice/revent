@@ -44,7 +44,7 @@ class Calendar < ActiveRecord::Base
 
       begin
         location = gg.locate my_event.address_for_geocode
-        if location.accuracy.to_i < 8
+        if location.accuracy.to_i < 7
           result.inaccurate = result.inaccurate + 1
         else
           my_event.latitude = location.latitude
