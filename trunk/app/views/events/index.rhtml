@@ -1,10 +1,10 @@
 <div id="national-container">
   <div id="national-intro">
     <div class="national-intro-text">
-      <%=  @calendar.name %>
+      <%#=  @calendar.name %>
     </div>
     <div class="national-intro-count">
-      There are <%= pluralize @calendar.events.length, @calendar.name %> in <%= @calendar.events.collect {|e| e.state }.uniq.length %> states.
+      There are <%= pluralize @calendar.events.length, @calendar.name %> in <%= @calendar.events.unique_states %> states.
     </div>
     <div class="national-intro-directions">
        Click on a state or enter your zip code to find <%= @calendar.name.pluralize %> near you...

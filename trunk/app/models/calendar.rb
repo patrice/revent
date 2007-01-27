@@ -1,5 +1,12 @@
 class Calendar < ActiveRecord::Base
-  has_many :events
+  has_many :events do
+    def unique_states
+      states = proxy_target.collect {|e| e.state}.compact.uniq.select do |state|
+        DaysOfAction::Geo::STATE_CENTERS.keys.reject {|c| :DC == c}.map{|c| c.to_s}.include?(state)
+      end
+      states.length
+    end
+  end
 
   #XXX:DELETEME mock methods
   def national_intro_text
