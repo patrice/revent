@@ -13,13 +13,13 @@ class Event < ActiveRecord::Base
   def zip_latitude
     return attributes["zip_latitude"] if attributes["zip_latitude"]
     @zip ||= ZipCode.find_by_zip(postal_code)
-    @zip.latitude
+    @zip.latitude if @zip
   end
 
   def zip_longitude
     return attributes["zip_longitude"] if attributes["zip_longitude"]
     @zip ||= ZipCode.find_by_zip(postal_code)
-    @zip.longitude
+    @zip.longitude if @zip
   end
 
   def national_map_coordinates

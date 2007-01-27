@@ -15,7 +15,6 @@ class EventsController < ApplicationController
   end
 
   def total
-    @events = Event.find(:all)
     render :layout => false
   end
 
@@ -107,7 +106,13 @@ class EventsController < ApplicationController
       m.controls = [:zoom, :large]
     end
     @events.each do |e|
-      @map.markers << Cartographer::Gmarker.new( :position => [e.latitude,e.longitude], :click => "window.location.href='#{url_for :controller => 'events', :action => 'show', :id => e.id}';" ) if e.latitude && e.longitude
+      coordinates = false
+      if e.latitude && e.longitude
+        coordinates = [e.latitude, e.longitude]
+      elsif e.zip_latitude && e.zip_longitude
+        coordinates = [e.zip_latitude, e.zip_longitude]
+      end
+      @map.markers << Cartographer::Gmarker.new( :position => coordinates, :click => "window.location.href='#{url_for :controller => 'events', :action => 'show', :id => e.id}';" ) if coordinates
     end
     latitudes = @events.collect {|e| e.latitude}.compact.sort
     longitudes = @events.collect {|e| e.longitude}.compact.sort
