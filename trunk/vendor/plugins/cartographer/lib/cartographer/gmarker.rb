@@ -43,8 +43,13 @@ class Cartographer::Gmarker
 
   def to_js
     script = []
+    options = []
+    if icon != :normal
+      options << icon
+    end
+    gmarker_params = (["new GLatLng(#{@position[0]}, #{@position[1]})"] + options).join(',')
     script << "// Set up the pre-defined marker" if @debug
-    script << "#{@name} = new GMarker(new GLatLng(#{@position[0]}, #{@position[1]}));\n"
+    script << "#{@name} = new GMarker(#{gmarker_params});\n"
 
     if @click
       script << "// Create the listener for your custom click event" if @debug

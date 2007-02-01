@@ -85,11 +85,11 @@ if (!GBrowserIsCompatible()) return false;
       end + "());"
     end
 
-    html << "\n  // create markers from the @markers array" if @debug
-    @markers.each { |m| html << m.to_js }
-
     html << "  // create icons from the @icons array" if @debug
     @icons.each { |i| html << i.to_js }
+
+    html << "\n  // create markers from the @markers array" if @debug
+    @markers.each { |m| html << m.to_js }
 
     html << "  // create polylines from the @polylines array" if @debug
     @polylines.each { |pl| html << pl.to_js }
