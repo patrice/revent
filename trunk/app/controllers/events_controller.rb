@@ -32,7 +32,7 @@ class EventsController < ApplicationController
         m.zoom = 15
         m.debug = true
       end
-      @icon = Cartographer::Gicon.new(:image_url => '/images/green_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 0, :anchor_y => 0)
+      @icon = Cartographer::Gicon.new(:image_url => '/images/green_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
       @map.icons << @icon
       @marker = Cartographer::Gmarker.new( :position => [@event.latitude, @event.longitude], :icon => @icon.name )
       @map.markers << @marker
@@ -109,7 +109,7 @@ class EventsController < ApplicationController
       m.zoom = @map_zoom || 3
       m.controls = [:zoom, :large]
     end
-    @icon = Cartographer::Gicon.new(:image_url => '/images/green_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 0, :anchor_y => 0)
+    @icon = Cartographer::Gicon.new(:image_url => '/images/green_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
     @map.icons << @icon
     @events.each do |e|
       coordinates = false
@@ -147,7 +147,13 @@ class EventsController < ApplicationController
                         max_lat, 
                         max_lon])
     end
-    @events = Event.find(:all, :conditions => "postal_code IN (#{@zips.collect {|z| z.zip}.join(',')})")
+    @codes = @zips.collect {|z| z.zip}
+    @events = Event.find(:all, :conditions => ["postal_code IN (?)", @codes])
+
+    @events = @events.sort_by {|e| @codes.index(e.postal_code)}
+
+    @events.each {|e| e.instance_variable_set(:@distance_from_search, @zips.find {|z| z.zip == e.postal_code}.distance_to_search_zip) }
+
     @auto_center = true
     @search_performed = true
     search

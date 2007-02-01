@@ -11,9 +11,9 @@
 		</div>
 
 
-<% if @distance_from_search -%>
+<% if report.instance_variable_get(:@distance_from_search) -%>
 <div class="event-list-miles">
-  <%= @distance_from_search %> miles away
+  <%= report.instance_variable_get(:@distance_from_search).round %> miles away
 </div>
 <% end -%>
 
