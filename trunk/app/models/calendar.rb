@@ -1,4 +1,7 @@
 class Calendar < ActiveRecord::Base
+  @@deleted_events = []
+  @@all_events = []
+
   has_many :events do
     def unique_states
       states = proxy_target.collect {|e| e.state}.compact.uniq.select do |state|
@@ -15,6 +18,22 @@ class Calendar < ActiveRecord::Base
 
   def national_footer_text
     'national footer text'
+  end
+
+  def self.clear_deleted_events
+    @@deleted_events.destroy_all
+  end
+
+  def self.find_deleted_events
+    @@all_events = Event.find(:all)
+    opts = YAML.load_file(File.join(RAILS_ROOT,'config','democracyinaction-config.yml'))
+    require 'DIA_API_Simple'
+    api = DIA_API_Simple.new opts
+    @@all_events.each do |e|
+      dia_event = api.get 'event', e.service_foreign_key
+      @@deleted_events << e if dia_event.empty?
+    end
+    @@deleted_events
   end
 
   DiaLoadResult = Struct.new(:imported, :unknown, :inaccurate)
