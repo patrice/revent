@@ -42,7 +42,7 @@ class Event < ActiveRecord::Base
   end
 
   def past?
-    start < Time.now
+    start && start < Time.now
   end
 
   class << self
