@@ -44,7 +44,7 @@ class Calendar < ActiveRecord::Base
     opts = YAML.load_file(File.join(RAILS_ROOT,'config','democracyinaction-config.yml'))
     require 'DIA_API_Simple'
     api = DIA_API_Simple.new opts
-    events = api.get('event')
+    events = api.get('event', options[:options_for_dia] || {})
     gmaps = Cartographer::Header.new
     if gmaps.has_key? options[:host]
       application_id = gmaps.value_for options[:host]
