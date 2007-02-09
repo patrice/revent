@@ -21,7 +21,10 @@ class Calendar < ActiveRecord::Base
   end
 
   def self.clear_deleted_events
-    @@deleted_events.destroy_all
+    find_deleted_events
+    @@deleted_events.each do |e|
+      e.destroy
+    end
   end
 
   def self.find_deleted_events
