@@ -25,6 +25,11 @@ class Calendar < ActiveRecord::Base
     @@deleted_events.each do |e|
       e.destroy
     end
+    if !@@deleted_events.empty?
+      FileUtils.rm_rf(File.join(RAILS_ROOT,'public','events')) rescue Errno::ENOENT
+      FileUtils.rm(File.join(RAILS_ROOT,'public','index.html')) rescue Errno::ENOENT
+      RAILS_DEFAULT_LOGGER.info("Caches fully swept after deleting #{@@deleted_events.length} events")
+    end
   end
 
   def self.find_deleted_events
@@ -86,6 +91,11 @@ class Calendar < ActiveRecord::Base
       my_event.save!
     end
     result.imported = events.length
+    if !events.empty?
+      FileUtils.rm_rf(File.join(RAILS_ROOT,'public','events')) rescue Errno::ENOENT
+      FileUtils.rm(File.join(RAILS_ROOT,'public','index.html')) rescue Errno::ENOENT
+      RAILS_DEFAULT_LOGGER.info("Caches fully swept after adding #{events.length} events")
+    end
     return result
   end
 end
