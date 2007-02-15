@@ -182,7 +182,7 @@ xml.us_states do
     </state>
     <state id="SD">
       <name>South Dakota</name>
-      <url>/events/search/state/SC</url>
+      <url>/events/search/state/SD</url>
     </state>
     <state id="TN">
       <name>Tennessee</name>
