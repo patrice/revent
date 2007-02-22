@@ -127,9 +127,9 @@ class EventsController < ApplicationController
 
   def extract_search_params
     return if @search_performed
-    if params[:zip]
+    if params[:zip] && !params[:zip].empty?
       by_zip
-    elsif params[:state]
+    elsif params[:state] && !params[:state].empty?
       by_state
     end
   end
