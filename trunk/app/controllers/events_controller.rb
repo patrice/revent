@@ -30,7 +30,6 @@ class EventsController < ApplicationController
         m.center = [@event.latitude, @event.longitude]
         m.controls = [:zoom, :large]
         m.zoom = 15
-        m.debug = true
       end
       @icon = Cartographer::Gicon.new(:image_url => '/images/green_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
       @map.icons << @icon
@@ -118,7 +117,12 @@ class EventsController < ApplicationController
       elsif e.zip_latitude && e.zip_longitude
         coordinates = [e.zip_latitude, e.zip_longitude]
       end
-      @map.markers << Cartographer::Gmarker.new( :position => coordinates, :click => "window.location.href='#{url_for :controller => 'events', :action => 'show', :id => e.id}';", :icon => @icon.name ) if coordinates
+      @map.markers << Cartographer::Gmarker.new( 
+        :name => "event_#{e.id}_marker",
+        :position => coordinates,
+#        :click => "window.location.href='#{url_for :controller => 'events', :action => 'show', :id => e.id}';",
+        :info_window => render_to_string(:partial => 'info_window', :locals => {:event => e}),
+        :icon => @icon.name ) if coordinates
     end
     latitudes = @events.collect {|e| e.latitude}.compact.sort
     longitudes = @events.collect {|e| e.longitude}.compact.sort
