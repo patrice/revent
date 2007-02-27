@@ -130,7 +130,6 @@ class EventsController < ApplicationController
   end
 
   def extract_search_params
-    return if @search_performed
     if params[:zip] && !params[:zip].empty?
       by_zip
     elsif params[:state] && !params[:state].empty?
@@ -159,9 +158,6 @@ class EventsController < ApplicationController
     @events.each {|e| e.instance_variable_set(:@distance_from_search, @zips.find {|z| z.zip == e.postal_code}.distance_to_search_zip) }
 
     @auto_center = true
-    @search_performed = true
-    search
-    render :action => 'search'
   end
 
   def by_state
@@ -169,9 +165,6 @@ class EventsController < ApplicationController
     @events = Event.find(:all, :conditions => ["state = ?", params[:state]])
     @map_center = DaysOfAction::Geo::STATE_CENTERS[params[:state].to_sym]
     @map_zoom = DaysOfAction::Geo::STATE_ZOOM_LEVELS[params[:state].to_sym]
-    @search_performed = true
-    search
-    render :action => 'search'
   end
 
   def description

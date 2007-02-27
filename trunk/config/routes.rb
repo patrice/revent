@@ -20,7 +20,7 @@ ActionController::Routing::Routes.draw do |map|
                                         :action => "search",
                                         :requirements => { :zip => /\d{5}/ }
   map.state_search "events/search/state/:state", :controller => "events",
-                                           :action => "by_state",
+                                           :action => "search",
                                            :requirements => { :state => /\w{2}/ }
 
   map.connect 'reports/new/:service/:service_foreign_key', :controller => "reports", :action => "new"
