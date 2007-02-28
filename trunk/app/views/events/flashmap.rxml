@@ -10,7 +10,7 @@ xml.us_states do
     xml.state :id => "point" do
       xml.name e.city
       xml.loc "#{ e.zip_latitude },#{ e.zip_longitude}"
-      xml.url url_for(:controller => 'events', :action => 'show', :id => e.id)
+      xml.url state_search_url(e.state)
       xml.hover e.name
     end
   end
