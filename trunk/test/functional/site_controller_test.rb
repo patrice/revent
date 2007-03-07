@@ -5,14 +5,18 @@ require 'site_controller'
 class SiteController; def rescue_action(e) raise e end; end
 
 class SiteControllerTest < Test::Unit::TestCase
+  fixtures :sites
+
   def setup
     @controller = SiteController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  def test_should_set_site_from_host
+    @request.host = sites(:stepitup).host
+    get :index
+    assert @controller.site
+    assert_equal @controller.site, sites(:stepitup)
   end
 end

@@ -1,6 +1,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'account_controller'
 
+require 'mocha'
+
 # Re-raise errors caught by the controller.
 class AccountController; def rescue_action(e) raise e end; end
 
@@ -9,7 +11,7 @@ class AccountControllerTest < Test::Unit::TestCase
   # Then, you can remove it from this and the units test.
   include AuthenticatedTestHelper
 
-  fixtures :users
+  fixtures :users, :sites
 
   def setup
     @controller = AccountController.new
@@ -23,8 +25,26 @@ class AccountControllerTest < Test::Unit::TestCase
     assert_response :redirect
   end
 
+  def test_should_login_and_redirect_with_democracy_in_action
+    set_use_democracy_in_action_auth
+
+    post :login, :email => 'test@test.com', :password => 'password'
+    assert @controller.site.use_democracy_in_action_auth?
+    assert session[:user]
+    assert_equal session[:user].class, DemocracyInActionSupporter
+    assert session[:user].Email='test@test.com'
+    assert_response :redirect
+  end
+
   def test_should_fail_login_and_not_redirect
     post :login, :login => 'quentin', :password => 'bad password'
+    assert_nil session[:user]
+    assert_response :success
+  end
+
+  def test_should_fail_login_and_not_redirect_with_democracy_in_action
+    set_use_democracy_in_action_auth
+    post :login, :email => 'test@test.com', :password => 'bad password'
     assert_nil session[:user]
     assert_response :success
   end
@@ -125,5 +145,11 @@ class AccountControllerTest < Test::Unit::TestCase
     
     def cookie_for(user)
       auth_token users(user).remember_token
+    end
+
+    def set_use_democracy_in_action_auth
+      s = DemocracyInActionSupporter.new(:Email => 'test@test.com', :Password => Digest::MD5.hexdigest('password'))
+      DemocracyInActionSupporter.stubs(:find).returns(s)
+      @request.host = sites(:stepitup).host
     end
 end
