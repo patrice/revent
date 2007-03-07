@@ -4,13 +4,20 @@
 # must be defined in every subclass of DemocracyInActionResource
 # so the code in the parent class can work properly
 class DemocracyInActionSupporter <  DemocracyInActionResource
+
+  def self.authenticate(email, password)
+    user = find(:first, :conditions => "Email = '#{email}'")
+    user && Digest::MD5.hexdigest(password) == user.Password ? user : nil
+  end
+
 	# all attributes (columns) for this table.
 	# stored as a hash table (name => 1)
 	@@atts = {"key" => 1, "supporter_KEY"=>1, "organization_KEY"=>1, "chapter_KEY"=>1, "Last_Modified"=>1, "Date_Created"=>1, "Title"=>1, "First_Name"=>1, "MI"=>1, "Last_Name"=>1, "Suffix"=>1, "Email"=>1, "Password"=>1, "Receive_Email"=>1, "Email_Status"=>1, "Email_Preference"=>1, "Soft_Bounce_Count"=>1, "Hard_Bounce_Count"=>1, "Last_Bounce"=>1, "Receive_Phone_Blasts"=>1, "Phone"=>1, "Cell_Phone"=>1, "Phone_Provider"=>1, "Work_Phone"=>1, "Pager"=>1, "Home_Fax"=>1, "Work_Fax"=>1, "Street"=>1, "Street_2"=>1, "Street_3"=>1, "City"=>1, "State"=>1, "Zip"=>1, "PRIVATE_Zip_Plus_4"=>1, "County"=>1, "District"=>1, "Country"=>1, "Latitude"=>1, "Longitude"=>1, "Organization"=>1, "Department"=>1, "Occupation"=>1, "Instant_Messenger_Service"=>1, "Instant_Messenger_Name"=>1, "Web_Page"=>1, "Alternative_Email"=>1, "Other_Data_1"=>1, "Other_Data_2"=>1, "Other_Data_3"=>1, "Notes"=>1, "Source"=>1, "Source_Details"=>1, "Source_Tracking_Code"=>1, "Tracking_Code"=>1, "Status"=>1, "uid"=>1, "Timezone"=>1}
 
 	# a list of all attributes that are links to another table
 	# stored as a hash table (name => Class to link to)
-	@@links = {'organization'=>DemocracyInActionOrganization, 'chapter'=>DemocracyInActionChapter}
+#	@@links = {'organization'=>DemocracyInActionOrganization, 'chapter'=>DemocracyInActionChapter}
+	@@links = {}
 
 	# same as @@links, but these end with _KEYS and allow one to
 	# link to multiple elements.
