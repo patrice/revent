@@ -10,6 +10,21 @@ class ApplicationController < ActionController::Base
   layout :get_layout_from_domain
   #layout :get_layout_from_route
 
+  before_filter :set_site
+  helper_method  :site
+  attr_reader    :site
+
+  theme :get_theme_from_site
+
+  def set_site
+    host = request.host
+    @site ||= Site.find_by_host(host) || Site.find(:first)
+  end
+
+  def get_theme_from_site
+    site.theme
+  end
+
   def get_layout_from_route
     if 'truemajority' == params[:host]
       return 'tmaction'

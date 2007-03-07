@@ -1,4 +1,4 @@
-<% form_tag :controller => 'account', :action => 'login' do -%>
+<%= start_form_tag %>
 <p><label for="login">Login</label><br/>
 <%= text_field_tag 'login' %></p>
 
@@ -11,4 +11,4 @@
 -->
 
 <p><%= submit_tag 'Log in' %></p>
-<% end %>
+<%= end_form_tag %>

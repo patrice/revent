@@ -16,6 +16,13 @@ ActionController::Routing::Routes.draw do |map|
 #  raise Calendar.find(:first).inspect => WORKS!!!
   map.hosted_home ':host', :controller => 'reports', :host => /truemajority/
   map.home '', :controller => "events"
+
+  map.with_options :controller => 'account' do |m|
+    m.signup  '/signup',  :action => 'signup'
+    m.login   '/login',   :action => 'login'
+    m.logout  '/logout',  :action => 'logout'
+  end
+
   map.zip_search "events/search/zip/:zip",  :controller => "events",
                                         :action => "search",
                                         :requirements => { :zip => /\d{5}/ }

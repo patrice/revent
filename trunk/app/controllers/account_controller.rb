@@ -5,10 +5,17 @@ class AccountController < ApplicationController
   end
 
   def login
-    return unless request.post?
-    self.current_user = User.authenticate(params[:login], params[:password])
+    unless request.post?
+      render :action => 'dia_login' if site.use_democracy_in_action_auth?
+      return
+    end
+    if site.use_democracy_in_action_auth?
+      self.current_user = DemocracyInActionSupporter.authenticate(params[:email], params[:password])
+    else
+      self.current_user = User.authenticate(params[:login], params[:password])
+    end
     if current_user
-      if params[:remember_me] == "1"
+      if params[:remember_me] == "1" && current_user.respond_to?(:remember_me)
         self.current_user.remember_me
         cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
       end
