@@ -5,6 +5,13 @@ require 'DIA_API'
 # enables all the accessors, so they are not listed in java doc.
 # This is a thin wrapper between the Rails world and DIA_API.rb
 # that can be found in vendor/DIA.
+
+# let's not depend on edge rails just yet
+class ActiveResource
+  class Base
+    cattr_accessor :logger
+  end
+end
 class DemocracyInActionResource < ActiveResource::Base
   self.logger = ActiveRecord::Base.logger
 	@@api = DIA_API.create(API_OPTS)

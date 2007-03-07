@@ -3,6 +3,9 @@
 # note that the convenience functions att, links, multilinks, table
 # must be defined in every subclass of DemocracyInActionResource
 # so the code in the parent class can work properly
+
+# let's not depend on edge rails just yet, eh?
+# hope this doesn't break anything, but for now the only guaranteed method is authenticate
 class DemocracyInActionSupporter <  DemocracyInActionResource
 
   def self.authenticate(email, password)
