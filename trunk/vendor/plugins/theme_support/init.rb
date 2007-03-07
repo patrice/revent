@@ -3,6 +3,10 @@ require 'patches/actionview_ex'
 require 'patches/actioncontroller_ex'
 require 'patches/routeset_ex'
 
+require 'action_controller/routing'
+ActionController::Routing::RouteSet::Mapper.send :include,
+  ThemeSupport::Routing::RouteSet::MapperExt
+
 # Add the tag helpers for rhtml and, optionally, liquid templates
 require 'helpers/rhtml_theme_tags'
 begin
