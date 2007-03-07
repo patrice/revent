@@ -20,15 +20,13 @@ class ActionController::Routing::RouteSet
     write_generation
     write_recognition
   end
-end
-
-class ActionController::Routing::RouteSet::Mapper
 
   # Creates the required routes for the <tt>ThemeController</tt>...
   def create_theme_routes
-    named_route 'theme_images', "/themes/:theme/images/:filename", :controller=>'theme', :action=>'images'
-    named_route 'theme_stylesheets', "/themes/:theme/stylesheets/:filename", :controller=>'theme', :action=>'stylesheets'
-    named_route 'theme_javascript', "/themes/:theme/javascript/:filename", :controller=>'theme', :action=>'javascript'
+    # Added patch from D.J. Vogel that changes <tt>:filename</tt> to <tt>*filename</tt>... allowing sub-folders
+    named_route 'theme_images', "/themes/:theme/images/*filename", :controller=>'theme', :action=>'images'
+    named_route 'theme_stylesheets', "/themes/:theme/stylesheets/*filename", :controller=>'theme', :action=>'stylesheets'
+    named_route 'theme_javascript', "/themes/:theme/javascript/*filename", :controller=>'theme', :action=>'javascript'
 
     connect "/themes/*whatever", :controller=>'theme', :action=>'error'
   end
