@@ -10,6 +10,17 @@ class ApplicationController < ActionController::Base
   layout :get_layout_from_domain
   #layout :get_layout_from_route
 
+  before_filter :set_referrer_cookie
+  def set_referrer_cookie
+    if 'exxposeexxon' == params[:referrer]
+      @referrer = cookies[:referrer] = 'exxposeexxon'
+    end
+  end
+  helper_method :referrer
+  def referrer
+    @referrer ||= cookies[:referrer]
+  end
+
   before_filter :set_site
   helper_method  :site
   attr_reader    :site
