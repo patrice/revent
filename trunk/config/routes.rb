@@ -23,6 +23,8 @@ ActionController::Routing::Routes.draw do |map|
     m.logout  '/logout',  :action => 'logout'
   end
 
+  map.ally '/ally/:referrer', :controller => 'events', :action => 'ally', :defaults => {:referrer => ''}
+
   map.zip_search "events/search/zip/:zip",  :controller => "events",
                                         :action => "search",
                                         :requirements => { :zip => /\d{5}/ }
