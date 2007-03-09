@@ -345,16 +345,15 @@ The first step is fill out the form below. Once you&rsquo;re done with that, we&
 
 			<input type="hidden" name="Start" />
 <select style="background-color: rgb(235, 216, 151);" value="2007" id="dataStartYEAR" name="StartYEAR">
-	<option>Year..
-	</option><option value="2007">2007</option></select>
+<option value="2007">2007</option>
+</select>
 
 <select style="background-color: rgb(235, 216, 151);" value="04" id="dataStartMONTH" name="StartMONTH">
-	<option>Month
-	</option><option value="04">April</option></select>
+  <option value="04">April</option></select>
   <select style="background-color: rgb(235, 216, 151);" value="14" id="dataStartDAY" name="StartDAY">
   <option>Day</option>
   <option value="13">13</option>
-  <option value="14">14</option>
+  <option selected value="14">14</option>
   <option value="15">15</option>
   </select>
 			
@@ -372,7 +371,7 @@ The first step is fill out the form below. Once you&rsquo;re done with that, we&
 	</option><option value="10:30:00.0">10:30 AM
 	</option><option value="11:00:00.0">11:00 AM
 	</option><option value="11:30:00.0">11:30 AM
-	</option><option value="12:00:00.0">12:00 PM
+	</option><option selected value="12:00:00.0">12:00 PM
 	</option><option value="12:30:00.0">12:30 PM
 	</option><option value="13:00:00.0">1:00 PM
 	</option><option value="13:30:00.0">1:30 PM
@@ -423,17 +422,14 @@ The first step is fill out the form below. Once you&rsquo;re done with that, we&
 			<input type="hidden" name="End" />
 
 <select style="background-color: rgb(235, 216, 151);" value="2007" id="dataEndYEAR" name="EndYEAR">
-	<option>Year..
-	</option><option value="2007">2007</option></select>
+  <option value="2007">2007</option></select>
 
 
 <select style="background-color: rgb(235, 216, 151);" value="04" id="dataEndMONTH" name="EndMONTH">
-	<option>Month
-	</option><option value="04">April</option></select>
+  <option value="04">April</option></select>
 <select style="background-color: rgb(235, 216, 151);" value="14" id="dataEndDAY" name="EndDAY">
-	<option>Day</option>
   <option value="13">13</option>
-  <option value="14">14</option>
+  <option selected value="14">14</option>
   <option value="15">15</option>
 </select>
 			
@@ -456,7 +452,7 @@ The first step is fill out the form below. Once you&rsquo;re done with that, we&
 	</option><option value="12:30:00.0">12:30 PM
 	</option><option value="13:00:00.0">1:00 PM
 	</option><option value="13:30:00.0">1:30 PM
-	</option><option value="14:00:00.0">2:00 PM
+	</option><option selected value="14:00:00.0">2:00 PM
 	</option><option value="14:30:00.0">2:30 PM
 	</option><option value="15:00:00.0">3:00 PM
 	</option><option value="15:30:00.0">3:30 PM
@@ -499,37 +495,10 @@ The first step is fill out the form below. Once you&rsquo;re done with that, we&
 <input type="hidden" value="Event_Name,Description,Start,End,Address,City,State,Directions,Zip,Maximum_Attendees," name="required" />
 <input type="hidden" value="true" name="updateRowValues" />
 
-<script>
-function setField(field, value){
-		if (field){
-		var i;
-		for (i=0; i<field.options.length;i++){
-			if (field.options[i].value==value){
-				field.options[i].selected=true;
-				break;
-			}
-		}
-		}else{
-			alert('Could not get field');
-		}
-}
-
-setField(document.getElementById('dataStartYEAR'),'2007');
-setField(document.getElementById('dataStartMONTH'),'04');
-setField(document.getElementById('dataStartDAY'),'14');
-setField(document.getElementById('dataStartTIME'),'12:00:00.0');
-setField(document.getElementById('dataEndYEAR'),'2007');
-setField(document.getElementById('dataEndMONTH'),'04');
-setField(document.getElementById('dataEndDAY'),'14');
-setField(document.getElementById('dataEndTIME'),'14:00:00.0');
-
-
-</script>
-
 <input type="hidden" value="On New Distributed Event" name="trigger" />
 <input type="hidden" value="Unconfirmed" name="Status" />
 <input type="hidden" value="Thank you for signing up! " name="successMessage" />
-<input type="hidden" value="http://test.stepitup07.org/article.php?id=39" name="redirect" />
+<input type="hidden" value="http://stepitup07.org/article.php?id=39" name="redirect" />
 <input type="hidden" value="supporter_groups" name="table" />
 <input type="hidden" value="50838" name="groups_KEY" />
 <p align="center"><br />
