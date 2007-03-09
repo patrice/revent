@@ -30,6 +30,13 @@ The first step is fill out the form below. Once you&rsquo;re done with that, we&
 <input type="hidden" value="exxposeexxon" name="Tracking_Code" />
 <% end %>
 
+<% if params[:message] %>
+<div class="validation-advice">
+  <%= sanitize(params[:message]) %>
+  <div>Some fields are required for both you and your event</div>
+</div>
+<% end %>
+
 <tbody><tr valign="top"><td valign="top" align="right" id="dia_field_name_data_First_Name" class="dia_field_name">First Name</td><td valign="top"><input name="First_Name" id="dataFirst_Name" maxlength="32" size="30" style="background-color: rgb(235, 216, 151);" title="Please enter your first name" class="required inputStyle" /></td><td class="dia_required"> <strong>*</strong></td>
 		</tr><tr><td valign="top" align="right" id="dia_field_name_data_Last_Name" class="dia_field_name">Last Name</td><td valign="top"><input name="Last_Name" id="dataLast_Name" maxlength="64" size="30" style="background-color: rgb(235, 216, 151);" title="Please enter your last name" class="required inputStyle" /></td><td class="dia_required"> <strong>*</strong></td>
 		</tr><tr><td valign="top" align="right" id="dia_field_name_data_Email" class="dia_field_name">Email</td><td valign="top"><input name="Email" id="dataEmail" maxlength="64" size="30" style="background-color: rgb(235, 216, 151);" title="Please enter a valid email address" class="required validate-email inputStyle" /></td><td class="dia_required"> <strong>*</strong></td>
