@@ -5,7 +5,7 @@ require 'reports_controller'
 class ReportsController; def rescue_action(e) raise e end; end
 
 class ReportsControllerTest < Test::Unit::TestCase
-  fixtures :reports
+  fixtures :reports, :users, :roles, :roles_users
 
   def setup
     @controller = ReportsController.new
@@ -20,6 +20,7 @@ class ReportsControllerTest < Test::Unit::TestCase
   end
 
   def test_list
+    login_as :quentin
     get :list
 
     assert_response :success
@@ -50,15 +51,16 @@ class ReportsControllerTest < Test::Unit::TestCase
   def test_create
     num_reports = Report.count
 
-    post :create, :report => {}
+    post :create, :report => { :event_id => 1, :reporter_name => 'create', :reporter_email => 'create@create.com', :text => 'hi' }
 
     assert_response :redirect
-    assert_redirected_to :action => 'list'
+    assert_redirected_to :action => 'index'
 
     assert_equal num_reports + 1, Report.count
   end
 
   def test_edit
+    login_as :quentin
     get :edit, :id => 1
 
     assert_response :success
@@ -69,12 +71,14 @@ class ReportsControllerTest < Test::Unit::TestCase
   end
 
   def test_update
+    login_as :quentin
     post :update, :id => 1
     assert_response :redirect
     assert_redirected_to :action => 'show', :id => 1
   end
 
   def test_destroy
+    login_as :quentin
     assert_not_nil Report.find(1)
 
     post :destroy, :id => 1
