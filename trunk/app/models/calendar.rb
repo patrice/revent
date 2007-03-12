@@ -11,15 +11,6 @@ class Calendar < ActiveRecord::Base
     end
   end
 
-  #XXX:DELETEME mock methods
-  def national_intro_text
-    'national intro text'
-  end
-
-  def national_footer_text
-    'national footer text'
-  end
-
   def self.clear_deleted_events
     find_deleted_events
     @@deleted_events.each do |e|
@@ -58,8 +49,6 @@ class Calendar < ActiveRecord::Base
       application_id = gmaps.value_for options[:host]
       require 'google_geocode'
       gg = GoogleGeocode::Accuracy.new application_id
-    else
-      raise 'wtf'
     end
 
     result = DiaLoadResult.new 0, 0, 0
@@ -76,16 +65,18 @@ class Calendar < ActiveRecord::Base
       my_event.end = e['End']
       my_event.directions = e['Directions']
 
-      begin
-        location = gg.locate my_event.address_for_geocode
-        if location.accuracy.to_i < 7
-          result.inaccurate = result.inaccurate + 1
-        else
-          my_event.latitude = location.latitude
-          my_event.longitude = location.longitude
+      if gg
+        begin
+          location = gg.locate my_event.address_for_geocode
+          if location.accuracy.to_i < 7
+            result.inaccurate = result.inaccurate + 1
+          else
+            my_event.latitude = location.latitude
+            my_event.longitude = location.longitude
+          end
+        rescue GoogleGeocode::AddressError => error
+          result.unknown = result.unknown + 1
         end
-      rescue GoogleGeocode::AddressError => error
-        result.unknown = result.unknown + 1
       end
 
       my_event.save!
