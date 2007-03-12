@@ -4,12 +4,17 @@ require 'mocha/expectation_error'
 
 class Object
 
+  # :stopdoc:
+
   alias_method :__is_a__, :is_a?
 
+  # :startdoc:
+  
 end
 
-module Mocha
-  # Methods on expectations returned from Mocha::MockMethods#expects and Mocha::MockMethods#stubs
+module Mocha # :nodoc:
+  
+  # Methods on expectations returned from Mock#expects, Mock#stubs, Object#expects and Object#stubs.
   class Expectation
   
     # :stopdoc:
