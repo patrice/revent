@@ -18,7 +18,7 @@
 
   <h2><%= @event.name %></h2>
   <h3><%= @event.city %>, <%= @event.state %></h3>
-  <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y  %I:%M%p') : '?' %> to <%= @event.end.strftime('%I:%M%p') %></b></p>
+  <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y  %I:%M%p') : '?' %> to <%= @event.end? ? @event.end.strftime('%I:%M%p') : '?' %></b></p>
  
   <div id="description"> <b>Event Description:</b><br><%= @event.description %></div>
   
