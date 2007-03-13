@@ -19,6 +19,7 @@ class SiteController < ApplicationController
   end
   protected
     def expire_page_caches(event = nil)
+      expire_action :controller => 'events', :action => 'ally'
       FileUtils.rm_rf(File.join(RAILS_ROOT,'public','events')) rescue Errno::ENOENT
       FileUtils.rm(File.join(RAILS_ROOT,'public','index.html')) rescue Errno::ENOENT
       RAILS_DEFAULT_LOGGER.info("Caches fully swept.")

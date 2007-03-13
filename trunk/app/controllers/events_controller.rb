@@ -4,6 +4,7 @@ class EventsController < ApplicationController
   include DaysOfAction::Geo
 
   caches_page :index, :show, :flashmap, :total, :by_state
+  caches_action :ally
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => :post, :only => [ :destroy, :create, :update ],
@@ -184,6 +185,7 @@ class EventsController < ApplicationController
 
   protected
     def expire_page_caches(event = nil)
+      expire_action :ally
       FileUtils.rm_rf(File.join(RAILS_ROOT,'public','events')) rescue Errno::ENOENT
       FileUtils.rm(File.join(RAILS_ROOT,'public','index.html')) rescue Errno::ENOENT
       RAILS_DEFAULT_LOGGER.info("Caches fully swept.")
