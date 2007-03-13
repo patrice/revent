@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  before_filter :login_required, :only => [:edit, :update, :destroy, :create]
+  access_control [:edit, :update, :destroy, :create] => 'admin'
   include DaysOfAction::Geo
 
   caches_page :index, :show, :flashmap, :total, :by_state
