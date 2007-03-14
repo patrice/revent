@@ -12,7 +12,9 @@
 	<div id="event-map-container">
 		<div id="eventmap" style="width: 430px; height: 290px; border: 7px solid #ccc; margin-left:15px;">
 		</div>
+    <% cache(params.merge(:fragment => 'map')) do %>
     <%= @map.to_html %>
+    <% end %>
     <%= gmaps_auto_center_and_zoom(@map) if @auto_center %>
 
 	</div>
