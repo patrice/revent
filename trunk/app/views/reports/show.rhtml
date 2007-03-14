@@ -42,6 +42,10 @@
   <% end %>
 	
   <% if @report.attachments.any? {|a| a.image?} %>
+  <% content_for('header') do %>
+  <%= javascript_include_tag 'lightbox' %>
+  <%= stylesheet_link_tag 'lightbox' %>
+  <% end %>
 	<div id="report_images">
 		For full size pictures click on any picture below.<br>
     <% @report.attachments.find_all {|a| a.image?}.each do |image| %>
