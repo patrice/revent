@@ -108,9 +108,9 @@ class EventsController < ApplicationController
   end
 
   def search
-    @calendar = Calendar.find(1)
     extract_search_params
-    @events ||= @calendar.events
+    redirect_to :action => 'index' and return unless @events
+    @calendar = Calendar.find(1)
     @map = Cartographer::Gmap.new('eventmap')
     @map.init do |m|
       m.center = @map_center || [37.160317,-95.800781]
