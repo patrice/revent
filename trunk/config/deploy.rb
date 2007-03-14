@@ -129,14 +129,13 @@ desc <<-DESC
 Spinner is run by the default cold_deploy task. Instead of using script/spinner, we're just gonna rely on Mongrel to keep itself up.
 DESC
 task :spinner, :roles => :app do
-  application_port = 41781
-  run "mongrel_rails start -e production -p #{application_port} -d -c #{current_path}"
+  run "mongrel_rails cluster::start"
 end
 
 desc "Restart the web server"
 task :restart, :roles => :app do
   begin
-    run "cd #{current_path} && mongrel_rails restart"
+    run "cd #{current_path} && mongrel_rails cluster::restart"
   rescue RuntimeError => e
     puts e
     puts "Probably not a big deal, so I'll just keep trucking..."
@@ -147,6 +146,7 @@ task :after_update_code, :roles => :app, :except => {:no_symlink => true} do
   run <<-CMD
     cd #{release_path} &&
     ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml &&
+    ln -nfs #{shared_path}/config/mongrel_cluster.yml #{release_path}/config/mongrel_cluster.yml &&
     ln -nfs #{shared_path}/config/cartographer-config.yml #{release_path}/config/cartographer-config.yml &&
     ln -nfs #{shared_path}/config/democracyinaction-config.yml #{release_path}/config/democracyinaction-config.yml
   CMD
@@ -155,7 +155,6 @@ end
 task :after_symlink, :roles => :app , :except => {:no_symlink => true} do
   run <<-CMD
     cd #{release_path} &&
-    ln -nfs #{shared_path}/public/attachments #{release_path}/public/attachments &&
-    ln -nfs #{shared_path}/vendor/rails #{release_path}/vendor/rails
+    ln -nfs #{shared_path}/public/attachments #{release_path}/public/attachments
   CMD
 end 
