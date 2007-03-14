@@ -83,6 +83,7 @@ class Calendar < ActiveRecord::Base
     end
     result.imported = events.length
     if !events.empty?
+      FileUtils.rm_rf(Dir.glob(File.join(RAILS_ROOT,'tmp','cache','*')))
       FileUtils.rm_rf(File.join(RAILS_ROOT,'public','events')) rescue Errno::ENOENT
       FileUtils.rm(File.join(RAILS_ROOT,'public','index.html')) rescue Errno::ENOENT
       RAILS_DEFAULT_LOGGER.info("Caches fully swept after adding #{events.length} events")
