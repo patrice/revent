@@ -5,6 +5,7 @@ class EventsController < ApplicationController
 
   caches_page :index, :show, :flashmap, :total, :by_state
   caches_action :ally
+  after_filter :cache_search_results, :only => :search
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => :post, :only => [ :destroy, :create, :update ],
@@ -135,6 +136,12 @@ class EventsController < ApplicationController
     latitudes = @events.collect {|e| e.latitude}.compact.sort
     longitudes = @events.collect {|e| e.longitude}.compact.sort
     @bounds = [latitudes.first, longitudes.first]
+  end
+
+  def cache_search_results
+    if params[:state]
+      cache_page
+    end
   end
 
   def extract_search_params
