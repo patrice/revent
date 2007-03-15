@@ -9,9 +9,9 @@ module ThemeSupport
 
         def initialize_with_themes(set)
           initialize_without_themes(set)
-          named_route 'theme_images', "/themes/:theme/images/:filename", :controller=>'theme', :action=>'images'
-          named_route 'theme_stylesheets', "/themes/:theme/stylesheets/:filename", :controller=>'theme', :action=>'stylesheets'
-          named_route 'theme_javascript', "/themes/:theme/javascript/:filename", :controller=>'theme', :action=>'javascript'
+          named_route 'theme_images', "/themes/:theme/images/:filename", :controller=>'theme', :action=>'images', :requirements => {:filename => /.*/}
+          named_route 'theme_stylesheets', "/themes/:theme/stylesheets/:filename", :controller=>'theme', :action=>'stylesheets', :requirements => {:filename => /.*/}
+          named_route 'theme_javascripts', "/themes/:theme/javascript/:filename", :controller=>'theme', :action=>'javascript', :requirements => {:filename => /.*/}
           connect "/themes/*whatever", :controller=>'theme', :action=>'error'
         end
       end
