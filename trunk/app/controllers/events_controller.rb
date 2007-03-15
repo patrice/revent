@@ -109,7 +109,8 @@ class EventsController < ApplicationController
 
   def search
     extract_search_params
-    redirect_to :action => 'index' and return unless @events
+    @calendar = Calendar.find(1)
+    render :action => 'index' and return unless @events
     @calendar = Calendar.find(1)
     @map = Cartographer::Gmap.new('eventmap')
     @map.init do |m|
@@ -155,6 +156,7 @@ class EventsController < ApplicationController
   def by_zip
     @search_area = params[:zip]
     @zip = ZipCode.find_by_zip(params[:zip])
+    flash.now[:notice] = "Could not locate that zip code" and return unless @zip
     @map_center = [@zip.latitude,@zip.longitude]
     @map_zoom = 12
     @zips = @zip.find_objects_within_radius(50) do |min_lat, min_lon, max_lat, max_lon|
