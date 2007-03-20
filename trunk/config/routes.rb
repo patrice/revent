@@ -21,6 +21,12 @@ ActionController::Routing::Routes.draw do |map|
     m.signup  '/signup',  :action => 'signup'
     m.login   '/login',   :action => 'login'
     m.logout  '/logout',  :action => 'logout'
+    m.profile '/profile', :action => 'profile'
+  end
+
+  map.with_options :controller => 'account/events' do |m|
+    m.connect '/profile/events/:id', :action => 'show', :requirements => {:id => /\d+/}
+    m.connect '/profile/events/:action/:id'
   end
 
   map.ally '/ally/:referrer', :controller => 'events', :action => 'ally', :defaults => {:referrer => ''}
