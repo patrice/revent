@@ -11,22 +11,12 @@ The first step is fill out the form below. Once you&rsquo;re done with that, we&
 
 
 <script language="Javascript"  type="text/javascript" src="http://stepitup2007.org/custom/validation.js"></script>
-<form method="post" action="http://www.democracyinaction.org/dia/processMultiple.jsp" id="data" name="data">
+<% form_for :democracy_in_action_supporter, @supporter, :url => signup_path, :html => {:id => 'data'} do |f| %>
 
-<input type="hidden" value="1879" name="organization_KEY" />
-<input type="hidden" value="239" name="distributed_event_KEY" />
-<input type="hidden" value="0,2590" name="email_trigger_KEYS" />
-			
 <div id="profile" class="profileInformation">
 <h3>Your Information</h3>
 <div id="customFields" class="standardFields">
 
-
-
-<input type="hidden" value="supporter" name="table" />
-
-
-<input type="hidden" value="0" name="key" />
 <table class="dia_field">
 
 <% if 'exxposeexxon' == referrer %>
@@ -40,475 +30,239 @@ The first step is fill out the form below. Once you&rsquo;re done with that, we&
 </div>
 <% end %>
 
-<tbody><tr valign="top"><td valign="top" align="right" id="dia_field_name_data_First_Name" class="dia_field_name">First Name</td><td valign="top"><input name="First_Name" id="dataFirst_Name" maxlength="32" size="30" style="background-color: rgb(235, 216, 151);" title="Please enter your first name" class="required inputStyle" /></td><td class="dia_required"> <strong>*</strong></td>
-		</tr><tr><td valign="top" align="right" id="dia_field_name_data_Last_Name" class="dia_field_name">Last Name</td><td valign="top"><input name="Last_Name" id="dataLast_Name" maxlength="64" size="30" style="background-color: rgb(235, 216, 151);" title="Please enter your last name" class="required inputStyle" /></td><td class="dia_required"> <strong>*</strong></td>
-		</tr><tr><td valign="top" align="right" id="dia_field_name_data_Email" class="dia_field_name">Email</td><td valign="top"><input name="Email" id="dataEmail" maxlength="64" size="30" style="background-color: rgb(235, 216, 151);" title="Please enter a valid email address" class="required validate-email inputStyle" /></td><td class="dia_required"> <strong>*</strong></td>
-		</tr><tr><td valign="top" align="right" id="dia_field_name_data_Phone" class="dia_field_name">Phone</td><td valign="top"><input name="Phone" id="dataPhone" maxlength="16" size="16" style="background-color: rgb(235, 216, 151);" title="Please enter your phone number" class="required inputStyle" /></td><td class="dia_required"> <strong>*</strong></td>
+<tbody><tr valign="top"><td valign="top" align="right" id="dia_field_name_data_First_Name" class="dia_field_name">First Name</td><td valign="top">
 
 
-				</tr><tr><td valign="top" align="right" id="dia_field_name_data_Street" class="dia_field_name">Street</td><td valign="top"><input name="Street" id="dataStreet" maxlength="64" size="30" style="background-color: rgb(235, 216, 151);" title="Please enter your street address" class="required inputStyle" /></td>
+<%= f.text_field "First_Name", :id => "dataFirst_Name", :maxlength => "32", :size => "30", :style => "background-color: rgb(235, 216, 151);", :title => "Please enter your first name", :class => "required inputStyle" %>
+
+</td><td class="dia_required"> <strong>*</strong></td>
+		</tr><tr><td valign="top" align="right" id="dia_field_name_data_Last_Name" class="dia_field_name">Last Name</td><td valign="top">
+
+    <%= f.text_field "Last_Name", :id => "dataLast_Name", :maxlength => "64", :size => "30", :style => "background-color: rgb(235, 216, 151);", :title => "Please enter your last name", :class => "required inputStyle" %>
+
+</td><td class="dia_required"> <strong>*</strong></td>
+		</tr><tr><td valign="top" align="right" id="dia_field_name_data_Email" class="dia_field_name">Email</td><td valign="top">
+
+    <%= f.text_field "Email", :id => "dataEmail", :maxlength => "64", :size => "30", :style => "background-color: rgb(235, 216, 151);", :title => "Please enter a valid email address", :class => "required validate-email inputStyle" %>
+
+</td><td class="dia_required"> <strong>*</strong></td>
+		</tr><tr><td valign="top" align="right" id="dia_field_name_data_Phone" class="dia_field_name">Phone</td><td valign="top">
+
+    <%= f.text_field "Phone", :id => "dataPhone", :maxlength => "16", :size => "16", :style => "background-color: rgb(235, 216, 151);", :title => "Please enter your phone number", :class => "required inputStyle" %>
+
+</td><td class="dia_required"> <strong>*</strong></td>
+
+
+				</tr><tr><td valign="top" align="right" id="dia_field_name_data_Street" class="dia_field_name">Street</td><td valign="top">
+
+        <%= f.text_field "Street", :id => "dataStreet", :maxlength => "64", :size => "30", :style => "background-color: rgb(235, 216, 151);", :title => "Please enter your street address", :class => "required inputStyle" %>
+
+</td>
 				<td class="dia_required">*</td>
-		</tr><tr><td valign="top" align="right" id="dia_field_name_data_City" class="dia_field_name">City</td><td valign="top"><input name="City" id="dataCity" maxlength="32" size="30" style="background-color: rgb(235, 216, 151);" title="Please enter your city" class="required inputStyle" /></td>
+		</tr><tr><td valign="top" align="right" id="dia_field_name_data_City" class="dia_field_name">City</td><td valign="top">
+
+    <%= f.text_field "City", :id => "dataCity", :maxlength => "32", :size => "30", :style => "background-color: rgb(235, 216, 151);", :title => "Please enter your city", :class => "required inputStyle" %>
+
+</td>
 		<td class="dia_required">*</td>
-		</tr><tr><td valign="top" align="right" class="dia_field_name">State/Region</td><td><select title="Please select your state" class="required validate-selection" style="background-color: rgb(235, 216, 151);" size="1" name="State" id="dataState">
-			<option>Select One...</option>
-				<option value="AL">Alabama</option>
-        <option value="AK">Alaska</option>
-
-	<option value="AS">American Samoa</option>
-	<option value="AZ">Arizona</option>
-	<option value="AR">Arkansas</option>
-	<option value="CA">California</option>
-	<option value="CO">Colorado</option>
-	<option value="CT">Connecticut</option>
-
-	<option value="DE">Delaware</option>
-	<option value="DC">D.C.</option>
-	<option value="FL">Florida</option>
-	<option value="GA">Georgia</option>
-	<option value="GU">Guam</option>
-        <option value="HI">Hawaii</option>
-
-	<option value="ID">Idaho</option>
-	<option value="IL">Illinois</option>
-	<option value="IN">Indiana</option>
-	<option value="IA">Iowa</option>
-	<option value="KS">Kansas</option>
-	<option value="KY">Kentucky</option>
-
-	<option value="LA">Louisiana</option>
-	<option value="ME">Maine</option>
-	<option value="MD">Maryland</option>
-	<option value="MA">Massachusetts</option>
-	<option value="MI">Michigan</option>
-	<option value="MN">Minnesota</option>
-
-	<option value="MS">Mississippi</option>
-	<option value="MO">Missouri</option>
-	<option value="MT">Montana</option>
-	<option value="NE">Nebraska</option>
-	<option value="NV">Nevada</option>
-	<option value="NH">New Hampshire</option>
-
-	<option value="NJ">New Jersey</option>
-	<option value="NM">New Mexico</option>
-	<option value="NY">New York</option>
-	<option value="NC">North Carolina</option>
-	<option value="ND">North Dakota</option>
-	<option value="OH">Ohio</option>
-
-	<option value="OK">Oklahoma</option>
-	<option value="OR">Oregon</option>
-	<option value="PA">Pennsylvania</option>
-	<option value="PR">Puerto Rico</option>
-	<option value="RI">Rhode Island</option>
-	<option value="SC">South Carolina</option>
-
-	<option value="SD">South Dakota</option>
-	<option value="TN">Tennessee</option>
-	<option value="TX">Texas</option>
-	<option value="UT">Utah</option>
-	<option value="VT">Vermont</option>
-        <option value="VI">Virgin Islands</option>
-
-        <option value="VA">Virginia</option>
-	<option value="WA">Washington</option>
-	<option value="WV">West Virginia</option>
-	<option value="WI">Wisconsin</option>
-	<option value="WY">Wyoming</option>
-	<option value="AB">Alberta</option>
-
-	<option value="BC">British Columbia</option>
-	<option value="MB">Manitoba</option>
-	<option value="NF">Newfoundland</option>
-	<option value="NB">New Brunswick</option>
-	<option value="NS">Nova Scotia</option>
-	<option value="NT">Northwest Territories</option>
-
-	<option value="NU">Nunavut</option>
-	<option value="ON">Ontario</option>
-	<option value="PE">Prince Edward Island</option>
-	<option value="QC">Quebec</option>
-	<option value="SK">Saskatchewan</option>
-	<option value="YT">Yukon Territory</option>
-
-	<option value="ot">Other</option>
-			</select>
-			
-			
-			<script>
-				//Set the value of the option box
-				var i;
-				var field=document.getElementById('dataState');
-				for (i=0; i<field.options.length;i++){
-					if (field.options[i].value==''){
-						field.options[i].selected=true;
-						break;
-					}
-				}
-			</script>
-			
-			
+    </tr><tr><td valign="top" align="right" class="dia_field_name">State/Region</td><td>
+    <%= f.select "State", DemocracyInAction::Helpers.state_options_for_select, :title => "Please select your state", :class => "required validate-selection", :style => "background-color: rgb(235, 216, 151);", :size => "1", :id => "dataState" %>
 			</td>
 			<td class="dia_required">*</td>
 			</tr>
 		
 		<tr>
 		  <td align="right" class="dia_field_name">Zip Code</td>
-		  <td><input type="text" style="background-color: rgb(235, 216, 151);" name="Zip" maxlength="10" size="10" id="dataZip" title="Please enter your zip code" class="required inputStyle" />
+		  <td>
+
+      <%= f.text_field 'Zip', :style => "background-color: rgb(235, 216, 151);", :maxlength => "10", :size => "10", :id => "dataZip", :title => "Please enter your zip code", :class => "required inputStyle" %>
+
 			&nbsp;&nbsp;
 			
         </td>
 		<td class="dia_required">*
 			
 		  </td>
-		</tr><tr><td valign="top" align="right" id="dia_field_name_data_Organization" class="dia_field_name">Organization</td><td valign="top"><input name="Organization" id="dataOrganization" maxlength="64" size="30" class="inputStyle" /></td><td class="dia_required"><br /></td>
+		</tr><tr><td valign="top" align="right" id="dia_field_name_data_Organization" class="dia_field_name">Organization</td><td valign="top">
+
+    <%= f.text_field "Organization", :id => "dataOrganization", :maxlength => "64", :size => "30", :class => "inputStyle" %></td><td class="dia_required"><br %>
+
+</td>
 		</tr><tr>
 		  <td valign="top" align="right" id="dia_field_name_data_Occupation" class="dia_field_name">Position</td>
-		  <td valign="top"><input name="Occupation" id="dataOccupation" maxlength="64" size="30" class="inputStyle" /></td><td class="dia_required"><br /></td>
+		  <td valign="top">
+
+      <%= f.text_field "Occupation", :id => "dataOccupation", :maxlength => "64", :size => "30", :class => "inputStyle" %></td><td class="dia_required"><br %>
+
+</td>
 
 		</tr><tr>
 </tr></tbody></table>
+
+
 <input type="hidden" value="0,First_Name,Last_Name,Email,Phone,Street,City,State,Zip" name="required" />
+
+
+
+
 <input type="hidden" value="true" name="updateRowValues" />
+
+
 
 
 </div>
+
+
 <input type="hidden" name="email_trigger_KEYS" />
+
+
 <div id="customFields" class="customFields">
 
-	<input type="hidden" value="custom" name="link" />
-	<input type="hidden" value="0" name="linkKey" />
 	
+
+<input type="hidden" value="custom" name="link" />
+
+
+	
+
+<input type="hidden" value="0" name="linkKey" />
+
+
+	
+
+
 <input type="hidden" value="supporter_custom" name="table" />
+
+
 <h3>Organizing Information</h3>
 
-<input type="hidden" value="0" name="key" />
-<table class="dia_field">
 
+
+<input type="hidden" value="0" name="key" />
+
+
+<% fields_for 'democracy_in_action_supporter_custom' do |custom| %>
+<table class="dia_field">
 
 <tbody><tr valign="top"><td valign="top" align="right" class="dia_field_name"><div align="left">Level of Organizing Experience / Assistance Needed:</div>
     <div align="left">
-      <textarea name="BLOB0" rows="5" cols="45"></textarea>
+
+    <%= custom.text_area "BLOB0", :rows => "5", :cols => "45" %>
+
       </div></td>
 <td class="dia_required"><br /></td>
 		</tr><tr><td valign="top" align="right" class="dia_field_name"><div align="left">Reasons why you're doing this:<br />
-		      <textarea name="BLOB1" rows="5" cols="45"></textarea>
+
+    <%= custom.text_area "BLOB1", :rows => "5", :cols => "45" %>
+
 		</div></td><td class="dia_required"><br /></td>
 	  </tr></tbody></table>
-<input type="hidden" value="0,First_Name,Last_Name,Email,Phone," name="required" />
-<input type="hidden" value="true" name="updateRowValues" />
+
+<% end %>
+
+
 
 
 </div>
 </div>
 <div id="eventInformation" class="eventInformation">
-<input type="hidden" name="email_trigger_KEYS" />
+
 <h3>Event Information</h3>
 <div id="eventFields" class="eventFields">
 
-<input type="hidden" value="event" name="table" />
-
-
-<input type="hidden" value="0" name="key" />
+<% fields_for :event, @event do |event| %>
 <table class="dia_field">
 
 
 <tbody><tr valign="top">
-  <td width="157" valign="top" align="right" id="dia_field_name_data_Event_Name" class="dia_field_name"><div align="left">Action Name:</div></td><td width="704" valign="top"><input name="Event_Name" id="dataEvent_Name" maxlength="64" size="30" style="background-color: rgb(235, 216, 151);" title="Please enter your action's name" class="required inputStyle" /></td><td width="12" class="dia_required"> <strong>*</strong></td>
+  <td width="157" valign="top" align="right" id="dia_field_name_data_Event_Name" class="dia_field_name"><div align="left">Action Name:</div></td><td width="704" valign="top">
+
+  <%= event.text_field "name", :id => "dataEvent_Name", :maxlength => "64", :size => "30", :style => "background-color: rgb(235, 216, 151);", :title => "Please enter your action's name", :class => "required inputStyle" %>
+
+</td><td width="12" class="dia_required"> <strong>*</strong></td>
 	</tr><tr><td valign="top" align="right" class="dia_field_name" colspan="2"><div align="left">Description:<br />
 	  <span class="small_form">(This should be a brief description for people in your community who may want to attend your action.&nbsp; This is your big pitch: try to make your action sound as appealing as possible.&nbsp; Not quite sure about this one yet?&nbsp; No problem, just provide the basics.&nbsp; We’ll work with you in the coming months to figure out the rest.)</span><br />
-	      <textarea title="Please enter your action's description" class="required" name="Description" rows="7" cols="45" wysiwyg_small="true" style="background-color: rgb(235, 216, 151);" id="dataDescription"></textarea>
+    <%= event.text_area "description", :title => "Please enter your action's description", :class => "required", :rows => "7", :cols => "45", :wysiwyg_small => "true", :style => "background-color: rgb(235, 216, 151);", :id => "dataDescription" %>
 	</div></td>
 				<td class="dia_required"> <strong>*</strong></td>
 
 		</tr><tr><td valign="top" align="right" class="dia_field_name" colspan="2"><div align="left">Address:<br />
-	          <textarea title="Please enter your action's address" class="required" name="Address" rows="5" cols="45" style="background-color: rgb(235, 216, 151);"></textarea>
+    <% event.text_area "location", :title => "Please enter your action's address", :class => "required", :rows => "5", :cols => "45", :style => "background-color: rgb(235, 216, 151);" %>
 		</div></td><td class="dia_required"> <strong>*</strong></td>
-		</tr><tr><td valign="top" align="right" id="dia_field_name_data_City" class="dia_field_name"><div align="left">City:</div></td><td valign="top"><input name="City" id="dataEventCity" maxlength="128" size="30" style="background-color: rgb(235, 216, 151);" title="Please enter your action's city" class="required inputStyle" /></td><td class="dia_required"> <strong>*</strong></td>
-		</tr><tr><td valign="top" align="right" class="dia_field_name"><div align="left">State:</div></td><td><select title="Please choose your action's state" class="required validate-selection" style="background-color: rgb(235, 216, 151);" size="1" name="State" id="dataEventState">
-			<option>Select One...</option>
+		</tr><tr><td valign="top" align="right" id="dia_field_name_data_City" class="dia_field_name"><div align="left">City:</div></td><td valign="top">
 
-				<option value="AL">Alabama</option>
-        <option value="AK">Alaska</option>
-	<option value="AS">American Samoa</option>
-	<option value="AZ">Arizona</option>
-	<option value="AR">Arkansas</option>
-	<option value="CA">California</option>
+    <%= event.text_field "city", :id => "dataEventCity", :maxlength => "128", :size => "30", :style => "background-color: rgb(235, 216, 151);", :title => "Please enter your action's city", :class => "required inputStyle" %>
 
-	<option value="CO">Colorado</option>
-	<option value="CT">Connecticut</option>
-	<option value="DE">Delaware</option>
-	<option value="DC">D.C.</option>
-	<option value="FL">Florida</option>
-	<option value="GA">Georgia</option>
-
-	<option value="GU">Guam</option>
-        <option value="HI">Hawaii</option>
-	<option value="ID">Idaho</option>
-	<option value="IL">Illinois</option>
-	<option value="IN">Indiana</option>
-	<option value="IA">Iowa</option>
-
-	<option value="KS">Kansas</option>
-	<option value="KY">Kentucky</option>
-	<option value="LA">Louisiana</option>
-	<option value="ME">Maine</option>
-	<option value="MD">Maryland</option>
-	<option value="MA">Massachusetts</option>
-
-	<option value="MI">Michigan</option>
-	<option value="MN">Minnesota</option>
-	<option value="MS">Mississippi</option>
-	<option value="MO">Missouri</option>
-	<option value="MT">Montana</option>
-	<option value="NE">Nebraska</option>
-
-	<option value="NV">Nevada</option>
-	<option value="NH">New Hampshire</option>
-	<option value="NJ">New Jersey</option>
-	<option value="NM">New Mexico</option>
-	<option value="NY">New York</option>
-	<option value="NC">North Carolina</option>
-
-	<option value="ND">North Dakota</option>
-	<option value="OH">Ohio</option>
-	<option value="OK">Oklahoma</option>
-	<option value="OR">Oregon</option>
-	<option value="PA">Pennsylvania</option>
-	<option value="PR">Puerto Rico</option>
-
-	<option value="RI">Rhode Island</option>
-	<option value="SC">South Carolina</option>
-	<option value="SD">South Dakota</option>
-	<option value="TN">Tennessee</option>
-	<option value="TX">Texas</option>
-	<option value="UT">Utah</option>
-
-	<option value="VT">Vermont</option>
-        <option value="VI">Virgin Islands</option>
-        <option value="VA">Virginia</option>
-	<option value="WA">Washington</option>
-	<option value="WV">West Virginia</option>
-	<option value="WI">Wisconsin</option>
-
-	<option value="WY">Wyoming</option>
-	<option value="AB">Alberta</option>
-	<option value="BC">British Columbia</option>
-	<option value="MB">Manitoba</option>
-	<option value="NF">Newfoundland</option>
-	<option value="NB">New Brunswick</option>
-
-	<option value="NS">Nova Scotia</option>
-	<option value="NT">Northwest Territories</option>
-	<option value="NU">Nunavut</option>
-	<option value="ON">Ontario</option>
-	<option value="PE">Prince Edward Island</option>
-	<option value="QC">Quebec</option>
-
-	<option value="SK">Saskatchewan</option>
-	<option value="YT">Yukon Territory</option>
-	<option value="ot">Other</option>
-			</select>
-			
-			
-			<script>
-				//Set the value of the option box
-				var i;
-				var field=document.getElementById('dataEventState');
-				for (i=0; i<field.options.length;i++){
-					if (field.options[i].value==''){
-						field.options[i].selected=true;
-						break;
-					}
-				}
-			</script>
-			
+</td><td class="dia_required"> <strong>*</strong></td>
+</tr><tr><td valign="top" align="right" class="dia_field_name"><div align="left">State:</div></td><td>
+<%= event.select "state", DemocracyInAction::Helpers.state_options_for_select, :title => "Please select your actions's state", :class => "required validate-selection", :style => "background-color: rgb(235, 216, 151);", :size => "1", :id => "dataEventState" %>
 			
 			</td>
 			<td class="dia_required"> <strong>*</strong></td>
 
 			</tr><tr>
 			  <td align="right" class="dia_field_name"><div align="left">Zip Code:</div></td>
-			  <td><input type="text" name="Zip" maxlength="16" size="16" id="dataEventZip" style="background-color: rgb(235, 216, 151);" title="Please enter your action's zip code" class="required inputStyle" />
+			  <td>
+
+        <%= event.text_field "postal_code", :maxlength => "16", :size => "16", :id => "dataEventZip", :style => "background-color: rgb(235, 216, 151);", :title => "Please enter your action's zip code", :class => "required inputStyle" %>
+
+
 			&nbsp;&nbsp;
 			
             </td>
 			<td class="dia_required">
 			 <strong>*</strong>
 			</td></tr><tr><td valign="top" align="right" class="dia_field_name" colspan="2"><div align="left">Directions<br />
-		          <textarea style="background-color: rgb(235, 216, 151);" name="Directions" rows="5" cols="45" class="required" title="Please enter directions to your action"></textarea>
+      <%= event.text_area "directions", :style => "background-color: rgb(235, 216, 151);", :rows => "5", :cols => "45", :class => "required", :title => "Please enter directions to your action" %>
 			</div></td><td class="dia_required"> <strong>*</strong></td>
 
 		</tr><tr>
-			<script>function parseNull(d){if (d==null) return ""; else return d;}</script>
 			<td valign="top" align="right" class="dia_field_name"><div align="left">Start:</div></td>
 			<td valign="top">
-			
 
-			<input type="hidden" name="Start" />
-<select style="background-color: rgb(235, 216, 151);" value="2007" id="dataStartYEAR" name="StartYEAR">
-<option value="2007">2007</option>
-</select>
+<input type="hidden" name="Start" />
 
-<select style="background-color: rgb(235, 216, 151);" value="04" id="dataStartMONTH" name="StartMONTH">
-  <option value="04">April</option></select>
-  <select style="background-color: rgb(235, 216, 151);" value="14" id="dataStartDAY" name="StartDAY">
+<%= select_tag "#{event.object_name}[start][year]", "<option value=\"2007\">2007</option>", :disabled => true, :style => "background-color: rgb(235, 216, 151);", :id => "dataStartYEAR" %>
+<%= select_tag "#{event.object_name}[start][month]", "<option value=\"04\">April</option>", :disabled => true, :style => "background-color: rgb(235, 216, 151);", :id => "dataStartMONTH" %>
+<%= select_tag "#{event.object_name}[start][day]", '
   <option value="13">13</option>
   <option selected value="14">14</option>
-  <option value="15">15</option>
-  </select>
+  <option value="15">15</option>', :style => "background-color: rgb(235, 216, 151);", :id => "dataStartDAY" %>
 			
-<select style="background-color: rgb(235, 216, 151);" value="12:00:00.0" id="dataStartTIME" name="StartTIME">
-	<option>Time
-	</option><option value="06:00:00.0">6:00 AM
-	</option><option value="06:30:00.0">6:30 AM
-	</option><option value="07:00:00.0">7:00 AM
-	</option><option value="07:30:00.0">7:30 AM
-	</option><option value="08:00:00.0">8:00 AM
-	</option><option value="08:30:00.0">8:30 AM
-	</option><option value="09:00:00.0">9:00 AM
-	</option><option value="09:30:00.0">9:30 AM
-	</option><option value="10:00:00.0">10:00 AM
-	</option><option value="10:30:00.0">10:30 AM
-	</option><option value="11:00:00.0">11:00 AM
-	</option><option value="11:30:00.0">11:30 AM
-	</option><option selected value="12:00:00.0">12:00 PM
-	</option><option value="12:30:00.0">12:30 PM
-	</option><option value="13:00:00.0">1:00 PM
-	</option><option value="13:30:00.0">1:30 PM
-	</option><option value="14:00:00.0">2:00 PM
-	</option><option value="14:30:00.0">2:30 PM
-	</option><option value="15:00:00.0">3:00 PM
-	</option><option value="15:30:00.0">3:30 PM
-	</option><option value="16:00:00.0">4:00 PM
-	</option><option value="16:30:00.0">4:30 PM
-	</option><option value="17:00:00.0">5:00 PM
-	</option><option value="17:30:00.0">5:30 PM
-	</option><option value="18:00:00.0">6:00 PM
-	</option><option value="18:30:00.0">6:30 PM
-	</option><option value="19:00:00.0">7:00 PM
-	</option><option value="19:30:00.0">7:30 PM
-	</option><option value="20:00:00.0">8:00 PM
-	</option><option value="20:30:00.0">8:30 PM
-	</option><option value="21:00:00.0">9:00 PM
-	</option><option value="21:30:00.0">9:30 PM
-	</option><option value="22:00:00.0">10:00 PM
-	</option><option value="22:30:00.0">10:30 PM
-	</option><option value="23:00:00.0">11:00 PM
-	</option><option value="23:30:00.0">11:30 PM
-	</option><option value="00:00:00.0">12:00 AM
-	</option><option value="00:30:00.0">12:30 AM
-	</option><option value="01:00:00.0">1:00 AM
-	</option><option value="01:30:00.0">1:30 AM
-	</option><option value="02:00:00.0">2:00 AM
-	</option><option value="02:30:00.0">2:30 AM
-	</option><option value="03:00:00.0">3:00 AM
-	</option><option value="03:30:00.0">3:30 AM
-	</option><option value="04:00:00.0">4:00 AM
-	</option><option value="04:30:00.0">4:30 AM
-	</option><option value="05:00:00.0">5:00 AM
-	</option><option value="05:30:00.0">5:30 AM
-
-	</option></select>
-
+<%= select_tag "#{event.object_name}[start][time]", DemocracyInAction::Helpers.time_options_for_select(12), :style => "background-color: rgb(235, 216, 151);", :id => "dataStartTIME" %>
 	
 		</td>
 				<td class="dia_required"> <strong>*</strong></td>
 		</tr><tr>
-			<script>function parseNull(d){if (d==null) return ""; else return d;}</script>
 			<td valign="top" align="right" class="dia_field_name"><div align="left">End:</div></td>
 			<td valign="top">
-			
 
-			<input type="hidden" name="End" />
+<input type="hidden" name="End" />
 
-<select style="background-color: rgb(235, 216, 151);" value="2007" id="dataEndYEAR" name="EndYEAR">
-  <option value="2007">2007</option></select>
+<%= event.select_year "end", :style => "background-color: rgb(235, 216, 151);", :id => "dataEndYEAR" %>
 
+<%= event.select_month "end", :style => "background-color: rgb(235, 216, 151);", :id => "dataEndMONTH" %>
 
-<select style="background-color: rgb(235, 216, 151);" value="04" id="dataEndMONTH" name="EndMONTH">
-  <option value="04">April</option></select>
-<select style="background-color: rgb(235, 216, 151);" value="14" id="dataEndDAY" name="EndDAY">
-  <option value="13">13</option>
+<%= event.select_day "end", :style => "background-color: rgb(235, 216, 151);", :id => "dataEndDAY" %>
+<% day_options = '<option value="13">13</option>
   <option selected value="14">14</option>
-  <option value="15">15</option>
-</select>
+  <option value="15">15</option>' %>
 			
-			
-<select style="background-color: rgb(235, 216, 151);" value="14:00:00.0" id="dataEndTIME" name="EndTIME">
-	<option>Time
-	</option><option value="06:00:00.0">6:00 AM
-	</option><option value="06:30:00.0">6:30 AM
-	</option><option value="07:00:00.0">7:00 AM
-	</option><option value="07:30:00.0">7:30 AM
-	</option><option value="08:00:00.0">8:00 AM
-	</option><option value="08:30:00.0">8:30 AM
-	</option><option value="09:00:00.0">9:00 AM
-	</option><option value="09:30:00.0">9:30 AM
-	</option><option value="10:00:00.0">10:00 AM
-	</option><option value="10:30:00.0">10:30 AM
-	</option><option value="11:00:00.0">11:00 AM
-	</option><option value="11:30:00.0">11:30 AM
-	</option><option value="12:00:00.0">12:00 PM
-	</option><option value="12:30:00.0">12:30 PM
-	</option><option value="13:00:00.0">1:00 PM
-	</option><option value="13:30:00.0">1:30 PM
-	</option><option selected value="14:00:00.0">2:00 PM
-	</option><option value="14:30:00.0">2:30 PM
-	</option><option value="15:00:00.0">3:00 PM
-	</option><option value="15:30:00.0">3:30 PM
-	</option><option value="16:00:00.0">4:00 PM
-	</option><option value="16:30:00.0">4:30 PM
-	</option><option value="17:00:00.0">5:00 PM
-	</option><option value="17:30:00.0">5:30 PM
-	</option><option value="18:00:00.0">6:00 PM
-	</option><option value="18:30:00.0">6:30 PM
-	</option><option value="19:00:00.0">7:00 PM
-	</option><option value="19:30:00.0">7:30 PM
-	</option><option value="20:00:00.0">8:00 PM
-	</option><option value="20:30:00.0">8:30 PM
-	</option><option value="21:00:00.0">9:00 PM
-	</option><option value="21:30:00.0">9:30 PM
-	</option><option value="22:00:00.0">10:00 PM
-	</option><option value="22:30:00.0">10:30 PM
-	</option><option value="23:00:00.0">11:00 PM
-	</option><option value="23:30:00.0">11:30 PM
-	</option><option value="00:00:00.0">12:00 AM
-	</option><option value="00:30:00.0">12:30 AM
-	</option><option value="01:00:00.0">1:00 AM
-	</option><option value="01:30:00.0">1:30 AM
-	</option><option value="02:00:00.0">2:00 AM
-	</option><option value="02:30:00.0">2:30 AM
-	</option><option value="03:00:00.0">3:00 AM
-	</option><option value="03:30:00.0">3:30 AM
-	</option><option value="04:00:00.0">4:00 AM
-	</option><option value="04:30:00.0">4:30 AM
-	</option><option value="05:00:00.0">5:00 AM
-	</option><option value="05:30:00.0">5:30 AM
-
-	</option></select>
-
+<%= event.select_time "end", :style => "background-color: rgb(235, 216, 151);", :id => "dataEndTIME" %>
 	
 		</td>
 				<td class="dia_required"> <strong>*</strong></td>
   </tr></tbody></table>
-<input type="hidden" value="100" name="Maximum_Attendees" id="dataMaximum_Attendees" />
-<input type="hidden" value="Event_Name,Description,Start,End,Address,City,State,Directions,Zip,Maximum_Attendees," name="required" />
-<input type="hidden" value="true" name="updateRowValues" />
+<% end -%>
 
-<input type="hidden" value="On New Distributed Event" name="trigger" />
-<input type="hidden" value="Unconfirmed" name="Status" />
-<input type="hidden" value="Thank you for signing up! " name="successMessage" />
-<input type="hidden" value="http://stepitup07.org/article.php?id=39" name="redirect" />
-<input type="hidden" value="supporter_groups" name="table" />
-<input type="hidden" value="50838" name="groups_KEY" />
 <p align="center"><br />
+
 <input type="submit" value="Submit" />
 
 <script type="text/javascript" language="JavaScript">
-  var valid = new Validation("data", {useTitles : true});
+//  var valid = new Validation("data", {useTitles : true});
 </script>
 
-
-</p><p><strong>It may take up to 24 hours for your event to appear on the Step It Up 2007 website. We appreciate your patience.</strong>&nbsp;</p></div></div></form></td></tr></table>
+</p><p><strong>It may take up to 24 hours for your event to appear on the Step It Up 2007 website. We appreciate your patience.</strong>&nbsp;</p></div></div>
+<% end -%>
+</td></tr></table>

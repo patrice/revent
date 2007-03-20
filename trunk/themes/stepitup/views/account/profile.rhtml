@@ -1,0 +1,10 @@
+<%= render :partial => "menu" %>
+<% form_for :user, @user do |f| -%>
+<p><label for="user_first_name">First Name</label><br/>
+<%= f.text_field 'First_Name'  %></p>
+
+<p><label for="user_last_name">Last Name</label><br/>
+<%= f.text_field 'Last_Name'  %></p>
+
+<%= submit_tag %>
+<% end -%>
