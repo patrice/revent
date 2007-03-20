@@ -15,6 +15,7 @@ another:
   host_id: 3
   name: tech space
   location: 1370 Mission St, San Francisco, CA
+  directions: walk
   city: San Francisco
   state: CA
   start: <%= 1.day.from_now.to_s :db %>

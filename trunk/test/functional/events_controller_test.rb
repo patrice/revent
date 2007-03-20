@@ -58,6 +58,28 @@ class EventsControllerTest < Test::Unit::TestCase
     assert_equal num_events + 1, Event.count
   end
 
+  def test_create_with_democracy_in_action
+    @request.host = sites(:stepitup).host
+
+    now = Time.now.to_i
+    supporter = {:Email => "seth+#{now}@radicaldesigns.org", :First_Name => 'seth'}
+    event = {:name => "Event ##{now}", :description => "event #{now} description",
+      :location => 'here', :city => 'there', :state => 'CA', :postal_code => '94110',
+      :directions => 'come', :start => 1.hour.from_now, :end => 2.hours.from_now, :calendar_id => 1}
+    DIA_API_Simple.expects(:process).with(supporter).returns(1111)
+    num_events = Event.count
+    post :create, :event => {}, :democracy_in_action_supporter => supporter
+    assert_equal num_events + 1, Event.count
+#    assert_exists_in_dia @event
+    #    assert_links
+  end
+
+  def test_create_with_invalid_democracy_in_action_supporter
+  end
+
+  def test_create_with_invalid_democracy_in_action_event
+  end
+
   def test_edit
     get :edit, :id => 1
 

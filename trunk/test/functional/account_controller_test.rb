@@ -45,6 +45,14 @@ class AccountControllerTest < Test::Unit::TestCase
     assert_response :success
   end
 
+  def test_profile_with_democracy_in_action
+    set_use_democracy_in_action_auth
+    post :login, :email => 'test@test.com', :password => 'password'
+    get :profile
+    assert_response :success
+    assert_template 'dia_profile'
+  end
+
   def test_should_allow_signup
     assert_difference User, :count do
       create_user
