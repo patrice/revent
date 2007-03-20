@@ -59,5 +59,3 @@ end
 include Cartographer
 #ExceptionNotifier.exception_recipients = %w(seth@radicaldesigns.org)
 #ExceptionNotifier.email_prefix = "[ERROR - AmericaSaysNO] "
-
-API_OPTS = YAML.load_file(File.join(RAILS_ROOT,'config','democracyinaction-config.yml'))
