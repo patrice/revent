@@ -4,7 +4,7 @@
 <% end %>
 <div id='profile_event' >
 	<p class='profile_title'>Manage Your Event</p>
-	<p class="profile_dashboard_item"><%= link_to_function 'Edit Your Event', visual_effect(:toggle_blind,'profile_event_edit') %></p>
+	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_edit.gif'><%= link_to_function 'Edit Your Event', visual_effect(:toggle_blind,'profile_event_edit') %></p>
 	<div id='profile_event_edit' style="display:none;">
 		<p class='profile_subtitle'>Edit Your Event Information</p>	
     <% form_for :event, @event, :url => {:controller => 'account/events', :action => 'update', :id => @event} do |f| %>
@@ -13,7 +13,7 @@
 		<% end %>
 	</div>	
 	
-	<p class="profile_dashboard_item"><%= link_to_function 'View and Contact Event Attendees', visual_effect(:toggle_blind,'profile_event_attend') %></p>
+	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_atendee.gif'><%= link_to_function 'View and Contact Event Attendees', visual_effect(:toggle_blind,'profile_event_attend') %></p>
 	
 	<div id='profile_event_attend' style="display:none;">
 		<div id='profile_event_attend_contact'>
@@ -52,7 +52,7 @@
 
 	</div>
 	
-	<p class="profile_dashboard_item"><%= link_to_function 'Invite People to Your Event', visual_effect(:toggle_blind, 'profile_event_invite') %></p>
+	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_rsvp.gif'><%= link_to_function 'Invite People to Your Event', visual_effect(:toggle_blind, 'profile_event_invite') %></p>
 	<div id='profile_event_invite' style="display:none;">	
 		<p class='profile_subtitle'>Invite People to Your Event</p>
     <% form_for :invite, nil, :url => {:controller => 'account/events', :action => 'invite', :id => @event} do |f| %>
@@ -66,7 +66,7 @@
 	</div>
 	
 	
-	<p class="profile_dashboard_item"><%= link_to_function 'Write a Blog Post About Your Event', visual_effect(:toggle_blind, 'profile_event_blog') %></p>
+	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_blog.gif'><%= link_to_function 'Write a Blog Post About Your Event', visual_effect(:toggle_blind, 'profile_event_blog') %></p>
 	<div id='profile_event_blog' style="display:none;">
 		<div id='profile_event_blog_add'>	
 			<p class='profile_subtitle'>Add a Blog Posting about Your Event</p>
