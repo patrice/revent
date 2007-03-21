@@ -8,7 +8,7 @@ class EventDirectionsToText < ActiveRecord::Migration
       events = api.get('event', 'column' => 'Directions')
       events.each do |e|
         my_event = Event.find_by_service_foreign_key(e['event_KEY'])
-        my_event.update_attribute(:directions, e['Directions'])
+        my_event.update_attribute(:directions, e['Directions']) if my_event
       end
     end
   end
