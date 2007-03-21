@@ -2,10 +2,10 @@
 <% content_for :header do %>
 <%= javascript_include_tag 'effects' %>
 <% end %>
-<div id='profile_event'>
+<div id='profile_event' style="display:none;">
 	<p class='profile_title'>Manage Your Event</p>
 	<p class="profile_dashboard_item"><%= link_to_function 'Edit Your Event', visual_effect(:toggle_blind,'profile_event_edit') %></p>
-	<div id='profile_event_edit'>
+	<div id='profile_event_edit' style="display:none;">
 		<p class='profile_subtitle'>Edit Your Event Information</p>	
     <% form_for :event, @event, :url => {:controller => 'account/events', :action => 'update', :id => @event} do |f| %>
 		<%= render :partial => "form", :locals => {:f => f} %>
@@ -15,9 +15,9 @@
 	
 	<p class="profile_dashboard_item"><%= link_to_function 'View and Contact Event Attendees', visual_effect(:toggle_blind,'profile_event_attend') %></p>
 	
-	<div id='profile_event_attend'>
+	<div id='profile_event_attend' style="display:none;">
 		<div id='profile_event_attend_contact'>
-			<p class='profile_title'>Send Email to all Attendees</p>
+			<p class='profile_subtitle'>Send Email to all Attendees</p>
 			<% form_tag do %>
 			Subject:<br><%= text_field_tag 'subject' %><br/>
 			Message Text:<br><%= text_area_tag 'body', nil, :rows => 10 %><br/>
@@ -42,8 +42,10 @@
 		<div id='profile_event_attend_add'>
 			<p class='profile_subtitle'>Add Attendees</p>
 			<% form_tag do %>
-			Subject:<br><%= text_field_tag 'subject' %><br/>
-			Message Text:<br><%= text_area_tag 'body', nil, :rows => 10 %><br/>
+			First Name:<br><%= text_field_tag 'First_Name' %><br/>
+			Last Name:<br><%= text_field_tag 'Last_Name' %><br/>
+			Email:<br><%= text_field_tag 'Email' %><br/>
+			Phone:<br><%= text_field_tag 'Phone' %><br/>
 			<%= submit_tag %>
 			<% end %>
 		</div>
@@ -51,7 +53,7 @@
 	</div>
 	
 	<p class="profile_dashboard_item"><%= link_to_function 'Invite People to Your Event', visual_effect(:toggle_blind, 'profile_event_invite') %></p>
-	<div id='profile_event_invite'>	
+	<div id='profile_event_invite' style="display:none;">	
 		<p class='profile_subtitle'>Invite People to Your Event</p>
     <% form_for :invite, nil, :url => {:controller => 'account/events', :action => 'invite', :id => @event} do |f| %>
     Recipients:<br/><%= f.text_field 'recipients' %><br/>
@@ -89,9 +91,15 @@
 			</table>
 			
 		</div>
-		<div id='profile_event_blog_edit'>
+		<div id='profile_event_blog_edit' style="display:none;">
 			<p class='profile_subtitle'>Edit Blog Posting</p>
-
+			<% form_for :blog:, @blog  do |f| %>
+			Title:<br>
+			<%= f.text_field 'title' %><br/>
+			Content:<br>
+			<%= f.text_area 'body' :rows => 10 %><br/>
+			<%= submit_tag %>
+			<% end %>
 		</div>
 	</div>
 	
