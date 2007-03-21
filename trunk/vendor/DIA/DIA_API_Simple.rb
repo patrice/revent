@@ -9,10 +9,10 @@ class DIA_API_Simple < DIA_API
 										 'delete' => 'http://php/user/params.php',
 									 	 'unsubscribe' => 'http://php/user/params.php' }
 
-	@@DEFAULT_URLS = { 'get' => 'http://www.democracyinaction.org/dia/api/get.jsp',
-										 'process' => 'http://www.democracyinaction.org/dia/api/process.jsp',
-										 'delete' => 'http://www.democracyinaction.org/dia/api/delete.jsp',
-										 'unsubscribe' => 'http://www.democracyinaction.org/dia/api/processUnsubscribe.jsp'}
+	@@DEFAULT_URLS = { 'get' => 'http://api.democracyinaction.org/dia/api/get.jsp',
+										 'process' => 'http://api.democracyinaction.org/dia/api/process.jsp',
+										 'delete' => 'http://api.democracyinaction.org/dia/api/delete.jsp',
+										 'unsubscribe' => 'http://api.democracyinaction.org/dia/api/processUnsubscribe.jsp'}
 
 	attr_reader :user, :password, :orgkey
 	attr_reader :urls
