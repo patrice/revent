@@ -23,10 +23,11 @@
 }
 
 .profile_item_row{
-	background-color:#61993c;
-	font-color:#ffffff;
 	padding:4px;
+border:1px solid black;
+
 }
+
 
 .profile_subtitle {
 	font-size:18px;
