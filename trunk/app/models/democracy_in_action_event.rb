@@ -10,11 +10,13 @@ class DemocracyInActionEvent <  DemocracyInActionResource
 
 	# a list of all attributes that are links to another table
 	# stored as a hash table (name => Class to link to)
-	@@links = {'organization'=>DemocracyInActionOrganization, 'chapter'=>DemocracyInActionChapter, 'national_event'=>DemocracyInActionNationalEvent, 'distributed_event'=>DemocracyInActionDistributedEvent, 'supporter'=>DemocracyInActionSupporter, 'merchant_account'=>DemocracyInActionMerchantAccount}
+	#@@links = {'organization'=>DemocracyInActionOrganization, 'chapter'=>DemocracyInActionChapter, 'national_event'=>DemocracyInActionNationalEvent, 'distributed_event'=>DemocracyInActionDistributedEvent, 'supporter'=>DemocracyInActionSupporter, 'merchant_account'=>DemocracyInActionMerchantAccount}
+	@@links = {}
 
 	# same as @@links, but these end with _KEYS and allow one to
 	# link to multiple elements.
-	@@multilinks = {'groups'=>DemocracyInActionGroups, 'email_trigger'=>DemocracyInActionEmailTrigger, 'email_trigger'=>DemocracyInActionEmailTrigger, 'email_trigger'=>DemocracyInActionEmailTrigger, 'email_trigger'=>DemocracyInActionEmailTrigger}
+	#@@multilinks = {'groups'=>DemocracyInActionGroups, 'email_trigger'=>DemocracyInActionEmailTrigger, 'email_trigger'=>DemocracyInActionEmailTrigger, 'email_trigger'=>DemocracyInActionEmailTrigger, 'email_trigger'=>DemocracyInActionEmailTrigger}
+	@@multilinks = {}
 
 	# return db table associated with this class, used for DIA API calls
   def DemocracyInActionEvent.table
@@ -53,6 +55,7 @@ class DemocracyInActionEvent <  DemocracyInActionResource
       @data = Hash.new
       hash.each { |k, v| @data[k.to_s] = v.to_s }
 		end
+    yield self if block_given?
 	end
 
 end
