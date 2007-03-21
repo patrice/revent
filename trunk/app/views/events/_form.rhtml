@@ -2,27 +2,26 @@
 
 <!--[form:event]-->
 <p><label for="event_name">Name</label><br/>
-<%= text_field 'event', 'name'  %></p>
+<%= f.text_field 'name'  %></p>
 
 <p><label for="event_description">Description</label><br/>
-<%= text_area 'event', 'description', :rows => 5  %></p>
+<%= f.text_area 'description', :rows => 5  %></p>
 
 <p><label for="event_location">Location</label><br/>
-<%= text_area 'event', 'location', :rows => 3  %></p>
+<%= f.text_area 'location', :rows => 3  %></p>
 
 <p><label for="event_city">City</label><br/>
-<%= text_field 'event', 'city', :rows => 3  %></p>
+<%= f.text_field 'city', :rows => 3  %></p>
 
 <p><label for="event_state">State</label><br/>
-<%= text_field 'event', 'state', :rows => 3  %></p>
+<%= f.text_field 'state', :rows => 3  %></p>
 
 <p><label for="event_start">Start</label><br/>
-<%= datetime_select 'event', 'start'  %></p>
+<%= f.datetime_select 'start'  %></p>
 
 <p><label for="event_end">End</label><br/>
-<%= datetime_select 'event', 'end'  %></p>
+<%= f.datetime_select 'end'  %></p>
 
 <p><label for="calendar_id">Event Group</label><br/>
-<%= select 'event', 'calendar_id', Calendar.find(:all).collect {|c| [c.name, c.id]} %>
+<%= f.select 'calendar_id', Calendar.find(:all).collect {|c| [c.name, c.id]} %>
 <!--[eoform:event]-->
-
