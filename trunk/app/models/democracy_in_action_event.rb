@@ -4,6 +4,12 @@
 # must be defined in every subclass of DemocracyInActionResource
 # so the code in the parent class can work properly
 class DemocracyInActionEvent <  DemocracyInActionResource
+  def attendees
+    return @attendees if @attendees
+    links = @@api.get('supporter_events', 'where' => "event_KEY=#{key}")
+    @attendees = [DemocracyInActionSupporter.find(links.collect {|l| l['supporter_KEY']})].flatten
+  end
+
   # all attributes (columns) for this table.
   # stored as a hash table (name => 1)
   @@atts = {"key" => 1, "event_KEY"=>1, "organization_KEY"=>1, "chapter_KEY"=>1, "national_event_KEY"=>1, "distributed_event_KEY"=>1, "supporter_KEY"=>1, "Event_Name"=>1, "Last_Modified"=>1, "Date_Created"=>1, "Description"=>1, "Address"=>1, "City"=>1, "State"=>1, "Zip"=>1, "Directions"=>1, "Header"=>1, "Footer"=>1, "PRIVATE_Zip_Plus_4"=>1, "Start"=>1, "End"=>1, "Recurrence_Frequency"=>1, "Recurrence_Interval"=>1, "Contact_Email"=>1, "Guests_allowed"=>1, "Maximum_Attendees"=>1, "Maximum_Waiting_List_Size"=>1, "Map_URL"=>1, "Status"=>1, "This_Event_Costs_Money"=>1, "Ticket_Price"=>1, "merchant_account_KEY"=>1, "Default_Tracking_Code"=>1, "redirect_path"=>1, "Request"=>1, "Required"=>1, "groups_KEYS"=>1, "Automatically_add_to_Groups"=>1, "Display_to_Chapters"=>1, "Request_Additional_Attendees"=>1, "One_Column_Layout"=>1, "event$email_trigger_KEYS"=>1, "waiting_list$email_trigger_KEYS"=>1, "upgrade_$email_trigger_KEYS"=>1, "Reminder_Status"=>1, "reminder_$email_trigger_KEYS"=>1, "Reminder_Hours"=>1, "Latitude"=>1, "Longitude"=>1, "Template"=>1}

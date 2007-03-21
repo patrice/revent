@@ -6,9 +6,7 @@ class ApplicationController < ActionController::Base
   before_filter :login_from_cookie
   session :session_key => '_daysofaction_session_id'
   session :off, :if => Proc.new { |req| !(true == req.parameters[:admin]) }
-  #layout 'tmaction'
   layout :get_layout_from_domain
-  #layout :get_layout_from_route
 
   before_filter :set_referrer_cookie
   def set_referrer_cookie
@@ -34,14 +32,6 @@ class ApplicationController < ActionController::Base
 
   def get_theme_from_site
     site.theme
-  end
-
-  def get_layout_from_route
-    if 'truemajority' == params[:host]
-      return 'tmaction'
-    else
-      return 'truemajority'
-    end
   end
 
   def get_layout_from_domain

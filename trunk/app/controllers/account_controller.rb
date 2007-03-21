@@ -86,7 +86,7 @@ class AccountController < ApplicationController
   end
   
   def logout
-    self.current_user.forget_me if logged_in?
+    self.current_user.forget_me if logged_in? && self.current_user.respond_to?(:forget_me)
     cookies.delete :auth_token
     reset_session
     flash[:notice] = "You have been logged out."

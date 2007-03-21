@@ -1,3 +1,4 @@
+<%= render "account/menu" %>
 <div id='profile_event_dashboard' >
 	<p class='profile_subtitle'>Events You are Hosting<p>
 		<table>
@@ -8,7 +9,7 @@
 				<td>State</td>
 				<td>Name</td>				
 			</tr>
-			<% render :partial=> 'event', :collection=>@hosting%>
+			<%= render :partial => 'event', :collection => @hosting %>
 		</table>
 	<p class='profile_subtitle'>Events You are Attending<p>
 		<table>
@@ -19,9 +20,7 @@
 				<td>State</td>
 				<td>Name</td>				
 			</tr>
-			<% render :partial=> 'event', :collection=>@attending%>
+			<%= render :partial => 'event', :collection => @attending %>
 		</table>
 	<!--<p class='profile_subtitle'>Events Near You<p>-->
 </div>
-
-<%= debug(@events) %>

@@ -8,10 +8,22 @@ class Event < ActiveRecord::Base
 
   validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id
   validates_format_of :postal_code, :with => /^\d{5}(-\d{4})?$/
-  validates_format_of :state, :with => /[:upper:]{2}/
   #XXX: need to strip out DIA specific language
+
+  attr_accessor :dia_event
+
+  has_many :blogs
+
+  def after_save
+    self.to_democracy_in_action_event.save
+  end
+
   def dia_event
     @dia_event ||= DemocracyInActionEvent.find(service_foreign_key)
+  end
+
+  def dia_event=(event)
+    @dia_event = event
   end
 
   def to_democracy_in_action_event

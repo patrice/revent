@@ -20,3 +20,14 @@ another:
   state: CA
   start: <%= 1.day.from_now.to_s :db %>
   end: <%= 2.days.from_now.to_s :db %>
+stepitup:
+  id: 3
+  calendar_id: 1
+  name: stepitup
+  location: here
+  directions: walk
+  city: sf
+  state: CA
+  start: 2007-04-14 12:00:00
+  end: 2007-04-14 14:00:00
+  service_foreign_key: 1000

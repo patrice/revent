@@ -1,23 +1,26 @@
-
+<%= render "account/menu" %>
+<% content_for :header do %>
+<%= javascript_include_tag 'effects' %>
+<% end %>
 <div id='profile_event'>
 	<p class='profile_title'>Manage Your Event</p>
-	<p class="profile_dashboard_item"><%= link_to_function 'Edit Your Event', visual_effect('profile_event_edit', :toggle_appear)  %></p>
-	<div id='profile_event_edit' >
+	<p class="profile_dashboard_item"><%= link_to_function 'Edit Your Event', visual_effect(:toggle_blind,'profile_event_edit') %></p>
+	<div id='profile_event_edit'>
 		<p class='profile_subtitle'>Edit Your Event Information</p>	
-		<% form_for :event, @event do |f| %>
-		<%= render :partial=>"form", :locals =>{:f=>f}%>
+    <% form_for :event, @event, :url => {:controller => 'account/events', :action => 'update', :id => @event} do |f| %>
+		<%= render :partial => "form", :locals => {:f => f} %>
 		<%= submit_tag %>
 		<% end %>
 	</div>	
 	
-	<p class="profile_dashboard_item"><%= link_to_function 'View and Contact Event Attendees', visual_effect('profile_event_attend', :toggle_appear) %></p>
+	<p class="profile_dashboard_item"><%= link_to_function 'View and Contact Event Attendees', visual_effect(:toggle_blind,'profile_event_attend') %></p>
 	
-	<div id='profile_event_attend' >
+	<div id='profile_event_attend'>
 		<div id='profile_event_attend_contact'>
-			<p class='profile_subtitle'>Send Email to all Attendees</p>
+			<p class='profile_title'>Send Email to all Attendees</p>
 			<% form_tag do %>
 			Subject:<br><%= text_field_tag 'subject' %><br/>
-			Message Text:<br><%= text_area_tag 'body' :rows => 10 %><br/>
+			Message Text:<br><%= text_area_tag 'body', nil, :rows => 10 %><br/>
 			<%= submit_tag %>
 			<% end %>
 		</div>
@@ -31,28 +34,29 @@
 					<td>Email</td>
 					<td>Phone</td>
 				</tr>
-				<% render :partial=> 'attendee', :collection=>event.attendees%>				
+				<% render :partial => 'attendee', :collection => @event.dia_event.attendees %>
 			</table>
-			<br><p><%= link_to 'Download Attendees in a Spreadsheet', :action => 'download' :id =>@event %></p>
+			<br><p><%= link_to 'Download Attendees in a Spreadsheet', :action => 'download', :id => @event %></p>
 		</div>
 
 		<div id='profile_event_attend_add'>
 			<p class='profile_subtitle'>Add Attendees</p>
-			<% form_for :, @event do |f| %>
-			Subject:<br><%= f.text_field 'subject' %><br/>
-			Message Text:<br><%= f.text_area 'body' :rows => 10 %><br/>
+			<% form_tag do %>
+			Subject:<br><%= text_field_tag 'subject' %><br/>
+			Message Text:<br><%= text_area_tag 'body', nil, :rows => 10 %><br/>
 			<%= submit_tag %>
 			<% end %>
 		</div>
 
 	</div>
 	
-	<p class="profile_dashboard_item"><%= link_to_function 'Invite People to Your Event', visual_effect('profile_event_invite', :toggle_appear) %></p>
-	<div id='profile_event_invite' >	
+	<p class="profile_dashboard_item"><%= link_to_function 'Invite People to Your Event', visual_effect(:toggle_blind, 'profile_event_invite') %></p>
+	<div id='profile_event_invite'>	
 		<p class='profile_subtitle'>Invite People to Your Event</p>
-		<% form_tag do %>
-		Subject:<br><%= text_field_tag 'subject' %><br/>
-		Message Text:<br><%= text_area_tag 'body' :rows => 10 %><br/>
+    <% form_for :invite, nil, :url => {:controller => 'account/events', :action => 'invite', :id => @event} do |f| %>
+    Recipients:<br/><%= f.text_field 'recipients' %><br/>
+		Subject:<br/><%= f.text_field 'subject' %><br/>
+		Message Text:<br/><%= f.text_area 'body', :rows => 10 %><br/>
 		<%= submit_tag %>
 		<% end %>
 
@@ -60,15 +64,16 @@
 	</div>
 	
 	
-	<p class="profile_dashboard_item"><%= link_to_function 'Write a Blog Post About Your Event', visual_effect('profile_event_blog', :toggle_appear) %></p>
-	<div id='profile_event_blog' >
+	<p class="profile_dashboard_item"><%= link_to_function 'Write a Blog Post About Your Event', visual_effect(:toggle_blind, 'profile_event_blog') %></p>
+	<div id='profile_event_blog'>
 		<div id='profile_event_blog_add'>	
 			<p class='profile_subtitle'>Add a Blog Posting about Your Event</p>
-			<% form_for :blog:, @blog  do |f| %>
+      <% form_for :blog, @blog, :url => {:controller => 'account/blogs', :action => 'create'} do |f| %>
 			Title:<br>
 			<%= f.text_field 'title' %><br/>
 			Content:<br>
-			<%= f.text_area 'body' :rows => 10 %><br/>
+			<%= f.text_area 'body', :rows => 10 %><br/>
+      <%= f.hidden_field 'event_id' %>
 			<%= submit_tag %>
 			<% end %>
 		</div>
@@ -80,7 +85,7 @@
 					<td>Date</td>
 					<td>Title</td>
 				</tr>
-				<% render :partial=> 'blog', :collection=>event.blogs%>	>				
+				<%= render :partial => 'blog', :collection => @event.blogs %>
 			</table>
 			
 		</div>
