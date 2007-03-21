@@ -1,3 +1,27 @@
-<h1>this is the dashboard page</h2>
+<div id='profile_event_dashboard' >
+	<p class='profile_subtitle'>Events You are Hosting<p>
+		<table>
+			<tr class ="profile_header_row">
+				<td></td>
+				<td>Date</td>
+				<td>City</td>
+				<td>State</td>
+				<td>Name</td>				
+			</tr>
+			<% render :partial=> 'event', :collection=>@hosting%>
+		</table>
+	<p class='profile_subtitle'>Events You are Attending<p>
+		<table>
+			<tr class ="profile_header_row">
+				<td></td>
+				<td>Date</td>
+				<td>City</td>
+				<td>State</td>
+				<td>Name</td>				
+			</tr>
+			<% render :partial=> 'event', :collection=>@attending%>
+		</table>
+	<!--<p class='profile_subtitle'>Events Near You<p>-->
+</div>
 
 <%= debug(@events) %>

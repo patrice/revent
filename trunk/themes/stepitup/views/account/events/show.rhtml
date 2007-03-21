@@ -1,1 +1,82 @@
-individual event dashboard
+<div id='profile_event'>
+	<p class='profile_subtitle'>Manage Your Event</p>
+	<p><%= link_to_function 'Edit Your Event', visual_effect('profile_event_edit', :toggle_appear)  %></p>
+	<div id='profile_event_edit' style="display:none;">
+		<p class='profile_subtitle'>Edit Your Event Information</p>	
+		<% form_for :event, @event do |f| %>
+		<%= render :partial=>"form", :locals =>{:f=>f}%>
+		<%= submit_tag %>
+		<% end %>
+	</div>	
+	
+	<p><%= link_to_function 'View and Contact Event Attendees', visual_effect('profile_event_attend', :toggle_appear) %></p>
+	
+	<div id='profile_event_attend' style="display:none;">
+		<div id='profile_event_attend_contact'>
+			<p class='profile_title'>Send Email to all Attendees</p>
+			<% form_tag do %>
+			Subject:<br><%= text_field_tag 'subject' %><br/>
+			Message Text:<br><%= text_area_tag 'body' :rows => 10 %><br/>
+			<%= submit_tag %>
+			<% end %>
+		</div>
+
+		<div id='profile_event_attend_list'>
+			<p class='profile_title'>Event Attendees</p> 
+			<table>
+				<tr class = "profile_header">
+					<td>First Name</td>
+					<td>Last Name</td>
+					<td>Email</td>
+					<td>Phone</td>
+				</tr>
+				<% render :partial=> 'attendee', :collection=>event.attendees%>				
+			</table>
+			<br><p><%= link_to 'Download Attendees in a Spreadsheet', :action => 'download' :id =>@event %></p>
+		</div>
+
+		<div id='profile_event_attend_add'>
+			<p class='profile_title'>Add Attendees</p>
+			<% form_for :, @event do |f| %>
+			Subject:<br><%= f.text_field 'subject' %><br/>
+			Message Text:<br><%= f.text_area 'body' :rows => 10 %><br/>
+			<%= submit_tag %>
+			<% end %>
+		</div>
+
+	</div>
+	
+	<p><%= link_to_function 'Invite People to Your Event', visual_effect('profile_event_invite', :toggle_appear) %></p>
+	<div id='profile_event_invite' style="display:none;">	
+		<p class='profile_subtitle'>Invite People to Your Event</p>
+		<% form_tag do %>
+		Subject:<br><%= text_field_tag 'subject' %><br/>
+		Message Text:<br><%= text_area_tag 'body' :rows => 10 %><br/>
+		<%= submit_tag %>
+		<% end %>
+
+		<!--<p>Previously Invited Participants</p>-->	
+	</div>
+	
+	
+	<p><%= link_to_function 'Write a Blog Post About Your Event', visual_effect('profile_event_blog', :toggle_appear) %></p>
+	<div id='profile_event_blog' style="display:none;">
+		<div id='profile_event_blog_add'>	
+			<p class='profile_subtitle'>Add a Blog Posting about Your Event</p>
+			<% form_for :blog:, @blog  do |f| %>
+			Subject:<br><%= f.text_field 'title' %><br/>
+			Message Text:<br><%= f.text_area 'body' :rows => 10 %><br/>
+			<%= submit_tag %>
+			<% end %>
+		</div>
+		<div id='profile_event_blog_list'>
+			<p class='profile_subtitle'>Past Blog Postings</p>
+
+		</div>
+		<div id='profile_event_blog_edit'>
+			<p class='profile_subtitle'>Edit Blog Postings</p>
+
+		</div>
+	</div>
+	
+</div>
