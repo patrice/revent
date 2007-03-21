@@ -2,6 +2,39 @@
    Main StyleSheet for the 'Stepitup' theme
 */
 
-BODY {
-  
+#profile_event_edit, #profile_event_attend, #profile_event_invite, #profile_event_blog {
+	background-color:#E8E8E8;
+	padding:15px;
+	border:1px solid black;	
+}
+
+.profile_dashboard_item {
+	font-size:16px;
+}
+
+.profile_list_table{
+	width:90%;
+	margin-left:15px;
+	padding:0px 0px 0px 0px;
+}
+.profile_header_row{
+	background-color:#999999;
+	color:#ffffff;
+}
+
+.profile_item_row{
+	background-color:#61993c;
+	font-color:#ffffff;
+	padding:4px;
+}
+
+.profile_subtitle {
+	font-size:18px;
+	background-color:#61993c;
+	color:#FFFFFF;
+	padding:5px;
+}
+.profile_title {
+	font-size:22px;
+	padding:5px;
 }
