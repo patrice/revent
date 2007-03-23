@@ -15,9 +15,7 @@ class Event < ActiveRecord::Base
   has_many :blogs
 
   def after_save
-    e = self.to_democracy_in_action_event
-    e.Last_Modified = Time.now.to_s(:db) + '.0'
-    e.save
+    self.to_democracy_in_action_event.save
   end
 
   def dia_event
