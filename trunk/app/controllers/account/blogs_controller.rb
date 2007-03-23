@@ -4,7 +4,7 @@ class Account::BlogsController < ApplicationController
   after_filter :expire_page_cache
 
   def expire_page_cache
-    expire_page :controller => 'events', :action => 'show', :id => @blog.event_id
+    expire_page :controller => '/events', :action => 'show', :id => @blog.event_id
   end
 
   def create

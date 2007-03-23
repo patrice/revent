@@ -15,7 +15,7 @@ class Account::EventsController < ApplicationController
     @event.update_attributes(params[:event].merge(:calendar_id => 1))
     @event.save!
     flash[:notice] = 'Event updated'
-    expire_page :controller => 'events', :action => 'show', :id => @event
+    expire_page :controller => '/events', :action => 'show', :id => @event
     redirect_to :action => 'show', :id => @event
   end
 
