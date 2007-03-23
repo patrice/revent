@@ -5,7 +5,7 @@
 <div id='profile_event' >
 	<p class='profile_title'>Manage Your Event</p>
 	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_edit.gif'><%= link_to_function 'Edit Your Event', visual_effect(:toggle_blind,'profile_event_edit') %></p>
-	<div id='profile_event_edit' style="display:none;">
+  <div id='profile_event_edit'<% if @event.errors.empty? %> style="display:none;"<% end %>>
 		<p class='profile_subtitle'>Edit Your Event Information</p>	
     <% form_for :event, @event, :url => {:controller => 'account/events', :action => 'update', :id => @event} do |f| %>
 		<%= render :partial => "form", :locals => {:f => f} %>

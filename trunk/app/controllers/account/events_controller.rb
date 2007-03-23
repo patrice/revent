@@ -17,6 +17,8 @@ class Account::EventsController < ApplicationController
     flash[:notice] = 'Event updated'
     expire_page :controller => '/events', :action => 'show', :id => @event
     redirect_to :action => 'show', :id => @event
+  rescue ActiveRecord::RecordInvalid
+    render :action => 'show'
   end
 
   def invite
