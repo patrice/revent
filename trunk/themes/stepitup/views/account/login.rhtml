@@ -7,3 +7,11 @@
 
 <p><%= submit_tag 'Log in' %></p>
 <% end -%>
+<%= link_to_function 'get a login', visual_effect(:toggle_blind, 'activate') %>
+<div id="activate" style="display:none;">
+  <% form_tag '/account/send_activation' do %>
+    <p><label for="login">Email</label><br/>
+    <%= text_field_tag 'email' %></p>
+    <%= submit_tag 'Send' %>
+  <% end %>
+</div>

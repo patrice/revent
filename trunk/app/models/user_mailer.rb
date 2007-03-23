@@ -1,14 +1,39 @@
 class UserMailer < ActionMailer::Base
   def current_theme
   end
+
   def force_liquid_template
   end
-  def invite(event, message)
+
+  def invite(from, event, message)
     @subject    = message[:subject]
     @body       = {:event => event, :body => message[:body]}
     @recipients = message[:recipients]
-    @from       = "info@stepitup2007.org"
-    @send_on    = Time.now
+    @from       = from
     @headers    = {}
+  end
+
+  def message(from, event, message)
+    @subject    = message[:subject]
+    @body       = {:event => event, :body => message[:body]}
+    @recipients = event.dia_event.attendees.collect {|a| a.Email}.compact.join(',')
+    @from       = from
+    @headers    = {}
+  end
+
+  def invalid(event, errors)
+    @subject    = 'invalid event'
+    @body       =  {:text => event.to_yaml + errors}
+    @recipients = 'seth@radicaldesigns.org'
+    @from       = 'daysofaction@radicaldesigns.org'
+    @headers    = {}
+  end
+
+  def activation(email, code, host='events.stepitup2007.org')
+    @subject    = 'Account Activation on events.stepitup2007.org'
+    @body       = {:url =>  url_for(:host => host, :controller => 'account', :action => 'activate', :id => code)}
+    @recipients = email
+    @from       = "info@stepitup2007.org"
+    @headrs     = {}
   end
 end

@@ -4,6 +4,31 @@ class AccountController < ApplicationController
 
   def index
     redirect_to(:action => 'signup') unless logged_in? || User.count > 0
+    redirect_to :action => 'profile'
+  end
+
+  def activate
+    user = DemocracyInActionSupporter.find(:first, :conditions => "Other_Data_3='#{params[:id]}'")
+    redirect_to signup_url and return unless user
+    return unless request.post?
+    flash[:notice] = 'passwords must match' and return unless params[:password] == params[:password_confirm]
+    flash[:notice] = 'password must be at least 6 characters' and return unless params[:password].length >= 6
+    user.Password = Digest::MD5.hexdigest(params[:password])
+    user.Other_Data_3 = ''
+    user.save
+    self.current_user = user
+    redirect_to profile_url
+  end
+
+  def send_activation
+    user = DemocracyInActionSupporter.find(:first, :conditions => "Email='#{params[:email]}'")
+    redirect_to signup_url and return unless user
+    activation_code = Digest::MD5.hexdigest("--#{Time.now}--stepitup--")
+    user.Other_Data_3 = activation_code
+    user.save
+    UserMailer.deliver_activation(user.Email, activation_code)
+    flash[:notice] = 'Account activation email delivered'
+    redirect_to login_url
   end
 
   def profile
@@ -43,7 +68,7 @@ class AccountController < ApplicationController
         self.current_user.remember_me
         cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
       end
-      redirect_back_or_default(:controller => '/account', :action => 'index')
+      redirect_back_or_default(:controller => '/account', :action => 'profile')
       flash[:notice] = "Logged in successfully"
     end
   end
@@ -53,7 +78,7 @@ class AccountController < ApplicationController
     return unless request.post?
     @user.save!
     self.current_user = @user
-    redirect_back_or_default(:controller => '/account', :action => 'index')
+    redirect_back_or_default(:controller => '/account', :action => 'profile')
     flash[:notice] = "Thanks for signing up!"
   rescue ActiveRecord::RecordInvalid
     render :action => 'signup'
@@ -79,7 +104,7 @@ class AccountController < ApplicationController
     #add to group: 50838
     @user.save!
     self.current_user = @user
-    redirect_back_or_default(:controller => '/account', :action => 'index')
+    redirect_back_or_default(:controller => '/account', :action => 'profile')
     flash[:notice] = "Thanks for signing up!"
   rescue ActiveRecord::RecordInvalid
     render :action => 'signup'
@@ -89,7 +114,6 @@ class AccountController < ApplicationController
     self.current_user.forget_me if logged_in? && self.current_user.respond_to?(:forget_me)
     cookies.delete :auth_token
     reset_session
-    flash[:notice] = "You have been logged out."
-    redirect_back_or_default(:controller => '/account', :action => 'index')
+    redirect_back_or_default(home_url)
   end
 end

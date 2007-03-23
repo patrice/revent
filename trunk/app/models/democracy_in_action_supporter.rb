@@ -25,14 +25,21 @@ class DemocracyInActionSupporter <  DemocracyInActionResource
     @events.each {|e| e.dia_event = remote_events.select {|r| r.key == e.service_foreign_key}}
     return @events
   end
+  def events=(events)
+    @events=events
+  end
 
   def events_attending
     return @events_attending if @events_attending
-    links = @@api.get('supporter_events', 'where' => "supporter_KEY=#{key}")
+    links = @@api.get('supporter_event', 'where' => "supporter_KEY=#{key}")
+    return [] if links.empty?
     remote_events_attending = [DemocracyInActionEvent.find(links.collect {|l| l['event_KEY']})].flatten
     @events_attending = Event.find_all_by_service_foreign_key(remote_events_attending.collect {|e| e.key})
-    @events_attending.each {|e| e.dia_event = remote_events_attending.select {|r| r.key == e.service_foreign_key}}
+    @events_attending.each {|e| e.dia_event = remote_events_attending.detect {|r| r.key == e.service_foreign_key}}
     return @events_attending
+  end
+  def events_attending=(events)
+    @events_attending=events
   end
 
   # all attributes (columns) for this table.

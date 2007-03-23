@@ -55,6 +55,8 @@ Inflector.inflections do |inflect|
   inflect.plural /^(.*) of (.*)/i, '\1s of \2'
 end
 
+# Mime::Type.register "text/richtext", :rtf
+
 # Include your application configuration below
 include Cartographer
 #ExceptionNotifier.exception_recipients = %w(seth@radicaldesigns.org)

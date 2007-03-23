@@ -4,18 +4,16 @@
 		<table>
 			<tr class ="profile_header_row">
 				<td></td>
-				<td>Date</td>
 				<td>City</td>
 				<td>State</td>
 				<td>Name</td>				
 			</tr>
-			<%= render :partial => 'event', :collection => @hosting %>
+      <%= render :partial => 'event', :collection => @hosting, :locals => {:hosting => true} %>
 		</table>
 	<p class='profile_subtitle'>Events You are Attending<p>
 		<table>
 			<tr class ="profile_header_row">
 				<td></td>
-				<td>Date</td>
 				<td>City</td>
 				<td>State</td>
 				<td>Name</td>				

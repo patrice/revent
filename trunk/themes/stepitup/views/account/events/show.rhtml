@@ -18,9 +18,9 @@
 	<div id='profile_event_attend' style="display:none;">
 		<div id='profile_event_attend_contact'>
 			<p class='profile_subtitle'>Send Email to all Attendees</p>
-			<% form_tag do %>
-			Subject:<br><%= text_field_tag 'subject' %><br/>
-			Message Text:<br><%= text_area_tag 'body', nil, :rows => 10 %><br/>
+      <% form_for :message, nil, :url => {:controller => 'account/events', :action => 'message', :id => @event} do |f| %>
+			Subject:<br><%= f.text_field 'subject' %><br/>
+			Message Text:<br><%= f.text_area 'body', :rows => 10 %><br/>
 			<%= submit_tag %>
 			<% end %>
 		</div>
@@ -34,20 +34,45 @@
 					<td>Email</td>
 					<td>Phone</td>
 				</tr>
-				<% render :partial => 'attendee', :collection => @event.dia_event.attendees %>
+				<%= render :partial => 'attendee', :collection => @event.dia_event.attendees %>
 			</table>
-			<br><p><%= link_to 'Download Attendees in a Spreadsheet', :action => 'download', :id => @event %></p>
+      <br><p><%= link_to 'Download Attendees in a Spreadsheet', :action => 'attendees', :id => @event, :format => 'csv' %></p>
 		</div>
 
 		<div id='profile_event_attend_add'>
 			<p class='profile_subtitle'>Add Attendees</p>
-			<% form_tag do %>
-			First Name:<br><%= text_field_tag 'First_Name' %><br/>
-			Last Name:<br><%= text_field_tag 'Last_Name' %><br/>
-			Email:<br><%= text_field_tag 'Email' %><br/>
-			Phone:<br><%= text_field_tag 'Phone' %><br/>
-			<%= submit_tag %>
-			<% end %>
+			<% form_tag 'http://democracyinaction.org/dia/processEditValues.jsp' do %>
+        <input type="hidden" name="organization_KEY" value="1879">
+        <INPUT type=hidden name="table" value="supporter">
+        <INPUT type=hidden name="key" value="0">
+        <input type="hidden" name="link" value="event">
+        <input type="hidden" name="linkKey" value="<%= @event.service_foreign_key %>">
+        <input type="hidden" name="updateRowValues" value="true">
+        <input type="hidden" name="_Status" value="Signed Up">
+        <input type="hidden" name="_Type" value="Supporter">
+        First Name:<br><%= text_field_tag 'First_Name' %><br/>
+        Last Name:<br><%= text_field_tag 'Last_Name' %><br/>
+        Email:<br><%= text_field_tag 'Email' %><br/>
+        Phone:<br><%= text_field_tag 'Phone' %><br/>
+        <%= submit_tag 'Add' %>
+      <% end %>
+<!--
+<input type="hidden" name="updateRowValues" value="true">
+
+ <input type="hidden" name="_Status" value="Signed Up">
+<input type="hidden" name="email_trigger_KEYS" value="0,2654">
+
+<input type="hidden" name="_Type" value="Supporter">
+<input type="hidden" name="link" value="event">
+<input type="hidden" name="linkKey" value="21352">
+
+<input type="hidden" name="link" value="groups">
+<input type="hidden" name="linkKey" value="50839">
+        
+<input type="hidden" name="link" value="groups">
+<input type="hidden" name="linkKey" value="50837">
+-->
+
 		</div>
 
 	</div>

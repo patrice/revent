@@ -34,7 +34,7 @@ class Event < ActiveRecord::Base
       e.City        = city
       e.State       = state
       e.Zip         = postal_code
-      e.Start       = "#{start.to_s(:db)}.0"
+      e.Start       = "#{self.start.to_s(:db)}.0"
       e.End         = "#{self.end.to_s(:db)}.0"
       e.key         = service_foreign_key
       e.event_KEY   = service_foreign_key

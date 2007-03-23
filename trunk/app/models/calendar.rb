@@ -79,7 +79,12 @@ class Calendar < ActiveRecord::Base
         end
       end
 
-      my_event.save!
+      begin
+        my_event.save!
+      rescue ActiveRecord::RecordInvalid => err
+        UserMailer.deliver_invalid(my_event, err)
+        my_event.save(false)
+      end
     end
     result.imported = events.length
     if !events.empty?

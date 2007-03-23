@@ -6,7 +6,8 @@
 class DemocracyInActionEvent <  DemocracyInActionResource
   def attendees
     return @attendees if @attendees
-    links = @@api.get('supporter_events', 'where' => "event_KEY=#{key}")
+    links = @@api.get('supporter_event', 'where' => "supporter_event.event_KEY=#{key}")
+    return [] if links.empty?
     @attendees = [DemocracyInActionSupporter.find(links.collect {|l| l['supporter_KEY']})].flatten
   end
 
