@@ -18,7 +18,7 @@
 <%= f.text_field 'City'  %></p>
 
 <p><label for="State">State</label><br/>
-<%= f.text_field 'State'  %></p>
+<%= f.select "State", DemocracyInAction::Helpers.state_options_for_select %></p>
 
 <p><label for="Zip">Zip</label><br/>
 <%= f.text_field 'Zip'  %></p>
