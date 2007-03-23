@@ -70,6 +70,8 @@ class AccountController < ApplicationController
       end
       redirect_back_or_default(:controller => '/account', :action => 'profile')
       flash[:notice] = "Logged in successfully"
+    else
+      flash[:notice] = "Login failed"
     end
   end
 

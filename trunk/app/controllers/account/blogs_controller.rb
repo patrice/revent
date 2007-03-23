@@ -1,6 +1,11 @@
 class Account::BlogsController < ApplicationController
   session :disabled => false
   before_filter :login_required
+  after_filter :expire_page_cache
+
+  def expire_page_cache
+    expire_page :controller => 'events', :action => 'show', :id => @blog.event_id
+  end
 
   def create
     @blog = Blog.new(params[:blog])
