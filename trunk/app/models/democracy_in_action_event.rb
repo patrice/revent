@@ -5,10 +5,9 @@
 # so the code in the parent class can work properly
 class DemocracyInActionEvent <  DemocracyInActionResource
   def attendees
-    return @attendees if @attendees
-    links = @@api.get('supporter_event', 'where' => "supporter_event.event_KEY=#{key}")
+    links = @@api.get('supporter_event', 'where' => "supporter_event.event_KEY=#{key}", 'column' => 'supporter_KEY')
     return [] if links.empty?
-    @attendees = [DemocracyInActionSupporter.find(links.collect {|l| l['supporter_KEY']})].flatten
+    [DemocracyInActionSupporter.find(links.collect {|l| l['supporter_KEY']})].flatten
   end
 
   # all attributes (columns) for this table.

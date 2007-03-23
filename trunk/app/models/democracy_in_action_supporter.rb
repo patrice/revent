@@ -19,7 +19,6 @@ class DemocracyInActionSupporter <  DemocracyInActionResource
   end
 
   def events
-    return @events if @events
     remote_events = [DemocracyInActionEvent.find(:all, :conditions => "supporter_KEY=#{key}")].flatten
     @events = Event.find_all_by_service_foreign_key(remote_events.collect {|e| e.key})
     @events.each {|e| e.dia_event = remote_events.select {|r| r.key == e.service_foreign_key}}
@@ -30,7 +29,6 @@ class DemocracyInActionSupporter <  DemocracyInActionResource
   end
 
   def events_attending
-    return @events_attending if @events_attending
     links = @@api.get('supporter_event', 'where' => "supporter_KEY=#{key}")
     return [] if links.empty?
     remote_events_attending = [DemocracyInActionEvent.find(links.collect {|l| l['event_KEY']})].flatten
