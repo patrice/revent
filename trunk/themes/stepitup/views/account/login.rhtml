@@ -1,3 +1,5 @@
+<h1>You Must Login to Continue</h1> 
+
 <% form_tag do %>
 <p><label for="login">Email</label><br/>
 <%= text_field_tag 'email' %></p>
@@ -7,8 +9,21 @@
 
 <p><%= submit_tag 'Log in' %></p>
 <% end -%>
-<%= link_to_function 'get a login', visual_effect(:toggle_blind, 'activate') %>
-<div id="activate" style="display:none;">
+<%= link_to_function 'Forgot your Password?', visual_effect(:toggle_blind, 'remind') %>
+<div id="remind" style="display:none;">
+	Enter your email address below and we will send you your new password. You should change your password once you login to something you can remember.
+  <% form_tag '/account/send_activation' do %>
+    <p><label for="login">Email</label><br/>
+    <%= text_field_tag 'email' %></p>
+    <%= submit_tag 'Send' %>
+  <% end %>
+</div>
+
+<hr>
+<br>
+<h1>First Time Logging In?</h1> 
+Enter your email address below and we will send you your new password. You should change your password once you login to something you can remember.
+<div id="activate" >
   <% form_tag '/account/send_activation' do %>
     <p><label for="login">Email</label><br/>
     <%= text_field_tag 'email' %></p>
