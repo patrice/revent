@@ -30,10 +30,11 @@ class UserMailer < ActionMailer::Base
   end
 
   def activation(email, code, host='events.stepitup2007.org')
-    @subject    = 'Account Activation on events.stepitup2007.org'
-    @body       = {:url =>  url_for(:host => host, :controller => 'account', :action => 'activate', :id => code)}
-    @recipients = email
-    @from       = "info@stepitup2007.org"
-    @headrs     = {}
+    subject       'Account Activation on events.stepitup2007.org'
+    body          :url => url_for(:host => host, :controller => 'account', :action => 'activate', :id => code)
+    recipients    email
+    from          "info@stepitup2007.org"
+    headers       {}
+    content_type  "text/html"
   end
 end
