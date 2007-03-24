@@ -7,7 +7,7 @@ class DemocracyInActionEvent <  DemocracyInActionResource
   def attendees
     links = @@api.get('supporter_event', 'where' => "supporter_event.event_KEY=#{key}", 'column' => 'supporter_KEY')
     return [] if links.empty?
-    [DemocracyInActionSupporter.find(links.collect {|l| l['supporter_KEY']})].flatten
+    [DemocracyInActionSupporter.find(links.collect {|l| l['supporter_KEY']})].flatten.compact
   end
 
   # all attributes (columns) for this table.
