@@ -22,7 +22,11 @@ class AccountController < ApplicationController
 
   def send_activation
     user = DemocracyInActionSupporter.find(:first, :conditions => "Email='#{params[:email]}'")
-    redirect_to signup_url and return unless user
+    if !user
+      flash[:notice] = "Email not found"
+      redirect_to login_url
+      return
+    end
     activation_code = Digest::MD5.hexdigest("--#{Time.now}--stepitup--")
     user.Other_Data_3 = activation_code
     user.save
