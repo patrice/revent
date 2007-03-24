@@ -5,18 +5,18 @@ class UserMailer < ActionMailer::Base
   def force_liquid_template
   end
 
-  def invite(from, event, message)
+  def invite(from, event, message, host='events.stepitup2007.org')
     @subject    = message[:subject]
-    @body       = {:event => event, :body => message[:body]}
-    @recipients = message[:recipients]
+    @body       = {:event => event, :message => message[:body], :url => url_for(:host => host, :controller => 'events', :action => 'show', :id => event)}
+    @bcc        = message[:recipients]
     @from       = from
     @headers    = {}
   end
 
   def message(from, event, message)
     @subject    = message[:subject]
-    @body       = {:event => event, :body => message[:body]}
-    @recipients = event.dia_event.attendees.collect {|a| a.Email}.compact.join(',')
+    @body       = {:event => event, :message => message[:body]}
+    @bcc        = event.dia_event.attendees.collect {|a| a.Email}.compact.join(',')
     @from       = from
     @headers    = {}
   end
