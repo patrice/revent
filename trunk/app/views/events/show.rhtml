@@ -49,3 +49,10 @@
 <div id="eventmap" style="width: 450px; height: 300px"></div>
   <%= @map.to_html if @map %>
 </div>
+
+<% if !@event.blogs.empty? -%>
+<div id="announcements">
+	<h3>Event Announcements</h3>
+	<%= render :partial => "announcement", :collection => @event.blogs  %>
+</div>	
+<% end -%>
