@@ -18,7 +18,7 @@
 				<td>State</td>
 				<td>Name</td>				
 			</tr>
-			<%= render :partial => 'event', :collection => @attending %>
+      <%= render :partial => 'event', :collection => @attending, :locals => {:hosting => false} %>
 		</table>
 	<!--<p class='profile_subtitle'>Events Near You<p>-->
 </div>
