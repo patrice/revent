@@ -4,10 +4,9 @@
 <% end %>
 <div id='profile_event' >
 	<p class='profile_title'>Manage Your Event</p>
-	<b><%= @event.name %></b><br>
-	<b><%= @event.name %>, <%= @event.state %> </b><br>
-	
-	<br><br>
+	<b><%= link_to @event.name, :action => 'event', :id => @event %></b><br>
+	<b><%= @event.city %>, <%= @event.state %> </b><br>
+	<br>
 	
 	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_edit.gif'><%= link_to_function 'Edit Your Event', visual_effect(:toggle_blind,'profile_event_edit') %></p>
   <div id='profile_event_edit'<% if @event.errors.empty? %> style="display:none;"<% end %>>
@@ -88,8 +87,8 @@
 	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_blog.gif'><%= link_to_function 'Write a Blog Post About Your Event', visual_effect(:toggle_blind, 'profile_event_blog') %></p>
 	<div id='profile_event_blog' style="display:none;">
 		<div id='profile_event_blog_add'>	
-			<p class='profile_subtitle'>Add a Blog Posting about Your Event</p>
-			Blog postings about your event will show up on the bottom of your event page.<br><br>
+			<p class='profile_subtitle'>Add an Announcements about Your Event</p>
+			Announcements will show up on the bottom of your event page.<br><br>
       <% form_for :blog, @blog, :url => {:controller => 'account/blogs', :action => 'create'} do |f| %>
 			Title:<br>
 			<%= f.text_field 'title' %><br/>
@@ -100,7 +99,7 @@
 			<% end %>
 		</div>
 		<div id='profile_event_blog_list'>
-			<p class='profile_subtitle'>Past Blog Postings</p>
+			<p class='profile_subtitle'>Past Announcements</p>
 			<table class='profile_list_table'>
 				<tr class = "profile_header_row">
 					<td></td>
@@ -112,7 +111,7 @@
 			
 		</div>
 		<div id='profile_event_blog_edit' style="display:none;">
-			<p class='profile_subtitle'>Edit Blog Posting</p>
+			<p class='profile_subtitle'>Edit Announcements</p>
 			Title:<br>
 			Content:<br>
 		</div>
