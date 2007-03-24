@@ -4,7 +4,7 @@
 <% end %>
 <div id='profile_event' >
 	<p class='profile_title'>Manage Your Event</p>
-	<b><%= link_to @event.name, :action => 'event', :id => @event %></b><br>
+	<b><%= link_to @event.name, :controller => '/events', :action => 'show', :id => @event %></b><br>
 	<b><%= @event.city %>, <%= @event.state %> </b><br>
 	<br>
 	
