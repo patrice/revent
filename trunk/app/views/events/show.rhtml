@@ -30,7 +30,11 @@
   <p><a href="#" onclick="window.open('http://democracyinaction.org/dia/api/event/email.jsp?event_KEY=<%= @event.service_foreign_key %>','','width=500,height=350'); return false;">Questions? Email the Host</a>
 	</p>
 <p></p>
-
+<div id="announcements">
+	<h3>Event Announcements</h3>
+	<%= render :partial => "announcement", :collection => @event.blogs  %>
+</div>	
+<% end -%
 <% if @event.past? -%>
   <% if @event.reports.empty? -%>
   <div id='report-none'>
@@ -45,14 +49,12 @@
 <% else -%>
 <%= render "events/rsvp" %>
 <% end -%>
+
+<% if !@event.blogs.empty? -%>
+>
 <br>
 <div id="eventmap" style="width: 450px; height: 300px"></div>
   <%= @map.to_html if @map %>
 </div>
 
-<% if !@event.blogs.empty? -%>
-<div id="announcements">
-	<h3>Event Announcements</h3>
-	<%= render :partial => "announcement", :collection => @event.blogs  %>
-</div>	
-<% end -%>
+
