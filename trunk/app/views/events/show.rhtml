@@ -35,7 +35,7 @@
 	<h3>Event Announcements</h3>
 	<%= render :partial => "announcement", :collection => @event.blogs  %>
 </div>	
-<% end -%
+<% end -%>
 <% if @event.past? -%>
   <% if @event.reports.empty? -%>
   <div id='report-none'>
