@@ -18,3 +18,5 @@ config.action_controller.perform_caching             = true
 # config.action_mailer.raise_delivery_errors = false
 
 API_OPTS = YAML.load_file(File.join(RAILS_ROOT,'config','democracyinaction-config.yml'))
+
+ActionMailer::Base.delivery_method = :sendmail  
