@@ -12,6 +12,7 @@ module ActionView
 
       # Overrides the default <tt>Base#render_file</tt> to allow theme-specific views
       def render_file(template_path, use_full_path = true, local_assigns = {})
+        return __render_file(template_path, use_full_path, local_assigns) if @controller.class.superclass == ActionMailer::Base
          search_path = [
             "../themes/#{controller.current_theme}/views",      # for components
             "../../themes/#{controller.current_theme}/views",   # for normal views
