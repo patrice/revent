@@ -35,6 +35,5 @@ class UserMailer < ActionMailer::Base
     recipients    email
     from          "info@stepitup2007.org"
     headers       {}
-    content_type  "text/html"
   end
 end
