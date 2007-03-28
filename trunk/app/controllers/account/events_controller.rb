@@ -12,6 +12,7 @@ class Account::EventsController < ApplicationController
   end
 
   def update
+    redirect_to :action => 'show' and return unless params[:event]
     @event.update_attributes(params[:event].merge(:calendar_id => 1))
     @event.save!
     flash[:notice] = 'Event updated'
