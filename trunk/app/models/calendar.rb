@@ -16,12 +16,12 @@ class Calendar < ActiveRecord::Base
     @@deleted_events.each do |e|
       e.destroy
       FileUtils.rm(File.join(ActionController::Base.page_cache_directory,"events/show/#{e.id}.html")) rescue Errno::ENOENT
+      FileUtils.rm(File.join(ActionController::Base.fragment_cache_store.cache_path, "events/_report/event_#{e.id}_list_item.cache")) rescue Errno::ENOENT
     end
     unless @@deleted_events.empty?
       FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'index.html')) rescue Errno::ENOENT
       FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','total.html')) rescue Errno::ENOENT
       FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','flashmap.xml')) rescue Errno::ENOENT
-      FileUtils.rm_rf(Dir.glob(File.join(ActionController::Base.fragment_cache_store.cache_path,'*')))
       @@deleted_events.collect {|e| e.state}.compact.uniq.each do |s|
         FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','search','state',"#{s}.html")) rescue Errno::ENOENT
       end
@@ -116,7 +116,7 @@ class Calendar < ActiveRecord::Base
         my_event.save(false)
       end
       FileUtils.rm(File.join(ActionController::Base.page_cache_directory,"events/show/#{my_event.id}.html")) rescue Errno::ENOENT
-      FileUtils.rm(File.join(ActionController::Base.fragment_cache_store.cache_path, "events/_report/event_#{@event.id}_list_item.cache"))
+      FileUtils.rm(File.join(ActionController::Base.fragment_cache_store.cache_path, "events/_report/event_#{my_event.id}_list_item.cache")) rescue Errno::ENOENT
     end
 
     result.imported = events.length
