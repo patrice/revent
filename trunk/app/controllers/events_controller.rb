@@ -32,7 +32,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = Event.find(params[:id], :include => [:reports => [:attachments]])
+    @event = Event.find(params[:id], :include => [:blogs, {:reports => :attachments}])
     if @event.latitude && @event.longitude
       @map = Cartographer::Gmap.new('eventmap')
       @map.init do |m|

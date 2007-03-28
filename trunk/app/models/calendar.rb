@@ -19,6 +19,7 @@ class Calendar < ActiveRecord::Base
     end
     unless @@deleted_events.empty?
       FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'index.html')) rescue Errno::ENOENT
+      FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','total.html')) rescue Errno::ENOENT
       FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','flashmap.xml')) rescue Errno::ENOENT
       FileUtils.rm_rf(Dir.glob(File.join(ActionController::Base.fragment_cache_store.cache_path,'*')))
       @@deleted_events.collect {|e| e.state}.compact.uniq.each do |s|
@@ -65,7 +66,7 @@ class Calendar < ActiveRecord::Base
     events.each do |e|
       my_event = Event.find_or_initialize_by_service_foreign_key(e['event_KEY'])
       rm_index ||= my_event.new_record?
-      rm_flashmap ||= new_record? || my_event.postal_code != e['Zip'] ||
+      rm_flashmap ||= my_event.new_record? || my_event.postal_code != e['Zip'] ||
         my_event.city != e['City'] || my_event.state != e['State'] || 
         my_event.name != e['Event_Name']
 
@@ -106,11 +107,11 @@ class Calendar < ActiveRecord::Base
     end
     result.imported = events.length
     if !events.empty?
-      states.compact!.uniq!
-      states.each do |s|
+      states.compact.uniq.each.each do |s|
         FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','search','state',"#{s}.html")) rescue Errno::ENOENT
       end
       FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'index.html')) rescue Errno::ENOENT if rm_index
+      FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','total.html')) rescue Errno::ENOENT if rm_index
       FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','flashmap.xml')) rescue Errno::ENOENT if rm_flashmap
       FileUtils.rm_rf(Dir.glob(File.join(ActionController::Base.fragment_cache_store.cache_path,'*')))
       RAILS_DEFAULT_LOGGER.info("Caches fully swept after adding #{events.length} events")
