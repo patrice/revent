@@ -17,7 +17,7 @@ class Account::EventsController < ApplicationController
     flash[:notice] = 'Event updated'
     expire_page :controller => '/events', :action => 'show', :id => @event
     expire_fragment "events/_report/event_#{@event.id}_list_item"
-    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','search','state',"#{@event.state}.html")) rescue Errno::ENOENT
+    expire_page :controller => '/events', :action => 'search', :state => @event.state
     redirect_to :action => 'show', :id => @event
   rescue ActiveRecord::RecordInvalid
     render :action => 'show'
