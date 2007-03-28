@@ -84,11 +84,12 @@
 	</div>
 	
 	
-	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_blog.gif'><%= link_to_function 'Post an Announcement Post About Your Event', visual_effect(:toggle_blind, 'profile_event_blog') %></p>
-	<div id='profile_event_blog' style="display:none;">
+	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_blog.gif'><%= link_to_function 'Post an Announcement About Your Event', visual_effect(:toggle_blind, 'profile_event_blog') %></p>
+	<div id='profile_event_blog'<% if @blog.errors.empty? %> style="display:none;"<% end %>>
 		<div id='profile_event_blog_add'>	
 			<p class='profile_subtitle'>Add an Announcements about Your Event</p>
 			Announcements will show up on the bottom of your event page.<br><br>
+      <%= error_messages_for :blog %>
       <% form_for :blog, @blog, :url => {:controller => 'account/blogs', :action => 'create'} do |f| %>
 			Title:<br>
 			<%= f.text_field 'title' %><br/>

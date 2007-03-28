@@ -9,6 +9,9 @@ class Account::BlogsController < ApplicationController
     @blog.save!
     flash[:notice] = 'Announcement saved'
     redirect_to :controller => 'account/events', :action => 'show', :id => @blog.event_id
+  rescue ActiveRecord::RecordInvalid
+    flash[:notice] = 'There were errors with your announcement'
+    render 'account/events/show'
   end
 
   def update
