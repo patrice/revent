@@ -39,4 +39,34 @@ class Test::Unit::TestCase
     message ||= "File not found: #{file}"
     assert File.file?(file), message
   end
+
+  def assert_cached(url)
+    assert page_cache_exists?(url), "#{url} is not cached"
+  end
+
+  def assert_not_cached(url)
+    assert !page_cache_exists?(url), "#{url} is cached"
+  end
+
+  def page_cache_exists?(url)
+    File.exists? page_cache_test_file(url)
+  end
+
+  def page_cache_test_file(url)
+    File.join ActionController::Base.page_cache_directory, page_cache_file(url).reverse.chomp('/').reverse
+  end
+
+  def page_cache_file(url)
+    ActionController::Base.send :page_cache_file, url.gsub(/$https?:\/\//, '')
+  end
+
+  def assert_caches_pages(*urls)
+    yield(urls) if block_given?
+    urls.map { |url| assert_cached url }
+  end
+
+  def assert_expires_pages(*urls)
+    yield(urls) if block_given?
+    urls.map { |url| assert_not_cached url }
+  end
 end

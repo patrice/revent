@@ -15,11 +15,16 @@ class Calendar < ActiveRecord::Base
     find_deleted_events
     @@deleted_events.each do |e|
       e.destroy
+      FileUtils.rm(File.join(ActionController::Base.page_cache_directory,"events/show/#{e.id}.html")) rescue Errno::ENOENT
     end
-    if !@@deleted_events.empty?
-      FileUtils.rm_rf(File.join(RAILS_ROOT,'public','events')) rescue Errno::ENOENT
-      FileUtils.rm(File.join(RAILS_ROOT,'public','index.html')) rescue Errno::ENOENT
-      RAILS_DEFAULT_LOGGER.info("Caches fully swept after deleting #{@@deleted_events.length} events")
+    unless @@deleted_events.empty?
+      FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'index.html')) rescue Errno::ENOENT
+      FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','flashmap.xml')) rescue Errno::ENOENT
+      FileUtils.rm_rf(Dir.glob(File.join(ActionController::Base.fragment_cache_store.cache_path,'*')))
+      @@deleted_events.collect {|e| e.state}.compact.uniq.each do |s|
+        FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','search','state',"#{s}.html")) rescue Errno::ENOENT
+      end
+    RAILS_DEFAULT_LOGGER.info("Caches fully swept after deleting #{@@deleted_events.length} events")
     end
   end
 
@@ -44,6 +49,9 @@ class Calendar < ActiveRecord::Base
     require 'DIA_API_Simple'
     api = DIA_API_Simple.new opts
     events = api.get('event', options[:options_for_dia] || {})
+    result = DiaLoadResult.new 0, 0, 0
+    return result if events.empty?
+
     gmaps = Cartographer::Header.new
     if gmaps.has_key? options[:host]
       application_id = gmaps.value_for options[:host]
@@ -51,9 +59,16 @@ class Calendar < ActiveRecord::Base
       gg = GoogleGeocode::Accuracy.new application_id
     end
 
-    result = DiaLoadResult.new 0, 0, 0
+    states = []
+    rm_index = false
+    rm_flashmap = false
     events.each do |e|
-      my_event = Event.find_or_create_by_service_foreign_key(e['event_KEY'])
+      my_event = Event.find_or_initialize_by_service_foreign_key(e['event_KEY'])
+      rm_index ||= my_event.new_record?
+      rm_flashmap ||= new_record? || my_event.postal_code != e['Zip'] ||
+        my_event.city != e['City'] || my_event.state != e['State'] || 
+        my_event.name != e['Event_Name']
+
       my_event.calendar_id = id
       my_event.name = e['Event_Name']
       my_event.description = e['Description']
@@ -79,18 +94,25 @@ class Calendar < ActiveRecord::Base
         end
       end
 
+      my_event.perform_remote_update = false
       begin
         my_event.save!
       rescue ActiveRecord::RecordInvalid => err
         UserMailer.deliver_invalid(my_event, err)
         my_event.save(false)
       end
+      FileUtils.rm(File.join(ActionController::Base.page_cache_directory,"events/show/#{my_event.id}.html")) rescue Errno::ENOENT
+      states << my_event.state
     end
     result.imported = events.length
     if !events.empty?
-      FileUtils.rm_rf(Dir.glob(File.join(RAILS_ROOT,'tmp','cache','*')))
-      FileUtils.rm_rf(File.join(RAILS_ROOT,'public','events')) rescue Errno::ENOENT
-      FileUtils.rm(File.join(RAILS_ROOT,'public','index.html')) rescue Errno::ENOENT
+      states.compact!.uniq!
+      states.each do |s|
+        FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','search','state',"#{s}.html")) rescue Errno::ENOENT
+      end
+      FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'index.html')) rescue Errno::ENOENT if rm_index
+      FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','flashmap.xml')) rescue Errno::ENOENT if rm_flashmap
+      FileUtils.rm_rf(Dir.glob(File.join(ActionController::Base.fragment_cache_store.cache_path,'*')))
       RAILS_DEFAULT_LOGGER.info("Caches fully swept after adding #{events.length} events")
     end
     return result

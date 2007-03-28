@@ -14,8 +14,14 @@ class Event < ActiveRecord::Base
 
   has_many :blogs
 
-  def after_save
-    self.to_democracy_in_action_event.save
+  attr_accessor :perform_remote_update
+  after_update :update_remote
+  def update_remote
+    self.to_democracy_in_action_event.save if perform_remote_update?
+  end
+
+  def perform_remote_update?
+    @perform_remote_update.nil? ? true : @perform_remote_update
   end
 
   def dia_event
