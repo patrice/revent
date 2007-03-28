@@ -1,4 +1,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
+
+require 'mocha'
+require 'DIA_API_Simple'
+
 class CachingTest < ActionController::IntegrationTest
   fixtures :events, :sites, :calendars
 

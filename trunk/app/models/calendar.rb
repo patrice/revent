@@ -107,7 +107,7 @@ class Calendar < ActiveRecord::Base
     end
     result.imported = events.length
     if !events.empty?
-      states.compact.uniq.each.each do |s|
+      states.compact.uniq.each do |s|
         FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','search','state',"#{s}.html")) rescue Errno::ENOENT
       end
       FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'index.html')) rescue Errno::ENOENT if rm_index
