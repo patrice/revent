@@ -25,6 +25,7 @@ class Account::EventsController < ApplicationController
   end
 
   def invite
+    redirect_to :action => 'show', :id => @event and return unless params[:invite]
     UserMailer.deliver_invite(current_user.Email, @event, params[:invite])
     flash[:notice] = 'Invites delivered'
     redirect_to :action => 'show', :id => @event

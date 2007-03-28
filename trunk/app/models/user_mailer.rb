@@ -8,6 +8,7 @@ class UserMailer < ActionMailer::Base
   def invite(from, event, message, host='events.stepitup2007.org')
     @subject    = message[:subject]
     @body       = {:event => event, :message => message[:body], :url => url_for(:host => host, :controller => 'events', :action => 'show', :id => event)}
+    @recipients = from
     @bcc        = message[:recipients]
     @from       = from
     @headers    = {}
@@ -16,6 +17,7 @@ class UserMailer < ActionMailer::Base
   def message(from, event, message)
     @subject    = message[:subject]
     @body       = {:event => event, :message => message[:body]}
+    @recipients = from
     @bcc        = event.dia_event.attendees.collect {|a| a.Email}.compact.join(',')
     @from       = from
     @headers    = {}
