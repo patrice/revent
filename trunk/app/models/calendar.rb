@@ -65,6 +65,17 @@ class Calendar < ActiveRecord::Base
     rm_flashmap = false
     events.each do |e|
       my_event = Event.find_or_initialize_by_service_foreign_key(e['event_KEY'])
+      next if !my_event.new_record? &&
+        my_event.name         == e['Event_Name'] &&
+        my_event.description  == e['Description'] &&
+        my_event.location     == e['Address'] &&
+        my_event.city         == e['City'] &&
+        my_event.state        == e['State'] &&
+        my_event.postal_code  == e['Zip'] &&
+        my_event.start        == e['Start'].to_time(:local) &&
+        my_event.end          == e['End'].to_time(:local) &&
+        my_event.directions   == e['Directions']
+
       rm_index ||= my_event.new_record?
       rm_flashmap ||= my_event.new_record? || my_event.postal_code != e['Zip'] ||
         my_event.city != e['City'] || my_event.state != e['State'] || 
@@ -80,6 +91,8 @@ class Calendar < ActiveRecord::Base
       my_event.start = e['Start']
       my_event.end = e['End']
       my_event.directions = e['Directions']
+
+      states << my_event.state
 
       if gg
         begin
@@ -103,19 +116,20 @@ class Calendar < ActiveRecord::Base
         my_event.save(false)
       end
       FileUtils.rm(File.join(ActionController::Base.page_cache_directory,"events/show/#{my_event.id}.html")) rescue Errno::ENOENT
-      states << my_event.state
+      FileUtils.rm(File.join(ActionController::Base.fragment_cache_store.cache_path, "events/_report/event_#{@event.id}_list_item.cache"))
     end
+
     result.imported = events.length
-    if !events.empty?
-      states.compact.uniq.each do |s|
-        FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','search','state',"#{s}.html")) rescue Errno::ENOENT
-      end
-      FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'index.html')) rescue Errno::ENOENT if rm_index
-      FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','total.html')) rescue Errno::ENOENT if rm_index
-      FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','flashmap.xml')) rescue Errno::ENOENT if rm_flashmap
-      FileUtils.rm_rf(Dir.glob(File.join(ActionController::Base.fragment_cache_store.cache_path,'*')))
-      RAILS_DEFAULT_LOGGER.info("Caches fully swept after adding #{events.length} events")
+
+    states.compact.uniq.each do |s|
+      FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','search','state',"#{s}.html")) rescue Errno::ENOENT
     end
+
+    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'index.html')) rescue Errno::ENOENT if rm_index
+    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','total.html')) rescue Errno::ENOENT if rm_index
+    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','flashmap.xml')) rescue Errno::ENOENT if rm_flashmap
+    RAILS_DEFAULT_LOGGER.info("Caches fully swept after adding #{events.length} events") if rm_index || rm_flashmap || !states.empty?
+
     return result
   end
 end
