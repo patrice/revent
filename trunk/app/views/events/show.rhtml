@@ -27,8 +27,10 @@
   
   <div id="directions"><b>Directions:</b><br><%= white_list @event.directions %></div>
 <% end -%>
-  <p><a href="#" onclick="window.open('http://democracyinaction.org/dia/api/event/email.jsp?event_KEY=<%= @event.service_foreign_key %>','','width=500,height=350'); return false;">Questions? Email the Host</a>
+
+  <p align="center" style="font-size: 14px; font-weight: bold;"><a href="#" onclick="window.open('http://democracyinaction.org/dia/api/event/email.jsp?event_KEY=<%= @event.service_foreign_key %>','','width=500,height=350'); return false;">Questions? Email the Host</a>
 	</p>
+
 <p></p>
 
 <% if @event.past? -%>
