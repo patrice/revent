@@ -9,6 +9,10 @@ first:
   state: CA
   start: <%= 1.day.from_now.to_s :db %>
   end: <%= 2.days.from_now.to_s :db %>
+  postal_code: 94110
+  description: desc
+  directions: directions
+  host_id: 1
 another:
   id: 2
   calendar_id: 1

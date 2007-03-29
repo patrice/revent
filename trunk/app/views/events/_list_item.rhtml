@@ -1,12 +1,12 @@
 		<div class="event-list-element">
 			<div class="event-list-location">
-        <%= link_to list_item.location, :action => 'show', :id => list_item.id %>
+        <%= link_to white_list(list_item.location), :action => 'show', :id => list_item.id %>
 			</div>
 			<div class="event-list-address">
 				<%#= list_item.address %>
 			</div>
 			<div class="event-list-city">
-				<%= list_item.city %>, <%= list_item.state %> <%= list_item.postal_code %>
+				<%= white_list(list_item.city) %>, <%= list_item.state %> <%= list_item.postal_code %>
 			</div>
 			<div class="event-list-current">
 				Current Attendees: <%#= list_item.members.count %>

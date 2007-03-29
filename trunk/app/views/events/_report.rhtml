@@ -2,10 +2,10 @@
 	<div class="event-list-element">
 		<div class="event-list-city">
 		
-		 <%= link_to "#{report.city}, #{report.state}",  :action => 'show', :id => report.id %>
+		 <%= link_to white_list("#{report.city}, #{report.state}"),  :action => 'show', :id => report.id %>
 		</div>
 		<div class="event-list-location">
-      <%= report.name %>
+      <%= white_list report.name %>
 		</div>
 		<div class="event-list-address">
 			<%#= report.address %>

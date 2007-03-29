@@ -50,7 +50,7 @@ class AccountControllerTest < Test::Unit::TestCase
     post :login, :email => 'test@test.com', :password => 'password'
     get :profile
     assert_response :success
-    assert_template 'dia_profile'
+    assert_template 'profile'
   end
 
   def test_should_allow_signup

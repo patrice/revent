@@ -16,16 +16,16 @@
   See all <%= link_to 'Event Reports', :controller => 'reports', :action => 'index' %>.<br><br>
   <% end -%>
 
-  <h2><%= @event.name %></h2>
-  <h3><%= @event.city %>, <%= @event.state %></h3>
+  <h2><%= white_list @event.name %></h2>
+  <h3><%= white_list @event.city %>, <%= @event.state %></h3>
   <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y  %I:%M%p') : '?' %> to <%= @event.end? ? @event.end.strftime('%I:%M%p') : '?' %></b></p>
  
-  <div id="description"> <b>Event Description:</b><br><%= @event.description %></div>
+  <div id="description"> <b>Event Description:</b><br><%= white_list(auto_link(@event.description)) %></div>
   
-  <div id="location"><b>Location:</b><br><%= @event.location %></div>
+  <div id="location"><b>Location:</b><br><%= white_list @event.location %></div>
 <% if @event.directions %>
   
-  <div id="directions"><b>Directions:</b><br><%= @event.directions %></div>
+  <div id="directions"><b>Directions:</b><br><%= white_list @event.directions %></div>
 <% end -%>
   <p><a href="#" onclick="window.open('http://democracyinaction.org/dia/api/event/email.jsp?event_KEY=<%= @event.service_foreign_key %>','','width=500,height=350'); return false;">Questions? Email the Host</a>
 	</p>

@@ -33,9 +33,4 @@ class Account::EventsControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'show'
   end
-
-  def test_edit
-    get :edit, :id => 1
-    assert_template 'edit'
-  end
 end
