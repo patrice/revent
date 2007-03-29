@@ -11,7 +11,8 @@
 <% end -%>
 <%= link_to_function 'Forgot your Password?', visual_effect(:toggle_blind, 'remind') %>
 <div id="remind" style="display:none;">
-	Enter your email address below and we will send you your new password. You should change your password once you login to something you can remember.<br>
+  <p>Enter your email address below and we will send you your new password. You should change your password once you login to something you can remember.</p>
+  <p>If you don't receive your requested password in your e-mail, check to see if it got trapped by a Spam Filter or got stuck in your "Junk E-Mail Folder"</p>
   <% form_tag '/account/send_activation' do %>
     <p><label for="login"><b>Email:</b></label><br/>
     <%= text_field_tag 'email' %></p>
@@ -22,7 +23,8 @@
 <hr>
 <br>
 <h1>First Time Logging In?</h1> 
-Enter your email address below and we will send you your new password. You should change your password once you login to something you can remember.<br>
+<p>Enter your email address below and we will send you your new password. You should change your password once you login to something you can remember.</p>
+<p>If you don't receive your requested password in your e-mail, check to see if it got trapped by a Spam Filter or got stuck in your "Junk E-Mail Folder"</p>
 <div id="activate" >
   <% form_tag '/account/send_activation' do %>
     <p><label for="login"><b>Email:</b></label><br/>
