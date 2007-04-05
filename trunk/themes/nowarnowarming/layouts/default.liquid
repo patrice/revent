@@ -3,9 +3,9 @@
 <html>
    <head>
       <title></title>
-      <%= theme_stylesheet_link_tag 'nowarnowarming' %>
+      <link href="{% themeitem %} nowarnowarming.css {% endthemeitem %}" media="screen" rel="Stylesheet" type="text/css" />
    </head>
    <body>
-      <%= @content_for_layout %>
+      {{ content_for_layout }}
    </body>
 </html>
