@@ -35,3 +35,5 @@ stepitup:
   start: 2007-04-14 12:00:00
   end: 2007-04-14 14:00:00
   service_foreign_key: 1000
+  postal_code: 94110
+  description: description

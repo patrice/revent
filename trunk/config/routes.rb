@@ -14,7 +14,6 @@ ActionController::Routing::Routes.draw do |map|
   # map.connect '', :controller => "welcome"
 
 #  raise Calendar.find(:first).inspect => WORKS!!!
-  map.hosted_home ':host', :controller => 'reports', :host => /truemajority/
   map.home '', :controller => "events"
 
   map.with_options :controller => 'account' do |m|
@@ -45,10 +44,7 @@ ActionController::Routing::Routes.draw do |map|
   map.admin 'admin/:controller/:action/:id', :admin => true
 
   map.connect ':controller/page/:page', :action => 'index'
-  map.connect ':host/:controller/page/:page', :action => 'index'
-  map.connect ':host/:controller/search/zip/:zip/:page', :action => 'search'
   map.connect ':controller/search/zip/:zip/:page', :action => 'search'
-  map.hosted ':host/:controller/:action/:id'
 
   # Allow downloading Web Service WSDL as a file with an extension
   # instead of a file named 'wsdl'

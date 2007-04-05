@@ -21,6 +21,7 @@ class Event < ActiveRecord::Base
   end
 
   def perform_remote_update?
+    return false unless service_foreign_key
     @perform_remote_update.nil? ? true : @perform_remote_update
   end
 

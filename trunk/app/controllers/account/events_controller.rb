@@ -16,9 +16,6 @@ class Account::EventsController < ApplicationController
     @event.update_attributes(params[:event].merge(:calendar_id => 1))
     @event.save!
     flash[:notice] = 'Event updated'
-    expire_page :controller => '/events', :action => 'show', :id => @event
-    expire_fragment "events/_report/event_#{@event.id}_list_item"
-    expire_page :controller => '/events', :action => 'search', :state => @event.state
     redirect_to :action => 'show', :id => @event
   rescue ActiveRecord::RecordInvalid
     render :action => 'show'
