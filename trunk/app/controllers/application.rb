@@ -23,11 +23,18 @@ class ApplicationController < ActionController::Base
   helper_method  :site
   attr_reader    :site
 
-  theme :get_theme_from_site
+  theme :get_theme
 
   def set_site
     host = request.host
     @site ||= Site.find_by_host(host) || Site.find(:first)
+  end
+
+  def get_theme
+    if params[:ally] == 'nowarnowarming'
+      return 'nowarnowarming'
+    end
+    get_theme_from_site
   end
 
   def get_theme_from_site
