@@ -8,7 +8,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" href="http://nowarnowarming.org/rssfeed.php?section=8"><title>No War No Warming</title>
 <script language="Javascript"  type="text/javascript" src="http://nowarnowarming.org/scripts/functions.js"></script>
 
-  <%= stylesheet_link_tag 'scaffold', 'events' %>
+  <%#= stylesheet_link_tag 'scaffold', 'events' %>
   <%= javascript_include_tag 'prototype' %>
   <%= yield :header %>
   <%= Cartographer::Gmap::Header.header_for(request) if @map %>
