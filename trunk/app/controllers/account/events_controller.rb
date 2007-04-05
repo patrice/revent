@@ -42,7 +42,6 @@ class Account::EventsController < ApplicationController
     records = api.get 'supporter_event', 'where' => "supporter_KEY=#{current_user.key}"
     rec = records.detect {|r| r['event_KEY'] == @event.dia_event.key}
     api.deleteKey 'supporter_event', rec['key'] unless rec.nil? || rec.empty?
-    current_user.events_attending=nil
     redirect_to :action => 'index'
   end
 
