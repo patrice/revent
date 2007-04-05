@@ -1,0 +1,111 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="Search" href="http://nowarnowarming.org/search.php">
+<link rel="icon" href="" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="http://nowarnowarming.org/styles_default.css" id="default">
+<link rel="stylesheet" type="text/css" href="http://nowarnowarming.org/custom/styles.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://nowarnowarming.org/rssfeed.php?section=8"><title>No War No Warming</title>
+<script language="Javascript"  type="text/javascript" src="http://nowarnowarming.org/scripts/functions.js"></script>
+
+  <%= stylesheet_link_tag 'scaffold', 'events' %>
+  <%= javascript_include_tag 'prototype' %>
+  <%= yield :header %>
+  <%= Cartographer::Gmap::Header.header_for(request) if @map %>
+  
+<%= theme_stylesheet_link_tag('styles_default', 'styles2') %>
+
+<%= theme_javascript_include_tag 'functions' %>
+
+</head>
+
+<body topmargin="0">
+<div align="center">
+<table cellpadding="0" cellspacing="0" width="799">
+	<tr>
+		<td height="146"><a href="http://nowarnowarming.org/index.php"><img src="http://nowarnowarming.org/img/banner.jpg" width="799" height="146" border="0" alt="NO War No Warming"></a></td>
+	</tr>
+	<tr>
+		<td height="26" bgcolor="#000000">
+			<table width="592" height="26" border="0" cellspacing="0" cellpadding="0">
+			  <tr>
+				<td class="topnav_cell"><a href="http://nowarnowarming.org/section.php?id=5" class="topnav">ENDORSERS</a></td>
+				
+				<td  class="topnav_cell"><a href="http://nowarnowarming.org/section.php?id=3" class="topnav">PRESS ROOM</a></td>
+				
+				<td  class="topnav_cell"><a href="http://nowarnowarming.org/section.php?id=8" class="topnav">EVENTS</a></td>
+				
+				<td  class="topnav_cell"><a href="http://nowarnowarming.org/section.php?id=4" class="topnav">BACKGROUND</a></td>
+				
+				<td class="topnav_cell"><a href="http://nowarnowarming.org/section.php?id=7" class="topnav">LINKS</a></td>
+				
+				<td class="topnav_cell"><a href="http://nowarnowarming.org/donate" class="topnav">DONATE</a></td>
+				
+				<td class="topnav_cell"><a href="http://nowarnowarming.org/section.php?id=8" class="topnav">CONTACT</a></td>
+				
+			  </tr>
+        </table>
+		
+		</td>
+	</tr>
+	<tr>
+		<td height="100%" valign="top" background="http://nowarnowarming.org/img/sitebg.gif">
+			<table width="799" style="margin-top:20px; ">
+				<tr>
+					<td width="200" valign="top">
+						<div align="center">
+						<table width="180">
+							<tr>
+								<td>
+								<!-- widget js -->
+<script language="javascript" type="text/javascript" src="http://nowarnowarming.org/nav_widget.php?position=left&type=2&format=js"></script>
+<!-- end widget js -->       
+								</td>
+							</tr>
+												
+						</table>
+						</div>
+					</td>
+					<td width="599" valign="top">
+						<table width="516"  bgcolor="#FFFFFF" cellpadding="0" cellspacing="0" style="margin-left:10px;"  >
+							<tr><td><img src="http://nowarnowarming.org/img/mainframe_top.gif"></td></tr>
+							<tr>
+								<td style="border-right:1px solid #027abb;  border-left:1px solid #027abb; ">
+								
+								<div class="text_block">
+         <% if flash[:notice] %><div id="flash"><%= flash[:notice] %></div><% end %>
+          <%= yield %>
+          <%= render "shared/admin" %> 
+          <%= render "shared/developer" %>
+
+
+	</div>
+
+								  </td>
+								</tr>
+								<tr><td><img src="http://nowarnowarming.org/img/mainframe_btm.gif"></td></tr>
+
+							</table>
+						</td>
+					</tr>
+
+
+				</table><br><br>
+			</td>
+		</tr>
+		<tr>
+			<td height="18" bgcolor="#000000">
+			<div class="footer"> 
+
+			</div>
+
+			</td>
+		</tr>
+
+	</table>
+	</div>
+
+	</body>
+	</html>
+
+  
