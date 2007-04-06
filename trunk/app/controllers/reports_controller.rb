@@ -42,8 +42,7 @@ class ReportsController < ApplicationController
   end
 
   def show
-    method = logged_in? && current_user.admin? ? 'find' : 'find_published'
-    @report = Report.send(method,params[:id], :include => [:event, :attachments])
+    @event = Event.find(params[:event_id], :include => {:reports => :attachments})
   end
 
   def new
