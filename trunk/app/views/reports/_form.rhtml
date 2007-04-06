@@ -14,10 +14,52 @@
 <%= f.text_area 'text', :rows => 7 %></p>
 
 <h3>Upload Images</h3>
-We support images up to 2 megabytes in size in the .gif, .jpg, or .png format. <br> For large file uploads this page may take while to load.
+We support images up to 2 megabytes in size in the .gif, .jpg, or .png format. <br> For large file uploads this page may take while to load.  All of your pictures will also be uploaded onto Flickr
 <p>
 <% 1.upto 4 do |i| %>
 <p>File:<br><%= file_field_tag "attachment[#{i}]" %><br>Caption:<br><%= text_area_tag "caption[#{i}]" %></p>
 <% end %>
+
+<h3>Attach A YouTube Video</h3>
+
+<p><label for="report_video">YouTube Embed Code<br> Paste in the html in the Embed field to the right of your YouTube Video that you have uploaded:</label><br/>
+<%= f.text_area 'video', :rows => 5 %></p>
+
+<h3>Press Coverage</h3>
+Did the press cover your event?  If so, paste in links to the press coverage below.
+
+<p><label for="report_press1">Press Coverage URL:</label><br/>
+<%= f.text_field 'reporter_press_url_1' %><br/>
+
+<label for="report_press1">Press Outlet:</label><br/>
+<%= f.text_field 'reporter_press_outlet_1' %><br/>
+
+<label for="report_press1">Coverage Title:</label><br/>
+<%= f.text_field 'reporter_press_title_1' %>
+
+</p>
+
+<p><label for="report_press2">Press Coverage URL:</label><br/>
+<%= f.text_field 'reporter_press_url_2' %><br/>
+
+<label for="report_press2">Press Outlet:</label><br/>
+<%= f.text_field 'reporter_press_outlet_2' %><br/>
+
+<label for="report_press2">Coverage Title:</label><br/>
+<%= f.text_field 'reporter_press_title_2' %>
+
+</p>
+
+<p><label for="report_press2">Press Coverage URL:</label><br/>
+<%= f.text_field 'reporter_press_url_3' %><br/>
+
+<label for="report_press2">Press Outlet:</label><br/>
+<%= f.text_field 'reporter_press_outlet_3' %><br/>
+
+<label for="report_press2">Coverage Title:</label><br/>
+<%= f.text_field 'reporter_press_title_3' %>
+
+</p>
+
 <!--[eoform:report]-->
 

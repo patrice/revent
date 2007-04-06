@@ -1,36 +1,72 @@
-<div id="detail-container">
-	<div class="intro-title">
-			Event Report
-	</div>
-	<div class="intro-text">
-	
-		See all reports <a href="/reports">here</a>.<br>
-	<!--	Read press coverage <a href="/reports/press">here</a> -->
-	</div>
-	<div id="report_text">
-			<h1><%= @report.event.name %></h1><h3><%= @report.event.city %>,<%= @report.event.state %><h3>
-			<b><%= @report.event.start.strftime('%B %e, %Y') %></b>
-			<h2><%#= @report.title %></h2>
-			<b>By:<%#= event.report.user.name %></b><br>
-			<%= @report.text %>
-	</div>
+<%= render :partial => 'nav' %>
 
-  <% if @report.attachments.any? {|a| a.audio?} %>
+<div class="intro-title">
+		Event Report
+		</div>
+
+<div class="report_add">
+  Add Your Own <%= link_to 'Report of the Event', :controller => "reports", :action => "new" %>
+</div>
+
+<div class="report-intro-text">
+
+  See all <%= link_to 'Event Reports', :controller => 'reports', :action => 'index' %>.<br><br>
+
+
+  <h2><%= white_list @event.name %></h2>
+  <h3><%= white_list @event.city %>, <%= @event.state %></h3>
+  <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y  %I:%M%p') : '?' %> to <%= @event.end? ? @event.end.strftime('%I:%M%p') : '?' %></b></p>
+ 
+  <div id="description"> <b>Event Description:</b><br><%= white_list(auto_link(@event.description)) %></div>
+  
+  <div id="location"><b>Location:</b><br><%= white_list @event.location %></div>
+
+<p></p>
+
+
+
+
+  <% if @event.reports.empty? -%>
+  <div id='report-none'>
+  There are no reports for this event.<br>
+  If you attended this event please <%= link_to 'submit a report', :controller => "reports", :action => "new" %>
+  </div>
+  <% else -%>
+
+<% if @event.reports.slideshow? -%>
+<div id='report-slideshow'><%= link_to 'Watch A Slideshow of Pictures From This Event' %></div>
+ <% end -%>
+ 
+  <div>
+<% for report in @event.reports do %>
+	<div class="report_text">
+
+
+			<%= simple_format(report.text) %>
+			 <% if report.reporter_name %>
+			<div class="report-by">By:<%= report.reporter_name %></div>
+			<% end %>
+	</div>
+	<% if report.youtube %>
+		<div class="report-youtube"><%= report.youtube %></div>
+	<% end %>
+
+  <% if report.attachments.any? {|a| a.audio?} %>
 	<div id="report_audios">
-    <% @report.attachments.find_all {|a| a.audio?}.each do |audio| %>
+    <% report.attachments.find_all {|a| a.audio?}.each do |audio| %>
 		<div class="report_audio">
-			<a href=""><img src="<%= audio.filename %>" alt="Click Here to Listen to Audio Report"></a>
+			<a href=""><img src="<%= @audio.filename %>" alt="Click Here to Listen to Audio Report"></a>
 			<div style="media-caption">
-				<%= audio.caption %>
+				<%= @audio.caption %>
 			</div>
 		</div>
     <% end %>
 	<div>
   <% end %>
 
-  <% if @report.attachments.any? {|a| a.video?} %>
+  <% if report.attachments.any? {|a| a.video?} %>
 	<div id="report_videos">
-    <% @report.attachments.find_all {|a| a.video?}.each do |video| %>
+    <% report.attachments.find_all {|a| a.video?}.each do |video| %>
 		<div class="report_video">
 			<a href=""><img src="<%= video.filename %>" alt="Click Here to Watch Video of Event"></a>
 			<div style="media-caption">
@@ -40,19 +76,12 @@
     <% end %>
 	<div>
   <% end %>
-	
-  <% if @report.attachments.any? {|a| a.image?} %>
-  <% content_for('header') do %>
-  <%= javascript_include_tag 'lightbox' %>
-  <%= stylesheet_link_tag 'lightbox' %>
-  <% end %>
+
+  <% if report.attachments.any? {|a| a.image?} %>
 	<div id="report_images">
 		For full size pictures click on any picture below.<br>
-    <% @report.attachments.find_all {|a| a.image?}.each do |image| %>
-    <div class="report_image" id="attachment_<%= image.id %>">
-      <% restrict_to 'admin' do %>
-      <div><%= link_to_remote "delete this image", :url => { :controller => "attachments", :action => "destroy", :id => image.id } %></div>
-      <% end %>
+    <% report.attachments.find_all {|a| a.image?}.each do |image| %>
+		<div class="report_image">
       <%= link_to(image_tag(image.public_filename(:display)), {:controller => :reports, :action => :lightbox, :id => image.id}, :class => 'lbOn') %>
 			<div style="media-caption">
 				<%= image.caption %>
@@ -61,17 +90,12 @@
     <% end %>
 	</div>
   <% end %>
-	
-	<div id="report_press">
-	To speak to the local coordinator of this event please call 
-	</div>
-	
-	<div id="report_comments">
-	<h2>Commments</h2>
-	</div>
 
-	<div id="report_add">
-    Add Your Own <%= link_to "Report of the Event", :controller => "reports", :action => "new" %>
-	</div>
-
+<hr><br>
 </div>
+<% end -%>
+
+
+
+  </div>
+  <% end -%>
