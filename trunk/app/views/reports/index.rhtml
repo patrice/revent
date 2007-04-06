@@ -1,33 +1,29 @@
-<div id='detail-container'>
-	<div class="intro-title">
-		<%= @calendar.name %> Reports
-	</div>
-	<div class="report_add">
-    Add Your Own <%= link_to 'Report of the Event', :controller => "reports", :action => "new" %>
-	</div>
-	<div class="intro-text">
-		<br>There are <%= Report.count_published %> reports from  <%= Event.count %> scheduled events.
-	
-		<!--Read press coverage <a href="">here</a> -->
-	</div>
-	<div id='report-search'>
-    <% form_tag :controller => "reports", :action => "search" do -%>
-       Enter Your Zip Code to Find a Report Near You:
-        <%= text_field_tag "zip", '', {:size=>10} %>
-        <%= submit_tag "GO" %>
-      <% end -%>
+<div id="national-container">
+  <div id="national-intro">
+    <div class="national-intro-text">
+      <%#=  @calendar.name %>
+    </div>
+    <div class="national-intro-count">
+      There are <%= pluralize @calendar.events.length, @calendar.name %> in <%= @calendar.events.unique_states %> states.
+    </div>
+    <div class="national-intro-directions">
+      <br> Click on a state or enter your zip code to find <%= @calendar.name.pluralize %> near you...
+    </div>
   </div>
-  <%= @search_results_message %>
-<hr>	
-<div>
-<span style="float:left;" class="previous-page"><%= link_to 'Previous page', { :page => @report_pages.current.previous } if @report_pages.current.previous %></span>
-<span style="float:right;margin-right:0;"><%= link_to 'Next page', { :page => @report_pages.current.next }.merge(@search_params || {}) if @report_pages.current.next %></span>
-</div>
-
-  <%= render :partial => 'list_item', :collection => @reports %>
-
-  <div>
-    <span style="float:left;" class="previous-page"><%= link_to 'Previous page', { :page => @report_pages.current.previous } if @report_pages.current.previous %></span>
-    <span style="float:right;margin-right:0;"><%= link_to 'Next page', { :page => @report_pages.current.next }.merge(@search_params || {}) if @report_pages.current.next %></span>
+  <div id="national-map-container">
+    <div id='national-map-search'>
+      <table cellpadding=8><tr><td valign=top><b>Search by: </b></td><td>
+      <% form_tag :action => 'search' do -%>
+         
+      &nbsp;Zip Code:  <%= text_field_tag 'zip', nil, :size=>10 %>
+      <%= submit_tag "GO" %><br> 
+      <b>OR</b> State:
+        <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='/events/search/state/' + this.value" %>
+        <% end -%></td></tr></table>
+    </div>
+    <%= render :partial => "flashmap" %>
+  </div>
+  <div id="national-footer">
+   
   </div>
 </div>

@@ -1,5 +1,5 @@
 class ReportsController < ApplicationController
-  ADMIN_METHODS = [:list, :edit, :update, :destroy, :publish, :unpublish]
+  ADMIN_METHODS = [:edit, :update, :destroy, :publish, :unpublish]
   session :disabled => false, :only => ADMIN_METHODS
   before_filter :login_required, :only => ADMIN_METHODS
   access_control ADMIN_METHODS => 'admin'
@@ -13,9 +13,21 @@ class ReportsController < ApplicationController
     end
   end
 
-  caches_page :show, :index
+  caches_page :show, :index, :flashmap, :list
 
   def index
+    @calendar = Calendar.find(1)
+    @events = @calendar.events
+  end
+
+  def flashmap
+    @events = Event.find(:all, :conditions => ["postal_code != ?", 0], :joins => "INNER JOIN zip_codes ON zip_codes.zip = postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude")
+    respond_to do |format|
+      format.xml { render :layout => false }
+    end
+  end
+
+  def list 
     @calendar = Calendar.find(:first)
     @report_pages = Paginator.new self, Report.count_published, 30, params[:page]
     @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ['reports.position = ?', 1], :order => "events.state, events.city", :limit  =>  @report_pages.items_per_page, :offset =>  @report_pages.current.offset)
@@ -25,7 +37,7 @@ class ReportsController < ApplicationController
   verify :method => :post, :only => [ :destroy, :create, :update ],
          :redirect_to => { :action => :list }
 
-  def list
+  def old_list
     @report_pages, @reports = paginate :reports, :select => "reports.*, reports.status = '#{Report::PUBLISHED}' as published", :joins => "LEFT OUTER JOIN events ON events.id=event_id", :order => "published DESC, state, city", :per_page => 10
   end
 
