@@ -151,9 +151,9 @@ class ReportsController < ApplicationController
     redirect_to :action => 'index' and return unless params[:zip]
     @zip = ZipCode.find_by_zip(params[:zip])
     unless @zip
-      index
+      list
       @search_results_message = "Sorry, we don't have that zip code in our database, try a different one from near by."
-      render :action => 'index' and return
+      render :action => 'list' and return
     end
     @zips = @zip.find_objects_within_radius(100) do |min_lat, min_lon, max_lat, max_lon|
       ZipCode.find(:all, 
@@ -168,7 +168,7 @@ class ReportsController < ApplicationController
     @calendar = Calendar.find(:first)
     @search_results_message = "Showing reports within 100 miles of #{@zip.zip}"
     @search_params = {:zip => @zip.zip}
-    render :action => 'index'
+    render :action => 'list'
   end
 
   protected
