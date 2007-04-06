@@ -5,7 +5,7 @@ require 'reports_controller'
 class ReportsController; def rescue_action(e) raise e end; end
 
 class ReportsControllerTest < Test::Unit::TestCase
-  fixtures :reports, :users, :roles, :roles_users
+  fixtures :reports, :users, :roles, :roles_users, :sites
 
   def setup
     @controller = ReportsController.new
@@ -30,13 +30,13 @@ class ReportsControllerTest < Test::Unit::TestCase
   end
 
   def test_show
-    get :show, :id => 1
+    get :show, :event_id => 1
 
     assert_response :success
     assert_template 'show'
 
-    assert_not_nil assigns(:report)
-    assert assigns(:report).valid?
+    assert !assigns(:event).reports.empty?
+    assert assigns(:event).reports.first.valid?
   end
 
   def test_new
@@ -51,7 +51,9 @@ class ReportsControllerTest < Test::Unit::TestCase
   def test_create
     num_reports = Report.count
 
-    post :create, :report => { :event_id => 1, :reporter_name => 'create', :reporter_email => 'create@create.com', :text => 'hi' }
+    post :create, :report => { :event_id => 1, :reporter_name => 'create', :reporter_email => 'create@create.com', :text => 'hi', }, :press_links => {:url => 'http://link_to.com', :text => 'title'}
+    @report = Report.find(:all).last
+    assert_equal @report.press_links.first.url, 'http://link_to.com'
 
     assert_response :redirect
     assert_redirected_to :action => 'index'

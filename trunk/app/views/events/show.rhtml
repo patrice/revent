@@ -1,11 +1,5 @@
 <%= render :partial => 'nav' %>
 
-  <% if @event.past? %>
-<div class="intro-title">
-		Event Report
-		</div>
-  <% end %>
-
 <% if @event.past? -%>
 <div class="report_add">
   Add Your Own <%= link_to 'Report of the Event', :controller => "reports", :action => "new" %>
@@ -41,7 +35,7 @@
   </div>
   <% else -%>
   <div>
-  <%= render :partial => "events/report_detail", :collection => @event.reports  %>
+    <%= link_to 'click here', :controller => :reports, :action => :show, :event_id => @event.id %> to see reports for this event
   </div>
   <% end -%>
 <% else -%>

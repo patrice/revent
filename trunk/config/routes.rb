@@ -41,7 +41,7 @@ ActionController::Routing::Routes.draw do |map|
                                            :requirements => { :state => /\w{2}/ }
 
   map.connect 'reports/new/:service/:service_foreign_key', :controller => "reports", :action => "new"
-  map.connect 'reports/:event_id', :controller => :reports, :action => :show
+  map.connect 'reports/:event_id', :controller => 'reports', :action => 'show', :requirements => {:event_id => /\d+/}
 
   map.admin 'admin/:controller/:action/:id', :admin => true
 

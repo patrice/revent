@@ -3,6 +3,7 @@ class Report < ActiveRecord::Base
   belongs_to :user
   acts_as_list :scope => :event
   has_many :attachments, :dependent => :destroy
+  has_many :press_links, :dependent => :destroy
   def before_create
     self.status = Report::PUBLISHED
   end

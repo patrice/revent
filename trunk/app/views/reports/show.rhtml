@@ -1,5 +1,3 @@
-<%= render :partial => 'nav' %>
-
 <div class="intro-title">
 	Event Report
 </div>
@@ -42,8 +40,8 @@
 			<div class="report-by">By:<%= report.reporter_name %></div>
 			<% end %>
 	</div>
-	<% if report.youtube %>
-		<div class="report-youtube"><%= report.youtube %></div>
+	<% if report.embed %>
+  <div class="report-embed"><%= white_list report.embed, :tags => %w(object embed param), :attributes => %w(name value type wmode) %></div>
 	<% end %>
 
   <% if report.attachments.any? {|a| a.audio?} %>

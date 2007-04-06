@@ -54,6 +54,7 @@ class ReportsController < ApplicationController
 
   def create
     @report = Report.new(params[:report])
+    @report.press_links.build(params[:press_links])
     @attachments = []
     params[:attachment].each do |index, file|
       @attachments << @report.attachments.build({:caption => params[:caption][index]}.merge(:uploaded_data => file)) unless file.blank?

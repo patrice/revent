@@ -28,15 +28,14 @@ We support images up to 2 megabytes in size in the .gif, .jpg, or .png format. <
 <h3>Press Coverage</h3>
 Did the press cover your event?  If so, paste in links to the press coverage below.
 <div id="report_add_press">
-<p><label for="report_press1">Press Coverage URL:</label><br/>
-<%= f.text_field 'report_link_url' %><br/>
+  <% fields_for :press_links, nil do |links| %>
+    <p><label for="press_links_url">Press Coverage URL:</label><br/>
+    <%= links.text_field 'url' %><br/>
 
-<label for="report_press1">Press Coverage Title/Outlet:</label><br/>
-<%= f.text_field 'report_link_title' %>
-
-</p>
-
-
+    <label for="press_links_text">Press Coverage Title/Outlet:</label><br/>
+    <%= links.text_field 'text' %>
+    </p>
+  <% end %>
 </div>
 </p>
 
