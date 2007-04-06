@@ -1,8 +1,8 @@
 <%= render :partial => 'nav' %>
 
 <div class="intro-title">
-		Event Report
-		</div>
+	Event Report
+</div>
 
 <div class="report_add">
   Add Your Own <%= link_to 'Report of the Event', :controller => "reports", :action => "new" %>
@@ -13,17 +13,12 @@
   See all <%= link_to 'Event Reports', :controller => 'reports', :action => 'index' %>.<br><br>
 
 
-  <h2><%= white_list @event.name %></h2>
+  <h2><%= link_to (white_list(@event.name), :controller => 'events', :action => 'show', :id => @event.id ) %></h2>
   <h3><%= white_list @event.city %>, <%= @event.state %></h3>
-  <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y  %I:%M%p') : '?' %> to <%= @event.end? ? @event.end.strftime('%I:%M%p') : '?' %></b></p>
+  <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y') : '?' %></b></p>
  
-  <div id="description"> <b>Event Description:</b><br><%= white_list(auto_link(@event.description)) %></div>
-  
-  <div id="location"><b>Location:</b><br><%= white_list @event.location %></div>
 
 <p></p>
-
-
 
 
   <% if @event.reports.empty? -%>
@@ -34,7 +29,7 @@
   <% else -%>
 
 <% if @event.reports.slideshow? -%>
-<div id='report-slideshow'><%= link_to 'Watch A Slideshow of Pictures From This Event' %></div>
+<div id='report-slideshow'><%= link_to 'Watch A Slideshow of Pictures From This Event', :controller => "reports", :action => "slideshow", :id => @events.id %></div>
  <% end -%>
  
   <div>

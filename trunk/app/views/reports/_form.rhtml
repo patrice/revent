@@ -22,43 +22,22 @@ We support images up to 2 megabytes in size in the .gif, .jpg, or .png format. <
 
 <h3>Attach A YouTube Video</h3>
 
-<p><label for="report_video">YouTube Embed Code<br> Paste in the html in the Embed field to the right of your YouTube Video that you have uploaded:</label><br/>
-<%= f.text_area 'video', :rows => 5 %></p>
+<p><label for="report_embed">YouTube Embed Code<br> Paste in the html in the Embed field to the right of your YouTube Video that you have uploaded:</label><br/>
+<%= f.text_area 'embed', :rows => 5 %></p>
 
 <h3>Press Coverage</h3>
 Did the press cover your event?  If so, paste in links to the press coverage below.
-
+<div id="report_add_press">
 <p><label for="report_press1">Press Coverage URL:</label><br/>
-<%= f.text_field 'reporter_press_url_1' %><br/>
+<%= f.text_field 'report_link_url' %><br/>
 
-<label for="report_press1">Press Outlet:</label><br/>
-<%= f.text_field 'reporter_press_outlet_1' %><br/>
-
-<label for="report_press1">Coverage Title:</label><br/>
-<%= f.text_field 'reporter_press_title_1' %>
+<label for="report_press1">Press Coverage Title/Outlet:</label><br/>
+<%= f.text_field 'report_link_title' %>
 
 </p>
 
-<p><label for="report_press2">Press Coverage URL:</label><br/>
-<%= f.text_field 'reporter_press_url_2' %><br/>
 
-<label for="report_press2">Press Outlet:</label><br/>
-<%= f.text_field 'reporter_press_outlet_2' %><br/>
-
-<label for="report_press2">Coverage Title:</label><br/>
-<%= f.text_field 'reporter_press_title_2' %>
-
-</p>
-
-<p><label for="report_press2">Press Coverage URL:</label><br/>
-<%= f.text_field 'reporter_press_url_3' %><br/>
-
-<label for="report_press2">Press Outlet:</label><br/>
-<%= f.text_field 'reporter_press_outlet_3' %><br/>
-
-<label for="report_press2">Coverage Title:</label><br/>
-<%= f.text_field 'reporter_press_title_3' %>
-
+</div>
 </p>
 
 <!--[eoform:report]-->
