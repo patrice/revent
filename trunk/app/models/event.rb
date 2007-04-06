@@ -10,8 +10,6 @@ class Event < ActiveRecord::Base
   validates_format_of :postal_code, :with => /^\d{5}(-\d{4})?$/
   #XXX: need to strip out DIA specific language
 
-  attr_accessor :dia_event
-
   has_many :blogs
 
   attr_accessor :perform_remote_update

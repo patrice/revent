@@ -83,6 +83,11 @@ class Calendar < ActiveRecord::Base
         UserMailer.deliver_invalid(my_event, err)
         my_event.save(false)
       end
+
+      if e['Default_Tracking_Code']
+        tag = Tag.find_or_create_by_name e['Default_Tracking_Code']
+        my_event.tags << tag
+      end
     end
     result.imported = events.length
 

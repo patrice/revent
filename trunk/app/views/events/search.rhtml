@@ -18,10 +18,7 @@
 	</div>
 	
 	<div id="event-list-container">
-
-
     <%= render :partial => "report", :collection => @events %>
-
 	</div>
 		<div id="event-map-footer">
     <%= link_to 'Click here', home_url %> to go back to the national map and see all the <%= @calendar.name.pluralize %> across the country.
