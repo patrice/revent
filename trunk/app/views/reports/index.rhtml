@@ -1,10 +1,13 @@
 <div id="national-container">
+	<div class="intro-title">
+		<%= @calendar.name %> Reports
+	</div>
   <div id="national-intro">
     <div class="national-intro-text">
       <%#=  @calendar.name %>
     </div>
     <div class="national-intro-count">
-      There are <%= pluralize @calendar.events.length, @calendar.name %> in <%= @calendar.events.unique_states %> states.
+      There are <%= Report.count_published %> reports from  <%= Event.count %> scheduled events.
     </div>
     <div class="national-intro-directions">
       <br> Click on a state or enter your zip code to find <%= @calendar.name.pluralize %> near you...
@@ -18,7 +21,7 @@
       &nbsp;Zip Code:  <%= text_field_tag 'zip', nil, :size=>10 %>
       <%= submit_tag "GO" %><br> 
       <b>OR</b> State:
-        <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='/events/search/state/' + this.value" %>
+        <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='/reports/search/state/' + this.value" %>
         <% end -%></td></tr></table>
     </div>
     <%= render :partial => "flashmap" %>

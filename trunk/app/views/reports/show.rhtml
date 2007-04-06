@@ -40,8 +40,10 @@
 			<div class="report-by">By:<%= report.reporter_name %></div>
 			<% end %>
 	</div>
+
 	<% if report.embed %>
   <div class="report-embed"><%= white_list report.embed, :tags => %w(object embed param), :attributes => %w(name value type wmode) %></div>
+
 	<% end %>
 
   <% if report.attachments.any? {|a| a.audio?} %>
