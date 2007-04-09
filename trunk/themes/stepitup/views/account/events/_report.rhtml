@@ -1,7 +1,0 @@
-<tr class ="profile_item_row">
-  <td><%= link_to 'Edit', :controller => 'account/report', :action => 'edit', :id => report %></td>
-  <td><%= link_to 'Publish', :controller => 'account/report', :action => 'publish', :id => report %></td>
-  <td><%= link_to 'Delete', :controller => 'account/report', :action => 'destroy', :id => report %></td>
-	<td>%= truncate report.text, 150 %></td>
-	<td><%= report.name %></td>
-</tr>

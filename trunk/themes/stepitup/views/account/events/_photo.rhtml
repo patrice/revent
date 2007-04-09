@@ -1,6 +1,0 @@
-<tr class ="profile_item_row">
-  <td><%= image_tag photo.attachments.first.public_filename(:list) if photo.attachments.any? {|a| a.image?} %></td>
-  <td><%= link_to 'Edit', :controller => 'account/photo', :action => 'edit', :id => photo %></td>
-  <td><%= link_to 'Publish', :controller => 'account/photo', :action => 'publish', :id => photo %></td>
-  <td><%= link_to ' Make Primary', :controller => 'account/photo', :action => 'destroy', :id => photo %></td>
-</tr>
