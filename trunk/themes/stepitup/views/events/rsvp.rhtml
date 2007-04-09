@@ -20,9 +20,12 @@ please rsvp
 
 <INPUT type=hidden name="table" value="supporter">
 
-<% if 'exxposeexxon' == referrer %>
-<input type="hidden" value="exxposeexxon" name="Tracking_Code" />
-<% end %>
+<script type="text/javascript">
+var referrer = readCookie('referrer');
+if(referrer == 'moveon' || referrer == 'exxposeexxon') {
+  document.write('<input type="hidden" value="'+referrer+'" name="Tracking_Code" />');
+}
+</script>
 
 <TABLE class="dia_field">
 

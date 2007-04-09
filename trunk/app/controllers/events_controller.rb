@@ -13,7 +13,7 @@ class EventsController < ApplicationController
 
   def ally
     index
-    render :action => 'index'
+    redirect_to home_url
   end
 
   def tagged
@@ -141,9 +141,9 @@ class EventsController < ApplicationController
         :info_window => render_to_string(:partial => 'info_window', :locals => {:event => e}),
         :icon => @icon.name ) if coordinates
     end
-    latitudes = @events.collect {|e| e.latitude}.compact.sort
-    longitudes = @events.collect {|e| e.longitude}.compact.sort
-    @bounds = [latitudes.first, longitudes.first]
+#    latitudes = @events.collect {|e| e.latitude}.compact.sort
+#    longitudes = @events.collect {|e| e.longitude}.compact.sort
+#    @bounds = [latitudes.first, longitudes.first]
   end
 
   def cache_search_results

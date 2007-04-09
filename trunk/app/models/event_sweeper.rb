@@ -22,7 +22,7 @@ class EventSweeper < ActionController::Caching::Sweeper
   def expire_event_list_pages(record)
     FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','search','state',"#{record.state}.html")) rescue Errno::ENOENT
     FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','flashmap.xml')) rescue Errno::ENOENT
-    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','total.html')) rescue Errno::ENOENT
+#    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','total.html')) rescue Errno::ENOENT
     FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'index.html')) rescue Errno::ENOENT
   end
 

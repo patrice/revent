@@ -10,8 +10,8 @@ class ApplicationController < ActionController::Base
 
   before_filter :set_referrer_cookie
   def set_referrer_cookie
-    if 'exxposeexxon' == params[:referrer]
-      cookies[:referrer] = {:value => @referrer = 'exxposeexxon', :expires => "2007-05-01".to_time}
+    if %w(exxposeexxon moveon).include? params[:referrer]
+      cookies[:referrer] = {:value => @referrer = params[:referrer], :expires => "2007-05-01".to_time}
     end
   end
   helper_method :referrer
