@@ -2,7 +2,6 @@
 	Event Report
 </div>
 
-
 <div class="report-intro-text">
 
   <h2><%= link_to (white_list(@event.name), :controller => 'events', :action => 'show', :id => @event.id ) %></h2>
@@ -10,13 +9,13 @@
   <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y') : '?' %></b></p>
  
 	<div class="report-nav">			
-		<%= link_to(image_tag("/themes/stepitup/images/report_action.jpg", {:alt => 'Tell Your Representatives about this Action', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "action", :id => @events.action}) %>
+		<%=# link_to(image_tag("/themes/stepitup/images/report_action.jpg", {:alt => 'Tell Your Representatives about this Action', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "action", :id => @events.action}) %>
 
 		<% if @event.reports.slideshow? -%>		
 			<%= link_to(image_tag("/themes/stepitup/images/report_slideshow.jpg", {:alt => 'Watch A Slideshow of Pictures From This Event', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "slideshow", :id => @events.id}) %>
 		<% end -%>
 		
-		<%= link_to(image_tag("/themes/stepitup/images/report_add.jpg", {:alt => 'Add Your Report of the Event', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "new", , :id => @events.id}) %>
+		<%= link_to(image_tag("/themes/stepitup/images/report_add.jpg", {:alt => 'Add Your Report of the Event', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "new", :id => @events.id}) %>
 		
 		<%= link_to(image_tag("/themes/stepitup/images/report_share.jpg", {:alt => 'Share/Save this Report', :border => 0, :class=>"report_bt"}), {:controller => 'reports', :action => 'share', :id => @events.id }) %>
 	
@@ -24,31 +23,28 @@
 
 	</div>
 <p></p>
+</div>
 
-
-  <% if @event.reports.empty? -%>
+<% if @event.reports.empty? -%>
   <div id='report-none'>
   There are no reports for this event.<br>
   If you attended this event please <%= link_to 'submit a report', :controller => "reports", :action => "new" %>
   </div>
-  <% else -%>
+<% else -%>
 
-
-  <div>
 <% for report in @event.reports do %>
 	<div class="report_text">
-
-
 			<%= simple_format(report.text) %>
 			 <% if report.reporter_name %>
 			<div class="report-by">By:<%= report.reporter_name %></div>
-			<% end %>
+			<% end -%>
 	</div>
 
 	<% if report.embed %>
-  <div class="report-embed"><%= white_list report.embed, :tags => %w(object embed param), :attributes => %w(name value type wmode) %></div>
-fir
-	<% end %>
+ 	<div class="report-embed" >
+		<%= white_list report.embed, :tags => %w(object embed param), :attributes => %w(name value type wmode) %>
+	</div>
+	<% end -%>
 
   <% if report.attachments.any? {|a| a.audio?} %>
 	<div id="report_audios">
@@ -59,9 +55,9 @@ fir
 				<%= @audio.caption %>
 			</div>
 		</div>
-    <% end %>
-	<div>
-  <% end %>
+    <% end -%>
+	</div>
+  <% end -%>
 
   <% if report.attachments.any? {|a| a.video?} %>
 	<div id="report_videos">
@@ -72,9 +68,9 @@ fir
 				<%= video.caption %>
 			</div>
 		</div>	
-    <% end %>
-	<div>
-  <% end %>
+    <% end -%>
+	</div>
+  <% end -%>
 
   <% if report.attachments.any? {|a| a.image?} %>
 	<div id="report_images">
@@ -86,15 +82,12 @@ fir
 				<%= image.caption %>
 			</div>
 		</div>
-    <% end %>
+    <% end -%>
 	</div>
-  <% end %>
+  <% end -%>
 
 <hr><br>
-</div>
+
 <% end -%>
 
 
-
-  </div>
-  <% end -%>
