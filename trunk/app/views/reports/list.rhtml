@@ -6,13 +6,13 @@
     Add Your Own <%= link_to 'Report of the Event', :controller => "reports", :action => "new" %>
 	</div>
 	<div class="intro-text">
-		<br>There are <%= Report.count_published %> reports from  <%= Event.count %> scheduled events.
+		<br>There are <%= Report.count_published-1 %> reports from  <%= Event.count %> scheduled events.
 	
 		<!--Read press coverage <a href="">here</a> -->
 	</div>
 	<div id='report-search'>
     <% form_tag :controller => "reports", :action => "search" do -%>
-       Enter Your Zip Code to Find a Report Near You:
+       Enter Zip Code to Find a Report Near You:
         <%= text_field_tag "zip", '', {:size=>10} %>
         <%= submit_tag "GO" %>
       <% end -%>

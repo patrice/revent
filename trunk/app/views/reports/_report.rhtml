@@ -8,12 +8,16 @@
 	</div>
 	<div class="report-list-basics">
 		<div class="report-list-title">
-			 <%= link_to "#{report.event.city}, #{report.event.state}", :controller => "report", :action => "show", :id => report.event.id %>		
+			 <%= link_to "#{report.event.city}, #{report.event.state}", :controller => "reports", :action => "show", :id => report.event.id %>		
 		</div>
 		<div class="report-list-text">
 			<%= truncate report.text, 325 %>
 		</div>
-		<div class="report-list-more">
+    <% if report.instance_variable_get(:@distance_from_search) -%>
+    <div class="event-list-miles">
+        <%= report.instance_variable_get(:@distance_from_search).round %> miles away</div>
+      <% end -%>
+    <div class="report-list-more">
       <%= link_to "[[Read More]]", :controller => "events", :action => "show", :id => report.event.id %>
 		</div>
 	</div>
