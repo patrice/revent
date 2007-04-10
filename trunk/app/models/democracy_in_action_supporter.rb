@@ -20,7 +20,7 @@ class DemocracyInActionSupporter <  DemocracyInActionResource
   end
 
   def admin?
-    roles.detect {|r| 'admin' == r.title}
+    roles.any? {|r| 'admin' == r.title}
   end
 
   def events
