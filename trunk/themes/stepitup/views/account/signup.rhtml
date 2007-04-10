@@ -28,7 +28,7 @@ The first step is fill out the form below. Once you&rsquo;re done with that, we&
 <input type="hidden" value="0" name="key" />
 <table class="dia_field">
 
-<% if %(exxposeexxon moveon).include? referrer %>
+<% if referrer && %(exxposeexxon moveon).include? referrer %>
 <input type="hidden" value="<%= referrer %>" name="Tracking_Code" />
 <% end %>
 
