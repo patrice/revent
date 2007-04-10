@@ -7,10 +7,10 @@
       <%#=  @calendar.name %>
     </div>
     <div class="national-intro-count">
-      There are <%= Report.count_published %> reports from  <%= Event.count %> scheduled events.
+      There are <%= Report.count_published -1 %> reports from  <%= Event.count %> scheduled events.
     </div>
     <div class="national-intro-directions">
-      <br> Click on a state or enter your zip code to find <%= @calendar.name.pluralize %> near you...
+      <br> Click on a state or enter your zip code to find a report from an <%= @calendar.name.pluralize %> near you...
     </div>
   </div>
   <div id="national-map-container">
@@ -25,8 +25,11 @@
         <% end -%></td></tr></table>
     </div>
     <%= render :partial => "flashmap" %>
+
   </div>
   <div id="national-footer">
-   
+	<p>Green Dot = Events with Reports  |  Red Dot = Event without Reports</P>
+   	<br><p>View  <%= link_to "All Press Reports", :controller => "reports", :action => "press" %> of the Day of Action<br>
+	View <%= link_to "All Videos", :controller => "reports", :action => "video"  %> of the Day of Action</p>
   </div>
 </div>

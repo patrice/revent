@@ -1,0 +1,9 @@
+Press Coverage of the Action
+
+Did the press cover an action that you attended?  Lets us know by posting a <%= link_to 'report of your event', :controller => "reports", :action => "new" %>.
+		
+<ul>	
+	<%= for link in @press_links %>	
+	<li><%= link_to(link.text, link.url)%></li>		
+	<% end %>
+<ul>

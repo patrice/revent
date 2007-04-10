@@ -2,20 +2,27 @@
 	Event Report
 </div>
 
-<div class="report_add">
-  Add Your Own <%= link_to 'Report of the Event', :controller => "reports", :action => "new" %>
-</div>
 
 <div class="report-intro-text">
-
-  See all <%= link_to 'Event Reports', :controller => 'reports', :action => 'index' %>.<br><br>
-
 
   <h2><%= link_to (white_list(@event.name), :controller => 'events', :action => 'show', :id => @event.id ) %></h2>
   <h3><%= white_list @event.city %>, <%= @event.state %></h3>
   <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y') : '?' %></b></p>
  
+	<div class="report-nav">			
+		<%= link_to(image_tag("/themes/stepitup/images/report_action.jpg", {:alt => 'Tell Your Representatives about this Action', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "action", :id => @events.action}) %>
 
+		<% if @event.reports.slideshow? -%>		
+			<%= link_to(image_tag("/themes/stepitup/images/report_slideshow.jpg", {:alt => 'Watch A Slideshow of Pictures From This Event', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "slideshow", :id => @events.id}) %>
+		<% end -%>
+		
+		<%= link_to(image_tag("/themes/stepitup/images/report_add.jpg", {:alt => 'Add Your Report of the Event', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "new", , :id => @events.id}) %>
+		
+		<%= link_to(image_tag("/themes/stepitup/images/report_share.jpg", {:alt => 'Share/Save this Report', :border => 0, :class=>"report_bt"}), {:controller => 'reports', :action => 'share', :id => @events.id }) %>
+	
+		<%= link_to(image_tag("/themes/stepitup/images/report_all.jpg", {:alt => 'See All Event Reports', :border => 0, :class=>"report_bt"}), {:controller => 'reports', :action => 'index' }) %>
+
+	</div>
 <p></p>
 
 
@@ -26,10 +33,7 @@
   </div>
   <% else -%>
 
-<% if @event.reports.slideshow? -%>
-<div id='report-slideshow'><%= link_to 'Watch A Slideshow of Pictures From This Event', :controller => "reports", :action => "slideshow", :id => @events.id %></div>
- <% end -%>
- 
+
   <div>
 <% for report in @event.reports do %>
 	<div class="report_text">
@@ -43,7 +47,7 @@
 
 	<% if report.embed %>
   <div class="report-embed"><%= white_list report.embed, :tags => %w(object embed param), :attributes => %w(name value type wmode) %></div>
-
+fir
 	<% end %>
 
   <% if report.attachments.any? {|a| a.audio?} %>
