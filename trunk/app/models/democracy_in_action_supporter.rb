@@ -15,7 +15,12 @@ class DemocracyInActionSupporter <  DemocracyInActionResource
 
   # no roles for now
   def roles
-    []
+    @user ||= User.find_by_email(self.Email) || :false
+    @user.is_a?(User) ? @user.roles : []
+  end
+
+  def admin?
+    roles.detect {|r| 'admin' == r.title}
   end
 
   def events
