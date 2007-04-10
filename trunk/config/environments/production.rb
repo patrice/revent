@@ -20,4 +20,15 @@ config.active_record.observers = :event_sweeper
 
 API_OPTS = YAML.load_file(File.join(RAILS_ROOT,'config','democracyinaction-config.yml'))
 
-ActionMailer::Base.delivery_method = :sendmail  
+ActionMailer::Base.delivery_method = :smtp
+
+ActionMailer::Base.server_settings = {
+  :domain             => "stepitup2007.org",
+   :perform_deliveries => true,
+   :address            => 'smtp.engineyard.com',
+   :port               => 25 }
+
+CACHE = MemCache.new ['10.0.128.234:11211'], :namespace => 'daysofaction'
+require 'memcache_util'
+require 'mem_cache_fragment_store'
+ActionController::Base.fragment_cache_store = :mem_cache_fragment_store, CACHE
