@@ -1,0 +1,23 @@
+<div class="intro-title">
+	Video of the Action
+</div>
+
+<div class="intro-text">
+Do you have video of an action that you attended?  Lets us know by posting a <%= link_to 'report of your event', :controller => "reports", :action => "new" %>.
+</div>
+		
+
+<% @video.group_by {|video| video.report.event.state}.each do |state, embed| 
+	if state != current_state  %>
+	<h3><%= state %></h3>
+	<% end - %>
+<%	current_state = state %>
+
+
+	<div class="video-embed">
+	<%= white_list embed, :tags => %w(object embed param), :attributes => %w(name value type wmode) %>
+	<br>
+	<%= link_to((embed.report.event.city,', ',embed.report.event.state,), :controler=>'reports', embed.report.event.id ) %>: <%= embed.report.event.name %>
+	</div>		
+
+<% end %>
