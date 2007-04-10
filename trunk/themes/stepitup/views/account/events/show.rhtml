@@ -118,4 +118,37 @@
 		</div>
 	</div>
 	
+	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_report.gif'><%= link_to_function 'Manage Event Report Backs', visual_effect(:toggle_blind, 'profile_event_report') %></p>
+	<div id='profile_event_report'<% if @report.nil? || @report.errors.empty? %> style="display:none;"<% end %>>
+
+		<div id='profile_event_report_list'>
+			<p class='profile_subtitle'>Event Reports</p>
+			<table class='profile_list_table'>
+				<tr class = "profile_header_row">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>Report</td>
+					<td>By</td>
+				</tr>
+				<%= render :partial => 'report', :collection => @event.reports %>
+			</table>			
+		</div>
+
+		<div id='profile_event_photo_list'>
+			<p class='profile_subtitle'>Event Photos</p>
+			<table class='profile_list_table'>
+				<tr class = "profile_header_row">
+					<td>Image</td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<%= render :partial => 'photo', :collection => @event.photos %>
+			</table>			
+		</div>
+		
+	</div>
+	
+	
 </div>
