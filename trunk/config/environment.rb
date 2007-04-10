@@ -61,3 +61,15 @@ end
 include Cartographer
 ExceptionNotifier.exception_recipients = %w(seth@radicaldesigns.org)
 ExceptionNotifier.email_prefix = "[ERROR - StepItUp] "
+
+module ActionView::Helpers::AssetTagHelper
+  def theme_image_path(source, theme=nil)
+    "http://s3.amazonaws.com/stepitup2007.org/#{source}"
+  end
+  def theme_javascript_path( source, theme=nil )
+    "http://s3.amazonaws.com/stepitup2007.org/#{source}.js"
+  end
+  def theme_stylesheet_path( source=nil, theme=nil )
+    "http://s3.amazonaws.com/stepitup2007.org/#{source}.css"
+  end
+end
