@@ -128,18 +128,24 @@ class EventsController < ApplicationController
     @icon = Cartographer::Gicon.new(:image_url => '/images/green_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
     @map.icons << @icon
     @events.each do |e|
-      coordinates = false
-      if e.latitude && e.longitude
-        coordinates = [e.latitude, e.longitude]
-      elsif e.zip_latitude && e.zip_longitude
-        coordinates = [e.zip_latitude, e.zip_longitude]
-      end
-      @map.markers << Cartographer::Gmarker.new( 
+      marker = nil
+      autoload_missing_constants do
+      marker = Cache.get("event_#{e.id}_marker") do
+        coordinates = false
+        if e.latitude && e.longitude
+          coordinates = [e.latitude, e.longitude]
+        elsif e.zip_latitude && e.zip_longitude
+          coordinates = [e.zip_latitude, e.zip_longitude]
+        end
+        coordinates ? Cartographer::Gmarker.new( 
         :name => "event_#{e.id}_marker",
         :position => coordinates,
 #        :click => "window.location.href='#{url_for :controller => 'events', :action => 'show', :id => e.id}';",
         :info_window => render_to_string(:partial => 'info_window', :locals => {:event => e}),
-        :icon => @icon.name ) if coordinates
+        :icon => @icon.name ) : nil
+      end
+      end
+      @map.markers << marker if marker
     end
 #    latitudes = @events.collect {|e| e.latitude}.compact.sort
 #    longitudes = @events.collect {|e| e.longitude}.compact.sort
@@ -206,4 +212,12 @@ class EventsController < ApplicationController
       FileUtils.rm(File.join(RAILS_ROOT,'public','index.html')) rescue Errno::ENOENT
       RAILS_DEFAULT_LOGGER.info("Caches fully swept.")
     end
+    def autoload_missing_constants
+      yield
+    rescue ArgumentError, MemCache::MemCacheError => error
+      lazy_load ||= Hash.new { |hash, key| hash[key] = true; false }
+      retry if error.to_s.include?('undefined class') && 
+        !lazy_load[error.to_s.split.last.constantize]
+      raise error
+    end  
 end
