@@ -20,6 +20,14 @@ class ReportsController < ApplicationController
     @events = @calendar.events
   end
 
+  def video
+    @reports = Report.find(:all, :conditions => "embed <> ''")
+  end
+
+  def press
+    @press_links = PressLink.find(:all)
+  end
+
   def flashmap
     @events = Event.find(:all, :conditions => ["postal_code != ?", 0], :joins => "INNER JOIN zip_codes ON zip_codes.zip = postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude")
     respond_to do |format|
@@ -107,6 +115,10 @@ class ReportsController < ApplicationController
     @parent = Attachment.find(params[:id])
     return unless @parent
     @attachment = @parent.thumbnails.find_by_thumbnail('lightbox')
+    render :layout => false
+  end
+
+  def share 
     render :layout => false
   end
 
