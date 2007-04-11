@@ -123,8 +123,10 @@
 
 		<div id='profile_event_report_list'>
 			<p class='profile_subtitle'>Event Reports</p>
+			<%= link_to "Add Report", :controller=>'report', :action=>'new', :id=>@event.id   %>
 			<table class='profile_list_table'>
 				<tr class = "profile_header_row">
+					<td></td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -143,8 +145,24 @@
 					<td></td>
 					<td></td>
 					<td></td>
+					<td></td>
 				</tr>
 				<%#= render :partial => 'photo', :collection => @event.photos %>
+			</table>			
+		</div>
+
+		<div id='profile_event_press_list'>
+			<%= link_to "Add Press Coverage", :controller=>'press', :action=>'new', :id=>@event.id  %>
+			<p class='profile_subtitle'>Press Coverage</p>
+			<table class='profile_list_table'>
+				<tr class = "profile_header_row">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>Title</td>
+					<td>URL</td>
+				</tr>
+				<%#= render :partial => 'press', :collection => @event.press %>
 			</table>			
 		</div>
 		
