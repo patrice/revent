@@ -7,17 +7,16 @@ Do you have video of an action that you attended?  Lets us know by posting a <%=
 </div>
 		
 
-<% @video.group_by {|video| video.report.event.state}.each do |state, embed| 
-	if state != current_state  %>
+<% @reports.group_by {|report| report.event.state}.sort.each do |state, reports| %>
 	<h3><%= state %></h3>
-	<% end - %>
-<%	current_state = state %>
 
-
+  <% reports.each do |report| %>
 	<div class="video-embed">
-	<%= white_list embed, :tags => %w(object embed param), :attributes => %w(name value type wmode) %>
+	<%= white_list report.embed, :tags => %w(object embed param), :attributes => %w(name value type wmode) %>
 	<br>
-	<%= link_to((embed.report.event.city,', ',embed.report.event.state,), :controler=>'reports', embed.report.event.id ) %>: <%= embed.report.event.name %>
+  <%= link_to("#{report.event.city}, #{report.event.state}", :controller=>'reports', :id=> report.event.id ) %>: <%= report.event.name %>
 	</div>		
 
+  <% end %>
 <% end %>
+ <%= render :partial =>'reports/report_nav' %>

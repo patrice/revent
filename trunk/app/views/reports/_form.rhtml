@@ -17,7 +17,7 @@
 We support images up to 2 megabytes in size in the .gif, .jpg, or .png format. <br> For large file uploads this page may take while to load.  All of your pictures will also be uploaded onto Flickr
 <p>
 <% 1.upto 4 do |i| %>
-<p>File:<br><%= file_field_tag "attachment[#{i}]" %><br>Caption:<br><%= text_area_tag "caption[#{i}]" %><br>Primary Image: <%= checkbox_tag "primary[#{i}]" %></p>
+<p>File:<br><%= file_field_tag "attachment[#{i}]" %><br>Caption:<br><%= text_area_tag "caption[#{i}]",'', :rows => 3,  :cols=>40 %><br><%= check_box_tag "primary[#{i}]" %> Primary Image for Report </p>
 <% end %>
 
 <h3>Attach A YouTube Video</h3>
@@ -26,12 +26,12 @@ We support images up to 2 megabytes in size in the .gif, .jpg, or .png format. <
 <%= f.text_area 'embed', :rows => 5 %></p>
 
 <h3>Press Coverage</h3>
-Did the press cover your event?  If so, paste in links to the press coverage below.
+Did the press cover your event?<br>  If so, paste in links to the press coverage below.
 <div id="report_add_press">
 	
-	<% 1.upto 3 do |i| %>
-	<p>Press Coverage URL:<br/><%= links.text_field 'url[#{i}]' %><br/>
-    Press Coverage Title/Outlet:<br/><%= links.text_field 'text[#{i}]' %></p>
+	<% 1.upto 2 do |i| %>
+  <p>Press Coverage URL:<br/><%= text_field_tag  "url[#{i}]",'', :width=>50 %><br/>
+  Press Coverage Title/Outlet:<br/><%= text_field_tag "text[#{i}]" %></p><br>
 	<% end %>
 
 </div>

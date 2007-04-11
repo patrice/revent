@@ -3,11 +3,12 @@
 		<%= @calendar.name %> Reports
 	</div>
   <div id="national-intro">
+
+      <div class="report_add">
+             <%= link_to 'Add Your Own Report', :controller => "reports", :action => "new" %>
+             <br>  </div>
     <div class="national-intro-text">
       <%#=  @calendar.name %>
-    </div>
-    <div class="national-intro-count">
-      There are <%= Report.count_published -1 %> reports from  <%= Event.count %> scheduled events.
     </div>
     <div class="national-intro-directions">
       <br> Click on a state or enter your zip code to find a report from an <%= @calendar.name.pluralize %> near you...
@@ -27,9 +28,12 @@
     <%= render :partial => "flashmap" %>
 
   </div>
-  <div id="national-footer">
-	<p><img src="images/green_dot.png"> Green Dot = Events with Reports  |  <img src="images/red_dot.png"> Red Dot = Event without Reports</P>
-   	<br><p>View  <%= link_to "All Press Reports", :controller => "reports", :action => "press" %> of the Day of Action<br>
-	View <%= link_to "All Videos", :controller => "reports", :action => "video"  %> of the Day of Action</p>
-  </div>
+    <div class="national-intro-count">
+      <p><img src="/images/green_dot.png"> Green Dot = Events with Reports  |  <img src="/images/red_dot.png"> Red Dot = Event without Reports</P>
+      
+      There are <%= Report.count_published -1 %> reports from  <%= Event.count %> scheduled events.
+
+          </div>
+              
+               <%= render :partial =>'reports/report_nav' %>                
 </div>

@@ -31,3 +31,5 @@
     <span style="float:right;margin-right:0;"><%= link_to 'Next page', { :page => @report_pages.current.next }.merge(@search_params || {}) if @report_pages.current.next %></span>
   </div>
 </div>
+
+ <%= render :partial =>'reports/report_nav' %>

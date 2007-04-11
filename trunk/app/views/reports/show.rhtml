@@ -9,17 +9,17 @@
   <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y') : '?' %></b></p>
  
 	<div class="report-nav">			
-		<%#= link_to(image_tag("/themes/stepitup/images/report_action.jpg", {:alt => 'Tell Your Representatives about this Action', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "action", :id => @events.action}) %>
+    <%#= link_to(image_tag("/themes/stepitup/images/report_action.jpg", {:alt => 'Tell Your Representatives about this Action', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "action", :id => @events.action}) %>
 
 		<% if @event.reports.slideshow? -%>		
-			<%= link_to(image_tag("/themes/stepitup/images/report_slideshow.jpg", {:alt => 'Watch A Slideshow of Pictures From This Event', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "slideshow", :id => @event.id}) %>
+    <%= link_to(image_tag("/themes/stepitup/images/report_slideshow.jpg", {:alt => 'Watch A Slideshow of Pictures From This Event', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "slideshow", :id => @event.id} ) %>
 		<% end -%>
 		
 		<%= link_to(image_tag("/themes/stepitup/images/report_add.jpg", {:alt => 'Add Your Report of the Event', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "new", :id => @event.id}) %>
 		
-		<%= link_to(image_tag("/themes/stepitup/images/report_share.jpg", {:alt => 'Share/Save this Report', :border => 0, :class=>"report_bt"}), {:controller => 'reports', :action => 'share', :id => @event.id }) %>
+    <%= link_to(image_tag("/themes/stepitup/images/report_share.jpg", {:alt => 'Share/Save this Report', :border => 0, :class=>"report_bt"}), {:controller => 'reports', :action => 'share', :id => @event.id }, :class => 'lbOn') %>
 	
-		<%= link_to(image_tag("/themes/stepitup/images/report_all.jpg", {:alt => 'See All Event Reports', :border => 0, :class=>"report_bt"}), {:controller => 'reports', :action => 'index' }) %>
+		<%= link_to(image_tag("/themes/stepitup/images/report_all.jpg", {:alt => 'See All Event Reports', :border => 0, :class=>"report_bt"}), {:controller => 'reports', :action => 'list' }) %>
 
 	</div>
 <p></p>
@@ -33,8 +33,10 @@
 <% else -%>
 
 <% for report in @event.reports do %>
-	<div class="report_text">
-			<%= simple_format(report.text) %>
+
+<div class="report_text">
+  <hr><br>
+  <%= simple_format(report.text) %>
 			 <% if report.reporter_name %>
 			<div class="report-by">By:<%= report.reporter_name %></div>
       <% end -%><!-- end if reporter_name -->
@@ -86,8 +88,10 @@
 	</div>
   <% end -%><!-- end any image -->
 
-<hr><br>
+<br>
 
 <% end -%><!-- end for each report -->
 
 <% end -%><!-- end else reports not empty -->
+
+ <%= render :partial =>'reports/report_nav' %>

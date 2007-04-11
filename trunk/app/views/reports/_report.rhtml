@@ -8,7 +8,7 @@
 	</div>
 	<div class="report-list-basics">
 		<div class="report-list-title">
-			 <%= link_to "#{report.event.city}, #{report.event.state}", :controller => "reports", :action => "show", :id => report.event.id %>		
+			 <%= link_to "#{report.event.city}, #{report.event.state}", report_url(report.event.id) %>		
 		</div>
 		<div class="report-list-text">
 			<%= truncate report.text, 325 %>
