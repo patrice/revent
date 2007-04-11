@@ -13,33 +13,34 @@
 <p><label for="report_text">*Tell Us About What Happened at Your Event:</label><br/>
 <%= f.text_area 'text', :rows => 7 %></p>
 
-<h3>Upload Images</h3>
-We support images up to 2 megabytes in size in the .gif, .jpg, or .png format. <br/> For large file uploads this page may take while to load.  All of your pictures will also be uploaded onto Flickr
-<p>
-<% 4.times do %>
-  <p>
-    File:<br/>
-    <%= file_field_tag "attachments[][uploaded_data]" %><br/>
-    Caption:<br/>
-    <%= text_area_tag "attachments[][caption]",nil, :rows => 3, :cols => 40 %><br/>
-    <%= check_box_tag "attachments[][primary]" %> Primary Image for Report
-  </p>
-<% end %>
+<div class="form_block">
+	<p class='form_subtitle'>Upload Images</p>
+	We support images up to 2 megabytes in size in the .gif, .jpg, or .png format. <br/> For large file uploads this page may take while to load.  All of your pictures will also be uploaded onto Flickr
+	<p>
+	<% 4.times do %>
+	  <p>
+	    File:<br/>
+	    <%= file_field_tag "attachments[][uploaded_data]" %><br/>
+	    Caption:<br/>
+	    <%= text_area_tag "attachments[][caption]",nil, :rows => 3, :cols => 40 %><br/>
+	    <%= check_box_tag "attachments[][primary]" %> Primary Image for Report
+	  </p>
+	<% end %>
+</div>
+<div class="form_block">
+	<p class='form_subtitle'>Attach A YouTube Video</p>
+	<p><label for="report_embed">Paste in the html in the Embed field to the right of your YouTube Video that you have already uploaded:</label><br/>
+	<%= f.text_area 'embed', :rows => 5 %></p>
+</div>
 
-<h3>Attach A YouTube Video</h3>
+<div class="form_block">
+	<p class='form_subtitle'>Press Coverage</p>
+	Did the press cover your event?<br>  If so, paste in links to the press coverage below.
 
-<p><label for="report_embed">Paste in the html in the Embed field to the right of your YouTube Video that you have already uploaded:</label><br/>
-<%= f.text_area 'embed', :rows => 5 %></p>
-
-<h3>Press Coverage</h3>
-Did the press cover your event?<br>  If so, paste in links to the press coverage below.
-<div id="report_add_press">
-	
   <% 2.times do %>
-  <p>Press Coverage URL:<br/><%= text_field_tag 'press_links[][url]', nil, :size => 50 %><br/>
-  Press Coverage Title/Outlet:<br/><%= text_field_tag 'press_links[][text]' %></p><br/>
+  <p>Press Coverage URL:<br/><%= text_field_tag 'press_links[][url]', nil, :size => 40 %><br/>
+  Press Coverage Title/Outlet:<br/><%= text_field_tag 'press_links[][text]', nil, :size => 40  %></p>
   <% end %>
-
 </div>
 </p>
 
