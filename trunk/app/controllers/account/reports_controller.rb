@@ -30,6 +30,11 @@ class Account::ReportsController < ApplicationController
     @report
   end
 
+  def primary
+    @report.primary!
+    flash[:notice] = "updated primary report"
+    redirect_to :controller => 'account/events', :action => 'show', :id => @report.event
+  end
   protected
   def find_report
     @report = Report.find(params[:id])

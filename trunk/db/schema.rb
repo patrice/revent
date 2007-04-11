@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 26) do
+ActiveRecord::Schema.define(:version => 27) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(:version => 26) do
     t.column "reporter_email", :string
     t.column "embed",          :text
     t.column "attendees",      :integer
+    t.column "primary",        :boolean, :default => false
   end
 
   add_index "reports", ["event_id"], :name => "index_reports_on_event_id"
