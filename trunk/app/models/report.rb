@@ -10,7 +10,7 @@ class Report < ActiveRecord::Base
 
   validates_presence_of :event_id, :reporter_name, :reporter_email, :text
   validates_format_of :reporter_email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :on => :create
-  validates_associated :attachments, :message => "are too big"
+  validates_associated :attachments
 
   PUBLISHED = 'published'
   UNPUBLISHED = 'unpublished'

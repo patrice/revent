@@ -1,14 +1,14 @@
 class Event < ActiveRecord::Base
   belongs_to :calendar
   belongs_to :host, :class_name => 'User', :foreign_key => 'host_id'
-  has_many :reports, :order => 'position', :dependent => :destroy do
+  has_many :reports, :include => :attachments, :order => 'reports.position', :dependent => :destroy do
     def slideshow?
       !proxy_target.collect {|r| r.attachments}.flatten.empty?
     end
   end
+  has_many :attachments, :through => :reports
   has_many :rsvps
   has_many :attendees, :through => 'rsvps', :source => :user
-  has_many :attachments, :through => 'attachables'
 
   validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id
   validates_format_of :postal_code, :with => /^\d{5}(-\d{4})?$/

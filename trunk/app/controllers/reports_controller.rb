@@ -54,7 +54,7 @@ class ReportsController < ApplicationController
   end
 
   def new
-    @report = Report.new
+    @report = Report.new(:event_id => params[:id])
     if params[:service] && params[:service_foreign_key]
       @report.event = Event.find_or_import_by_service_foreign_key(params[:service_foreign_key])
     end
@@ -62,19 +62,18 @@ class ReportsController < ApplicationController
 
   def create
     @report = Report.new(params[:report])
-    @report.press_links.build(params[:press_links])
-    @attachments = []
-    params[:attachment].each do |index, file|
-      @attachments << @report.attachments.build({:caption => params[:caption][index]}.merge(:uploaded_data => file)) unless file.blank?
-    end if params[:attachment]
-    begin
-      Attachment.transaction do 
-        @attachments.each &:save! 
-      end
-    rescue ActiveRecord::RecordInvalid
+    params[:press_links].reject {|link| link[:url].empty? || link[:text].empty?}.each do |link|
+      @report.press_links.build(link)
+    end
+    params[:attachments].reject {|att| att[:uploaded_data].blank?}.each do |att|
+      @report.attachments.build(att)
     end
 
     if @report.save
+      @report.attachments.each do |attachment|
+        @@flickr ||= Flickr.new(File.join(RAILS_ROOT, 'config', 'flickr',RAILS_ENV,'token.cache'))
+        @@flickr.photos.upload.upload_file_async(attachment.full_filename, "#{@report.event.name} - #{@report.event.city}, #{@report.event.state}", attachment.caption, ["stepitup", "stepitup#{@report.event.id}"])
+      end
       expire_page_caches(@report)
       flash[:notice] = 'Report was successfully created.'
       redirect_to :action => 'index'

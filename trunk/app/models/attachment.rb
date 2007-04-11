@@ -43,7 +43,7 @@ class Attachment < ActiveRecord::Base
     end
   end
 
-  acts_as_attachment :storage => :file_system, :content_type => :image, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 2.megabytes
+  acts_as_attachment :storage => :file_system, :content_type => :image, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300', :print => '432>x288>' }, :max_size => 10.megabytes
   validates_as_attachment
 
   [:video, :audio, :other, :pdf].each do |content|
@@ -53,4 +53,8 @@ class Attachment < ActiveRecord::Base
   belongs_to :user
   belongs_to :report
   belongs_to :event
+  after_validation_on_create :set_event_id
+  def set_event_id
+    self.event_id = report.event_id if report
+  end
 end

@@ -32,3 +32,7 @@ CACHE = MemCache.new ['10.0.128.234:11211'], :namespace => 'daysofaction'
 require 'memcache_util'
 require 'mem_cache_fragment_store'
 ActionController::Base.fragment_cache_store = :mem_cache_fragment_store, CACHE
+
+require 'flickr'
+Flickr::API_KEY='fcf5d360d3eb7543605059f2017ef971'
+Flickr::SHARED_SECRET='db8221678454fae6'
