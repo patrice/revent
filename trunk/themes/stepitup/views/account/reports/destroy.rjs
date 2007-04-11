@@ -1,0 +1,1 @@
+page.remove "report-#{@report.id}"

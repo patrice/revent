@@ -123,7 +123,7 @@
 
 		<div id='profile_event_report_list'>
 			<p class='profile_subtitle'>Event Reports</p>
-			<%= link_to "Add Report", :controller=>'report', :action=>'new', :id=>@event.id   %>
+			<%= link_to "Add Report", :controller => '/reports', :action => 'new', :id => @event.id   %>
 			<table class='profile_list_table'>
 				<tr class = "profile_header_row">
 					<td></td>
@@ -147,7 +147,7 @@
 					<td></td>
 					<td></td>
 				</tr>
-				<%#= render :partial => 'photo', :collection => @event.photos %>
+				<%= render :partial => 'photo', :collection => @event.attachments %>
 			</table>			
 		</div>
 
