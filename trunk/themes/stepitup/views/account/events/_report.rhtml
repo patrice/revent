@@ -2,7 +2,7 @@
 	<td><%= link_to 'Edit', :controller => 'account/report', :action => 'edit', :id => report %></td>
 	<td><%= link_to 'Publish', :controller => 'account/report', :action => 'publish', :id => report %></td>
 	<td><%= link_to 'Delete', :controller => 'account/report', :action => 'destroy', :id => report %></td>
-	<td><%= link_to 'Primary', :controller => 'account/report', :action => 'primary', :id => report %></td>
+	<td><%= link_to 'Make Primary', :controller => 'account/report', :action => 'primary', :id => report %></td>
 	<td><%= truncate report.text, 150 %></td>
 	<td><%= report.reporter_name %></td>
 </tr>

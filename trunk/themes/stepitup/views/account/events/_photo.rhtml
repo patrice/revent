@@ -1,8 +1,10 @@
-<tr class ="profile_item_row">
-  <td><%= image_tag photo.attachments.first.public_filename(:list) if photo.attachments.any? {|a| a.image?} %></td>
-  <td><%= link_to 'Make Primary', :controller => 'account/photo', :action => 'primary', :id => photo %></td>
-  <td><%= link_to 'Edit', :controller => 'account/photo', :action => 'edit', :id => photo %></td>
-  <td><%= link_to 'Publish', :controller => 'account/photo', :action => 'publish', :id => photo %></td>
-  <td><%= link_to 'Delete', :controller => 'account/photo', :action => 'destroy', :id => photo %></td>
-
-</tr>
+<% form_for :photo, @photo, :url => {:controller => 'account/photo', :action => 'update', :id => @photo} do |f| %>
+	<tr class ="profile_item_row">
+	  <td><%= image_tag photo.filename %></td>
+	  <td><%= f.text_area 'caption', :rows => 3, :columns=>10 %></td>
+	  <td><%= link_to 'Make Primary', :controller => 'account/photo', :action => 'primary', :id => photo %></td>
+	  <td><%= link_to 'Publish', :controller => 'account/photo', :action => 'publish', :id => photo %></td>
+	  <td><%= submit_tag %><%= link_to 'Update', :controller => 'account/photo', :action => 'edit', :id => photo %></td>
+	  <td><%= link_to 'Delete', :controller => 'account/photo', :action => 'destroy', :id => photo %></td>
+	</tr>
+<% end %>	

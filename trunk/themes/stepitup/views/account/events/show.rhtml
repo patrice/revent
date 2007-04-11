@@ -152,8 +152,8 @@
 		</div>
 
 		<div id='profile_event_press_list'>
-			<%= link_to "Add Press Coverage", :controller=>'press', :action=>'new', :id=>@event.id  %>
 			<p class='profile_subtitle'>Press Coverage</p>
+			<%= link_to "Add Press Coverage", :controller=>'press', :action=>'new', :id=>@event.id  %>
 			<table class='profile_list_table'>
 				<tr class = "profile_header_row">
 					<td></td>
@@ -168,5 +168,52 @@
 		
 	</div>
 	
+	
+	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_print.gif'><%= link_to_function 'Download Print Materials', visual_effect(:toggle_blind, 'profile_event_print') %></p>
+	<div id='profile_event_print' style="display:none;">
+		
+			<p class='profile_subtitle'>Print Materials<p>
+		  <ul>
+		    <li>
+		      <%= link_to 'Sign-In Sheet PDF', 'http://www.stepitup2007.org/downloads/SIU_SignIn.pdf' %>
+		    </li>
+		    <li>
+		      <%= link_to 'Sign-In Sheet Word Document', 'http://www.stepitup2007.org/downloads/SIU_SignIn.doc' %>
+		    </li>
+		    <li>
+		      <%= link_to 'Educational Sheet: Personal Actions To Reduce Your Carbon Footprint', 'http://www.stepitup2007.org/downloads/SIU_Personal_Action.pdf' %>
+		    </li>
+		    <li>
+		      <%= link_to 'Educational Sheet: The Importance of Political Action', 'http://www.stepitup2007.org/downloads/SIU_Political_Action_Sheet.pdf' %>
+		    </li>
+		    <li>
+		      <%= link_to 'Education Sheet: What is Global Warming?', 'http://www.stepitup2007.org/downloads/SIU_what_is_global_warmingV4.pdf' %>
+		    </li>
+		    <li>
+		      <%= link_to 'Banner-Making Guide PDF', 'http://www.stepitup2007.org/downloads/Step%20It%20Up%20Banner%20Making%20Guide.pdf' %>
+		    </li>
+		    <li>
+		      <%= link_to 'Banner Making Word Document', 'http://www.stepitup2007.org/downloads/Step%20It%20Up%20Banner%20Making%20Guide.doc' %>
+		    </li>
+		    <li>
+		      <%= link_to 'Printable Sticker Sheet - For Avery Sticker Sheet #8254', 'http://www.stepitup2007.org/downloads/SIU_Sticker_avery_8254.pdf' %>
+		    </li>
+		    <li>
+		      <%= link_to 'Customizable Flyer 1 - Full Page', 'http://www.stepitup2007.org/downloads/SIU_FullPage_Customizable.pdf' %>
+		    </li>
+		    <li>
+		      <%= link_to 'Customizable Flyer 2 - Full Page', 'http://www.stepitup2007.org/downloads/SIU_FullPage_Customizable2.pdf' %>
+		    </li>
+		    <li>
+		      <%= link_to 'General Step It Up Announcement', 'http://www.stepitup2007.org/downloads/SIU_FullPage_Static.pdf' %>
+		    </li>
+		    <li>
+		      <%= link_to 'Sample Letter to Congressional Representatives', 'http://www.stepitup2007.org/downloads/SIU_LetterToRep.doc' %>
+		    </li>
+		    <li>
+		      Instruction Guide For Report Back (Coming Soon)
+		    </li>
+		  </ul>
+	</div>
 	
 </div>
