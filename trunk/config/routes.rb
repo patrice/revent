@@ -40,6 +40,10 @@ ActionController::Routing::Routes.draw do |map|
                                            :action => "search",
                                            :requirements => { :state => /\w{2}/ }
 
+  map.report_state_search "reports/search/state/:state", :controller => "reports",
+                                           :action => "search",
+                                           :requirements => { :state => /\w{2}/ }
+
   map.connect 'reports/new/:service/:service_foreign_key', :controller => "reports", :action => "new"
   map.report 'reports/:event_id', :controller => 'reports', :action => 'show', :requirements => {:event_id => /\d+/}
 

@@ -159,14 +159,10 @@ class ReportsController < ApplicationController
     render :layout => false
   end
 
-  def search
-    redirect_to :action => 'index' and return unless params[:zip]
+  def do_zip_search
     @zip = ZipCode.find_by_zip(params[:zip])
-    unless @zip
-      list
-      @search_results_message = "Sorry, we don't have that zip code in our database, try a different one from near by."
-      render :action => 'list' and return
-    end
+#    flash.now[:notice] = "Could not locate that zip code" and return unless @zip
+    @search_results_message = "Sorry, we don't have that zip code in our database, try a different one from near by."
     @zips = @zip.find_objects_within_radius(100) do |min_lat, min_lon, max_lat, max_lon|
       ZipCode.find(:all, 
                    :conditions => [ "(latitude > ? AND longitude > ? AND latitude < ? AND longitude < ? ) ", 
@@ -177,9 +173,28 @@ class ReportsController < ApplicationController
     end
     @report_pages = Paginator.new self, Report.count_published(:include => :event, :conditions => ["reports.position = ? AND events.postal_code IN (?)", 1, @zips.collect {|z| z.zip}]), 30, params[:page]
     @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ["reports.position = ? AND events.postal_code IN (?)", 1, @zips.collect {|z| z.zip}], :order => "events.state, events.city", :limit => @report_pages.items_per_page, :offset => @report_pages.current.offset)
-    @calendar = Calendar.find(:first)
     @search_results_message = "Showing reports within 100 miles of #{@zip.zip}"
     @search_params = {:zip => @zip.zip}
+  end
+  def do_state_search
+    @report_pages = Paginator.new self, Report.count_published(:include => :event, :conditions => ["reports.position = ? AND events.state = ?", 1, params[:state]]), 30, params[:page]
+    @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ["reports.position = ? AND events.state = ?", 1, params[:state]], :order => "events.state, events.city", :limit => @report_pages.items_per_page, :offset => @report_pages.current.offset)
+    @search_results_message = "Showing reports in #{params[:state]}"
+    @search_params = {:state => params[:state]}
+  end
+
+  def search
+    redirect_to :action => 'index' and return unless params[:zip] || params[:state]
+    if params[:zip]
+      do_zip_search
+    elsif params[:state]
+      do_state_search
+    end
+    unless @reports
+      list
+      render :action => 'list' and return
+    end
+    @calendar = Calendar.find(:first)
     render :action => 'list'
   end
 
