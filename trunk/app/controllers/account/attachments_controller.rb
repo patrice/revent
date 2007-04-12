@@ -15,8 +15,8 @@ class Account::AttachmentsController < ApplicationController
       format.js {
         render :update do |page|
           page.alert "updated caption"
-          page.hide "spinner"
-          page.visual_effect :highlight, 'attachment_caption'
+          page.hide "attachment-spinner-#{@attachment.id}"
+          page.visual_effect :highlight, "attachment_#{@attachment.id}_caption"
         end
       }
     end
