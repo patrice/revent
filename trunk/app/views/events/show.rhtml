@@ -1,9 +1,16 @@
 <%= render :partial => 'nav' %>
 
 <% if @event.past? -%>
-<div class="report_add">
-  Add Your Own <%= link_to 'Report of the Event', :controller => "reports", :action => "new" %>
-</div>
+	<div class="report_add">
+	 If you attended this event please <%= link_to 'submit a report', :controller => "reports", :action => "new", :id=>@event.id %>
+	</div>
+
+	<% unless @event.reports.empty? -%>
+	   <div>
+	   <%= link_to 'Click here', :controller => :reports, :action => :show, :event_id => @event.id %> to see reports for this event
+	 </div>
+	<% end -%>
+
 <% end -%>
 <div class="report-intro-text">
   <% if @event.past? -%>
@@ -22,23 +29,13 @@
   <div id="directions"><b>Directions:</b><br><%= white_list @event.directions %></div>
 <% end -%>
 
-  <p align="center" style="font-size: 14px; font-weight: bold;"><a href="#" onclick="window.open('http://democracyinaction.org/dia/api/event/email.jsp?event_KEY=<%= @event.service_foreign_key %>','','width=500,height=350'); return false;">Questions? Email the Host</a>
+  <p align="center" style="font-size: 14px; font-weight: bold;"><a href="#" onclick="window.open('http://democracyinaction.org/dia/api/event/email.jsp?event_KEY=<%= @event.service_foreign_key %>','','width=500,height=450'); return false;">Questions? Email the Host</a>
 	</p>
 
 <p></p>
 
-<% if @event.past? -%>
-  <% if @event.reports.empty? -%>
-  <div id='report-none'>
-  There are no reports for this event.<br>
-  If you attended this event please <%= link_to 'submit a report', :controller => "reports", :action => "new" %>
-  </div>
-  <% else -%>
-  <div>
-    <%= link_to 'click here', :controller => :reports, :action => :show, :event_id => @event.id %> to see reports for this event
-  </div>
-  <% end -%>
-<% else -%>
+<% unless @event.past? -%>
+ 
 <%= render "events/rsvp" %>
 <% end -%>
 <% if !@event.blogs.empty? -%>
