@@ -6,5 +6,5 @@
     <br> <%= submit_tag 'update press', :class => "profile_submit", :onclick => "Element.show('press-spinner-#{press.id}')" %><img style="display:none;" src="/images/spinner.gif" alt="spinner" id="press-spinner-<%= press.id %>" />
     <% end %>
   </td>	
-  <td><%= link_to 'Delete', :controller => 'press', :action => 'destroy', :id => press %></td>
+  <td><%= link_to_remote 'Delete', :url => { :controller => 'press', :action => 'destroy', :id => press } %></td>
 </tr>
