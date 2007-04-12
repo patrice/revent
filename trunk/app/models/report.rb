@@ -43,12 +43,12 @@ class Report < ActiveRecord::Base
   end
 
   def self.find_published(*args)
-    with_scope :find => { :conditions => [ 'status = ?', PUBLISHED ] } do
+    with_scope :find => { :conditions => [ 'reports.status = ?', PUBLISHED ] } do
       find(*args)
     end
    end
   def self.count_published(*args)
-    with_scope :find => { :conditions => [ 'status = ?', PUBLISHED ] } do
+    with_scope :find => { :conditions => [ 'reports.status = ?', PUBLISHED ] } do
       count(*args)
     end
     

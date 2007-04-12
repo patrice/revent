@@ -3,6 +3,16 @@ class Account::ReportsController < ApplicationController
   before_filter :find_report
   before_filter :login_required
 
+  def edit
+    @report = Report.find(params[:id])
+  end
+
+  def update
+    @report.update_attributes(params[:report])
+    flash[:notice] = "report updated"
+    redirect_to :controller => 'account/events', :action => 'show', :id => @report.event
+  end
+
   def publish
     @report.publish
     respond_to do |format|

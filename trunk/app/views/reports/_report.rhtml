@@ -2,7 +2,7 @@
 
 	<div class="report-list-media">
 		<div class="report-list-image">
-    		<%= image_tag report.attachments.first.public_filename(:list) if report.attachments.any? {|a| a.image?} %>
+      <%= primary_image_for report.event %>
 		</div>
 
 	</div>
