@@ -9,8 +9,7 @@
   <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y') : '?' %></b></p>
  
 	<div class="report-nav">			
-    <%#= link_to(image_tag("/themes/stepitup/images/report_action.jpg", {:alt => 'Tell Your Representatives about this Action', :border => 0, :class=>"report_bt"}) {:controller => "reports", :action => "action", :id => @events.action}) %>
-    <img src = '/themes/stepitup/images/report_action.jpg' border=0> 
+    <%= link_to(image_tag("/themes/stepitup/images/report_action.jpg", {:alt => 'Tell Your Representatives about this Action', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "action", :id => @events.campaign_key}) if @event.campaign_key %>
 		<% if @event.reports.slideshow? -%>		
     <%= link_to(image_tag("/themes/stepitup/images/report_slideshow.jpg", {:alt => 'Watch A Slideshow of Pictures From This Event', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "slideshow", :id => @event.id} ) %>
 		<% end -%>
@@ -31,14 +30,19 @@
   If you attended this event please <%= link_to 'submit a report', :controller => "reports", :action => "new" %>
   </div>
 <% else -%>
-<!--
+
+<% if @event.press_links  %>
 <div>
-  Press Coverage
-  <%#= for press in @event.reports.press do %>
-
-
+  <h3> Press Coverage</h3>
+  <ul>
+  <% for press in @event.reports.collect {|r| r.press_links}.flatten %>
+  <li> <%= link_to press.text, press.url %></li>
+  
+  <% end %>
+</ul>
 </div>
--->
+<% end %>
+
 <% for report in @event.reports do %>
 
 <div class="report_text">
