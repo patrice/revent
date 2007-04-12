@@ -158,16 +158,15 @@
 				<tr class = "profile_header_row">
 					<td>Coverage</td>
           <td></td>
-					<td></td>
 				</tr>
-				<%#= render :partial => 'press', :collection => @event.press %>
+				<%= render :partial => 'press', :collection => @event.press_links %>
 			</table>			
 		</div>
 		
 	</div>
 	
 	
-	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_print.gif'><%= link_to_function 'Download Print Materials', visual_effect(:toggle_blind, 'profile_event_print') %></p>
+  <p class="profile_dashboard_item"><!--<img src='/themes/stepitup/images/profile_print.gif'>--><%= link_to_function 'Download Print Materials', visual_effect(:toggle_blind, 'profile_event_print') %></p>
 	<div id='profile_event_print' style="display:none;">
 		
 			<p class='profile_subtitle'>Print Materials<p>
