@@ -258,5 +258,7 @@ padding:3px;
   padding:3px;
 }
 
-
+.report-embed{
+  text-align:center;
+}
 body { background-color: #cccccc; }
