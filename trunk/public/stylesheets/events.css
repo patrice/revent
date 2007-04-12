@@ -243,6 +243,13 @@ font-weight: bold;
 }
 
 	
+.form_subtitle{
+font-size:15px;
+font-weight:bold;
+background-color: #CCC;
+padding:3px;
+}
+
 	
 .form_subtitle{
   font-size:15px;
