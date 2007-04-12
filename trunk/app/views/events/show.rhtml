@@ -1,20 +1,17 @@
 <%= render :partial => 'nav' %>
 
 <% if @event.past? -%>
-	<div class="report_add">
-	 If you attended this event please <%= link_to 'submit a report', :controller => "reports", :action => "new", :id=>@event.id %>
-	</div>
+<b>	 If you attended this event please <%= link_to 'submit a report', :controller => "reports", :action => "new", :id=>@event.id %>.
 
 	<% unless @event.reports.empty? -%>
-	   <div>
-	   <%= link_to 'Click here', :controller => :reports, :action => :show, :event_id => @event.id %> to see reports for this event
-	 </div>
+	   <%= link_to 'Click here', :controller => :reports, :action => :show, :event_id => @event.id %> to see reports for this event.
 	<% end -%>
-
+ See all <%= link_to 'Event Reports', :controller => 'reports', :action => 'index' %>.<br><br>
+</b>
 <% end -%>
 <div class="report-intro-text">
   <% if @event.past? -%>
-  See all <%= link_to 'Event Reports', :controller => 'reports', :action => 'index' %>.<br><br>
+ 
   <% end -%>
 
   <h2><%= white_list @event.name %></h2>
