@@ -1,10 +1,12 @@
 <%= render :partial => 'nav' %>
 
 <% if @event.past? -%>
-<b>	 If you attended this event please <%= link_to 'submit a report', :controller => "reports", :action => "new", :id=>@event.id %>.
+<b>	This Event Has Already Taken Place<br><br>
+	
+	 If you attended this event please <%= link_to 'Submit a Report', :controller => "reports", :action => "new", :id=>@event.id %>.<br>
 
 	<% unless @event.reports.empty? -%>
-	   <%= link_to 'Click here', :controller => :reports, :action => :show, :event_id => @event.id %> to see reports for this event.
+	   <%= link_to 'Click here', :controller => :reports, :action => :show, :event_id => @event.id %> to see reports for this event.<br>
 	<% end -%>
  See all <%= link_to 'Event Reports', :controller => 'reports', :action => 'index' %>.<br><br>
 </b>
