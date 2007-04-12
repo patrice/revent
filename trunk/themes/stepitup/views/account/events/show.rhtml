@@ -139,11 +139,16 @@
 
 		<div id='profile_event_photo_list'>
 			<p class='profile_subtitle'>Event Photos</p>
-			<table class='profile_list_table'>
+    <!--  <%= link_to_function 'Add Photo', visual_effect(:toggle_blind, 'profile_report_photo_add') %>
+     <div id ='profile_report_photo_add' style="display:none;" >
+        Add form goes here
+        </div>
+        -->
+     
+      <table class='profile_list_table'>
 				<tr class = "profile_header_row">
 					<td>Image</td>
 					<td>Caption</td>
-					<td></td>
 					<td></td>
 					<td></td>
 				</tr>
@@ -153,8 +158,19 @@
 
 		<div id='profile_event_press_list'>
 			<p class='profile_subtitle'>Press Coverage</p>
-      <!--		<%= link_to "Add Press Coverage", :controller=>'press', :action=>'new', :id=>@event.id  %> -->
-			<table class='profile_list_table'>
+    <!--  <%= link_to_function 'Add Press Coverage', visual_effect(:toggle_blind, 'profile_report_press_add') %>
+     <div id ='profile_report_press_add' style="display:none;" >
+
+        <% remote_form_for :press_link, nil, :url => {:controller => 'account/press', :action => 'create'} do |f| %>
+            Title:&nbsp;<%= f.text_field 'text', :size => 25 %><br>
+                URL:&nbsp;<%= f.text_field 'url', :size => 25 %>
+                    <br> <%= submit_tag 'add press coverage'   %><img style="display:none;" src="/images/spinner.gif" alt="spinner" />
+                        <% end %>
+      
+      </div>
+      -->
+      
+      <table class='profile_list_table'>
 				<tr class = "profile_header_row">
 					<td>Coverage</td>
           <td></td>
@@ -166,7 +182,7 @@
 	</div>
 	
 	
-  <p class="profile_dashboard_item"><!--<img src='/themes/stepitup/images/profile_print.gif'>--><%= link_to_function 'Download Print Materials', visual_effect(:toggle_blind, 'profile_event_print') %></p>
+  <p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_download.gif'><%= link_to_function 'Download Print Materials', visual_effect(:toggle_blind, 'profile_event_print') %></p>
 	<div id='profile_event_print' style="display:none;">
 		
 			<p class='profile_subtitle'>Print Materials<p>

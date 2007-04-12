@@ -7,6 +7,6 @@
       <% end %>	
     </td>
     <td><%= link_to_unless(photo.primary?, 'Make Primary', :controller => 'account/attachments', :action => 'primary', :id => photo) { "Primary" } %></td>
-	  <td><%#= link_to 'Publish', :controller => 'account/attachments', :action => 'publish', :id => photo %></td>
+    <!--  <td><%#= link_to 'Publish', :controller => 'account/attachments', :action => 'publish', :id => photo %></td> -->
     <td><%= link_to_remote 'Delete', :url => { :controller => 'account/attachments', :action => 'destroy', :id => photo } %></td>
 	</tr>
