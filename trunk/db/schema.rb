@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 27) do
+ActiveRecord::Schema.define(:version => 28) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -41,21 +41,24 @@ ActiveRecord::Schema.define(:version => 27) do
   end
 
   create_table "events", :force => true do |t|
-    t.column "name",                :string
-    t.column "short_description",   :text
-    t.column "description",         :text
-    t.column "calendar_id",         :integer
-    t.column "location",            :text
-    t.column "city",                :string
-    t.column "state",               :string
-    t.column "postal_code",         :string
-    t.column "host_id",             :integer
-    t.column "start",               :datetime
-    t.column "end",                 :datetime
-    t.column "service_foreign_key", :string
-    t.column "latitude",            :float
-    t.column "longitude",           :float
-    t.column "directions",          :text
+    t.column "name",                  :string
+    t.column "short_description",     :text
+    t.column "description",           :text
+    t.column "calendar_id",           :integer
+    t.column "location",              :text
+    t.column "city",                  :string
+    t.column "state",                 :string
+    t.column "postal_code",           :string
+    t.column "host_id",               :integer
+    t.column "start",                 :datetime
+    t.column "end",                   :datetime
+    t.column "service_foreign_key",   :string
+    t.column "latitude",              :float
+    t.column "longitude",             :float
+    t.column "directions",            :text
+    t.column "person_legislator_ids", :string
+    t.column "district",              :string
+    t.column "campaign_key",          :integer
   end
 
   add_index "events", ["latitude", "longitude"], :name => "index_events_on_latitude_and_longitude"

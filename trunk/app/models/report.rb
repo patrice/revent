@@ -10,7 +10,7 @@ class Report < ActiveRecord::Base
 
   def primary!
     (self.event.reports - [self]).each do |report|
-      report.update_attribute(:primary, false)
+      report.update_attribute(:primary, false) if report.primary?
     end
     self.update_attribute(:primary, true)
   end

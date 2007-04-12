@@ -1,10 +1,12 @@
-<% form_for :photo, @photo, :url => {:controller => 'account/photo', :action => 'update', :id => @photo} do |f| %>
-	<tr class ="profile_item_row">
+  <tr class ="profile_item_row" id="attachment-<%= photo.id %>">
 	  <td><%= image_tag photo.public_filename(:list) %></td>
-    <td><%= f.text_area 'caption', :rows => 3, :cols=>20 %>
-      <br><%= submit_tag(value='update caption', :class=>"profile_submit" ) %></td>
-	  <td><%= link_to 'Make Primary', :controller => 'account/photo', :action => 'primary', :id => photo %></td>
-	  <td><%= link_to 'Publish', :controller => 'account/photo', :action => 'publish', :id => photo %></td>
-	  <td><%= link_to 'Delete', :controller => 'account/photo', :action => 'destroy', :id => photo %></td>
+    <td>
+      <% remote_form_for :attachment, photo, :url => {:controller => '/account/attachments', :action => 'update', :id => photo} do |f| %>
+        <%= f.text_area 'caption', :rows => 3, :cols => 20 %>
+        <br><%= submit_tag('update caption', :onclick => "Element.show('spinner')", :class => "profile_submit" ) %><img style="display:none;" src="/images/spinner.gif" alt="spinner" id="spinner" />
+      <% end %>	
+    </td>
+    <td><%= link_to_unless(photo.primary?, 'Make Primary', :controller => 'account/attachments', :action => 'primary', :id => photo) { "Primary" } %></td>
+	  <td><%#= link_to 'Publish', :controller => 'account/attachments', :action => 'publish', :id => photo %></td>
+    <td><%= link_to_remote 'Delete', :url => { :controller => 'account/attachments', :action => 'destroy', :id => photo } %></td>
 	</tr>
-<% end %>	

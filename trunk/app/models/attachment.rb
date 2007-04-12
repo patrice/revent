@@ -57,4 +57,13 @@ class Attachment < ActiveRecord::Base
   def set_event_id
     self.event_id = report.event_id if report
   end
+
+  def primary!
+    event = self.event || self.report.event
+    event.attachments.each do |attachment|
+      next if attachment == self
+      attachment.update_attribute(:primary, false) if attachment.primary?
+    end
+    self.update_attribute(:primary, true)
+  end
 end
