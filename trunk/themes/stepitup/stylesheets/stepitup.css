@@ -2,7 +2,7 @@
    Main StyleSheet for the 'Stepitup' theme
 */
 
-#profile_event_edit, #profile_event_attend, #profile_event_invite, #profile_event_print,  #profile_event_report #profile_event_blog {
+#profile_event_edit, #profile_event_attend, #profile_event_invite, #profile_event_print,  #profile_event_report, #profile_event_blog {
 	background-color:#E8E8E8;
 	padding:15px;
 	border:1px solid black;	
@@ -39,4 +39,13 @@ border:1px solid black;
 .profile_title {
 	font-size:22px;
 	padding:5px;
+}
+
+.profile_submit {
+  background: #fff;
+  border:1px solid black; 
+  font-size:11px;
+  float:right;
+  margin-top:3px;
+  margin-right:5px;
 }
