@@ -7,6 +7,7 @@ class Event < ActiveRecord::Base
     end
   end
   has_many :attachments, :through => :reports
+  has_many :press_links, :through => :reports
   has_many :rsvps
   has_many :attendees, :through => 'rsvps', :source => :user
 
