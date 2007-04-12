@@ -18,7 +18,7 @@
         <%= report.instance_variable_get(:@distance_from_search).round %> miles away</div>
       <% end -%>
     <div class="report-list-more">
-      <%= link_to "[[Read More]]", :controller => "events", :action => "show", :id => report.event.id %>
+      <%= link_to "[[Read More]]",   report_url(report.event.id) %>
 		</div>
 	</div>
 </div>

@@ -6,7 +6,7 @@
 	 If you attended this event please <%= link_to 'Submit a Report', :controller => "reports", :action => "new", :id=>@event.id %>.<br>
 
 	<% unless @event.reports.empty? -%>
-	   <%= link_to 'Click here', :controller => :reports, :action => :show, :event_id => @event.id %> to see reports for this event.<br>
+	   <%= link_to 'Click here', report_url(@event.id)  %> to see reports for this event.<br>
 	<% end -%>
  See all <%= link_to 'Event Reports', :controller => 'reports', :action => 'index' %>.<br><br>
 </b>

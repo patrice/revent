@@ -31,7 +31,7 @@
   </div>
 <% else -%>
 
-<% if @event.press_links  %>
+<% unless @event.press_links.empty?  %>
 <div>
   <h3> Press Coverage</h3>
   <ul>
@@ -42,16 +42,21 @@
 </ul>
 </div>
 <% end %>
+<% if @event.reports.slideshow? -%>
+    For full size pictures click on any picture below.<br>
+<% end -%>
 
 <% for report in @event.reports do %>
 
 <div class="report_text">
-  <hr><br>
+  <hr>
+         <% if report.reporter_name %>
+               <div class="report-by">By:<%= report.reporter_name %></div>
+                     <% end -%><!-- end if reporter_name -->
+  <br>
   <%= simple_format(report.text) %>
-			 <% if report.reporter_name %>
-			<div class="report-by">By:<%= report.reporter_name %></div>
-      <% end -%><!-- end if reporter_name -->
-	</div>
+  <br>
+</div>
 
 	<% if report.embed %>
  	<div class="report-embed" >
@@ -87,7 +92,6 @@
 
   <% if report.attachments.any? {|a| a.image?} %>
 	<div id="report_images">
-		For full size pictures click on any picture below.<br>
     <% report.attachments.find_all {|a| a.image?}.each do |image| %>
 		<div class="report_image">
       <%= link_to(image_tag(image.public_filename(:display)), {:controller => :reports, :action => :lightbox, :id => image.id}, :class => 'lbOn') %>
