@@ -13,6 +13,9 @@
 <p><label for="report_text">*Tell Us About What Happened at Your Event:</label><br/>
 <%= f.text_area 'text', :rows => 7 %></p>
 
+<p><label for="attendees">Estimated Attendance:</label><br/>
+<%= f.text_field 'attendees',  :size=>10 %></p>
+
 <div class="form_block">
 	<p class='form_subtitle'>Upload Images</p>
 	We support images up to 2 megabytes in size in the .gif, .jpg, or .png format. <br/> For large file uploads this page may take while to load.  All of your pictures will also be uploaded onto Flickr
