@@ -1,10 +1,10 @@
 <% form_for :photo, @photo, :url => {:controller => 'account/photo', :action => 'update', :id => @photo} do |f| %>
 	<tr class ="profile_item_row">
 	  <td><%= image_tag photo.public_filename(:list) %></td>
-	  <td><%= f.text_area 'caption', :rows => 3, :columns=>10 %></td>
+    <td><%= f.text_area 'caption', :rows => 3, :cols=>20 %>
+      <br><%= submit_tag(value='update caption', :class=>"profile_submit" ) %></td>
 	  <td><%= link_to 'Make Primary', :controller => 'account/photo', :action => 'primary', :id => photo %></td>
 	  <td><%= link_to 'Publish', :controller => 'account/photo', :action => 'publish', :id => photo %></td>
-	  <td><%= submit_tag %><%= link_to 'Update', :controller => 'account/photo', :action => 'edit', :id => photo %></td>
 	  <td><%= link_to 'Delete', :controller => 'account/photo', :action => 'destroy', :id => photo %></td>
 	</tr>
 <% end %>	

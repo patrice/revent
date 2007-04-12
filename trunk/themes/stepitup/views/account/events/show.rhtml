@@ -126,12 +126,12 @@
 			<%= link_to "Add Report", :controller => '/reports', :action => 'new', :id => @event.id   %>
 			<table class='profile_list_table'>
 				<tr class = "profile_header_row">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
 					<td>Report</td>
 					<td>By</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
 				</tr>
 				<%= render :partial => 'report', :collection => @event.reports %>
 			</table>			
@@ -142,7 +142,7 @@
 			<table class='profile_list_table'>
 				<tr class = "profile_header_row">
 					<td>Image</td>
-					<td></td>
+					<td>Caption</td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -153,14 +153,12 @@
 
 		<div id='profile_event_press_list'>
 			<p class='profile_subtitle'>Press Coverage</p>
-			<%= link_to "Add Press Coverage", :controller=>'press', :action=>'new', :id=>@event.id  %>
+      <!--		<%= link_to "Add Press Coverage", :controller=>'press', :action=>'new', :id=>@event.id  %> -->
 			<table class='profile_list_table'>
 				<tr class = "profile_header_row">
+					<td>Coverage</td>
+          <td></td>
 					<td></td>
-					<td></td>
-					<td></td>
-					<td>Title</td>
-					<td>URL</td>
 				</tr>
 				<%#= render :partial => 'press', :collection => @event.press %>
 			</table>			
