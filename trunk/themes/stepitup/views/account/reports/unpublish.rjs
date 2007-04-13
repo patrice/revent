@@ -1,2 +1,0 @@
-#page.alert "Report has been unpublished"
-page.replace "publish-control-#{@report.id}", :partial => '/account/events/publish_control', :locals => {:report => @report}

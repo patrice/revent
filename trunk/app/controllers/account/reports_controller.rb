@@ -16,7 +16,12 @@ class Account::ReportsController < ApplicationController
   def publish
     @report.publish
     respond_to do |format|
-      format.js
+      format.js {
+        render :update do |page|
+          page.alert 'published report'
+          page.replace_html "publish-control-#{@report.id}", :partial => 'account/events/publish_control', :locals => {:report => @report}
+        end
+      }
       format.html { redirect_to :controller => "/account/events", :action => "show", :id => @report.event_id }
     end
   end
@@ -24,7 +29,12 @@ class Account::ReportsController < ApplicationController
   def unpublish
     @report.unpublish
     respond_to do |format|
-      format.js
+      format.js {
+        render :update do |page|
+          page.alert 'unpublished report'
+          page.replace_html "publish-control-#{@report.id}", :partial => 'account/events/publish_control', :locals => {:report => @report}
+        end
+      }
       format.html { redirect_to :controller => "/account/events", :action => "show", :id => @report.event_id }
     end
   end
@@ -32,7 +42,11 @@ class Account::ReportsController < ApplicationController
   def destroy
     @report.destroy
     respond_to do |format|
-      format.js
+      format.js {
+        render :update do |page|
+          page.remove "report-#{@report.id}"
+        end
+      }
     end
   end
 

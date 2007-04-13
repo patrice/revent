@@ -4,7 +4,7 @@
   
   <td><%= link_to 'Edit', :controller => 'account/reports', :action => 'edit', :id => report %></td>
   <td><%= link_to_unless(report.primary?, 'Make Primary', :controller => 'account/reports', :action => 'primary', :id => report) { "Primary" } %></td>
-  <td><%= render :partial => 'publish_control', :locals => {:report => report} %></td>
+  <td><span id="publish-control-<%= report.id %>"><%= render :partial => 'publish_control', :locals => {:report => report} %></span></td>
   
   <td><%= link_to_remote 'Delete', :url => { :controller => 'account/reports', :action => 'destroy', :id => report } %></td>
 

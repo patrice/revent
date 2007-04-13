@@ -1,7 +1,7 @@
 class Report < ActiveRecord::Base
   belongs_to :event
   belongs_to :user
-  acts_as_list :scope => :event
+  acts_as_list :scope => :event_id
   has_many :attachments, :dependent => :destroy
   has_many :press_links, :dependent => :destroy
   def before_create
@@ -9,10 +9,11 @@ class Report < ActiveRecord::Base
   end
 
   def primary!
-    (self.event.reports - [self]).each do |report|
-      report.update_attribute(:primary, false) if report.primary?
-    end
-    self.update_attribute(:primary, true)
+    self.move_to_top
+  end
+
+  def primary?
+    self.first?
   end
 
   validates_presence_of :event_id, :reporter_name, :reporter_email, :text

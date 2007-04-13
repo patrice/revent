@@ -1,1 +1,1 @@
-<span id="publish-control-<%= report.id %>"><%= link_to_remote report.published? ? 'Unpublish' : 'Publish', :url => { :controller => '/account/reports', :action => report.published? ? 'unpublish' : 'publish', :id => report } %></span>
+<%= link_to_remote report.published? ? 'Unpublish' : 'Publish', :url => { :controller => '/account/reports', :action => report.published? ? 'unpublish' : 'publish', :id => report } %>

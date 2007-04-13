@@ -50,7 +50,7 @@ class ReportsController < ApplicationController
   end
 
   def show
-    @event = Event.find(params[:event_id], :include => {:reports => :attachments})
+    @event = Event.find(params[:event_id], :include => {:reports => :attachments}, :order => 'reports.position', :conditions => "reports.status = '#{Report::PUBLISHED}'")
   end
 
   def new
