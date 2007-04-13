@@ -69,7 +69,12 @@ task :after_update_code, :roles => :app, :except => {:no_symlink => true} do
   CMD
 end
 
-
+task :after_symlink, :roles => :app , :except => {:no_symlink => true} do
+  run <<-CMD
+    cd #{release_path} &&
+    ln -nfs #{shared_path}/public/attachments #{release_path}/public/attachments
+  CMD
+end
 
 
 # custome Engine Yard tasks. Don't change unless you know
