@@ -118,6 +118,7 @@ class ReportsController < ApplicationController
   end
 
   def share 
+    @event = Event.find(params[:id])
     render :layout => false
   end
 
