@@ -13,7 +13,7 @@
   <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y') : '?' %></b></p>
  
 	<div class="report-nav">			
-    <%= link_to(image_tag("/themes/stepitup/images/report_action.jpg", {:alt => 'Tell Your Representatives about this Action', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "action", :id => @events.campaign_key}) if @event.campaign_key %>
+    <%= link_to(image_tag("/themes/stepitup/images/report_action.jpg", {:alt => 'Tell Your Representatives about this Action', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "action", :id => @event.campaign_key}) if @event.campaign_key %>
 		<% if @event.reports.slideshow? -%>		
     <%= link_to(image_tag("/themes/stepitup/images/report_slideshow.jpg", {:alt => 'Watch A Slideshow of Pictures From This Event', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "slideshow", :id => @event.id} ) %>
 		<% end -%>
