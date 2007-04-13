@@ -29,7 +29,7 @@ class SiteController < ApplicationController
       new_campaign.person_legislator_IDS = @event.person_legislator_ids
       new_campaign.Suggested_Content = render_to_string(:template => "reports/action/action", :layout => false)
       new_campaign.Spread_The_Word_Text = render_to_string(:template => "reports/action/spread_word", :layout => false)
-      new_campaign.Reference_Name = "#{@event.service_foreign_key: #{@event.city}, #{@event.state}"
+      new_campaign.Reference_Name = "#{@event.service_foreign_key}: #{@event.city}, #{@event.state}"
     
       new_campaign.save
       @event.update_attribute(:campaign_key, new_campaign.key)
