@@ -1,8 +1,10 @@
 <% restrict_to "admin" do %>
   <div id="admin">
 	<b>Admin Tools:</b><br>
-    <%= link_to 'List Reports', admin_url(:controller => :reports, :action => :list) %> | <%= link_to 'Add Report', admin_url(:controller => :reports, :action => :new) %>  |   <%= link_to 'List Events', admin_url(:controller => :events, :action => :list) %> | <%= link_to 'Add Event', admin_url(:controller => :events, :action => :new) %>
-	<div class="login-box">
+
+  <%= select_tag 'admin', "<option value='' selected>Select Event To Edit</option>" +options_for_select(Event.find(:all, :order=>"state,city").collect {|e| ["#{e.state} - #{e.city}: #{truncate e.name,30}", "/profile/events/#{e.id}"]}, :include_blank=>true), :onChange=>'window.location=this.options[this.selectedIndex].value;'%>
+      
+  <div class="login-box">
 	<% if logged_in? %><%= link_to "Log Out", :controller => 'account', :action => 'logout' %><% end %>
 	</div>
   </div>
