@@ -1,4 +1,5 @@
 class Account::EventsController < ApplicationController
+  layout 'account'
   session :disabled => false
   before_filter :login_required
 
@@ -57,6 +58,7 @@ class Account::EventsController < ApplicationController
   def authorized?
     return true if %w(index).include?(action_name)
     @event = Event.find(params[:id])
+    return true if current_user.admin?
     if %w(remove).include?(action_name)
       return true if current_user.events_attending.include?(@event)
     end
