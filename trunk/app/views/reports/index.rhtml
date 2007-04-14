@@ -3,10 +3,10 @@
 		<%= @calendar.name %> Reports
 	</div>
   <div id="national-intro">
-
+<p class="view-all">View <%= link_to "All Reports", :controller => "reports", :action => "list"  %> of the Day of Action</p>
       <div class="report_add">
              <%= link_to 'Add Your Own Report', :controller => "reports", :action => "new" %>
-             <br>  </div>
+              </div>
     <div class="national-intro-text">
       <%#=  @calendar.name %>
     </div>
