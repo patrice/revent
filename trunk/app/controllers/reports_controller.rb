@@ -4,7 +4,7 @@ class ReportsController < ApplicationController
   before_filter :login_required, :only => ADMIN_METHODS
   access_control ADMIN_METHODS => 'admin'
 
-  caches_page :show, :index, :flashmap, :list
+  caches_page :show, :index, :flashmap, :list, :new
   cache_sweeper :report_sweeper, :only => [ :create, :update, :destroy, :publish, :unpublish ]
 
   def index
