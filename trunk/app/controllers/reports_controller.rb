@@ -30,7 +30,7 @@ class ReportsController < ApplicationController
   def list 
     @calendar = Calendar.find(:first)
     @report_pages = Paginator.new self, Report.count_published, 30, params[:page]
-    @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ['reports.position = ?', 1], :order => "events.state, events.city", :limit  =>  @report_pages.items_per_page, :offset =>  @report_pages.current.offset)
+    @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ['reports.position = ?', 1], :order => "reports.id DESC", :limit  =>  @report_pages.items_per_page, :offset =>  @report_pages.current.offset)
   end
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
