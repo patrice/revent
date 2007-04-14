@@ -7,12 +7,16 @@ Did the press cover an action that you attended?  Lets us know by posting a <%= 
 </div>
 		
 	
-<% @press_links.group_by {|link| link.report.event.state}.each do |state, press_links| %>
+<% @press_links.group_by {|link| 
+  state_name = DemocracyInAction::Helpers.state_options_for_select.detect { |state| 
+    state[1] == link.report.event.state
+  }
+  state_name ? state_name[0] : link.report.event.state}.sort.each do |state, press_links| %>
 	<h3><%= state %></h3>
 
   <% press_links.each do |press_link| %>
 <li><%= link_to press_link.report.event.city, report_url(press_link.report.event_id)  %>:
-<%= link_to(press_link.text, press_link.url)%></li>		
+<%= auto_link(press_link.url) { |url| press_link.text } %></li>
 
 <% end %>
 <% end %>
