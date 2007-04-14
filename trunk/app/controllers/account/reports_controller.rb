@@ -2,6 +2,7 @@ class Account::ReportsController < ApplicationController
   session :disabled => false
   before_filter :find_report
   before_filter :login_required
+  cache_sweeper :report_sweeper
 
   def edit
     @report = Report.find(params[:id])

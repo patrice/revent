@@ -4,16 +4,8 @@ class ReportsController < ApplicationController
   before_filter :login_required, :only => ADMIN_METHODS
   access_control ADMIN_METHODS => 'admin'
 
-  before_filter do |controller|
-    if controller.params[:host] == 'truemajority' && controller.action_name == 'index' &&
-      !(controller.params[:page])
-      controller.page_cache_directory = File.join(RAILS_ROOT,"public","truemajority")
-    else
-      controller.page_cache_directory = File.join(RAILS_ROOT,"public")
-    end
-  end
-
   caches_page :show, :index, :flashmap, :list
+  cache_sweeper :report_sweeper, :only => [ :create, :update, :destroy, :publish, :unpublish ]
 
   def index
     @calendar = Calendar.find(1)
@@ -72,12 +64,16 @@ class ReportsController < ApplicationController
 
     if @report.save
       @report.attachments.each do |attachment|
-        @@flickr ||= Flickr.new(File.join(RAILS_ROOT, 'config', 'flickr',RAILS_ENV,'token.cache'))
-        @@flickr.photos.upload.upload_file_async(attachment.full_filename, "#{@report.event.name} - #{@report.event.city}, #{@report.event.state}", attachment.caption, ["stepitup", "stepitup#{@report.event.id}"])
+        begin
+          @@flickr ||= Flickr.new(File.join(RAILS_ROOT, 'config', 'flickr',RAILS_ENV,'token.cache'))
+          @@flickr.photos.upload.upload_file_async(attachment.full_filename, "#{@report.event.name} - #{@report.event.city}, #{@report.event.state}", attachment.caption, ["stepitup", "stepitup#{@report.event.id}"])
+        rescue XMLRPC::FaultException
+        end
       end
-      expire_page_caches(@report)
       flash[:notice] = 'Report was successfully created.'
-      redirect_to :action => 'index'
+      @calendar = Calendar.find(1, :include => :events)
+      @events = @calendar.events
+      render :action => 'index'
     else
       render :action => 'new'
     end
@@ -90,7 +86,6 @@ class ReportsController < ApplicationController
   def update
     @report = Report.find(params[:id])
     if @report.update_attributes(params[:report])
-      expire_page_caches(@report)
       flash[:notice] = 'Report was successfully updated.'
       redirect_to :action => 'show', :id => @report
     else
@@ -100,7 +95,6 @@ class ReportsController < ApplicationController
 
   def destroy
     @report = Report.find(params[:id]).destroy
-    expire_page_caches(@report)
     respond_to do |wants|
       wants.html { redirect_to :action => 'list' }
       wants.js do
@@ -125,7 +119,6 @@ class ReportsController < ApplicationController
 
   def publish
     @report = Report.publish(params[:id])
-    expire_page_caches(@report)
     respond_to do |wants|
       wants.html { redirect_to :action => 'show', :id => @report }
       wants.js do
@@ -138,7 +131,6 @@ class ReportsController < ApplicationController
 
   def unpublish
     @report = Report.unpublish(params[:id])
-    expire_page_caches(@report)
     respond_to do |wants|
       wants.html { redirect_to :action => 'list' }
       wants.js do
@@ -199,13 +191,4 @@ class ReportsController < ApplicationController
     @calendar = Calendar.find(:first)
     render :action => 'list'
   end
-
-  protected
-    def expire_page_caches(report = nil)
-      expire_page :action => "show", :id => report
-      expire_page :controller => "events", :action => "show", :id => report.event
-      FileUtils.rm_rf(File.join(RAILS_ROOT,'public','reports','page')) rescue Errno::ENOENT
-      FileUtils.rm(File.join(RAILS_ROOT,'public','index.html')) rescue Errno::ENOENT
-      RAILS_DEFAULT_LOGGER.info("Caches fully swept.")
-    end
 end
