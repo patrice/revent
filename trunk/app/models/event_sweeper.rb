@@ -27,7 +27,9 @@ class EventSweeper < ActionController::Caching::Sweeper
   end
 
   def expire_event_pages_and_fragments(record)
-    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,"events/show/#{record.id}.html")) rescue Errno::ENOENT
-    FileUtils.rm(File.join(ActionController::Base.fragment_cache_store.cache_path, "events/_report/event_#{record.id}_list_item.cache")) rescue Errno::ENOENT
+    expire_page :controller => '/events', :action => 'show', :id => record.id
+    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','show',"#{record.id}.html")) rescue Errno::ENOENT
+    expire_fragment "events/_report/event_#{record.id}_list_item"
+    Cache.delete "event_#{record.id}_marker"
   end
 end

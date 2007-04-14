@@ -49,7 +49,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.admin 'admin/:controller/:action/:id', :admin => true
 
-  map.connect ':controller/page/:page', :action => 'index'
+  map.connect ':controller/page/:page', :action => 'list'
   map.connect ':controller/search/zip/:zip/:page', :action => 'search'
 
   # Allow downloading Web Service WSDL as a file with an extension

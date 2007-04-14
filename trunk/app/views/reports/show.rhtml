@@ -8,7 +8,7 @@
 
 <div class="report-intro-text">
 
-  <h2><%= link_to (white_list(@event.name), :controller => 'events', :action => 'show', :id => @event.id ) %></h2>
+  <h2><%= link_to(white_list(@event.name), :controller => 'events', :action => 'show', :id => @event.id ) %></h2>
   <h3><%= white_list @event.city %>, <%= @event.state %></h3>
   <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y') : '?' %></b></p>
  
