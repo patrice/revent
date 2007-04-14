@@ -1,6 +1,30 @@
 class SiteController < ApplicationController
+  session :disabled => false
   before_filter :login_required, :except => :map
-  access_control :DEFAULT => 'admin'
+#  access_control :DEFAULT => 'admin'
+
+  def featured_images 
+    return unless current_user.admin?
+    events = Event.find(:all, :include => :reports)
+    package = []
+    events.each do |e|
+      next unless e.reports
+      attachments = e.reports.collect {|r| r.attachments}.flatten.sort_by {|a| a.primary ? 1 : 0}
+      next if attachments.empty?
+      primary = attachments.first if attachments.first.primary
+      primary ||= e.reports.first.attachments.first
+      primary ||= attachments.first
+      package << primary
+    end
+    send_data `zip -j - #{package.collect {|a| a.full_filename}.join(' ')}`, :filename => 'featured_images.zip'
+  end
+
+  def all_images
+    return unless current_user.admin?
+    @attachments = Report.find_published(:all, :include => :attachments).collect {|r| r.attachments}.flatten
+    render :inline => "<%= Digest::MD5.hexdigest(@attachments.collect {|a| a.full_filename}.sort.join(' ')) %>"
+#    send_data `zip -j - #{attachments.collect {|a| a.full_filename}.join(' ')}`, :filename => 'all_images.zip'
+  end
 
   def write_update_migration
     return false

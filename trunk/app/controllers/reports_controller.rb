@@ -4,7 +4,7 @@ class ReportsController < ApplicationController
   before_filter :login_required, :only => ADMIN_METHODS
   access_control ADMIN_METHODS => 'admin'
 
-  caches_page :show, :index, :flashmap, :list, :new
+  caches_page :show, :index, :flashmap, :list, :new, :press, :video
   cache_sweeper :report_sweeper, :only => [ :create, :update, :destroy, :publish, :unpublish ]
 
   def index
@@ -13,11 +13,11 @@ class ReportsController < ApplicationController
   end
 
   def video
-    @reports = Report.find(:all, :conditions => "embed <> ''")
+    @reports = Report.find(:all, :conditions => "embed <> ''", :include => :event)
   end
 
   def press
-    @press_links = PressLink.find(:all)
+    @press_links = PressLink.find(:all, :include => {:report => :event})
   end
 
   def flashmap
