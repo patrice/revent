@@ -43,7 +43,8 @@ class Attachment < ActiveRecord::Base
     end
   end
 
-  acts_as_attachment :storage => :file_system, :content_type => :image, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300', :print => '432>x288>' }, :max_size => 10.megabytes
+  #acts_as_attachment :storage => :file_system, :content_type => :image, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300', :print => '432>x288>' }, :max_size => 10.megabytes
+  acts_as_attachment :storage => :file_system, :content_type => :image, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 10.megabytes #generate print version after the fact
   validates_as_attachment
 
   [:video, :audio, :other, :pdf].each do |content|
@@ -66,4 +67,6 @@ class Attachment < ActiveRecord::Base
     end
     self.update_attribute(:primary, true)
   end
+
+  after_save { GC.start } # please, hope this helps
 end
