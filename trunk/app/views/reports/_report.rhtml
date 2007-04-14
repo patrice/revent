@@ -11,7 +11,7 @@
 			 <%= link_to "#{report.event.city}, #{report.event.state}", report_url(report.event.id) %>		
 		</div>
 		<div class="report-list-text">
-			<%= truncate report.text, 325 %>
+			<%= truncate report.text, 280 %>
 		</div>
     <% if report.instance_variable_get(:@distance_from_search) -%>
     <div class="event-list-miles">
