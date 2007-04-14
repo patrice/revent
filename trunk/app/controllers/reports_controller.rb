@@ -179,9 +179,9 @@ class ReportsController < ApplicationController
 
   def search
     redirect_to :action => 'index' and return unless params[:zip] || params[:state]
-    if params[:zip]
+    if params[:zip] && !params[:zip].empty?
       do_zip_search
-    elsif params[:state]
+    elsif params[:state] && !params[:state].empty?
       do_state_search
     end
     unless @reports
