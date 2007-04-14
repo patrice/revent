@@ -28,7 +28,7 @@ ActionMailer::Base.server_settings = {
    :address            => 'smtp.engineyard.com',
    :port               => 25 }
 
-CACHE = MemCache.new ['10.0.128.234:11211'], :namespace => 'daysofaction'
+CACHE = MemCache.new ['10.0.128.233:11211','10.0.128.234:11211'], :namespace => 'daysofaction'
 require 'memcache_util'
 require 'mem_cache_fragment_store'
 ActionController::Base.fragment_cache_store = :mem_cache_fragment_store, CACHE
