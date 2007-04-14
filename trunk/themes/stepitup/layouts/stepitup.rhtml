@@ -17,7 +17,9 @@
   <%= yield :header %>
   <%= Cartographer::Gmap::Header.header_for(request) if @map %>
   
-<%= theme_stylesheet_link_tag('styles_default', 'styles2') %>
+<link href="http://stepitup2007.org/custom/styles2.css" media="screen" rel="Stylesheet" type="text/css" />
+
+<%= theme_stylesheet_link_tag('styles_default') %>
 <link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.stepitup2007.org/rssfeed.php"><title>Step It Up 2007</title>
 <%= theme_javascript_include_tag 'functions' %>
 <!--
