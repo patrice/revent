@@ -29,7 +29,7 @@ class ReportsController < ApplicationController
 
   def list 
     @calendar = Calendar.find(:first)
-    @report_pages = Paginator.new self, Report.count_published, 30, params[:page]
+    @report_pages = Paginator.new self, Report.count_published, 20, params[:page]
     @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ['reports.position = ?', 1], :order => "reports.id DESC", :limit  =>  @report_pages.items_per_page, :offset =>  @report_pages.current.offset)
   end
 
@@ -165,13 +165,13 @@ class ReportsController < ApplicationController
                         max_lat, 
                         max_lon])
     end
-    @report_pages = Paginator.new self, Report.count_published(:include => :event, :conditions => ["reports.position = ? AND events.postal_code IN (?)", 1, @zips.collect {|z| z.zip}]), 30, params[:page]
+    @report_pages = Paginator.new self, Report.count_published(:include => :event, :conditions => ["reports.position = ? AND events.postal_code IN (?)", 1, @zips.collect {|z| z.zip}]), 20, params[:page]
     @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ["reports.position = ? AND events.postal_code IN (?)", 1, @zips.collect {|z| z.zip}], :order => "events.state, events.city", :limit => @report_pages.items_per_page, :offset => @report_pages.current.offset)
     @search_results_message = "Showing reports within 100 miles of #{@zip.zip}"
     @search_params = {:zip => @zip.zip}
   end
   def do_state_search
-    @report_pages = Paginator.new self, Report.count_published(:include => :event, :conditions => ["reports.position = ? AND events.state = ?", 1, params[:state]]), 30, params[:page]
+    @report_pages = Paginator.new self, Report.count_published(:include => :event, :conditions => ["reports.position = ? AND events.state = ?", 1, params[:state]]), 20, params[:page]
     @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ["reports.position = ? AND events.state = ?", 1, params[:state]], :order => "events.state, events.city", :limit => @report_pages.items_per_page, :offset => @report_pages.current.offset)
     @search_results_message = "Showing reports in #{params[:state]}"
     @search_params = {:state => params[:state]}
