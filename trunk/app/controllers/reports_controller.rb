@@ -156,7 +156,7 @@ class ReportsController < ApplicationController
   def do_zip_search
     @zip = ZipCode.find_by_zip(params[:zip])
 #    flash.now[:notice] = "Could not locate that zip code" and return unless @zip
-    @search_results_message = "Sorry, we don't have that zip code in our database, try a different one from near by."
+    @search_results_message = "Sorry, we don't have that zip code in our database, try a different one from near by." and return unless @zip
     @zips = @zip.find_objects_within_radius(100) do |min_lat, min_lon, max_lat, max_lon|
       ZipCode.find(:all, 
                    :conditions => [ "(latitude > ? AND longitude > ? AND latitude < ? AND longitude < ? ) ", 
