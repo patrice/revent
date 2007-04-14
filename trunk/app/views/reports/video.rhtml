@@ -14,7 +14,7 @@ Do you have video of an action that you attended?  Lets us know by posting a <%=
 	<div class="video-embed">
 	<%= white_list report.embed, :tags => %w(object embed param), :attributes => %w(name value type wmode) %>
 	<br>
-  <%= link_to("#{report.event.city}, #{report.event.state}", :controller=>'reports', :id=> report.event.id ) %>: <%= report.event.name %>
+  <%= link_to("#{report.event.city}, #{report.event.state}", report_url(report.event) ) %>: <%= report.event.name %>
 	</div>		
 
   <% end %>
