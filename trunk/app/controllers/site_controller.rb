@@ -6,6 +6,7 @@ class SiteController < ApplicationController
   def featured_images 
     return unless current_user.admin?
     events = Event.find(:all, :include => :reports)
+    events.reject! {|e| e.reports.empty?}
     package = []
     events.each do |e|
       next unless e.reports
@@ -17,6 +18,45 @@ class SiteController < ApplicationController
       package << primary
     end
     send_data `zip -j - #{package.collect {|a| a.full_filename}.join(' ')}`, :filename => 'featured_images.zip'
+  end
+
+  def image_info
+    require 'fastercsv'
+    events = Event.find(:all, :include => :reports)
+    events.reject! {|e| e.reports.empty?}
+    democracy_in_action_events = DemocracyInActionEvent.find(events.collect {|e| e.service_foreign_key}.select {|e| !e.blank?})
+    democracy_in_action_events = democracy_in_action_events.index_by {|e| e.key}
+
+    string = FasterCSV.generate do |csv|
+      csv << ["event_id", "city", "state", "district", "host_id", "image_name"]
+      events.each do |e|
+        attachments = e.reports.collect {|r| r.attachments}.flatten.sort_by {|a| a.primary ? 1 : 0}
+        next if attachments.empty?
+        primary = attachments.first if attachments.first.primary
+        primary ||= e.reports.first.attachments.first
+        primary ||= attachments.first
+        csv << [e.id, e.city, e.state, e.district, democracy_in_action_events[e.service_foreign_key].supporter_KEY, primary.filename]
+      end
+    end
+    send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "image_info.csv")
+  end
+
+  def host_info
+    require 'fastercsv'
+    democracy_in_action_events = DemocracyInActionEvent.find(:all)
+    democracy_in_action_hosts = DemocracyInActionSupporter.find(democracy_in_action_events.collect {|e| e.supporter_KEY}.reject {|key| key.blank?})
+
+    democracy_in_action_hosts = democracy_in_action_hosts.index_by {|s| s.key}
+
+    string = FasterCSV.generate do |csv|
+      csv << ["host_id", "event_id", "first_name", "last_name", "salutation", "address", "city", "state"]
+      democracy_in_action_events.each do |event|
+        host = democracy_in_action_hosts[event.supporter_KEY]
+        next unless host
+        csv << [host.key, event.key, host.First_Name, host.Last_Name, host.Title, [host.Street, host.Street_2].compact.join("\n"), host.City, host.State]
+      end
+    end
+    send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "host_info.csv")
   end
 
   def all_images
