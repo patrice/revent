@@ -48,11 +48,13 @@ class Report < ActiveRecord::Base
       find(*args)
     end
    end
-  def self.count_published(*args)
+  def self.count_all_published(*args)
     with_scope :find => { :conditions => [ 'reports.status = ?', PUBLISHED ] } do
       count(*args)
     end
-    
+  end
+  def self.count_published(*args)
+    count_by_sql("SELECT COUNT(DISTINCT event_id) FROM reports WHERE reports.status = '#{PUBLISHED}'")
   end
   def find_published(*args)
     self.find_published(id, *args)
