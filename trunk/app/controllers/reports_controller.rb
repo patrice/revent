@@ -4,7 +4,7 @@ class ReportsController < ApplicationController
   before_filter :login_required, :only => ADMIN_METHODS
   access_control ADMIN_METHODS => 'admin'
 
-  caches_page :show, :index, :flashmap, :list, :new, :press, :video
+  caches_page :show, :index, :flashmap, :list, :new, :press, :video, :lightbox
   cache_sweeper :report_sweeper, :only => [ :create, :update, :destroy, :publish, :unpublish ]
 
   def index
@@ -166,10 +166,16 @@ class ReportsController < ApplicationController
                         max_lon])
     end
     @report_pages = Paginator.new self, Report.count_published(:include => :event, :conditions => ["reports.position = ? AND events.postal_code IN (?)", 1, @zips.collect {|z| z.zip}]), 20, params[:page]
-    @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ["reports.position = ? AND events.postal_code IN (?)", 1, @zips.collect {|z| z.zip}], :order => "events.state, events.city", :limit => @report_pages.items_per_page, :offset => @report_pages.current.offset)
+    @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ["reports.position = ? AND events.postal_code IN (?)", 1, @zips.collect {|z| z.zip}])
+                                     #, :order => "", :limit => @report_pages.items_per_page, :offset => @report_pages.current.offset)
+    @codes = @zips.collect {|z| z.zip}
+    @reports = @reports.sort_by {|r| @codes.index(r.event.postal_code)}
+    @reports = @reports[@report_pages.current.offset, @report_pages.current.offset + @report_pages.items_per_page]
+    @reports.each {|r| r.instance_variable_set(:@distance_from_search, @zips.find {|z| z.zip == r.event.postal_code}.distance_to_search_zip) }
     @search_results_message = "Showing reports within 100 miles of #{@zip.zip}"
     @search_params = {:zip => @zip.zip}
   end
+
   def do_state_search
     @report_pages = Paginator.new self, Report.count_published(:include => :event, :conditions => ["reports.position = ? AND events.state = ?", 1, params[:state]]), 20, params[:page]
     @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ["reports.position = ? AND events.state = ?", 1, params[:state]], :order => "events.state, events.city", :limit => @report_pages.items_per_page, :offset => @report_pages.current.offset)
