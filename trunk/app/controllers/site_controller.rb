@@ -1,6 +1,6 @@
 class SiteController < ApplicationController
   session :disabled => false
-  before_filter :login_required, :except => :map
+#  before_filter :login_required, :except => :map
 #  access_control :DEFAULT => 'admin'
 
   def cp_to_print(a)
@@ -21,11 +21,49 @@ class SiteController < ApplicationController
     FileUtils.cp(File.expand_path(print.full_filename),File.expand_path(File.join(RAILS_ROOT,'tmp','export','print_images',"#{host}#{extension}")))
   end
 
-  def featured_images 
-    return unless current_user.admin?
+	def congress_names
+		require 'fastercsv'
+		names = generate_congress_names
+		string = FasterCSV.generate do |csv|
+			csv << ["district", "name"]
+			names.each do |district, name|
+			  csv << [district, name]
+			end
+		end
+		send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "image_info.csv") 
+	end
+
+	def generate_congress_names
+		require 'open-uri'
+		districts = Event.find(:all).collect {|e| e.district}.uniq
+		states = Event.find(:all).collect {|e| e.state}.compact.uniq.select do |state|
+			DaysOfAction::Geo::STATE_CENTERS.keys.reject {|c| :DC == c}.map{|c| c.to_s}.include?(state)
+		end
+		results = {}
+		districts.each do |district|      
+			data = XmlSimple.xml_in(open("http://warehouse.democracyinaction.org/dia/api/warehouse/legislator.jsp?method=getLegislatorFromDistrict&district=#{district}&district_type=FH"))
+			if data['legislator'].nil?
+			  results[district] = "no legislator"
+			elsif data['legislator'][0]['display_name'].nil?
+			  results[district] = "no display name"
+			else
+				results[district] = data['legislator'][0]['display_name'][0]
+			end
+		end
+		states.each do |state|      
+			data = XmlSimple.xml_in(open("http://warehouse.democracyinaction.org/dia/api/warehouse/legislator.jsp?method=getLegislatorFromDistrict&district=#{state}1&district_type=FS"))
+			results["#{state}S1"] = data['legislator'][0]['display_name'][0]
+
+			data = XmlSimple.xml_in(open("http://warehouse.democracyinaction.org/dia/api/warehouse/legislator.jsp?method=getLegislatorFromDistrict&district=#{state}2&district_type=FS"))
+			results["#{state}S2"] = data['legislator'][0]['display_name'][0]
+		end    
+		return results
+  end
+
+  def collect_featured_images
     events = Event.find(:all, :include => :reports)
     events.reject! {|e| e.reports.empty?}
-    package = []
+    @featured_images = []
     events.each do |e|
       next unless e.reports
       attachments = e.reports.collect {|r| r.attachments}.flatten.sort_by {|a| a.primary ? 1 : 0}
@@ -33,10 +71,25 @@ class SiteController < ApplicationController
       primary = attachments.first if attachments.first.primary
       primary ||= e.reports.first.attachments.first
       primary ||= attachments.first
-      package << primary
+      @featured_images << primary
     end
 #    send_data `zip -j - #{package.collect {|a| a.full_filename}.join(' ')}`, :filename => 'featured_images.zip'
     render :inline => "generated zip successfully, please download it <%= link_to 'here', '/featured_images.zip' %>"
+  end
+
+  def featured_images 
+    collect_featured_images
+    image_names = @featured_images.collect {|a| File.expand_path(a.full_filename)}.join(' ')
+    result = `zip #{File.join(RAILS_ROOT,'public','featured_images.zip')} #{image_names}`
+    render :inline => "generated zip successfully, please download it <%= link_to 'here', '/featured_images.zip' %>"
+#    send_data result, :filename => 'featured_images.zip'
+  end
+
+  def featured_images_print
+    collect_featured_images
+    image_names = @featured_images.collect {|a| a.full_filename(:print)}.join(' ')
+    result = `zip #{File.join(RAILS_ROOT,'public','featured_images_print.zip')} #{image_names}`
+    render :inline => "generated zip successfully, please download it <%= link_to 'here', '/featured_images_print.zip' %>"
   end
 
   def image_info
@@ -47,18 +100,33 @@ class SiteController < ApplicationController
     democracy_in_action_events = democracy_in_action_events.index_by {|e| e.key}
 
     string = FasterCSV.generate do |csv|
-      csv << ["event_id", "city", "state", "district", "host_id", "image_name"]
+      csv << ["event_id", "event_name", "city", "state", "district", "host_id", "image_name"]
       events.each do |e|
         attachments = e.reports.collect {|r| r.attachments}.flatten.sort_by {|a| a.primary ? 1 : 0}
         next if attachments.empty?
         primary = attachments.first if attachments.first.primary
         primary ||= e.reports.first.attachments.first
         primary ||= attachments.first
-        csv << [e.id, e.city, e.state, e.district, democracy_in_action_events[e.service_foreign_key].supporter_KEY, primary.filename]
+        csv << [e.id, e.name, e.city, e.state, e.district, democracy_in_action_events[e.service_foreign_key].supporter_KEY, primary.filename]
       end
     end
     send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "image_info.csv")
   end
+
+  def attendance
+    require 'fastercsv'
+		events = Event.find(:all, :include => :reports)
+    string = FasterCSV.generate do |csv|
+      csv << ["event_id","name","city","state","min","max","average"]
+			events.each do |e|
+        attendees = e.reports.collect {|r| r.attendees}.reject {|a| 0 == a }.compact
+				sum = attendees.inject {|sum, n| sum + n}
+				avg = sum ? sum / attendees.length : nil
+			  csv << [e.id, e.name, e.city, e.state, attendees.min, attendees.max, avg]
+			end
+	  end
+    send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "attendance.csv")
+	end
 
   def host_info
     require 'fastercsv'
@@ -68,18 +136,19 @@ class SiteController < ApplicationController
     democracy_in_action_hosts = democracy_in_action_hosts.index_by {|s| s.key}
 
     string = FasterCSV.generate do |csv|
-      csv << ["host_id", "event_id", "first_name", "last_name", "salutation", "address", "city", "state"]
+      csv << ["host_key", "democracy_in_action_event_key", "event_id", "first_name", "last_name", "salutation", "address", "city", "state", "zip"]
       democracy_in_action_events.each do |event|
         host = democracy_in_action_hosts[event.supporter_KEY]
         next unless host
-        csv << [host.key, event.key, host.First_Name, host.Last_Name, host.Title, [host.Street, host.Street_2].compact.join("\n"), host.City, host.State]
+				e = Event.find_by_service_foreign_key(event.key)
+				event_id = e ? e.id : nil
+        csv << [host.key, event.key, event_id, host.First_Name, host.Last_Name, host.Title, [host.Street, host.Street_2].compact.join("\n"), host.City, host.State, host.Zip]
       end
     end
     send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "host_info.csv")
   end
 
   def all_images
-    return unless current_user.admin?
     @attachments = Report.find_published(:all, :include => :attachments).collect {|r| r.attachments}.flatten
     render :inline => "<%= Digest::MD5.hexdigest(@attachments.collect {|a| a.full_filename}.sort.join(' ')) %>"
 #    send_data `zip -j - #{attachments.collect {|a| a.full_filename}.join(' ')}`, :filename => 'all_images.zip'
