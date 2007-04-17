@@ -11,7 +11,7 @@
 		<!--Read press coverage <a href="">here</a> -->
 	</div>
 	<div id='report-search'>
-    <% form_tag :controller => "/reports", :action => "search" do -%>
+    <% form_tag :controller => "/reports", :action => "search", :zip => nil, :state => nil do -%>
        Enter Zip Code to Find a Report Near You:
         <%= text_field_tag "zip", '', {:size=>10} %>
         <%= submit_tag "GO" %>
