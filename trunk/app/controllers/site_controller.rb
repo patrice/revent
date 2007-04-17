@@ -3,6 +3,24 @@ class SiteController < ApplicationController
   before_filter :login_required, :except => :map
 #  access_control :DEFAULT => 'admin'
 
+  def cp_to_print(a)
+    print = a.thumbnails.find_by_thumbnail('print')
+    unless print
+      print = a.create_or_update_thumbnail(:print, '432>x288>')
+    end
+    event = a.event || a.report.event
+    return if event.nil?
+    host = event.dia_event.supporter_KEY
+    return if host.nil?
+    extension_start = a.filename.rindex('.')
+    if extension_start
+      extension = a.filename[a.filename.rindex('.')..a.filename.size]
+    else
+      extension = ''
+    end
+    FileUtils.cp(File.expand_path(print.full_filename),File.expand_path(File.join(RAILS_ROOT,'tmp','export','print_images',"#{host}#{extension}")))
+  end
+
   def featured_images 
     return unless current_user.admin?
     events = Event.find(:all, :include => :reports)
@@ -17,7 +35,8 @@ class SiteController < ApplicationController
       primary ||= attachments.first
       package << primary
     end
-    send_data `zip -j - #{package.collect {|a| a.full_filename}.join(' ')}`, :filename => 'featured_images.zip'
+#    send_data `zip -j - #{package.collect {|a| a.full_filename}.join(' ')}`, :filename => 'featured_images.zip'
+    render :inline => "generated zip successfully, please download it <%= link_to 'here', '/featured_images.zip' %>"
   end
 
   def image_info
