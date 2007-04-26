@@ -1,5 +1,4 @@
 class Account::EventsController < ApplicationController
-  layout 'account'
   session :disabled => false
   before_filter :login_required
 

@@ -1,5 +1,4 @@
 class AccountController < ApplicationController
-  layout 'account'
   session :disabled => false
   before_filter :login_required, :only => :profile
 
