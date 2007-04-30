@@ -7,10 +7,10 @@ class Attachment < ActiveRecord::Base
   # use #send due to a ruby 1.8.2 issue
   @@video_condition = send(:sanitize_sql, ['content_type LIKE ? OR content_type IN (?)', 'video%', extra_content_types[:video]]).freeze
   @@audio_condition = send(:sanitize_sql, ['content_type LIKE ? OR content_type IN (?)', 'audio%', extra_content_types[:audio]]).freeze
-  @@image_condition = send(:sanitize_sql, ['content_type IN (?)', Technoweenie::ActsAsAttachment.content_types]).freeze
+  @@image_condition = send(:sanitize_sql, ['content_type IN (?)', Technoweenie::AttachmentFu.content_types]).freeze
   @@other_condition = send(:sanitize_sql, [
     'content_type NOT LIKE ? AND content_type NOT LIKE ? AND content_type NOT IN (?)',
-    'audio%', 'video%', (extra_content_types[:video] + extra_content_types[:audio] + Technoweenie::ActsAsAttachment.content_types)]).freeze
+    'audio%', 'video%', (extra_content_types[:video] + extra_content_types[:audio] + Technoweenie::AttachmentFu.content_types)]).freeze
   cattr_reader *%w(video audio image other).collect! { |t| "#{t}_condition".to_sym }
 
   class << self
@@ -44,7 +44,13 @@ class Attachment < ActiveRecord::Base
   end
 
   #acts_as_attachment :storage => :file_system, :content_type => :image, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300', :print => '432>x288>' }, :max_size => 10.megabytes
-  acts_as_attachment :storage => :file_system, :content_type => :image, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 10.megabytes #generate print version after the fact
+  #acts_as_attachment :storage => :file_system, :content_type => :image, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 10.megabytes #generate print version after the fact
+  has_attachment :storage => :file_system, :content_type => :image, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 10.megabytes #generate print version after the fact
+  #needed to find our images in the old style path
+  def partitioned_path(*args)
+    [attachment_path_id.to_s] + args
+  end
+  #has_attachment :storage => :s3, :path_prefix => 'events/attachments', :content_type => :image, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 10.megabytes #generate print version after the fact
   validates_as_attachment
 
   [:video, :audio, :other, :pdf].each do |content|
