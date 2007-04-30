@@ -21,12 +21,6 @@
 <hr>	
 <div class='pagination-footer'>
 <span style="float:left;" class="previous-page"><%= link_to 'Previous page', { :page => @report_pages.current.previous } if @report_pages.current.previous %></span>
-<span style="float:left;margin-left:50%;">
-<% @report_pages.each do |page| -%>
-<%= link_to_unless((page == @report_pages.current), page.number, { :page => page }) %>
-<% end -%>
-</span>
-
 <span style="float:right;margin-right:0;"><%= link_to 'Next page', { :page => @report_pages.current.next }.merge(@search_params || {}) if @report_pages.current.next %></span>
 </div>
 
@@ -34,11 +28,6 @@
 
   <br><br><div class='pagination-footer'>
     <span style="float:left;" class="previous-page"><%= link_to 'Previous page', { :page => @report_pages.current.previous } if @report_pages.current.previous %></span>
-<span style="float:left;margin-left:50%;">
-<% @report_pages.each do |page| -%>
-<%= link_to_unless((page == @report_pages.current), page.number, { :page => page }) %>
-<% end -%>
-</span>
     <span style="float:right;margin-right:0;"><%= link_to 'Next page', { :page => @report_pages.current.next }.merge(@search_params || {}) if @report_pages.current.next %></span>
   </div>
 </div>
