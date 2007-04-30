@@ -65,7 +65,8 @@ task :after_update_code, :roles => :app, :except => {:no_symlink => true} do
     ln -nfs #{shared_path}/config/mongrel_cluster.yml #{release_path}/config/mongrel_cluster.yml &&
     ln -nfs #{shared_path}/config/cartographer-config.yml #{release_path}/config/cartographer-config.yml &&
     ln -nfs #{shared_path}/config/democracyinaction-config.yml #{release_path}/config/democracyinaction-config.yml &&
-    ln -nfs #{shared_path}/config/flickr #{release_path}/config/flickr
+    ln -nfs #{shared_path}/config/flickr #{release_path}/config/flickr &&
+    ln -nfs #{shared_path}/config/amazon_s3.yml #{release_path}/config/amazon_s3.yml
   CMD
 end
 
