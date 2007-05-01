@@ -16,7 +16,7 @@ ActionController::Routing::Routes.draw do |map|
 #  raise Calendar.find(:first).inspect => WORKS!!!
   map.home '', :controller => "events"
 
-  map.connect '/attachments/:id/:filename.:format', :controller => 'attachments', :action => 'show'
+  map.connect '/attachments/:id/:filename.:format', :controller => 'attachments', :action => 'show', :requirements => { :id => /\d+/ }
 
   map.with_options :controller => 'account' do |m|
     m.signup  '/signup',  :action => 'signup'
