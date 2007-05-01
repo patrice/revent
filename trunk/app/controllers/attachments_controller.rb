@@ -1,7 +1,14 @@
 class AttachmentsController < ApplicationController
-  session :disabled => false, :only => :destroy
-  before_filter :login_required
+  skip_before_filter :set_site
+
+  session :disabled => false, :only => [:destroy]
+  before_filter :login_required, :only => [:destroy]
   access_control :destroy => 'admin'
+
+  def show
+    @attachment = Attachment.find_by_parent_id_and_filename(params[:id], "#{params[:filename]}.#{params[:format]}") || Attachment.find_by_id_and_filename(params[:id], "#{params[:filename]}.#{params[:format]}") 
+    redirect_to @attachment.public_filename
+  end
 
   def destroy
     @attachment = Attachment.find(params[:id])
