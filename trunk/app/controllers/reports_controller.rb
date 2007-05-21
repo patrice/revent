@@ -55,6 +55,17 @@ class ReportsController < ApplicationController
 
   def create
     @report = Report.new(params[:report])
+    akismet = Akismet.new '8ec4905c5374', 'http://events.stepitup2007.org'
+    if akismet.comment_check(:user_ip => request.remote_ip,
+                             :user_agent => request.user_agent,
+                             :referrer => request.referer,
+                             :comment_author => @report.reporter_name,
+                             :comment_author_email => @report.reporter_email,
+                             :comment_content => @report.text)
+      flash[:notice] = "There was a problem saving your report"
+      render :action => 'new' and return
+    end
+
     params[:press_links].reject {|link| link[:url].empty? || link[:text].empty?}.each do |link|
       @report.press_links.build(link)
     end
