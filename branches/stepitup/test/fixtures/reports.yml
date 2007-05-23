@@ -1,0 +1,14 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+first:
+  id: 1
+  event_id: 1
+  reporter_name: john doe
+  reporter_email: john@doe.com
+  text: this is my report
+  status: <%= Report::PUBLISHED %>
+another:
+  id: 2
+  event_id: 2
+  reporter_name: jane doe
+  reporter_email: jane@doe.com
+  text: this is my report

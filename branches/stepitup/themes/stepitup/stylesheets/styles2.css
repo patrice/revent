@@ -1,0 +1,436 @@
+/* ______ Global Styles */
+
+body {
+margin: 0;
+ font-family: " Helvetica, Lucida Grande", Verdana, Arial, sans-serif;
+ font-size: 12px;
+ color: #000000;
+ line-height: 17px;
+}
+
+th,td,p,.text {  
+ font-family: "Helvetica, Lucida Grande", Verdana, Arial, sans-serif;
+ font-size: 12px;
+ color: #000000;
+ line-height: 17px;}
+
+/*LINKS*/
+
+a {  color: #6488B2; text-decoration: none}
+a:hover {  color: #000099; text-decoration: underline}
+a:link {color: #6488B2; text-decoration: none;}
+a:active {color: #5296BB; text-decoration: none;}
+a:visited {color: #5296BB; text-decoration: none;}
+a:hover {color: #5296BB; text-decoration: underline;}
+
+a.black:link {color: #000000; text-decoration: underline;}
+a.black:active {color: #000000; text-decoration: underline;}
+a.black:visited {color: #000000; text-decoration: underline;}
+a.black:hover {color: #000000; text-decoration: underline;}
+
+a.grey:link {color: #999999; text-decoration: none;}
+a.grey:active {color: #999999; text-decoration: none;}
+a.grey:visited {color: #999999; text-decoration: none;}
+a.grey:hover {color: #999999; text-decoration: underline;}
+
+p {
+ margin-top: 0px;
+ margin-bottom: 12px;
+ padding-top: 0px;
+ padding-bottom: 0px;
+}
+
+ol {
+ list-style: decimal;
+ margin-top: 0px;
+}
+
+li {
+ margin-left: -5px;
+ margin-bottom: 8px;
+}
+
+
+
+/* ______ AMP Specific Classes */
+
+
+/*ARTICLE PAGES*/
+
+.title {   font-size: 18px; font-weight: bold;  color: #575757; }
+.subtitle { font-size: 14px; font-weight: bold;  color: #333333; }
+.author {  font-size: 12px; font-weight: bold; color: #333333; }
+.date {   font-size: 12px; font-weight: bold; color: #555555; }
+.form {  font-size: 12px; font-weight: bold; color: #333333}
+.photocaption {  font-size: 10px; font-weight: normal; color: #333333; text-align: center; vertical-align: middle; clip:   rect(   ); padding-top: 3px; padding-bottom: 3px}
+.docbox {border : 1px double Black; font-size : 13px; text-align : center; }
+
+/*LIST PAGES*/
+
+.listtitle { font-size: 13px; font-weight: bold; color: #45637E; }
+.bodygreystrong {font-size: 12px; font-weight: bold; color: #333333}
+
+/*INDEX PAGE*/
+
+.home {  } 
+.homebody { font-size: 12px; color: #000000}
+.hometitle {  font-size: 16px; font-weight: bolder; color: #006699; text-decoration: none}
+.morelink { text-align: right;  display: block; } 
+
+/*NAVIGATION*/
+
+.breadcrumb { font-size: 9px; color: #444444; }
+.subside { font-size: 14px; font-weight: bolder; color: #FFFFFF;  font-family: " Helvetica, Lucida Grande", Verdana, Arial, sans-serif; text-transform: uppercase; text-align:center;}
+
+
+a.sidelist { font-size: 11px;  color: #000000; text-decoration:underline; }
+
+.sideitem { padding-bottom: 10px; padding-top: 0px }
+
+
+.side_logo{ text-align:center; padding-bottom: 15px; 
+
+}
+
+.go { font-size: 9px}
+
+/*NEWS and PR PAGES    bodystronggrey*/
+
+.newstitle { font-size: 18px; font-weight: bold; color: #000000}
+.newssubtitle { font-size: 12px; font-weight: bold; color: #333333}
+.bodystrong {font-size: 12px; font-weight: bold; color: #000000}       
+.bodygrey {font-size: 12px; font-weight: normal; color: #333333}
+     /*used in groups*/
+
+/* PAGINATION CLASSES */
+
+div.list_pager {
+		text-align: right;
+		float: right; 
+		width: 90%; 
+		position: relative;
+		font-size: 11px;
+		display: block;
+		padding: 5px 5px 10px 5px;
+
+}
+
+div.list_pager a.pager_link {
+		font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9px
+		margin-bottom: 5px;
+}
+
+.standout {
+		font-weight: bold;
+		text-decoration: none;
+		font-size:14px;
+}
+
+a.standout {
+		text-decoration: none;
+}
+
+/* ______ AMP Specific Classes for TOOLS */
+
+/*CALENDAR*/
+.eventsubtitle {font-size: 12px; font-weight: bold; color: #333333}
+      /*used in groups*/
+
+.eventtitle {font-size: 12px; font-weight: bold}
+      /*used in groups*/
+
+/*GROUPS & ENDORSEMENTS bodygrey, eventsubtitle,  eventtitle*/
+
+
+/* LINKS MODULE */
+
+.linktype { font-size: 13px; font-weight: bold;}
+.links { padding: 3px; margin-left: 30px; font-weight: bold; border: 0px solid #666; margin-bottom: 10px;}
+.links a { font-size: 13px; color: #006699; font-weight: bold; display: block; padding: 15px;}
+.links text { font-size: 13px; color: #006699; font-weight: bold; display: block; padding: 15px;}
+.links img { float: left; padding-right: 15px; margin: 5px; border: 0px solid #666; text-align: center; }
+.links br { clear: both; }
+.links p { display: inline; font-size: 11px; font-weight: normal; color: #666; padding: 0px; padding-left: 4px; font-style: italic;  }
+.links p a { color: #f00; font-size: 100%; font-style: italic;  }
+
+
+/* GALLERY MODULE */
+/* list of gallerys */
+.gallerylist { padding: 5px; }
+.gallerylist a { font-size: 14px; }
+.gallerylist img { float: left; margin: 8px; border: 1px solid #666; }
+.gallerylist br { clear: both; }
+.gallerylist p { display: inline; font-size: 12px; font-weight: normal; color: #666; padding-left: 10px; }
+.gallerylist p a { color: #f00; font-size: 100%; 
+ font-size: 11px; font-weight: normal; font-style: italic; color: #666;  } 
+
+/* indiv gallery page */
+.gallerytitle { font-size: 16px; font-weight: bold; color: #333333; }
+.gallery { padding: 0; margin: 0; border: 0; width: 100%; border: 0px solid #666; float: left; }
+.gallerycon { width: 200px; height: 200px; float: left; margin: 10px; text-align: center; border: 0px solid #666; }         
+.gallerycon img { float: center; padding: 5px; border: 1px solid #666; }
+.gallerycap { padding: 5px; border: 0px solid #666; margin: 5px; }
+
+
+
+/* FORMS  */
+
+.udm_header { white-space: nowrap; background-color: #CCCCCC; padding: 5px; font-weight: bold; }
+
+.udm_group_label { text-align:left; font-weight: bold; padding-bottom: 5px;}
+
+/* for calendar headers */
+span.intitle{ white-space: nowrap; background-color: #CCCCCC; padding: 5px; font-weight: bold; display:block; }
+
+.form_label_col {text-align:left; font-weight: normal; padding-bottom: 5px;}
+.form_data_col  {text-align:left; font-weight: normal;  padding-bottom: 5px;}
+
+/* _________ Design Specific  */
+
+.masborder { border: 2px #000000 solid; }
+.features { font-size: 10px; font-weight: bold; color: #000000}
+.header { border: 1px #999999 solid; }
+.leftnav { background: #EEEEEE;  border-right: 1px #999999 dashed; border-left: 1px #999999 solid;  }
+.mainbody { border-right: 1px #999999 solid; padding: 20px;  }
+.caption {
+font-size: 10px; color: #666; display: block;
+}
+
+
+.formInput {
+ margin: 0px;
+ padding: 0px;
+ width: 110px;
+}
+
+.title {
+ font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+ font-size: 18px;
+ font-weight: bold;
+ color: #000000;
+ line-height: 18px;
+}
+
+#bodyContent {
+ background-image: url(../img/bg_body.gif);
+ background-repeat: repeat-y;
+ margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	width: 768px;
+height: 1000px;
+ text-align: left;
+
+}
+
+#leftColumn {
+position: absolute;
+ float: left;
+ width: 464px;
+ height: auto;
+ margin-left: 34px;
+ text-align: left;
+}
+
+#rightColumn {
+
+ width: 214px;
+
+}
+
+.rightColumnBox {
+ width: auto;
+ height: auto;
+ border-color: #CCCCCC;
+ border-style: solid;
+ border-width: 1px;
+}
+
+.rightColumnText {
+ margin-left: 11px;
+ margin-right: 11px;
+}
+
+.iFrame {
+ width: 464px;
+ height: 407px;
+ overflow: hidden;
+}
+
+#iFrameContent {
+ width: 425px;
+ height: 373px;
+ margin-top: 20px;
+ margin-left: 14px;
+ margin-right: 25px;
+ margin-bottom: 14px;
+}
+
+.iFrameMenu {
+ position: absolute;
+ top: 373px;
+ color: #5296BB;
+ font-weight: bold;
+}
+
+
+/* 
+a.fptitles {
+font-size: 17px;
+font-weight: bold;
+text-transform: uppercase;
+display: block;
+padding-bottom: 3px;
+color: #60983b;
+}
+a:hover.fptitles {
+font-size: 17px;
+font-weight: bold;
+text-transform: uppercase;
+display: block;
+padding-bottom: 3px;
+text-decoration:none;
+color: #60983b;
+}
+*/
+
+
+a.fptitles {
+font-size: 15px;
+font-weight: bold;
+color: #000000;
+}
+
+.fpnavs{
+font-size: 10px;
+color: #999999;
+}
+
+.small_form{
+font-size: 11px;
+color: #60983b;
+line-height:14px;
+}
+
+
+
+/*
+DIA CRAP
+*/
+
+#SignupLink{
+display:none;
+}
+
+#signupForm{
+border:1px solid black; 
+background-color:#cccccc; color:#000000;
+padding: 10px 5px 5px 15px;
+margin-left:10px;
+margin-bottom:5px;
+
+}
+
+.adminlist{
+border:1px solid black; 
+padding: 5px 5px 5px 5px;
+}
+
+#ActionTab{
+display:none;
+}
+
+#DonationTab{
+display:none;
+}
+
+#HomeTab{
+display:none;
+}
+
+#dia h2{
+background:#5d9731;
+}
+
+
+#nav_find{
+text-align:center;
+padding: 5px 0px 5px 0px;
+font-weight:bold;
+}
+
+.footer {
+color: #897453;
+font-size: 11px;
+}
+.footer a {
+color: #897453;
+font-size: 11px;
+text-decoration:none;
+}
+.footer a:hover {
+color: #897453;
+font-size: 11px;
+text-decoration:none;
+}
+
+.indexhdr {
+font-size: 13px;
+line-height: 16px;
+}
+
+.indexmesg {
+font-size: 12px;
+line-height: 16px;
+
+}
+
+.sections {
+color: #FFF;
+}
+
+.sections a {
+color: #FFF;
+}
+
+.active_section  {
+color: #FFF;
+text-decoration: underline;
+}
+
+/* validation */
+
+.validation-advice {
+	margin: 5px 0;
+	padding: 5px;
+	background-color: #FF3300;
+	color : #FFF;
+	font-weight: bold;
+}
+
+
+.udm_list_item{
+ display:block;
+width: 100%;
+padding: 15px; 
+clear: both; 
+}
+
+.udm_list_icon{
+  float: left;
+  padding-right: 15px; 
+}
+
+.udm_list_title{
+font-size:16px;
+line-height:18px;
+}
+
+
+.ally_img{
+max-width:175px;
+}
+
+.ally_box{
+height:265px;
+}
