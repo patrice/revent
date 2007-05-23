@@ -30,6 +30,6 @@ class EventSweeper < ActionController::Caching::Sweeper
     expire_page :controller => '/events', :action => 'show', :id => record.id
     FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','show',"#{record.id}.html")) rescue Errno::ENOENT
     expire_fragment "events/_report/event_#{record.id}_list_item"
-    Cache.delete "event_#{record.id}_marker"
+#    Cache.delete "event_#{record.id}_marker"
   end
 end

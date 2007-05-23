@@ -18,7 +18,8 @@ Rails::Initializer.run do |config|
 
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
-  config.load_paths += %W( #{RAILS_ROOT}/vendor/DIA )
+  #config.load_paths += %W( #{RAILS_ROOT}/vendor/DIA )
+  config.load_paths += %W( #{RAILS_ROOT}/vendor/DIA #{RAILS_ROOT}/vendor/rflickr-2006.02.01/lib #{RAILS_ROOT}/vendor/mime-types-1.15/lib #{RAILS_ROOT}/vendor/aws-s3-0.3.0/lib )
 #  config.load_paths += %W( #{RAILS_ROOT}/vendor/rails/activeresource/lib )
 
   # Force all environments to use the same logger level 

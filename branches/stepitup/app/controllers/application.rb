@@ -27,6 +27,7 @@ class ApplicationController < ActionController::Base
 
   def set_site
     host = request.host
+    host = 'events.stepitup2007.org'
     @site ||= Site.find_by_host(host) || Site.find(:first)
   end
 

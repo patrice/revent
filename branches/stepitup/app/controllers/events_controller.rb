@@ -129,8 +129,8 @@ class EventsController < ApplicationController
     @map.icons << @icon
     @events.each do |e|
       marker = nil
-      autoload_missing_constants do
-      marker = Cache.get("event_#{e.id}_marker") do
+      #autoload_missing_constants do
+      #marker = Cache.get("event_#{e.id}_marker") do
         coordinates = false
         if e.latitude && e.longitude
           coordinates = [e.latitude, e.longitude]
@@ -143,8 +143,8 @@ class EventsController < ApplicationController
 #        :click => "window.location.href='#{url_for :controller => 'events', :action => 'show', :id => e.id}';",
         :info_window => render_to_string(:partial => 'info_window', :locals => {:event => e}),
         :icon => @icon.name ) : nil
-      end
-      end
+      #end
+      #end
       @map.markers << marker if marker
     end
 #    latitudes = @events.collect {|e| e.latitude}.compact.sort
@@ -212,6 +212,7 @@ class EventsController < ApplicationController
       FileUtils.rm(File.join(RAILS_ROOT,'public','index.html')) rescue Errno::ENOENT
       RAILS_DEFAULT_LOGGER.info("Caches fully swept.")
     end
+=begin
     def autoload_missing_constants
       yield
     rescue ArgumentError, MemCache::MemCacheError => error
@@ -220,4 +221,5 @@ class EventsController < ApplicationController
         !lazy_load[error.to_s.split.last.constantize]
       raise error
     end  
+=end
 end
