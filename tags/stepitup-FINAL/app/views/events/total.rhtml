@@ -1,0 +1,6 @@
+<%
+@states = Event.find(:all).collect {|e| e.state}.compact.uniq.select do |state|
+  DaysOfAction::Geo::STATE_CENTERS.keys.reject {|c| :DC == c}.map{|c| c.to_s}.include?(state)
+end
+%>
+There are already <b><%= Event.count %></b> events planned in <b><%= @states.length %></b> states across the country!

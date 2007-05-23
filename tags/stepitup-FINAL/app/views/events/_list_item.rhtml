@@ -1,0 +1,25 @@
+		<div class="event-list-element">
+			<div class="event-list-location">
+        <%= link_to white_list(list_item.location), :action => 'show', :id => list_item.id %>
+			</div>
+			<div class="event-list-address">
+				<%#= list_item.address %>
+			</div>
+			<div class="event-list-city">
+				<%= white_list(list_item.city) %>, <%= list_item.state %> <%= list_item.postal_code %>
+			</div>
+			<div class="event-list-current">
+				Current Attendees: <%#= list_item.members.count %>
+			</div>
+			<div class="event-list-max">
+				Maximum Attendees: <%#= list_item.max_attendence %>
+			</div>
+      <% if @distance_from_search -%>
+      <div class="event-list-miles">
+        <%= @distance_from_search %> miles away
+      </div>
+      <% end -%>
+			<div class="event-list-rsvp">
+				<a href="">RSVP</a> <br>
+			</div>
+		</div>
