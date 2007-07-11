@@ -55,8 +55,16 @@ class ReportsController < ApplicationController
 
   def create
     @report = Report.new(params[:report])
+
+    params[:press_links].reject {|link| link[:url].empty? || link[:text].empty?}.each do |link|
+      @report.press_links.build(link)
+    end
+    params[:attachments].reject {|att| att[:uploaded_data].blank?}.each do |att|
+      @report.attachments.build(att)
+    end
+
     akismet = Akismet.new '8ec4905c5374', 'http://events.stepitup2007.org'
-    spam = [@report.text, @report.embed, params[:press_links].collect {|link| "#{link[:text]} : #{link[:url]}"}.join("\n")].join("\n")
+    spam = [@report.text, @report.embed, @report.press_links.collect {|link| "#{link.text} : #{link.url}"}.join("\n")].join("\n")
     if akismet.comment_check(:user_ip => request.remote_ip,
                              :user_agent => request.user_agent,
                              :referrer => request.referer,
@@ -65,13 +73,6 @@ class ReportsController < ApplicationController
                              :comment_content => spam)
       flash[:notice] = "There was a problem saving your report"
       render :action => 'new' and return
-    end
-
-    params[:press_links].reject {|link| link[:url].empty? || link[:text].empty?}.each do |link|
-      @report.press_links.build(link)
-    end
-    params[:attachments].reject {|att| att[:uploaded_data].blank?}.each do |att|
-      @report.attachments.build(att)
     end
 
     if @report.save
