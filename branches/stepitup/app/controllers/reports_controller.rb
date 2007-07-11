@@ -58,10 +58,10 @@ class ReportsController < ApplicationController
 
     params[:press_links].reject {|link| link[:url].empty? || link[:text].empty?}.each do |link|
       @report.press_links.build(link)
-    end
+    end if params[:press_links]
     params[:attachments].reject {|att| att[:uploaded_data].blank?}.each do |att|
       @report.attachments.build(att)
-    end
+    end if params[:attachments]
 
     akismet = Akismet.new '8ec4905c5374', 'http://events.stepitup2007.org'
     spam = [@report.text, @report.embed, @report.press_links.collect {|link| "#{link.text} : #{link.url}"}.join("\n")].join("\n")
