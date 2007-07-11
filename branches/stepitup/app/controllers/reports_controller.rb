@@ -125,6 +125,11 @@ class ReportsController < ApplicationController
     render :layout => false
   end
 
+  def slideshow
+    @event = Event.find(params[:id])
+    redirect_to :action => 'list' unless @event
+  end
+
   def share 
     @event = Event.find(params[:id])
     render :layout => false
