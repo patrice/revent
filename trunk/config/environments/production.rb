@@ -18,7 +18,8 @@ config.active_record.observers = :event_sweeper
 # Disable delivery errors if you bad email addresses should just be ignored
 # config.action_mailer.raise_delivery_errors = false
 
-API_OPTS = YAML.load_file(File.join(RAILS_ROOT,'config','democracyinaction-config.yml'))
+DIA_CONFIG = File.join(RAILS_ROOT,'config','democracyinaction-config.yml')
+API_OPTS = YAML.load_file(DIA_CONFIG) if File.exists?(DIA_CONFIG)
 
 ActionMailer::Base.delivery_method = :smtp
 

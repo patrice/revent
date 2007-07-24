@@ -20,7 +20,8 @@ config.action_view.debug_rjs                         = true
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
 
-API_OPTS = YAML.load_file(File.join(RAILS_ROOT,'config','democracyinaction-config.yml'))
+DIA_CONFIG = File.join(RAILS_ROOT,'config','democracyinaction-config.yml')
+API_OPTS = File.exists?(DIA_CONFIG) ? YAML.load_file(DIA_CONFIG) : {}
 
 require 'flickr'
 Flickr::API_KEY='ac682326488deff72b45939163d639ba'
