@@ -37,6 +37,7 @@ class CreateZipCodes < ActiveRecord::Migration
          t.column :zip_class,      :string
      end
 
+     return
 
      require 'csv'
      zip_code_data = File.expand_path(File.join(RAILS_ROOT, 'vendor/plugins/zipcodesearch/generators/zip_code_search/templates/zip_code_data.csv'))
