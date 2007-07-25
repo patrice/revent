@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
-  before_filter :login_required, :only => [:edit, :update, :destroy, :create]
-  access_control [:edit, :update, :destroy, :create] => 'admin'
+  prepend_before_filter :find_calendar, :only => [:new, :create]
+  before_filter :login_required, :only => [:edit, :update, :destroy]
+#  access_control [:edit, :update, :destroy, :create] => 'admin'
   include DaysOfAction::Geo
 
   caches_page :index, :show, :flashmap, :total, :by_state
@@ -57,15 +58,21 @@ class EventsController < ApplicationController
   end
 
   def new
+    raise 'no calendar' unless @calendar
     @event = Event.new
   end
 
   def create
-    @event = Event.new(params[:event])
-    if @event.save
+    raise 'no calendar' unless @calendar
+    @user = User.find_or_initialize_by_email(params[:user][:email]) # or current_user
+    @user.attributes = params[:user].merge(:password => nil)
+    @user.instance_eval { def password_required?; false; end } #TODO: better way?
+    @user.save!
+
+    if @event = @calendar.events.create(params[:event].merge(:host => @user))
       flash[:notice] = 'Event was successfully created.'
       expire_page_caches(@event)
-      redirect_to :action => 'list'
+      redirect_to :action => 'show', :id => @event.id
     else
       render :action => 'new'
     end
@@ -212,6 +219,7 @@ class EventsController < ApplicationController
       FileUtils.rm(File.join(RAILS_ROOT,'public','index.html')) rescue Errno::ENOENT
       RAILS_DEFAULT_LOGGER.info("Caches fully swept.")
     end
+    #hmm, why is this here?
     def autoload_missing_constants
       yield
     rescue ArgumentError, MemCache::MemCacheError => error
@@ -220,4 +228,11 @@ class EventsController < ApplicationController
         !lazy_load[error.to_s.split.last.constantize]
       raise error
     end  
+    def find_calendar
+      with_options :include => :site do
+        @calendar = Calendar.find_by_permalink(params[:permalink]) if params[:permalink]
+        @calendar ||= Calendar.find(params[:calendar_id]) if params[:calendar_id]
+      end
+      @site = @calendar.site if @calendar
+    end
 end

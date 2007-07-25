@@ -21,7 +21,4 @@
 
 <p><label for="event_end">End</label><br/>
 <%= f.datetime_select 'end'  %></p>
-
-<p><label for="calendar_id">Event Group</label><br/>
-<%= f.select 'calendar_id', Calendar.find(:all).collect {|c| [c.name, c.id]} %>
 <!--[eoform:event]-->

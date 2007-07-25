@@ -1,4 +1,15 @@
 class Calendar < ActiveRecord::Base
+  validates_uniqueness_of :permalink
+  before_validation :escape_permalink
+  def escape_permalink
+    self.permalink = PermalinkFu.escape(self.permalink)
+  end
+  def to_param
+    permalink
+  end
+
+  belongs_to :site
+
   @@deleted_events = []
   @@all_events = []
 

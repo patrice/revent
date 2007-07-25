@@ -23,6 +23,13 @@ class Event < ActiveRecord::Base
     self.to_democracy_in_action_event.save if perform_remote_update?
   end
 
+  after_create :create_remote
+  def create_remote
+    return 'for now'
+    key = self.to_democracy_in_action_event.save
+    update_attribute(:service_foreign_key, key)
+  end
+
   def perform_remote_update?
     return false unless service_foreign_key
     @perform_remote_update.nil? ? true : @perform_remote_update

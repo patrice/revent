@@ -5,7 +5,7 @@ require 'events_controller'
 class EventsController; def rescue_action(e) raise e end; end
 
 class EventsControllerTest < Test::Unit::TestCase
-  fixtures :events, :sites, :users
+  fixtures :events, :sites, :users, :calendars
 
   def setup
     @controller = EventsController.new
@@ -54,16 +54,39 @@ class EventsControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:event)
   end
 
-  def test_create
-    login_as :quentin
+  def test_create_with_new_user
     num_events = Event.count
+    assert !User.find_by_email('new@event.com')
 
-    post :create, :event => {}
+    post :create, :calendar_id => 1,
+      :user => {:login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com'},
+      :event => {:name => 'some event', :description => 'a description', :city => 'city', :state => 'CA', :postal_code => '94110', :directions => 'directions', :start => 1.hour.from_now, :end => 2.hours.from_now, :calendar_id => 1, :location => 'location'}
 
     assert_response :redirect
-    assert_redirected_to :action => 'list'
+    assert_redirected_to :action => 'show'
+    assert_equal assigns(:event).host.email, 'new@event.com'
+    assert_equal assigns(:event).calendar_id, 1
 
+    assert u = User.find_by_email('new@event.com')
+    assert u.password.blank?
     assert_equal num_events + 1, Event.count
+  end
+
+  def test_create_with_existing_user
+    user = User.create! :login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :password => 'apassword', :password_confirmation => 'apassword'
+    assert User.find_by_login('mylogin')
+    user_count = User.count
+
+    post :create, :calendar_id => 1,
+      :user => {:login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :password => 'another', :password_confirmation => 'another'},
+      :event => {:name => 'some event', :description => 'a description', :city => 'city', :state => 'CA', :postal_code => '94110', :directions => 'directions', :start => 1.hour.from_now, :end => 2.hours.from_now, :calendar_id => 1, :location => 'location'}
+
+    assert_response :redirect
+    assert_redirected_to :action => 'show'
+
+    assert !User.authenticate('mylogin', 'another')
+    assert User.authenticate('mylogin', 'apassword')
+    assert_equal user_count, User.count
   end
 
 =begin

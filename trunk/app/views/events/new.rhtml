@@ -1,6 +1,35 @@
 <h1>New event</h1>
 
-<% form_for :event, @event, :action => 'create' do |f| -%>
+<% form_for :event, @event, :action => 'create', :calendar_id => @calendar do |f| -%>
+
+  <%= error_messages_for 'user' %>
+
+  <% fields_for :user, @user do |user| %>
+    <p><label for="user_first_name">First Name</label><br/>
+    <%= user.text_field 'first_name' %></p>
+
+    <p><label for="user_last_name">Last Name</label><br/>
+    <%= user.text_field 'last_name' %></p>
+
+    <p><label for="user_email">Email</label><br/>
+    <%= user.text_field 'email' %></p>
+
+    <p><label for="user_phone">Phone</label><br/>
+    <%= user.text_field 'phone' %></p>
+
+    <p><label for="user_street">Street</label><br/>
+    <%= user.text_field 'street' %></p>
+
+    <p><label for="user_city">City</label><br/>
+    <%= user.text_field 'city' %></p>
+
+    <p><label for="user_state">State</label><br/>
+    <%= user.us_state_select 'state' %></p>
+
+    <p><label for="user_postal_code">Zip</label><br/>
+    <%= user.text_field 'postal_code' %></p>
+  <% end %>
+
   <%= render :partial => 'form', :locals => {:f => f} %>
   <%= submit_tag "Create" %>
 <% end %>
