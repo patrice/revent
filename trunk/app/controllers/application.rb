@@ -7,36 +7,19 @@ class ApplicationController < ActionController::Base
   session :session_key => '_daysofaction_session_id'
 #  session :off, :if => Proc.new { |req| !(true == req.parameters[:admin]) }
 
-  before_filter :set_referrer_cookie
-  def set_referrer_cookie
-    if %w(exxposeexxon moveon).include? params[:referrer]
-      cookies[:referrer] = {:value => @referrer = params[:referrer], :expires => "2007-05-01".to_time}
-    end
-  end
-  helper_method :referrer
-  def referrer
-    @referrer ||= cookies[:referrer]
-  end
-
   before_filter :set_site
   helper_method  :site
   attr_reader    :site
-
-  theme :get_theme
 
   def set_site
     host = request.host
     @site ||= Site.find_by_host(host)
   end
 
+  theme :get_theme
   def get_theme
-    if params[:ally] == 'nowarnowarming'
-      return 'nowarnowarming'
+    if site
+      site.theme
     end
-    get_theme_from_site
-  end
-
-  def get_theme_from_site
-    site.theme if site
   end
 end
