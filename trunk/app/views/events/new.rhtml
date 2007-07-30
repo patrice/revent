@@ -1,9 +1,9 @@
 <h1>New event</h1>
 
-<% form_for :event, @event, :action => 'create', :calendar_id => @calendar do |f| -%>
+<% form_for :event, @event, :url => events_url(@calendar) do |f| -%>
 
   <%= error_messages_for 'user' %>
-
+  <h3>Your Information</h3>
   <% fields_for :user, @user do |user| %>
     <p><label for="user_first_name">First Name</label><br/>
     <%= user.text_field 'first_name' %></p>
@@ -29,6 +29,10 @@
     <p><label for="user_postal_code">Zip</label><br/>
     <%= user.text_field 'postal_code' %></p>
   <% end %>
+  <h3>Organizing Information</h3>
+    <p><label for="user_postal_code">Level of Organizing Experience / Assistance Needed:</label><br/>
+  <%= text_area_tag 'user[crm][democracy_in_action][supporter_custom][BLOB0]' %>
+  </p>
 
   <%= render :partial => 'form', :locals => {:f => f} %>
   <%= submit_tag "Create" %>

@@ -4,9 +4,6 @@ class Calendar < ActiveRecord::Base
   def escape_permalink
     self.permalink = PermalinkFu.escape(self.permalink)
   end
-  def to_param
-    permalink
-  end
 
   belongs_to :site
 

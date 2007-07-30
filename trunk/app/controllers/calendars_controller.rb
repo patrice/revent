@@ -1,5 +1,7 @@
 class CalendarsController < ApplicationController
+  before_filter :find_calendar, :only => [:index]
   def index
+    return show if @calendar
     list
     render :action => 'list'
   end
@@ -13,7 +15,9 @@ class CalendarsController < ApplicationController
   end
 
   def show
-    @calendar = Calendar.find(params[:id])
+    @calendar ||= Calendar.find(params[:id], :include => :events)
+    @events = @calendar.events
+    render :action => 'show'
   end
 
   def new
@@ -38,7 +42,7 @@ class CalendarsController < ApplicationController
     @calendar = Calendar.find(params[:id])
     if @calendar.update_attributes(params[:calendar])
       flash[:notice] = 'Calendar was successfully updated.'
-      redirect_to :action => 'show', :id => @calendar
+      redirect_to :action => 'show', :id => @calendar.to_param
     else
       render :action => 'edit'
     end
@@ -52,4 +56,12 @@ class CalendarsController < ApplicationController
   def events
     @calendar = Calendar.find(params[:id])
   end
+
+  protected
+
+    def find_calendar
+      @calendar = Calendar.find_by_permalink(params[:permalink]) if params[:permalink]
+      @calendar ||= Calendar.find(params[:id]) if params[:id]
+      @calendar ||= @site.calendars.current
+    end
 end

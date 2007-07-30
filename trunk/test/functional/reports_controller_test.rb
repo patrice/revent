@@ -51,7 +51,8 @@ class ReportsControllerTest < Test::Unit::TestCase
   def test_create
     num_reports = Report.count
 
-    post :create, :report => { :event_id => 1, :reporter_name => 'create', :reporter_email => 'create@create.com', :text => 'hi', }, :press_links => {:url => 'http://link_to.com', :text => 'title'}
+    Akismet.any_instance.expects(:comment_check).returns(false)
+    post :create, :report => { :event_id => 1, :reporter_name => 'create', :reporter_email => 'create@create.com', :text => 'hi', }, :press_links => [{:url => 'http://link_to.com', :text => 'title'}], :attachments => []
     @report = Report.find(:all).last
     assert_equal @report.press_links.first.url, 'http://link_to.com'
 

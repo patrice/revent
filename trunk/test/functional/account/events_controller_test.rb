@@ -23,6 +23,7 @@ class Account::EventsControllerTest < Test::Unit::TestCase
   end
 
   def test_index
+    DemocracyInActionSupporter.any_instance.expects(:events_attending).returns([])
     get :index
     assert_response :success
     assert_template 'index'

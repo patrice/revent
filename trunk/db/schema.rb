@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 30) do
+ActiveRecord::Schema.define(:version => 31) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(:version => 30) do
     t.column "user_id",           :integer
     t.column "permalink",         :string
     t.column "site_id",           :integer
+    t.column "current",           :boolean, :default => false
   end
 
   add_index "calendars", ["permalink"], :name => "index_calendars_on_permalink", :unique => true

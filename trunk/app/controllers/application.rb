@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
   def set_site
     host = request.host
     @site ||= Site.find_by_host(host)
+    raise 'no site' unless @site
   end
 
   theme :get_theme

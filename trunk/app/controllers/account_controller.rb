@@ -62,7 +62,7 @@ class AccountController < ApplicationController
 
   def login
     return unless request.post?
-    if site.use_democracy_in_action_auth?
+    if site && site.use_democracy_in_action_auth?
       self.current_user = DemocracyInActionSupporter.authenticate(params[:email], params[:password])
     else
       self.current_user = User.authenticate(params[:login], params[:password])

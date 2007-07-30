@@ -46,7 +46,7 @@ class EventsControllerTest < Test::Unit::TestCase
   end
 
   def test_new
-    get :new
+    get :new, :calendar_id => 1
 
     assert_response :success
     assert_template 'new'

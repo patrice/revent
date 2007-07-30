@@ -3,6 +3,18 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 ASSET_PATH = File.join(RAILS_ROOT, 'test/fixtures/tmp/assets') unless Object.const_defined?(:ASSET_PATH)
 
+class ActionController::TestRequest
+  def user_agent
+    "Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en-US; rv:1.8.1.4) Gecko/20070515 Firefox/2.0.0.4"
+  end
+  def referer
+    host
+  end
+  def host
+    super || Site.find(:first).host
+  end
+end
+
 class Test::Unit::TestCase
   include AuthenticatedTestHelper
 

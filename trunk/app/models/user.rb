@@ -11,6 +11,16 @@ class User < ActiveRecord::Base
     roles.detect {|r| 'admin' == r.title}
   end
 
+  # (extract me) to the plugin!!!
+  # acts_as_mirrored?
+  attr_writer :crm
+  after_save :save_to_crm
+  def save_to_crm
+    # return unless Site.current.uses_crm
+    # save self and @crm to crm
+  end
+  # end extract me
+
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 

@@ -7,7 +7,7 @@ class DemocracyInActionSupporterTest < Test::Unit::TestCase
   end
 
   def teardown
-    $DEGUB=false
+    $DEBUG=false
   end
 
   def test_authenticate
@@ -18,6 +18,7 @@ class DemocracyInActionSupporterTest < Test::Unit::TestCase
   end
 
   def test_save
+    if false # if CONNECT_TO_REMOTE_FOR_TESTING (except better name) (also move this to a plugin)
     now = Time.now.to_i
     s = DemocracyInActionSupporter.new(:Email => "seth+#{now}@radicaldesigns.org", :First_Name => 'testing', :Last_Name => now)
     key = s.save
@@ -26,5 +27,6 @@ class DemocracyInActionSupporterTest < Test::Unit::TestCase
     assert_equal seth.Last_Name, now.to_s
     seth.destroy
     assert !DemocracyInActionSupporter.find(key)
+    end
   end
 end

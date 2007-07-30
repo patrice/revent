@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  prepend_before_filter :find_calendar, :only => [:new, :create]
+  before_filter :find_calendar, :only => [:new, :create, :index]
   before_filter :login_required, :only => [:edit, :update, :destroy]
 #  access_control [:edit, :update, :destroy, :create] => 'admin'
   include DaysOfAction::Geo
@@ -18,6 +18,7 @@ class EventsController < ApplicationController
   end
 
   def tagged
+    raise 'Calendar.find(1)'
     @calendar = Calendar.find(1)
     tag = Tag.find_by_name(params[:id])
     @events = tag.nil? ? [] : tag.events
@@ -67,9 +68,12 @@ class EventsController < ApplicationController
     @user = User.find_or_initialize_by_email(params[:user][:email]) # or current_user
     @user.attributes = params[:user].merge(:password => nil)
     @user.instance_eval { def password_required?; false; end } #TODO: better way?
-    @user.save!
+    @event = @calendar.events.build(params[:event])
 
-    if @event = @calendar.events.create(params[:event].merge(:host => @user))
+    if @user.valid? && @event.valid?
+      @user.save!
+      @event.host = @user
+      @event.save!
       flash[:notice] = 'Event was successfully created.'
       expire_page_caches(@event)
       redirect_to :action => 'show', :id => @event.id
@@ -117,12 +121,16 @@ class EventsController < ApplicationController
   end
 
   def index
+    raise 'no calendar' unless @calendar
+    redirect_to calendar_url(@calendar)
+    raise 'Calendar.find(1)'
     @calendar = Calendar.find(1, :include => :events)
     @events = @calendar.events
   end
 
   def search
     extract_search_params
+    raise 'Calendar.find(1)'
     @calendar = Calendar.find(1)
     render :action => 'index' and return unless @events
     @calendar = Calendar.find(1)
@@ -219,7 +227,7 @@ class EventsController < ApplicationController
       FileUtils.rm(File.join(RAILS_ROOT,'public','index.html')) rescue Errno::ENOENT
       RAILS_DEFAULT_LOGGER.info("Caches fully swept.")
     end
-    #hmm, why is this here?
+    #hmm, why is this here? oh yes, for objects retrieved from memcache?
     def autoload_missing_constants
       yield
     rescue ArgumentError, MemCache::MemCacheError => error
@@ -229,10 +237,8 @@ class EventsController < ApplicationController
       raise error
     end  
     def find_calendar
-      with_options :include => :site do
-        @calendar = Calendar.find_by_permalink(params[:permalink]) if params[:permalink]
-        @calendar ||= Calendar.find(params[:calendar_id]) if params[:calendar_id]
-      end
-      @site = @calendar.site if @calendar
+      @calendar = Calendar.find_by_permalink(params[:permalink]) if params[:permalink]
+      @calendar ||= Calendar.find(params[:calendar_id]) if params[:calendar_id]
+      @calendar ||= @site.calendars.current || @site.calendars.first
     end
 end
