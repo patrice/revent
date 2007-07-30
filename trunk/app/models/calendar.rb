@@ -19,6 +19,10 @@ class Calendar < ActiveRecord::Base
     end
   end
 
+  def self.any?
+    self.count != 0
+  end
+
   def self.clear_deleted_events
     events = Event.find(:all, :conditions => "service_foreign_key != 0")
     events.each do |e|
