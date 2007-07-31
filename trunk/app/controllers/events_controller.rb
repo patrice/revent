@@ -123,17 +123,13 @@ class EventsController < ApplicationController
   def index
     raise 'no calendar' unless @calendar
     redirect_to calendar_url(@calendar)
-    raise 'Calendar.find(1)'
-    @calendar = Calendar.find(1, :include => :events)
     @events = @calendar.events
   end
 
   def search
     extract_search_params
-    raise 'Calendar.find(1)'
-    @calendar = Calendar.find(1)
+    raise 'no calendar' unless @calendar
     render :action => 'index' and return unless @events
-    @calendar = Calendar.find(1)
     @map = Cartographer::Gmap.new('eventmap')
     @map.init do |m|
       m.center = @map_center || [37.160317,-95.800781]

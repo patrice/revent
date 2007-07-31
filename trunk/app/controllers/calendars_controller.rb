@@ -7,11 +7,11 @@ class CalendarsController < ApplicationController
   end
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => :post, :only => [ :destroy, :create, :update ],
+  verify :method => :post, :only => [ :create ],
          :redirect_to => { :action => :list }
 
   def list
-    @calendar_pages, @calendars = paginate :calendars, :per_page => 10
+    @calendars = @site.calendars
   end
 
   def show
@@ -25,10 +25,10 @@ class CalendarsController < ApplicationController
   end
 
   def create
-    @calendar = Calendar.new(params[:calendar])
+    @calendar = @site.calendars.build(params[:calendar])
     if @calendar.save
       flash[:notice] = 'Calendar was successfully created.'
-      redirect_to :action => 'list'
+      redirect_to :action => 'index'
     else
       render :action => 'new'
     end
@@ -50,7 +50,8 @@ class CalendarsController < ApplicationController
 
   def destroy
     Calendar.find(params[:id]).destroy
-    redirect_to :action => 'list'
+    flash[:notice] = 'Calendar was successfully destroyed.'    
+    redirect_to :action => 'index'
   end
 
   def events
@@ -60,8 +61,8 @@ class CalendarsController < ApplicationController
   protected
 
     def find_calendar
-      @calendar = Calendar.find_by_permalink(params[:permalink]) if params[:permalink]
-      @calendar ||= Calendar.find(params[:id]) if params[:id]
+      @calendar = @site.calendars.find_by_permalink(params[:permalink]) if params[:permalink]
+      @calendar ||= @site.calendars.find(params[:id]) if params[:id]
       @calendar ||= @site.calendars.current
     end
 end

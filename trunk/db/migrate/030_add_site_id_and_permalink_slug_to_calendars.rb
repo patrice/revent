@@ -1,7 +1,7 @@
 class AddSiteIdAndPermalinkSlugToCalendars < ActiveRecord::Migration
   def self.up
     add_column :calendars, :permalink, :string
-    add_index :calendars, :permalink, :unique => true
+    add_index :calendars, :permalink
 
     add_column :calendars, :site_id, :integer 
   end

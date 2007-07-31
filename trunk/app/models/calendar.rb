@@ -1,5 +1,5 @@
 class Calendar < ActiveRecord::Base
-  validates_uniqueness_of :permalink
+  validates_uniqueness_of :permalink, :scope => :site_id
   before_validation :escape_permalink
   def escape_permalink
     self.permalink = PermalinkFu.escape(self.permalink)

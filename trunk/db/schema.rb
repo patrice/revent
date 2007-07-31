@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(:version => 31) do
     t.column "current",           :boolean, :default => false
   end
 
-  add_index "calendars", ["permalink"], :name => "index_calendars_on_permalink", :unique => true
+  add_index "calendars", ["permalink"], :name => "index_calendars_on_permalink"
 
   create_table "events", :force => true do |t|
     t.column "name",                  :string
@@ -127,8 +127,8 @@ ActiveRecord::Schema.define(:version => 31) do
   add_index "sites", ["host"], :name => "index_sites_on_host"
 
   create_table "taggings", :force => true do |t|
-    t.column "tag_id",        :integer, :default => 0,  :null => false
-    t.column "taggable_id",   :integer, :default => 0,  :null => false
+    t.column "tag_id",        :integer,                 :null => false
+    t.column "taggable_id",   :integer,                 :null => false
     t.column "taggable_type", :string,  :default => "", :null => false
   end
 
