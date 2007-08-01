@@ -8,11 +8,11 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :roles
 
   def admin?
-    roles.detect {|r| 'admin' == r.title}
+    roles.any? {|r| 'admin' == r.title}
   end
 
   # (extract me) to the plugin!!!
-  # acts_as_mirrored?
+  # acts_as_mirrored? acts_as_synced?
   attr_writer :crm
   after_save :save_to_crm
   def save_to_crm
