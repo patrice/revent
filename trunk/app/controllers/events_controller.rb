@@ -68,6 +68,7 @@ class EventsController < ApplicationController
     @user = User.find_or_initialize_by_email(params[:user][:email]) # or current_user
     @user.attributes = params[:user].merge(:password => nil)
     @user.instance_eval { def password_required?; false; end } #TODO: better way?
+    @user.save!
     @event = @calendar.events.build(params[:event])
 
     if @user.valid? && @event.valid?

@@ -28,3 +28,4 @@ Flickr::API_KEY='ac682326488deff72b45939163d639ba'
 Flickr::SHARED_SECRET='57d0e673eee6114e'
 
 CACHE = MemCache.new ['127.0.0.1:11211']
+require 'memcache_util'

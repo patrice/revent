@@ -4,7 +4,8 @@ class EventDirectionsToText < ActiveRecord::Migration
       change_column :events, :directions, :text
       return unless File.exists?(File.join(RAILS_ROOT,'config','democracyinaction-config.yml'))
       opts = YAML.load_file(File.join(RAILS_ROOT,'config','democracyinaction-config.yml'))
-      require 'DIA_API_Simple'
+#      require 'DIA_API_Simple'
+      require 'democracyinaction'
       api = DIA_API_Simple.new opts
       events = api.get('event', 'column' => 'Directions')
       events.each do |e|

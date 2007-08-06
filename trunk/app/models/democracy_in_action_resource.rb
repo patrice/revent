@@ -1,4 +1,5 @@
-require 'DIA_API'
+#require 'DIA_API'
+require 'democracyinaction'
 
 # This is the parent class for all resources representing a table
 # in the DIA API.  The method_missing function dynamically

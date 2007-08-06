@@ -107,7 +107,8 @@ class Event < ActiveRecord::Base
 
     def import_by_service_foreign_key(key)
       opts = YAML.load_file(File.join(RAILS_ROOT,'config','democracyinaction-config.yml'))
-      require 'DIA_API_Simple'
+#      require 'DIA_API_Simple'
+      require 'democracyinaction'
       api = DIA_API_Simple.new opts
       e = api.get('event', :key => key).first
       return unless e
