@@ -13,8 +13,9 @@ class ApplicationController < ActionController::Base
 
   def set_site
     host = request.host
-    @site ||= Site.find_by_host(host)
+    @site ||= Site.find_by_host(host, :include => :calendars)
     raise 'no site' unless @site
+    @calendar = @site.calendars.detect {|calendar| params[:permalink] == calendar.permalink } || @site.calendars.current || @site.calendars.first
   end
 
   theme :get_theme
