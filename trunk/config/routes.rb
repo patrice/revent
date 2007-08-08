@@ -16,12 +16,14 @@ ActionController::Routing::Routes.draw do |map|
 #  raise Calendar.find(:first).inspect => WORKS!!!
   map.home '', :controller => 'calendars'
 
-  map.resources :calendars do |cal|
+  # see http://dev.rubyonrails.org/changeset/6594 for edge rails 
+  # solution to using resources and namespace
+  map.resources :calendars, :path_prefix => "admin", :controller => "admin/calendars" do |cal|
     cal.resources :events
   end
 
   map.with_options :controller => 'events', :action => 'new' do |m|
-    m.connect ':permalink/signup'
+    m.signup ':permalink/signup'
     m.connect 'calendars/:calendar_id/signup'
     m.connect 'signup'
   end
@@ -29,12 +31,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/attachments/:id/:filename.:format', :controller => 'attachments', :action => 'show', :requirements => { :id => /\d+/ }
 
   map.with_options :controller => 'account' do |m|
-    m.signup  '/signup',  :action => 'signup' # well this won't work any more (need an account create) ?
     m.login   '/login',   :action => 'login'
     m.logout  '/logout',  :action => 'logout'
     m.profile '/profile', :action => 'profile'
-  end
-
+  end  
   map.with_options :controller => 'account/events' do |m|
     m.connect '/profile/events/:id', :action => 'show', :requirements => {:id => /\d+/}
     m.connect '/profile/events/:action/:id'
