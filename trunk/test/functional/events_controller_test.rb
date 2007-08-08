@@ -16,14 +16,13 @@ class EventsControllerTest < Test::Unit::TestCase
   def test_should_set_site_from_host
     @request.host = sites(:stepitup).host
     get :index
-    assert @controller.site
+    assert_equal @controller.site.host, 'events.stepitup2007.org'
     assert_equal @controller.site, sites(:stepitup)
   end
 
   def test_index
     get :index
-    assert_response :success
-    assert_template 'index'
+    assert_response :redirect
   end
 
   def test_list
@@ -55,6 +54,7 @@ class EventsControllerTest < Test::Unit::TestCase
   end
 
   def test_create_with_new_user
+    DemocracyInAction::API.any_instance.stubs(:process).returns(1111) unless connect?
     num_events = Event.count
     assert !User.find_by_email('new@event.com')
 
@@ -73,6 +73,7 @@ class EventsControllerTest < Test::Unit::TestCase
   end
 
   def test_create_with_existing_user
+    DemocracyInAction::API.any_instance.stubs(:process).returns(1111) unless connect?
     user = User.create! :login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :password => 'apassword', :password_confirmation => 'apassword'
     assert User.find_by_login('mylogin')
     user_count = User.count
@@ -106,6 +107,23 @@ class EventsControllerTest < Test::Unit::TestCase
     #    assert_links
   end
 =end
+
+  def test_create_with_saving_to_democracy_in_action
+    require 'democracyinaction'
+    DemocracyInAction::API.any_instance.expects(:process).with('supporter',all_of(has_entry('Email', 'new@event.com'), has_entry('Organization', 'my organization'))).returns(1111)
+
+    DemocracyInAction::API.any_instance.expects(:process).with('supporter_custom', all_of(has_entry('supporter_KEY', 1111), has_entry('BLOB0', 'some custom field'))).returns(1112)
+
+    DemocracyInAction::API.any_instance.expects(:process).with('event', all_of(has_entry('supporter_KEY', 1111), has_entry('Event_Name', 'some event'))).returns(1113)
+
+    post :create, :calendar_id => 1,
+      :user => {:first_name => 'user', :last_name => 'name', :email => 'new@event.com', :democracy_in_action => {:supporter => {'Organization' => 'my organization'}, :supporter_custom => {'BLOB0' => 'some custom field'}}},
+      :event => {:name => 'some event', :description => 'a description', :city => 'city', :state => 'CA', :postal_code => '94110', :directions => 'directions', :start => 1.hour.from_now, :end => 2.hours.from_now, :calendar_id => 1, :location => 'location'}
+
+    assert_equal assigns(:user).democracy_in_action_object.key, 1111
+    assert (event = assigns(:event).democracy_in_action_object)
+    assert_equal event.key, 1113
+  end
 
   def test_create_with_invalid_democracy_in_action_supporter
   end

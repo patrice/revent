@@ -23,8 +23,7 @@ class ApplicationController < ActionController::Base
 
   theme :get_theme
   def get_theme
-    if site
-      site.theme
-    end
+    return @calendar.theme if @calendar && @calendar.theme
+    site.theme if site
   end
 end

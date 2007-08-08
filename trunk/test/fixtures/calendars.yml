@@ -3,3 +3,7 @@ stepitup_first:
   id: 1
   name: day of action
   site_id: 1
+another:
+  id: 2
+  name: boogly boo
+  site_id: 2

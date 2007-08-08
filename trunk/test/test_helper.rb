@@ -3,20 +3,43 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 ASSET_PATH = File.join(RAILS_ROOT, 'test/fixtures/tmp/assets') unless Object.const_defined?(:ASSET_PATH)
 
+module DaysOfAction
+  module ActionController
+    module TestRequest
+      def self.included(base)
+        base.alias_method_chain :host, :default
+      end
+      def user_agent
+        "Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en-US; rv:1.8.1.4) Gecko/20070515 Firefox/2.0.0.4"
+      end
+      def referer
+        host
+      end
+      def host_with_default
+        host_without_default == 'test.host' ? Site.find(:first).host : host_without_default
+      end
+    end
+  end
+end
 class ActionController::TestRequest
-  def user_agent
-    "Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en-US; rv:1.8.1.4) Gecko/20070515 Firefox/2.0.0.4"
+  include DaysOfAction::ActionController::TestRequest
+end
+
+module DemocracyInAction
+  module TestHelper
+    @@USER ||= ENV['USER']
+    @@PASS ||= ENV['PASS']
+    @@ORG ||= ENV['ORG']
+    def connect?
+      @@USER && @@PASS && @@ORG
+    end
   end
-  def referer
-    host
-  end
-  def host
-    super || Site.find(:first).host
-  end
+  # if connect? warn "actually trying connecting to ORGKEY, might not leave things the way they started
 end
 
 class Test::Unit::TestCase
   include AuthenticatedTestHelper
+  include DemocracyInAction::TestHelper
 
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the
