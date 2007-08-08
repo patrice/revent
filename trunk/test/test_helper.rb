@@ -22,7 +22,7 @@ module DaysOfAction
   end
 end
 class ActionController::TestRequest
-  include DaysOfAction::ActionController::TestRequest
+  include DaysOfAction::ActionController::TestRequest unless self.include?(DaysOfAction::ActionController::TestRequest)
 end
 
 module DemocracyInAction
