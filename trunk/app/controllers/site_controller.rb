@@ -22,6 +22,9 @@ class SiteController < ApplicationController
   def new
     @site = Site.new
   end
+  
+  def splash
+  end
 
   def create
     @site = Site.new(params[:site])

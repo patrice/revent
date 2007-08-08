@@ -1,5 +1,4 @@
 class EventsController < ApplicationController
-  before_filter :find_calendar, :only => [:new, :create, :index]
   before_filter :login_required, :only => [:edit, :update, :destroy]
 #  access_control [:edit, :update, :destroy, :create] => 'admin'
   include DaysOfAction::Geo
@@ -18,8 +17,7 @@ class EventsController < ApplicationController
   end
 
   def tagged
-    raise 'Calendar.find(1)'
-    @calendar = Calendar.find(1)
+    redirect_to :controller => :site, :action => :splash unless @calendar
     tag = Tag.find_by_name(params[:id])
     @events = tag.nil? ? [] : tag.events
 #    @event_pages = Paginator.new self, @events.length, 10, params[:page]
@@ -59,12 +57,12 @@ class EventsController < ApplicationController
   end
 
   def new
-    raise 'no calendar' unless @calendar
+    redirect_to :controller => :site, :action => :splash unless @calendar
     @event = Event.new
   end
 
   def create
-    raise 'no calendar' unless @calendar
+    redirect_to :controller => :site, :action => :splash unless @calendar
     @user = User.find_or_initialize_by_email(params[:user][:email]) # or current_user
     @user.attributes = params[:user].merge(:password => nil)
     @user.instance_eval { def password_required?; false; end } #TODO: better way?
@@ -122,14 +120,14 @@ class EventsController < ApplicationController
   end
 
   def index
-    raise 'no calendar' unless @calendar
+    redirect_to :controller => :site, :action => :splash unless @calendar
     redirect_to calendar_url(@calendar)
     @events = @calendar.events
   end
 
   def search
     extract_search_params
-    raise 'no calendar' unless @calendar
+    redirect_to :controller => :site, :action => :splash unless @calendar
     render :action => 'index' and return unless @events
     @map = Cartographer::Gmap.new('eventmap')
     @map.init do |m|
@@ -233,9 +231,5 @@ class EventsController < ApplicationController
         !lazy_load[error.to_s.split.last.constantize]
       raise error
     end  
-    def find_calendar
-      @calendar = Calendar.find_by_permalink(params[:permalink]) if params[:permalink]
-      @calendar ||= Calendar.find(params[:calendar_id]) if params[:calendar_id]
-      @calendar ||= @site.calendars.current || @site.calendars.first
-    end
+
 end

@@ -1,0 +1,9 @@
+<h1>Editing calendar</h1>
+
+<% form_tag calendar_url(@calendar), :method => :put do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+<%= link_to 'Show', calendar_url(@calendar) %> |
+<%= link_to 'Back', calendars_url %>

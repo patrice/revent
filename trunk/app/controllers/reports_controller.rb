@@ -8,7 +8,7 @@ class ReportsController < ApplicationController
   cache_sweeper :report_sweeper, :only => [ :create, :update, :destroy, :publish, :unpublish ]
 
   def index
-    @calendar = Calendar.find(1)
+    redirect_to :controller => :site, :action => :splash unless @calendar
     @events = @calendar.events
   end
 
@@ -27,8 +27,8 @@ class ReportsController < ApplicationController
     end
   end
 
-  def list 
-    @calendar = Calendar.find(:first)
+  def list
+    redirect_to :controller => :site, :action => :splash unless @calendar
     @report_pages = Paginator.new self, Report.count_published, 20, params[:page]
     @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ['reports.position = ?', 1], :order => "reports.id DESC", :limit  =>  @report_pages.items_per_page, :offset =>  @report_pages.current.offset)
   end
@@ -82,7 +82,6 @@ class ReportsController < ApplicationController
         end
       end
       flash[:notice] = 'Report was successfully created.'
-      @calendar = Calendar.find(1, :include => :events)
       @events = @calendar.events
       render :action => 'index'
     else
@@ -205,7 +204,6 @@ class ReportsController < ApplicationController
       list
       render :action => 'list' and return
     end
-    @calendar = Calendar.find(:first)
     render :action => 'list'
   end
 end
