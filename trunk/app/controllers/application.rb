@@ -7,15 +7,18 @@ class ApplicationController < ActionController::Base
   session :session_key => '_daysofaction_session_id'
 #  session :off, :if => Proc.new { |req| !(true == req.parameters[:admin]) }
 
-  before_filter :set_site
+  before_filter  :set_site, :set_calendar
   helper_method  :site
   attr_reader    :site
 
   def set_site
-    host = request.host
-    @site ||= Site.find_by_host(host, :include => :calendars)
+    @site ||= Site.find_by_host(request.host, :include => :calendars)
     raise 'no site' unless @site
-    @calendar = @site.calendars.detect {|calendar| params[:permalink] == calendar.permalink } || @site.calendars.current || @site.calendars.first
+  end
+
+  def set_calendar
+    @calendar = @site.calendars.detect {|calendar| params[:permalink] == calendar.permalink } || @site.calendars.current || @site.calendars.first    
+    raise 'no calendar' unless @calendar
   end
 
   theme :get_theme
