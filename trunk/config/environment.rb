@@ -19,6 +19,7 @@ Rails::Initializer.run do |config|
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
 #  config.load_paths += %W( #{RAILS_ROOT}/vendor/rails/activeresource/lib )
+  config.load_paths += %W( #{RAILS_ROOT}/vendor/democracyinaction-0.0.1/lib )
 
   # Force all environments to use the same logger level 
   # (by default production uses :info, the others :debug)
@@ -72,3 +73,5 @@ module ActionView::Helpers::AssetTagHelper
     "http://s3.amazonaws.com/stepitup2007.org/#{source}.css"
   end
 end
+
+require 'democracyinaction'
