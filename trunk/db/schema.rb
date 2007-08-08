@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 31) do
+ActiveRecord::Schema.define(:version => 36) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 31) do
     t.column "event_id",     :integer
     t.column "report_id",    :integer
     t.column "primary",      :boolean, :default => false
+    t.column "flickr_id",    :string
   end
 
   add_index "attachments", ["report_id"], :name => "index_attachments_on_report_id"
@@ -38,12 +39,21 @@ ActiveRecord::Schema.define(:version => 31) do
     t.column "name",              :string
     t.column "short_description", :text
     t.column "user_id",           :integer
+    t.column "current",           :boolean, :default => false
+    t.column "theme",             :string
     t.column "permalink",         :string
     t.column "site_id",           :integer
-    t.column "current",           :boolean, :default => false
   end
 
   add_index "calendars", ["permalink"], :name => "index_calendars_on_permalink"
+
+  create_table "democracy_in_action_objects", :force => true do |t|
+    t.column "synced_type",     :string
+    t.column "synced_id",       :integer
+    t.column "table",           :string
+    t.column "key",             :integer
+    t.column "serialized_data", :text
+  end
 
   create_table "events", :force => true do |t|
     t.column "name",                  :string
@@ -57,7 +67,6 @@ ActiveRecord::Schema.define(:version => 31) do
     t.column "host_id",               :integer
     t.column "start",                 :datetime
     t.column "end",                   :datetime
-    t.column "service_foreign_key",   :string
     t.column "latitude",              :float
     t.column "longitude",             :float
     t.column "directions",            :text
@@ -69,7 +78,6 @@ ActiveRecord::Schema.define(:version => 31) do
   add_index "events", ["latitude", "longitude"], :name => "index_events_on_latitude_and_longitude"
   add_index "events", ["postal_code"], :name => "index_events_on_postal_code"
   add_index "events", ["state", "city"], :name => "index_events_on_state_and_city"
-  add_index "events", ["service_foreign_key"], :name => "index_events_on_service_foreign_key"
 
   create_table "press_links", :force => true do |t|
     t.column "url",       :string
@@ -127,8 +135,8 @@ ActiveRecord::Schema.define(:version => 31) do
   add_index "sites", ["host"], :name => "index_sites_on_host"
 
   create_table "taggings", :force => true do |t|
-    t.column "tag_id",        :integer,                 :null => false
-    t.column "taggable_id",   :integer,                 :null => false
+    t.column "tag_id",        :integer, :default => 0,  :null => false
+    t.column "taggable_id",   :integer, :default => 0,  :null => false
     t.column "taggable_type", :string,  :default => "", :null => false
   end
 

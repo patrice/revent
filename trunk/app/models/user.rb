@@ -11,13 +11,36 @@ class User < ActiveRecord::Base
     roles.any? {|r| 'admin' == r.title}
   end
 
+  has_one :democracy_in_action_object, :as => :synced
   # (extract me) to the plugin!!!
   # acts_as_mirrored? acts_as_synced?
-  attr_writer :crm
-  after_save :save_to_crm
-  def save_to_crm
-    # return unless Site.current.uses_crm
-    # save self and @crm to crm
+  attr_writer :democracy_in_action
+  after_save :sync_to_democracy_in_action
+  def sync_to_democracy_in_action
+    # return unless DemocracyInAction.sync? => returns true or can be overridden like authorized?
+    # with something lke Site.current.uses_crm(DemocracyInAction)
+
+    @democracy_in_action ||= {}
+#    $DEBUG = true
+    @d_attrs = {}
+    attributes.each do |k,v|
+      @d_attrs[k.titleize.gsub(' ', '_')] = v
+    end
+    # probably makes more sense to use an object wrapper so it can handle supporter_custom and whatnot
+    # supporter = DemocracyInActionSupporter.new
+    # supporter.custom << @democracy_in_action[:supporter_custom]
+    # OR @democracyinaction.select {|k,v| k =~ /supporter_/}.each
+    supporter = @democracy_in_action[:supporter] || {}
+    require 'democracyinaction'
+    api = DemocracyInAction::API.new API_OPTS
+    supporter_key = api.process 'supporter', @d_attrs.merge(supporter)
+    self.create_democracy_in_action_object :key => supporter_key, :table => 'supporter'
+
+    supporter_custom = @democracy_in_action[:supporter_custom] || {}
+    supporter_custom_key = api.process('supporter_custom', supporter_custom.merge(:supporter_KEY => supporter_key))
+  end
+  def democracy_in_action_key
+    democracy_in_action_object.key if democracy_in_action_object
   end
   # end extract me
 

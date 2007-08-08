@@ -15,7 +15,8 @@ class ActiveResource
 end
 class DemocracyInActionResource < ActiveResource::Base
   self.logger = ActiveRecord::Base.logger
-  @@api = DIA_API.create(API_OPTS)
+  require 'democracyinaction'
+  @@api = DemocracyInAction::API.new(API_OPTS)
 
   # create a data set from a hash, verifying the contents...
   protected 

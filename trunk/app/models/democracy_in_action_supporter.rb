@@ -25,8 +25,8 @@ class DemocracyInActionSupporter <  DemocracyInActionResource
 
   def events
     remote_events = [DemocracyInActionEvent.find(:all, :conditions => "supporter_KEY=#{key}")].flatten.compact
-    events = Event.find_all_by_service_foreign_key(remote_events.collect {|e| e.key})
-    events.each {|e| e.dia_event = remote_events.select {|r| r.key == e.service_foreign_key}}
+    events = DemocracyInActionObject.find_all_by_synced_type_and_key('Event', remote_events.collect {|e| e.key}).collect {|obj| obj.synced}
+#    events.each {|e| e.dia_event = remote_events.select {|r| r.key == e.service_foreign_key}}
     return events
   end
 
@@ -34,8 +34,8 @@ class DemocracyInActionSupporter <  DemocracyInActionResource
     links = @@api.get('supporter_event', 'where' => "supporter_KEY=#{key}")
     return [] if links.empty?
     remote_events_attending = [DemocracyInActionEvent.find(links.collect {|l| l['event_KEY']})].flatten.compact
-    events_attending = Event.find_all_by_service_foreign_key(remote_events_attending.collect {|e| e.key})
-    events_attending.each {|e| e.dia_event = remote_events_attending.detect {|r| r.key == e.service_foreign_key}}
+    events_attending = DemocracyInActionObject.find_all_by_synced_type_and_key('Event', remote_events_attending.collect {|e| e.key}).collect {|obj| obj.synced}
+#    events_attending.each {|e| e.dia_event = remote_events_attending.detect {|r| r.key == e.service_foreign_key}}
     return events_attending
   end
 
@@ -81,14 +81,8 @@ class DemocracyInActionSupporter <  DemocracyInActionResource
 
   # create a new instance with all the attributes set from a hash table
   def initialize(hash = nil)
-    if hash == nil
       @data = Hash.new
-    elsif bad_key = hash.keys.detect { |k| !self.class.atts[k.to_s] }
-      raise 'Bad argument to initialize: ' + bad_key.to_s
-    else
-      @data = Hash.new
-      hash.each { |k, v| @data[k.to_s] = v.to_s }
-    end
+      hash.reject {|k, v| !self.class.atts[k.to_s] }.each { |k, v| @data[k.to_s] = v.to_s } if hash
   end
 
 end

@@ -17,30 +17,16 @@ class Event < ActiveRecord::Base
 
   has_many :blogs
 
-  attr_accessor :perform_remote_update
-  after_update :update_remote
-  def update_remote
-    self.to_democracy_in_action_event.save if perform_remote_update?
+  has_one :democracy_in_action_object, :as => :synced
+  def democracy_in_action_synced_table
+    'event'
   end
 
-  after_create :create_remote
-  def create_remote
-    return 'for now'
-    key = self.to_democracy_in_action_event.save
-    update_attribute(:service_foreign_key, key)
-  end
-
-  def perform_remote_update?
-    return false unless service_foreign_key
-    @perform_remote_update.nil? ? true : @perform_remote_update
-  end
-
-  def dia_event
-    @dia_event ||= DemocracyInActionEvent.find(service_foreign_key)
-  end
-
-  def dia_event=(event)
-    @dia_event = event
+  after_save :sync_to_democracy_in_action
+  def sync_to_democracy_in_action
+    event = self.to_democracy_in_action_event
+    key = event.save
+    self.create_democracy_in_action_object :key => key, :table => 'event' unless self.democracy_in_action_object
   end
 
   def to_democracy_in_action_event
@@ -53,12 +39,16 @@ class Event < ActiveRecord::Base
       e.Zip         = postal_code
       e.Start       = "#{self.start.to_s(:db)}.0"
       e.End         = "#{self.end.to_s(:db)}.0"
-      e.key         = service_foreign_key
-      e.event_KEY   = service_foreign_key
+      e.key         = democracy_in_action_key
+      e.event_KEY   = democracy_in_action_key
       e.Latitude    = latitude
       e.Longitude   = longitude
       e.Directions  = directions
+      e.supporter_KEY = (host ? host.democracy_in_action_key : '')
     end
+  end
+  def democracy_in_action_key
+    democracy_in_action_object.key if democracy_in_action_object
   end
 
   def address_for_geocode
@@ -100,6 +90,7 @@ class Event < ActiveRecord::Base
     start && start < Time.now
   end
 
+=begin
   class << self
     def find_or_import_by_service_foreign_key(key)
       event = Event.find_by_service_foreign_key(key) || import_by_service_foreign_key(key)
@@ -133,4 +124,5 @@ class Event < ActiveRecord::Base
       find(:all, :include => :reports).select {|e| !e.reports.find_published.empty?}.length
     end
   end
+=end
 end
