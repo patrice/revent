@@ -7,7 +7,7 @@ require 'mocha'
 class Account::EventsController; def rescue_action(e) raise e end; end
 
 class Account::EventsControllerTest < Test::Unit::TestCase
-  fixtures :users, :sites, :events
+  fixtures :users, :sites, :events, :calendars
 
   def setup
     @controller = Account::EventsController.new
@@ -16,7 +16,7 @@ class Account::EventsControllerTest < Test::Unit::TestCase
 
     s = DemocracyInActionSupporter.new(:Email => 'test@test.com', :Password => Digest::MD5.hexdigest('password'), :key => 1)
     DemocracyInActionSupporter.stubs(:find).returns(s)
-    e = DemocracyInActionEvent.new(:Event_Name => events(:stepitup).name, :key => events(:stepitup).service_foreign_key, :supporter_KEY => 1)
+    e = DemocracyInActionEvent.new(:Event_Name => events(:stepitup).name, :key => events(:stepitup).democracy_in_action_key, :supporter_KEY => 1)
     DemocracyInActionEvent.stubs(:find).returns(e)
     @request.host = sites(:stepitup).host
     @request.session[:user] = s
@@ -30,6 +30,7 @@ class Account::EventsControllerTest < Test::Unit::TestCase
   end
 
   def test_show
+    @request.session[:user].stubs(:admin?).returns(true)
     get :show, :id => 1
     assert_response :success
     assert_template 'show'

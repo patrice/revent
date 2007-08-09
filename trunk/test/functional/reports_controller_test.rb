@@ -5,7 +5,7 @@ require 'reports_controller'
 class ReportsController; def rescue_action(e) raise e end; end
 
 class ReportsControllerTest < Test::Unit::TestCase
-  fixtures :reports, :users, :roles, :roles_users, :sites
+  fixtures :reports, :users, :roles, :roles_users, :sites, :calendars, :events
 
   def setup
     @controller = ReportsController.new
@@ -52,12 +52,12 @@ class ReportsControllerTest < Test::Unit::TestCase
     num_reports = Report.count
 
     Akismet.any_instance.expects(:comment_check).returns(false)
-    post :create, :report => { :event_id => 1, :reporter_name => 'create', :reporter_email => 'create@create.com', :text => 'hi', }, :press_links => [{:url => 'http://link_to.com', :text => 'title'}], :attachments => []
+    post :create, :report => { :event_id => 1, :reporter_name => 'create', :reporter_email => 'create@create.com', :text => 'hi' }, :press_links => [{:url => 'http://link_to.com', :text => 'title'}], :attachments => []
     @report = Report.find(:all).last
     assert_equal @report.press_links.first.url, 'http://link_to.com'
 
-    assert_response :redirect
-    assert_redirected_to :action => 'index'
+    assert_response :success
+    assert_template 'index'
 
     assert_equal num_reports + 1, Report.count
   end
