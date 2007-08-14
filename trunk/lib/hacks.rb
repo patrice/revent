@@ -301,3 +301,33 @@ class SiteController < ApplicationController
       RAILS_DEFAULT_LOGGER.info("Caches fully swept.")
     end
 end
+class AttachmentsController < ApplicationController
+  def demo_stamped
+    html=<<HTML
+    <div style="padding: 10 10 10 10; background-color: 395875;">
+    <h3>normal</h3>
+    <%= image_tag @attachment.public_filename %><br/>
+    <h3>stamped</h3>
+    <%= image_tag url_for(:controller => :attachments, :action => :stamped, :id => @attachment) %>
+    </div>
+HTML
+    @attachment = Attachment.find(params[:id])
+    render :inline => html, :layout => true
+  end
+
+  def stamped
+    require 'RMagick'
+
+    @attachment = Attachment.find(params[:id])
+    image = Magick::Image.read(@attachment.full_filename).first
+
+    canvas = Magick::Image.new(image.columns, image.rows + 20) {|c| c.format = image.format}
+    canvas.composite! image, Magick::NorthGravity, Magick::OverCompositeOp
+
+    text = Magick::Draw.new
+    text.annotate(canvas, 0, 0, 10, canvas.rows - 10, "Image from event #{@attachment.report.event.id} in #{@attachment.report.event.city}, #{@attachment.report.event.state}") { |t|
+      t.font_weight = Magick::BoldWeight
+    }
+    send_data canvas.to_blob, :type => canvas.mime_type, :disposition => 'inline'
+  end
+end
