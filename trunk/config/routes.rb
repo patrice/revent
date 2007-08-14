@@ -76,5 +76,5 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/:action.:format'
   map.connect ':controller/:action/:id'
 
-  map.connect ':permalink', :controller => 'calendars'
+  map.connect ':permalink', :controller => 'calendars', :action => 'show'
 end
