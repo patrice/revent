@@ -18,7 +18,10 @@ class ApplicationController < ActionController::Base
 
   def set_calendar
     @calendar = @site.calendars.detect {|calendar| params[:permalink] == calendar.permalink } || @site.calendars.current || @site.calendars.first    
-    raise 'no calendar' unless @calendar
+    if not @calendar
+      redirect_to :controller => :site, :action => :splash
+      return false
+    end
   end
 
   theme :get_theme

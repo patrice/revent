@@ -25,7 +25,11 @@ class CalendarsController < ApplicationController
   end
 
   def events
-    redirect_to :controller => :site, :action => :splash unless @calendar
     @events = @calendar.events
+  end
+
+  def show
+    @events = @calendar.events
+    render :action => 'show'
   end
 end

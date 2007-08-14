@@ -43,7 +43,7 @@ class Admin::CalendarsController < Admin::BaseController
     @calendar = Calendar.find(params[:id])
   end
 
-  # /admin/calendars/destroy?id=
+  # /admin/calendars/update?id=
   def update
     @calendar = Calendar.find(params[:id])
     if @calendar.update_attributes(params[:calendar])

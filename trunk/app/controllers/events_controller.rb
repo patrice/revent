@@ -17,14 +17,13 @@ class EventsController < ApplicationController
   end
 
   def tagged
-    redirect_to :controller => :site, :action => :splash unless @calendar
     tag = Tag.find_by_name(params[:id])
     @events = tag.nil? ? [] : tag.events
 #    @event_pages = Paginator.new self, @events.length, 10, params[:page]
   end
 
   def flashmap
-    @events = Event.find(:all, :conditions => ["postal_code != ?", 0], :joins => "INNER JOIN zip_codes ON zip_codes.zip = postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude")
+    @events = @calendar.events.find(:all, :conditions => ["postal_code != ?", 0], :joins => "INNER JOIN zip_codes ON zip_codes.zip = postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude")
     respond_to do |format|
       format.xml { render :layout => false }
     end
@@ -34,12 +33,8 @@ class EventsController < ApplicationController
     render :layout => false
   end
 
-  def list
-    @event_pages, @events = paginate :events, :per_page => 10
-  end
-
   def show
-    @event = Event.find(params[:id], :include => [:blogs, {:reports => :attachments}])
+    @event = @calendar.events.find(params[:id], :include => [:blogs, {:reports => :attachments}])
     if @event.latitude && @event.longitude
       @map = Cartographer::Gmap.new('eventmap')
       @map.init do |m|
@@ -57,12 +52,10 @@ class EventsController < ApplicationController
   end
 
   def new
-    redirect_to :controller => :site, :action => :splash unless @calendar
     @event = Event.new
   end
 
   def create
-    redirect_to :controller => :site, :action => :splash unless @calendar
     @user = User.find_or_initialize_by_email(params[:user][:email]) # or current_user
     @user.attributes = params[:user].merge(:password => nil)
     @user.instance_eval { def password_required?; false; end } #TODO: better way?
@@ -81,11 +74,11 @@ class EventsController < ApplicationController
   end
 
   def edit
-    @event = Event.find(params[:id])
+    @event = @calendar.events.find(params[:id])
   end
 
   def update
-    @event = Event.find(params[:id])
+    @event = @calendar.events.find(params[:id])
     if @event.update_attributes(params[:event])
       flash[:notice] = 'Event was successfully updated.'
       expire_page_caches(@event)
@@ -96,7 +89,7 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    Event.find(params[:id]).destroy
+    @calendar.events.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
 
@@ -112,21 +105,18 @@ class EventsController < ApplicationController
 
   def reports
     if params[:id]
-      @event = Event.find(params[:id], :include => :reports)
+      @event = @calendar.events.find(params[:id], :include => :reports)
     else
       redirect_to :controller => :reports, :action => :index
     end
   end
 
   def index
-    redirect_to :controller => :site, :action => :splash unless @calendar
-    redirect_to calendar_url(@calendar) and return
-    @events = @calendar.events
+    redirect_to :controller => :calendars, :action => :show
   end
 
   def search
     extract_search_params
-    redirect_to :controller => :site, :action => :splash unless @calendar
     render :action => 'index' and return unless @events
     @map = Cartographer::Gmap.new('eventmap')
     @map.init do |m|
@@ -190,7 +180,7 @@ class EventsController < ApplicationController
                         max_lon])
     end
     @codes = @zips.collect {|z| z.zip}
-    @events = Event.find(:all, :conditions => ["postal_code IN (?)", @codes])
+    @events = @calendar.events.find(:all, :conditions => ["postal_code IN (?)", @codes])
 
     @events = @events.sort_by {|e| @codes.index(e.postal_code)}
 
@@ -201,13 +191,13 @@ class EventsController < ApplicationController
 
   def by_state
     @search_area = params[:state]
-    @events = Event.find(:all, :conditions => ["state = ?", params[:state]])
+    @events = @calendar.events.find(:all, :conditions => ["state = ?", params[:state]])
     @map_center = DaysOfAction::Geo::STATE_CENTERS[params[:state].to_sym]
     @map_zoom = DaysOfAction::Geo::STATE_ZOOM_LEVELS[params[:state].to_sym]
   end
 
   def description
-    @event = Event.find(params[:id])
+    @event = @calendar.events.find(params[:id])
     render :update do |page|
       page.replace_html 'report_event_description', "<h3>Event Description</h3>#{@event.description}"
       page.show 'report_event_description'
