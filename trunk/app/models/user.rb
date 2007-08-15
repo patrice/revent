@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :calendars
   has_many :reports
   has_many :attending, :through => 'rsvps', :source => :event
+  has_many :politician_invites
   has_and_belongs_to_many :roles
 
   def admin?

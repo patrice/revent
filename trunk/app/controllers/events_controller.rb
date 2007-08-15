@@ -32,6 +32,10 @@ class EventsController < ApplicationController
   def total
     render :layout => false
   end
+  
+  def list 
+    @event_pages, @events = paginate :events, :per_page => 10 
+  end
 
   def show
     @event = @calendar.events.find(params[:id], :include => [:blogs, {:reports => :attachments}])

@@ -1,0 +1,16 @@
+<h1>Invite Politicians to <%= @event.name %></h1>
+
+<table>
+<% for politician in @politicians %>
+  <tr>
+  <% for column in Politician.content_columns %>
+    <td><%=h politician.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Call', politician_url(:id => @event, :politician_id => politician) %> | </td>
+    <td><%= link_to 'Email', politician_url(:id => @event, :politician_id => politician)  %> | </td>
+    <td><%= link_to 'Send a Letter', politician_url(:id => @event, :politician_id => politician) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

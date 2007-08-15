@@ -1,0 +1,3 @@
+<h1>Invite <%= @politician.full_name %> to <%= @event.name %></h1>
+<%= button_to 'I invited #{@politician.full_name}', :action => 'log_invite', :invite_type => params[:invite_type] %>
+<br />

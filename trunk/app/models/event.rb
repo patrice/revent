@@ -10,6 +10,7 @@ class Event < ActiveRecord::Base
   has_many :press_links, :through => :reports
   has_many :rsvps
   has_many :attendees, :through => 'rsvps', :source => :user
+  has_many :politican_invites
 
   validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id
   validates_format_of :postal_code, :with => /^\d{5}(-\d{4})?$/

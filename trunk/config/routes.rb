@@ -14,10 +14,10 @@ ActionController::Routing::Routes.draw do |map|
   # map.connect '', :controller => "welcome"
 
 #  raise Calendar.find(:first).inspect => WORKS!!!
-  map.home '', :controller => 'calendars'
+  map.home '', :controller => 'calendars', :action => 'show'
 
-  # see http://dev.rubyonrails.org/changeset/6594 for edge rails 
-  # solution to using resources and namespace
+  # see http://dev.rubyonrails.org/changeset/6594 for 
+  # edge rails solution to using resources and namespace
   map.resources :calendars, :path_prefix => "admin", :controller => "admin/calendars" do |cal|
     cal.resources :events
   end
@@ -62,8 +62,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'reports/new/:service/:service_foreign_key', :controller => "reports", :action => "new"
   map.report 'reports/:event_id', :controller => 'reports', :action => 'show', :requirements => {:event_id => /\d+/}
 
-  map.admin 'admin/:controller/:action/:id', :admin => true
-
   map.connect ':controller/page/:page', :action => 'list'
   map.connect ':controller/search/zip/:zip/:page', :action => 'search'
 
@@ -76,5 +74,12 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/:action.:format'
   map.connect ':controller/:action/:id'
 
+  # Routes for inviting policitians to an event
+  map.with_options :controller => 'invites' do |m|
+    m.local_politicians  ':permalink/events/:id/invite', :action => 'list'
+    m.politician ':permalink/events/:id/invite/:politician_id', :action => 'show'
+  end
+  
   map.connect ':permalink', :controller => 'calendars', :action => 'show'
+  map.connect ':permalink/:controller/:action/:id'
 end

@@ -11,6 +11,10 @@
  See all <%= link_to 'Event Reports', :controller => 'reports', :action => 'index' %>.<br><br>
 </b>
 <% end -%>
+
+<br />
+<%= link_to 'Invite Politicians', local_politicians_url(:id => @event) %>
+
 <div class="report-intro-text">
   <% if @event.past? -%>
  
