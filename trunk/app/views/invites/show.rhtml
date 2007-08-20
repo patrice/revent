@@ -1,3 +1,9 @@
 <h1>Invite <%= @politician.full_name %> to <%= @event.name %></h1>
-<%= button_to 'I invited #{@politician.full_name}', :action => 'log_invite', :invite_type => params[:invite_type] %>
+SAMPLE LETTER:<br/>
+<br/>
+Dear <%= @politician.full_name %>,<br/><br/>
+Please attend our event.<br/><br/>
+Sincerely,<br/>
+Axel Rose<br/><br/>
+<%= button_to "I sent a letter", :action => 'create', :id => @event, :politician_id => @politician %>
 <br />

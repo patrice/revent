@@ -13,7 +13,7 @@
 <% end -%>
 
 <br />
-<%= link_to 'Invite Politicians', local_politicians_url(:id => @event) %>
+<%= link_to 'Invite a Local Politician', politicians_url(:permalink => @calendar.permalink, :id => @event) %>
 
 <div class="report-intro-text">
   <% if @event.past? -%>

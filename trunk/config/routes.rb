@@ -76,8 +76,8 @@ ActionController::Routing::Routes.draw do |map|
 
   # Routes for inviting policitians to an event
   map.with_options :controller => 'invites' do |m|
-    m.local_politicians  ':permalink/events/:id/invite', :action => 'list'
-    m.politician ':permalink/events/:id/invite/:politician_id', :action => 'show'
+    m.politicians  ':permalink/events/:id/politicians', :action => 'list'
+    m.invite_politician ':permalink/events/:id/politicians/:politician_id', :action => 'show'
   end
   
   map.connect ':permalink', :controller => 'calendars', :action => 'show'
