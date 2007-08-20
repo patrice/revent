@@ -1,0 +1,3 @@
+<h1>Thank You!</h1>
+Thank you for inviting  <%= @politician.full_name %> to <%= @event.name %>!<br /><br />
+<%= link_to 'Back to event', url_for(:permalink => @calendar.permalink, :controller => :events, :action => :show, :id => @event) %>
