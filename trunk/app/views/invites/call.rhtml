@@ -1,0 +1,7 @@
+<h1>Make a phone call to invite <%= @politician.full_name %> to <%= @event.name %></h1>
+SAMPLE LETTER:<br/>
+<br/>
+Hello, this is Axel Rose<br/>
+I'd like to invite <%= @politician.full_name %> to attend our event.<br/><br/>
+<%= button_to "I called", :action => 'create', :id => @event, :politician_id => @politician.id, :invite_type => 'called' %>
+<br />

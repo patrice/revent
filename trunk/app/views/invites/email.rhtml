@@ -1,0 +1,9 @@
+<h1>Send an email to invite <%= @politician.full_name %> to <%= @event.name %></h1>
+SAMPLE EMAIL:<br/>
+<br/>
+Dear <%= @politician.full_name %>,<br/><br/>
+Please attend our event.<br/><br/>
+Sincerely,<br/>
+Axel Rose<br/><br/>
+<%= button_to "I sent an email", :action => 'create', :id => @event, :politician_id => @politician.id, :invite_type => 'email' %>
+<br />

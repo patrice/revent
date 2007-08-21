@@ -7,9 +7,9 @@
 	  <% for column in Politician.content_columns %>
 	    <td><%=h politician.send(column.name) %></td>
 	  <% end %>
-	  <td><%= link_to 'Call', invite_politician_url(:id => @event, :politician_id => politician) %> | </td>
-	  <td><%= link_to 'Email', invite_politician_url(:id => @event, :politician_id => politician)  %> | </td>
-	  <td><%= link_to 'Send a Letter', invite_politician_url(:id => @event, :politician_id => politician) %></td>
+	  <td><%= link_to 'Call', invite_url(:id => @event, :action => :call, :politician_id => politician) %> | </td>
+	  <td><%= link_to 'Email', invite_url(:id => @event, :action => :email, :politician_id => politician)  %> | </td>
+	  <td><%= link_to 'Send a Letter', invite_url(:id => @event, :action => :write, :politician_id => politician) %></td>
 	  </tr>
 	<% end %>
 	</table>

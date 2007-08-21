@@ -12,13 +12,13 @@
 </b>
 <% end -%>
 
-<br />
-<%= link_to 'Invite a Local Politician', politicians_url(:permalink => @calendar.permalink, :id => @event) %>
-
 <div class="report-intro-text">
   <% if @event.past? -%>
  
   <% end -%>
+
+	<br />
+	<%= button_to 'Invite a Local Politician', invite_url(:permalink => @calendar.permalink, :id => @event) %>
 
   <h2><%= white_list @event.name %></h2>
   <h3><%= white_list @event.city %>, <%= @event.state %></h3>
