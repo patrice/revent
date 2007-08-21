@@ -17,9 +17,6 @@
  
   <% end -%>
 
-	<br />
-	<%= button_to 'Invite a Local Politician', invite_url(:permalink => @calendar.permalink, :id => @event) %>
-
   <h2><%= white_list @event.name %></h2>
   <h3><%= white_list @event.city %>, <%= @event.state %></h3>
   <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y  %I:%M%p') : '?' %> to <%= @event.end? ? @event.end.strftime('%I:%M%p') : '?' %></b></p>
