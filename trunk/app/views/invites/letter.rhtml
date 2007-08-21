@@ -5,5 +5,5 @@ Dear <%= @politician.full_name %>,<br/><br/>
 Please attend our event.<br/><br/>
 Sincerely,<br/>
 Axel Rose<br/><br/>
-<%= button_to "I sent a letter", :action => 'create', :id => @event, :politician_id => @politician %>
+<%= button_to "I sent a letter", :action => 'create', :id => @event, :politician_id => @politician, :invite_type => 'wrote' %>
 <br />
