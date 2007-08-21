@@ -9,7 +9,7 @@ class Event < ActiveRecord::Base
   has_many :attachments, :through => :reports
   has_many :press_links, :through => :reports
   has_many :rsvps
-  has_many :attendees, :through => 'rsvps', :source => :user
+  has_many :attendees, :through => :rsvps, :source => :user
   has_many :politican_invites
 
   validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id
@@ -45,10 +45,11 @@ class Event < ActiveRecord::Base
       e.Latitude    = latitude
       e.Longitude   = longitude
       e.Directions  = directions
-      e.supporter_KEY = (host ? host.democracy_in_action_key : '')
+      e.supporter_KEY = (self.host ? self.host.democracy_in_action_key : '')
       e.distributed_event_KEY = calendar.democracy_in_action_key
     end
   end
+  
   def democracy_in_action_key
     democracy_in_action_object.key if democracy_in_action_object
   end

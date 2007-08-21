@@ -38,7 +38,7 @@ class AccountController < ApplicationController
   def profile
     @user = current_user
     return unless request.post?
-    @user.update_atts(params[:user])
+    @user.update_attributes(params[:user])
     @user.save
     flash.now[:notice] = "Your profile has been updated"
   end
@@ -62,11 +62,7 @@ class AccountController < ApplicationController
 
   def login
     return unless request.post?
-    if site && site.use_democracy_in_action_auth?
-      self.current_user = DemocracyInActionSupporter.authenticate(params[:email], params[:password])
-    else
-      self.current_user = User.authenticate(params[:login], params[:password])
-    end
+    self.current_user = User.authenticate(params[:email], params[:password])
     if current_user
       if params[:remember_me] == "1" && current_user.respond_to?(:remember_me)
         self.current_user.remember_me

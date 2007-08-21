@@ -1,10 +1,11 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
   has_many :medias
-  has_many :events
+  has_many :events, :foreign_key => 'host_id'
   has_many :calendars
   has_many :reports
-  has_many :attending, :through => 'rsvps', :source => :event
+  has_many :rsvps
+  has_many :attending, :through => :rsvps, :source => :event
   has_many :politician_invites
   has_and_belongs_to_many :roles
 
@@ -40,6 +41,7 @@ class User < ActiveRecord::Base
     supporter_custom = @democracy_in_action[:supporter_custom] || {}
     supporter_custom_key = api.process('supporter_custom', supporter_custom.merge(:supporter_KEY => supporter_key))
   end
+  
   def democracy_in_action_key
     democracy_in_action_object.key if democracy_in_action_object
   end
@@ -57,9 +59,9 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :email, :case_sensitive => false
   before_save :encrypt_password
 
-  # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
-  def self.authenticate(login, password)
-    u = find_by_login(login) # need to get the salt
+  # Authenticates a user by their email and unencrypted password.  Returns the user or nil.
+  def self.authenticate(email, password)
+    u = find_by_email(email) # need to get the salt
     u && u.authenticated?(password) ? u : nil
   end
 

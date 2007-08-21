@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 37) do
+ActiveRecord::Schema.define(:version => 38) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -142,9 +142,8 @@ ActiveRecord::Schema.define(:version => 37) do
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "sites", :force => true do |t|
-    t.column "host",                         :string
-    t.column "use_democracy_in_action_auth", :boolean
-    t.column "theme",                        :string
+    t.column "host",  :string
+    t.column "theme", :string
   end
 
   add_index "sites", ["host"], :name => "index_sites_on_host"

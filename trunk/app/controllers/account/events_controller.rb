@@ -4,7 +4,7 @@ class Account::EventsController < ApplicationController
 
   def index
     @hosting = current_user.events
-    @attending = current_user.events_attending
+    @attending = current_user.attending
   end
 
   def show
@@ -13,7 +13,7 @@ class Account::EventsController < ApplicationController
 
   def update
     redirect_to :action => 'show' and return unless params[:event]
-    @event.update_attributes(params[:event].merge(:calendar_id => 1))
+    @event.update_attributes(params[:event])
     @event.save!
     flash[:notice] = 'Event updated'
     redirect_to :action => 'show', :id => @event
