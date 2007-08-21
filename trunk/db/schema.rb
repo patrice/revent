@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(:version => 37) do
     t.column "user_id",       :integer
     t.column "politician_id", :integer
     t.column "event_id",      :integer
-    t.column "invite_type",   :integer
+    t.column "invite_type",   :string
   end
 
   create_table "politicians", :force => true do |t|
