@@ -12,7 +12,7 @@ class CreatePoliticianInvites < ActiveRecord::Migration
       t.column :user_id, :integer
       t.column :politician_id, :integer
       t.column :event_id, :integer
-      t.column :invite_type, :integer # call/email/letter
+      t.column :invite_type, :string # call/email/letter
     end
 =begin
 # perhaps do this in future but not right now
