@@ -5,7 +5,7 @@ require 'calendars_controller'
 class CalendarsController; def rescue_action(e) raise e end; end
 
 class CalendarsControllerTest < Test::Unit::TestCase
-  fixtures :calendars
+  fixtures :calendars, :sites, :events
 
   def setup
     @controller = CalendarsController.new
@@ -27,33 +27,13 @@ class CalendarsControllerTest < Test::Unit::TestCase
 
     assert_not_nil assigns(:calendars)
   end
-
-  def test_show
-    get :show, :id => 1
-
-    assert_response :success
-    assert_template 'show'
-
-    assert_not_nil assigns(:calendar)
-    assert assigns(:calendar).valid?
-  end
-
-  def test_new
-    get :new
-
-    assert_response :success
-    assert_template 'new'
-
-    assert_not_nil assigns(:calendar)
-  end
-
-  def test_edit
-    get :edit, :id => 1
-
-    assert_response :success
-    assert_template 'edit'
-
-    assert_not_nil assigns(:calendar)
-    assert assigns(:calendar).valid?
+  
+  # check to see that events don't bleed across sites
+  def test_multi_site_scope
+    Site.find(:all).reject {|s| s.host == sites(:nwnw).host}.each do |site|
+      @request.host = site.host
+      get :show
+      assert !assigns(:events).include?(events(:nwnw_sf))
+    end
   end
 end

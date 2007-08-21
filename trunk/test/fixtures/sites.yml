@@ -1,8 +1,12 @@
 main:
   id: 1
-  host: daysofaction.org
+  host: www.daysofaction.org
   use_democracy_in_action_auth: false
 stepitup:
   id: 2
   host: events.stepitup2007.org
   use_democracy_in_action_auth: true
+nwnw:
+  id: 3
+  host: events.nowarnowarming.org
+  use_democracy_in_action_auth: false

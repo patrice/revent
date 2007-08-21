@@ -160,4 +160,43 @@ class EventsControllerTest < Test::Unit::TestCase
       Event.find(1)
     }
   end
+  
+=begin
+  def test_multi_site_scope
+    Site.find(:all).reject {|s| s.host == sites(:nwnw).host}.each do |site|
+      @request.host = site.host
+      # get nwnw.daysofaction.org/nwnw1/
+      get :index
+      assert !assigns(:events).include(events(:nwnw_rally))
+      get :list
+      assert !assigns(:events).include(events(:nwnw_rally))
+    end
+  end
+
+  def test_multi_site_scope_crud
+    event_controller_get_actions = {:index => {}, :list => {}, :new => {}, :edit => {}, 
+      :ally => {}, :flashmap => {}, :search => {}, :show => {:id => events(:nwnw_rally).id}, 
+      :destroy => {:id => events(:nwnw_rally).id}, :rsvp => {:id => events(:nwnw_rally).id}, 
+      :reports => {:id => events(:nwnw_rally).id}, :description => {:id => events(:nwnw_rally).id}, 
+      :destroy => {:id => events(:nwnw_rally).id}}
+      #, :by_zip => {:zip => events(:nwnw_rally).postal_code}, 
+      #:by_state => {:state => events(:nwnw_rally).state},
+    
+    #get events_url(:permalink => calendars(:nwnw_cal1).permalink, :action => :action)
+    @request.host = sites(:stepitup).host
+    event_controller_get_actions.each do |action, params| 
+      params[:permalink] = calendars(:nwnw_cal1).permalink
+      #puts action.to_s + ' ' + params.to_s
+      get action, params
+      #assert_response :redirect
+    end
+
+  #or maybe
+     assert_raises ActiveRecord::RecordNotFound do
+       get (or post, etc) action, :event_id => etc
+     end
+  #or both
+  end
+=end
+
 end

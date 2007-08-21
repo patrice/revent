@@ -1,9 +1,31 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-stepitup_first:
+dayofaction_mar07:
   id: 1
-  name: day of action
+  name: March 2007
   site_id: 1
-another:
+  permalink: mar
+  current: true
+stepitup_apr07:
   id: 2
-  name: boogly boo
+  name: April 2007
   site_id: 2
+  permalink: apr
+  current: false
+stepitup_oct07:
+  id: 3
+  name: October 2007
+  site_id: 2
+  permalink: oct
+  current: true
+nwnw_oct07:
+  id: 4
+  name: October 2007
+  site_id: 3
+  permalink: oct
+  current: true
+nwnw_nov07:
+  id: 5
+  name: November 2007
+  site_id: 3
+  permalink: nov
+  current: false
