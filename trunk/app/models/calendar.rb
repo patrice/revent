@@ -23,6 +23,16 @@ class Calendar < ActiveRecord::Base
     self.count != 0
   end
 
+  #XXX
+  has_one :democracy_in_action_object, :as => :synced
+  def democracy_in_action_synced_table
+    'distributed_event'
+  end
+  def democracy_in_action_key
+    democracy_in_action_object.key if democracy_in_action_object
+  end
+  #XXX
+
   def self.clear_deleted_events
     raise 'method deprecated, use DemocracyInAction::Util.clear_deleted_events'
   end
