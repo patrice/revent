@@ -11,6 +11,7 @@
 # form the root of the application path.
 
 set :use_sudo, false
+set :chmod755, %w(app config db lib public vendor script tmp public/dispatch.cgi public/dispatch.fcgi public/dispatch.rb)
 set :keep_releases, 3
 task :before_deploy do
   cleanup
@@ -129,13 +130,15 @@ desc <<-DESC
 Spinner is run by the default cold_deploy task. Instead of using script/spinner, we're just gonna rely on Mongrel to keep itself up.
 DESC
 task :spinner, :roles => :app do
-  run "mongrel_rails cluster::start"
+#  run "mongrel_rails cluster::start"
+  run "killall dispatch.fcgi"
 end
 
 desc "Restart the web server"
 task :restart, :roles => :app do
   begin
-    run "cd #{current_path} && mongrel_rails cluster::restart"
+#    run "cd #{current_path} && mongrel_rails cluster::restart"
+    run "cd #{current_path} && killall dispatch.fcgi"
   rescue RuntimeError => e
     puts e
     puts "Probably not a big deal, so I'll just keep trucking..."
@@ -161,3 +164,10 @@ task :after_symlink, :roles => :app , :except => {:no_symlink => true} do
     rake theme_update_cache
   CMD
 end 
+
+desc "Set the proper permissions for directories and files on HostingRails accounts"
+task :after_deploy do
+  run(chmod755.collect do |item|
+    "chmod 755 #{current_path}/#{item}"
+  end.join(" && "))
+end
