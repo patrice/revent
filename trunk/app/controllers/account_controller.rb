@@ -8,29 +8,34 @@ class AccountController < ApplicationController
   end
 
   def activate
-    user = DemocracyInActionSupporter.find(:first, :conditions => "Other_Data_3='#{params[:id]}'")
-    redirect_to signup_url and return unless user
-    return unless request.post?
-    flash[:notice] = 'passwords must match' and return unless params[:password] == params[:password_confirm]
-    flash[:notice] = 'password must be at least 6 characters' and return unless params[:password].length >= 6
-    user.Password = Digest::MD5.hexdigest(params[:password])
-    user.Other_Data_3 = ''
-    user.save
-    self.current_user = user
-    redirect_to profile_url
+    if params[:id]
+      @user = User.find_by_activation_code(params[:id]) 
+      if @user and @user.activate
+        self.current_user = @user
+        redirect_back_or_default(hash_for_profile_url)
+        flash[:notice] = "Your account has been activated." 
+      else
+        flash[:error] = "Unable to activate the account.  Did you provide the correct information?" 
+      end
+    else
+      flash.clear
+    end
   end
 
   def send_activation
-    user = DemocracyInActionSupporter.find(:first, :conditions => "Email='#{params[:email]}'")
+#    user = DemocracyInActionSupporter.find(:first, :conditions => "Email='#{params[:email]}'")
+    user = User.find_by_email(params[:email]) if params[:email]
     if !user
       flash[:notice] = "Email not found"
       redirect_to login_url
       return
     end
-    activation_code = Digest::MD5.hexdigest("--#{Time.now}--stepitup--")
-    user.Other_Data_3 = activation_code
-    user.save
-    UserMailer.deliver_activation(user.Email, activation_code)
+    if user.activated_at && user.activated_at > Time.now.utc
+      user.forgot_password
+      user.save
+    else
+      UserMailer.deliver_activation(user.email, user.activation_code)
+    end
     flash[:notice] = 'Account activation email delivered'
     redirect_to login_url
   end
@@ -117,5 +122,37 @@ class AccountController < ApplicationController
     cookies.delete :auth_token
     reset_session
     redirect_back_or_default(home_url)
+  end
+
+  def forgot_password
+    return unless request.post?
+    if @user = User.find_by_email(params[:email])
+      @user.forgot_password
+      @user.save
+      redirect_back_or_default(:controller => '/account', :action => 'index')
+      flash[:notice] = "A password reset link has been sent to your email address" 
+    else
+      flash[:notice] = "Could not find a user with that email address" 
+    end
+  end
+
+  def reset_password
+    @user = User.find_by_password_reset_code(params[:id]) if params[:id]
+    raise if @user.nil?
+    return if @user unless params[:password]
+      if (params[:password] == params[:password_confirmation])
+        self.current_user = @user #for the next two lines to work
+        current_user.password_confirmation = params[:password_confirmation]
+        current_user.password = params[:password]
+        @user.reset_password
+        flash[:notice] = current_user.save ? "Password reset" : "Password not reset" 
+      else
+        flash[:notice] = "Password mismatch" 
+      end  
+      redirect_back_or_default(:controller => '/account', :action => 'index') 
+  rescue
+    logger.error "Invalid Reset Code entered" 
+    flash[:notice] = "Sorry - That is an invalid password reset code. Please check your code and try again. (Perhaps your email client inserted a carriage return?" 
+    redirect_back_or_default(:controller => '/account', :action => 'index')
   end
 end

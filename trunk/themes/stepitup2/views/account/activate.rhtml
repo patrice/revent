@@ -1,7 +1,6 @@
-<% form_tag :url => {:id => params[:id]} do %>
-<p><label for="password">Password</label><br/>
-<%= password_field_tag 'password' %></p>
-<p><label for="password_confirm">Password again</label><br/>
-<%= password_field_tag 'password_confirm' %></p>
-<%= submit_tag %>
-<% end %>
+<% form_tag :action => "activate" do -%>
+<p><label for="activation_code">Activation Code</label><br/>
+<%= text_field_tag(:id, params[:id], :size=>50 ) %>
+</p>
+<p><%= submit_tag 'Activate' %></p>
+<% end -%>

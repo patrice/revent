@@ -58,11 +58,49 @@ class User < ActiveRecord::Base
   validates_length_of       :email,    :within => 3..100
   validates_uniqueness_of   :email, :case_sensitive => false
   before_save :encrypt_password
+  before_create :make_activation_code
+  after_save :deliver_email
+  def deliver_email
+    UserMailer.deliver_forgot_password(self) if self.recently_forgot_password?
+    UserMailer.deliver_reset_password(self) if self.recently_reset_password?
+  end
 
   # Authenticates a user by their email and unencrypted password.  Returns the user or nil.
   def self.authenticate(email, password)
-    u = find_by_email(email) # need to get the salt
+    # hide records with a nil activated_at
+    u = find :first, :conditions => ['email = ? and activated_at IS NOT NULL', email]
     u && u.authenticated?(password) ? u : nil
+  end
+
+  # Activates the user in the database.
+  def activate
+    @activated = true
+    update_attributes(:activated_at => Time.now.utc, :activation_code => nil)
+  end
+
+  # Returns true if the user has just been activated.
+  def recently_activated?
+    @activated
+  end
+
+  def forgot_password
+    @forgotten_password = true
+    self.make_password_reset_code
+  end
+
+  def reset_password
+    # First update the password_reset_code before setting the 
+    # reset_password flag to avoid duplicate email notifications.
+    update_attributes(:password_reset_code => nil)
+    @reset_password = true
+  end
+
+  def recently_reset_password?
+    @reset_password
+  end
+
+  def recently_forgot_password?
+    @forgotten_password
   end
 
   # Encrypts some data with the salt.
@@ -106,5 +144,12 @@ class User < ActiveRecord::Base
     
     def password_required?
       crypted_password.blank? || !password.blank?
+    end
+
+    def make_activation_code
+      self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+    end
+    def make_password_reset_code
+      self.password_reset_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
     end
 end

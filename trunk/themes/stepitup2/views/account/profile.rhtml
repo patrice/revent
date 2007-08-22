@@ -23,5 +23,11 @@
 <p><label for="postal_code">Zip</label><br/>
 <%= f.text_field 'postal_code'  %></p>
 
+<p><label for="password">Password</label><br/>
+<%= f.password_field 'password'  %></p>
+
+<p><label for="password_confirmation">Password Confirmation</label><br/>
+<%= f.password_field 'password_confirmation'  %></p>
+
 <%= submit_tag %>
 <% end -%>

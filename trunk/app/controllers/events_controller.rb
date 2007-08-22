@@ -61,8 +61,11 @@ class EventsController < ApplicationController
 
   def create
     @user = User.find_or_initialize_by_email(params[:user][:email]) # or current_user
-    @user.attributes = params[:user].merge(:password => nil)
-    @user.instance_eval { def password_required?; false; end } #TODO: better way?
+    @user.attributes = params[:user]
+    unless @user.crypted_password || (@user.password && @user.password_confirmation)
+      password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+      @user.password = @user.password_confirmation = password
+    end
     @event = @calendar.events.build(params[:event])
 
     if @user.valid? && @event.valid?
@@ -123,7 +126,7 @@ class EventsController < ApplicationController
 
   def search
     extract_search_params
-    render :action => 'index' and return unless @events
+    render 'calendars/show' and return unless @events
     @map = Cartographer::Gmap.new('eventmap')
     @map.init do |m|
       m.center = @map_center || [37.160317,-95.800781]

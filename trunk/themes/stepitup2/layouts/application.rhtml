@@ -93,7 +93,9 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="10">
   <tr>
-    <td width="477" valign="top">	  <% if flash[:notice] %><div id="flash"><%= flash[:notice] %></div><% end %>
+    <td width="477" valign="top">
+      <% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
+      <% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
 	          <%= yield %>
 	          <%= render "shared/admin" %> 
 	          <%= render "shared/developer" %>

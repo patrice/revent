@@ -18,9 +18,9 @@ ActionController::Routing::Routes.draw do |map|
 
   # see http://dev.rubyonrails.org/changeset/6594 for 
   # edge rails solution to using resources and namespace
-  map.resources :calendars, :path_prefix => "admin", :controller => "admin/calendars" do |cal|
-    cal.resources :events
-  end
+#  map.resources :calendars, :path_prefix => "admin", :controller => "admin/calendars" do |cal|
+#    cal.resources :events
+#  end
 
   map.with_options :controller => 'events', :action => 'new' do |m|
     m.signup ':permalink/signup'
@@ -45,21 +45,21 @@ ActionController::Routing::Routes.draw do |map|
 
   map.ally '/ally/:referrer', :controller => 'events', :action => 'ally', :defaults => {:referrer => ''}
 
-  map.zip_search "events/search/zip/:zip",  :controller => "events",
+  map.zip_search ":permalink/events/search/zip/:zip",  :controller => "events",
                                         :action => "search",
                                         :requirements => { :zip => /\d{5}/ }
-  map.state_search "events/search/state/:state", :controller => "events",
+  map.state_search ":permalink/events/search/state/:state", :controller => "events",
                                            :action => "search",
                                            :requirements => { :state => /\w{2}/ }
 
-  map.report_state_search "reports/search/state/:state", :controller => "reports",
+  map.report_state_search ":permalink/reports/search/state/:state", :controller => "reports",
                                            :action => "search",
                                            :requirements => { :state => /\w{2}/ }
-  map.report_zip_search "reports/search/zip/:zip",  :controller => "reports",
+  map.report_zip_search ":permalink/reports/search/zip/:zip",  :controller => "reports",
                                         :action => "search",
                                         :requirements => { :zip => /\d{5}/ }
 
-  map.connect 'reports/new/:service/:service_foreign_key', :controller => "reports", :action => "new"
+#  map.connect 'reports/new/:service/:service_foreign_key', :controller => "reports", :action => "new"
   map.report 'reports/:event_id', :controller => 'reports', :action => 'show', :requirements => {:event_id => /\d+/}
 
   map.connect ':controller/page/:page', :action => 'list'

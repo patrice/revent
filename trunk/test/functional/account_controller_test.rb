@@ -13,14 +13,21 @@ class AccountControllerTest < Test::Unit::TestCase
     @controller = AccountController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    @emails = ActionMailer::Base.deliveries 
+    @emails.clear
   end
 
   def test_should_login_and_redirect
-    post :login, :login => 'quentin', :password => 'test'
+    post :login, :email => 'quentin@example.com', :password => 'test'
     assert session[:user]
     assert_response :redirect
   end
 
+=begin
   def test_should_login_and_redirect_with_democracy_in_action
     set_use_democracy_in_action_auth
 
@@ -31,6 +38,7 @@ class AccountControllerTest < Test::Unit::TestCase
     assert session[:user].Email='test@test.com'
     assert_response :redirect
   end
+=end
 
   def test_should_fail_login_and_not_redirect
     post :login, :login => 'quentin', :password => 'bad password'
@@ -45,6 +53,7 @@ class AccountControllerTest < Test::Unit::TestCase
     assert_response :success
   end
 
+=begin
   def test_profile_with_democracy_in_action
     set_use_democracy_in_action_auth
     post :login, :email => 'test@test.com', :password => 'password'
@@ -52,6 +61,7 @@ class AccountControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'profile'
   end
+=end
 
   def test_should_allow_signup
     DemocracyInAction::API.any_instance.stubs(:process).returns(1111) unless connect?
@@ -104,8 +114,7 @@ class AccountControllerTest < Test::Unit::TestCase
   end
 
   def test_should_remember_me
-    DemocracyInAction::API.any_instance.stubs(:process).returns(1111) unless connect?
-    post :login, :login => 'quentin', :password => 'test', :remember_me => "1"
+    post :login, :email => 'quentin@example.com', :password => 'test', :remember_me => "1"
     assert_not_nil @response.cookies["auth_token"]
   end
 
@@ -144,6 +153,76 @@ class AccountControllerTest < Test::Unit::TestCase
     @request.cookies["auth_token"] = auth_token('invalid_auth_token')
     get :index
     assert !@controller.send(:logged_in?)
+  end
+
+  def test_should_activate_user_and_send_activation_email
+    get :activate, :id => users(:aaron).activation_code
+    assert_equal 1, @emails.length
+    assert(@emails.first.subject =~ /Your account has been activated/)
+    assert(@emails.first.body    =~ /#{assigns(:user).login}, your account has been activated/)
+  end
+
+  def test_should_not_activate_nil
+    get :activate, :id => nil
+    assert_activate_error
+  end
+
+  def test_should_not_activate_bad
+    get :activate, :id => 'foobar'
+    assert flash.has_key?(:error), "Flash should contain error message." 
+    assert_activate_error
+  end
+
+  def assert_activate_error
+    assert_response :success
+    assert_template "account/activate" 
+  end
+
+  def test_should_forget_password
+    post :forgot_password, :email => 'quentin@example.com'
+    assert_response :redirect
+    assert flash.has_key?(:notice), "Flash should contain notice message." 
+    assert_equal 1, @emails.length
+    assert(@emails.first.subject =~ /Request to change your password/)
+  end
+
+  def test_should_not_forget_password
+    post :forgot_password, :email => 'invalid@email'
+    assert_response :success
+    assert flash.has_key?(:notice), "Flash should contain notice message." 
+    assert_equal 0, @emails.length
+  end
+
+  def test__reset_password__valid_code_and_password__should_reset
+    @user = users(:aaron)
+    @user.forgot_password && @user.save
+    @emails.clear
+    post :reset_password, :id => @user.password_reset_code, :password  => "new_password", :password_confirmation => "new_password" 
+
+    assert_match("Password reset", flash[:notice])
+    assert_equal 1, @emails.length # make sure that it e-mails the user notifying that their password was reset
+    assert_equal(@user.email, @emails.first.to[0], "should have gone to user") 
+
+    # Make sure that the user can login with this new password
+    assert(User.authenticate(@user.email, "new_password"), "password should have been reset")
+  end
+
+  def test__reset_password__valid_code_but_not_matching_password__shouldnt_reset
+    @user = users(:aaron)
+    @user.forgot_password && @user.save
+    @emails.clear
+    post :reset_password, :id => @user.password_reset_code, :password  => "new_password", :password_confirmation => "not matching password" 
+
+    assert_equal(0, @emails.length)
+    assert_match("Password mismatch", flash[:notice])
+
+    assert(!User.authenticate(@user.login, "new_password"), "password should not have been reset")
+  end
+
+  def test__reset_password__invalid_code__should_show_error
+    post :reset_password, :id => "Invalid Code", :password  => "new_password", :password_confirmation => "not matching password" 
+
+    assert_match(/invalid password reset code/, flash[:notice])
   end
 
   protected
