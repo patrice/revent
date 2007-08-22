@@ -78,5 +78,7 @@ ActionController::Routing::Routes.draw do |map|
   map.invite ':permalink/events/:id/politicians/:action/:politician_id', :controller => 'invites', :defaults => { :action => 'list', :politician_id => nil }
   
   map.connect ':permalink', :controller => 'calendars', :action => 'show'
+  map.connect ':permalink/:controller/:action/:id.:format'
+  map.connect ':permalink/:controller/:action.:format'
   map.connect ':permalink/:controller/:action/:id'
 end

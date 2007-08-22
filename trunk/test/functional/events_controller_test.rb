@@ -5,7 +5,7 @@ require 'events_controller'
 class EventsController; def rescue_action(e) raise e end; end
 
 class EventsControllerTest < Test::Unit::TestCase
-  fixtures :events, :sites, :users, :calendars
+  fixtures :events, :sites, :users, :calendars, :democracy_in_action_objects
 
   def setup
     @controller = EventsController.new
@@ -109,16 +109,17 @@ class EventsControllerTest < Test::Unit::TestCase
 =end
 
   def test_create_with_saving_to_democracy_in_action
+    @request.host = calendars(:stepitup_oct07).site.host
     require 'democracyinaction'
     DemocracyInAction::API.any_instance.expects(:process).with('supporter',all_of(has_entry('Email', 'new@event.com'), has_entry('Organization', 'my organization'))).returns(1111)
 
     DemocracyInAction::API.any_instance.expects(:process).with('supporter_custom', all_of(has_entry('supporter_KEY', 1111), has_entry('BLOB0', 'some custom field'))).returns(1112)
 
-    DemocracyInAction::API.any_instance.expects(:process).with('event', all_of(has_entry('supporter_KEY', 1111), has_entry('Event_Name', 'some event'))).returns(1113)
+    DemocracyInAction::API.any_instance.expects(:process).with('event', all_of(has_entry('supporter_KEY', 1111), has_entry('Event_Name', 'some event'), has_entry('distributed_event_KEY', calendars(:stepitup_oct07).democracy_in_action_object.key))).returns(1113)
 
-    post :create, :calendar_id => 1,
+    post :create, :permalink => calendars(:stepitup_oct07).permalink,
       :user => {:first_name => 'user', :last_name => 'name', :email => 'new@event.com', :democracy_in_action => {:supporter => {'Organization' => 'my organization'}, :supporter_custom => {'BLOB0' => 'some custom field'}}},
-      :event => {:name => 'some event', :description => 'a description', :city => 'city', :state => 'CA', :postal_code => '94110', :directions => 'directions', :start => 1.hour.from_now, :end => 2.hours.from_now, :calendar_id => 1, :location => 'location'}
+      :event => {:name => 'some event', :description => 'a description', :city => 'city', :state => 'CA', :postal_code => '94110', :directions => 'directions', :start => 1.hour.from_now, :end => 2.hours.from_now, :location => 'location'}
 
     assert_equal assigns(:user).democracy_in_action_object.key, 1111
     assert (event = assigns(:event).democracy_in_action_object)

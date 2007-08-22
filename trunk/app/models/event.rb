@@ -23,9 +23,15 @@ class Event < ActiveRecord::Base
     'event'
   end
 
+  attr_writer :democracy_in_action
   after_save :sync_to_democracy_in_action
   def sync_to_democracy_in_action
+    @democracy_in_action ||= {}
+    extra = @democracy_in_action[:event] || {}
     event = self.to_democracy_in_action_event
+    extra.each do |key, value|
+      event.send "#{key}=", value
+    end
     key = event.save
     self.create_democracy_in_action_object :key => key, :table => 'event' unless self.democracy_in_action_object
   end
@@ -46,7 +52,7 @@ class Event < ActiveRecord::Base
       e.Longitude   = longitude
       e.Directions  = directions
       e.supporter_KEY = (self.host ? self.host.democracy_in_action_key : '')
-      e.distributed_event_KEY = calendar.democracy_in_action_key
+      e.distributed_event_KEY = self.calendar.democracy_in_action_object.key
     end
   end
   

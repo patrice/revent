@@ -56,7 +56,7 @@ class EventsController < ApplicationController
   end
 
   def new
-    @event = Event.new
+    @event = Event.new :start => Time.mktime(2007, 11, 3, 12), :end => Time.mktime(2007, 11, 3, 14)
   end
 
   def create
@@ -71,8 +71,10 @@ class EventsController < ApplicationController
       @event.save!
       flash[:notice] = 'Event was successfully created.'
       expire_page_caches(@event)
+      redirect_to @calendar.signup_redirect and return if @calendar.signup_redirect
       redirect_to :action => 'show', :id => @event.id
     else
+      flash[:notice] = 'There was a problem creating your event.'
       render :action => 'new'
     end
   end
