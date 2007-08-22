@@ -28,6 +28,8 @@ class User < ActiveRecord::Base
     attributes.each do |k,v|
       @d_attrs[k.titleize.gsub(' ', '_')] = v
     end
+    @d_attrs['Zip'] = self.postal_code
+
     # probably makes more sense to use an object wrapper so it can handle supporter_custom and whatnot
     # supporter = DemocracyInActionSupporter.new
     # supporter.custom << @democracy_in_action[:supporter_custom]
@@ -39,7 +41,7 @@ class User < ActiveRecord::Base
     self.create_democracy_in_action_object :key => supporter_key, :table => 'supporter'
 
     supporter_custom = @democracy_in_action[:supporter_custom] || {}
-    supporter_custom_key = api.process('supporter_custom', supporter_custom.merge(:supporter_KEY => supporter_key))
+    supporter_custom_key = api.process('supporter_custom', {'supporter_KEY' => supporter_key}.merge(supporter_custom))
   end
   
   def democracy_in_action_key

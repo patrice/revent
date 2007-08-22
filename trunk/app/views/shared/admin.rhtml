@@ -2,7 +2,7 @@
   <div id="admin">
 	<b>Admin Tools:</b><br>
 
-  <%= select_tag 'admin', "<option value='' selected>Select Event To Edit</option>" +options_for_select(Event.find(:all, :order=>"state,city").collect {|e| ["#{e.state} - #{e.city}: #{truncate e.name,30}", "/profile/events/#{e.id}"]}, :include_blank=>true), :onChange=>'window.location=this.options[this.selectedIndex].value;'%>
+  <%= select_tag 'admin', "<option value='' selected>Select Event To Edit</option>" +options_for_select(@calendar.events.find(:all, :order=>"state,city").collect {|e| ["#{e.state} - #{e.city}: #{truncate e.name,30}", "/profile/events/#{e.id}"]}, :include_blank=>true), :onChange=>'window.location=this.options[this.selectedIndex].value;'%>
       
   <div class="login-box">
 	<% if logged_in? %><%= link_to "Log Out", :controller => 'account', :action => 'logout' %><% end %>
