@@ -23,22 +23,26 @@ class Account::EventsController < ApplicationController
 
   def invite
     redirect_to :action => 'show', :id => @event and return unless params[:invite]
-    UserMailer.deliver_invite(current_user.Email, @event, params[:invite])
+    UserMailer.deliver_invite(current_user.email, @event, params[:invite])
     flash[:notice] = 'Invites delivered'
     redirect_to :action => 'show', :id => @event
   end
 
   def message
-    UserMailer.deliver_message(current_user.Email, @event, params[:message])
+    UserMailer.deliver_message(current_user.email, @event, params[:message])
     flash[:notice] = 'Email delivered'
     redirect_to :action => 'show', :id => @event
   end
 
   def remove
+    @event = Event.find(params[:id])
+    @event.destroy
+=begin
     api = DIA_API_Simple.new API_OPTS
     records = api.get 'supporter_event', 'where' => "supporter_KEY=#{current_user.key}"
     rec = records.detect {|r| r['event_KEY'] == @event.dia_event.key}
     api.deleteKey 'supporter_event', rec['key'] unless rec.nil? || rec.empty?
+=end
     redirect_to :action => 'index'
   end
 
@@ -59,7 +63,7 @@ class Account::EventsController < ApplicationController
     @event = Event.find(params[:id])
     return true if current_user.admin?
     if %w(remove).include?(action_name)
-      return true if current_user.events_attending.include?(@event)
+      return true if current_user.attending.include?(@event)
     end
     return true if current_user.events.include?(@event)
     false

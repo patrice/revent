@@ -36,7 +36,7 @@
 
 <% unless @event.past? -%>
  
-<%= render "events/rsvp" %>
+<%= render :partial => "rsvp", :locals => { :event => @event} %>
 <% end -%>
 <% if !@event.blogs.empty? -%>
 <div id="announcements">

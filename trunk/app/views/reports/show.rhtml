@@ -3,7 +3,7 @@
 <%= javascript_include_tag 'lightbox' %>
 <% end %>
 
-          <div id="nav-event"><a href="http://stepitup07.org/profile">Manage Event Reports</a></div>
+          <div id="nav-event"><% link_to 'Manage Event Reports', :controller => 'account', :action => 'profile' %>
 
 <div class="intro-title">
 	Event Report

@@ -6,7 +6,6 @@
 </p>
 
 <% form_for :event, @event, :url => url_for(:permalink => @calendar.permalink, :controller => 'events', :action => 'create'), :html => {:id => 'event-signup-form'} do |f| -%>
-`
   
     <div id="profile" class="profileInformation">
       <%= error_messages_for 'user' %>

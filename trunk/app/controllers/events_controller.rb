@@ -103,12 +103,23 @@ class EventsController < ApplicationController
   end
 
   def rsvp
+    @user = User.find_or_initialize_by_email(params[:user][:email]) # or current_user
+    @user.attributes = params[:user]
+    unless @user.crypted_password || (@user.password && @user.password_confirmation)
+      password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+      @user.password = @user.password_confirmation = password
+    end
+
     @rsvp = Rsvp.new(:event_id => params[:id])
-    if request.post?
-      @rsvp.user_id = current_user
-      @rsvp.update_attributes(params[:rsvp])
-      flash[:notice] = 'rsvpd'
+    if @user.valid? && @rsvp.valid?
+      @user.save
+      @rsvp.user_id = @user.id
+      @rsvp.save
+      flash[:notice] = 'RSVP was successfully registered.'
       redirect_to :action => 'show', :id => @rsvp.event.id and return
+    else
+      flash[:notice] = 'There was a problem registering your RSVP.'
+      render :action => 'show', :id => @event.id
     end
   end
 
