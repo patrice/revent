@@ -3,12 +3,12 @@
 <% if @event.past? -%>
 <b>	This Event Has Already Taken Place<br><br>
 	
-	 If you attended this event please <%= link_to 'Submit a Report', :controller => "reports", :action => "new", :id=>@event.id %>.<br>
+  If you attended this event please <%= link_to 'Submit a Report', :permalink => @calendar.permalink, :controller => "reports", :action => "new", :id=>@event.id %>.<br>
 
 	<% unless @event.reports.empty? -%>
 	   <%= link_to 'Click here', report_url(@event.id)  %> to see reports for this event.<br>
 	<% end -%>
- See all <%= link_to 'Event Reports', :controller => 'reports', :action => 'index' %>.<br><br>
+  See all <%= link_to 'Event Reports', :permalink => @calendar.permalink, :controller => 'reports', :action => 'index' %>.<br><br>
 </b>
 <% end -%>
 
@@ -26,7 +26,7 @@
   <div id="location"><b>Location:</b><br><%= white_list @event.location %></div>
 <% if @event.directions %>
   
-  <div id="directions"><b>Directions:</b><br><%= white_list @event.directions %></div>
+<div id="directions"><b>Directions:</b><br><%= white_list word_wrap(auto_link(@event.directions) {|text| truncate(text, 40) + " " }) %></div>
 <% end -%>
 
   <p align="center" style="font-size: 14px; font-weight: bold;"><a href="#" onclick="window.open('http://democracyinaction.org/dia/api/event/email.jsp?event_KEY=<%= @event.democracy_in_action_key %>','','width=500,height=450'); return false;">Questions? Email the Host</a>
