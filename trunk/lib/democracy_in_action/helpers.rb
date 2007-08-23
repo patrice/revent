@@ -1,5 +1,24 @@
 module DemocracyInAction
   module Helpers
+    def self.title_options_for_select
+      [ 
+        ["Select Title", ""],
+        ["Mr.", "Mr."],
+        ["Mrs.", "Mrs."],
+        ["Ms.", "Ms."],
+        ["Dr.", "Dr."],
+        ["Rabbi", "Rabbi"],
+        ["Fr.", "Fr."],
+        ["Rev.", "Rev."],
+        ["Hon.", "Hon."],
+        ["Br.", "Br."],
+        ["Sr.", "Sr."],
+        ["Rep.", "Rep."],
+        ["Sen.", "Sen."],
+        ["other", "Other"]
+      ]
+    end
+
     def self.state_options_for_select
       [
         ["Select One...","none"],
