@@ -130,15 +130,15 @@ desc <<-DESC
 Spinner is run by the default cold_deploy task. Instead of using script/spinner, we're just gonna rely on Mongrel to keep itself up.
 DESC
 task :spinner, :roles => :app do
-#  run "mongrel_rails cluster::start"
-  run "killall dispatch.fcgi"
+  run "mongrel_rails cluster::start"
+#  run "killall dispatch.fcgi"
 end
 
 desc "Restart the web server"
 task :restart, :roles => :app do
   begin
-#    run "cd #{current_path} && mongrel_rails cluster::restart"
-    run "cd #{current_path} && killall dispatch.fcgi"
+    run "cd #{current_path} && mongrel_rails cluster::restart"
+#    run "cd #{current_path} && killall dispatch.fcgi"
   rescue RuntimeError => e
     puts e
     puts "Probably not a big deal, so I'll just keep trucking..."
