@@ -39,10 +39,10 @@ ActiveRecord::Schema.define(:version => 40) do
     t.column "name",              :string
     t.column "short_description", :text
     t.column "user_id",           :integer
-    t.column "current",           :boolean, :default => false
-    t.column "theme",             :string
     t.column "permalink",         :string
     t.column "site_id",           :integer
+    t.column "current",           :boolean, :default => false
+    t.column "theme",             :string
     t.column "signup_redirect",   :string
   end
 
