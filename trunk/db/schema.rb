@@ -150,8 +150,8 @@ ActiveRecord::Schema.define(:version => 40) do
   add_index "sites", ["host"], :name => "index_sites_on_host"
 
   create_table "taggings", :force => true do |t|
-    t.column "tag_id",        :integer, :default => 0,  :null => false
-    t.column "taggable_id",   :integer, :default => 0,  :null => false
+    t.column "tag_id",        :integer,                 :null => false
+    t.column "taggable_id",   :integer,                 :null => false
     t.column "taggable_type", :string,  :default => "", :null => false
   end
 
