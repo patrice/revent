@@ -18,7 +18,7 @@ class UserMailer < ActionMailer::Base
     @subject    = message[:subject]
     @body       = {:event => event, :message => message[:body]}
     @recipients = from
-    @bcc        = event.dia_event.attendees.collect {|a| a.Email}.compact.join(',')
+    @bcc        = (event.attendees || event.to_democracy_in_action_event.attendees.collect {|a| User.new :email => a.Email}).collect {|a| a.email}.compact.join(',')
     @from       = from
     @headers    = {}
   end
@@ -39,10 +39,10 @@ class UserMailer < ActionMailer::Base
     headers       {}
   end
 
-  def forgot_password(user)
+  def forgot_password(user, host = 'events.stepitup2007.org')
     setup_email(user)
     @subject    += 'Request to change your password'
-    @body[:url]  = "http://localhost:3000/account/reset_password/#{user.password_reset_code}" 
+    @body[:url]  = "http://#{host}/account/reset_password/#{user.password_reset_code}" 
   end
 
   def reset_password(user)

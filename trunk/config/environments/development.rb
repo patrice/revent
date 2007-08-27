@@ -23,9 +23,15 @@ config.action_mailer.raise_delivery_errors = false
 DIA_CONFIG = File.join(RAILS_ROOT,'config','democracyinaction-config.yml')
 API_OPTS = File.exists?(DIA_CONFIG) ? YAML.load_file(DIA_CONFIG) : {}
 
-require 'flickr'
-Flickr::API_KEY='ac682326488deff72b45939163d639ba'
-Flickr::SHARED_SECRET='57d0e673eee6114e'
+begin
+  require 'flickr'
+  Flickr::API_KEY='ac682326488deff72b45939163d639ba'
+  Flickr::SHARED_SECRET='57d0e673eee6114e'
+rescue MissingSourceFile
+end
 
-CACHE = MemCache.new ['127.0.0.1:11211']
-require 'memcache_util'
+begin
+  CACHE = MemCache.new ['127.0.0.1:11211']
+  require 'memcache_util'
+rescue
+end

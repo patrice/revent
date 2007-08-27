@@ -1,5 +1,6 @@
 class AttachmentsController < ApplicationController
   skip_before_filter :set_site
+  skip_before_filter :set_calendar
 
   session :disabled => false, :only => [:destroy]
   before_filter :login_required, :only => [:destroy]

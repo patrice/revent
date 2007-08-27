@@ -50,8 +50,8 @@ class Account::EventsController < ApplicationController
     require 'fastercsv'
     string = FasterCSV.generate do |csv|
       csv << ["Email", "First_Name", "Last_Name", "Phone"]
-      @event.dia_event.attendees.each do |sup|
-        csv << [sup.Email, sup.First_Name, sup.Last_Name, sup.Phone]
+      (@event.attendees || @event.to_democracy_in_action_event.attendees.collect {|a| User.new :email => a.Email, :first_name => a.First_Name, :last_name => a.Last_Name, :phone => a.Phone}).each do |sup|
+        csv << [sup.email, sup.first_name, sup.last_name, sup.phone]
       end
     end
     send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "event_#{@event.id}_attendees.csv")

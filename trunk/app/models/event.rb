@@ -8,7 +8,7 @@ class Event < ActiveRecord::Base
   end
   has_many :attachments, :through => :reports
   has_many :press_links, :through => :reports
-  has_many :rsvps
+  has_many :rsvps, :dependent => :destroy
   has_many :attendees, :through => :rsvps, :source => :user
   has_many :politican_invites
 

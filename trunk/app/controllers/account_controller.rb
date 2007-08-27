@@ -12,7 +12,7 @@ class AccountController < ApplicationController
       @user = User.find_by_activation_code(params[:id]) 
       if @user and @user.activate
         self.current_user = @user
-        redirect_back_or_default(hash_for_profile_url)
+        redirect_to(:action => 'reset_password')
         flash[:notice] = "Your account has been activated." 
       else
         flash[:error] = "Unable to activate the account.  Did you provide the correct information?" 
@@ -138,12 +138,14 @@ class AccountController < ApplicationController
 
   def reset_password
     @user = User.find_by_password_reset_code(params[:id]) if params[:id]
+    @user ||= current_user
     raise if @user.nil?
     return if @user unless params[:password]
       if (params[:password] == params[:password_confirmation])
         self.current_user = @user #for the next two lines to work
         current_user.password_confirmation = params[:password_confirmation]
         current_user.password = params[:password]
+        current_user.activated_at ||= Time.now.utc
         @user.reset_password
         flash[:notice] = current_user.save ? "Password reset" : "Password not reset" 
       else

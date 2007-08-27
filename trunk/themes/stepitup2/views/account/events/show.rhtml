@@ -39,12 +39,13 @@
 					<td>Email</td>
 					<td>Phone</td>
 				</tr>
-				<%= render :partial => 'attendee', :collection => @event.attendees %>
+        <% @attendees = @event.attendees || @event.to_democracy_in_action_event.attendees.collect {|a| User.new :email => a.Email, :first_name => a.First_Name, :last_name => a.Last_Name, :phone => a.Phone} %>
+				<%= render :partial => 'attendee', :collection => @attendees %>
 			</table>
       <br><p><%= link_to 'Download Attendees in a Spreadsheet', :action => 'attendees', :id => @event, :format => 'csv' %></p>
 		</div>
 
-		<div id='profile_event_attend_add'>
+		<div id='profile_event_attend_add' style="display:none;">
 			<p class='profile_subtitle'>Add Attendees</p>
 			<% form_tag 'http://democracyinaction.org/dia/processEditValues.jsp' do %>
         <input type="hidden" name="organization_KEY" <%#value="<%= API_OPTS['authCodes'][2] %>">
