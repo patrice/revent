@@ -119,22 +119,5 @@ module DemocracyInAction
       options
     end
     
-    def self.title_options_for_select 
-      [
-        ["Select One...","none"],
-        ["Mr.", "Mr."], 
-        ["Mrs.", "Mrs."], 
-        ["Ms.", "Ms."], 
-        ["Rabbi", "Rabbi"],
-        ["Fr.", "Fr."],
-        ["Rev.", "Rev."],
-        ["Hon.", "Hon."],
-        ["Br.", "Br."],
-        ["Sr.", "Sr."],
-        ["Rep.", "Rep."],
-        ["Sen.", "Sen."],
-        ["other", "other"],
-      ]
-    end
   end
 end
