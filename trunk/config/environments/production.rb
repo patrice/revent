@@ -1,5 +1,8 @@
 # Settings specified here will take precedence over those in config/environment.rb
 
+config.load_paths += %W( #{RAILS_ROOT}/vendor/rflickr-2006.02.01/lib #{RAILS_ROOT}/vendor/mime-types-1.15/lib #{RAILS_ROOT}/vendor/aws-s3-0.3.0/lib )
+::USING_S3 = true
+
 # The production environment is meant for finished, "live" apps.
 # Code is not reloaded between requests
 config.cache_classes = true

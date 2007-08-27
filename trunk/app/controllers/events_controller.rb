@@ -13,7 +13,6 @@ class EventsController < ApplicationController
 
   def ally
     index
-    redirect_to home_url
   end
 
   def tagged

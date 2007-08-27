@@ -43,8 +43,7 @@ class Attachment < ActiveRecord::Base
     end
   end
 
-  USING_S3 = false
-  if USING_S3
+  if ::USING_S3
     has_attachment :storage => :s3, :path_prefix => 'events/attachments', :content_type => :image, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 10.megabytes #generate print version after the fact
   else
     has_attachment :storage => :file_system, :content_type => :image, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 10.megabytes 

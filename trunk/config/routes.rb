@@ -51,11 +51,23 @@ ActionController::Routing::Routes.draw do |map|
   map.state_search ":permalink/events/search/state/:state", :controller => "events",
                                            :action => "search",
                                            :requirements => { :state => /\w{2}/ }
+  map.connect "events/search/zip/:zip",  :controller => "events",
+                                        :action => "search",
+                                        :requirements => { :zip => /\d{5}/ }
+  map.connect "events/search/state/:state", :controller => "events",
+                                           :action => "search",
+                                           :requirements => { :state => /\w{2}/ }
 
   map.report_state_search ":permalink/reports/search/state/:state", :controller => "reports",
                                            :action => "search",
                                            :requirements => { :state => /\w{2}/ }
   map.report_zip_search ":permalink/reports/search/zip/:zip",  :controller => "reports",
+                                        :action => "search",
+                                        :requirements => { :zip => /\d{5}/ }
+  map.connect "reports/search/state/:state", :controller => "reports",
+                                           :action => "search",
+                                           :requirements => { :state => /\w{2}/ }
+  map.connect "reports/search/zip/:zip",  :controller => "reports",
                                         :action => "search",
                                         :requirements => { :zip => /\d{5}/ }
 
