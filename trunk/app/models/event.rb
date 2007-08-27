@@ -52,7 +52,7 @@ class Event < ActiveRecord::Base
       e.Longitude   = longitude
       e.Directions  = directions
       e.supporter_KEY = (self.host ? self.host.democracy_in_action_key : '')
-      e.distributed_event_KEY = self.calendar.democracy_in_action_object.key
+      e.distributed_event_KEY = self.calendar.democracy_in_action_key
     end
   end
   
