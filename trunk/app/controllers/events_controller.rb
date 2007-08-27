@@ -130,6 +130,11 @@ class EventsController < ApplicationController
     end
   end
 
+  def hosted_by
+    @event = @calendar.events.find(params[:id], :include => :host)
+    @host = @event.host
+  end
+
   def index
     redirect_to :controller => :calendars, :action => :show
   end

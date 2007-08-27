@@ -11,13 +11,14 @@ class Event < ActiveRecord::Base
   has_many :rsvps, :dependent => :destroy
   has_many :attendees, :through => :rsvps, :source => :user
   has_many :politican_invites
+  acts_as_mappable :auto_geocode=>true, :lat_column_name => 'latitude', :lng_column_name => 'longitude'
 
   validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id
   validates_format_of :postal_code, :with => /^\d{5}(-\d{4})?$/
   #XXX: need to strip out DIA specific language
 
   has_many :blogs
-
+  
   has_one :democracy_in_action_object, :as => :synced
   def democracy_in_action_synced_table
     'event'
@@ -64,6 +65,8 @@ class Event < ActiveRecord::Base
     [location, city, state, postal_code].compact.join(', ').gsub /\n/, ' '
   end
 
+  alias address address_for_geocode
+  
   def zip_latitude
     return attributes["zip_latitude"] if attributes["zip_latitude"]
     @zip ||= ZipCode.find_by_zip(postal_code)

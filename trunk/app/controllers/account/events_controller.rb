@@ -8,6 +8,9 @@ class Account::EventsController < ApplicationController
   end
 
   def show
+    @event = Event.find(params[:id])
+    @nearby_events = @calendar.events.find(:all, :origin => @event, :within => 50)
+    @nearby_events.reject! { |e| e.id == @event.id }
     @blog = Blog.new(:event => @event)
   end
 

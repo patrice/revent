@@ -3,7 +3,7 @@ class InvitesController < ApplicationController
   before_filter :set_event
 
   def list
-    @politicians = Politician.find(:all, :conditions => ["district_id = ?", @event.district_id])
+    @politicians = Politician.find_by_district_id(@event.district_id)
     render :action => 'list'
   end
 

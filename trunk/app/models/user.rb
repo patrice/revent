@@ -135,6 +135,10 @@ class User < ActiveRecord::Base
     self.remember_token            = nil
     save(false)
   end
+  
+  def full_name
+    [first_name, last_name].compact.join(' ')
+  end
 
   protected
     # before filter 
