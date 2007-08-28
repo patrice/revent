@@ -23,6 +23,8 @@ config.action_mailer.raise_delivery_errors = false
 DIA_CONFIG = File.join(RAILS_ROOT,'config','democracyinaction-config.yml')
 API_OPTS = File.exists?(DIA_CONFIG) ? YAML.load_file(DIA_CONFIG) : {}
 
+USING_S3 = false
+
 begin
   require 'flickr'
   Flickr::API_KEY='ac682326488deff72b45939163d639ba'
