@@ -59,8 +59,8 @@ end
 
 # Include your application configuration below
 include Cartographer
-ExceptionNotifier.exception_recipients = %w(seth@radicaldesigns.org)
-ExceptionNotifier.email_prefix = "[ERROR - StepItUp] "
+ExceptionNotifier.exception_recipients = %w(seth@radicaldesigns.org patrice@radicaldesigns.org)
+ExceptionNotifier.email_prefix = "[ERROR - DaysOfAction] "
 
 module ActionView::Helpers::AssetTagHelper
   def theme_image_path(source, theme=nil)
@@ -75,3 +75,5 @@ module ActionView::Helpers::AssetTagHelper
 end
 
 require 'democracyinaction'
+
+GeoKit::Geocoders::google = 'ABQIAAAA9C-o-5_7dL0qOO28APyPUxRkXutPkvyJzQgIe_vZE5iNiMK4ZBRkjBRIiRuewJiZ3eU47BhDWO0luw'

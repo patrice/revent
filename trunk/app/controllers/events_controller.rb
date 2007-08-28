@@ -121,13 +121,24 @@ class EventsController < ApplicationController
       render :action => 'show', :id => @event.id
     end
   end
-
+  
   def reports
     if params[:id]
       @event = @calendar.events.find(params[:id], :include => :reports)
     else
       redirect_to :controller => :reports, :action => :index
     end
+  end
+
+  def nearby_events
+    postal_code = params[:postal_code]
+    unless postal_code.blank?
+      @nearby_events = @calendar.events.find(:all, :origin => postal_code, :conditions=>'distance<25')
+      unless @nearby_events.empty?
+        render(:partial => 'shared/nearby_events', :layout => false) && return
+      end
+    end
+    render :nothing => true
   end
 
   def hosted_by

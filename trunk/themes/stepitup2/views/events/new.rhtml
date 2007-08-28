@@ -154,8 +154,21 @@ from &quot;Manage Your Action&quot; within the &quot;Organizer Headquarters.&quo
                 <div align="left">Zip Code:</div>
               </td>
               <td>
-              <%= f.text_field "postal_code", :maxlength => "16", :size => "16", :id => "dataEventZip", :style => "background-color: #ebd897;", :title => "Please enter your action's zip code", :class => "required inputStyle" %>&nbsp;&nbsp;</td>
+              <%= f.text_field "postal_code", :id => 'postal_code', :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your action's zip code", :class => "required inputStyle" %>&nbsp;&nbsp;
+				  <%= image_tag 'spinner.gif', :id=>'spinner', :style=>"display:none;"%></td>
+				  <%= observe_field :postal_code,
+										 :on => 'blur',
+										 :update => 'nearbyEvents',
+										 :before => "Element.show('spinner')", 
+										 :complete => "Element.hide('spinner')", 
+										 :url => {:action => 'nearby_events', :only_path => false},
+										 :with => "'postal_code=' + encodeURIComponent(value)" %>
               <td class="dia_required"><strong>*</strong></td>
+				<tr>
+				  <td colspan="2">
+					 <div id='nearbyEvents'/>
+				  </td>
+				</tr>
             </tr>
             <tr>
               <td valign="top" align="right" class="dia_field_name" colspan="2">

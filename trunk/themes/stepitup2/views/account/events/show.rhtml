@@ -8,12 +8,7 @@
 	<b><%= @event.city %>, <%= @event.state %> </b><br>
 	<br>
 
-	<b>Nearby events:</b><br/>
-	<% for nearby_event in @nearby_events %>
-		<%= link_to nearby_event.name, :controller => '/events', :action => 'show', :id => nearby_event %>
-		<%= nearby_event.address %><br/>
-	<% end %>
-	<br/>
+	<%= render :partial => 'shared/nearby_events', :layout => false %>
 
 	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_edit.gif'><%= link_to_function 'Edit Your Event', visual_effect(:toggle_blind,'profile_event_edit') %></p>
   <div id='profile_event_edit'<% if @event.errors.empty? %> style="display:none;"<% end %>>
