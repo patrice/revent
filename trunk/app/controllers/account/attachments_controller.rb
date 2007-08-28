@@ -27,7 +27,7 @@ class Account::AttachmentsController < ApplicationController
     respond_to do |format|
       format.js {
         render :update do |page|
-          page.alert "deleted image"
+          page.alert "deleted attachment"
           page.remove "attachment-#{@attachment.id}"
         end
       }

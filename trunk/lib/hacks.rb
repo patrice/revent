@@ -1,9 +1,10 @@
-class SiteController < ApplicationController
-  session :disabled => false
+module Hacks
+#class SiteController < ApplicationController
+#  session :disabled => false
 #  before_filter :login_required, :except => :map
 #  access_control :DEFAULT => 'admin'
 
-  def cp_to_print(a)
+  def self.cp_to_print(a)
     print = a.thumbnails.find_by_thumbnail('print')
     unless print
       print = a.create_or_update_thumbnail(:print, '432>x288>')
@@ -21,46 +22,46 @@ class SiteController < ApplicationController
     FileUtils.cp(File.expand_path(print.full_filename),File.expand_path(File.join(RAILS_ROOT,'tmp','export','print_images',"#{host}#{extension}")))
   end
 
-	def congress_names
-		require 'fastercsv'
-		names = generate_congress_names
-		string = FasterCSV.generate do |csv|
-			csv << ["district", "name"]
-			names.each do |district, name|
-			  csv << [district, name]
-			end
-		end
-		send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "image_info.csv") 
-	end
-
-	def generate_congress_names
-		require 'open-uri'
-		districts = Event.find(:all).collect {|e| e.district}.uniq
-		states = Event.find(:all).collect {|e| e.state}.compact.uniq.select do |state|
-			DaysOfAction::Geo::STATE_CENTERS.keys.reject {|c| :DC == c}.map{|c| c.to_s}.include?(state)
-		end
-		results = {}
-		districts.each do |district|      
-			data = XmlSimple.xml_in(open("http://warehouse.democracyinaction.org/dia/api/warehouse/legislator.jsp?method=getLegislatorFromDistrict&district=#{district}&district_type=FH"))
-			if data['legislator'].nil?
-			  results[district] = "no legislator"
-			elsif data['legislator'][0]['display_name'].nil?
-			  results[district] = "no display name"
-			else
-				results[district] = data['legislator'][0]['display_name'][0]
-			end
-		end
-		states.each do |state|      
-			data = XmlSimple.xml_in(open("http://warehouse.democracyinaction.org/dia/api/warehouse/legislator.jsp?method=getLegislatorFromDistrict&district=#{state}1&district_type=FS"))
-			results["#{state}S1"] = data['legislator'][0]['display_name'][0]
-
-			data = XmlSimple.xml_in(open("http://warehouse.democracyinaction.org/dia/api/warehouse/legislator.jsp?method=getLegislatorFromDistrict&district=#{state}2&district_type=FS"))
-			results["#{state}S2"] = data['legislator'][0]['display_name'][0]
-		end    
-		return results
+  def self.congress_names
+    require 'fastercsv'
+    names = generate_congress_names
+    string = FasterCSV.generate do |csv|
+      csv << ["district", "name"]
+      names.each do |district, name|
+        csv << [district, name]
+      end
+    end
+    send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "image_info.csv") 
   end
 
-  def collect_featured_images
+  def self.generate_congress_names
+    require 'open-uri'
+    districts = Event.find(:all).collect {|e| e.district}.uniq
+    states = Event.find(:all).collect {|e| e.state}.compact.uniq.select do |state|
+      DaysOfAction::Geo::STATE_CENTERS.keys.reject {|c| :DC == c}.map{|c| c.to_s}.include?(state)
+    end
+    results = {}
+    districts.each do |district|      
+      data = XmlSimple.xml_in(open("http://warehouse.democracyinaction.org/dia/api/warehouse/legislator.jsp?method=getLegislatorFromDistrict&district=#{district}&district_type=FH"))
+      if data['legislator'].nil?
+        results[district] = "no legislator"
+      elsif data['legislator'][0]['display_name'].nil?
+        results[district] = "no display name"
+      else
+        results[district] = data['legislator'][0]['display_name'][0]
+      end
+    end
+    states.each do |state|      
+      data = XmlSimple.xml_in(open("http://warehouse.democracyinaction.org/dia/api/warehouse/legislator.jsp?method=getLegislatorFromDistrict&district=#{state}1&district_type=FS"))
+      results["#{state}S1"] = data['legislator'][0]['display_name'][0]
+
+      data = XmlSimple.xml_in(open("http://warehouse.democracyinaction.org/dia/api/warehouse/legislator.jsp?method=getLegislatorFromDistrict&district=#{state}2&district_type=FS"))
+      results["#{state}S2"] = data['legislator'][0]['display_name'][0]
+    end    
+    return results
+  end
+
+  def self.collect_featured_images
     events = Event.find(:all, :include => :reports)
     events.reject! {|e| e.reports.empty?}
     @featured_images = []
@@ -77,7 +78,7 @@ class SiteController < ApplicationController
     render :inline => "generated zip successfully, please download it <%= link_to 'here', '/featured_images.zip' %>"
   end
 
-  def featured_images 
+  def self.featured_images 
     collect_featured_images
     image_names = @featured_images.collect {|a| File.expand_path(a.full_filename)}.join(' ')
     result = `zip #{File.join(RAILS_ROOT,'public','featured_images.zip')} #{image_names}`
@@ -85,14 +86,14 @@ class SiteController < ApplicationController
 #    send_data result, :filename => 'featured_images.zip'
   end
 
-  def featured_images_print
+  def self.featured_images_print
     collect_featured_images
     image_names = @featured_images.collect {|a| a.full_filename(:print)}.join(' ')
     result = `zip #{File.join(RAILS_ROOT,'public','featured_images_print.zip')} #{image_names}`
     render :inline => "generated zip successfully, please download it <%= link_to 'here', '/featured_images_print.zip' %>"
   end
 
-  def image_info
+  def self.image_info
     require 'fastercsv'
     events = Event.find(:all, :include => :reports)
     events.reject! {|e| e.reports.empty?}
@@ -113,22 +114,22 @@ class SiteController < ApplicationController
     send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "image_info.csv")
   end
 
-  def attendance
+  def self.attendance
     require 'fastercsv'
-		events = Event.find(:all, :include => :reports)
+    events = Event.find(:all, :include => :reports)
     string = FasterCSV.generate do |csv|
       csv << ["event_id","name","city","state","min","max","average"]
-			events.each do |e|
+      events.each do |e|
         attendees = e.reports.collect {|r| r.attendees}.reject {|a| 0 == a }.compact
-				sum = attendees.inject {|sum, n| sum + n}
-				avg = sum ? sum / attendees.length : nil
-			  csv << [e.id, e.name, e.city, e.state, attendees.min, attendees.max, avg]
-			end
-	  end
+        sum = attendees.inject {|sum, n| sum + n}
+        avg = sum ? sum / attendees.length : nil
+        csv << [e.id, e.name, e.city, e.state, attendees.min, attendees.max, avg]
+      end
+    end
     send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "attendance.csv")
-	end
+  end
 
-  def host_info
+  def self.host_info
     require 'fastercsv'
     democracy_in_action_events = DemocracyInActionEvent.find(:all)
     democracy_in_action_hosts = DemocracyInActionSupporter.find(democracy_in_action_events.collect {|e| e.supporter_KEY}.reject {|key| key.blank?})
@@ -140,21 +141,21 @@ class SiteController < ApplicationController
       democracy_in_action_events.each do |event|
         host = democracy_in_action_hosts[event.supporter_KEY]
         next unless host
-				e = Event.find_by_service_foreign_key(event.key)
-				event_id = e ? e.id : nil
+        e = Event.find_by_service_foreign_key(event.key)
+        event_id = e ? e.id : nil
         csv << [host.key, event.key, event_id, host.First_Name, host.Last_Name, host.Title, [host.Street, host.Street_2].compact.join("\n"), host.City, host.State, host.Zip]
       end
     end
     send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "host_info.csv")
   end
 
-  def all_images
+  def self.all_images
     @attachments = Report.find_published(:all, :include => :attachments).collect {|r| r.attachments}.flatten
     render :inline => "<%= Digest::MD5.hexdigest(@attachments.collect {|a| a.full_filename}.sort.join(' ')) %>"
 #    send_data `zip -j - #{attachments.collect {|a| a.full_filename}.join(' ')}`, :filename => 'all_images.zip'
   end
 
-  def write_update_migration
+  def self.write_update_migration
     return false
     events = Event.find(:all, :conditions => "district IS NOT NULL AND person_legislator_ids IS NOT NULL")
     File.open(File.join(RAILS_ROOT,'db','migrate','districts_and_legislators.sql'), 'w') do |file|
@@ -165,7 +166,7 @@ class SiteController < ApplicationController
     render :text => 'success'
   end
 
-  def update_campaigns
+  def self.update_campaigns
     campaign = DemocracyInActionCampaign.find(7199)
 
     events = Event.find(:all, :conditions => "district IS NOT NULL AND person_legislator_ids IS NOT NULL AND campaign_key IS NULL")
@@ -190,11 +191,11 @@ class SiteController < ApplicationController
     render :text => html, :layout => false
   end
 
-  def update_districts
+  def self.update_districts
     events = Event.find(:all, :conditions => {:district => nil, :person_legislator_ids => nil})
 
     api = DIA_API_Simple.new "authCodes" => ["jwarnow@gmail.com", "80by50", 1879]
-    remote_events = api.get 'event', 'column' => 'supporter_KEY,Zip,State', 'key' => events.collect {|e| e.service_foreign_key}.compact
+    remote_events = api.get 'event', 'column' => 'supporter_KEY,Zip,State', 'key' => events.collect {|e| e.democracy_in_action_key}.compact
     hosts = api.get 'supporter', 'key' => remote_events.collect {|e| e['supporter_KEY']}, 'column' => 'District'
 
     html = ""
@@ -202,54 +203,55 @@ class SiteController < ApplicationController
     remote_events.each do |event|
       
       host = hosts.detect {|h| h['supporter_KEY'] == event['supporter_KEY']}
-      html << "no host for event #{event['event_KEY']}<br/><br/>" and next unless host
+      html << "no host for event #{event['event_KEY']}/n" and next unless host
 
       district = nil
       if host['District'] && host['District'] != 'N/A'
         district = host['District'].strip
       else
-        html << "no zip for event #{event['event_KEY']}<br/><br/>" and next unless event['Zip']
+        html << "no zip for event #{event['event_KEY']}/n" and next unless event['Zip']
         begin
-          xml = open("http://warehouse.democracyinaction.org/dia/api/warehouse/append.jsp?id=hi-chris-this-is-seth-from-radical-designs-stop-locking-me-out&postal_code=#{event['Zip']}")
+          xml = open("http://warehouse.democracyinaction.org/dia/api/warehouse/append.jsp?id=radicaldesigns&postal_code=#{event['Zip']}")
           if xml.is_a?(Tempfile)
             xml = xml.read
           end
           data = XmlSimple.xml_in(xml)
           next if data.empty?
         rescue 
-          html << "got an error trying to open warehouse with zip: #{event['Zip']}<br/><br/>"
+          html << "got an error trying to open warehouse with zip: #{event['Zip']}/n"
           next
         end
         district = data['entry'][0]['district'][0].strip if data['entry'][0]['district']
       end
-      html << "no district for event #{event['event_KEY']}!<br/><br/>" and next unless district
+      html << "no district for event #{event['event_KEY']}!/n" and next unless district
 
       congress = []
 
       data = XmlSimple.xml_in(open("http://warehouse.democracyinaction.org/dia/api/warehouse/legislator.jsp?method=getLegislatorFromDistrict&district=#{district}&district_type=FH"))
-      html << "error for event #{event['event_KEY']}: #{data['error'][0]}<br/><br/>" and next if data['error']
+      html << "error for event #{event['event_KEY']}: #{data['error'][0]}/n" and next if data['error']
       congress << data['legislator'][0]['person_legislator_ID'][0]
 
       data = XmlSimple.xml_in(open("http://warehouse.democracyinaction.org/dia/api/warehouse/legislator.jsp?method=getLegislatorFromDistrict&district=#{event['State']}1&district_type=FS"))
-      html << "error for event #{event['event_KEY']}: #{data['error'][0]}<br/><br/>" and next if data['error']
+      html << "error for event #{event['event_KEY']}: #{data['error'][0]}/n" and next if data['error']
       congress << data['legislator'][0]['person_legislator_ID'][0] unless data.blank?
 
       data = XmlSimple.xml_in(open("http://warehouse.democracyinaction.org/dia/api/warehouse/legislator.jsp?method=getLegislatorFromDistrict&district=#{event['State']}2&district_type=FS"))
-      html << "error for event #{event['event_KEY']}: #{data['error'][0]}<br/><br/>" and next if data['error']
+      html << "error for event #{event['event_KEY']}: #{data['error'][0]}/n" and next if data['error']
       congress << data['legislator'][0]['person_legislator_ID'][0] unless data.blank?
 
-      e = events.detect {|local_event| event['event_KEY'] == local_event.service_foreign_key}
+      e = events.detect {|local_event| event['event_KEY'] == local_event.democracy_in_action_key}
       e.district = district
       e.person_legislator_ids = congress.compact.join(',')
       e.perform_remote_update = false
       e.save_with_validation(false)
-      html << "updating event with DIA key #{event['event_KEY']} with:<br/>district: '#{district}'<br/>person_legislator_ids: '#{congress.compact.join(',')}'<br/><br/>"
+      html << "updating event with DIA key #{event['event_KEY']} with:<br/>district: '#{district}'<br/>person_legislator_ids: '#{congress.compact.join(',')}'/n"
     end
 
-    render :text => html
+    return html
+#      render :text => html
   end
 
-  def map
+  def self.generate_map
     require 'RMagick'
     image = Magick::Image.read(File.join(RAILS_ROOT,'lib','fresh.png')).first
     width = image.columns
@@ -278,7 +280,7 @@ class SiteController < ApplicationController
     send_data image.to_blob, :type => image.mime_type, :disposition => 'inline'
   end
 
-  def load_data
+  def self.load_data
     case params[:id]
     when 'test'
       require 'active_record/fixtures'
@@ -293,16 +295,12 @@ class SiteController < ApplicationController
     end
     redirect_to '/admin/events'
   end
-  protected
-    def expire_page_caches(event = nil)
-      expire_action :controller => 'events', :action => 'ally'
-      FileUtils.rm_rf(File.join(RAILS_ROOT,'public','events')) rescue Errno::ENOENT
-      FileUtils.rm(File.join(RAILS_ROOT,'public','index.html')) rescue Errno::ENOENT
-      RAILS_DEFAULT_LOGGER.info("Caches fully swept.")
-    end
-end
-class AttachmentsController < ApplicationController
-  def demo_stamped
+
+
+
+
+#class AttachmentsController < ApplicationController
+  def self.demo_stamped
     html=<<HTML
     <div style="padding: 10 10 10 10; background-color: 395875;">
     <h3>normal</h3>
@@ -315,7 +313,7 @@ HTML
     render :inline => html, :layout => true
   end
 
-  def stamped
+  def self.stamped
     require 'RMagick'
 
     @attachment = Attachment.find(params[:id])

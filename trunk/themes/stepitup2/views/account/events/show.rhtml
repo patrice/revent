@@ -17,6 +17,32 @@
 		<%= render :partial => "form", :locals => {:f => f} %>
 		<%= submit_tag %>
 		<% end %>
+
+  <p class="profile_subtitle">Edit Attachments</p>
+  <div id="profile_event_attachments">
+      <table class='profile_list_table'>
+				<tr class = "profile_header_row">
+					<td>Image</td>
+					<td>Caption</td>
+					<td></td>
+				</tr>
+				<%= render :partial => 'image', :collection => @event.images %>
+			</table>			
+
+      <table class='profile_list_table'>
+				<tr class = "profile_header_row">
+					<td>Document</td>
+					<td></td>
+				</tr>
+				<%= render :partial => 'document', :collection => @event.documents %>
+			</table>			
+
+    <p>Upload a new attachment (image or document only)</p>
+    <% form_for :attachment, nil, :url => {:action => 'upload', :id => @event.id}, :html => {:multipart => true} do |f| -%>
+    <%= f.file_field 'uploaded_data' %>
+    <%= submit_tag %>
+    <% end -%>
+  </div>
 	</div>	
 	
 	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_rsvp.gif'><%= link_to_function 'View and Contact Event Attendees', visual_effect(:toggle_blind,'profile_event_attend') %></p>
@@ -155,7 +181,7 @@
 					<td></td>
 					<td></td>
 				</tr>
-				<%= render :partial => 'photo', :collection => @event.attachments %>
+				<%= render :partial => 'photo', :collection => @event.reports.attachments %>
 			</table>			
 		</div>
 

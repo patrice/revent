@@ -44,6 +44,7 @@ class AccountController < ApplicationController
     @user = current_user
     return unless request.post?
     @user.update_attributes(params[:user])
+    @user.create_profile_image(params[:profile_image]) unless params[:profile_image][:uploaded_data].blank?
     @user.save
     flash.now[:notice] = "Your profile has been updated"
   end

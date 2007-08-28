@@ -7,8 +7,9 @@ class User < ActiveRecord::Base
   has_many :rsvps
   has_many :attending, :through => :rsvps, :source => :event
   has_many :politician_invites
+  belongs_to :profile_image, :class_name => 'Attachment', :foreign_key => 'profile_image_id'
+  
   has_and_belongs_to_many :roles
-
   def admin?
     roles.any? {|r| 'admin' == r.title}
   end

@@ -1,7 +1,7 @@
 <%= render "account/menu" %>
 
 <p class="profile_title">Update Your Information</p>
-<% form_for :user, @user do |f| -%>
+<% form_for :user, @user, nil, :html => {:multipart => true} do |f| -%>
 <p><label for="user_first_name">First Name</label><br/>
 <%= f.text_field 'first_name'  %></p>
 
@@ -22,6 +22,12 @@
 
 <p><label for="postal_code">Zip</label><br/>
 <%= f.text_field 'postal_code'  %></p>
+
+<p><label for="profile_image">Profile Image</label><br/>
+<%= file_field_tag 'profile_image[uploaded_data]' %></p>
+<% if @user.profile_image -%>
+<%= image_tag @user.profile_image.public_filename(:list) %>
+<% end -%>
 
 <p><label for="password">Password</label><br/>
 <%= f.password_field 'password'  %></p>

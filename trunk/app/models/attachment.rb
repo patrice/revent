@@ -43,10 +43,15 @@ class Attachment < ActiveRecord::Base
     end
   end
 
+  @@document_content_types = ['application/pdf', 'application/msword', 'text/plain']
+  @@image_content_types = [:image]
+
+  @@document_condition = send(:sanitize_sql, ['content_type IN (?)', @@document_content_types]).freeze
+  cattr_reader :document_content_types, :image_content_types, :document_condition
   if ::USING_S3
-    has_attachment :storage => :s3, :path_prefix => 'events/attachments', :content_type => :image, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 10.megabytes #generate print version after the fact
+    has_attachment :storage => :s3, :path_prefix => 'events/attachments', :content_type => [@@image_content_types, @@document_content_types].flatten, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 10.megabytes #generate print version after the fact
   else
-    has_attachment :storage => :file_system, :content_type => :image, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 10.megabytes 
+    has_attachment :storage => :file_system, :content_type => [@@image_content_types, @@document_content_types].flatten, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 10.megabytes 
   end
   validates_as_attachment
 
@@ -59,12 +64,12 @@ class Attachment < ActiveRecord::Base
   belongs_to :event
   after_validation_on_create :set_event_id
   def set_event_id
-    self.event_id = report.event_id if report
+    self.event_id ||= report.event_id if report
   end
 
   def primary!
     event = self.event || self.report.event
-    event.attachments.each do |attachment|
+    event.report.attachments.each do |attachment|
       next if attachment == self
       attachment.update_attribute(:primary, false) if attachment.primary?
     end

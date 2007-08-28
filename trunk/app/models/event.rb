@@ -5,8 +5,15 @@ class Event < ActiveRecord::Base
     def slideshow?
       !proxy_target.collect {|r| r.attachments}.flatten.empty?
     end
+    
+    def attachments
+      proxy_target.collect {|r| r.attachments}.flatten
+    end
   end
-  has_many :attachments, :through => :reports
+#  has_many :attachments, :through => :reports
+  has_many :attachments, :dependent => :destroy
+  has_many :documents, :class_name => 'Attachment', :conditions => Attachment.types_to_conditions([:document])
+  has_many :images, :class_name => 'Attachment', :conditions => Attachment.types_to_conditions([:image])
   has_many :press_links, :through => :reports
   has_many :rsvps, :dependent => :destroy
   has_many :attendees, :through => :rsvps, :source => :user

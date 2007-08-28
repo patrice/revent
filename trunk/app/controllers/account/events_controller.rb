@@ -14,6 +14,17 @@ class Account::EventsController < ApplicationController
     @blog = Blog.new(:event => @event)
   end
 
+  def upload
+    @event = Event.find(params[:id])
+    if @event.attachments.create! params[:attachment]
+      flash[:notice] = "Upload successful"
+      redirect_to :action => 'show'
+    else
+      flash[:error] = "Upload failed"
+      render :action => 'show'
+    end
+  end
+
   def update
     redirect_to :action => 'show' and return unless params[:event]
     @event.update_attributes(params[:event])

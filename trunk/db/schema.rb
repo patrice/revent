@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 40) do
+ActiveRecord::Schema.define(:version => 42) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -39,10 +39,10 @@ ActiveRecord::Schema.define(:version => 40) do
     t.column "name",              :string
     t.column "short_description", :text
     t.column "user_id",           :integer
-    t.column "permalink",         :string
-    t.column "site_id",           :integer
     t.column "current",           :boolean, :default => false
     t.column "theme",             :string
+    t.column "permalink",         :string
+    t.column "site_id",           :integer
     t.column "signup_redirect",   :string
   end
 
@@ -126,7 +126,7 @@ ActiveRecord::Schema.define(:version => 40) do
     t.column "user_id", :integer
   end
 
-  create_table "rsvps", :id => false, :force => true do |t|
+  create_table "rsvps", :force => true do |t|
     t.column "event_id", :integer
     t.column "user_id",  :integer
     t.column "comment",  :text
@@ -150,8 +150,8 @@ ActiveRecord::Schema.define(:version => 40) do
   add_index "sites", ["host"], :name => "index_sites_on_host"
 
   create_table "taggings", :force => true do |t|
-    t.column "tag_id",        :integer,                 :null => false
-    t.column "taggable_id",   :integer,                 :null => false
+    t.column "tag_id",        :integer, :default => 0,  :null => false
+    t.column "taggable_id",   :integer, :default => 0,  :null => false
     t.column "taggable_type", :string,  :default => "", :null => false
   end
 
@@ -183,6 +183,7 @@ ActiveRecord::Schema.define(:version => 40) do
     t.column "activation_code",           :string,   :limit => 40
     t.column "activated_at",              :datetime
     t.column "password_reset_code",       :string,   :limit => 40
+    t.column "profile_image_id",          :integer
   end
 
   create_table "zip_codes", :force => true do |t|

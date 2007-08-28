@@ -141,7 +141,7 @@ class EventsController < ApplicationController
     render :nothing => true
   end
 
-  def hosted_by
+  def host
     @event = @calendar.events.find(params[:id], :include => :host)
     @host = @event.host
   end
