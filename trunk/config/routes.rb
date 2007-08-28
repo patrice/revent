@@ -26,6 +26,7 @@ ActionController::Routing::Routes.draw do |map|
     m.signup ':permalink/signup'
     m.connect 'calendars/:calendar_id/signup'
     m.connect 'signup'
+    m.connect 'signup.:format', :defaults => {:format => ''}
   end
 
   map.connect '/attachments/:id/:filename.:format', :controller => 'attachments', :action => 'show', :requirements => { :id => /\d+/ }

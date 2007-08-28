@@ -1,8 +1,5 @@
 # Settings specified here will take precedence over those in config/environment.rb
 
-config.load_paths += %W( #{RAILS_ROOT}/vendor/rflickr-2006.02.01/lib #{RAILS_ROOT}/vendor/mime-types-1.15/lib #{RAILS_ROOT}/vendor/aws-s3-0.3.0/lib )
-::USING_S3 = true
-
 # The production environment is meant for finished, "live" apps.
 # Code is not reloaded between requests
 config.cache_classes = true
@@ -20,6 +17,8 @@ config.active_record.observers = :event_sweeper
 
 # Disable delivery errors if you bad email addresses should just be ignored
 # config.action_mailer.raise_delivery_errors = false
+
+USING_S3 = true
 
 DIA_CONFIG = File.join(RAILS_ROOT,'config','democracyinaction-config.yml')
 API_OPTS = YAML.load_file(DIA_CONFIG) if File.exists?(DIA_CONFIG)
