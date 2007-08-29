@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 42) do
+ActiveRecord::Schema.define(:version => 43) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -164,26 +164,27 @@ ActiveRecord::Schema.define(:version => 42) do
   add_index "tags", ["name"], :name => "index_tags_on_name", :unique => true
 
   create_table "users", :force => true do |t|
-    t.column "login",                     :string
-    t.column "email",                     :string
-    t.column "crypted_password",          :string,   :limit => 40
-    t.column "salt",                      :string,   :limit => 40
-    t.column "created_at",                :datetime
-    t.column "updated_at",                :datetime
-    t.column "remember_token",            :string
-    t.column "remember_token_expires_at", :datetime
-    t.column "first_name",                :string
-    t.column "last_name",                 :string
-    t.column "phone",                     :string
-    t.column "street",                    :string
-    t.column "street_2",                  :string
-    t.column "city",                      :string
-    t.column "state",                     :string
-    t.column "postal_code",               :string
-    t.column "activation_code",           :string,   :limit => 40
-    t.column "activated_at",              :datetime
-    t.column "password_reset_code",       :string,   :limit => 40
-    t.column "profile_image_id",          :integer
+    t.column "login",                      :string
+    t.column "email",                      :string
+    t.column "crypted_password",           :string,   :limit => 40
+    t.column "salt",                       :string,   :limit => 40
+    t.column "created_at",                 :datetime
+    t.column "updated_at",                 :datetime
+    t.column "remember_token",             :string
+    t.column "remember_token_expires_at",  :datetime
+    t.column "first_name",                 :string
+    t.column "last_name",                  :string
+    t.column "phone",                      :string
+    t.column "street",                     :string
+    t.column "street_2",                   :string
+    t.column "city",                       :string
+    t.column "state",                      :string
+    t.column "postal_code",                :string
+    t.column "activation_code",            :string,   :limit => 40
+    t.column "activated_at",               :datetime
+    t.column "password_reset_code",        :string,   :limit => 40
+    t.column "profile_image_id",           :integer
+    t.column "show_phone_on_host_profile", :boolean
   end
 
   create_table "zip_codes", :force => true do |t|

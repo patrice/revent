@@ -68,6 +68,7 @@ class EventsController < ApplicationController
     @event = @calendar.events.build(params[:event])
 
     if @user.valid? && @event.valid?
+      @user.create_profile_image(params[:profile_image]) unless params[:profile_image][:uploaded_data].blank?
       @user.save!
       @event.host = @user
       @event.save!

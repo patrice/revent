@@ -1,9 +1,15 @@
 <%= @event.name %> is hosted by:
 <h2><%= @host.full_name %></h2>
 <%= @host.city %>, <%= @host.state %>
+<% if @host.show_phone_on_host_profile -%>
+<br/>
+Contact: <%= @host.phone %>
+<br/>
+<% end -%>
 <br/><br/>
 <% if @host.profile_image -%>
-<%= image_tag(@host.profile_image.public_filename) %>
+<%= image_tag(@host.profile_image.public_filename(:display)) %>
+<br/>
 <% end -%>
 
 <%= link_to 'Back to Event Details', :action => :show, :id => @event %>

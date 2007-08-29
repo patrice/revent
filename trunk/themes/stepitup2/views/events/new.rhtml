@@ -5,7 +5,7 @@
   <p> To get started, just fill out the information below, and check out the Organizer Headquarters to find more resources.
 </p>
 
-<% form_for :event, @event, :url => url_for(:permalink => @calendar.permalink, :controller => 'events', :action => 'create'), :html => {:id => 'event-signup-form'} do |f| -%>
+<% form_for :event, @event, :url => url_for(:permalink => @calendar.permalink, :controller => 'events', :action => 'create'), :html => {:id => 'event-signup-form', :multipart => true} do |f| -%>
   
     <div id="profile" class="profileInformation">
       <%= error_messages_for 'user' %>
@@ -35,6 +35,9 @@
               <td valign="top" align="right" id="dia_field_name_data_Phone" class="dia_field_name">Phone</td>
               <td valign="top"><%= user.text_field "phone", :id => "dataPhone", :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your phone number", :class => "required inputStyle" %></td>
               <td class="dia_required"><strong>*</strong></td>
+            </tr>
+            <tr>
+              <td colspan="2" valign="top" align="right" class="dia_field_name">Show phone number on your host profile?&nbsp;&nbsp;<%= user.check_box "show_phone_on_host_profile", :style => "background-color: #ebd897;", :class => "inputStyle" %></td>
             </tr>
             <tr>
               <td valign="top" align="right" id="dia_field_name_data_Street" class="dia_field_name">Street</td>
@@ -70,7 +73,10 @@
               <td class="dia_required">
                 <br /></td>
             </tr>
-            <tr />
+            <tr>
+              <td valign="top" align="right">A picture for your host profile</td>
+              <td><%= file_field_tag "profile_image[uploaded_data]", :class => "inputStyle", :style => "background-color: #ebd897;" %></td>
+            </tr>
           </tbody>
           </table>
       </div>
