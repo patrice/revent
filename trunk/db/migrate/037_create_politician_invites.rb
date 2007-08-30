@@ -6,22 +6,13 @@ class CreatePoliticianInvites < ActiveRecord::Migration
       t.column :first_name, :string
       t.column :last_name, :string
       t.column :district_id, :integer
-      #t.column :image, :byte
     end
     create_table :politician_invites do |t|
       t.column :user_id, :integer
       t.column :politician_id, :integer
       t.column :event_id, :integer
-      t.column :invite_type, :string # call/email/letter
+      t.column :invite_type, :string
     end
-=begin
-# perhaps do this in future but not right now
-    create_table :invite_scripts do |t|
-      t.column :event_id, :integer
-      t.column :invite_type, :integer # call/email/letter
-      t.column :script, :string
-    end
-=end
 end
 
   def self.down
