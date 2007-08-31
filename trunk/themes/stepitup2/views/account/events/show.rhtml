@@ -40,7 +40,7 @@
     <p>Upload a new attachment (image or document only)</p>
     <% form_for :attachment, nil, :url => {:action => 'upload', :id => @event.id}, :html => {:multipart => true} do |f| -%>
     <%= f.file_field 'uploaded_data' %>
-    <%= submit_tag %>
+    <%= submit_tag 'upload' %>
     <% end -%>
   </div>
 	</div>	

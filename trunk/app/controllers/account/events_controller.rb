@@ -16,10 +16,13 @@ class Account::EventsController < ApplicationController
 
   def upload
     @event = Event.find(params[:id])
-    if @event.attachments.create! params[:attachment]
+    if !params[:attachment][:uploaded_data].blank? && @event.attachments.create!(params[:attachment])
       flash[:notice] = "Upload successful"
       redirect_to :action => 'show'
     else
+      #XXX: to much of this, should move someplace else
+      @nearby_events = @calendar.events.find(:all, :origin => @event, :within => 50)
+      @nearby_events.reject! { |e| e.id == @event.id }
       flash[:error] = "Upload failed"
       render :action => 'show'
     end
