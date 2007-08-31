@@ -35,6 +35,8 @@ class Account::EventsController < ApplicationController
     flash[:notice] = 'Event updated'
     redirect_to :action => 'show', :id => @event
   rescue ActiveRecord::RecordInvalid
+    @nearby_events = @calendar.events.find(:all, :origin => @event, :within => 50)
+    @nearby_events.reject! { |e| e.id == @event.id }
     render :action => 'show'
   end
 
