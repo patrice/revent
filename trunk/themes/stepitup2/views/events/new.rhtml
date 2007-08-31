@@ -161,7 +161,7 @@ from &quot;Manage Your Action&quot; within the &quot;Organizer Headquarters.&quo
               </td>
               <td>
               <%= f.text_field "postal_code", :id => 'postal_code', :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your action's zip code", :class => "required inputStyle" %>&nbsp;&nbsp;
-				  <%= image_tag 'spinner.gif', :id=>'spinner', :style=>"display:none;"%></td>
+              <span id="spinner" style="font-style: italic; font-size: 90%; display: none;"><%= image_tag 'spinner.gif' %> looking for nearby events</span></td>
 				  <%= observe_field :postal_code,
 										 :on => 'blur',
 										 :update => 'nearbyEvents',
