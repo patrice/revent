@@ -30,6 +30,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.connect '/attachments/:id/:filename.:format', :controller => 'attachments', :action => 'show', :requirements => { :id => /\d+/ }
+  map.connect '/attachments/:id1/:id2/:filename.:format', :controller => 'attachments', :action => 'show', :requirements => { :id1 => /\d+/, :id2 => /\d+/ }
 
   map.with_options :controller => 'account' do |m|
     m.login   '/login',   :action => 'login'
