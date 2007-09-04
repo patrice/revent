@@ -1,4 +1,5 @@
 class SiteController < ApplicationController
+  skip_before_filter :set_site, :set_calendar, :only => :splash
   def index
     if Calendar.any?
       redirect_to :action => 'list'
