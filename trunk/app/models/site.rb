@@ -1,5 +1,8 @@
 class Site < ActiveRecord::Base
   cattr_accessor :current
+  def self.current_config_path
+    current ? File.join(RAILS_ROOT, 'sites', current.id.to_s, 'config') : File.join(RAILS_ROOT, 'config')
+  end
 
   has_many :events
   has_many :calendars do

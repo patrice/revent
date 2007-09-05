@@ -48,7 +48,7 @@ class Attachment < ActiveRecord::Base
 
   @@document_condition = send(:sanitize_sql, ['content_type IN (?)', @@document_content_types]).freeze
   cattr_reader :document_content_types, :image_content_types, :document_condition
-  if File.exists?(s3_config_file = File.join(RAILS_ROOT, 'sites', Site.current.id.to_s, 'config', 'amazon_s3.yml'))
+  if File.exists?(s3_config_file = File.join(Site.current_config_path, 'amazon_s3.yml'))
     has_attachment :storage => :s3, :s3_config_path => s3_config_file, :path_prefix => 'events/attachments', :content_type => [@@image_content_types, @@document_content_types].flatten, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 10.megabytes #generate print version after the fact
   else
     has_attachment :storage => :file_system, :content_type => [@@image_content_types, @@document_content_types].flatten, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 10.megabytes 
