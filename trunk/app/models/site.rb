@@ -4,6 +4,7 @@ class Site < ActiveRecord::Base
     current ? File.join(RAILS_ROOT, 'sites', current.id.to_s, 'config') : File.join(RAILS_ROOT, 'config')
   end
 
+  has_many :users
   has_many :events
   has_many :calendars do
     def current

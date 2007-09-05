@@ -135,7 +135,7 @@ class EventsController < ApplicationController
     postal_code = params[:postal_code]
     unless postal_code.blank?
       begin
-        @nearby_events = @calendar.events.find(:all, :origin => postal_code, :conditions=>'distance<25')
+        @nearby_events = @calendar.events.find(:all, :origin => postal_code, :within => 25)
       rescue GeoKit::Geocoders::GeocodeError
         render(:text => "could not find that postal code", :layout => false) and return
       end

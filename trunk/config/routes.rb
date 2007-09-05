@@ -22,6 +22,10 @@ ActionController::Routing::Routes.draw do |map|
 #    cal.resources :events
 #  end
 
+  map.connect 'admin/users/:action/:id.:format', :controller => 'admin/users'
+  map.connect 'admin/users/:action.:format', :controller => 'admin/users'
+  map.connect 'admin/users/:action/:id', :controller => 'admin/users'
+
   map.with_options :controller => 'events', :action => 'new' do |m|
     m.signup ':permalink/signup'
     m.connect 'calendars/:calendar_id/signup'

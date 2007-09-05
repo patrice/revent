@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 43) do
+ActiveRecord::Schema.define(:version => 45) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -39,10 +39,10 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "name",              :string
     t.column "short_description", :text
     t.column "user_id",           :integer
-    t.column "current",           :boolean, :default => false
-    t.column "theme",             :string
     t.column "permalink",         :string
     t.column "site_id",           :integer
+    t.column "current",           :boolean, :default => false
+    t.column "theme",             :string
     t.column "signup_redirect",   :string
   end
 
@@ -74,7 +74,6 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "person_legislator_ids", :string
     t.column "district",              :string
     t.column "campaign_key",          :integer
-    t.column "district_id",           :integer
   end
 
   add_index "events", ["latitude", "longitude"], :name => "index_events_on_latitude_and_longitude"
@@ -89,10 +88,22 @@ ActiveRecord::Schema.define(:version => 43) do
   end
 
   create_table "politicians", :force => true do |t|
-    t.column "title",       :string
-    t.column "first_name",  :string
-    t.column "last_name",   :string
-    t.column "district_id", :integer
+    t.column "title",                :string
+    t.column "first_name",           :string
+    t.column "last_name",            :string
+    t.column "district",             :string
+    t.column "person_legislator_id", :integer
+    t.column "display_name",         :string
+    t.column "phone",                :string
+    t.column "email",                :string
+    t.column "address",              :string
+    t.column "state",                :string
+    t.column "postal_code",          :string
+    t.column "district_type",        :string
+    t.column "image_url",            :string
+    t.column "website",              :string
+    t.column "party",                :string
+    t.column "xml",                  :text
   end
 
   create_table "press_links", :force => true do |t|
@@ -150,8 +161,8 @@ ActiveRecord::Schema.define(:version => 43) do
   add_index "sites", ["host"], :name => "index_sites_on_host"
 
   create_table "taggings", :force => true do |t|
-    t.column "tag_id",        :integer, :default => 0,  :null => false
-    t.column "taggable_id",   :integer, :default => 0,  :null => false
+    t.column "tag_id",        :integer,                 :null => false
+    t.column "taggable_id",   :integer,                 :null => false
     t.column "taggable_type", :string,  :default => "", :null => false
   end
 
@@ -185,6 +196,7 @@ ActiveRecord::Schema.define(:version => 43) do
     t.column "password_reset_code",        :string,   :limit => 40
     t.column "profile_image_id",           :integer
     t.column "show_phone_on_host_profile", :boolean
+    t.column "site_id",                    :integer
   end
 
   create_table "zip_codes", :force => true do |t|

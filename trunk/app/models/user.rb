@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :attending, :through => :rsvps, :source => :event
   has_many :politician_invites
   belongs_to :profile_image, :class_name => 'Attachment', :foreign_key => 'profile_image_id'
+  belongs_to :site
   
   has_and_belongs_to_many :roles
   def admin?
@@ -59,7 +60,7 @@ class User < ActiveRecord::Base
   validates_length_of       :password, :within => 4..40, :if => :password_required?
   validates_confirmation_of :password,                   :if => :password_required?
   validates_length_of       :email,    :within => 3..100
-  validates_uniqueness_of   :email, :case_sensitive => false
+  validates_uniqueness_of   :email, :scope => :site_id, :case_sensitive => false
   before_save :encrypt_password
   before_create :make_activation_code
   after_save :deliver_email
