@@ -1,0 +1,45 @@
+<h1>New event</h1>
+
+<% form_for :event, @event, :url => {:action => 'create', :permalink => @calendar.permalink} do |f| -%>
+
+  <%= error_messages_for 'user' %>
+  <h3>Your Information</h3>
+  <% fields_for :user, @user do |user| %>
+    <%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", 3764 %>
+    <%= hidden_field_tag "user[democracy_in_action][supporter][link][groups]", 56557 %>
+    <%= hidden_field_tag "user[democracy_in_action][supporter][link][groups]", 56558 %>
+
+    <p><label for="user_first_name">First Name</label><br/>
+    <%= user.text_field 'first_name' %></p>
+
+    <p><label for="user_last_name">Last Name</label><br/>
+    <%= user.text_field 'last_name' %></p>
+
+    <p><label for="user_email">Email</label><br/>
+    <%= user.text_field 'email' %></p>
+
+    <p><label for="user_phone">Phone</label><br/>
+    <%= user.text_field 'phone' %></p>
+
+    <p><label for="user_street">Street</label><br/>
+    <%= user.text_field 'street' %></p>
+
+    <p><label for="user_city">City</label><br/>
+    <%= user.text_field 'city' %></p>
+
+    <p><label for="user_state">State</label><br/>
+    <%= user.us_state_select 'state' %></p>
+
+    <p><label for="user_postal_code">Zip</label><br/>
+    <%= user.text_field 'postal_code' %></p>
+  <% end %>
+
+  <%= render :partial => 'form', :locals => {:f => f} %>
+
+  <%= hidden_field_tag "event[democracy_in_action][event][Maximum_Attendees]", 10000 %>
+  <%= hidden_field_tag "event[democracy_in_action][event][Status]", "Unconfirmed" %>
+
+  <%= submit_tag "Create" %>
+<% end %>
+
+<%= link_to 'Back', :action => 'list' %>
