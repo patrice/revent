@@ -15,7 +15,7 @@ class InvitesController < ApplicationController
 
   def create
     PoliticianInvite.new do |i|
-      i.user_id = @current_user.id if logged_in?
+      i.user_id = current_user.id if logged_in?
       i.politician_id = params[:politician_id]
       i.event_id = params[:id]
       i.invite_type = params[:invite_type]

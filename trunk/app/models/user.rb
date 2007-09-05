@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
     # OR @democracyinaction.select {|k,v| k =~ /supporter_/}.each
     supporter = @democracy_in_action[:supporter] || {}
     require 'democracyinaction'
-    api = DemocracyInAction::API.new API_OPTS
+    api = DemocracyInAction::API.new(DemocracyInAction::Config.new(File.join(RAILS_ROOT, 'sites', Site.current.id.to_s, 'config', 'democracyinaction-config.yml')))
     supporter_key = api.process 'supporter', @d_attrs.merge(supporter)
     self.create_democracy_in_action_object :key => supporter_key, :table => 'supporter'
 

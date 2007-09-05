@@ -16,7 +16,7 @@ end
 class DemocracyInActionResource < ActiveResource::Base
   self.logger = ActiveRecord::Base.logger
   require 'democracyinaction'
-  @@api = DemocracyInAction::API.new(API_OPTS)
+  @@api = DemocracyInAction::API.new(DemocracyInAction::Config.new(File.join(RAILS_ROOT, 'sites', Site.current.id.to_s, 'config', 'democracyinaction-config.yml')))
 
   # create a data set from a hash, verifying the contents...
   protected 

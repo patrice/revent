@@ -21,7 +21,5 @@ config.active_record.observers = :event_sweeper
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
 
-API_OPTS = {"authCodes"=>["test", "test", 962]}
-
 CACHE = MemCache.new ['127.0.0.1:11211'], :namespace => 'daysofaction_test'
 require 'memcache_util'
