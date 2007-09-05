@@ -7,17 +7,26 @@ class ApplicationController < ActionController::Base
   session :session_key => '_daysofaction_session_id'
 #  session :off, :if => Proc.new { |req| !(true == req.parameters[:admin]) }
 
+  before_filter  :clean
   before_filter  :set_site, :set_calendar
   helper_method  :site
-  attr_reader    :site
+
+  def clean
+    Site.current = nil
+    true
+  end
+
+  def site
+    Site.current
+  end
 
   def set_site
-    @site ||= Site.find_by_host(request.host, :include => :calendars)
-    raise 'no site' unless @site
+    Site.current ||= Site.find_by_host(request.host, :include => :calendars)
+    raise 'no site' unless site
   end
 
   def set_calendar
-    @calendar = @site.calendars.detect {|calendar| params[:permalink] == calendar.permalink } || @site.calendars.current || @site.calendars.first    
+    @calendar = site.calendars.detect {|calendar| params[:permalink] == calendar.permalink } || site.calendars.current || site.calendars.first    
     if not @calendar
       redirect_to :controller => :site, :action => :splash
       return false

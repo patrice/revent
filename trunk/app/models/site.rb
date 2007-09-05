@@ -1,4 +1,6 @@
 class Site < ActiveRecord::Base
+  cattr_accessor :current
+
   has_many :events
   has_many :calendars do
     def current

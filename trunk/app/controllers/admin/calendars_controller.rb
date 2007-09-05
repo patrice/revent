@@ -1,4 +1,4 @@
-class Admin::CalendarsController < Admin::BaseController
+class Admin::CalendarsController < AdminController
   skip_before_filter :set_calendar
   def index
     return show if @calendar

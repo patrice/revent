@@ -156,7 +156,8 @@ task :after_update_code, :roles => :app, :except => {:no_symlink => true} do
     ln -nfs #{shared_path}/config/amazon_s3.yml #{release_path}/config/amazon_s3.yml &&
     ln -nfs #{shared_path}/vendor/aws-s3-0.3.0 #{release_path}/vendor/aws-s3-0.3.0 &&
     ln -nfs #{shared_path}/vendor/mime-types-1.15 #{release_path}/vendor/mime-types-1.15 &&
-    ln -nfs #{shared_path}/vendor/rflickr-2006.02.01 #{release_path}/vendor/rflickr-2006.02.01
+    ln -nfs #{shared_path}/vendor/rflickr-2006.02.01 #{release_path}/vendor/rflickr-2006.02.01 &&
+    ln -nfs #{shared_path}/sites #{release_path}/sites
   CMD
 end
 
