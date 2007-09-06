@@ -18,12 +18,16 @@ class Event < ActiveRecord::Base
   has_many :rsvps, :dependent => :destroy
   has_many :attendees, :through => :rsvps, :source => :user
   has_many :politican_invites
-  acts_as_mappable :auto_geocode=>true, :lat_column_name => 'latitude', :lng_column_name => 'longitude'
 
+  acts_as_mappable :lat_column_name => 'latitude', :lng_column_name => 'longitude'
+  before_validation_on_create :geocode_address
+  
   validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id
   validates_format_of :postal_code, :with => /^\d{5}(-\d{4})?$/
   #XXX: need to strip out DIA specific language
 
+#  before_save :set_district
+  
   has_many :blogs
   
   has_one :democracy_in_action_object, :as => :synced
@@ -73,6 +77,25 @@ class Event < ActiveRecord::Base
   end
 
   alias address address_for_geocode
+  
+  def set_district
+    # get congressional district based on postal code or address
+    dia_warehouse = "http://warehouse.democracyinaction.org/dia/api/warehouse/append.jsp?id=radicaldesigns".freeze
+    uri = dia_warehouse + "&postal_code=" + postal_code.to_s
+    data = XmlSimple.xml_in(open(uri))
+    
+    # check if postal code returned multiple congressional districts
+    if data['entry'][0]['multidistrict'] && data['entry'][0]['multidistrict'][0]
+      # try getting postal_code_extension to narrow down search
+      uri = dia_warehouse + "&postal_code=" + postal_code.to_s + "&address1=" + location.to_s
+      uri.gsub(' ', '%20')
+      data = XmlSimple.xml_in(open(uri))
+      postal_code_extension = data['entry'][0]['postal_code_extension'][0]
+      uri = dia_warehouse + "&postal_code=" + postal_code.to_s + "&postal_code_extension=" + postal_code_extension.to_s
+      data = XmlSimple.xml_in(open(uri))         
+    end
+    district = data['entry'][0]['district'].each{|d| d.strip}.join(" ")
+  end
   
   def zip_latitude
     return attributes["zip_latitude"] if attributes["zip_latitude"]
@@ -144,4 +167,11 @@ class Event < ActiveRecord::Base
     end
   end
 =end
+
+private
+  # no longer throwing error if address is not geocodable
+  def geocode_address      
+    geo=GeoKit::Geocoders::MultiGeocoder.geocode (address_for_geocode)
+    self.latitude, self.longitude = geo.lat,geo.lng if geo.success
+  end
 end
