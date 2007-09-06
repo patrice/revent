@@ -98,13 +98,14 @@ ActionController::Routing::Routes.draw do |map|
   # instead of a file named 'wsdl'
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 
+  # Routes for inviting policitians to an event
+  map.invite ':permalink/events/:id/politicians/:action/:politician_id', :controller => 'invites', :defaults => { :action => 'index', :politician_id => nil }
+
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action.:format'
   map.connect ':controller/:action/:id'
 
-  # Routes for inviting policitians to an event
-  map.invite ':permalink/events/:id/politicians/:action/:politician_id', :controller => 'invites', :defaults => { :action => 'list', :politician_id => nil }
   map.connect ':permalink', :controller => 'calendars', :action => 'show'
   map.connect ':permalink/:controller/:action/:id.:format'
   map.connect ':permalink/:controller/:action.:format'

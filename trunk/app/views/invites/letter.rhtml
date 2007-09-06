@@ -1,9 +1,58 @@
-<h1>Invite <%= @politician.full_name %> to <%= @event.name %></h1>
+<h1>Invite <%= @politician.display_name %> to <%= @event.name %></h1>
+<% form_for :user, @user, url_for(:action => :create, :invite_type => 'write') do |f| %>
+	First Name:<br/>
+	<%= f.text_field :first_name %><br/>
+	Last Name:<br/>
+	<%= f.text_field :last_name %><br/>
+	Email:<br/>
+	<%= f.text_field :email %><br/><br/>
+	<%= submit_tag "I sent a letter" %>
+<% end %>
+<br />
 SAMPLE LETTER:<br/>
 <br/>
-Dear <%= @politician.full_name %>,<br/><br/>
-Please attend our event.<br/><br/>
+Dear <%= @politician.display_name %>,
+<br/><br/>
+We’re writing to invite you to come take part in an event we’ve scheduled for 
+Saturday, November 3—an event that will let you demonstrate the kind of leadership 
+we need on the issue of global warming.
+<br/><br/>
+Our event, which will be held at <%= @event.start.strftime '%H:%M %p' %> at <%= @event.location %> location, 
+will honor X, and try to remind local residents that it will take a similar 
+kind of leadership to deal with this new crisis. You don’t need to give a long 
+speech—in fact, since we’re inviting all our federal office holders and 
+all the candidates for office, everyone will need to be relatively brief. 
+But we’re very interested in your reaction to the steps that we think are 
+essential:<br/><br/>
+# a commitment to 80% reductions in co2 emissions by 2050<br/>
+# a moratorium on new coal-fired power plants<br/>
+# a Green Jobs Corps designed to help Americans make their homes more
+  energy conserving, and also to put Americans to work.
+<br/><br/>
+This November 3 event is part of a nationwide series of rallies 
+organized by Stepitup2007.org. Last spring, they put together 1,400 
+simultaneous events in all fifty states. This fall many Congresspeople, 
+Senators, and candidates have already agreed to speak with their 
+constituents, and we hope very much that you will join that list.
+<br/><br/>
+Please let us know whether or not this will be possible. (We’ve 
+scheduled the action during the anticipated Congressional recess 
+to make your participation easier). The contact person in our group 
+for making the arrangements is <%= @event.host.full_name %>, who can be 
+reached 
+<% if @event.host.show_phone_on_host_profile %>
+by phone at <%= @event.host.phone %>, or 
+<% else %>
+by email at <%= @event.host.email %>.
+<% end %>
+<br/><br/>
+We will look forward to seeing you on Nov. 3 for what should be a 
+festive celebration of the memory of X, and a re-dedication of our 
+efforts towards the great and pressing crisis of our time.
+<br/><br/>
 Sincerely,<br/>
-Axel Rose<br/><br/>
-<%= button_to "I sent a letter", :action => 'create', :id => @event, :politician_id => @politician, :invite_type => 'wrote' %>
-<br />
+<% if @user.nil? %>
+	Your name here
+<% else %>
+	<%= @user.full_name %><br/><br/>
+<% end %>

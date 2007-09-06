@@ -20,7 +20,7 @@ class Event < ActiveRecord::Base
   has_many :politican_invites
 
   acts_as_mappable :lat_column_name => 'latitude', :lng_column_name => 'longitude'
-  before_validation_on_create :geocode_address
+  before_validation_on_save :geocode_address
   
   validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id
   validates_format_of :postal_code, :with => /^\d{5}(-\d{4})?$/
