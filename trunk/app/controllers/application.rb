@@ -44,4 +44,20 @@ class ApplicationController < ActionController::Base
     return @calendar.theme if @calendar && @calendar.theme
     site.theme if site
   end
+
+  def render_404
+    if File.exists?(file = File.join(Theme.path_to_theme(current_theme), '404.html'))
+      render :file => file, :status => "404 Not Found"
+    else
+      render :file => "#{RAILS_ROOT}/public/404.html", :status => "404 Not Found"
+    end
+  end
+
+  def render_500
+    if File.exists?(file = File.join(Theme.path_to_theme(current_theme), '500.html'))
+      render :file => file, :status => "500 Error"
+    else
+      render :file => "#{RAILS_ROOT}/public/500.html", :status => "500 Error"
+    end
+  end
 end
