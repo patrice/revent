@@ -1,19 +1,16 @@
 class Admin::CalendarsController < AdminController
   skip_before_filter :set_calendar
   def index
-    return show if @calendar
-    list
-    render :action => 'list'
+    if Site.current.calendars.count > 1
+      return show if @calendar
+      @calendars = Site.current.calendars
+    else
+      redirect_to :controller => 'admin/events', :permalink => Site.current.calendars.current.permalink
+    end
   end
   
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => :post, :only => [ :create ],
-         :redirect_to => { :action => :list }
-
-  # /admin/calendars/list
-  def list
-    @calendars = @site.calendars
-  end
+  verify :method => :post, :only => [ :create ]
 
   # /admin/calendars/show?id=
   def show

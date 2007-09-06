@@ -1,3 +1,5 @@
+<h1>Listing users</h1>
+
 <br/>
 <% form_tag :action => 'search' do %>
   Search by email: <%= text_field_tag :email %>
@@ -15,3 +17,5 @@
 <hr>
 <%= pagination_links(@user_pages) %>
 </hr>
+
+<br/><br/><%= link_to 'Back to admin', '/admin' %>

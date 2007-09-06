@@ -1,5 +1,6 @@
 class Admin::UsersController < AdminController
   def index
+    @site_name = Site.current.theme
     @user_pages, @users = paginate(:users, :conditions => ['site_id = ?', Site.current.id], :order => 'last_name', :per_page => 10)
   end
   

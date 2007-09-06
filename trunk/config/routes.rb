@@ -22,9 +22,20 @@ ActionController::Routing::Routes.draw do |map|
 #    cal.resources :events
 #  end
 
+# work-around for issue with namespace collisions occurring due to app/controller/admin_controller.rb 
+# should be cleaned-up to work automatically with admin namespace and perhaps resources 
   map.connect 'admin/users/:action/:id.:format', :controller => 'admin/users'
   map.connect 'admin/users/:action.:format', :controller => 'admin/users'
   map.connect 'admin/users/:action/:id', :controller => 'admin/users'
+
+  map.connect 'admin/:permalink/events/:action/:id.:format', :controller => 'admin/events'
+  map.connect 'admin/:permalink/events/:action.:format', :controller => 'admin/events'
+  map.connect 'admin/:permalink/events/:action/:id', :controller => 'admin/events'
+ 
+  map.connect 'admin/calendars/:action/:id.:format', :controller => 'admin/calendars'
+  map.connect 'admin/calendars/:action.:format', :controller => 'admin/calendars'
+  map.connect 'admin/calendars/:action/:id', :controller => 'admin/calendars'
+# end of work-around
 
   map.with_options :controller => 'events', :action => 'new' do |m|
     m.signup ':permalink/signup'
@@ -94,7 +105,6 @@ ActionController::Routing::Routes.draw do |map|
 
   # Routes for inviting policitians to an event
   map.invite ':permalink/events/:id/politicians/:action/:politician_id', :controller => 'invites', :defaults => { :action => 'list', :politician_id => nil }
-  
   map.connect ':permalink', :controller => 'calendars', :action => 'show'
   map.connect ':permalink/:controller/:action/:id.:format'
   map.connect ':permalink/:controller/:action.:format'
