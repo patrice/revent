@@ -55,7 +55,7 @@ class EventsController < ApplicationController
   end
 
   def new
-    @event = Event.new :start => Time.mktime(2007, 11, 3, 12), :end => Time.mktime(2007, 11, 3, 14)
+    @event = Event.new
   end
 
   def create
