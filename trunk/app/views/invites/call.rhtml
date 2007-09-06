@@ -5,6 +5,9 @@
 	<p>Email: 		<%= f.text_field :email %></p>
 	<p><%= submit_tag "I called!" %></p>
 <% end %>
+<h3>Contact information for <%= @politician.display_name %></h3>
+Phone number: <%= @politician.phone %>
+
 <br />
 SAMPLE CALL SCRIPT:<br/>
 <br/>
