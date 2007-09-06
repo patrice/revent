@@ -1,12 +1,9 @@
 <h1>Invite <%= @politician.display_name %> to <%= @event.name %></h1>
-<% form_for :user, @user, url_for(:action => :create, :invite_type => 'call') do |f| %>
-	First Name:<br/>
-	<%= f.text_field :first_name %><br/>
-	Last Name:<br/>
-	<%= f.text_field :last_name %><br/>
-	Email:<br/>
-	<%= f.text_field :email %><br/><br/>
-	<%= submit_tag "I called!" %>
+<% form_for :user, :url => {:action => :create, :politician_id => @politician, :invite_type => 'called'} do |f| %>
+	<p>First Name: <%= f.text_field :first_name %></p>
+	<p>Last Name: 	<%= f.text_field :last_name %></p>
+	<p>Email: 		<%= f.text_field :email %></p>
+	<p><%= submit_tag "I called!" %></p>
 <% end %>
 <br />
 SAMPLE CALL SCRIPT:<br/>
