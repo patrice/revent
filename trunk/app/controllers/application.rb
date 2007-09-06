@@ -10,6 +10,12 @@ class ApplicationController < ActionController::Base
   before_filter  :clean
   before_filter  :set_site, :set_calendar
   helper_method  :site
+  before_filter  :set_cartographer_keys
+
+  def set_cartographer_keys
+    Cartographer::Header.send :cattr_accessor, :keys
+    Cartographer::Header.keys = YAML.load_file(File.join(Site.current_config_path, 'cartographer-config.yml'))
+  end
 
   def clean
     Site.current = nil
