@@ -6,13 +6,13 @@
 <link rel="stylesheet" type="text/css" href="http://nowarnowarming.org/styles_default.css" id="default">
 <link href="http://nowarnowarming.org/styles.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="http://nowarnowarming.org/custom/styles.css">
-<title>No War No Warming&nbsp;:&nbsp;DC Intervention</title>
+<title>No War No Warming</title>
 <script language="Javascript"  type="text/javascript" src="http://nowarnowarming.org/scripts/functions.js"></script>
 
 <%= javascript_include_tag 'prototype' %>
 <%= yield :header %>
 <%= Cartographer::Gmap::Header.header_for(request) if @map %>
-
+<script src="http://s3.amazonaws.com/stepitup2007.org/validation.js" type="text/javascript"></script>
 </head>
 <body topmargin="0">
 <div align="center">
@@ -27,7 +27,7 @@
           <tr>
             <td><a href="http://nowarnowarming.org/index.php"><img src="http://nowarnowarming.org/img/nowar_index_banner_04.gif" width="354" height="81" border="0"></a></td>
             <td><img src="http://nowarnowarming.org/img/nowar_index_banner_05.gif" width="296" height="81"></td>
-            <td><img src="http://nowarnowarming.org/img/nowar_index_banner_06.gif" width="148" height="81"></td>
+            <td><a href="http://nowarnowarming.org/donate"><img src="http://nowarnowarming.org/img/nowar_index_banner_06.gif" width="148" height="81" border=0></td>
           </tr>
         </table></td>
 	</tr>
@@ -62,77 +62,11 @@
 						<table width="180">
 							<tr>
 								<td>
-								<div class="nav_block" id="_nav"> <table width="100%" border="0" cellspacing="0" cellpadding="10">
-  <tr><td style=" background: url(http://nowarnowarming.org/img/nowar_navs_email.gif) top left no-repeat;" width="170" height="101"><table width="100%" border="0" cellspacing="0" cellpadding="10">
-  <tr>
-    <td align="right"><form action="/modinput4.php" method="post" name="Email" id="Email"  style="margin-top: 3px; margin-bottom: 0px;"><input name="modin" type="hidden" value="3" />
-EMAIL&nbsp;<input name="Email" type="text" size="10" value=""  onClick = "this.value='';" /><br>
-ZIP&nbsp;<input name="Zip" type="text" size="10" value=""  onClick = "this.value='';" />
-<div align="right"><input btnudmsubmit="btnudmsubmit" name="btnUdmSubmit" type="image" src="http://nowarnowarming.org/img/nowar_body_submit.gif"  align="right" style="padding: 3px; margin: 1px; border:0px;"/><br><br></div>
+								<div class="nav_block" id="_nav">
+								<!-- widget js -->
+				<script language="javascript" type="text/javascript" src="http://www.nowarnowarming.org/nav_widget.php?position=left&type=6&format=js"></script>
 
-
-
-</form></td>
-  </tr>
-</table>
-</td>
-  </tr>
-</table><div class="nav_block_item">
-									<div class="nav_top"></div>
-								    <div class="nav_text">
-										<div class="nav_sectionrow">DC Intervention</div><div class="nav_textrow"><a href="http://nowarnowarming.org/article.php?id=50" class="sidelist">Let Us Know You Are Coming to DC</a></div><div class="nav_textrow"><a href="http://nowarnowarming.org/article.php?id=51" class="sidelist">DC Mobilization Calendar</a></div><div class="nav_textrow"><a href="http://nowarnowarming.org/article.php?id=52" class="sidelist">Ride Board</a></div><div class="nav_textrow"><a href="http://nowarnowarming.org/article.php?id=53" class="sidelist">Housing Board</a></div></div>
-								 	<div class="nav_btm"></div>					
-								</div><div style="margin-bottom:8px; ">
-		<a href="http://nowarnowarming.org/section.php?id=6">					<img src="http://nowarnowarming.org/img/nowar_navs_plan.gif" border=0></a>
-								</div ><div style="margin-bottom:8px; ">
-	<a href="http://nowarnowarming.org/section.php?id=13">	<img src="http://nowarnowarming.org/img/nowar_navs_come.gif" border=0></a>
-								</div ><div class="nav_block_item">
-									<div class="nav_top"></div>
-								    <div class="nav_text">
-										<div class="nav_sectionrow">ENDORSING ORGANIZATIONS</div><div class="nav_textrow"><ul class="endorse">
-<li><a href="http://www.climatecrisiscoalition.org/" taget="_blank">Climate Crisis Coalition</a></li>
-<li><a href="http://codepinkalert.org" taget="_blank">CODEPINK</a></li>
-<li><a href="http://www.canadians.org/" target="_blank">Council of Canadians</a></li>
-<li><a href="http://www.democracyrising.us/" taget="_blank">Democracy Rising</a></li>
-<li><a href="http://www.farmsnotarms.org" taget="_blank">Farms Not Arms</a></li>
-<li><a href="http://www.foe.org/" target="_blank">Friends of the Earth</a></li>
-<li><a href="http://globalexchange.org" taget="_blank">Global Exchange</a></li>
-<li><a href="http://www.globalwarmingsolution.org/" target="_blank">GlobalWarmingSolution.org</a></li>
-<li><a href="http://www.greenhousenet.org/" taget="_blank">Green House Network</a></li>
-<li><a href="http://www.hiphopcaucus.org" taget="_blank">Hip Hop Caucus</a></li>
-<li><a href="http://www.ippn.org" taget="_blank">Independent Progressive Politics Network</a></li>
-<li><a href="http://www.thestrategycenter.org/" target="_blank">Labor/Community Strategy Center</a></li>
-<li><a href="http://www.libertytreefdr.org" taget="_blank">Liberty Tree Foundation for the Democratic Revolution</a></li>
-<li><a href="http://www.madre.org" taget="_blank">Madre</a></li>
-<li><a href="http://priceofoil.org" taget="_blank">Oil Change International</a></li>
-<li><a href="http://www.organicconsumers.org" taget="_blank">Organic Consumers Association</a></li>
-
-<li><a href="http://www.nirs.org" taget="_blank">Nuclear Information and Resource Service</a></li>
-
-<li><a href="http://www.paxchristiusa.org" taget="_blank">Pax Christi USA</a></li>
-<li><a href="http://www.peace-action.org" taget="_blank">Peace Action</a></li>
-<li><a href="http://www.pdamerica.org" taget="_blank">Progressive Democrats of America</a></li>
-<li><a href="http://www.projectsouth.org" taget="_blank">Project South</a></li>
-<li><a href="http://www.ran.org" taget="_blank">Rainforest Action Network</a></li>
-<li><a href="http://risingtidenorthamerica.org" taget="_blank">Rising Tide North America</a></li>
-<li><a href="http://www.syc-cjs.org" taget="_blank">Sierra Youth Coalition</a></li>
-<li><a href="http://www.cleanenergy.org/" taget="_blank">Southern Alliance for Clean Energy</a></li>
-<li><a href="http://www.climateaction.net/ " taget="_blank">Southern Energy Network</a></li>
-	<li><a href="http://seac.org" taget="_blank">Student Environmental Action Coalition</a></li>
-<li><a href="http://www.votersforpeace.us" taget="_blank">Voters for Peace</a></li>
-<li><a href="http://www.weact.org/" target="_blank">West Harlem Environmental Action</a></li>
-<li><a href="http://www.wilpf.org" taget="_blank">Women’s International League for Peace and Freedom</a></li>
-</ul>
-<br><br>
-<b><a href="http://nowarnowarming.org/form.php?id=1">BECOME AN ENDORSER</a></b></div></div>
-								 	<div class="nav_btm"></div>					
-                  </div>
-            </div>
-    
-								</td>
-							</tr>
-												
-						</table>
+			<!-- end widget js --> 
 				  </div></td>
 				  <td valign="top"><br>
 				  
