@@ -38,6 +38,8 @@ class Event < ActiveRecord::Base
   attr_writer :democracy_in_action
   after_save :sync_to_democracy_in_action
   def sync_to_democracy_in_action
+    return unless File.exists?(File.join(Site.current_config_path, 'democracyinaction-config.yml'))
+
     @democracy_in_action ||= {}
     extra = @democracy_in_action[:event] || {}
     event = self.to_democracy_in_action_event
@@ -46,6 +48,14 @@ class Event < ActiveRecord::Base
     end
     key = event.save
     self.create_democracy_in_action_object :key => key, :table => 'event' unless self.democracy_in_action_object
+  end
+
+  before_destroy :delete_from_democracy_in_action
+  def delete_from_democracy_in_action
+    o = democracy_in_action_object
+    api = DemocracyInAction::API.new(DemocracyInAction::Config.new(File.join(Site.current_config_path, 'democracyinaction-config.yml')))
+    api.delete 'event', 'key' => self.democracy_in_action_key
+    o.destroy
   end
 
   def to_democracy_in_action_event
@@ -171,7 +181,7 @@ class Event < ActiveRecord::Base
 private
   # no longer throwing error if address is not geocodable
   def geocode_address      
-    geo=GeoKit::Geocoders::MultiGeocoder.geocode (address_for_geocode)
+    geo=GeoKit::Geocoders::MultiGeocoder.geocode(address_for_geocode)
     self.latitude, self.longitude = geo.lat,geo.lng if geo.success
   end
 end
