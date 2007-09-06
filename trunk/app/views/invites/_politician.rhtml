@@ -1,7 +1,7 @@
 <% if not politician.nil? %>
 <table>
 	<tr>
-		<td><%= link_to image_tag(politician.image_url, :size => "60x70"), invite_url(:action => 'show', :politician_id => politician) %><td>
+		<td><%= image_tag(politician.image_url, :size => "60x70") %><td>
 		<td><%= link_to 'Send a Letter', url_for(:action => 'write', :politician_id => politician.id), :popup => true %><br/>
 			 <%= link_to 'Call', url_for(:action => 'call', :politician_id => politician.id), :popup => true %><br/>
 			 <%= link_to 'Email', url_for(:action => 'email', :politician_id => politician.id), :popup => true %><br/>
