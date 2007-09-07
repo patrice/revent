@@ -6,6 +6,10 @@
 	<p><%= submit_tag "I sent a letter!" %></p>
 <% end %>
 <br/>
+
+Send your letter for <%= @politician.display_name %> to the following address:<br/>
+<%= @politician.address %>
+<hr/>
 SAMPLE LETTER:<br/>
 <br/>
 Dear <%= @politician.display_name %>,<br/>

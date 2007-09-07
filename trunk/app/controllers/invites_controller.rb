@@ -1,16 +1,6 @@
-=begin
-- take first district if multiple districts
-- create DIA campaign for all possible scenarios 
-- every event will have 3 campaigns; create as events are created
-- js postback/poll
-
-letter/call => popup {script, form: name, email, button "I mailed this letter"}
-email => DIA campaign
-=end
-
 class InvitesController < ApplicationController
   before_filter :set_event
-
+  
   def index
     @politicians = []
     # get representative for this event's district
@@ -18,10 +8,6 @@ class InvitesController < ApplicationController
     # get both senators for this event's state 
     @politicians << Politician.find_by_district(@event.state + "1")
     @politicians << Politician.find_by_district(@event.state + "2")
-  end
-
-  def show
-    @politician = Politician.find(params[:politician_id])
   end
 
   def write
@@ -32,9 +18,6 @@ class InvitesController < ApplicationController
   def call
     @politician = Politician.find(params[:politician_id])
     @user = current_user
-=begin
-  if no ph, list website, put form to enter phone
-=end    
   end
 
   def email
@@ -43,14 +26,19 @@ class InvitesController < ApplicationController
   end
 
   def create
-    user = User.find_by_email(params[:user][:email])
-    user = User.create(params[:user]) if user.nil?
-    invite = {}
-    invite[:user_id] = user.id
-    invite[:politician_id] = params[:politician_id]
-    invite[:event_id] = @event.id
-    invite[:invite_type] = params[:invite_type]    
-    PoliticianInvite.create(invite)
+    @user = User.find_or_initialize_by_email(params[:user][:email]) # or current_user
+    @user.attributes = params[:user]
+    unless @user.crypted_password || (@user.password && @user.password_confirmation)
+      password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+      @user.password = @user.password_confirmation = password
+    end
+    @user.save
+    @invite = {}
+    @invite[:user_id] = @user.id
+    @invite[:politician_id] = params[:politician_id]
+    @invite[:event_id] = @event.id
+    @invite[:invite_type] = params[:invite_type]    
+    PoliticianInvite.create(@invite)
     redirect_to url_for(:action => 'thank_you', :politician_id => params[:politician_id])
   end
     

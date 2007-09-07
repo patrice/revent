@@ -17,7 +17,7 @@ class Event < ActiveRecord::Base
   has_many :press_links, :through => :reports
   has_many :rsvps, :dependent => :destroy
   has_many :attendees, :through => :rsvps, :source => :user
-  has_many :politican_invites
+  has_many :politician_invites
 
   acts_as_mappable :lat_column_name => 'latitude', :lng_column_name => 'longitude'
   before_validation_on_create :geocode_address
