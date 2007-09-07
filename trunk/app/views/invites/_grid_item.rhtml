@@ -1,5 +1,14 @@
 <tr>
-	<td><%= image_tag(grid_item.image_url, :size => "75x90") %><td>
-	<td><%= grid_item.display_name %></td>	
-	<td><%= grid_item.politician_invites.length %></td>
+	<td><%= image_tag(grid_item.image_url, :alt => "No Image", :size => "75x90") %></td>
+	<td><%= grid_item.display_name %> from <%= grid_item.state %><br/>
+		<% if (grid_item.district_type == "FH") %>
+			Representing district <%= grid_item.district %><br/>
+		<% end %>
+	</td>	
+	<td halign="center"><% if grid_item.politician_invites.length > 0 %>
+			&#10004;
+		<% else %>
+		   &#10008;
+		<% end %>
+	</td>
 </tr>

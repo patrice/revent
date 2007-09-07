@@ -10,7 +10,14 @@ class InvitesController < ApplicationController
   end
 
   def list
-    @politician_pages, @politicians  = paginate(:politician, :include => :politician_invites, :per_page => 20, :order => 'state')
+    non_states = ["none", "ot", "GU", "PR", "VI", "NT", "AB", "BC", "MB", "NF", "NB", "NT", "NU", "ON", "PE", "QC", "SK", "YT", "AS"].freeze
+    @states = DemocracyInAction::Helpers.state_options_for_select.collect {|s| s[1]} - non_states
+    @display_state =  params[:state].nil? ? @states.first : params[:state]
+    @politicians = Politician.find_all_by_state(@display_state)
+  end
+  
+  def list_state
+    
   end
   
   def search

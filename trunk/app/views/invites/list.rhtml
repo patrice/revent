@@ -1,16 +1,15 @@
-<h2>Number of Invitations for Each Leader</h2>
+<h2>Leader Invitations</h2>
 
-<% form_tag :url => {:action => 'search'} do %>
-	Search by state:<%= text_field_tag :state %>
-	<%= submit_tag 'Search' %>
+<% @states.each do |state| %>
+	<% if state == @display_state %>
+		<%= state + ' ' %>
+	<% else %>
+		<%= link_to state + ' ', :action => 'list', :state => state %>
+	<% end %>
 <% end %>
-<br/>
-<table>
-  <tr><td>Politician</td><td>Congress Person</td><td>Total Invites</td><tr/>
+
+<br/><br/>
+<table border="1">
+  <tr><td>Politician</td><td>Congress Person</td><td>Invited?</td><tr/>
   <%= render :partial => 'grid_item', :collection => @politicians %>
 </table>
-
-<hr>
-<%= pagination_links(@politician_pages) %>
-</hr>
-
