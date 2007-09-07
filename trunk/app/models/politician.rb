@@ -1,6 +1,6 @@
 # gem install activeresource --source http://gems.rubyonrails.org
 class Politician < ActiveRecord::Base
-  has_many :politican_invites
+  has_many :politician_invites
   
   attr_reader :name # virtual attribute
 

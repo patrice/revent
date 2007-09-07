@@ -1,57 +1,53 @@
 <h1>Invite <%= @politician.display_name %> to <%= @event.name %></h1>
-<% form_for :user, :url => {:action => :create, :politician_id => @politician, :invite_type => 'called'} do |f| %>
-	<p>First Name: <%= f.text_field :first_name %></p>
-	<p>Last Name: 	<%= f.text_field :last_name %></p>
-	<p>Email: 		<%= f.text_field :email %></p>
-	<p><%= submit_tag "I called!" %></p>
+<% form_for :user, :url => {:action => :create, :politician_id => @politician, :invite_type => 'write'} do |f| %>
+	First Name:<br/>  <%= f.text_field :first_name %><br/>
+	Last Name:<br/> 	<%= f.text_field :last_name %><br/>
+	Email:<br/> 		<%= f.text_field :email %><br/><br/>
+	<%= submit_tag "I called!" %><br/>
 <% end %>
-<h3>Contact information for <%= @politician.display_name %></h3>
 <br/>
-Phone number: <%= @politician.phone %>
+Invite <%= @politician.display_name %> by calling <%= @politician.phone %>.
+<hr/>
+<h3>CALL SCRIPT:</h3>
+<p>This is <%= @user.full_name %> calling <%= @politician.display_name %> on 
+behalf of Step It Up.  We would like to invite <%= @politician.display_name %> 
+to take the time on Saturday, November 3 to attend an event in 
+<%= @event.city + ", " + @event.state %> and tell us how they plan to lead 
+in the fight against global warming.</p>
 
-<br />
-SAMPLE CALL SCRIPT:<br/>
-<br/>
-Dear <%= @politician.display_name %>,
-<br/><br/>
-We’re writing to invite you to come take part in an event we’ve scheduled for 
-Saturday, November 3—an event that will let you demonstrate the kind of leadership 
-we need on the issue of global warming.
-<br/><br/>
-Our event, which will be held at <%= @event.start.strftime '%H:%M %p' %> at <%= @event.location %> location, 
-will honor X, and try to remind local residents that it will take a similar 
-kind of leadership to deal with this new crisis. You don’t need to give a long 
-speech—in fact, since we’re inviting all our federal office holders and 
-all the candidates for office, everyone will need to be relatively brief. 
-But we’re very interested in your reaction to the steps that we think are 
-essential:<br/><br/>
-# a commitment to 80% reductions in co2 emissions by 2050<br/>
-# a moratorium on new coal-fired power plants<br/>
-# a Green Jobs Corps designed to help Americans make their homes more
-  energy conserving, and also to put Americans to work.
-<br/><br/>
-This November 3 event is part of a nationwide series of rallies 
-organized by Stepitup2007.org. Last spring, they put together 1,400 
-simultaneous events in all fifty states. This fall many Congresspeople, 
-Senators, and candidates have already agreed to speak with their 
-constituents, and we hope very much that you will join that list.
-<br/><br/>
-Please let us know whether or not this will be possible. (We’ve 
-scheduled the action during the anticipated Congressional recess 
-to make your participation easier). The contact person in our group 
-for making the arrangements is <%= @event.host.full_name %>, who can be 
-reached 
-<% if @event.host.show_phone_on_host_profile %>
-by phone at <%= @event.host.phone %>, or 
-<% else %>
-by email at <%= @event.host.email %>.
-<% end %>
-<br/><br/>
-We will look forward to seeing you on Nov. 3 for what should be a 
-festive celebration of the memory of X, and a re-dedication of our 
-efforts towards the great and pressing crisis of our time.
-<br/><br/>
-Sincerely,<br/>
+<p>This event will be one of hundreds scheduled all across
+America on the same day, many of them in places that honor great leaders
+of the American past—from the top of Mt. Washington to the birthplace of
+Rachel Carson to the site of the Lincoln Douglas debates. We think we
+need not just political rhetoric on this question, but real leadership,
+of the kind that America has always produced when the chips are down.</p>
+
+<p>We're part of an emerging coalition of climate activists
+across the country that have come together to support three positions:
+80% cuts in carbon emissions by 2050, a moratorium on new coal-fired
+power plants, and a Green Jobs Corps to start transforming American
+homes and businesses. We'd love to hear your reaction to those ideas—do
+they go too far? Not far enough? But more importantly we want to hear
+<emphasis>your plans for leadership.</emphasis>
+
+<p>We know this event falls during the planned Congressional
+recess and that your schedule is very busy. You don't need to prepare a
+lengthy oration—don't worry about convincing us that global warming is a
+problem. (We already know.) Please just take a few minutes to tell us
+how you plan to lead. We'll be taking video of the speakers so we can
+share it via the web across the state and the country—hopefully by day's
+end on Nov. 3 we'll know how most of America's politicians think about
+this issue, and which ones are ready to be more than politicians. It
+should be an exciting day.</p>
+
+<p>Please respond to <%= @event.host.full_name %> to set up details for 
+your participation. We look forward to seeing you on November 3.</p>
+
+<p>You can see how other public officials are responding to this call
+by checking out the scoreboard at <%= link_to 'stepitup07.org', "http://stepitup07.org/"%>
+</p>
+
+Thank you so much for your time,<br/>
 <% if @user.nil? %>
 	Your name here
 <% else %>

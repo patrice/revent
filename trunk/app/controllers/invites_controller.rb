@@ -1,7 +1,6 @@
-class InvitesController < ApplicationController
-  before_filter :set_event
-  
+class InvitesController < ApplicationController  
   def index
+    @event = @calendar.events.find(params[:id])
     @politicians = []
     # get representative for this event's district
     @politicians << Politician.find_by_district(@event.district)
@@ -10,22 +9,34 @@ class InvitesController < ApplicationController
     @politicians << Politician.find_by_district(@event.state + "2")
   end
 
+  def list
+    @politician_pages, @politicians  = paginate(:politician, :include => :politician_invites, :per_page => 20, :order => 'state')
+  end
+  
+  def search
+    @politicians = Politican.find_by_state(params[:state])
+  end
+
   def write
+    @event = @calendar.events.find(params[:id])
     @politician = Politician.find(params[:politician_id])
     @user = current_user
   end
   
   def call
+    @event = @calendar.events.find(params[:id])
     @politician = Politician.find(params[:politician_id])
     @user = current_user
   end
 
   def email
+    @event = @calendar.events.find(params[:id])
     @politician = Politician.find(params[:politician_id])
     @user = current_user
   end
 
   def create
+    @event = @calendar.events.find(params[:id])
     @user = User.find_or_initialize_by_email(params[:user][:email]) # or current_user
     @user.attributes = params[:user]
     unless @user.crypted_password || (@user.password && @user.password_confirmation)
@@ -43,11 +54,8 @@ class InvitesController < ApplicationController
   end
     
   def thank_you
+    @event = @calendar.events.find(params[:id])
     @politician = Politician.find(params[:politician_id])
   end
   
-protected
-  def set_event
-    @event = @calendar.events.find(params[:id])
-  end
 end
