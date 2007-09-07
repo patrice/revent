@@ -5,10 +5,11 @@ class Admin::UsersController < AdminController
   end
   
   def search
-    @user = User.find_by_email(params[:email])
-    if @user.nil?
-      flash.now[:notice] = "Could not find a user with that email address"
-      index && render(:action => 'index') and return
+    @users = []
+    @users = User.find(:all, :conditions => ['email like ?', params[:email] + "%"])
+    if @users.empty?
+      flash[:notice] = "Could not find a user with that email address."
+      redirect_to :action => 'index'
     end
   end
   
@@ -17,12 +18,12 @@ class Admin::UsersController < AdminController
     if request.post?      
       @user.password = params[:user][:password] if params[:user][:password]
       @user.password_confirmation = params[:user][:password_confirmation] if params[:user][:password_confirmation]
-      if (@user.save)
-        flash.now[:notice] = "Password reset for " + @user.full_name
-        index and render(:action => 'index') and return
+      if @user.save
+        flash[:notice] = "Password reset for " + @user.full_name
       else
-        flash.now[:notice] = "Password not reset for " + @user.full_name
+        flash[:notice] = "Could not reset password for " + @user.full_name
       end      
+      redirect_to :action => 'index'
     end
   end
 end

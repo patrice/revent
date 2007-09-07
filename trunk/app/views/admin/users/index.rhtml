@@ -2,16 +2,15 @@
 
 <br/>
 <% form_tag :action => 'search' do %>
-  Search by email: <%= text_field_tag :email %>
+  Search for user by email address:<br/> 
+	<%= text_field_tag :email %>
   <%= submit_tag 'Search' %>
 <% end %>
 <br/>
 
 <table>
 	<tr><th>Name</th><th>Email</th></tr>
-	<% for user in @users %>
-		<%= render :partial => 'user', :object => user %>
-	<% end %>
+	<%= render :partial => 'user', :collection => @users %>
 </table>
 
 <hr>

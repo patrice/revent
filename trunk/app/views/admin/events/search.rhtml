@@ -1,2 +1,6 @@
-<br/><%= render :partial => 'event', :object => @event %>
-<br/><br/><%= link_to 'Back to events', url_for(:action => 'index') %>
+<br/>
+<table>
+<%= render :partial => 'event', :collection => @events %>
+</table>
+<br/>
+<%= link_to 'Back to events', url_for(:action => 'index') %>

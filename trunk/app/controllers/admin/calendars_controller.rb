@@ -64,11 +64,4 @@ class Admin::CalendarsController < AdminController
     @events = @calendar.events
   end
 
-  protected
-
-    def find_calendar
-      @calendar = @site.calendars.find_by_permalink(params[:permalink]) if params[:permalink]
-      @calendar ||= @site.calendars.find(params[:id]) if params[:id]
-      @calendar ||= @site.calendars.current
-    end
 end

@@ -8,11 +8,16 @@ class Admin::EventsController < AdminController
     e = Event.find(params[:id])
     e.destroy
     # also need to destroy event in DIA
-    flash.now[:notice] = e.name + " has been destroyed"
-    redirect_to url_for(:action => 'index')
+    flash[:notice] = e.name + " has been destroyed"
+    redirect_to :action => 'index'
   end
   
   def search
-    @event = Event.find_by_name(params[:name])
+    @events = []
+    @events = Event.find(:all, :conditions => ['name like ?', params[:name] + "%"])
+    if @events.empty?
+      flash[:notice] = "Could not find that event."
+      redirect_to :action => 'index'
+    end
   end
 end

@@ -1,2 +1,4 @@
-<br/><%= render :partial => 'user', :object => @user %>
+<table>
+	<br/><%= render :partial => 'user', :collection => @users %>
+</table>
 <br/><br/><%= link_to 'Back to users', :controller => 'admin/users' %>

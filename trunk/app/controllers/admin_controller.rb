@@ -1,9 +1,6 @@
 class AdminController < ApplicationController
   before_filter :login_required, :except => 'login'
 
-  def index
-  end
-
   def login
     return unless request.post?
     self.current_user = User.authenticate(params[:email], params[:password])
@@ -23,7 +20,7 @@ class AdminController < ApplicationController
 protected
   def authorized?
     if current_user.admin?
-      flash[:notice] = "You are an admin"
+      #flash[:notice] = "You are an admin"
       return true
     end
     flash[:notice] = "Must be an administrator to access this section"

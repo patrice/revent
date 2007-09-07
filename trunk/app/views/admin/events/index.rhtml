@@ -1,15 +1,15 @@
+<h1>Listing events</h1>
+
 <br/>
 <% form_tag :action => 'search' do %>
-  Search by event name: <%= text_field_tag :name %>
+  Search for event by name: <%= text_field_tag :name %>
   <%= submit_tag 'Search' %>
 <% end %>
 <br />
 
 <table>
 	<tr><th>Event Name</th></tr>
-	<% for event in @events %>
-		<%= render :partial => 'event', :object => event %>
-	<% end %>
+	<%= render :partial => 'event', :collection => @events %>
 </table>
 
 <br />
