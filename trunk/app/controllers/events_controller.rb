@@ -59,7 +59,7 @@ class EventsController < ApplicationController
   end
 
   def create
-    @user = User.find_or_initialize_by_email(params[:user][:email]) # or current_user
+    @user = User.find_or_initialize_by_site_id_and_email(Site.current, params[:user][:email]) # or current_user
     @user.attributes = params[:user]
     unless @user.crypted_password || (@user.password && @user.password_confirmation)
       password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
@@ -103,7 +103,7 @@ class EventsController < ApplicationController
   end
 
   def rsvp
-    @user = User.find_or_initialize_by_email(params[:user][:email]) # or current_user
+    @user = User.find_or_initialize_by_site_id_and_email(Site.current, params[:user][:email]) # or current_user
     @user.attributes = params[:user]
     unless @user.crypted_password || (@user.password && @user.password_confirmation)
       password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )

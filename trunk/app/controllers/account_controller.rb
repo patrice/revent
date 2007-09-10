@@ -24,7 +24,7 @@ class AccountController < ApplicationController
 
   def send_activation
 #    user = DemocracyInActionSupporter.find(:first, :conditions => "Email='#{params[:email]}'")
-    user = User.find_by_email(params[:email]) if params[:email]
+    user = User.find_by_site_id_and_email(Site.current, params[:email]) if params[:email]
     if !user
       flash[:notice] = "Email not found"
       redirect_to login_url
@@ -127,7 +127,7 @@ class AccountController < ApplicationController
 
   def forgot_password
     return unless request.post?
-    if @user = User.find_by_email(params[:email])
+    if @user = User.find_by_site_id_and_email(Site.current, params[:email])
       @user.forgot_password
       @user.save
       redirect_back_or_default(:controller => '/account', :action => 'index')

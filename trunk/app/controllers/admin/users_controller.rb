@@ -6,7 +6,7 @@ class Admin::UsersController < AdminController
   
   def search
     @users = []
-    @users = User.find(:all, :conditions => ['email like ?', params[:email] + "%"])
+    @users = User.find(:all, :conditions => ['site_id = ? AND email like ?', Site.current.id, params[:email] + "%"])
     if @users.empty?
       flash[:notice] = "Could not find a user with that email address."
       redirect_to :action => 'index'

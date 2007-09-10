@@ -9,6 +9,10 @@ class User < ActiveRecord::Base
   has_many :politician_invites
   belongs_to :profile_image, :class_name => 'Attachment', :foreign_key => 'profile_image_id'
   belongs_to :site
+  before_create :set_site_id
+  def set_site_id
+    self.site_id ||= Site.current.id if Site.current
+  end
   
   has_and_belongs_to_many :roles
   def admin?
