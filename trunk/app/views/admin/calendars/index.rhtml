@@ -4,7 +4,7 @@
   <tr><th>Calendar</th></tr>  
 	<% for calendar in @calendars %>
 	  <tr>
-		<td><%= link_to calendar.name, url_for(:controller => 'admin/events', :permalink => calendar.permalink) %></td>
+		<td><%= link_to calendar.permalink, url_for(:controller => 'admin/events', :permalink => calendar.permalink) %><% if calendar.current? -%> <strong>(current)</strong><% end -%></td>
 	  </tr>
 	<% end %>
 </table>

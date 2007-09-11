@@ -1,4 +1,6 @@
 <tr>
   <td><%= event.name %></td>
+  <td><%= link_to 'Show', url_for(:controller => '/events', :action => :show, :id => event) %>
+  <td><%= link_to 'Manage', url_for(:controller => 'account/events', :action => :show, :id => event) %>
   <td><%= link_to 'Delete', url_for(:action => :destroy, :id => event), :confirm => 'Are you sure?' %>
 </tr>
