@@ -8,7 +8,17 @@
 	<td><% if grid_item.politician_invites.length > 0 %>
 			&#10004;
 		<% else %>
-		   &#10008;
+		  &#10008;
 		<% end %>
 	</td>
+  <td>
+    <%# if attending %>
+
+    <%# else %>
+
+    <%# end %>
+  </td>
+  <td>
+    <%= link_to 'Invite This Leader' %>
+  </td>
 </tr>

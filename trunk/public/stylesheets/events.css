@@ -1,6 +1,12 @@
 
 /**** MASTER CSS ****/
 
+body { background-color: #cccccc; line-height: auto; }
+
+th,td,p {
+line-height: auto; 
+}
+
 #detail-container{ 
 PADDING-TOP: 0px;
 PADDING-BOTTOM: 0px;
@@ -51,7 +57,6 @@ display:block;
 PADDING-BOTTOM: 10px;
 PADDING-TOP: 10px;
 }
-
 .report-list-image {
 	float: left;
 	height: 100px;
@@ -261,4 +266,60 @@ padding:3px;
 .report-embed{
   text-align:center;
 }
-body { background-color: #cccccc; }
+
+/* leaders = politicians */
+
+.politician-name {
+  font-weight: bold;
+  font-style: normal;
+  font-size: 19px;
+  color: #45637e;
+  display: block;
+  padding: 0px 0px 5px 0px;
+}
+
+.politician {
+padding: 10px 10px 10px 10px;
+background: #E4EBF2;
+margin-bottom: 15px;
+}
+.politician img {
+border: 3px solid #FFF;
+}
+
+.invites-list {
+background: #E4EBF2;
+padding: 15px;
+}
+
+.button-maker a {
+  color: #FFF;
+  display: block;
+  padding-left: 10px;
+  padding-top: 4px;
+}
+
+.button-maker {
+  display: block;
+  height: 26px;
+  color: #FFFFFF;
+  font-weight: bold;
+  background: url(http://stepitup2007.org/img/original/stepitup2_buttommkr_02.gif) top left repeat;
+  margin: 3px;
+}
+
+.button-maker-left {
+  display: block;
+  background: url(http://stepitup2007.org/img/original/stepitup2_buttommkr_01.gif) top left no-repeat;
+  height: 26px;
+}
+.button-maker-right {
+  display: block;
+background: url(http://stepitup2007.org/img/original/stepitup2_buttommkr_04.gif) top right no-repeat;
+  height: 26px;
+}
+
+.report-intro-text .button-maker {
+  width: 200px;
+}
+

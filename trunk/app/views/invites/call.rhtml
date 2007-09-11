@@ -9,7 +9,7 @@
 Invite <%= @politician.display_name %> by calling <%= @politician.phone %>.
 <hr/>
 <h3>CALL SCRIPT:</h3>
-<p>This is <%= @user.full_name %> calling <%= @politician.display_name %> on 
+<p>This is <%= @user ? @user.full_name : '<strong>YOUR NAME</strong>' %> calling <%= @politician.display_name %> on 
 behalf of Step It Up.  We would like to invite <%= @politician.display_name %> 
 to take the time on Saturday, November 3 to attend an event in 
 <%= @event.city + ", " + @event.state %> and tell us how they plan to lead 

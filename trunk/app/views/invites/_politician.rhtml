@@ -1,15 +1,17 @@
+<div class="politician">
 <% if not politician.nil? %>
-<table>
-	<tr>
-		<td><%= image_tag(politician.image_url, :size => "60x70") %><td>
-		<td><%= link_to 'Send a Letter', url_for(:action => 'write', :politician_id => politician.id), :popup => true %><br/>
-			 <%= link_to 'Call', url_for(:action => 'call', :politician_id => politician.id), :popup => true %><br/>
-			 <%= link_to 'Email', url_for(:action => 'email', :politician_id => politician.id), :popup => true %><br/>
-		</td>
-	</tr>
-</table>
-<%= politician.display_name %>
+<span class="politician-name"><%= politician.display_name %></span>
 <% else %>
 No politicians found in this area.
 <% end %>
-<br/><br/>
+
+<table cellpadding="5" cellspacing="0" border="0">
+
+	<tr>
+    <td><%= image_tag(politician.image_url, :size => "60x70") %><td>
+        <td><span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><%= link_to 'Send a Letter', url_for(:action => 'write', :politician_id => politician.id), :popup => true %></span></span></span>
+			 <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><%= link_to 'Call', url_for(:action => 'call', :politician_id => politician.id), :popup => true %></span></span></span>
+			<span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"> <%= link_to 'Email ', 'http://www.democracyinaction.org/dia/organizationsORG/SIU/campaign.jsp?campaign_KEY=11035', :popup => true %></span></span></span>	(this will be a customized DIA campaign)	</td>
+	</tr>
+</table>
+</div>
