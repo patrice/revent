@@ -1,0 +1,23 @@
+<areaCategories>
+	<category id='state_0' zoom='true' enabled='true' tooltip='popups/state.swf' >
+		<color up='0xFFFFFF' over='0x61993C' down='0x61993C' />
+	</category>
+	<category id='state_1_33' zoom='true' enabled='true' tooltip='popups/state.swf' >
+		<color up='0xC7E28D' over='0x61993C' down='0x61993C' />
+	</category>
+	<category id='state_33_66' zoom='true' enabled='true' tooltip='popups/state.swf' >
+		<color up='0x99CC33' over='0x61993C' down='0x61993C' />
+	</category>
+	<category id='state_66_100' zoom='true' enabled='true' tooltip='popups/state.swf' >
+		<color up='0x5B791E' over='0x61993C' down='0x61993C' />
+	</category>
+	<category id='dis_0' zoom='true' enabled='true' tooltip='popups/district.swf' >
+		<color up='0xFFFFFF' over='0x61993C' down='0x61993C' />
+	</category>
+	<category id='dis_1' zoom='true' enabled='true' tooltip='popups/district.swf' >
+		<color up='0xC7E28D' over='0x61993C' down='0x61993C' />
+	</category>
+	<category id='dis_2' zoom='true' enabled='true' tooltip='popups/district.swf' >
+		<color up='0x5B791E' over='0x61993C' down='0x61993C' />
+	</category>	
+</areaCategories>

@@ -1,0 +1,24 @@
+<fmEngine>
+	<version>003.002.001</version>
+	<mapSize>63074184-36925814-36036036-48372615</mapSize>
+	<serialNumber>fmAS-0017-2474</serialNumber>
+	<affiliateID></affiliateID>
+	<theme>areas/fm-us.xml</theme>
+	<map mapWidth="500" mapHeight="300" mapScale="20100000" mapScaleMax="30000" centerLat="-0.31" centerLon="0.47" transactionSteps="10" />
+	<mapInitial initialX="1111" initialY="420" initialScale="82" />
+	<mapSelect color="0xFFF000" divider="," />
+	<mapConfig backLabel="Back to main map" showLabel="true" areasAlpha="40" />
+	<mapZoom enabled="true" />
+	<levels poisSendParams="true" randomLoad="false" >
+		<level id="1" showPOIText="false" showAreaTooltip="true" showPOITooltip="true" poisLoad="true" poisShow="true" poisDelay="0" filterId="" />
+		<level id="2" showPOIText="false" showAreaTooltip="true" showPOITooltip="true" poisLoad="true" poisShow="true" poisDelay="0" filterId="" />
+		<level id="3" showPOIText="false" showAreaTooltip="true" showPOITooltip="true" poisLoad="true" poisShow="true" poisDelay="0" filterId="" />
+	</levels>
+	<categories>
+		<filter id="glow"   filterType="glow"   alpha="1" blurX="4" blurY="4" color="0x000000" quality="1" strength="1" />
+		<filter id="shadow" filterType="shadow" angle="60" distance="3" alpha="0.7" blurX="4" blurY="4" color="0x333333" />
+		<filter id="blur"   filterType="blur"   blurX="4" blurY="4" quality="1" />
+		<filter id="bevel"  filterType="bevel"  distance="4" angle="90" highlightColor="0xFFFFFF" highlightAlpha="0.5" shadowColor="0x666666" shadowAlpha="0.5" blurX="4" blurY="4" type="outer" />
+		<text   id="state"  filterId="shadow" fontName="_sans" fontSize="11" fontBold="no" fontItalic="no" fontAlign="center" fontColor="0xFFFFFF" />
+	</categories>
+</fmEngine>

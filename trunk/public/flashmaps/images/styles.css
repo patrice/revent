@@ -1,0 +1,40 @@
+/*
+	FlashMaps Geospatial
+	$Revision: 1.0 $
+*/
+
+body				{background-color: #e5e5e5; margin-top: 5px; text-align:left;}
+select				{font-family: Verdana, Arial; font-size: 10px; color: #555;}
+textarea			{font-family: Verdana, Arial; font-size: 11px; color: #555;}
+input				{font-family: Verdana, Arial; font-size: 11px; color: #555;}
+
+/******************/
+/***** TABLES *****/
+/******************/
+
+/* table main 760 */
+table.tb760			{background: url(tables/tb760w.gif) #ffffff; margin: 5px 0px 0px 0px; border: 0; border-collapse: collapse; padding: 0px; width: 760px;}
+.tb760 td			{margin: 0px; padding: 0px; vertical-align: top;}
+.tb760 td.top		{background: url(tables/tb760wtop.gif); border:0; width: 760px; height: 6px;}
+.tb760 td.pie		{background: url(tables/tb760wpie.gif); border:0; width: 760px; height: 6px;}
+.tb760 td.blue		{background: url(pazul.gif); border:0; width: 759px; height: 2px;}
+.tb760 td.td20		{height: 20px;}
+
+/* FONTS */
+.tx, .tx10, .tx9g, 
+.txtit, .tx10r		{font-family: Verdana, Helvetica, Arial, sans-serif; font-size: 11px; color: #555; text-decoration: none; line-height: 1.40em;}
+.txtit				{font-weight: bold; margin-top: 8px; margin-bottom: 2px;}
+.tx10				{font-size: 10px;}
+.tx9g				{font-size: 9px;  color:#808080;}
+.tx10r				{font-size: 10px; color:#ff0000;}
+.maintit			{font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; color: #555; text-decoration: none; margin: 6px 0px 2px 10px;}
+
+.navtop				{font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: #808080; text-decoration: none; margin-left: 10px;	} 
+/* FONTS LINKS */
+a					{font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #4a6e93; text-decoration: none; line-height: 1.40em;}
+a:hover				{color: #555; background-color: #def;}
+a.navw10			{font-size: 10px;}
+
+.imglink			{border: 0px; text-decoration: none;}
+.imglink:hover		{border: 0px; text-decoration: none; background-color: transparent;}
+
