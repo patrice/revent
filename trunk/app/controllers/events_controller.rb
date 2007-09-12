@@ -3,7 +3,8 @@ class EventsController < ApplicationController
 #  access_control [:edit, :update, :destroy, :create] => 'admin'
   include DaysOfAction::Geo
 
-  caches_page :index, :show, :flashmap, :total, :by_state
+  caches_page :index, :total, :by_state
+  after_filter { |c| c.cache_page(nil, :permalink => c.params[:permalink]) if c.action_name == 'show' }
   caches_action :ally
   after_filter :cache_search_results, :only => :search
 
@@ -26,6 +27,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.xml { render :layout => false }
     end
+    cache_page nil, :permalink => params[:permalink]
   end
 
   def total
@@ -59,7 +61,7 @@ class EventsController < ApplicationController
   end
 
   def create
-    @user = User.find_or_initialize_by_site_id_and_email(Site.current, params[:user][:email]) # or current_user
+    @user = User.find_or_initialize_by_site_id_and_email(Site.current.id, params[:user][:email]) # or current_user
     @user.attributes = params[:user]
     unless @user.crypted_password || (@user.password && @user.password_confirmation)
       password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
@@ -103,7 +105,7 @@ class EventsController < ApplicationController
   end
 
   def rsvp
-    @user = User.find_or_initialize_by_site_id_and_email(Site.current, params[:user][:email]) # or current_user
+    @user = User.find_or_initialize_by_site_id_and_email(Site.current.id, params[:user][:email]) # or current_user
     @user.attributes = params[:user]
     unless @user.crypted_password || (@user.password && @user.password_confirmation)
       password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
@@ -118,7 +120,8 @@ class EventsController < ApplicationController
       flash[:notice] = 'RSVP was successfully registered.'
       redirect_to :action => 'show', :id => @rsvp.event.id and return
     else
-      flash[:notice] = 'There was a problem registering your RSVP.'
+      flash.now[:notice] = 'There was a problem registering your RSVP.'
+      @event = @rsvp.event
       render :action => 'show', :id => @event.id
     end
   end

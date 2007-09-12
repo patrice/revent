@@ -11,6 +11,11 @@ class ApplicationController < ActionController::Base
   before_filter  :set_site, :set_calendar
   helper_method  :site
   before_filter  :set_cartographer_keys
+  before_filter  :set_cache_root
+
+  def set_cache_root
+	  self.class.page_cache_directory = File.join([RAILS_ROOT, (RAILS_ENV == 'test' ? 'tmp' : 'public'), 'cache', site.host])
+	end
 
   def set_cartographer_keys
     Cartographer::Header.send :cattr_accessor, :keys

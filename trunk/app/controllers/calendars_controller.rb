@@ -1,4 +1,5 @@
 class CalendarsController < ApplicationController
+#  after_filter { |c| c.cache_page(nil, :action => 'index') if c.action_name == 'show' }
   def index
     list
     render :action => 'list'

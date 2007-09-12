@@ -101,6 +101,8 @@ ActionController::Routing::Routes.draw do |map|
   # Routes for inviting policitians to an event
   map.invite ':permalink/events/:id/politicians/:action/:politician_id', :controller => 'invites', :defaults => { :action => 'index', :politician_id => nil }
 
+  map.connect ':permalink/events/show/:id', :controller => 'events', :action => 'show'
+
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action.:format'
