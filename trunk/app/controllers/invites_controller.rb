@@ -1,5 +1,24 @@
 class InvitesController < ApplicationController  
+
   def index
+  end
+
+  def nearby
+    districts = ZipCode.find_districts_near_postal_code(params[:postal_code]) 
+    if districts.length > 5
+      close_districts = ZipCode.find_districts_near_postal_code(params[:postal_code], 10, 20)
+      districts = close_districts + ZipCode.find_districts_near_postal_code(params[:postal_code], 20, 60)
+    end
+    states = ZipCode.find_states_near_postal_code(params[:postal_code])
+    @politicians = []
+    @politicians << Politician.find_all_by_district(districts)
+    @politicians << Politician.find_all_by_district(states.collect {|s| ["#{s}1","#{s}2"]}.flatten)
+    @politicians.flatten!
+    @event = Event.new :name => 'the events'
+    render :action => 'all'
+  end
+
+  def all
     @event = @calendar.events.find(params[:id])
     @politicians = []
     # get representative for this event's district
@@ -61,4 +80,39 @@ class InvitesController < ApplicationController
     @politician = Politician.find(params[:politician_id])
   end
   
+  def flashmap_pois
+    @level = params[:level]
+    state = case @level
+            when "2"
+              params[:area][3..4].upcase
+            when "3"
+              params[:subarea][3..4].upcase
+            else
+              nil
+            end
+    if state
+      @events = @calendar.events.find(:all, :conditions => ["latitude <> 0 AND longitude <> 0 AND state = ?", state])
+    else
+      @events = @calendar.events.find(:all, :conditions => "latitude <> 0 AND longitude <> 0")
+    end
+    render :layout => false
+  end
+
+  def flashmap_area_states
+    @totals = Flashmaps::DISTRICTS.inject({}) {|counts, district| counts[district[0]].nil? ? counts[district[0]] = 1 : counts[district[0]] += 1; counts}
+    @action_total = @calendar.events.count
+    @states = Flashmaps::STATES
+    render :layout => false
+  end
+
+  def flashmap_area_state
+    @state = params[:state] || ""
+    render :layout => false
+  end
+  
+  def flashmap_area_districts
+    @state = params[:state]
+    @districts = Flashmaps::DISTRICTS.select {|d| d[0] == "us_#{@state.downcase}"}
+    render :layout => false
+  end
 end

@@ -16,6 +16,11 @@ ActionController::Routing::Routes.draw do |map|
 #  raise Calendar.find(:first).inspect => WORKS!!!
   map.home '', :controller => 'calendars', :action => 'show'
 
+  map.connect ':permalink/invites/flashmap/pois', :controller => 'invites', :action => 'flashmap_pois'
+  map.connect ':permalink/invites/flashmap/areas/states', :controller => 'invites', :action => 'flashmap_area_states'
+  map.connect ':permalink/invites/flashmap/areas/districts/:state.xml', :controller => 'invites', :action => 'flashmap_area_districts'
+  map.connect ':permalink/invites/flashmap/areas/state/:state.xml', :controller => 'invites', :action => 'flashmap_area_state'
+
   # see http://dev.rubyonrails.org/changeset/6594 for 
   # edge rails solution to using resources and namespace
 #  map.resources :calendars, :path_prefix => "admin", :controller => "admin/calendars" do |cal|
@@ -99,7 +104,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 
   # Routes for inviting policitians to an event
-  map.invite ':permalink/events/:id/politicians/:action/:politician_id', :controller => 'invites', :defaults => { :action => 'index', :politician_id => nil }
+  map.invite ':permalink/events/:id/invite/:action/:politician_id', :controller => 'invites', :defaults => { :action => 'all', :politician_id => nil }
 
   map.connect ':permalink/events/show/:id', :controller => 'events', :action => 'show'
 

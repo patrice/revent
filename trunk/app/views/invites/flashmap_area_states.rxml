@@ -1,0 +1,5 @@
+xml.areas do
+  @states.each do |state|
+    xml.area :id => state[0], :category => 'state_0', :label => state[1], :child => "/#{@calendar.permalink}/invites/flashmap/areas/state/#{state[2]}.xml", :total_sen => '2', :total_rep => @totals[state[0]], :actions => @action_total, :state_sen => '0', :state_rep => '0'
+  end
+end

@@ -1,0 +1,6 @@
+xml.theme :id => @state do
+  xml.map :file => "areas/districts/fm-USACongressDistricts_#{@state.downcase}.swf", :borderColor => '0xCCCCCC'
+  xml.areas :xmlAreas => "/#{@calendar.permalink}/invites/flashmap/areas/districts/#{@state}.xml", :xmlCategories => 'areas/area_categories.xml'
+  xml.pois :xmlPOIs => "/#{@calendar.permalink}/invites/flashmap/pois", :xmlCategories => 'pois/poi_categories.xml'
+  xml.polylines :xmlPolylines => '', :xmlCategories => ''
+end

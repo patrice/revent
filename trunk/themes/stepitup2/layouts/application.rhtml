@@ -5,6 +5,7 @@
 <link rel="Search" href="http://stepitup2007.org/search.php">
 <link rel="icon" href="<%= theme_image_path 'favicon.ico' %>" type="image/x-icon" />
   <%#= javascript_include_tag 'prototype' %>
+  <% yield :header %>
 <link rel="stylesheet" type="text/css" href="http://stepitup2007.org/styles_default.css" id="default">
 <link rel="stylesheet" type="text/css" href="http://stepitup2007.org/custom/styles2.css">
   <%= stylesheet_link_tag 'events' %>
@@ -63,7 +64,7 @@
         <td><a href="http://stepitup2007.org//article.php?list=type&type=27" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('blog','','http://stepitup2007.org//img/stepitup3_menu_on_03.gif',1)"><img src="http://stepitup2007.org//img/stepitup3_menu_03.gif" alt="Blog" name="blog" width="63" height="38" border="0"></a></td>
         <td><a href="http://stepitup2007.org//article.php?list=type&type=34" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('startaction','','http://stepitup2007.org//img/stepitup3_menu_on_04.gif',1)"><img src="http://stepitup2007.org//img/stepitup3_menu_04.gif" alt="Start Action" name="startaction" width="81" height="38" border="0"></a></td>
         <td><a href="http://stepitup2007.org//article.php?list=type&type=35" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('joinaction','','http://stepitup2007.org//img/stepitup3_menu_on_05.gif',1)"><img src="http://stepitup2007.org//img/stepitup3_menu_05.gif" alt="Join an Action" name="joinaction" width="78" height="38" border="0"></a></td>
-        <td><a href="http://stepitup2007.org//article.php?list=type&type=28" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('invite','','http://stepitup2007.org//img/stepitup3_menu_on_06.gif',1)"><img src="http://stepitup2007.org//img/stepitup3_menu_06.gif" alt="Invite the Candidates" name="invite" width="100" height="38" border="0"></a></td>
+        <td><a href="/<%= @calendar.permalink %>/invites" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('invite','','http://stepitup2007.org//img/stepitup3_menu_on_06.gif',1)"><img src="http://stepitup2007.org//img/stepitup3_menu_06.gif" alt="Invite the Leaders" name="invite" width="100" height="38" border="0"></a></td>
         <td><a href="http://stepitup2007.org/article.php?list=type&type=29" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('spreadword','','http://stepitup2007.org//img/stepitup3_menu_on_07.gif',1)"><img src="http://stepitup2007.org//img/stepitup3_menu_07.gif" alt="Spread the Word" name="spreadword" width="88" height="38" border="0"></a></td>
         <td><a href="http://stepitup2007.org//article.php?list=type&type=30" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Organizer','','http://stepitup2007.org//img/stepitup3_menu_on_08.gif',1)"><img src="http://stepitup2007.org//img/stepitup3_menu_08.gif" alt="Organizer Headquarters" name="Organizer" width="108" height="38" border="0"></a></td>
         <td><a href="http://stepitup2007.org//article.php?list=type&type=31" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('media','','http://stepitup2007.org//img/stepitup3_menu_on_09.gif',1)"><img src="http://stepitup2007.org//img/stepitup3_menu_09.gif" alt="Media Room" name="media" width="72" height="38" border="0"></a></td>

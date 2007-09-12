@@ -1,0 +1,5 @@
+xml.areas do
+  @districts.each do |d|
+    xml.area :id => "us_#{@state.downcase}_#{d[1]}", :category => 'dis_1', :label => d[2], :state => '1', :name => 'a politician name', :image => '/url'
+  end
+end

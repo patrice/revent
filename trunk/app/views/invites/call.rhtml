@@ -9,47 +9,7 @@
 Invite <%= @politician.display_name %> by calling <%= @politician.phone %>.
 <hr/>
 <h3>CALL SCRIPT:</h3>
-<p>This is <%= @user ? @user.full_name : '<strong>YOUR NAME</strong>' %> calling <%= @politician.display_name %> on 
-behalf of Step It Up.  We would like to invite <%= @politician.display_name %> 
-to take the time on Saturday, November 3 to attend an event in 
-<%= @event.city + ", " + @event.state %> and tell us how they plan to lead 
-in the fight against global warming.</p>
 
-<p>This event will be one of hundreds scheduled all across
-America on the same day, many of them in places that honor great leaders
-of the American past—from the top of Mt. Washington to the birthplace of
-Rachel Carson to the site of the Lincoln Douglas debates. We think we
-need not just political rhetoric on this question, but real leadership,
-of the kind that America has always produced when the chips are down.</p>
-
-<p>We're part of an emerging coalition of climate activists
-across the country that have come together to support three positions:
-80% cuts in carbon emissions by 2050, a moratorium on new coal-fired
-power plants, and a Green Jobs Corps to start transforming American
-homes and businesses. We'd love to hear your reaction to those ideas—do
-they go too far? Not far enough? But more importantly we want to hear
-<emphasis>your plans for leadership.</emphasis>
-
-<p>We know this event falls during the planned Congressional
-recess and that your schedule is very busy. You don't need to prepare a
-lengthy oration—don't worry about convincing us that global warming is a
-problem. (We already know.) Please just take a few minutes to tell us
-how you plan to lead. We'll be taking video of the speakers so we can
-share it via the web across the state and the country—hopefully by day's
-end on Nov. 3 we'll know how most of America's politicians think about
-this issue, and which ones are ready to be more than politicians. It
-should be an exciting day.</p>
-
-<p>Please respond to <%= @event.host.full_name %> to set up details for 
-your participation. We look forward to seeing you on November 3.</p>
-
-<p>You can see how other public officials are responding to this call
-by checking out the scoreboard at <%= link_to 'stepitup07.org', "http://stepitup07.org/"%>
+<p>
+This is <%= @user ? @user.full_name : '<strong>YOUR NAME</strong>' %> calling on behalf of Step It Up, and I'm part of a new coalition working on global warming issues. I would like to invite <%= @politician.display_name %> to take the time on Saturday, November 3 to attend an event in <%= @event.city %> and tell us how they plan to lead in the fight against global warming.  This is taking place at <%= @event.location %> at <%= @event.start.strftime('%I:%M %p').gsub(/^0/, '') %>, and will be one of hundreds scheduled all across America on the same day.  It's sure to get a lot of press coverage--we've already called the media, and the last day of action on April 14th was covered by the New York Times, the Associated Press, and thousands of local newspapers nation wide.  We'd love to have <%= @politician.display_name %> come and speak for a few minutes about global warming, and talk directly to <strong>HIS/HER</strong> constituents about how they plan to lead on this crucial issue.  Please RSVP to this event by e-mailing rsvp@stepitup2007.org or calling 877.839.8957.
 </p>
-
-Thank you so much for your time,<br/>
-<% if @user.nil? %>
-	Your name here
-<% else %>
-	<%= @user.full_name %><br/><br/>
-<% end %>
