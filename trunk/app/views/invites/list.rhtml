@@ -1,4 +1,4 @@
-<h2>Leader Invitations</h2>
+<h2>The BIG List</h2>
 
 <% @states.each do |state| %>
 	<% if state == @display_state %>
@@ -8,9 +8,7 @@
 	<% end %>
 <% end %>
 <br /><br />
-<div class="invites-list">
-<table border="0" cellpadding="5" cellspacing="0">
-  <tr><td>Politician</td><td>Congress Person</td><td>Invited?</td><td>Attending</td><td><td><tr/>
+<table border="0" cellpadding="5" cellspacing="0" class="invites-list">
+  <tr class="header-row"><td class="header-row"></td><td class="header-row">Leader</td><td class="header-row">Invited?</td><td class="header-row">Attending</td><td class="header-row"></td><tr/>
   <%= render :partial => 'grid_item', :collection => @politicians %>
 </table>
-</div>

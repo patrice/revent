@@ -22,8 +22,7 @@ font-weight: bold;
 PADDING-BOTTOM: 10px;
 }
 
-.login-box{ 
-
+.login-box { 
 text-align:right
 }
 
@@ -291,11 +290,39 @@ border: 3px solid #FFF;
 background: #E4EBF2;
 padding: 15px;
 }
+.header-row {
+background: #8cb5dd;
+color: #FFFFFF;
+text-transform: uppercase;
+font-size: 9px;
+font-weight: bold;
+}
+.invites-list-img img{
+border:2px solid white;
 
+}
+
+.invites-list-name {
+width: 150px;
+}
+
+.invites-list-checks {
+text-align: center;
+}
+
+.invites-list-invite {
+width: 65px;
+text-align: center;
+}
+.invites-list-invite a {
+  color: #1f5c83;
+
+}
 .button-maker a {
   color: #FFF;
   display: block;
-  padding-left: 10px;
+ padding-right: 10px;
+ padding-left: 10px;
   padding-top: 4px;
 }
 
