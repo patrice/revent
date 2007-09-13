@@ -15,4 +15,13 @@ class EventTest < Test::Unit::TestCase
     assert_equal event.start.to_time.to_s(:db), get_dia_event.Start.to_time.to_s(:db)
     assert_equal event.end.to_time.to_s(:db), get_dia_event.End.to_time.to_s(:db)
   end
+
+  def test_new_campaign_for_politician
+
+
+
+  end
+
+  def test_old_campaign_for_politician
+  end
 end

@@ -73,9 +73,10 @@ class EventsControllerTest < Test::Unit::TestCase
   end
 
   def test_create_with_existing_user
+    @request.host = sites(:stepitup).host
     DemocracyInAction::API.any_instance.stubs(:process).returns(1111) unless connect?
-    user = User.create! :login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :password => 'apassword', :password_confirmation => 'apassword'
-    assert User.find_by_login('mylogin')
+    user = User.create! :login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :password => 'apassword', :password_confirmation => 'apassword', :activated_at => Time.now.utc
+    assert User.authenticate('new@event.com', 'apassword')
     user_count = User.count
 
     post :create, :calendar_id => 1,
@@ -85,8 +86,8 @@ class EventsControllerTest < Test::Unit::TestCase
     assert_response :redirect
     assert_redirected_to :action => 'show'
 
-    assert !User.authenticate('mylogin', 'another')
-    assert User.authenticate('mylogin', 'apassword')
+    assert !User.authenticate('new@event.com', 'another')
+    assert User.authenticate('new@event.com', 'apassword')
     assert_equal user_count, User.count
   end
 
@@ -121,6 +122,8 @@ class EventsControllerTest < Test::Unit::TestCase
       :user => {:first_name => 'user', :last_name => 'name', :email => 'new@event.com', :democracy_in_action => {:supporter => {'Organization' => 'my organization'}, :supporter_custom => {'BLOB0' => 'some custom field'}}},
       :event => {:name => 'some event', :description => 'a description', :city => 'city', :state => 'CA', :postal_code => '94110', :directions => 'directions', :start => 1.hour.from_now, :end => 2.hours.from_now, :location => 'location'}
 
+    assert assigns(:user).is_a?(User)
+    assert assigns(:user).valid?
     assert_equal assigns(:user).democracy_in_action_object.key, 1111
     assert (event = assigns(:event).democracy_in_action_object)
     assert_equal event.key, 1113
@@ -153,6 +156,7 @@ class EventsControllerTest < Test::Unit::TestCase
     login_as :quentin
     assert_not_nil Event.find(1)
 
+    DemocracyInAction::API.any_instance.expects(:delete).with('event', has_entry('key', democracy_in_action_objects(:first_event).key)).returns(true)
     post :destroy, :id => 1
     assert_response :redirect
     assert_redirected_to :action => 'list'

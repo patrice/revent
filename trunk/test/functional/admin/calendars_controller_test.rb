@@ -17,19 +17,8 @@ class Admin::CalendarsControllerTest < Test::Unit::TestCase
     #assert_requires_login(:quentin) {|c| c.get :index} 
     login_as :quentin
     get :index
-    assert_response :success
-    assert_template 'list'
-  end
-
-  def test_list
-    #assert_requires_login(:quentin) {|c| c.get :list}
-    login_as :quentin
-    get :list
-    
-    assert_response :success
-    assert_template 'list'
-
-    assert_not_nil assigns(:calendars)
+    assert_response :redirect
+    assert_redirected_to :controller => 'admin/events'
   end
 
   def test_show

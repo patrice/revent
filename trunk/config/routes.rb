@@ -104,7 +104,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 
   # Routes for inviting policitians to an event
-  map.invite ':permalink/events/:id/invite/:action/:politician_id', :controller => 'invites', :defaults => { :action => 'all', :politician_id => nil }
+  map.invite ':permalink/events/:id/invite/:action/:politician_id', :controller => 'invites', :defaults => { :action => 'all', :politician_id => nil, :id => 'all' }
 
   map.connect ':permalink/events/show/:id', :controller => 'events', :action => 'show'
 

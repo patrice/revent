@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 46) do
+ActiveRecord::Schema.define(:version => 49) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -39,11 +39,13 @@ ActiveRecord::Schema.define(:version => 46) do
     t.column "name",              :string
     t.column "short_description", :text
     t.column "user_id",           :integer
+    t.column "current",           :boolean,  :default => false
+    t.column "theme",             :string
     t.column "permalink",         :string
     t.column "site_id",           :integer
-    t.column "current",           :boolean, :default => false
-    t.column "theme",             :string
     t.column "signup_redirect",   :string
+    t.column "event_start",       :datetime
+    t.column "event_end",         :datetime
   end
 
   add_index "calendars", ["permalink"], :name => "index_calendars_on_permalink"
@@ -53,7 +55,9 @@ ActiveRecord::Schema.define(:version => 46) do
     t.column "synced_id",       :integer
     t.column "table",           :string
     t.column "key",             :integer
-    t.column "serialized_data", :text
+    t.column "local",           :text
+    t.column "associated_type", :string
+    t.column "associated_id",   :integer
   end
 
   create_table "events", :force => true do |t|
@@ -162,8 +166,8 @@ ActiveRecord::Schema.define(:version => 46) do
   add_index "sites", ["host"], :name => "index_sites_on_host"
 
   create_table "taggings", :force => true do |t|
-    t.column "tag_id",        :integer,                 :null => false
-    t.column "taggable_id",   :integer,                 :null => false
+    t.column "tag_id",        :integer, :default => 0,  :null => false
+    t.column "taggable_id",   :integer, :default => 0,  :null => false
     t.column "taggable_type", :string,  :default => "", :null => false
   end
 

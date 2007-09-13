@@ -3,4 +3,3 @@ class PoliticianInvite < ActiveRecord::Base
   belongs_to :politician
   belongs_to :event
 end
-

@@ -25,6 +25,8 @@ class User < ActiveRecord::Base
   attr_writer :democracy_in_action
   after_save :sync_to_democracy_in_action
   def sync_to_democracy_in_action
+    return unless File.exists?(File.join(Site.current_config_path, 'democracyinaction-config.yml'))
+
     # return unless DemocracyInAction.sync? => returns true or can be overridden like authorized?
     # with something lke Site.current.uses_crm(DemocracyInAction)
 
@@ -76,7 +78,7 @@ class User < ActiveRecord::Base
   # Authenticates a user by their email and unencrypted password.  Returns the user or nil.
   def self.authenticate(email, password)
     # hide records with a nil activated_at
-    u = find :first, :conditions => ['email = ? and activated_at IS NOT NULL', email]
+    u = find :first, :conditions => ['site_id = ? AND email = ? AND activated_at IS NOT NULL', Site.current, email]
     u && u.authenticated?(password) ? u : nil
   end
 

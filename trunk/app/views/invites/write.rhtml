@@ -13,7 +13,7 @@ Send your letter for <%= @politician.display_name %> to:<br/>
 Dear <%= @politician.display_name %>,<br/>
 <br/>
 <p>I'm writing to ask that you take the time on Saturday,
-November 3 to attend an event in <%= @event.city + ", " + @event.state %> 
+November 3 to attend an event in <%= [@event.city, @event.state].compact.join(', ') || "your area" %> 
 and tell us how you plan to lead in the fight against global warming.</p>
 
 <p>This event will be one of hundreds scheduled all across
@@ -41,8 +41,7 @@ end on Nov. 3 we'll know how most of America's politicians think about
 this issue, and which ones are ready to be more than politicians. It
 should be an exciting day.</p>
 
-<p>Please respond to <%= @event.host.full_name %> to set up details for 
-your participation. We look forward to seeing you on November 3.</p>
+<p>Please RSVP to this event by e-mailing rsvp@stepitup2007.org or calling 877.839.8957.  We look forward to seeing you on November 3.</p>
 
 Sincerely,<br/>
 <% if @user.nil? %>

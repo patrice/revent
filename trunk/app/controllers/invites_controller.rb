@@ -1,4 +1,5 @@
 class InvitesController < ApplicationController  
+  before_filter :find_or_initialize_event, :only => [:write, :call, :email]
 
   def index
   end
@@ -33,6 +34,14 @@ class InvitesController < ApplicationController
     @states = DemocracyInAction::Helpers.state_options_for_select.collect {|s| s[1]} - non_states
     @display_state =  params[:state].nil? ? @states.first : params[:state]
     @politicians = Politician.find_all_by_state(@display_state, :include => :politician_invites, :order => 'district_type desc')
+    respond_to do |format|
+      format.js { 
+        @list = render_to_string(:action => 'list', :layout => false)
+        render :action => 'list_js', :layout => false
+      }
+      format.xml { render :xml => @politicians.to_xml }
+      format.html
+    end
   end
   
   def search
@@ -40,21 +49,48 @@ class InvitesController < ApplicationController
   end
 
   def write
-    @event = @calendar.events.find(params[:id])
     @politician = Politician.find(params[:politician_id])
     @user = current_user
   end
   
   def call
-    @event = @calendar.events.find(params[:id])
     @politician = Politician.find(params[:politician_id])
     @user = current_user
   end
 
   def email
-    @event = @calendar.events.find(params[:id])
     @politician = Politician.find(params[:politician_id])
     @user = current_user
+    unless campaign = @event.campaign_for_politician(@politician)
+      campaign = create_new_campaign(@event, @politician)
+    end
+    raise 'no campaign' unless campaign
+    redirect_to_campaign(campaign)
+  end
+
+  def create_new_campaign(event, politician)
+    campaign = DemocracyInActionCampaign.new(
+      'Reference_Name' => 'Invite ' + politician.display_name + ' to event ' + event.id.to_s,
+      'Campaign_Title' => 'Invite ' + politician.display_name + ' to this action',
+      'person_legislator_IDS' => politician.person_legislator_id,
+#      'recipient_KEYS' => politican.democracy_in_action_recipient_key,
+      'Suggested_Subject' => 'StepItUp',
+#      'Letter_Salutation' => politician.title + politician.first_name + politician.last_name,
+      'Suggested_Content' => render_to_string(:partial => 'letter_content'),
+      'Max_Number_Of_Faxes' => 100, #100?
+      'Hide_Keep_Me_Informed' => 1,
+      'Default_Tracking_Code' => "distributed_event_KEY#{@calendar.democracy_in_action_key}"
+    )
+    key = campaign.save
+    campaign = DemocracyInActionCampaign.find key
+    event.democracy_in_action_campaigns.create :table => 'campaign', :key => key, :local => campaign
+    campaign
+  end
+
+  def redirect_to_campaign(campaign)
+    config = DemocracyInAction::Config.new(File.join(Site.current_config_path, 'democracyinaction-config.yml'))
+    #redirect_to "http://www.democracyinaction.org/dia/organizations/" + config['short_name'] + "/campaign.jsp?campaign_KEY="+campaign.key
+    redirect_to "http://www.democracyinaction.org/dia/organizations/" + 'radicaldesigns' + "/campaign.jsp?campaign_KEY="+campaign.key
   end
 
   def create
@@ -115,4 +151,14 @@ class InvitesController < ApplicationController
     @districts = Flashmaps::DISTRICTS.select {|d| d[0] == "us_#{@state.downcase}"}
     render :layout => false
   end
+
+  protected
+  def find_or_initialize_event
+    if params[:id] == 'all'
+      @event = @calendar.events.build :name => 'an event'
+    else
+      @event = Event.find params[:id]
+    end
+  end
+
 end

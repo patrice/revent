@@ -26,10 +26,39 @@ class Event < ActiveRecord::Base
   
   validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id
   validates_format_of :postal_code, :with => /^\d{5}(-\d{4})?$/
+  def validate
+    if event_start = self.calendar.event_start
+      if event_end = self.calendar.event_end
+        if self.start && self.start < event_start.at_beginning_of_day
+          message = event_start.to_date == event_end.to_date ? "on" : "on or after"
+          errors.add :start, "must be #{message} #{event_start.strftime('%B %e, %Y')}"
+        end
+        if self.end && self.end > (event_end + 1.day).at_beginning_of_day
+          message = event_start.to_date == event_end.to_date ? "on" : "on or before"
+          errors.add :end, "must be #{message} #{event_end.strftime('%B %e, %Y')}"
+        end
+      else
+        unless self.start.to_date == event_start.to_date
+          errors.add :start, "must be on #{event_start.strftime('%B %e, %Y')}"
+        end
+      end
+    end
+  end
   #XXX: need to strip out DIA specific language
 
   has_many :blogs
   
+  has_many :democracy_in_action_campaigns, :as => :associated, :class_name => 'DemocracyInActionObject', :conditions => "democracy_in_action_objects.table = 'campaign'"
+  def campaign_for_politician(politician)
+    democracy_in_action_campaigns.each do |c|
+      c.local = DemocracyInActionCampaign.find c.key unless c.local
+      if c.local && c.local.person_legislator_IDS.split(',').collect {|id| id.strip}.include?(politician.person_legislator_id.to_s)
+        return c.local
+      end
+    end
+    nil
+  end
+
   has_one :democracy_in_action_object, :as => :synced
   def democracy_in_action_synced_table
     'event'

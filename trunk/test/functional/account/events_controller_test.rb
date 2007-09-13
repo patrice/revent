@@ -19,18 +19,19 @@ class Account::EventsControllerTest < Test::Unit::TestCase
     e = DemocracyInActionEvent.new(:Event_Name => events(:stepitup).name, :key => events(:stepitup).democracy_in_action_key, :supporter_KEY => 1)
     DemocracyInActionEvent.stubs(:find).returns(e)
     @request.host = sites(:stepitup).host
-    @request.session[:user] = s
+#    @request.session[:user] = s
   end
 
   def test_index
-    DemocracyInActionSupporter.any_instance.expects(:events_attending).returns([])
+    login_as :quentin
+#    DemocracyInActionSupporter.any_instance.expects(:events_attending).returns([])
     get :index
     assert_response :success
     assert_template 'index'
   end
 
   def test_show
-    @request.session[:user].stubs(:admin?).returns(true)
+    login_as :quentin
     get :show, :id => 1
     assert_response :success
     assert_template 'show'

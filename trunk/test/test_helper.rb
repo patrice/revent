@@ -2,6 +2,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 ASSET_PATH = File.join(RAILS_ROOT, 'test/fixtures/tmp/assets') unless Object.const_defined?(:ASSET_PATH)
+Site.current = Site.find(:first)
 
 module DaysOfAction
   module ActionController
@@ -35,6 +36,12 @@ module DemocracyInAction
     end
   end
   # if connect? warn "actually trying connecting to ORGKEY, might not leave things the way they started
+end
+
+class Site
+  def self.current_config_path
+    File.join(RAILS_ROOT, 'test', 'config')
+  end
 end
 
 class Test::Unit::TestCase

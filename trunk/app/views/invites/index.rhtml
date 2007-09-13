@@ -1,4 +1,4 @@
-<% form_tag :action => 'nearby' do %>
+<% form_tag :permalink => @calendar.permalink, :action => 'nearby' do %>
 Zip: <%= text_field_tag 'postal_code' %>
 <%= submit_tag 'search nearby' %>
 <% end %>
@@ -7,15 +7,18 @@ Zip: <%= text_field_tag 'postal_code' %>
   <script language="JavaScript" src="/flashmaps/include/fmActivate.js"></script>
   <script language="JavaScript" src="/flashmaps/include/fmASAPI.js"></script>
 <% end %>
-        <script type="text/javascript">
-          if (DetectFlashVer(8,0,0)) {
-            fmObjectActivateWrite("fmASEngine", "/flashmaps/fmASMap/fmASToolbar.swf", "500", "300", "true", "high", "#FFFFFF", ".") 
-          } else {
-            var alternateContent = 'This content requires the Adobe Flash Player. <a href=http://www.adobe.com/go/getflash/>Get Flash</a>';
-            document.write(alternateContent);
-          }
-        </script>
-        <script language="JavaScript" src="/flashmaps/include/fmASInitVars.js"></script>
-        <noscript>
-          This content requires the Adobe Flash Player. <a href=http://www.adobe.com/go/getflash/>Get Flash</a>
-        </noscript>
+
+<% if request.domain.include?("stepitup2007.org") || request.domain.include?("zheng.radicaldesigns.org") -%>
+<script type="text/javascript">
+  if (DetectFlashVer(8,0,0)) {
+    fmObjectActivateWrite("fmASEngine", "/flashmaps/fmASMap/fmASToolbar.swf", "500", "300", "true", "high", "#FFFFFF", ".") 
+  } else {
+    var alternateContent = 'This content requires the Adobe Flash Player. <a href=http://www.adobe.com/go/getflash/>Get Flash</a>';
+    document.write(alternateContent);
+  }
+</script>
+<script language="JavaScript" src="/flashmaps/include/fmASInitVars.js"></script>
+<noscript>
+  This content requires the Adobe Flash Player. <a href=http://www.adobe.com/go/getflash/>Get Flash</a>
+</noscript>
+<% end -%>
