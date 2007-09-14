@@ -1,5 +1,9 @@
 xml.areas do
   @districts.each do |d|
-    xml.area :id => "us_#{@state.downcase}_#{d[1]}", :category => 'dis_1', :label => d[2], :state => '1', :name => 'a politician name', :image => '/url'
+    politician = @politicians.detect {|p| "#{@state}#{(d[1] == 'one' ? '01' : d[2])}" == p.district}
+    category = "2" if politician.attending?
+    category ||= "1" if politician.invited?
+    category ||= "0"
+    xml.area :id => "us_#{@state.downcase}_#{d[1]}", :category => "dis_#{category}", :label => d[2], :state => category, :name => "#{politician.display_name} - #{politician.district}", :image => politician.image_url
   end
 end

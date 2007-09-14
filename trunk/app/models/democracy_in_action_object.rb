@@ -10,7 +10,8 @@ class DemocracyInActionObject < ActiveRecord::Base
 
   serialize :local
   def local
-    "DemocracyInAction#{table.classify}".constantize #has to have been defined to unserialize
+    #has to have been defined to unserialize properly
+    "DemocracyInAction#{table.classify}".constantize rescue NameError
     read_attribute :local
   end
 

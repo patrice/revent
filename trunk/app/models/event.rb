@@ -51,9 +51,12 @@ class Event < ActiveRecord::Base
   has_many :democracy_in_action_campaigns, :as => :associated, :class_name => 'DemocracyInActionObject', :conditions => "democracy_in_action_objects.table = 'campaign'"
   def campaign_for_politician(politician)
     democracy_in_action_campaigns.each do |c|
-      c.local = DemocracyInActionCampaign.find c.key unless c.local
-      if c.local && c.local.person_legislator_IDS.split(',').collect {|id| id.strip}.include?(politician.person_legislator_id.to_s)
-        return c.local
+      if c.local 
+        legislator_ids = c.local.person_legislator_IDS.split(',').collect {|id| id.strip} if c.local.person_legislator_IDS
+        recipient_keys = c.local.recipient_KEYS.split(',').collect {|key| key.strip} if c.local.recipient_KEYS
+        if (legislator_ids && legislator_ids.include?(politician.person_legislator_id.to_s)) || (recipient_keys && recipient_keys.include?(politician.democracy_in_action_recipient_key.to_s))
+          return c.local
+        end
       end
     end
     nil

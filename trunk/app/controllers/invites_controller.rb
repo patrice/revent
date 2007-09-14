@@ -1,22 +1,39 @@
 class InvitesController < ApplicationController  
   before_filter :find_or_initialize_event, :only => [:write, :call, :email]
 
+  # find events near politician (params[:id]) to invite them to
+  def events
+    @politician = Politician.find(params[:id])
+    @events_in_district = @calendar.events.find(:all, :conditions => ["district = ?", @politician.district]) if @politician.district_type == 'FH'
+    if @events_in_district && @events_in_district.length == 1
+      @politicians = [@politician]
+      @event = @events_in_district.first
+      render :action => 'all' and return
+    end
+    @events_in_state = @calendar.events.find(:all, :conditions => ["state = ?", @politician.state])
+  end
+
   def index
   end
 
   def nearby
+    find_nearby
+    @event = Event.new :name => 'the events'
+    render :action => 'all'
+  end
+
+  def find_nearby
     districts = ZipCode.find_districts_near_postal_code(params[:postal_code]) 
     if districts.length > 5
       close_districts = ZipCode.find_districts_near_postal_code(params[:postal_code], 10, 20)
       districts = close_districts + ZipCode.find_districts_near_postal_code(params[:postal_code], 20, 60)
     end
-    states = ZipCode.find_states_near_postal_code(params[:postal_code])
+    searched_states = ZipCode.find_states_near_postal_code(params[:postal_code])
+    @display_state = searched_states.first
     @politicians = []
     @politicians << Politician.find_all_by_district(districts)
-    @politicians << Politician.find_all_by_district(states.collect {|s| ["#{s}1","#{s}2"]}.flatten)
+    @politicians << Politician.find_all_by_district(searched_states.collect {|s| ["#{s}1","#{s}2"]}.flatten)
     @politicians.flatten!
-    @event = Event.new :name => 'the events'
-    render :action => 'all'
   end
 
   def all
@@ -30,22 +47,83 @@ class InvitesController < ApplicationController
   end
 
   def list
-    non_states = ["none", "ot", "GU", "PR", "VI", "NT", "AB", "BC", "MB", "NF", "NB", "NT", "NU", "ON", "PE", "QC", "SK", "YT", "AS"].freeze
-    @states = DemocracyInAction::Helpers.state_options_for_select.collect {|s| s[1]} - non_states
+    @states = valid_states
     @display_state =  params[:state].nil? ? @states.first : params[:state]
-    @politicians = Politician.find_all_by_state(@display_state, :include => :politician_invites, :order => 'district_type desc')
     respond_to do |format|
+      format.html { @politicians = Politician.find_all_by_state(@display_state, :include => :politician_invites, :order => 'district_type desc') }
       format.js { 
+        @politicians = Politician.find(:all, :include => [:rsvps, :politician_invites])
         @list = render_to_string(:action => 'list', :layout => false)
-        render :action => 'list_js', :layout => false
+        render :layout => false
       }
-      format.xml { render :xml => @politicians.to_xml }
-      format.html
+      format.xml { 
+        @politicians = Politician.find(:all, :include => [:rsvps, :politician_invites])
+        invites = politician_list_to_hash(@politicians)
+#          :disclaimer => 'disclaimer' }
+        render :xml => {:politicians => invites}.to_xml 
+      }
+      format.json {
+        @politicians = Politician.find(:all, :include => [:rsvps, :politician_invites])
+        invites = politician_list_to_hash(@politicians)
+        render :json => {:politicians => invites}.to_json 
+      }
     end
   end
   
+  def politician_list_to_hash(list)
+    list.collect do |p|
+      {
+        :district => p.district, :display_name => p.display_name,
+        :invited => p.invited?, :attending => p.attending?,
+        :image_url => p.image_url,
+        :invite_url => url_for(:controller => :invites, :action => :events, :id => p.id)
+      }
+    end 
+  end
+
+  def valid_states
+    non_states = ["none", "ot", "GU", "PR", "VI", "NT", "AB", "BC", "MB", "NF", "NB", "NT", "NU", "ON", "PE", "QC", "SK", "YT", "AS"].freeze
+    DemocracyInAction::Helpers.state_options_for_select.collect {|s| s[1]} - non_states
+  end
+
   def search
-    @politicians = Politican.find_by_state(params[:state])
+    find_nearby
+    @states = valid_states
+    invites = politician_list_to_hash(@politicians)
+    respond_to do |format|
+      format.html { render :action => 'list' }
+      format.json { render :json => {:politicians => invites}.to_json }
+      format.xml { render :xml => {:politicians => invites}.to_xml}
+      format.js { 
+        @list = render_to_string(:action => :list, :layout => false)
+        render :layout => false 
+      }
+    end
+  end
+
+  def senators
+    @politicians = Politician.find_all_by_district_type('FS', :order => 'district')
+    subset
+  end
+
+  def candidates
+    @politicians = Candidate.find_all_by_office(params[:office], :order => "last_name")
+    subset
+  end
+
+  def subset
+    @states = valid_states
+    @display_state = @states.first
+    invites = politician_list_to_hash(@politicians)
+    respond_to do |format|
+      format.html { render :action => 'list' }
+      format.json { render :json => {:politicians => invites}.to_json }
+      format.xml { render :xml => {:politicians => invites}.to_xml}
+      format.js { 
+        @list = render_to_string(:action => :list, :layout => false)
+        render :action => :search, :layout => false 
+      }
+    end
   end
 
   def write
@@ -61,6 +139,10 @@ class InvitesController < ApplicationController
   def email
     @politician = Politician.find(params[:politician_id])
     @user = current_user
+    @recipient = @politician.democracy_in_action_object
+    if @recipient && @recipient.local && !@recipient.local['email'] && @recipient.local['web_form_url']
+      return
+    end
     unless campaign = @event.campaign_for_politician(@politician)
       campaign = create_new_campaign(@event, @politician)
     end
@@ -69,20 +151,21 @@ class InvitesController < ApplicationController
   end
 
   def create_new_campaign(event, politician)
+    extend ActionView::Helpers::TextHelper
     campaign = DemocracyInActionCampaign.new(
       'Reference_Name' => 'Invite ' + politician.display_name + ' to event ' + event.id.to_s,
       'Campaign_Title' => 'Invite ' + politician.display_name + ' to this action',
       'person_legislator_IDS' => politician.person_legislator_id,
-#      'recipient_KEYS' => politican.democracy_in_action_recipient_key,
+      'recipient_KEYS' => politician.democracy_in_action_recipient_key,
+#      'recipient_KEYS' => 121449, #jwarnow@gmail.com 
       'Suggested_Subject' => 'StepItUp',
 #      'Letter_Salutation' => politician.title + politician.first_name + politician.last_name,
-      'Suggested_Content' => render_to_string(:partial => 'letter_content'),
+      'Suggested_Content' => strip_tags(render_to_string(:partial => 'letter_content')),
       'Max_Number_Of_Faxes' => 100, #100?
       'Hide_Keep_Me_Informed' => 1,
       'Default_Tracking_Code' => "distributed_event_KEY#{@calendar.democracy_in_action_key}"
     )
     key = campaign.save
-    campaign = DemocracyInActionCampaign.find key
     event.democracy_in_action_campaigns.create :table => 'campaign', :key => key, :local => campaign
     campaign
   end
@@ -138,6 +221,7 @@ class InvitesController < ApplicationController
     @totals = Flashmaps::DISTRICTS.inject({}) {|counts, district| counts[district[0]].nil? ? counts[district[0]] = 1 : counts[district[0]] += 1; counts}
     @action_total = @calendar.events.count
     @states = Flashmaps::STATES
+    @politicians = Politician.find(:all, :include => [:rsvps, :politician_invites])
     render :layout => false
   end
 
@@ -149,6 +233,7 @@ class InvitesController < ApplicationController
   def flashmap_area_districts
     @state = params[:state]
     @districts = Flashmaps::DISTRICTS.select {|d| d[0] == "us_#{@state.downcase}"}
+    @politicians = Politician.find(:all, :conditions => ["state = ?", @state], :include => [:rsvps, :politician_invites])
     render :layout => false
   end
 

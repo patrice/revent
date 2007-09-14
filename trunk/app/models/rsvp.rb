@@ -1,6 +1,9 @@
 class Rsvp < ActiveRecord::Base
   belongs_to :event
   belongs_to :user
+
+  belongs_to :attending, :polymorphic => true
+
 =begin
   has_one :democracy_in_action_object, :as => :synced
   def democracy_in_action_synced_table

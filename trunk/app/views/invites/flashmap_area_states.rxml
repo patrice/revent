@@ -1,5 +1,16 @@
 xml.areas do
   @states.each do |state|
-    xml.area :id => state[0], :category => 'state_0', :label => state[1], :child => "/#{@calendar.permalink}/invites/flashmap/areas/state/#{state[2]}.xml", :total_sen => '2', :total_rep => @totals[state[0]], :actions => @action_total, :state_sen => '0', :state_rep => '0'
+    rep = @politicians.select {|p| p.state == state[2] && p.district_type == 'FH' && p.invited?}
+    sen = @politicians.select {|p| p.state == state[2] && p.district_type == 'FS' && p.invited?}
+    total = @politicians.select {|p| p.state == state[2]}.length
+    percent = (rep + sen).length / total.to_f
+    category = case percent * 100
+      when 0 then 'state_0'
+      when 0..33 then 'state_1_33'
+      when 33..66 then 'state_33_66'
+      when 66..100 then 'state_66_100'
+    end
+
+    xml.area :id => state[0], :category => category, :label => state[1], :child => "/#{@calendar.permalink}/invites/flashmap/areas/state/#{state[2]}.xml", :total_sen => '2', :total_rep => @totals[state[0]], :actions => @action_total, :state_sen => sen.length, :state_rep => rep.length
   end
 end

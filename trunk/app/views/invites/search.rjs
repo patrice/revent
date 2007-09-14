@@ -1,0 +1,3 @@
+page << "document.write('<div id=\"stepitup-big-list\">');"
+page << "document.write('#{escape_javascript(@list)}');"
+page << "document.write('</div>');"

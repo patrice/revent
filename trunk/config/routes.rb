@@ -105,6 +105,15 @@ ActionController::Routing::Routes.draw do |map|
 
   # Routes for inviting policitians to an event
   map.invite ':permalink/events/:id/invite/:action/:politician_id', :controller => 'invites', :defaults => { :action => 'all', :politician_id => nil, :id => 'all' }
+  map.connect ':permalink/invites/list/state/:state', :controller => 'invites', :action => 'list'
+  map.connect ':permalink/invites/list/state/:state.:format', :controller => 'invites', :action => 'list'
+  map.connect ':permalink/invites/list/zip/:postal_code', :controller => 'invites', :action => 'search'
+  map.connect ':permalink/invites/list/zip/:postal_code.:format', :controller => 'invites', :action => 'search'
+  map.connect ':permalink/invites/list/candidates/:office', :controller => 'invites', :action => 'candidates'
+  map.connect ':permalink/invites/list/candidates/:office.:format', :controller => 'invites', :action => 'candidates'
+  map.connect ':permalink/invites/list/senators', :controller => 'invites', :action => 'senators'
+  map.connect ':permalink/invites/list/senators.:format', :controller => 'invites', :action => 'senators'
+
 
   map.connect ':permalink/events/show/:id', :controller => 'events', :action => 'show'
 

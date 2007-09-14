@@ -1,0 +1,4 @@
+<h1>Invite <%= @politician.display_name %> to <%= @event ? @event.name : 'an event' %></h1>
+<%= render(:partial => 'politician', :locals => {:politician => @politician}) %>
+<%= link_to 'Back to the BIG list', url_for(:permalink => @calendar.permalink, :controller => :invites, :action => :list) %>
+
