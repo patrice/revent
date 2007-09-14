@@ -10,7 +10,8 @@ xml.areas do
       when 33..66 then 'state_33_66'
       when 66..100 then 'state_66_100'
     end
+    action_total = @calendar.events.select {|e| e.state == state[2]}.length
 
-    xml.area :id => state[0], :category => category, :label => state[1], :child => "/#{@calendar.permalink}/invites/flashmap/areas/state/#{state[2]}.xml", :total_sen => '2', :total_rep => @totals[state[0]], :actions => @action_total, :state_sen => sen.length, :state_rep => rep.length
+    xml.area :id => state[0], :category => category, :label => state[1], :child => "/#{@calendar.permalink}/invites/flashmap/areas/state/#{state[2]}.xml", :total_sen => '2', :total_rep => @totals[state[0]], :actions => action_total, :state_sen => sen.length, :state_rep => rep.length
   end
 end

@@ -221,7 +221,6 @@ class InvitesController < ApplicationController
 
   def flashmap_area_states
     @totals = Flashmaps::DISTRICTS.inject({}) {|counts, district| counts[district[0]].nil? ? counts[district[0]] = 1 : counts[district[0]] += 1; counts}
-    @action_total = @calendar.events.count
     @states = Flashmaps::STATES
     @politicians = Politician.find(:all, :include => [:rsvps, :politician_invites])
     render :layout => false
