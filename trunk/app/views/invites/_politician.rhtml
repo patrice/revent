@@ -5,23 +5,25 @@
 No leaders found for this area.
 <% end %>
 
-<% if @politician.is_a?(Candidate) -%>
-    Invite to:
-    <%= select_tag 'event_id', options_for_select(@calendar.events.sort {|a,b| state = a.state <=> b.state; state == 0 ? a.city.downcase <=> b.city.downcase : state }.collect {|e| ["#{[e.city, e.state].join(', ')} - #{e.name}", e.id]}), :style => 'width: auto;' %>
-<% elsif @events_in_district && @events_in_district.length > 0 -%>
-  Choose an event from <%= @politician.display_name %>'s district<br/>
-  <%= select_tag 'event_id', options_for_select(@events_in_district.collect {|e| ["#{[e.city, e.state].join(', ')} - #{e.name}", e.id]}), :style => 'width: auto;' %>
-<% else -%>
-<% if @politician.district_type == 'FH' -%>There are no events in <%= @politician.display_name %>'s district<br/><% end -%>
-
-  <% if @events_in_state && @events_in_state.length > 0 -%>
-    Choose an event in <%= DemocracyInAction::Helpers.state_options_for_select.inject({}) {|states, o| states[o[1]] = o[0]; states}[@politician.state] %><br/>
-    <%= select_tag 'event_id', options_for_select(@events_in_state.collect {|e| ["#{[e.city, e.state].join(', ')} - #{e.name}", e.id]}), :style => 'width: auto;' %>
+<% unless @event -%>
+  <% if politician.is_a?(Candidate) -%>
+      Invite to:
+      <%= select_tag 'event_id', options_for_select(@calendar.events.sort {|a,b| state = a.state <=> b.state; state == 0 ? a.city.downcase <=> b.city.downcase : state }.collect {|e| ["#{[e.city, e.state].join(', ')} - #{e.name}", e.id]}), :style => 'width: auto;' %>
+  <% elsif @events_in_district && @events_in_district.length > 0 -%>
+    Choose an event from <%= politician.display_name %>'s district<br/>
+    <%= select_tag 'event_id', options_for_select(@events_in_district.collect {|e| ["#{[e.city, e.state].join(', ')} - #{e.name}", e.id]}), :style => 'width: auto;' %>
   <% else -%>
-    There are no events in <%= DemocracyInAction::Helpers.state_options_for_select.inject({}) {|states, o| states[o[1]] = o[0]; states}[@politician.state] %><br/>
+  <% if politician.district_type == 'FH' -%>There are no events in <%= politician.display_name %>'s district<br/><% end -%>
 
-    Perhaps you should <%= link_to 'start one!', signup_url %>  Or, you may choose from any event:<br/>
-    <%= select_tag 'event_id', options_for_select(@calendar.events.sort {|a,b| state = a.state <=> b.state; state == 0 ? a.city.downcase <=> b.city.downcase : state }.collect {|e| ["#{[e.city, e.state].join(', ')} - #{e.name}", e.id]}), :style => 'width: auto;' %>
+    <% if @events_in_state && @events_in_state.length > 0 -%>
+      Choose an event in <%= DemocracyInAction::Helpers.state_options_for_select.inject({}) {|states, o| states[o[1]] = o[0]; states}[politician.state] %><br/>
+      <%= select_tag 'event_id', options_for_select(@events_in_state.collect {|e| ["#{[e.city, e.state].join(', ')} - #{e.name}", e.id]}), :style => 'width: auto;' %>
+    <% else -%>
+      There are no events in <%= DemocracyInAction::Helpers.state_options_for_select.inject({}) {|states, o| states[o[1]] = o[0]; states}[politician.state] %><br/>
+
+      Perhaps you should <%= link_to 'start one!', signup_url %>  Or, you may choose from any event:<br/>
+      <%= select_tag 'event_id', options_for_select(@calendar.events.sort {|a,b| state = a.state <=> b.state; state == 0 ? a.city.downcase <=> b.city.downcase : state }.collect {|e| ["#{[e.city, e.state].join(', ')} - #{e.name}", e.id]}), :style => 'width: auto;' %>
+    <% end -%>
   <% end -%>
 <% end -%>
 
@@ -30,13 +32,25 @@ No leaders found for this area.
 	<tr>
     <td><%= image_tag(politician.image_url, :size => "60x70") %><td>
       <td><span class="button-maker"><span class="button-maker-left"><span class="button-maker-right">
-        <%= link_to_function 'Send a Letter', "window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/write/#{@politician.id}');return false;" %>
+        <% if @event -%>
+          <%= link_to 'Send a Letter', {:action => 'write', :politician_id => politician.id}, :popup => true %>
+        <% else -%>
+          <%= link_to_function 'Send a Letter', "window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/write/#{politician.id}');return false;" %>
+        <% end -%>
       </span></span></span>
       <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right">
-        <%= link_to_function 'Call', "window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/call/#{@politician.id}');return false;" %>
+        <% if @event -%>
+          <%= link_to 'Call', {:action => 'call', :politician_id => politician.id}, :popup => true %>
+        <% else -%>
+          <%= link_to_function 'Call', "window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/call/#{politician.id}');return false;" %>
+        <% end -%>
       </span></span></span>
       <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right">
-        <%= link_to_function 'Email', "window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/email/#{@politician.id}');return false;" %>
+        <% if @event -%>
+          <%= link_to 'Email', {:action => 'email', :politician_id => politician.id}, :popup => true %>
+        <% else -%>
+          <%= link_to_function 'Email', "window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/email/#{politician.id}');return false;" %>
+        <% end -%>
     </span></span></span></td>
 	</tr>
 </table>
