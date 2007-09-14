@@ -46,6 +46,7 @@ class InvitesController < ApplicationController
     @politicians << Politician.find_by_district(@event.state + "2")
   end
 
+  after_filter(:only => :list) {|c| c.cache_page(nil, :permalink => c.params[:permalink]) }
   def list
     @states = valid_states
     @display_state =  params[:state].nil? ? @states.first : params[:state]
@@ -99,6 +100,7 @@ class InvitesController < ApplicationController
         render :layout => false 
       }
     end
+    cache_page nil, :permalink => @calendar.permalink, :postal_code => params[:postal_code]
   end
 
   def senators
