@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 51) do
+ActiveRecord::Schema.define(:version => 52) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -39,16 +39,18 @@ ActiveRecord::Schema.define(:version => 51) do
     t.column "name",              :string
     t.column "short_description", :text
     t.column "user_id",           :integer
-    t.column "current",           :boolean,  :default => false
-    t.column "theme",             :string
     t.column "permalink",         :string
     t.column "site_id",           :integer
+    t.column "current",           :boolean,  :default => false
+    t.column "theme",             :string
+    t.column "flashmap_url",      :string
     t.column "signup_redirect",   :string
     t.column "event_start",       :datetime
     t.column "event_end",         :datetime
   end
 
   add_index "calendars", ["permalink"], :name => "index_calendars_on_permalink"
+  add_index "calendars", ["site_id"], :name => "index_calendars_on_site_id"
 
   create_table "democracy_in_action_objects", :force => true do |t|
     t.column "synced_type",     :string
@@ -58,6 +60,12 @@ ActiveRecord::Schema.define(:version => 51) do
     t.column "local",           :text
     t.column "associated_type", :string
     t.column "associated_id",   :integer
+  end
+
+  create_table "districts", :id => false, :force => true do |t|
+    t.column "stateID",    :string, :limit => 5,  :default => "", :null => false
+    t.column "districtID", :string, :limit => 3,  :default => "", :null => false
+    t.column "district",   :string, :limit => 50
   end
 
   create_table "events", :force => true do |t|
@@ -83,6 +91,7 @@ ActiveRecord::Schema.define(:version => 51) do
   add_index "events", ["latitude", "longitude"], :name => "index_events_on_latitude_and_longitude"
   add_index "events", ["postal_code"], :name => "index_events_on_postal_code"
   add_index "events", ["state", "city"], :name => "index_events_on_state_and_city"
+  add_index "events", ["calendar_id"], :name => "index_events_on_calendar_id"
 
   create_table "politician_invites", :force => true do |t|
     t.column "user_id",       :integer
@@ -91,6 +100,8 @@ ActiveRecord::Schema.define(:version => 51) do
     t.column "invite_type",   :string
     t.column "created_at",    :datetime
   end
+
+  add_index "politician_invites", ["politician_id"], :name => "index_politician_invites_on_politician_id"
 
   create_table "politicians", :force => true do |t|
     t.column "title",                :string
@@ -112,6 +123,10 @@ ActiveRecord::Schema.define(:version => 51) do
     t.column "type",                 :string
     t.column "office",               :string
   end
+
+  add_index "politicians", ["state"], :name => "index_politicians_on_state"
+  add_index "politicians", ["district_type"], :name => "index_politicians_on_district_type"
+  add_index "politicians", ["district"], :name => "index_politicians_on_district"
 
   create_table "press_links", :force => true do |t|
     t.column "url",       :string
@@ -153,6 +168,8 @@ ActiveRecord::Schema.define(:version => 51) do
     t.column "attending_id",   :integer
   end
 
+  add_index "rsvps", ["attending_id", "attending_type"], :name => "index_rsvps_on_attending_id_and_attending_type"
+
   create_table "sessions", :force => true do |t|
     t.column "session_id", :string
     t.column "data",       :text
@@ -168,6 +185,12 @@ ActiveRecord::Schema.define(:version => 51) do
   end
 
   add_index "sites", ["host"], :name => "index_sites_on_host"
+
+  create_table "states", :id => false, :force => true do |t|
+    t.column "stateID",    :string, :limit => 5,  :default => "", :null => false
+    t.column "state",      :string, :limit => 50
+    t.column "state_abrv", :string, :limit => 2
+  end
 
   create_table "taggings", :force => true do |t|
     t.column "tag_id",        :integer, :default => 0,  :null => false
