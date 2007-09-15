@@ -51,7 +51,7 @@ class InvitesController < ApplicationController
     @states = valid_states
     @display_state =  params[:state].nil? ? @states.first : params[:state]
     respond_to do |format|
-      format.html { @politicians = Politician.find_all_by_state(@display_state, :include => :politician_invites, :order => 'district_type desc') }
+      format.html { @politicians = Politician.find_all_by_state(@display_state, :include => [:rsvps, :politician_invites], :order => 'district_type desc') }
       format.js { 
         @politicians = Politician.find(:all, :include => [:rsvps, :politician_invites])
         @list = render_to_string(:action => 'list', :layout => false)
@@ -104,12 +104,12 @@ class InvitesController < ApplicationController
   end
 
   def senators
-    @politicians = Politician.find_all_by_district_type('FS', :order => 'district')
+    @politicians = Politician.find_all_by_district_type('FS', :include => [:rsvps, :politician_invites], :order => 'district')
     subset
   end
 
   def candidates
-    @politicians = Candidate.find_all_by_office(params[:office], :order => "last_name")
+    @politicians = Candidate.find_all_by_office(params[:office], :include => [:rsvps, :politician_invites], :order => "last_name")
     subset
   end
 
@@ -174,8 +174,7 @@ class InvitesController < ApplicationController
 
   def redirect_to_campaign(campaign)
     config = DemocracyInAction::Config.new(File.join(Site.current_config_path, 'democracyinaction-config.yml'))
-    #redirect_to "http://www.democracyinaction.org/dia/organizations/" + config['short_name'] + "/campaign.jsp?campaign_KEY="+campaign.key
-    redirect_to "http://www.democracyinaction.org/dia/organizations/" + 'radicaldesigns' + "/campaign.jsp?campaign_KEY="+campaign.key
+    redirect_to "http://www.democracyinaction.org/dia/organizations/" + config['short_name'] + "/campaign.jsp?campaign_KEY="+campaign.key
   end
 
   def create
