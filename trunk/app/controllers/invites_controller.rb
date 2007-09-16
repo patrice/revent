@@ -1,6 +1,24 @@
 class InvitesController < ApplicationController  
   before_filter :find_or_initialize_event, :only => [:write, :call, :email]
 
+  def totals
+    @congress_invites = Politician.count :include => :politician_invites, :conditions => "(district_type = 'FS' OR district_type = 'FH') AND politician_invites.id"
+    @candidate_invites = Candidate.count :include => :politician_invites, :conditions => "politician_invites.id"
+
+    @congress_rsvps = Politician.count :include => :rsvps, :conditions => "(district_type = 'FS' OR district_type = 'FH') AND rsvps.id"
+    @candidate_rsvps = Candidate.count :include => :rsvps, :conditions => "rsvps.id"
+    respond_to do |format|
+      format.html { render(:layout => false) }
+      format.js { 
+        @content = render_to_string(:layout => false)
+        extend ActionView::Helpers::JavaScriptHelper
+        render :update do |page|
+          page << "document.write('#{escape_javascript(@content)}');"
+        end
+      }
+    end
+  end
+
   # find events near politician (params[:id]) to invite them to
   def events
     @politician = Politician.find(params[:id])
