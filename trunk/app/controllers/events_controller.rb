@@ -4,7 +4,8 @@ class EventsController < ApplicationController
   include DaysOfAction::Geo
 
   caches_page :index, :total, :by_state
-  after_filter { |c| c.cache_page(nil, :permalink => c.params[:permalink]) if c.action_name == 'show' }
+#  after_filter { |c| c.cache_page(nil, :permalink => c.params[:permalink]) if c.action_name == 'show' }
+  caches_page :show
   caches_action :ally
   after_filter :cache_search_results, :only => :search
 
