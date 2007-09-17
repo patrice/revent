@@ -14,10 +14,19 @@ class Admin::EventsController < AdminController
   
   def search
     @events = []
-    @events = Event.find(:all, :conditions => ['name like ?', params[:name] + "%"])
+    string = []
+    crit = []
+    %w(name state city).each do |s|
+      string << s + " like ?"
+      crit << params[s] + "%"
+    end
+    event_criteria = [string.join(' AND '), crit].flatten
+    @events = @calendar.events.find(:all, :conditions => event_criteria)
+    
     if @events.empty?
       flash[:notice] = "Could not find that event."
       redirect_to :action => 'index'
     end
   end
+  
 end
