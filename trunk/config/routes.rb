@@ -14,7 +14,7 @@ ActionController::Routing::Routes.draw do |map|
   # map.connect '', :controller => "welcome"
 
 #  raise Calendar.find(:first).inspect => WORKS!!!
-  map.home '', :controller => 'calendars', :action => 'show'
+  map.home '', :controller => 'calendars', :action => 'show', :format => 'html'
 
   map.connect ':permalink/invites/flashmap/pois', :controller => 'invites', :action => 'flashmap_pois'
   map.connect ':permalink/invites/flashmap/areas/states', :controller => 'invites', :action => 'flashmap_area_states'
