@@ -1,7 +1,7 @@
-Congressional Representatives<br/>
-Invited: <%= @congress_invites %><br/>
-Committed to attend: <%= @congress_rsvps %><br/>
+<span class="score_titles">Members of Congress</span><br/>
+ <table cellpadding="4" cellspacing="0" border="0" width="90%" style="color: #FFFFFF;"><tr><td style="color: #FFFFFF;">Invited: </td><td class="score"><%= @congress_invites %>
+ </td></tr><tr><td style="color: #FFFFFF;">Committed to attend:  </td><td class="score"> <%= @congress_rsvps %> </td></tr></table>
 
-Presidential Candidates<br/>
-Invited: <%= @candidate_invites %><br/>
-Committed to Attend: <%= @candidate_rsvps %>
+<span class="score_titles">Presidential Candidates</span><br/>
+<table cellpadding="4" cellspacing="0" border="0" width="90%" style="color: #FFFFFF;"><tr><td style="color: #FFFFFF;">Invited: </td><td class="score"><%= @candidate_invites %>
+</td></tr><tr><td style="color: #FFFFFF;">Committed to Attend: </td><td class="score"> <%= @candidate_rsvps %></td></tr></table>

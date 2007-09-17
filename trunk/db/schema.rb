@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(:version => 52) do
     t.column "site_id",           :integer
     t.column "current",           :boolean,  :default => false
     t.column "theme",             :string
-    t.column "flashmap_url",      :string
     t.column "signup_redirect",   :string
     t.column "event_start",       :datetime
     t.column "event_end",         :datetime
@@ -60,12 +59,6 @@ ActiveRecord::Schema.define(:version => 52) do
     t.column "local",           :text
     t.column "associated_type", :string
     t.column "associated_id",   :integer
-  end
-
-  create_table "districts", :id => false, :force => true do |t|
-    t.column "stateID",    :string, :limit => 5,  :default => "", :null => false
-    t.column "districtID", :string, :limit => 3,  :default => "", :null => false
-    t.column "district",   :string, :limit => 50
   end
 
   create_table "events", :force => true do |t|
@@ -185,12 +178,6 @@ ActiveRecord::Schema.define(:version => 52) do
   end
 
   add_index "sites", ["host"], :name => "index_sites_on_host"
-
-  create_table "states", :id => false, :force => true do |t|
-    t.column "stateID",    :string, :limit => 5,  :default => "", :null => false
-    t.column "state",      :string, :limit => 50
-    t.column "state_abrv", :string, :limit => 2
-  end
 
   create_table "taggings", :force => true do |t|
     t.column "tag_id",        :integer, :default => 0,  :null => false

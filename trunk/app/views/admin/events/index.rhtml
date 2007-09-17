@@ -8,8 +8,10 @@
 <% end %>
 <br />
 
+<p>show events that are... <%= link_to 'not mappable', :action => 'nomap' %>
+
 <table>
-	<tr><th>Event Name</th></tr>
+  <tr><th>Lat/Lon</th><th>Event Name</th><th>Host</th></tr>
 	<%= render :partial => 'event', :collection => @events %>
 </table>
 

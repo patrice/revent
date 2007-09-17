@@ -5,7 +5,11 @@
 config.cache_classes = true
 
 # Use a different logger for distributed setups
-# config.logger = SyslogLogger.new
+#require 'syslog_logger'
+#config.logger = RAILS_DEFAULT_LOGGER = SyslogLogger.new('daysofaction')
+require 'hodel_3000_compliant_logger'
+config.logger = Hodel3000CompliantLogger.new(config.log_path)
+config.logger.level = Logger::INFO
 
 # Full error reports are disabled and caching is turned on
 config.action_controller.consider_all_requests_local = false
@@ -27,13 +31,11 @@ ActionMailer::Base.delivery_method = :sendmail
 #   :address            => 'smtp.engineyard.com',
 #   :port               => 25 }
 
-begin
-  CACHE = MemCache.new 'localhost:11211', :namespace => 'daysofaction'
-  require 'memcache_util'
-  require 'mem_cache_fragment_store'
-  ActionController::Base.fragment_cache_store = :mem_cache_fragment_store, CACHE
-rescue
-end
+CACHE = MemCache.new 'localhost:11211', :namespace => 'daysofaction'
+require 'memcache_util'
+require 'mem_cache_fragment_store'
+ActionController::Base.fragment_cache_store = :mem_cache_fragment_store, CACHE
+config.action_controller.session_store = :mem_cache_store
 
 begin
   require 'flickr'

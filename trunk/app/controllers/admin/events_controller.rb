@@ -28,5 +28,9 @@ class Admin::EventsController < AdminController
       redirect_to :action => 'index'
     end
   end
-  
+
+  def nomap
+    @events = @calendar.events.find(:all, :conditions => "latitude = 0 or latitude IS NULL or longitude = 0 or longitude IS NULL")
+    render :action => 'search'
+  end
 end
