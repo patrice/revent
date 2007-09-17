@@ -1,6 +1,8 @@
 class InvitesController < ApplicationController  
   before_filter :find_or_initialize_event, :only => [:write, :call, :email]
   session :off, :only => :totals
+  
+  after_filter { |c| c.cache_page(nil, :permalink => c.params[:permalink]) if c.action_name == 'totals' }
 
   def totals
     @congress_invites = Politician.count :include => :politician_invites, :conditions => "(district_type = 'FS' OR district_type = 'FH') AND politician_invites.id"
