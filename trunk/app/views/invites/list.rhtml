@@ -1,25 +1,20 @@
 <h2>The BIG List</h2>
 
-<table>
-  <tr>
-    <td><%= link_to 'Presidential Candidates', :action => 'candidates', :office => 'president' %></td>
-    <td>
-      <% form_tag :action => 'list', :only_path => false do -%>
-      <div style="float: left; width: 120px;"><%= select_tag :state, us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='#{request.protocol}#{request.host}/#{@calendar.permalink}/invites/list/state/' + this.value", :style => "width: 100px;" %></div>
-        <%= submit_tag 'show by state' %>
-      <% end -%>
-    </td>
-  </tr>
-  <tr>
-    <td><%= link_to 'Senators', :action => 'senators' %></td>
-    <td>
-      <% form_tag :action => 'search', :only_path => false, :html => {:onsubmit => "window.location.href='#{request.protocol}#{request.host}/#{@calendar.permalink}/invites/list/zip/' + $('postal_code').value; return false;"} do -%>
-      <div style="float: left; width: 120px;"><%= text_field_tag :postal_code, nil, :style => "width: 100px;" %></div>
-      <%= submit_tag 'show by zip', :onclick => "window.location.href='#{request.protocol}#{request.host}/#{@calendar.permalink}/invites/list/zip/' + $('postal_code').value; return false;" %>
-      <% end -%>
-    </td>
-  </tr>
-</table>
+<%= link_to 'Click Here to Invite the Presidential Candidates', :action => 'candidates', :office => 'president' %><br/>
+<%= link_to 'Click Here to Invite the Senators', :action => 'senators' %><br/>
+
+<div style="text-decoration: underline;">Search Congress</div>
+
+<% form_tag :action => 'list', :only_path => false do -%>
+<div style="float: left; width: 120px;"><%= select_tag :state, us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='#{request.protocol}#{request.host}/#{@calendar.permalink}/invites/list/state/' + this.value", :style => "width: 100px;" %></div>
+  <%= submit_tag 'show by state' %>
+<% end -%>
+
+<% form_tag :action => 'search', :only_path => false, :html => {:onsubmit => "window.location.href='#{request.protocol}#{request.host}/#{@calendar.permalink}/invites/list/zip/' + $('postal_code').value; return false;"} do -%>
+<div style="float: left; width: 120px;"><%= text_field_tag :postal_code, nil, :style => "width: 100px;" %></div>
+<%= submit_tag 'show by zip', :onclick => "window.location.href='#{request.protocol}#{request.host}/#{@calendar.permalink}/invites/list/zip/' + $('postal_code').value; return false;" %>
+<% end -%>
+
 <p>
 <em>Even if a politician has already been invited, send out your invites anyway.  The more invitations they get, the greater the chances that they'll come. Let's keep the pressure on!</em>
 </p>

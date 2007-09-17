@@ -7,7 +7,7 @@ class UserMailer < ActionMailer::Base
 
   def invite(from, event, message, host='events.stepitup2007.org')
     @subject    = message[:subject]
-    @body       = {:event => event, :message => message[:body], :url => url_for(:host => host, :controller => 'events', :action => 'show', :id => event)}
+    @body       = {:event => event, :message => message[:body], :url => url_for(:host => host, :permalink => event.calendar.permalink, :controller => 'events', :action => 'show', :id => event)}
     @recipients = from
     @bcc        = message[:recipients]
     @from       = from
