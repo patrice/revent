@@ -1,0 +1,7 @@
+<% content_for :header do -%>
+<%= javascript_include_tag 'prototype' %>
+<% end -%>
+<table>
+  <tr><th>some stuff</th></tr>
+<%= render :partial => 'politician', :collection => @politicians %>
+</table>

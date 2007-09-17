@@ -2,8 +2,8 @@ class Admin::CalendarsController < AdminController
   skip_before_filter :set_calendar
   def index
     if Site.current.calendars.count > 1
-      return show if @calendar
       @calendars = Site.current.calendars
+      @calendar = Site.current.calendars.current
     else
       redirect_to :controller => 'admin/events', :permalink => Site.current.calendars.current.permalink
     end

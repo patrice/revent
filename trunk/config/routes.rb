@@ -40,6 +40,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'admin/calendars/:action/:id.:format', :controller => 'admin/calendars'
   map.connect 'admin/calendars/:action.:format', :controller => 'admin/calendars'
   map.connect 'admin/calendars/:action/:id', :controller => 'admin/calendars'
+
+  map.connect 'admin/invites/:action/:id.:format', :controller => 'admin/invites'
+  map.connect 'admin/invites/:action.:format', :controller => 'admin/invites'
+  map.connect 'admin/invites/:action/:id', :controller => 'admin/invites'
 # end of work-around
 
   map.with_options :controller => 'events', :action => 'new' do |m|

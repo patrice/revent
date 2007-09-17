@@ -1,5 +1,6 @@
 <tr>
   <td><%= [user.first_name, user.last_name].join %></td>
   <td><%= user.email %></td>
-  <td><%= link_to 'Reset password', :action => :reset_password, :id => user %>
+  <td><%= link_to 'Reset password', :action => :reset_password, :id => user %></td>
+  <td><%= user.events.collect {|e| link_to "#{e.start.strftime('%I:%M %p %B %e')} - #{e.name}", :controller => 'account/events', :action => 'show', :id => e.id}.join(', ') %></td>
 </tr>
