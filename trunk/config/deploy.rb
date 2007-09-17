@@ -10,7 +10,7 @@
 # correspond to. The deploy_to path must be the path on each machine that will
 # form the root of the application path.
 
-set :use_sudo, false
+set :use_sudo, true
 set :chmod755, %w(app config db lib public vendor script tmp public/dispatch.cgi public/dispatch.fcgi public/dispatch.rb)
 set :keep_releases, 3
 task :before_deploy do
@@ -28,14 +28,18 @@ set :repository, "https://svn.radicaldesigns.org/#{application}/trunk"
 # be used to single out a specific subset of boxes in a particular role, like
 # :primary => true.
 
-role :web, "radical@75.126.58.234"
-role :app, "radical@75.126.58.234"
-role :db,  "radical@75.126.58.234", :primary => true
+#role :web, "radical@75.126.58.234"
+#role :app, "radical@75.126.58.234"
+#role :db,  "radical@75.126.58.234", :primary => true
+
+role :web, "root@slicehost.radicaldesigns.org"
+role :app, "root@slicehost.radicaldesigns.org"
+role :db,  "root@slicehost.radicaldesigns.org"
 
 # =============================================================================
 # OPTIONAL VARIABLES
 # =============================================================================
-set :deploy_to, "~/apps/daysofaction" # defaults to "/u/apps/#{application}"
+set :deploy_to, "/var/www/daysofaction" # defaults to "/u/apps/#{application}"
 # set :user, "flippy"            # defaults to the currently logged in user
 # set :scm, :darcs               # defaults to :subversion
 # set :svn, "/path/to/svn"       # defaults to searching the PATH
