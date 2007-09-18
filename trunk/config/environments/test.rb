@@ -14,7 +14,7 @@ config.action_controller.consider_all_requests_local = true
 config.action_controller.perform_caching             = true
 config.action_controller.page_cache_directory        = File.join(RAILS_ROOT, 'test/tmp/cache/pages')
 config.action_controller.fragment_cache_store        = :file_store, File.join(RAILS_ROOT, 'test/tmp/cache/fragments')
-config.active_record.observers = :event_sweeper
+config.active_record.observers = :event_sweeper, :politician_invite_sweeper
 
 # Tell ActionMailer not to deliver emails to the real world.
 # The :test delivery method accumulates sent emails in the

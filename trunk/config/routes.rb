@@ -119,6 +119,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':permalink/invites/list/senators', :controller => 'invites', :action => 'senators'
   map.connect ':permalink/invites/list/senators.:format', :controller => 'invites', :action => 'senators'
 
+  map.connect ':permalink/events/show/:id', :controller => 'events', :action => 'show', :format => 'html'
 
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'
