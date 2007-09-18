@@ -1,17 +1,20 @@
 class InvitesController < ApplicationController  
   before_filter :find_or_initialize_event, :only => [:write, :call, :email]
-  session :off, :only => :totals
+  session :off
   layout 'invites'
   
-  after_filter(:only => [:totals, :index, :flashmap_area_states, :flashmap_area_districts, :flashmap_area_state]) do |c| 
+  after_filter(:only => [:totals, :index, :map, :flashmap_area_states, :flashmap_area_districts, :flashmap_area_state]) do |c| 
     c.cache_page(nil, :permalink => c.params[:permalink])
   end
 
-  caches_page :index, :flashmap_area_states
   caches_action :flashmap_pois
   # using the action_cache plugin http://www.agilewebdevelopment.com/plugins/action_cache
   def action_fragment_key(options)
-    url_for(options). + '?' + params.sort.collect {|k,v| "#{k}=#{v}"}.join('&')
+    url_for(options). + '?' + params.sort.collect {|k,v| "#{k}=#{v}"}.join('&') + "&version=#{flashmap_cache_version}"
+  end
+
+  def flashmap_cache_version
+    Cache.get("site_#{Site.current.id}_flashmap_version") { rand(10000) }
   end
 
   def totals
@@ -45,12 +48,11 @@ class InvitesController < ApplicationController
   end
 
   def index
+    map
+    render :action => 'map'
   end
 
-  def nearby
-    find_nearby
-    @event = Event.new :name => 'the events'
-    render :action => 'all'
+  def map
   end
 
   def find_nearby

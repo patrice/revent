@@ -1,7 +1,9 @@
-<% form_tag :permalink => @calendar.permalink, :action => 'nearby' do %>
-Zip: <%= text_field_tag 'postal_code' %>
-<%= submit_tag 'search nearby' %>
-<% end %>
+<% form_tag :action => 'search', :only_path => false, :html => {:onsubmit => "window.location.href='#{request.protocol}#{request.host}/#{@calendar.permalink}/invites/list/zip/' + $('postal_code').value; return false;"} do -%>
+<div style="float: left; width: 120px;">
+<%= text_field_tag :postal_code, nil, :style => "width: 100px;" %>
+</div>
+<%= submit_tag 'show by zip', :onclick => "window.location.href='#{request.protocol}#{request.host}/#{@calendar.permalink}/invites/list/zip/' + $('postal_code').value; return false;" %>
+<% end -%>
 
 <% content_for :header do %>
   <script language="JavaScript" src="/flashmaps/include/fmActivate.js"></script>
