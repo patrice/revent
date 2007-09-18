@@ -3,7 +3,16 @@ class InvitesController < ApplicationController
   session :off, :only => :totals
   layout 'invites'
   
-  after_filter { |c| c.cache_page(nil, :permalink => c.params[:permalink]) if c.action_name == 'totals' }
+  after_filter(:only => [:totals, :index, :flashmap_area_states, :flashmap_area_districts, :flashmap_area_state]) do |c| 
+    c.cache_page(nil, :permalink => c.params[:permalink])
+  end
+
+  caches_page :index, :flashmap_area_states
+  caches_action :flashmap_pois
+  # using the action_cache plugin http://www.agilewebdevelopment.com/plugins/action_cache
+  def action_fragment_key(options)
+    url_for(options). + '?' + params.sort.collect {|k,v| "#{k}=#{v}"}.join('&')
+  end
 
   def totals
     @congress_invites = Politician.count :include => :politician_invites, :conditions => "(district_type = 'FS' OR district_type = 'FH') AND politician_invites.id"

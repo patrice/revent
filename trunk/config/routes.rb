@@ -17,9 +17,9 @@ ActionController::Routing::Routes.draw do |map|
   map.home '', :controller => 'calendars', :action => 'show', :format => 'html'
 
   map.connect ':permalink/invites/flashmap/pois', :controller => 'invites', :action => 'flashmap_pois'
-  map.connect ':permalink/invites/flashmap/areas/states', :controller => 'invites', :action => 'flashmap_area_states'
-  map.connect ':permalink/invites/flashmap/areas/districts/:state.xml', :controller => 'invites', :action => 'flashmap_area_districts'
-  map.connect ':permalink/invites/flashmap/areas/state/:state.xml', :controller => 'invites', :action => 'flashmap_area_state'
+  map.connect ':permalink/invites/flashmap/areas/states', :controller => 'invites', :action => 'flashmap_area_states', :format => 'html'
+  map.connect ':permalink/invites/flashmap/areas/districts/:state.xml', :controller => 'invites', :action => 'flashmap_area_districts', :format => 'html'
+  map.connect ':permalink/invites/flashmap/areas/state/:state.xml', :controller => 'invites', :action => 'flashmap_area_state', :format => 'html'
 
   # see http://dev.rubyonrails.org/changeset/6594 for 
   # edge rails solution to using resources and namespace
@@ -108,6 +108,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 
   # Routes for inviting policitians to an event
+  map.totals ':permalink/invites/totals', :controller => 'invites', :action => 'totals', :format => 'html'
   map.invite ':permalink/events/:id/invite/:action/:politician_id', :controller => 'invites', :defaults => { :action => 'all', :politician_id => nil, :id => 'all' }
   map.connect ':permalink/invites/list/state/:state', :controller => 'invites', :action => 'list'
   map.connect ':permalink/invites/list/state/:state.:format', :controller => 'invites', :action => 'list'
