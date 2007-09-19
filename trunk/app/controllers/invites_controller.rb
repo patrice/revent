@@ -271,6 +271,31 @@ class InvitesController < ApplicationController
     @politicians = Politician.find(:all, :conditions => ["state = ?", @state], :include => [:rsvps, :politician_invites])
     render :layout => false
   end
+  
+=begin
+    interface for editing politician/candidate info
+    crud on admin side for politician contact info
+=end
+
+  def congress_invited
+    @politicians = Politician.find :all, :include => :politician_invites, :conditions => "(district_type = 'FS' OR district_type = 'FH') AND politician_invites.id"
+    render :action => 'list'
+  end
+  
+  def congress_attending
+    @politicians = Politician.find :all, :include => :rsvps, :conditions => "(district_type = 'FS' OR district_type = 'FH') AND rsvps.id"
+    render :action => 'list'
+  end
+  
+  def candidates_invited
+    @politicians = Candidate.find :all, :include => :politician_invites, :conditions => "(district_type = 'FS' OR district_type = 'FH') AND politician_invites.id"
+    render :action => 'list'
+  end
+  
+  def candidates_attending
+    @politicians = Candidate.find :all, :include => :rsvps, :conditions => "(district_type = 'FS' OR district_type = 'FH') AND rsvps.id"
+    render :action => 'list'
+  end
 
   protected
   def find_or_initialize_event

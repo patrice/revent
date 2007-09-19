@@ -3,7 +3,7 @@ class EventsController < ApplicationController
 #  access_control [:edit, :update, :destroy, :create] => 'admin'
   include DaysOfAction::Geo
 
-  caches_page :index, :total, :by_state
+  caches_page :total, :by_state
 #  after_filter { |c| c.cache_page(nil, :permalink => c.params[:permalink]) if c.action_name == 'show' }
   caches_page :show
   caches_action :ally
@@ -156,7 +156,7 @@ class EventsController < ApplicationController
   end
 
   def index
-    redirect_to :controller => :calendars, :action => :show
+    redirect_to home_url
   end
 
   def search
