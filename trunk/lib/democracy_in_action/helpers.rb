@@ -19,9 +19,10 @@ module DemocracyInAction
       ]
     end
 
-    def self.state_options_for_select
-      [
-        ["Select One...","none"],
+    def self.state_options_for_select(options = {})
+      none = [ ["Select One...","none"] ]
+
+      states = [
         ["Alabama","AL"],
         ["Alaska","AK"],
 
@@ -85,7 +86,10 @@ module DemocracyInAction
         ["Washington","WA"],
         ["West Virginia","WV"],
         ["Wisconsin","WI"],
-        ["Wyoming","WY"],
+        ["Wyoming","WY"]
+      ]
+
+      provinces = [
         ["Alberta","AB"],
 
         ["British Columbia","BC"],
@@ -100,10 +104,19 @@ module DemocracyInAction
         ["Prince Edward Island","PE"],
         ["Quebec","QC"],
         ["Saskatchewan","SK"],
-        ["Yukon Territory","YT"],
+        ["Yukon Territory","YT"]
+      ]
 
+      other = [
         ["Other","ot"]
       ]
+
+      select_options = []
+      select_options += none if options[:include_none]
+      select_options += states
+      select_options += provinces if options[:include_provinces]
+      select_options += other if options[:include_other]
+      select_options
     end
     
     def self.time_options_for_select(selected = nil)
