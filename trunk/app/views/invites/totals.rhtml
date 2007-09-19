@@ -1,8 +1,23 @@
+<div id="siu_scoreboard">
+
 <span class="score_titles">Members of Congress</span>
- <table cellpadding="4" cellspacing="0" border="1" width="90%" style="color: #FFFFFF;"><tr><td style="color: #FFFFFF;">Invited: </td><td class="score"><%= @congress_invites %>
-</td></tr><tr><td style="color: #FFFFFF;">Committed to attend:  </td><td class="score"> <%= @congress_rsvps %> </td></tr></table>
+
+<div class="score_block">
+<span class="score_labels">Invited: </span><span class="score"><a href="http://events.stepitup2007.org/november/invites/congress_invited"><%= @congress_invites %></a>
+</span>
+<br />
+<span class="score_labels">Committed to attend:  </span><span class="score"><a href="http://events.stepitup2007.org/november/invites/congress_attending"><%= @congress_rsvps %></a> 
+</span>
+</div>
+
 <br />
 <span class="score_titles">Presidential Candidates</span>
-<table cellpadding="4" cellspacing="0" border="1" width="90%" style="color: #FFFFFF;"><tr><td style="color: #FFFFFF;">Invited: </td><td class="score"><%= @candidate_invites %>
-</td></tr><tr><td style="color: #FFFFFF;">Committed to Attend: </td><td class="score"> <%= @candidate_rsvps %></td></tr></table>
-<br /><br />
+
+<div class="score_block">
+<span class="score_labels">Invited: </span><span class="score"><a href="http://events.stepitup2007.org/november/invites/candidates_invited"><%= @candidate_invites %></a></span>
+<br />
+<span class="score_labels">Committed to Attend: </span><span class="score"> <a href="http://events.stepitup2007.org/november/invites/candidates_attending"><%= @candidate_rsvps %></a></span>
+</div>
+
+<br />
+</div>
