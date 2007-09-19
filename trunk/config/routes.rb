@@ -108,8 +108,9 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 
   # Routes for inviting policitians to an event
-  map.totals ':permalink/invites/totals', :controller => 'invites', :action => 'totals', :format => 'html'
-  map.totals ':permalink/invites/list', :controller => 'invites', :action => 'list', :format => 'html' #would be great to figure this caching thing out
+  map.connect ':permalink/invites/totals', :controller => 'invites', :action => 'totals', :format => 'html'
+  map.totals ':permalink/invites/include/list', :controller => 'invites', :action => 'widget', :format => 'html'
+  map.connect ':permalink/invites/list', :controller => 'invites', :action => 'list', :format => 'html' #would be great to figure this caching thing out
 
   map.invite ':permalink/events/:id/invite/:action/:politician_id', :controller => 'invites', :defaults => { :action => 'all', :politician_id => nil, :id => 'all' }
   map.connect ':permalink/invites/list/state/:state', :controller => 'invites', :action => 'list'

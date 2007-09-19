@@ -17,12 +17,21 @@ class InvitesController < ApplicationController
     Cache.get("site_#{Site.current.id}_flashmap_version") { rand(10000) }
   end
 
-  def totals
+  def widget
+    count
+    render :layout => false
+  end
+
+  def count
     @congress_invites = Politician.count :include => :politician_invites, :conditions => "(district_type = 'FS' OR district_type = 'FH') AND politician_invites.id"
     @candidate_invites = Candidate.count :include => :politician_invites, :conditions => "politician_invites.id"
 
     @congress_rsvps = Politician.count :include => :rsvps, :conditions => "(district_type = 'FS' OR district_type = 'FH') AND rsvps.id"
     @candidate_rsvps = Candidate.count :include => :rsvps, :conditions => "rsvps.id"
+  end
+
+  def totals
+    count
     respond_to do |format|
       format.html { render(:layout => false) }
       format.js { 
