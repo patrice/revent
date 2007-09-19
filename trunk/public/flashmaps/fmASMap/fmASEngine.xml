@@ -12,10 +12,10 @@
 	<levels poisSendParams="true" randomLoad="false" >
 		<level id="1" showPOIText="false" showAreaTooltip="true" showPOITooltip="true" poisLoad="true" poisShow="true" poisDelay="0" filterId="" />
 		<level id="2" showPOIText="false" showAreaTooltip="true" showPOITooltip="true" poisLoad="true" poisShow="true" poisDelay="0" filterId="" />
-		<level id="3" showPOIText="false" showAreaTooltip="true" showPOITooltip="true" poisLoad="true" poisShow="true" poisDelay="0" filterId="" />
+		<level id="3" showPOIText="false" showAreaTooltip="true" showPOITooltip="true" poisLoad="true" poisShow="true" poisDelay="0" filterId="glow" />
 	</levels>
 	<categories>
-		<filter id="glow"   filterType="glow"   alpha="1" blurX="4" blurY="4" color="0x000000" quality="1" strength="1" />
+		<filter id="glow"   filterType="glow"   alpha="1" blurX="16" blurY="16" color="0x666666" quality="1" strength="1" />
 		<filter id="shadow" filterType="shadow" angle="60" distance="3" alpha="0.7" blurX="4" blurY="4" color="0x333333" />
 		<filter id="blur"   filterType="blur"   blurX="4" blurY="4" quality="1" />
 		<filter id="bevel"  filterType="bevel"  distance="4" angle="90" highlightColor="0xFFFFFF" highlightAlpha="0.5" shadowColor="0x666666" shadowAlpha="0.5" blurX="4" blurY="4" type="outer" />
