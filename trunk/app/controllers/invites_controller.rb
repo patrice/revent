@@ -301,12 +301,12 @@ class InvitesController < ApplicationController
   end
   
   def candidates_invited
-    @politicians = Candidate.find :all, :include => :politician_invites, :conditions => "(district_type = 'FS' OR district_type = 'FH') AND politician_invites.id"
+    @politicians = Candidate.find :all, :include => :politician_invites, :conditions => "politician_invites.id"
     render :action => 'list'
   end
   
   def candidates_attending
-    @politicians = Candidate.find :all, :include => :rsvps, :conditions => "(district_type = 'FS' OR district_type = 'FH') AND rsvps.id"
+    @politicians = Candidate.find :all, :include => :rsvps, :conditions => "rsvps.id"
     render :action => 'list'
   end
 
