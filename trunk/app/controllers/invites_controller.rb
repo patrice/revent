@@ -82,9 +82,11 @@ class InvitesController < ApplicationController
   after_filter(:only => :list) {|c| c.cache_page(nil, :permalink => c.params[:permalink]) }
   def list
     @states = valid_states
-    @display_state =  params[:state].nil? ? @states.first : params[:state]
     respond_to do |format|
-      format.html { @politicians = Politician.find_all_by_state(@display_state, :include => [:rsvps, :politician_invites], :order => 'district_type desc') }
+      format.html { @politicians = params[:state] ? 
+        Politician.find_all_by_state(params[:state], :include => [:rsvps, :politician_invites], :order => 'district_type desc') :
+        Candidate.find(:all)
+      }
       format.js { 
         @politicians = Politician.find(:all, :include => [:rsvps, :politician_invites])
         @list = render_to_string(:action => 'list', :layout => false)
