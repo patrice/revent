@@ -21,7 +21,7 @@ No leaders found for this area.
     <% else -%>
       There are no events in <%= DemocracyInAction::Helpers.state_options_for_select.inject({}) {|states, o| states[o[1]] = o[0]; states}[politician.state] %><br/>
 
-      Perhaps you should <%= link_to 'start one!', signup_url %>  Or, you may choose from any event:<br/>
+      Perhaps you should <%= link_to 'start one!', signup_url(@calendar.permalink) %>  Or, you may choose from any event:<br/>
       <%= select_tag 'event_id', options_for_select(@calendar.events.sort {|a,b| state = a.state <=> b.state; state == 0 ? a.city.downcase <=> b.city.downcase : state }.collect {|e| ["#{[e.city, e.state].join(', ')} - #{e.name}", e.id]}), :style => 'width: auto;' %>
     <% end -%>
   <% end -%>
