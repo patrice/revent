@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 52) do
+ActiveRecord::Schema.define(:version => 53) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -20,8 +20,10 @@ ActiveRecord::Schema.define(:version => 52) do
     t.column "user_id",      :integer
     t.column "event_id",     :integer
     t.column "report_id",    :integer
-    t.column "primary",      :boolean, :default => false
+    t.column "primary",      :boolean,  :default => false
     t.column "flickr_id",    :string
+    t.column "created_at",   :datetime
+    t.column "updated_at",   :datetime
   end
 
   add_index "attachments", ["report_id"], :name => "index_attachments_on_report_id"
@@ -46,6 +48,8 @@ ActiveRecord::Schema.define(:version => 52) do
     t.column "signup_redirect",   :string
     t.column "event_start",       :datetime
     t.column "event_end",         :datetime
+    t.column "created_at",        :datetime
+    t.column "updated_at",        :datetime
   end
 
   add_index "calendars", ["permalink"], :name => "index_calendars_on_permalink"
@@ -59,6 +63,8 @@ ActiveRecord::Schema.define(:version => 52) do
     t.column "local",           :text
     t.column "associated_type", :string
     t.column "associated_id",   :integer
+    t.column "created_at",      :datetime
+    t.column "updated_at",      :datetime
   end
 
   create_table "events", :force => true do |t|
@@ -79,6 +85,8 @@ ActiveRecord::Schema.define(:version => 52) do
     t.column "person_legislator_ids", :string
     t.column "district",              :string
     t.column "campaign_key",          :integer
+    t.column "created_at",            :datetime
+    t.column "updated_at",            :datetime
   end
 
   add_index "events", ["latitude", "longitude"], :name => "index_events_on_latitude_and_longitude"
@@ -92,6 +100,7 @@ ActiveRecord::Schema.define(:version => 52) do
     t.column "event_id",      :integer
     t.column "invite_type",   :string
     t.column "created_at",    :datetime
+    t.column "updated_at",    :datetime
   end
 
   add_index "politician_invites", ["politician_id"], :name => "index_politician_invites_on_politician_id"
@@ -115,6 +124,8 @@ ActiveRecord::Schema.define(:version => 52) do
     t.column "xml",                  :text
     t.column "type",                 :string
     t.column "office",               :string
+    t.column "created_at",           :datetime
+    t.column "updated_at",           :datetime
   end
 
   add_index "politicians", ["state"], :name => "index_politicians_on_state"
@@ -122,9 +133,11 @@ ActiveRecord::Schema.define(:version => 52) do
   add_index "politicians", ["district"], :name => "index_politicians_on_district"
 
   create_table "press_links", :force => true do |t|
-    t.column "url",       :string
-    t.column "text",      :string
-    t.column "report_id", :integer
+    t.column "url",        :string
+    t.column "text",       :string
+    t.column "report_id",  :integer
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
   end
 
   create_table "reports", :force => true do |t|
@@ -137,6 +150,8 @@ ActiveRecord::Schema.define(:version => 52) do
     t.column "reporter_email", :string
     t.column "embed",          :text
     t.column "attendees",      :integer
+    t.column "created_at",     :datetime
+    t.column "updated_at",     :datetime
   end
 
   add_index "reports", ["event_id"], :name => "index_reports_on_event_id"
@@ -159,6 +174,8 @@ ActiveRecord::Schema.define(:version => 52) do
     t.column "guests",         :integer
     t.column "attending_type", :string
     t.column "attending_id",   :integer
+    t.column "created_at",     :datetime
+    t.column "updated_at",     :datetime
   end
 
   add_index "rsvps", ["attending_id", "attending_type"], :name => "index_rsvps_on_attending_id_and_attending_type"
@@ -173,22 +190,28 @@ ActiveRecord::Schema.define(:version => 52) do
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "sites", :force => true do |t|
-    t.column "host",  :string
-    t.column "theme", :string
+    t.column "host",       :string
+    t.column "theme",      :string
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
   end
 
   add_index "sites", ["host"], :name => "index_sites_on_host"
 
   create_table "taggings", :force => true do |t|
-    t.column "tag_id",        :integer,                 :null => false
-    t.column "taggable_id",   :integer,                 :null => false
-    t.column "taggable_type", :string,  :default => "", :null => false
+    t.column "tag_id",        :integer,                  :null => false
+    t.column "taggable_id",   :integer,                  :null => false
+    t.column "taggable_type", :string,   :default => "", :null => false
+    t.column "created_at",    :datetime
+    t.column "updated_at",    :datetime
   end
 
   add_index "taggings", ["tag_id", "taggable_id", "taggable_type"], :name => "index_taggings_on_tag_id_and_taggable_id_and_taggable_type", :unique => true
 
   create_table "tags", :force => true do |t|
-    t.column "name", :string, :default => "", :null => false
+    t.column "name",       :string,   :default => "", :null => false
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
   end
 
   add_index "tags", ["name"], :name => "index_tags_on_name", :unique => true
@@ -219,12 +242,14 @@ ActiveRecord::Schema.define(:version => 52) do
   end
 
   create_table "zip_codes", :force => true do |t|
-    t.column "zip",       :string
-    t.column "city",      :string
-    t.column "state",     :string, :limit => 2
-    t.column "latitude",  :float
-    t.column "longitude", :float
-    t.column "zip_class", :string
+    t.column "zip",        :string
+    t.column "city",       :string
+    t.column "state",      :string,   :limit => 2
+    t.column "latitude",   :float
+    t.column "longitude",  :float
+    t.column "zip_class",  :string
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
   end
 
   add_index "zip_codes", ["zip"], :name => "index_zip_codes_on_zip"
