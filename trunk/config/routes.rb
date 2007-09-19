@@ -17,7 +17,7 @@ ActionController::Routing::Routes.draw do |map|
   map.home '', :controller => 'calendars', :action => 'show', :format => 'html'
 
   map.connect ':permalink/invites/flashmap/pois', :controller => 'invites', :action => 'flashmap_pois'
-  map.connect ':permalink/invites/flashmap/areas/states', :controller => 'invites', :action => 'flashmap_area_states', :format => 'html'
+  map.connect ':permalink/invites/flashmap/areas/states.xml', :controller => 'invites', :action => 'flashmap_area_states', :format => 'html'
   map.connect ':permalink/invites/flashmap/areas/districts/:state.xml', :controller => 'invites', :action => 'flashmap_area_districts', :format => 'html'
   map.connect ':permalink/invites/flashmap/areas/state/:state.xml', :controller => 'invites', :action => 'flashmap_area_state', :format => 'html'
 
