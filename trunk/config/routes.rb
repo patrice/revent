@@ -109,7 +109,8 @@ ActionController::Routing::Routes.draw do |map|
 
   # Routes for inviting policitians to an event
   map.connect ':permalink/invites/totals', :controller => 'invites', :action => 'totals', :format => 'html'
-  map.totals ':permalink/invites/include/list', :controller => 'invites', :action => 'widget', :format => 'html'
+  map.totals ':permalink/invites/include/list.:format', :controller => 'invites', :action => 'widget', :format => 'html'
+  map.connect ':permalink/invites/include/list', :controller => 'invites', :action => 'widget', :format => 'html'
   map.connect ':permalink/invites/list', :controller => 'invites', :action => 'list', :format => 'html' #would be great to figure this caching thing out
 
   map.invite ':permalink/events/:id/invite/:action/:politician_id', :controller => 'invites', :defaults => { :action => 'all', :politician_id => nil, :id => 'all' }

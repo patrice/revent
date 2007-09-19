@@ -19,7 +19,16 @@ class InvitesController < ApplicationController
 
   def widget
     count
-    render :layout => false
+    respond_to do |format|
+      format.html { render(:layout => false) }
+      format.js { 
+        @content = render_to_string(:layout => false)
+        extend ActionView::Helpers::JavaScriptHelper
+        render :update do |page|
+          page << "document.write('#{escape_javascript(@content)}');"
+        end
+      }
+    end
   end
 
   def count
