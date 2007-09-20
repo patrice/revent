@@ -265,7 +265,7 @@ class InvitesController < ApplicationController
             end
     if state
       # @events = @calendar.events.find(:all, :conditions => ["latitude <> 0 AND longitude <> 0 AND state = ?", state])
-      @events = @calendar.events.find(:all, :conditions => ["postal_code != ? AND state = ?", 0, state], :joins => "INNER JOIN zip_codes ON zip_codes.zip = postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude")
+      @events = @calendar.events.find(:all, :conditions => ["postal_code != ? AND events.state = ?", 0, state], :joins => "INNER JOIN zip_codes ON zip_codes.zip = postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude")
     else
       # @events = @calendar.events.find(:all, :conditions => "latitude <> 0 AND longitude <> 0")
       @events = @calendar.events.find(:all, :conditions => ["postal_code != ?", 0], :joins => "INNER JOIN zip_codes ON zip_codes.zip = postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude")
