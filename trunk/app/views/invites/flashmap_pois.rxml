@@ -3,7 +3,7 @@ xml.POIs do
     if @level == "1"
       xml.POI :id => e.id, :category => 'event_state', :label => e.name, :lat => e.zip_latitude, :lon => e.zip_longitude
     else
-      xml.POI :id => e.id, :category => 'event_district', :label => e.name, :lat => (e.latitude || e.zip_latitude), :lon => (e.latitude || e.zip_longitude), :location => [e.city, e.state].join(', '), :date => e.start do
+      xml.POI :id => e.id, :category => 'event_district', :label => e.name, :lat => e.zip_latitude, :lon => e.zip_longitude, :location => [e.city, e.state].join(', '), :date => e.start do
         xml.action :event => 'onRelease', :target => '_blank', :url => url_for(:controller => 'events', :action => 'show', :id => e.id)
       end
     end
