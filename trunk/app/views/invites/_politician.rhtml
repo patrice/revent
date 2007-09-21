@@ -34,21 +34,21 @@ No leaders found for this area.
     <td>
       <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right">
         <% if @event -%>
-          <%= link_to 'Call', {:action => 'call', :politician_id => politician.id}, :popup => true %>
+          <%= link_to 'Call', {:action => 'call', :id => @event, :politician_id => politician.id}, :popup => true %>
         <% else -%>
           <%= link_to_function 'Call', "window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/call/#{politician.id}');return false;" %>
         <% end -%>
       </span></span></span>
       <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right">
         <% if @event -%>
-          <%= link_to 'Send a Letter', {:action => 'write', :politician_id => politician.id}, :popup => true %>
+          <%= link_to 'Send a Letter', {:action => 'write', :id => @event, :politician_id => politician.id}, :popup => true %>
         <% else -%>
           <%= link_to_function 'Send a Letter', "window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/write/#{politician.id}');return false;" %>
         <% end -%>
       </span></span></span>
       <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right">
         <% if @event -%>
-          <%= link_to 'Send an Email/Fax', {:action => 'email', :politician_id => politician.id}, :popup => true %>
+          <%= link_to 'Send an Email/Fax', {:action => 'email', :id => @event, :politician_id => politician.id}, :popup => true %>
         <% else -%>
           <%= link_to_function 'Email', "window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/email/#{politician.id}');return false;" %>
         <% end -%>
