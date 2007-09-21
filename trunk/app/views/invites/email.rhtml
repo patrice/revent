@@ -1,6 +1,6 @@
 <h1>Invite <%= @politician.display_name %> to <%= @event.name %></h1>
 
-<p>You can contact <%= @politician.display_name %> by going to a web form on the campaign web page at <%= auto_link(@recipient['web_form_url']) %>.</p>
+<p>You can contact <%= @politician.display_name %> by going to a web form on the campaign web page at <%= auto_link(@politician.email, :all, :target => 'blank') %>.</p>
 
 <p>Please <strong>follow this link</strong> to send <%= @politician.display_name %> a message, <strong>then</strong> come back here and fill out the form below so we can keep track of who has been invited to this event.</p>
 
