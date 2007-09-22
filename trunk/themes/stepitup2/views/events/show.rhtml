@@ -58,7 +58,12 @@
 
 <% unless @event.past? -%>
  
-<%= render :partial => "rsvp", :locals => { :event => @event} %>
+<% if session[:partner] -%>
+  <%= render :partial => "events/partners/#{session[:partner]}/rsvp", :locals => { :event => @event} %>
+<% else -%> 
+  <%= render :partial => "rsvp", :locals => { :event => @event} %>
+<% end -%>
+
 <% end -%>
 <% if !@event.blogs.empty? -%>
 <div id="announcements">

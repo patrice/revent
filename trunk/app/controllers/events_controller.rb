@@ -3,19 +3,30 @@ class EventsController < ApplicationController
 #  access_control [:edit, :update, :destroy, :create] => 'admin'
   include DaysOfAction::Geo
 
-  caches_page :total, :by_state
+  caches_page :index, :total, :by_state
 #  after_filter { |c| c.cache_page(nil, :permalink => c.params[:permalink]) if c.action_name == 'show' }
-  caches_page :show
-  caches_action :ally
+  before_filter(:only => :show) {|c| c.request.env["HTTP_IF_MODIFIED_SINCE"] = nil} #don't 304
+  caches_action :show
+  def action_fragment_key(options)
+    key = url_for(options).split('://').last
+    key << "&#{cache_version_key}=#{cache_version}"
+    key << "&partner=#{session[:partner]}" if session[:partner]
+    key
+  end
+
+  def cache_version
+    Cache.get(cache_version_key) { rand(10000) }
+  end
+
+  def cache_version_key
+    "site_#{Site.current.id}_#{self.class.to_s.underscore}_#{action_name}_cache_version"
+  end
+
   after_filter :cache_search_results, :only => :search
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => :post, :only => [ :destroy, :create, :update ],
          :redirect_to => { :action => :list }
-
-  def ally
-    index
-  end
 
   def tagged
     tag = Tag.find_by_name(params[:id])
@@ -59,6 +70,13 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+  end
+
+  def partner_signup
+    @event = Event.new
+    self.class.ignore_missing_templates = true #themes only
+    render "events/partners/#{params[:partner]}/new"
+    self.class.ignore_missing_templates = false
   end
 
   def create
