@@ -46,6 +46,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'admin/invites/:action/:id', :controller => 'admin/invites'
 # end of work-around
 
+  map.connect 'partners/:id', :controller => 'partners'
   map.connect ':permalink/signup/:partner', :controller => 'events', :action => 'partner_signup'
   map.with_options :controller => 'events', :action => 'new' do |m|
     m.signup ':permalink/signup'

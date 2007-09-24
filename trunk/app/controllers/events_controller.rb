@@ -10,7 +10,7 @@ class EventsController < ApplicationController
   def action_fragment_key(options)
     key = url_for(options).split('://').last
     key << "&#{cache_version_key}=#{cache_version}"
-    key << "&partner=#{session[:partner]}" if session[:partner]
+    key << "&partner=#{cookies[:partner]}" if cookies[:partner]
     key
   end
 
@@ -70,6 +70,11 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+    if cookies[:partner]
+      self.class.ignore_missing_templates = true #themes only
+      render "events/partners/#{cookies[:partner]}/new"
+      self.class.ignore_missing_templates = false
+    end
   end
 
   def partner_signup
