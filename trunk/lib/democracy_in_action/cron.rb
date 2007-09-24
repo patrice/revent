@@ -20,15 +20,16 @@ module DemocracyInAction
         user.save
         politicians_ids = sc['person_legislator_IDS'].split(',')
         event = DemocracyInActionObject.find_by_table_and_key('campaign', sc['campaign_KEY']).associated
+        next unless event
         politicians_ids.collect do |p|
-          invite = PoliticianInvite.new :politician_id => p
-          invite.event = event
-          invite.user = user
-          invite.invite_type = 'email'
+          politician = Politician.find_by_person_legislator_id(p)
+          next unless politician
+          invite = PoliticianInvite.find_or_initialize_by_politician_id_and_event_id_and_user_id_and_invite_type(politician.id, event.id, user.id, 'email')
+          next unless invite.new_record?
           invite.build_democracy_in_action_object :table => 'supporter_campaign', :key => sc['key'], :local => sc
           invite
         end
-      end.flatten
+      end.flatten.compact.collect {|i| i.save}
     end
   end
 end
