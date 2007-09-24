@@ -6,9 +6,9 @@ xml.areas do
     percent = (rep + sen).length / total.to_f
     category = case percent * 100
       when 0 then 'state_0'
-      when 0..33 then 'state_1_33'
-      when 33..66 then 'state_33_66'
-      when 66..100 then 'state_66_100'
+      when 0..50 then 'state_1_33'
+      when 50..99 then 'state_33_66'
+      when 100 then 'state_66_100'
     end
     action_total = @calendar.events.select {|e| e.state == state[2]}.length
 
