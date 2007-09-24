@@ -1,15 +1,21 @@
+<h4>
+Help us turn America green.  Search the map below to find out which members of congress have been invited or are attending events, and be sure to continue flooding them with invitations until they agree to show up.
+</h4>
 <% form_tag({:action => 'search', :only_path => false}, {:onsubmit => "window.location.href='#{request.protocol}#{request.host}/#{@calendar.permalink}/invites/list/zip/' + $('postal_code').value; return false;"}) do -%>
 <div style="float: left; width: 120px;">
 <%= text_field_tag :postal_code, nil, :style => "width: 100px;" %>
 </div>
 <%= submit_tag 'show by zip', :onclick => "window.location.href='#{request.protocol}#{request.host}/#{@calendar.permalink}/invites/list/zip/' + $('postal_code').value; return false;" %>
 <% end -%>
-
+<div class="map_key">
+<span class="map_less">Less than 50% of Members of Congress Invited</span>
+<span class="map_more">More than 50% of Members of Congress Invited</span>
+<span class="map_all">100% of Members of Congress Invited</span>
+</div>
 <% content_for :header do %>
   <script language="JavaScript" src="/flashmaps/include/fmActivate.js"></script>
   <script language="JavaScript" src="/flashmaps/include/fmASAPI.js"></script>
 <% end %>
-
 <% if request.domain.include?("stepitup2007.org") || request.domain.include?("radicaldesigns.org") -%>
 <script type="text/javascript">
   if (DetectFlashVer(8,0,0)) {
@@ -25,8 +31,3 @@
 </noscript>
 <% end -%>
 
-<div class="map_key">
-<span class="map_less">Less than 50% of Members of Congress Invited</span>
-<span class="map_more">More than 50% of Members of Congress Invited</span>
-<span class="map_all">100% of Members of Congress Invited</span>
-</div>
