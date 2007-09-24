@@ -21,7 +21,8 @@ class Event < ActiveRecord::Base
 
   acts_as_mappable :lat_column_name => 'latitude', :lng_column_name => 'longitude'
   before_validation_on_create :geocode_address
-  alias before_validation_on_update before_validation_on_create  
+  before_validation_on_update :geocode_address
+#  alias before_validation_on_update before_validation_on_create  
   before_save :set_district
   
   validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id
