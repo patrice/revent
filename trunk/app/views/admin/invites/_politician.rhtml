@@ -1,9 +1,28 @@
 <% invited = politician.invited? -%>
 <% attending = politician.attending? -%>
-<tr><td><%= politician.display_name %></td><td><%= invited ? link_to_function('show invites', "$('invite-#{politician.id}').toggle()") : link_to('invite', :controller => '/invites', :action => 'events', :id => politician.id) %></td><td><%= link_to_function (attending ? 'unconfirm' : 'confirm'), "$('rsvp-#{politician.id}').toggle()" %></td></tr>
+<tr><td><%= politician.display_name %></td>
+	 <td><%= link_to_function 'edit', "$('edit-#{politician.id}').toggle()" %></td>
+	 <td>| <%= invited ? link_to_function('attending', "$('invite-#{politician.id}').toggle()") : link_to('invite', :controller => '/invites', :action => 'events', :id => politician.id) %></td>
+	 <td>| <%= link_to_function (attending ? 'unconfirm' : 'confirm'), "$('rsvp-#{politician.id}').toggle()" %></td>
+	 <td>| <%= link_to_function 'user invites: ' + politician.politician_invites.length.to_s, "$('user-invites-#{politician.id}').toggle()" %></td>
+</tr>
+<tr id="edit-<%= politician.id %>" style="display:none">
+	<td>edit me</td>
+</tr>
 <tr id="invite-<%= politician.id %>" style="display:none"><td>
     <% politician.politician_invites.each do |i| -%>
     <%= i.event.name %>
     <% end -%>
 </td></tr>
-<tr id="rsvp-<%= politician.id %>" style="display:none"><td>rsvp me</td></tr>
+<tr id="user-invites-<%= politician.id %>" style="display:none">
+    <td><% politician.politician_invites.each do |i| -%>
+	    Invited by <%= i.user.nil? ? 'unknown user' : i.user.email %> to <%= i.event.name %>.(invited at <%= i.created_at.to_s(:long) %>)<br />
+    <% end -%></td>
+</tr>
+<tr id="rsvp-<%= politician.id %>" style="display:none">
+	<td>
+		<% form_tag(:action => 'rsvp', :id => @politican) do -%>
+			<%= select_tag :event, options_for_select(@events) %>
+		<% end -%>
+	</td>
+</tr>

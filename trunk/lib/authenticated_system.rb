@@ -3,12 +3,7 @@ module AuthenticatedSystem
     # Returns true or false if the user is logged in.
     # Preloads @current_user with the user model if they're logged in.
     def logged_in?
-      if session[:user].is_a?(DemocracyInActionSupporter)
-        @current_user ||= session[:user]
-        true
-      else
-        (@current_user ||= session[:user] ? User.find_by_id(session[:user]) : :false).is_a?(User)
-      end
+      (@current_user ||= session[:user] ? User.find_by_id(session[:user]) : :false).is_a?(User)
     end
     
     # Accesses the current user from the session.
@@ -18,11 +13,7 @@ module AuthenticatedSystem
     
     # Store the given user in the session.
     def current_user=(new_user)
-      if new_user.is_a?(DemocracyInActionSupporter)
-        session[:user] = (new_user.nil? || new_user.is_a?(Symbol)) ? nil : new_user
-      else
-        session[:user] = (new_user.nil? || new_user.is_a?(Symbol)) ? nil : new_user.id
-      end
+      session[:user] = (new_user.nil? || new_user.is_a?(Symbol)) ? nil : new_user.id
       @current_user = new_user
     end
     
