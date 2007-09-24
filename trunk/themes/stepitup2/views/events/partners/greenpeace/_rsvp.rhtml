@@ -3,12 +3,14 @@
 <div id="signupForm" class="signupForm">
 
 <% form_for :user, :url => { :action => "rsvp", :id => event.id } do |f| -%>
+    <%= hidden_field_tag "user[democracy_in_action][supporter][Source_Tracking_Code]", "greenpeace_rsvp" %>
   <%= hidden_field_tag "user[democracy_in_action][supporter][link][event]", event.democracy_in_action_key %>
   <%= hidden_field_tag "user[democracy_in_action][supporter][_Status]", "Signed Up" %>
   <%= hidden_field_tag "user[democracy_in_action][supporter][_Type]", "Supporter" %>
 
   <%= hidden_field_tag "user[democracy_in_action][supporter][link][groups]", 55960 %>
   <%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", 3565 %>
+
 
 	<TABLE class="dia_field">
 

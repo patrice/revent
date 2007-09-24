@@ -28,6 +28,7 @@ Up!
       <%= error_messages_for 'user' %>
       <h3>Your Information</h3>
       <% fields_for :user, @user do |user| %>
+      <%= hidden_field_tag "user[democracy_in_action][supporter][Source_Tracking_Code]", "greenpeace_host" %>
       <%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", 3539 %>
       <%= hidden_field_tag "user[democracy_in_action][supporter][link][groups]", 55961 %>
       <div id="customFields" class="standardFields">
@@ -310,6 +311,7 @@ from &quot;Manage Your Action&quot; within the &quot;Organizer Headquarters.&quo
         </table>
         <%= hidden_field_tag "event[democracy_in_action][event][Maximum_Attendees]", 10000 %>
         <%= hidden_field_tag "event[democracy_in_action][event][Status]", "Unconfirmed" %>
+        <%= hidden_field_tag "event[democracy_in_action][event][Default_Tracking_Code]", "greenpeace" %>
         <p align="center">
         <br /><input type="submit" value="Submit" />
         <script type="text/javascript" language="javascript">
