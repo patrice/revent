@@ -1,6 +1,6 @@
 <style>
 #siu_scoreboard {
-font-family: sans-serif; color: #FFFFFF; font-weight: bold; background: #000000; line-height: 14px; padding: 10px; margin-top: 1px; margin-left: 0px; margin-right: 0px; border: 1px dashed #999999; width: 150px;
+font-family: sans-serif; color: #000000; font-weight: bold; background: #FFFFFF; line-height: 14px; padding: 7px; margin-top: 1px; margin-left: 0px; margin-right: 0px; border: 1px dashed #999999; width: 150px;
 }
 
 #siu_scoreboard br { 
@@ -12,12 +12,11 @@ padding: 10px 0px 4px 0px;
 }
 
 .score_labels a {
-color: #FFFFFF;
+color: #333333;
 padding: 4px;
 display: block;
 float: left;
 width: 100px;
-color: #CCC;
 font-size: 11px;}
 
 .score_block {
@@ -28,15 +27,15 @@ display: block;
 .score  {
 display: block;
 float: left;
-color: #ffff66;
-background: #000000;
+color: #990000;
+background:#FFFFFF; 
 border: 1px dashed #999999;
 padding: 4px;
 font-size: 14px;
 margin: 2px;
 }
 .podium {
-background: url(http://stepitup2007.org/img/original/podiummanpodiumman2.gif) top left no-repeat; width: 180px; height:350px;
+background: url(http://stepitup2007.org/img/original/podiummanpodiumman2.gif) top left no-repeat; width: 180px; height:340px;
 }
 .sui_wrapper {
 font-size: 12px; font-family: sans-serif; width: 180px;
@@ -45,7 +44,7 @@ font-size: 12px; font-family: sans-serif; width: 180px;
 <div class="sui_wrapper">
 <div class="podium"> 
 </div>
-<%= render 'invites/totals' %>
-<br />
-Let's keep those numbers climbing.  <a href="http://events.stepitup2007.org/november/invites/list">Click here to Invite the Leaders!</a>
+<a href="http://events.stepitup2007.org/invites/list"><img src="http://stepitup2007.org/img/stepitup2_headlines_07.gif" border="0" style="padding-bottom: 5px;"></a><br />
+<%= render 'invites/totals' %>`
+<br /><a href="" style="font-size: 10px; color: #999999;">Get this for your site.</a>
 </div>
