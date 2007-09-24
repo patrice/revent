@@ -1,9 +1,18 @@
 <h2>The BIG List</h2>
 
-<%= link_to 'Click Here to Invite the Presidential Candidates', :action => 'candidates', :office => 'president' %><br/>
-<%= link_to 'Click Here to Invite the Senators', :action => 'senators' %><br/>
+<p>
+On November 3 we'll find out who the real leaders are.  You're showing your leadership 
+by organizing and joining actions in your community.  Let's flood politicians with 
+invitations to come to Step It Up actions and be leaders on global warming.
+</p>
+<p>
+<em><b>Even if a politician has already been invited</b>, send out your invites anyway.  The more invitations they get, the greater the chances that they'll come. Let's keep the pressure on!</em>
+</p>
 
-<div style="text-decoration: underline;">Search Congress</div>
+<%= link_to 'Click Here to Invite the Presidential Candidates', :action => 'candidates', :office => 'president' %><br/>
+<%= link_to 'Click Here to Invite the Senators', :action => 'senators' %><br/><br/>
+
+<div style="text-decoration: underline;">Find and Invite Members of Congress.</div>
 
 <% form_tag :action => 'list', :only_path => false do -%>
 <div style="float: left; width: 120px;"><%= select_tag :state, us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='#{request.protocol}#{request.host}/#{@calendar.permalink}/invites/list/state/' + this.value", :style => "width: 100px;" %></div>
@@ -14,10 +23,6 @@
 <div style="float: left; width: 120px;"><%= text_field_tag :postal_code, nil, :style => "width: 100px;" %></div>
 <%= submit_tag 'show by zip', :onclick => "window.location.href='#{request.protocol}#{request.host}/#{@calendar.permalink}/invites/list/zip/' + $('postal_code').value; return false;" %>
 <% end -%>
-
-<p>
-<em><b>Even if a politician has already been invited</b>, send out your invites anyway.  The more invitations they get, the greater the chances that they'll come. Let's keep the pressure on!</em>
-</p>
 
 <table border="0" cellpadding="5" cellspacing="0" class="invites-list">
   <tr class="header-row"><td class="header-row"></td><td class="header-row">Leader</td><td class="header-row">Invited?</td><td class="header-row">Attending</td><td class="header-row"></td><tr/>
