@@ -1,5 +1,5 @@
 <theme id="us">
-	<map file="areas/fm-us.swf" borderColor="0xCCCCCC" />
+	<map file="areas/fm-us.swf" borderColor="0xA667A6" />
   <areas xmlAreas="/november/invites/flashmap/areas/states.xml" xmlCategories="areas/area_categories.xml" />
   <pois xmlPOIs="/november/invites/flashmap/pois" xmlCategories="pois/poi_categories.xml" />
 	<polylines xmlPolylines="" xmlCategories="" />
