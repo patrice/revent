@@ -124,6 +124,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':permalink/invites/list/candidates/:office.:format', :controller => 'invites', :action => 'candidates'
   map.connect ':permalink/invites/list/senators', :controller => 'invites', :action => 'senators'
   map.connect ':permalink/invites/list/senators.:format', :controller => 'invites', :action => 'senators'
+  map.connect ':permalink/invites/list/representatives', :controller => 'invites', :action => 'representatives'
+  map.connect ':permalink/invites/list/representatives.:format', :controller => 'invites', :action => 'representatives'
 
   map.connect ':permalink/events/show/:id', :controller => 'events', :action => 'show', :format => 'html'
 

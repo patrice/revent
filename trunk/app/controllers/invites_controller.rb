@@ -163,6 +163,11 @@ class InvitesController < ApplicationController
     subset
   end
 
+  def representatives
+    @politicians = Politician.find_all_by_district_type('FH', :include => [:rsvps, :politician_invites], :order => 'district')
+    subset
+  end
+
   def candidates
     @politicians = Candidate.find_all_by_office(params[:office], :include => [:rsvps, :politician_invites], :order => "last_name")
     subset
