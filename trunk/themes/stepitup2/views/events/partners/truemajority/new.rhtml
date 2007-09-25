@@ -28,7 +28,7 @@ Up!
       <%= error_messages_for 'user' %>
       <h3>Your Information</h3>
       <% fields_for :user, @user do |user| %>
-      <%= hidden_field_tag "user[democracy_in_action][supporter][Source_Tracking_Code]", "truemajority_host" %>
+      <%= hidden_field_tag "user[democracy_in_action][supporter][Tracking_Code]", "truemajority_host" %>
       <%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", 3539 %>
       <%= hidden_field_tag "user[democracy_in_action][supporter][link][groups]", 55961 %>
       <div id="customFields" class="standardFields">
@@ -211,15 +211,18 @@ from &quot;Manage Your Action&quot; within the &quot;Organizer Headquarters.&quo
               </td>
               <td valign="top">
                 <%#= f.datetime_select 'start', :minute_step => 15, :html => {:style => "background-color: #ebd897;"}, :disabled => true %>
-                <select id="event_start_1i" name="event[start(1i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
+                <select id="event_start_1i" name="disabled_event[start(1i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
                   <option value="2007" selected="selected">2007</option>
                 </select>
-                <select id="event_start_2i" name="event[start(2i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
+                <input type="hidden" name="event[start(1i)]" value="2007">
+                <select id="event_start_2i" name="disabled_event[start(2i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
                   <option value="11" selected="selected">November</option>
                 </select>
-                <select id="event_start_3i" name="event[start(3i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
+                <input type="hidden" name="event[start(2i)]" value="11">
+                <select id="event_start_3i" name="disabled_event[start(3i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
                   <option value="3" selected="selected">3</option>
                 </select>
+                <input type="hidden" name="event[start(3i)]" value="3">
                 &mdash; <select id="event_start_4i" name="event[start(4i)]" style="width: auto; background-color: #ebd897;">
                   <option value="00">12</option>
                   <option value="01">1</option>
@@ -262,15 +265,18 @@ from &quot;Manage Your Action&quot; within the &quot;Organizer Headquarters.&quo
               </td>
               <td valign="top">
                 <%#= f.datetime_select 'end', :minute_step => 15, :style => "background-color: #ebd897;" %>
-                <select id="event_end_1i" name="event[end(1i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
+                <select id="event_end_1i" name="disabled_event[end(1i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
                   <option value="2007" selected="selected">2007</option>
                 </select>
-                <select id="event_end_2i" name="event[end(2i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
+                <input type="hidden" name="event[end(1i)]" value="2007">
+                <select id="event_end_2i" name="disabled_event[end(2i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
                   <option value="11" selected="selected">November</option>
                 </select>
-                <select id="event_end_3i" name="event[end(3i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
+                <input type="hidden" name="event[end(2i)]" value="11">
+                <select id="event_end_3i" name="disabled_event[end(3i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
                   <option value="3" selected="selected">3</option>
                 </select>
+                <input type="hidden" name="event[end(3i)]" value="3">
                 &mdash; <select id="event_end_4i" name="event[end(4i)]" style="width: auto; background-color: #ebd897;">
                   <option value="00">12</option>
                   <option value="01">1</option>

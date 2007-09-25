@@ -51,6 +51,7 @@ class EventsController < ApplicationController
   end
 
   def show
+    @partner = cookies[:partner] if cookies[:partner]
     @event = @calendar.events.find(params[:id], :include => [:blogs, {:reports => :attachments}])
     if @event.latitude && @event.longitude
       @map = Cartographer::Gmap.new('eventmap')
@@ -78,6 +79,7 @@ class EventsController < ApplicationController
   end
 
   def partner_signup
+    cookies[:partner] = {:value => params[:partner], :expires => 3.hours.from_now} if params[:partner]
     @event = Event.new
     self.class.ignore_missing_templates = true #themes only
     render "events/partners/#{params[:partner]}/new"
