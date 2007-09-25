@@ -352,19 +352,21 @@ background: url(http://stepitup2007.org/img/original/stepitup2_buttommkr_04.gif)
 
 .map_key {
 display: block;
-padding: 20px 0px 20px 150px;
+font-size: 11px;
+width: 300px;
+padding: 20px 0px 20px 140px;
 }
 
 .map_less {
 display: block;
-color: #FFFFFF;
+color: #000000;
 padding: 5px;
 background: #c7e28d;
 }
 
 .map_more {
 display: block;
-color: #FFFFFF;
+color: #000000;
 padding: 5px;
 background-color: #99CC33;
 }
