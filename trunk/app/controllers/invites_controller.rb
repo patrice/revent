@@ -1,3 +1,5 @@
+#require 'ruby-debug'
+
 class InvitesController < ApplicationController  
   before_filter :find_or_initialize_event, :only => [:write, :call, :email]
   session :off
@@ -310,6 +312,20 @@ class InvitesController < ApplicationController
   def candidates_attending
     @politicians = Candidate.find :all, :include => :rsvps, :conditions => "rsvps.id"
     render :action => 'list'
+  end
+
+  # REMOVE THIS METHOD; ONLY TO BE RUN ONCE
+  def update_dia
+    extend ActionView::Helpers::TextHelper
+    #debugger if ENV['RAILS_ENV'] == 'development';
+    @user = current_user
+    objects = DemocracyInActionObject.find(:all).select{|o| o.table == 'campaign'}
+    objects.each do |o|
+    	campaign = DemocracyInActionCampaign.find(o.key)
+    	@event = o.associated
+    	campaign.Suggested_Content = strip_tags(render_to_string(:partial => 'letter_content'))
+      campaign.save
+    end
   end
 
   protected
