@@ -314,19 +314,24 @@ class InvitesController < ApplicationController
     render :action => 'list'
   end
 
-  # REMOVE THIS METHOD; ONLY TO BE RUN ONCE
+=begin
+  # This method was used once to update DIA Campaigns to carry updated
+  # suggested content for email invitations; should have done this from
+  # console but hit snags trying to run render_to_string on console
   def update_dia
     extend ActionView::Helpers::TextHelper
     #debugger if ENV['RAILS_ENV'] == 'development';
-    @user = current_user
+    @user = nil
     objects = DemocracyInActionObject.find(:all).select{|o| o.table == 'campaign'}
     objects.each do |o|
-    	campaign = DemocracyInActionCampaign.find(o.key)
-    	@event = o.associated
-    	campaign.Suggested_Content = strip_tags(render_to_string(:partial => 'letter_content'))
+      campaign = DemocracyInActionCampaign.find(o.key)
+      @event = o.associated
+      next unless @event
+      campaign.Suggested_Content = strip_tags(render_to_string(:partial => 'letter_content'))
       campaign.save
     end
   end
+=end
 
   protected
   def find_or_initialize_event
