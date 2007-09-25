@@ -1,0 +1,330 @@
+  <div id="content_header"><table width="100%" cellpadding="0" cellspacing="0" border="0" class="text"><tr><td><p class="title">Sign Up to Host A Step It Up Action on November 3rd</p>
+</td></tr>
+<td></td><tr><td  class="text"><BR />
+
+<p class="text">On November 3, a year before the next election, we're asking people to
+organize rallies large and small in their communities. If possible, your
+rally should take place in some <a href="http://stepitup2007.org/article.php?id=473" target="_blank">spot that commemorates great leaders of the
+past</a>.  Once you've got your rally registered on our website, we'll help you
+gather a crowd, and invite the politicians from your neck of the woods.
+</p>
+
+<p class="text">
+We'll be available by email every step of the way to answer questions,
+supply materials, and help you deal with whatever obstacles arise.  Rest
+assured won't be alone in this effort--you'll have the full support of this
+crucial national movement that you're helping to create.
+</p>
+
+<p class="text">
+To get started, just fill out the information below, and check out the
+Organizer Headquarters to find more resources.  And thanks for Stepping It
+Up!
+</p>
+
+<% form_for :event, @event, :url => url_for(:permalink => @calendar.permalink, :controller => 'events', :action => 'create'), :html => {:id => 'event-signup-form', :multipart => true} do |f| -%>
+  
+    <div id="profile" class="profileInformation">
+      <%= error_messages_for 'user' %>
+      <h3>Your Information</h3>
+      <% fields_for :user, @user do |user| %>
+      <%= hidden_field_tag "user[democracy_in_action][supporter][Tracking_Code]", "greenpeace_m_host" %>
+      <%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", 3539 %>
+      <%= hidden_field_tag "user[democracy_in_action][supporter][link][groups]", 55961 %>
+      <div id="customFields" class="standardFields">
+        <table class="dia_field">
+          <tbody>
+            <tr valign="top">
+              <td valign="top" align="right" id="dia_field_name_data_First_Name" class="dia_field_name">First Name</td>
+              <td valign="top"><%= user.text_field "first_name", :id => 'dataFirst_Name', :maxlength => "32", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your first name", :class => "required inputStyle" %></td>
+              <td class="dia_required"><strong>*</strong></td>
+            </tr>
+            <tr>
+              <td valign="top" align="right" id="dia_field_name_data_Last_Name" class="dia_field_name">Last Name</td>
+              <td valign="top"><%= user.text_field "last_name", :id => "dataLast_Name", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your last name", :class => "required inputStyle" %></td>
+              <td class="dia_required"><strong>*</strong></td>
+            </tr>
+            <tr>
+              <td valign="top" align="right" id="dia_field_name_data_Email" class="dia_field_name">Email</td>
+              <td valign="top"><%= user.text_field "email", :id => "dataEmail", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter a valid email address", :class => "required validate-email inputStyle" %></td>
+              <td class="dia_required"><strong>*</strong></td>
+            </tr>
+            <tr>
+              <td valign="top" align="right" id="dia_field_name_data_Phone" class="dia_field_name">Phone</td>
+              <td valign="top"><%= user.text_field "phone", :id => "dataPhone", :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your phone number", :class => "required inputStyle" %></td>
+              <td class="dia_required"><strong>*</strong></td>
+            </tr>
+            <tr>
+              <td colspan="2" valign="top" align="right" class="dia_field_name">Show phone number on your host profile?&nbsp;&nbsp;<%= user.check_box "show_phone_on_host_profile", :style => "background-color: #ebd897;", :class => "inputStyle" %></td>
+            </tr>
+            <tr>
+              <td valign="top" align="right" id="dia_field_name_data_Street" class="dia_field_name">Street</td>
+              <td valign="top"><%= user.text_field "street", :id => "dataStreet", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your street address", :class => "required inputStyle" %></td>
+              <td class="dia_required">*</td>
+            </tr>
+            <tr>
+              <td valign="top" align="right" id="dia_field_name_data_City" class="dia_field_name">City</td>
+              <td valign="top"><%= user.text_field "city", :id => "dataCity", :maxlength => "32", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your city", :class => "required inputStyle" %></td>
+              <td class="dia_required">*</td>
+            </tr>
+            <tr>
+              <td valign="top" align="right" class="dia_field_name">State/Region</td>
+              <td><%= user.select "state", DemocracyInAction::Helpers.state_options_for_select, {}, :title => "Please select your state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataState" %></td>
+              <td class="dia_required">*</td>
+            </tr>
+            <tr>
+              <td align="right" class="dia_field_name">Zip Code</td>
+              <td><%= user.text_field "postal_code", :style => "background-color: #ebd897;", :maxlength => "10", :size => "10", :id => "dataZip", :title => "Please enter your zip code", :class => "required inputStyle" %></td>
+              <td class="dia_required">*
+			
+		  </td>
+            </tr>
+            <tr>
+              <td valign="top" align="right" id="dia_field_name_data_Organization" class="dia_field_name">Organization</td>
+              <td valign="top"><%= text_field_tag "user[democracy_in_action][supporter][Organization]", nil, :id => "dataOrganization", :maxlength => "64", :size => "30", :class => "inputStyle", :style => "background-color: #ebd897;" %></td>
+              <td class="dia_required">
+                <br /></td>
+            </tr>
+            <tr>
+              <td valign="top" align="right" id="dia_field_name_data_Occupation" class="dia_field_name">Position</td>
+              <td valign="top"><%= text_field_tag "user[democracy_in_action][supporter][Occupation]", nil, :id => "dataOccupation", :maxlength => "64", :size => "30", :class => "inputStyle", :style => "background-color: #ebd897;" %></td>
+              <td class="dia_required">
+                <br /></td>
+            </tr>
+            <tr>
+              <td valign="top" align="right">A picture for your host profile</td>
+              <td><%= file_field_tag "profile_image[uploaded_data]", :class => "inputStyle", :style => "background-color: #ebd897;" %></td>
+            </tr>
+          </tbody>
+          </table>
+      </div>
+      <div id="customFields" class="customFields">
+        <h3>Organizing Information</h3>
+        <table class="dia_field">
+          <tbody>
+            <tr>
+              <td valign="top" align="right" class="dia_field_name">I helped organize a Step It Up 1 event for April 14th <%= check_box_tag "user[democracy_in_action][supporter_custom][BOOL7]" %></td>
+              <td class="dia_required">
+                <br /></td>
+            </tr>
+            <tr>
+              <td valign="top" align="right" class="dia_field_name">I attended a Step It Up 1 event for April 14th. <%= check_box_tag "user[democracy_in_action][supporter_custom][BOOL8]" %></td>
+              <td class="dia_required">
+                <br /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    <% end -%>
+    </div>
+    <div id="eventInformation" class="eventInformation">
+      <%= error_messages_for 'event' %>
+      <h3>Event Information
+        
+        
+        
+        <br /></h3>
+      <p><strong><font color="#ff0000"><em>Please be as specific as possible with your
+event information you submit below--it will be displayed publically,
+and this is your chance to sell your Step It Up action to the world!&nbsp;
+So make it sound fun, appealing, and legitimate!&nbsp; It's OK if you don't
+know ALL the details, you'll be able to add or change this info later
+from &quot;Manage Your Action&quot; within the &quot;Organizer Headquarters.&quot;</em></font></strong></p>
+      <div id="eventFields" class="eventFields">
+        <table class="dia_field">
+          <tbody>
+            <tr valign="top">
+              <td width="157" valign="top" align="right" id="dia_field_name_data_Event_Name" class="dia_field_name">
+                <div align="left">Action Name:</div>
+              </td>
+              <td width="704" valign="top">
+                <%= f.text_field "name", :id => "dataEvent_Name", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your action's name", :class => "required inputStyle" %>
+              </td>
+              <td width="12" class="dia_required"><strong>*</strong></td>
+            </tr>
+            <tr>
+              <td valign="top" align="right" class="dia_field_name" colspan="2">
+                <div align="left">Description:<br /><br />
+                  <%= f.text_area "description", :title => "Please enter your action's description", :class => "required", :rows => "7", :cols => "45", :style => "background-color: #ebd897;", :id => "dataDescription" %>
+                </div>
+              </td>
+              <td class="dia_required"><strong>*</strong></td>
+            </tr>
+            <tr>
+              <td valign="top" align="right" class="dia_field_name" colspan="2">
+                <div align="left">Address:<br />
+                  <%= f.text_area 'location', :title => "Please enter your action's address", :class => "required", :rows => "5", :cols => "45", :style => "background-color: #ebd897;" %>
+                </div>
+              </td>
+              <td class="dia_required"><strong>*</strong></td>
+            </tr>
+            <tr>
+              <td valign="top" align="right" id="dia_field_name_data_City" class="dia_field_name">
+                <div align="left">City:</div>
+              </td>
+              <td valign="top">
+              <%= f.text_field "city", :id => "dataEventCity", :maxlength => "128", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your action's city", :class => "required inputStyle" %></td>
+              <td class="dia_required"><strong>*</strong></td>
+            </tr>
+            <tr>
+              <td valign="top" align="right" class="dia_field_name">
+                <div align="left">State:</div>
+              </td>
+              <td><%= f.select "state", DemocracyInAction::Helpers.state_options_for_select, {}, :title => "Please choose your action's state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventState" %></td>
+              <td class="dia_required"><strong>*</strong></td>
+            </tr>
+            <tr>
+              <td align="right" class="dia_field_name">
+                <div align="left">Zip Code:</div>
+              </td>
+              <td>
+              <%= f.text_field "postal_code", :id => 'postal_code', :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your action's zip code", :class => "required inputStyle" %>&nbsp;&nbsp;
+              <span id="spinner" style="font-style: italic; font-size: 90%; display: none;"><%= image_tag 'spinner.gif' %> looking for nearby events</span></td>
+				  <%= observe_field :postal_code,
+										 :on => 'blur',
+										 :update => 'nearbyEvents',
+										 :before => "Element.show('spinner')", 
+										 :complete => "Element.hide('spinner')", 
+										 :url => {:action => 'nearby_events', :only_path => false},
+										 :with => "'postal_code=' + encodeURIComponent(value)" %>
+              <td class="dia_required"><strong>*</strong></td>
+				<tr>
+				  <td colspan="2">
+					 <div id='nearbyEvents'/>
+				  </td>
+				</tr>
+            </tr>
+            <tr>
+              <td valign="top" align="right" class="dia_field_name" colspan="2">
+                <div align="left">Directions<br />
+                  <%= f.text_area "directions", :style => "background-color: #ebd897;", :rows => "5", :cols => "45", :class => "required", :title => "Please enter directions to your action" %>
+                </div>
+              </td>
+              <td class="dia_required"><strong>*</strong></td>
+            </tr>
+            <tr>
+              <td colspan="2">When on November 3rd will your event begin and end?</td>
+            </tr>
+            <tr>
+              <td valign="top" align="right" class="dia_field_name">
+                <div align="left">Start:</div>
+              </td>
+              <td valign="top">
+                <%#= f.datetime_select 'start', :minute_step => 15, :html => {:style => "background-color: #ebd897;"}, :disabled => true %>
+                <select id="event_start_1i" name="disabled_event[start(1i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
+                  <option value="2007" selected="selected">2007</option>
+                </select>
+                <input type="hidden" name="event[start(1i)]" value="2007">
+                <select id="event_start_2i" name="disabled_event[start(2i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
+                  <option value="11" selected="selected">November</option>
+                </select>
+                <input type="hidden" name="event[start(2i)]" value="11">
+                <select id="event_start_3i" name="disabled_event[start(3i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
+                  <option value="3" selected="selected">3</option>
+                </select>
+                <input type="hidden" name="event[start(3i)]" value="3">
+                &mdash; <select id="event_start_4i" name="event[start(4i)]" style="width: auto; background-color: #ebd897;">
+                  <option value="00">12</option>
+                  <option value="01">1</option>
+                  <option value="02">2</option>
+                  <option value="03">3</option>
+                  <option value="04">4</option>
+                  <option value="05">5</option>
+
+                  <option value="06">6</option>
+                  <option value="07">7</option>
+                  <option value="08">8</option>
+                  <option value="09">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12" selected="selected">12</option>
+                  <option value="13">1</option>
+                  <option value="14">2</option>
+                  <option value="15">3</option>
+                  <option value="16">4</option>
+                  <option value="17">5</option>
+                  <option value="18">6</option>
+                  <option value="19">7</option>
+                  <option value="20">8</option>
+                  <option value="21">9</option>
+                  <option value="22">10</option>
+                  <option value="23">11</option>
+                </select>
+                 : <select id="event_start_5i" name="event[start(5i)]" style="width: auto; background-color: #ebd897;">
+                   <option value="00" selected="selected">00</option>
+                   <option value="15">15</option>
+                   <option value="30">30</option>
+                   <option value="45">45</option>
+                 </select>
+              </td>
+              <td class="dia_required"><strong>*</strong></td>
+            </tr>
+            <tr>
+              <td valign="top" align="right" class="dia_field_name">
+                <div align="left">End:</div>
+              </td>
+              <td valign="top">
+                <%#= f.datetime_select 'end', :minute_step => 15, :style => "background-color: #ebd897;" %>
+                <select id="event_end_1i" name="disabled_event[end(1i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
+                  <option value="2007" selected="selected">2007</option>
+                </select>
+                <input type="hidden" name="event[end(1i)]" value="2007">
+                <select id="event_end_2i" name="disabled_event[end(2i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
+                  <option value="11" selected="selected">November</option>
+                </select>
+                <input type="hidden" name="event[end(2i)]" value="11">
+                <select id="event_end_3i" name="disabled_event[end(3i)]" disabled="disabled" style="width: auto; background-color: #ebd897;">
+                  <option value="3" selected="selected">3</option>
+                </select>
+                <input type="hidden" name="event[end(3i)]" value="3">
+                &mdash; <select id="event_end_4i" name="event[end(4i)]" style="width: auto; background-color: #ebd897;">
+                  <option value="00">12</option>
+                  <option value="01">1</option>
+                  <option value="02">2</option>
+                  <option value="03">3</option>
+                  <option value="04">4</option>
+                  <option value="05">5</option>
+
+                  <option value="06">6</option>
+                  <option value="07">7</option>
+                  <option value="08">8</option>
+                  <option value="09">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">1</option>
+                  <option value="14" selected="selected">2</option>
+                  <option value="15">3</option>
+                  <option value="16">4</option>
+                  <option value="17">5</option>
+                  <option value="18">6</option>
+                  <option value="19">7</option>
+                  <option value="20">8</option>
+                  <option value="21">9</option>
+                  <option value="22">10</option>
+                  <option value="23">11</option>
+                </select>
+                 : <select id="event_end_5i" name="event[end(5i)]" style="width: auto; background-color: #ebd897;">
+                   <option value="00" selected="selected">00</option>
+                   <option value="15">15</option>
+                   <option value="30">30</option>
+                   <option value="45">45</option>
+                 </select>
+              </td>
+              <td class="dia_required"><strong>*</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <%= hidden_field_tag "event[democracy_in_action][event][Maximum_Attendees]", 10000 %>
+        <%= hidden_field_tag "event[democracy_in_action][event][Status]", "Unconfirmed" %>
+        <%= hidden_field_tag "event[democracy_in_action][event][Default_Tracking_Code]", "greenpeace_m" %>
+        <p align="center">
+        <br /><input type="submit" value="Submit" />
+        <script type="text/javascript" language="javascript">
+          var valid = new Validation("event-signup-form", {useTitles : true});
+        </script>
+        </p>
+      </div>
+    </div>
+<% end -%>
+  </td></tr></table></div>
