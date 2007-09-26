@@ -22,6 +22,14 @@ class Politician < ActiveRecord::Base
   def attending?
     !rsvps.empty?
   end
+  
+  def senator?
+    district_type == 'FS'
+  end
+
+  def representative?
+    district_type == 'FH'
+  end  
 end
 
 class Legislator < Politician
