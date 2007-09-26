@@ -58,13 +58,18 @@ class InvitesController < ApplicationController
   # find events near politician (params[:id]) to invite them to
   def events
     @politician = Politician.find(params[:id])
-    @events_in_district = @calendar.events.find(:all, :conditions => ["district = ?", @politician.district]) if @politician.district_type == 'FH'
-    if @events_in_district && @events_in_district.length == 1
-      @politicians = [@politician]
-      @event = @events_in_district.first
-      render :action => 'all' and return
+    if @politician.is_a?(Candidate)
+      @events = @calendar.events.sort {|a,b| state = a.state <=> b.state; state == 0 ? a.city.downcase <=> b.city.downcase : state}
+    elsif @politician.representative?
+      @events = @calendar.events.find(:all, :conditions => ["district = ?", @politician.district])
+      if @events && @events.length == 1
+        @politicians = [@politician]
+        @event = @events.first
+        render :action => 'all' and return
+      end
+    else #senator
+      @events = @calendar.events.find(:all, :conditions => ["state = ?", @politician.state])
     end
-    @events_in_state = @calendar.events.find(:all, :conditions => ["state = ?", @politician.state])
   end
 
   def index
