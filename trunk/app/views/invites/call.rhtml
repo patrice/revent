@@ -10,8 +10,4 @@ Invite <%= @politician.display_name %> by calling <%= @politician.phone %>.
 <hr/>
 <h3>CALL SCRIPT:</h3>
 
-<p>This is <%= @user ? @user.full_name : '<strong>YOUR NAME</strong>' %> calling on behalf of Step It Up, and I&apos;m part of a new coalition working on global warming issues. I would like to invite <%= @politician.display_name %> to take the time on Saturday, November 3 to attend an event in <%= @event.city %> and tell us how they plan to lead in the fight against global warming.</p>
-
-<p style="font-style: italic;">&mdash;(At this point, you have to wait to be transferred to the politicians scheduler)&mdash;</p>
-
-<p>This is taking place at <%= @event.location %> at <%= @event.start.strftime('%I:%M %p').gsub(/^0/, '') %>, and will be one of hundreds scheduled all across America on the same day. It&apos;s sure to get a lot of press coverage&mdash;we&apos;ve already called the media, and the last day of action on April 14th was covered by the New York Times, the Associated Press, and thousands of local newspapers nation wide. We&apos;d love to have <%= @politician.display_name %> come and speak for a few minutes about global warming, and talk directly to <strong>HIS/HER</strong> constituents about how they plan to lead on this crucial issue. Please RSVP to this event by e-mailing rsvp@stepitup2007.org or calling 877.839.8957.</p>
+<%= render(:partial => 'call_content') %>
