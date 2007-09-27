@@ -37,7 +37,7 @@ No leaders found for this area.
 
 	<tr>
     <td><%= image_tag(politician.image_url, :size => "60x70") %><td/>
-	 <% if @events && @events.length > 0 -%>
+	 <% if @event || (@events && @events.length > 0) -%>
 	    <td>
 	      <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right">
 	        <% if @event -%>
@@ -55,7 +55,7 @@ No leaders found for this area.
 	      </span></span></span>
 	      <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right">
 	        <% if @event -%>
-	          <%= link_to 'Send an Email/Fax', {:action => 'email', :id => @event, :politician_id => politician.id}, :popup => true %>
+	          <%= link_to 'Email', {:action => 'email', :id => @event, :politician_id => politician.id}, :popup => true %>
 	        <% else -%>
 	          <%= link_to_function 'Email', "window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/email/#{politician.id}');return false;" %>
 	        <% end -%>
