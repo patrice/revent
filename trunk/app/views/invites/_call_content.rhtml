@@ -1,9 +1,0 @@
-<p>This is <%= @user ? @user.full_name : '<strong>YOUR NAME</strong>' %> calling on behalf of Step It Up. I'm part of a growing movement of climate activists across the country who have come together to support a comprehensive vision for a clean energy future. I’d like to invite <%= @politician.display_name %> to take the time on Saturday, November 3 to attend an event in <%= [@event.city, @event.state].join(', ') %> and tell us how <strong>HE/SHE</strong> plans to lead in the fight against global warming.</p>
-
-<p style="font-style: italic;">&mdash;(At this point, you have to wait to be transferred to the politician’s scheduler)&mdash;</p>
-
-<p>This event will be one of hundreds scheduled all across America on November 3. It's sure to get a lot of press coverage - we've already called the media, and the last day of action on April 14th was covered by the New York Times, the Associated Press, and thousands of local newspapers nation wide. We'd love to have <%= @politician.display_name %> come and speak for a few minutes about global warming and talk directly to <strong>HIS/HER</strong> constituents about how <strong>HE/SHE</strong> plans to lead on this crucial issue. Please RSVP to this event by e-mailing rsvp@stepitup2007.org or calling 877.839.8957. For more information you can go to www.stepitup2007.org.</p>
-
-<p style="font-style: italic;">&mdash;(If the scheduler says they don’t know where <%= @politician.display_name %> will be on November 3)&mdash;</p>
-
-<p>It’s OK if you don’t know exactly where <%= @politician.display_name %> will be on November 3. There will be events all over the country so <strong>HE/SHE</strong> can RSVP saying <strong>HE/SHE</strong> will be coming to an event wherever <strong>HE/SHE</strong> is. Just email rsvp@stepitup2007.org or call 877.839.8957.</p>

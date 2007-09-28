@@ -18,6 +18,10 @@ class Politician < ActiveRecord::Base
   def invited?
     !politician_invites.empty?
   end
+  
+  def invites
+    politician_invites.length
+  end
 
   def attending?
     !rsvps.empty?

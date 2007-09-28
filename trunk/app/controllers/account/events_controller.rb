@@ -8,10 +8,15 @@ class Account::EventsController < ApplicationController
   end
 
   def show
-    @event = Event.find(params[:id])
+    extend ActionView::Helpers::TextHelper
+#    @event = Event.find(params[:id])
     @nearby_events = @calendar.events.find(:all, :origin => @event, :within => 50)
     @nearby_events.reject! { |e| e.id == @event.id }
     @blog = Blog.new(:event => @event)
+    city_state = [@event.city, @event.state].join(' ')
+    @event.letter_script ||= @calendar.letter_script.gsub('CITY_STATE', city_state)
+    @event.call_script ||= @calendar.call_script.gsub('CITY_STATE', city_state)
+    @example = Politician.find_by_district_type_and_state('FS', @event.state)
   end
 
   def upload
@@ -30,15 +35,29 @@ class Account::EventsController < ApplicationController
 
   def update
     redirect_to :action => 'show' and return unless params[:event]
-    @event.update_attributes(params[:event])
-    @event.save!
-    flash[:notice] = 'Event updated'
+    @event.update_attributes!(params[:event])
+    if params[:event][:letter_script] || params[:event][:call_script]
+#      update_campaign_scripts(@event) 
+      flash[:notice] = 'Invitation script(s) updated.'
+    else
+      flash[:notice] = 'Event updated'
+    end
     redirect_to :action => 'show', :id => @event
   rescue ActiveRecord::RecordInvalid
     @nearby_events = @calendar.events.find(:all, :origin => @event, :within => 50)
     @nearby_events.reject! { |e| e.id == @event.id }
     render :action => 'show'
   end
+  
+  def update_campaign_scripts(event)
+    objects = DemocracyInActionObject.find(:all, :from => "democracy_in_action_objects as d",
+      :conditions => ["d.table = ? AND associated_type = ? AND associated_id = ?", 'campaign', 'Event', event.id])
+    objects.each do |o|
+      c = DemocracyInActionCampaign.find(o.key)
+      c.Suggested_Content = event.letter_script
+      c.save
+    end
+  end  
 
   def invite
     redirect_to :action => 'show', :id => @event and return unless params[:invite]

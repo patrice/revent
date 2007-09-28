@@ -34,6 +34,7 @@ class InvitesController < ApplicationController
   end
 
   def count
+    @total_user_invites = PoliticianInvite.count
     @congress_invites = Politician.count :include => :politician_invites, :conditions => "(district_type = 'FS' OR district_type = 'FH') AND politician_invites.id"
     @candidate_invites = Candidate.count :include => :politician_invites, :conditions => "politician_invites.id"
 
@@ -196,11 +197,16 @@ class InvitesController < ApplicationController
   def write
     @politician = Politician.find(params[:politician_id])
     @user = current_user
+    @event.letter_script ||= @calendar.letter_script.gsub('CITY_STATE', [@event.city, @event.state].join(', '))
+    @letter_script = RedCloth.new @event.letter_script
   end
   
   def call
     @politician = Politician.find(params[:politician_id])
     @user = current_user
+    @event.call_script ||= @calendar.call_script.gsub('CITY_STATE', [@event.city, @event.state].join(', '))
+    @event.call_script.gsub!('POLITICIAN_NAME', @politician.display_name)
+    @call_script = RedCloth.new @event.call_script
   end
 
   def email
@@ -208,6 +214,8 @@ class InvitesController < ApplicationController
     @user = current_user
     @recipient = @politician.democracy_in_action_object
     if @recipient && @recipient.local && !@recipient.local['email'] && @recipient.local['web_form_url']
+      @event.letter_script ||= @calendar.letter_script.gsub('CITY_STATE', [@event.city, @event.state].join(', '))
+      @letter_script = RedCloth.new @event.letter_script
       return
     end
     unless campaign = @event.campaign_for_politician(@politician)
@@ -227,7 +235,7 @@ class InvitesController < ApplicationController
 #      'recipient_KEYS' => 121449, #jwarnow@gmail.com 
       'Suggested_Subject' => 'StepItUp',
 #      'Letter_Salutation' => politician.title + politician.first_name + politician.last_name,
-      'Suggested_Content' => strip_tags(render_to_string(:partial => 'letter_content')),
+      'Suggested_Content' => @event.letter_script || @calendar.letter_script,
       'Max_Number_Of_Faxes' => 100, #100?
       'Hide_Keep_Me_Informed' => 1,
       'Default_Tracking_Code' => "distributed_event_KEY#{@calendar.democracy_in_action_key}"

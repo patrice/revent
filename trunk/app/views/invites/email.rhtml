@@ -12,11 +12,10 @@
 	<p>Email: 		<%= f.text_field :email %></p>
 	<p><%= submit_tag "I emailed!" %></p>
 <% end %>
-<br />
-SAMPLE EMAIL:<br/>
-<br/>
+<hr>
+<h3>SAMPLE EMAIL:</h3>
 Dear <%= @politician.display_name %>,
-<br/>
+<br/><br/>
 
 <% content_for :signature do %>
 <p> 
@@ -29,4 +28,4 @@ Sincerely,
 </p>
 <% end %>
 
-<%= textilize_without_paragraph(render(:partial => 'letter_content')) %>
+<%= @letter_script.to_html %>

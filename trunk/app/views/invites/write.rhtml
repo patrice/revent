@@ -25,4 +25,5 @@ Sincerely,
 <% end %>
 </p>
 <% end %>
-<%= textilize_without_paragraph(render(:partial => 'letter_content')) %>
+
+<%= @letter_script.to_html %>
