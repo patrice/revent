@@ -44,7 +44,30 @@
     <% end -%>
   </div>
 	</div>	
-	
+
+	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_edit.gif'><%= link_to_function 'Edit Leader Invitation Scripts for Your Event', visual_effect(:toggle_blind, 'profile_event_scripts') %></p>
+	<div id='profile_event_scripts' style="display:none;">
+		<div id='profile_event_scripts_edit'>	
+			<p class='profile_subtitle'>These invitation scripts will be displayed to users when they invite leaders to your event.
+				Click <%= link_to 'here', url_for(:permalink => @calendar.permalink, :controller => '/invites', :action => 'call', :id => @event, :politician_id => @example), :popup => true %> to see an example of how these scripts are used for leader invitations.</p>
+		   <% form_for :event, @event, :url => {:controller => 'account/events', :action => 'update', :id => @event} do |f| %>
+				<%= link_to_function 'Edit Call Script', visual_effect(:toggle_blind, 'profile_event_edit_call_script') %><br/>
+				<div id='profile_event_edit_call_script' style="display:none;">
+					<%= f.text_area 'call_script', :rows => 20, :cols => 50 %><br/>
+					<i>POLITICIAN_NAME will be replaced with the name of whomever is being invited.</i><br/>
+					<i><%= link_to 'Textile formatting reference', 'http://hobix.com/textile/', :popup => true %></i><br/>
+					<%= submit_tag %><br/><br/>
+				</div>
+				<%= link_to_function 'Edit Letter/Email Script', visual_effect(:toggle_blind, 'profile_event_edit_letter_script') %><br/>
+				<div id='profile_event_edit_letter_script' style="display:none;">
+					<%= f.text_area 'letter_script', :rows => 20, :cols => 50 %><br/>
+					<i><%= link_to 'Textile formatting reference', 'http://hobix.com/textile/', :popup => true %></i><br/>
+					<%= submit_tag %><br/><br/>
+				</div>
+			<% end -%><br/>
+		</div>
+	</div>
+
 	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_rsvp.gif'><%= link_to_function 'View and Contact Event Attendees', visual_effect(:toggle_blind,'profile_event_attend') %></p>
 	
 	<div id='profile_event_attend' style="display:none;">
