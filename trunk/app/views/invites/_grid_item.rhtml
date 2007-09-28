@@ -5,18 +5,13 @@
 			Representing district <%= grid_item.district %><br/>
 		<% end %>
 	</td>	
-	<td class="invites-list-checks">
-	  <span class="invites-number-circle">
-		 <%= grid_item.invites %>
-       <% if grid_item.invited? %>	 	
-		 <% end %>
-	  </span>
-	</td>
+	<td class="invites-list-checks"> 
+		<% if grid_item.invited? %> 
+			<%= image_tag 'confirmed.jpg' %> 
+		<% end %>	</td>
   <td class="invites-list-checks">
     <% if grid_item.attending? %>
       <%= image_tag 'confirmed.jpg' %>
-	 <% else %>
-    	<%= image_tag 'siu_questionmark.gif' %>
     <% end %>
   </td>
   <td class="invites-list-invite">
