@@ -37,7 +37,7 @@ class Account::EventsController < ApplicationController
     redirect_to :action => 'show' and return unless params[:event]
     @event.update_attributes!(params[:event])
     if params[:event][:letter_script] || params[:event][:call_script]
-      update_campaign_scripts(@event) 
+      update_campaign_scripts(@event) if params[:event][:letter_script]
       flash[:notice] = 'Invitation script(s) updated.'
     else
       flash[:notice] = 'Event updated'
