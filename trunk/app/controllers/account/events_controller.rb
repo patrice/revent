@@ -13,7 +13,7 @@ class Account::EventsController < ApplicationController
     @nearby_events = @calendar.events.find(:all, :origin => @event, :within => 50)
     @nearby_events.reject! { |e| e.id == @event.id }
     @blog = Blog.new(:event => @event)
-    city_state = [@event.city, @event.state].join(' ')
+    city_state = [@event.city, @event.state].join(', ')
     @event.letter_script ||= @calendar.letter_script.gsub('CITY_STATE', city_state)
     @event.call_script ||= @calendar.call_script.gsub('CITY_STATE', city_state)
     @example = Politician.find_by_district_type_and_state('FS', @event.state)
@@ -37,7 +37,7 @@ class Account::EventsController < ApplicationController
     redirect_to :action => 'show' and return unless params[:event]
     @event.update_attributes!(params[:event])
     if params[:event][:letter_script] || params[:event][:call_script]
-#      update_campaign_scripts(@event) 
+      update_campaign_scripts(@event) 
       flash[:notice] = 'Invitation script(s) updated.'
     else
       flash[:notice] = 'Event updated'
