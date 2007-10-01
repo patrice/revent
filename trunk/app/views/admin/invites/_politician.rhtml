@@ -16,13 +16,6 @@
    	<%= politician.politician_invites.each {|i| i.event.name if i.event} %>
 	</td>
 </tr>
-<tr id="user-invites-<%= politician.id %>" style="display:none">
-	<td colspan="4" style="padding-left:15px">
-	<% politician.politician_invites.each do |i| -%>
-	    Invited by <%= i.user.nil? ? 'unknown user' : i.user.email %> to <%= i.event.name %>.(invited at <%= i.created_at.to_s(:long) %>)<br />
-    <% end -%>
-</td>
-</tr>
 <tr id="rsvp-<%= politician.id %>" style="display:none">
 	<td colspan="4" style="padding-left:15px">
 		<br/>
@@ -45,5 +38,13 @@
 			<%= submit_tag 'Add Event' %>
 		<% end %>
 		<br/>
+	</td>
+</tr>
+<tr id="user-invites-<%= politician.id %>" style="display:none">
+	<td colspan="6" style="padding-left:15px">
+	<% politician.politician_invites.each do |i| -%>
+	    Invited by <%= i.user.nil? ? 'unknown user' : i.user.email %> to:
+	 		<%= i.event.name %>.<br />
+    <% end -%>
 	</td>
 </tr>
