@@ -35,7 +35,7 @@
 <tr id="user-invites-<%= politician.id %>" style="display:none">
 	<td colspan="6" style="padding-left:15px">
 	<% politician.politician_invites.each do |i| -%>
-		 <% next unless i.event %>
+		 <% next if i.event.nil? %>
 	    Invited by <b><em><%= i.user.nil? ? 'unknown user' : i.user.email %></b></em> to
 	 		<b><em><%= i.event.name %></em></b>.<br />
     <% end -%>
