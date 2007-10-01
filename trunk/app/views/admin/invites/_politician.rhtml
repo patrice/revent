@@ -16,7 +16,7 @@
 		<% if politician.attending? %>
 			<b>Attending:</b><br/>
 			<% politician.rsvps.each do |r| %>
-				<%= r.event.name %>
+				<%= r.event_id; r.event.name if r.event %>
 				<%= link_to 'unconfirm', :action => 'unconfirm', :id => politician, :rsvp => r.id %><br />
 			<% end %>
 		<% else %>
@@ -25,7 +25,7 @@
 		<br/>
 		<% form_tag(:action => 'confirm', :id => politician) do %>
 			<% events_attending = [] %>
-			<% politician.rsvps.each {|r| events_attending << [r.event.name, r.event.id]} %>
+			<% politician.rsvps.each {|r| events_attending << [r.event.name, r.event.id] if r.event } %>
 			<%= select_tag :event, options_for_select(@select_events - events_attending) %>
 			<%= submit_tag 'Add Event' %>
 		<% end %>
