@@ -16,10 +16,8 @@
 		<% if politician.attending? %>
 			<b>Attending:</b><br/>
 			<% politician.rsvps.each do |r| %>
-				<% unless r.event.nil? %>
-					<%= r.event.name %>
-					<%= link_to 'unconfirm', :action => 'unconfirm', :id => politician, :rsvp => r.id %><br />
-				<% end %>
+				<%= r.event.name %>
+				<%= link_to 'unconfirm', :action => 'unconfirm', :id => politician, :rsvp => r.id %><br />
 			<% end %>
 		<% else %>
 			Not attending any events. Add one below.
@@ -37,8 +35,9 @@
 <tr id="user-invites-<%= politician.id %>" style="display:none">
 	<td colspan="6" style="padding-left:15px">
 	<% politician.politician_invites.each do |i| -%>
-	    Invited by <%= i.user.nil? ? 'unknown user' : i.user.email %> to:
-	 		<b><%= i.event.name %></b>.<br />
+		 <% next unless i.event %>
+	    Invited by <b><em><%= i.user.nil? ? 'unknown user' : i.user.email %></b></em> to
+	 		<b><em><%= i.event.name %></em></b>.<br />
     <% end -%>
 	</td>
 </tr>
