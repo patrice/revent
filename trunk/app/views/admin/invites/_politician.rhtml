@@ -11,9 +11,11 @@
 		not yet implemented.
 	</td>
 </tr>
-<tr id="invite-<%= politician.id %>" style="display:none"><td>
-    <%= politician.politician_invites.each {|i| i.event.name if i.event} %>
-</td></tr>
+<tr id="invite-<%= politician.id %>" style="display:none">
+	<td colspan="4" style="padding-left:15px">
+   	<%= politician.politician_invites.each {|i| i.event.name if i.event} %>
+	</td>
+</tr>
 <tr id="user-invites-<%= politician.id %>" style="display:none">
 	<td colspan="4" style="padding-left:15px">
 	<% politician.politician_invites.each do |i| -%>

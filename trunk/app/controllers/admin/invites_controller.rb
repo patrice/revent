@@ -1,6 +1,6 @@
 class Admin::InvitesController < AdminController
   def index
-    @politicians = Politician.find(:all, :include => [:rsvps, :politician_invites], :limit => 10)
+    @politicians = Politician.find(:all, :include => [:rsvps, :politician_invites])
     @events = @calendar.events.find(:all, :select => "name, id")
     @select_events = []
     @events.each {|e| @select_events << [e.name, e.id]}
