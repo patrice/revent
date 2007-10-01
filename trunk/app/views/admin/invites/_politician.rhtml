@@ -3,26 +3,43 @@
 <tr><td><%= politician.display_name %></td>
 	 <td><%= link_to_function 'edit', "$('edit-#{politician.id}').toggle()" %></td>
 	 <td>| <%= invited ? link_to_function('attending', "$('invite-#{politician.id}').toggle()") : link_to('invite', :controller => '/invites', :action => 'events', :id => politician.id) %></td>
-	 <td>| <%= link_to_function (attending ? 'unconfirm' : 'confirm'), "$('rsvp-#{politician.id}').toggle()" %></td>
-	 <td>| <%= link_to_function 'user invites: ' + politician.politician_invites.length.to_s, "$('user-invites-#{politician.id}').toggle()" %></td>
+	 <td>| <%= link_to_function "attending (#{politician.rsvps.length})", "$('rsvp-#{politician.id}').toggle()" %></td>
+	 <td>| <%= link_to_function "user invites (#{politician.politician_invites.length})", "$('user-invites-#{politician.id}').toggle()" %></td>
 </tr>
 <tr id="edit-<%= politician.id %>" style="display:none">
-	<td>edit me</td>
+	<td colspan="4" style="padding-left:15px">
+		not yet implemented.
+	</td>
 </tr>
 <tr id="invite-<%= politician.id %>" style="display:none"><td>
-    <% politician.politician_invites.each do |i| -%>
-    <%= i.event.name %>
-    <% end -%>
+    <%= politician.politician_invites.each {|i| i.event.name if i.event} %>
 </td></tr>
 <tr id="user-invites-<%= politician.id %>" style="display:none">
-    <td><% politician.politician_invites.each do |i| -%>
+	<td colspan="4" style="padding-left:15px">
+	<% politician.politician_invites.each do |i| -%>
 	    Invited by <%= i.user.nil? ? 'unknown user' : i.user.email %> to <%= i.event.name %>.(invited at <%= i.created_at.to_s(:long) %>)<br />
-    <% end -%></td>
+    <% end -%>
+</td>
 </tr>
 <tr id="rsvp-<%= politician.id %>" style="display:none">
-	<td>
-		<% form_tag(:action => 'rsvp', :id => @politican) do -%>
-			<%= select_tag :event, options_for_select(@events) %>
+	<td colspan="4" style="padding-left:15px">
+		<br/>
+		<% if politician.attending? %>
+			<b>Attending:</b><br/>
+			<% politician.rsvps.each do |r| %>
+				<%= r.event.name %>
+				<%= link_to 'unconfirm', :action => 'unconfirm', :id => politician, :rsvp => r.id %><br />
+			<% end %>
+		<% else %>
+			Not attending any events. Add one below.
 		<% end -%>
+		<br/>
+		<% form_tag(:action => 'confirm', :id => politician) do %>
+			<% events_attending = [] %>
+			<% politician.rsvps.each {|r| events_attending << [r.event.name, r.event.id]} %>
+			<%= select_tag :event, options_for_select(@select_events - events_attending) %>
+			<%= submit_tag 'Add Event' %>
+		<% end %>
+		<br/>
 	</td>
 </tr>
