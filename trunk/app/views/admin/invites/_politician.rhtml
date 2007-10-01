@@ -17,6 +17,7 @@
 			<b>Attending:</b><br/>
 			<% politician.rsvps.each do |r| %>
 				<% next if r.event.nil? %>
+				<% r.event.name %>
 				<%= link_to 'unconfirm', :action => 'unconfirm', :id => politician, :rsvp => r.id %><br />
 			<% end %>
 		<% else %>
