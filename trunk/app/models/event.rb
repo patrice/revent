@@ -126,7 +126,9 @@ class Event < ActiveRecord::Base
     dia_warehouse = "http://warehouse.democracyinaction.org/dia/api/warehouse/append.jsp?id=radicaldesigns".freeze
     uri = dia_warehouse + "&postal_code=" + postal_code.to_s
     data = XmlSimple.xml_in(open(uri))
-    self.district = data['entry'][0]['district'][0].strip unless data['entry'][0]['district'].nil?
+    unless data['entry'][0]['district'].nil? || (self.district && data['entry'][0]['district'].map {|d| d.strip}.include?(self.district))
+      self.district = data['entry'][0]['district'][0].strip 
+    end
   end
   
   def zip_latitude
