@@ -5,7 +5,8 @@ class UserMailer < ActionMailer::Base
   def force_liquid_template
   end
 
-  def invite(from, event, message, host='events.stepitup2007.org')
+  def invite(from, event, message, host=nil)
+    host ||= Site.current.host if Site.current && Site.current.host
     @subject    = message[:subject]
     @body       = {:event => event, :message => message[:body], :url => url_for(:host => host, :permalink => event.calendar.permalink, :controller => 'events', :action => 'show', :id => event)}
     @recipients = from
@@ -31,15 +32,17 @@ class UserMailer < ActionMailer::Base
     @headers    = {}
   end
 
-  def activation(email, code, host='events.stepitup2007.org')
-    subject       'Account Activation on events.stepitup2007.org'
+  def activation(email, code, host=nil)
+    host ||= Site.current.host if Site.current && Site.current.host
+    subject       "Account Activation on #{host}"
     body          :url => url_for(:host => host, :controller => 'account', :action => 'activate', :id => code)
     recipients    email
-    from          "info@stepitup2007.org"
+    from          "info@#{host}"
     headers       {}
   end
 
-  def forgot_password(user, host = 'events.stepitup2007.org')
+  def forgot_password(user, host=nil)
+    host ||= Site.current.host if Site.current && Site.current.host
     setup_email(user)
     @subject    += 'Request to change your password'
     @body[:url]  = "http://#{host}/account/reset_password/#{user.password_reset_code}" 
@@ -52,9 +55,11 @@ class UserMailer < ActionMailer::Base
 
   protected
   def setup_email(user)
+    host = Site.current && Site.current.host ? Site.current.host : 'events.stepitup2007.org'
+    name = Site.current && Site.current.theme ? Site.current.theme : 'StepItUp'
     @recipients  = "#{user.email}" 
-    @from        = "info@events.stepitup2007.org" 
-    @subject     = "StepItUp - "
+    @from        = "info@#{host}" 
+    @subject     = "#{name} - "
     @sent_on     = Time.now
     @body[:user] = user
   end
