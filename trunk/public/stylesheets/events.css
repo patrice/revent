@@ -318,6 +318,18 @@ text-align: center;
   color: #1f5c83;
 
 }
+
+.invites-list-count {
+background: url(http://events.stepitup2007.org/images/confirmed_blank.gif) top left no-repeat;
+width: 40px;
+height: 40px;
+color: #FFFFFF;
+font-weight: bold;
+font-size: 17px;
+padding-top: 15px;
+text-align: center;
+}
+
 .button-maker a {
   color: #FFF;
   display: block;
@@ -377,3 +389,6 @@ color: #FFFFFF;
 padding: 5px;
 background-color:#5b791e ;
 }
+
+
+
