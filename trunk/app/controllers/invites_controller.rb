@@ -5,7 +5,7 @@ class InvitesController < ApplicationController
   session :off
   layout 'invites'
   
-  after_filter(:only => [:totals, :index, :map, :flashmap_area_states, :flashmap_area_districts, :flashmap_area_state]) do |c| 
+  after_filter(:only => [:totals, :widget, :index, :map, :flashmap_area_states, :flashmap_area_districts, :flashmap_area_state]) do |c| 
     c.cache_page(nil, :permalink => c.params[:permalink])
   end
 
