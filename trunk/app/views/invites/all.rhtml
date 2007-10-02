@@ -3,5 +3,8 @@
 <em>The more invitations our leaders get, the greater the chances are that they'll rise to the occasion on November 3rd--so let's get cracking. Something to keep in mind: phone calls make more of an impact with politicians, so do that first, and then move on to the others.  With your help, we can make November 3rd HUGE.</em>
 </p>
 <%= render(:partial => 'politician', :collection => @politicians) %>
-<%= link_to 'Back to event details', url_for(:permalink => @calendar.permalink, :controller => :events, :action => :show, :id => @event) %>
+<% unless params[:action] == 'state' %>
+<%= link_to ("Invite other Representatives from #{@event.state}", :permalink => @calendar.permalink, :controller => :invites, :id => @event, :action => :state) %><br />
+<% end %>
+<%= link_to 'Back to event details', :permalink => @calendar.permalink, :controller => :events, :action => :show, :id => @event %>
 

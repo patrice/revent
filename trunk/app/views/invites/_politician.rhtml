@@ -8,7 +8,7 @@ No leaders found for this area.
 <% unless @event -%>
   <% if politician.is_a?(Candidate) -%>
 	  <% if @events && @events.length > 0 -%>
-	    Invite to:
+	    Choose an event to invite this candidate to:
 	    <%= select_tag 'event_id', options_for_select(@events.collect {|e| ["#{[e.city, e.state].join(', ')} - #{e.name}", e.id]}), :style => 'width: auto;' %>
 	  <% else -%>
 	    There are no events in this calendar<br/>

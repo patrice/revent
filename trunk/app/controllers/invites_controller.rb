@@ -56,9 +56,9 @@ class InvitesController < ApplicationController
     end
   end
 
-  # find events near politician (params[:id]) to invite them to
+  # find events near politician (params[:politician_id]) to invite them to
   def events
-    @politician = Politician.find(params[:id])
+    @politician = Politician.find(params[:politician_id])
     if @politician.is_a?(Candidate)
       @events = @calendar.events.sort {|a,b| state = a.state <=> b.state; state == 0 ? a.city.downcase <=> b.city.downcase : state}
     else # congress-person
@@ -96,6 +96,13 @@ class InvitesController < ApplicationController
     # get both senators for this event's state 
     @politicians << Politician.find_by_district(@event.state + "1")
     @politicians << Politician.find_by_district(@event.state + "2")
+  end
+  
+  def state
+    @event = @calendar.events.find(params[:id])
+    # get representative for this event's state
+    @politicians = Politician.find_all_by_state(@event.state)
+    render :action => 'all'
   end
 
   after_filter(:only => :list) {|c| c.cache_page(nil, :permalink => c.params[:permalink]) }
