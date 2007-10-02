@@ -1,0 +1,13 @@
+<% form_for :politician, :url => {:action => 'edit'} do |f| %>
+	Email: <%= f.text_field :email %><br />
+	Address: <%= f.text_field :address %><br />
+	Postal Code: <%= f.text_field :postal_code, :size => 15 %><br />
+	State: <%= f.text_field :state, :size => 10 %><br />
+	Website: <%= f.text_field :website %><br /><br />
+	<%= submit_tag 'Save' %> 
+	<%= link_to 'Cancel', :action => 'index' %><br />
+<% end %>
+<br />
+<%= link_to 'Back to admin', :controller => '/admin', :action => 'index' %> | 
+<%= link_to 'Back to manage invites', :action => 'index' %><br />
+<br />
