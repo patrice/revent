@@ -61,14 +61,7 @@ class InvitesController < ApplicationController
     @politician = Politician.find(params[:id])
     if @politician.is_a?(Candidate)
       @events = @calendar.events.sort {|a,b| state = a.state <=> b.state; state == 0 ? a.city.downcase <=> b.city.downcase : state}
-    elsif @politician.representative?
-      @events = @calendar.events.find(:all, :conditions => ["district = ?", @politician.district])
-      if @events && @events.length == 1
-        @politicians = [@politician]
-        @event = @events.first
-        render :action => 'all' and return
-      end
-    else #senator
+    else # congress-person
       @events = @calendar.events.find(:all, :conditions => ["state = ?", @politician.state])
     end
   end

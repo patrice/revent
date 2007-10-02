@@ -14,15 +14,7 @@ No leaders found for this area.
 	    There are no events in this calendar<br/>
 		 Perhaps you should <%= link_to 'start one!', signup_url(@calendar.permalink) %>
 	  <% end -%>
-  <% elsif politician.representative? %>
-	  <% if @events && @events.length > 0 -%>
-    	 Choose an event from <%= politician.display_name %>'s district<br/>
-	    <%= select_tag 'event_id', options_for_select(@events.collect {|e| ["#{[e.city, e.state].join(', ')} - #{e.name}", e.id]}), :style => 'width: auto;' %>
-	  <% else -%>
-	    There are no events in <%= politician.display_name %>'s district<br/>
-		 Perhaps you should <%= link_to 'start one!', signup_url(@calendar.permalink) %>
-	  <% end -%>
-  <% else # senator %>
+  <% else # congress-person %>
 	  <% if @events && @events.length > 0 -%>
 	    Choose an event in <%= DemocracyInAction::Helpers.state_options_for_select.inject({}) {|states, o| states[o[1]] = o[0]; states}[politician.state] %><br/>
 	    <%= select_tag 'event_id', options_for_select(@events.collect {|e| ["#{[e.city, e.state].join(', ')} - #{e.name}", e.id]}), :style => 'width: auto;' %>

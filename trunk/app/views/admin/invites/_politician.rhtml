@@ -1,12 +1,13 @@
 <% invited = politician.invited? -%>
 <% attending = politician.attending? -%>
-<tr><td><%= politician.display_name %></td>
+<tr><td><%= politician.district %></td>
+	 <td><%= politician.display_name %></td>
 	 <td><%= link_to 'edit', :action => 'edit', :id => politician.id %></td>
 	 <td>| <%= link_to_function "attending (#{politician.rsvps.length})", "$('rsvp-#{politician.id}').toggle()" %></td>
 	 <td>| <%= link_to_function "user invites (#{politician.politician_invites.length})", "$('user-invites-#{politician.id}').toggle()" %></td>
 </tr>
 <tr id="rsvp-<%= politician.id %>" style="display:none">
-	<td colspan="4" style="padding-left:15px">
+	<td colspan="6" style="padding-left:15px">
 		<br/>
 		<% if politician.attending? %>
 			<b>Attending:</b><br/>
