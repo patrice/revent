@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+<link rel="icon" href="<%= theme_image_path 'favicon.ico' %>" type="image/x-icon" />
+  <%#= javascript_include_tag 'prototype' %>
+  <% yield :header %>
+<link rel="stylesheet" type="text/css" href="http://www.everythingscool.org/ec.css" id="default">
+  <%= stylesheet_link_tag 'events' %>
+<title>Everything's Cool &#8212; A Hot Documentary about global warming</title>
+
+<script src="http://s3.amazonaws.com/stepitup2007.org/prototype.js" type="text/javascript"></script>
+  <%= yield :header %>
+  <%= Cartographer::Gmap::Header.header_for(request) if @map %>
+<script src="http://s3.amazonaws.com/stepitup2007.org/validation.js" type="text/javascript"></script>
+
+<script language="JavaScript" type="text/JavaScript">
+<!--
+
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+
+function popUp(URL) {
+day = new Date();
+id = day.getTime();
+eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=400,height=400,left = 540,top = 275');");
+}
+
+function popUpIK(center,url,winName,width,height,features) {
+		if (center) {
+			x = (640 - width)/2, y = (480 - height)/2;
+			if (screen) {
+				y = (screen.availHeight - height)/2;
+				x = (screen.availWidth - width)/2;
+			}
+			if (screen.availWidth > 1800) { 
+				x = ((screen.availWidth/2) - width)/2; 
+			} 
+		}
+		var newWin = window.open(url,winName,'scrollbars=no,width='+width+',height='+height+',screenX='+x+',screenY='+y+',top='+y+',left='+x+','+features);
+		newWin.focus();
+	}
+//-->
+</script>
+</head>
+
+<body bgcolor="#e3f4fc" link="#000000" vlink="#000000" ALINK="#000000" onLoad="MM_preloadImages('http://www.everythingscool.org/images/hlinks_ro_18.gif','http://www.everythingscool.org/images/hlinks_ro_19.gif','http://www.everythingscool.org/images/hlinks_ro_20.gif','http://www.everythingscool.org/images/hlinks_ro_21.gif','http://www.everythingscool.org/images/hlinks_ro_22.gif','http://www.everythingscool.org/images/hlinks_ro_23.gif','http://www.everythingscool.org/images/head_8_ro.gif','http://www.everythingscool.org/images/emailbox_ro.gif','http://www.everythingscool.org/images/wordbox_ro.gif')">
+<table width="761" height="0" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr> 
+    <td width="10" height="15" align="left" valign="bottom"><img src="http://everythingscool.org/images/border_01.gif" width="10" height="15"></td>
+    <td colspan="4" align="left" valign="bottom"><img src="http://everythingscool.org/images/border_02.gif" width="738" height="15"></td>
+
+    <td width="13" align="left" valign="bottom"><img src="http://everythingscool.org/images/border_03.gif" width="13" height="15"></td>
+  </tr>
+  <tr> 
+    <td align="left" valign="top"><img src="http://everythingscool.org/images/border_04.gif" width="10" height="76"></td>
+    <td colspan="4" align="left" valign="top"><img src="http://everythingscool.org/images/head_7_on.gif" width="87" height="76"><a href="http://www.everythingscool.org/home.htm"><img src="http://everythingscool.org/images/head_8_on.gif" alt="everything's cool" name="Image7" width="339" height="76" border="0" id="Image7" onMouseOver="MM_swapImage('Image7','','http://www.everythingscool.org/images/head_8_ro.gif',1)" onMouseOut="MM_swapImgRestore()"></a><img src="http://everythingscool.org/images/head_9_on.gif" width="312" height="76"></td>
+    <td width="13" height="76" align="left" valign="top"><img src="http://everythingscool.org/images/border_06.gif" width="13" height="76"></td>
+  </tr>
+  <tr> 
+    <td align="left" valign="top"><img src="http://everythingscool.org/images/border_07.gif" width="10" height="66"></td>
+    <td colspan="4" align="left" valign="top"><a href="http://www.everythingscool.org/home.htm"><img src="http://everythingscool.org/images/hlinks_on_18.gif" alt="home" name="Image1" width="92" height="66" border="0" id="Image1" onMouseOver="MM_swapImage('Image1','','http://www.everythingscool.org/images/hlinks_ro_18.gif',1)" onMouseOut="MM_swapImgRestore()"></a><a href="http://www.everythingscool.org/about.htm"><img src="http://everythingscool.org/images/hlinks_on_19.gif" alt="about the film" name="Image2" width="129" height="66" border="0" id="Image2" onMouseOver="MM_swapImage('Image2','','http://www.everythingscool.org/images/hlinks_ro_19.gif',1)" onMouseOut="MM_swapImgRestore()"></a><a href="http://everythingscoolfilm.blogspot.com" target="_blank"><img src="http://everythingscool.org/images/hlinks_on_20.gif" alt="global warming in the news" name="Image3" width="157" height="66" border="0" id="Image3" onMouseOver="MM_swapImage('Image3','','http://www.everythingscool.org/images/hlinks_ro_20.gif',1)" onMouseOut="MM_swapImgRestore()"></a><a href="http://www.everythingscool.org/backyard.php"><img src="http://everythingscool.org/images/hlinks_on_21.gif" alt="global warming in my backyard" name="Image4" width="140" height="66" border="0" id="Image4" onMouseOver="MM_swapImage('Image4','','http://www.everythingscool.org/images/hlinks_ro_21.gif',1)" onMouseOut="MM_swapImgRestore()"></a><a href="http://www.everythingscool.org/action.htm"><img src="http://everythingscool.org/images/hlinks_active_22.gif" alt="take action" name="Image5" width="109" height="66" border="0" id="Image5" onMouseOver="MM_swapImage('Image5','','http://www.everythingscool.org/images/hlinks_ro_22.gif',1)" onMouseOut="MM_swapImgRestore()"></a><a href="http://www.everythingscool.org/hotstuff.htm"><img src="http://everythingscool.org/images/hlinks_on_23.gif" alt="hot stuff" name="Image6" width="111" height="66" border="0" id="Image6" onMouseOver="MM_swapImage('Image6','','http://www.everythingscool.org/images/hlinks_ro_23.gif',1)" onMouseOut="MM_swapImgRestore()"></a></td>
+
+    <td height="66" align="left" valign="top"><img src="http://everythingscool.org/images/border_09.gif" width="13" height="66"></td>
+  </tr>
+  <tr> 
+    <td rowspan="5" align="left" valign="top" class="border">&nbsp;</td>
+    <td width="30" rowspan="5" align="left" valign="top" bgcolor="#FFFFFF"> <p>&nbsp;</p>
+      <p></p>
+      <br> <br></td>
+    <td width="455" rowspan="4" align="left" valign="top" bgcolor="#FFFFFF"> 
+      <p class="maincopy">    <% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
+      <% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
+	          <%= yield %>
+	          <%= render "shared/admin" %> 
+	          <%= render "shared/developer" %>   
+     <br>
+        
+              </td>
+    <td width="236" height="18" align="left" valign="top" bgcolor="#FFFFFF">&nbsp;</td>
+    <td width="21" rowspan="5" align="left" valign="top" bgcolor="#FFFFFF" class="maincopy">&nbsp;</td>
+    <td rowspan="5" align="left" valign="top" class="borderright">&nbsp;</td>
+
+  </tr>
+  <tr>
+    <td height="237" align="left" valign="top" bgcolor="#FFFFFF">
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="230" height="209" align="right">
+        <param name="movie" value="scrollbox.swf">
+        <param name="quality" value="high">
+        <embed src="http://www.everythingscool.org/scrollbox.swf" width="230" height="209" align="right" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed></object></td>
+  </tr>
+  <tr>
+
+    <td height="164" align="left" valign="top" bgcolor="#FFFFFF"><a href="http://www.everythingscool.org/javascript:popUpIK(true,'http://www.democracyinaction.org/dia/organizationsORG/workingfilms/signUp.jsp?key=1901&t=ECSendTemplate.dwt','window',700,800,'scrollbars,status,')"><img src="http://everythingscool.org/images/emailbox.gif" alt="Get on the E-mail list" name="Image811" width="224" height="140" border="0" align="right" id="Image8" onMouseOver="MM_swapImage('Image811','','http://www.everythingscool.org/images/emailbox_ro.gif',1)" onMouseOut="MM_swapImgRestore()"></a></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" bgcolor="#FFFFFF"><a href="http://www.everythingscool.org/javascript:popUpIK(true,'http://www.democracyinaction.org/dia/organizationsORG/workingfilms/tellafriend.jsp?tell_a_friend_KEY=1454&t=ECSendTemplate.dwt','window',700,800,'scrollbars,status,')"><img src="http://everythingscool.org/images/wordbox.gif" alt="E-mail this site to a friend" name="Image81" width="227" height="140" border="0" align="right" id="Image8" onMouseOver    MM_swapImage('Image81','','http://www.everythingscool.org/images/wordbox_ro.gif',1)" onMouseOut="MM_swapImgRestore()"></a></td>
+  </tr>
+  <tr> 
+    <td colspan="2" align="left" valign="top" bgcolor="#FFFFFF" class="maincopybold"><p><br>
+        <img src="http://everythingscool.org/images/divider-dashed.gif" width="651" height="2" style="margin:10px 0px 10px 0px;"><br>
+        <span class="maincopyheader">Thanks to the following organizations for 
+        content support:</span><br>
+
+        <br>
+        <a href="http://utahcleanenergy.org" target="_blank"><strong>Utah Clean 
+        Energy</strong></a>, <strong> <a href="http://www.nrdc.org/" target="_blank">National 
+        Resources Defense Council</a></strong>, <strong><a href="http://www.ikea.com/" target="_blank">IKEA</a></strong>, 
+        <strong><a href="http://www.nativeenergy.com/" target="_blank">NativeEnergy 
+        </a></strong><strong><a href="http://www.clifbar.com/" target="_blank">Clif 
+        Bar</a></strong>, and <strong><a href="http://www.lcv.org/%20" target="_blank">League 
+        of Conservation Voters</a></strong></p>
+      <p>&nbsp;</p></td>
+
+  </tr>
+  <tr> 
+    <td align="left" valign="top"><img src="http://everythingscool.org/images/border_13s.gif" width="10" height="20"></td>
+    <td height="20" colspan="4"><img src="http://everythingscool.org/images/border_14.gif" width="738" height="20"></td>
+    <td align="left" valign="top"><img src="http://everythingscool.org/images/border_15s.gif" width="13" height="20"></td>
+  </tr>
+  <tr> 
+    <td align="left" valign="top" class="border">&nbsp;</td>
+    <td colspan="4" bgcolor="#7b6133"><div align="center" class="footer"><a href="http://www.everythingscool.org/home.htm" class="footer">Home</a> 
+        | <a href="http://www.everythingscool.org/about.htm" class="footer">About the Film</a> | <a href="http://www.everythingscool.org/makers.htm" class="footer">About 
+        the Filmmakers</a> | <a href="http://www.everythingscool.org/message.htm" class="footer">Filmmaker's 
+        Message</a> | <a href="http://www.everythingscool.org/clips.htm" class="footer">Film Clips</a> | <a href="http://www.everythingscool.org/credits.htm" class="footer">Film 
+        Credits</a> | <a href="http://www.everythingscool.org/action.htm" class="footer">Take Action</a> <br>
+
+        <a href="http://www.everythingscool.org/javascript:popUpIK(true,'events.htm','window',800,700,'scrollbars,status,')" class="footer">Screenings 
+        &amp; Events</a> | <a href="http://everythingscoolfilm.blogspot.com" target="_blank" class="footer">Everything's 
+        Cooler Blog</a> | <a href="http://www.everythingscool.org/backyard.php" class="footer">Global Warming 
+        in My Backyard</a> | <a href="http://www.everythingscool.org/javascript:popUp('cs_buy.htm')" class="footer">Buy 
+        the DVD</a> | <a href="http://www.everythingscool.org/hotstuff.htm" class="footer">Hot Stuff</a> <br>
+
+        <a href="http://www.everythingscool.org/javascript:popUpIK(true,'http://www.democracyinaction.org/dia/organizationsORG/workingfilms/tellafriend.jsp?tell_a_friend_KEY=1454&t=ECSendTemplate.dwt','window',700,800,'scrollbars,status,')" class="footer">Email 
+        this Site to a Friend</a> | <a href="http://www.everythingscool.org/press.htm" class="footer">Press</a> 
+        |<a href="http://www.everythingscool.org/javascript:popUpIK(true,'http://www.democracyinaction.org/dia/organizationsORG/workingfilms/signUp.jsp?key=1901&t=ECSendTemplate.dwt','window',700,850,'scrollbars,status,')" class="footer"> 
+        Get on the Email List </a>| <a href="http://www.everythingscool.org/javascript:popUpIK(true,'site.htm','window',800,700,'scrollbars,status,')" class="footer">Website 
+        Credits </a> | <a href="http://www.everythingscool.org/javascript:popUpIK(true,'contact.php','window',800,700,'scrollbars,status,')" class="footer">Contact 
+        Us</a><a href="http://www.everythingscool.org/javascript:popUpIK(true,'contact.php','window',800,700,'scrollbars,status,')" class="footer"></a><a href="http://www.everythingscool.org/javascript:popUpIK(true,'http://www.democracyinaction.org/dia/organizationsORG/workingfilms/signUp.jsp?key=1901&t=ECSendTemplate.dwt','window',700,850,'scrollbars,status,')" class="footer"> 
+        </a>| <a href="http://www.everythingscool.org/privacy_policy.php" class="footer">Privacy/Terms of Use 
+        Policy</a><a href="http://www.everythingscool.org/javascript:popUpIK(true,'contact.php','window',800,700,'scrollbars,status,')" class="footer"> 
+        </a></div></td>
+
+    <td height="51" align="left" valign="top" class="borderright">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td align="left" valign="top"><img src="http://everythingscool.org/images/border_19s.gif" width="10" height="19"></td>
+    <td colspan="4" align="left" valign="top"><img src="http://everythingscool.org/images/border_20.gif" width="738" height="19"></td>
+    <td height="19" align="left" valign="top"><img src="http://everythingscool.org/images/border_21s.gif" width="13" height="19"></td>
+  </tr>
+</table>
+
+<table width="761" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+
+    <td width="219" valign="top" class="bottom">&copy; 2007 <a href="http://www.workingfilms.org" target="_blank"><font color="#666666">Working 
+      Films</font></a></td>
+    <td width="387" valign="top">
+<div align="right" class="bottom">Make a tax-free donation to the funding<br>
+        of this film &amp; outreach program.</div></td>
+	<td width="140" valign="top">
+<div align="right"><a href="http://www.everythingscool.org/https://secure.groundspring.org/dn/index.php?aid=10065"><img src="http://www.groundspring.org/button/lime_med.gif" border=0 alt="DonateNow"></a></div></td>
+
+    <td width="15"></td> 
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>
