@@ -18,6 +18,7 @@ class Admin::UsersController < AdminController
     if request.post?      
       @user.password = params[:user][:password] if params[:user][:password]
       @user.password_confirmation = params[:user][:password_confirmation] if params[:user][:password_confirmation]
+      @user.activated_at = Time.now.utc
       if @user.save
         flash[:notice] = "Password reset for " + @user.full_name
       else

@@ -10,7 +10,7 @@ class AdminController < ApplicationController
         cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
       end
 #      redirect_back_or_default(:controller => '/account', :action => 'profile')
-      redirect_back_or_default(:controller => 'admin', :action => 'index')
+      redirect_back_or_default(:controller => '/admin', :action => 'index')
       flash[:notice] = "Logged in successfully"
     else
       flash[:notice] = "Login failed"
