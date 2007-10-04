@@ -9,7 +9,6 @@ class Account::EventsController < ApplicationController
 
   def show
     extend ActionView::Helpers::TextHelper
-#    @event = Event.find(params[:id])
     @nearby_events = @calendar.events.find(:all, :origin => @event, :within => 50)
     @nearby_events.reject! { |e| e.id == @event.id }
     @blog = Blog.new(:event => @event)
