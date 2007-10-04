@@ -1,0 +1,16 @@
+Add a New Congressional Candidate:<br /><br />
+<% form_for :politician, :url => {:action => 'new'} do |f| %>
+  First Name: <%= f.text_field :first_name %><br />
+  Last Name: <%= f.text_field :last_name %><br />
+  Phone: <%= f.text_field :phone %><br />
+  Email: <%= f.text_field :email %><br />
+  Address: <%= f.text_field :address %><br />
+  Postal Code: <%= f.text_field :postal_code %><br />
+  State: <%= f.text_field :state %><br />
+  Image URL: <%= f.text_field :image_url %><br />
+  Website: <%= f.text_field :website %><br />
+  Office: <%= f.select :office, %w(president senator representative) %><br />
+  District: <%= f.text_field :district %><br />
+  <%= submit_tag 'Save' %>
+<% end %>
+<br />

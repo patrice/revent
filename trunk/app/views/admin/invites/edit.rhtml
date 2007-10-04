@@ -1,9 +1,13 @@
 <% form_for :politician, :url => {:action => 'edit'} do |f| %>
+  First Name: <%= f.text_field :first_name %><br />
+  Last Name: <%= f.text_field :last_name %><br />
 	Email: <%= f.text_field :email %><br />
+	Phone: <%= f.text_field :phone %><br />
 	Address: <%= f.text_field :address %><br />
 	Postal Code: <%= f.text_field :postal_code, :size => 15 %><br />
 	State: <%= f.text_field :state, :size => 10 %><br />
-	Website: <%= f.text_field :website %><br /><br />
+	Website: <%= f.text_field :website %><br />
+  Image URL: <%= f.text_field :image_url %><br />
 	<%= submit_tag 'Save' %> 
 	<%= link_to 'Cancel', :action => 'index' %><br />
 <% end %>
