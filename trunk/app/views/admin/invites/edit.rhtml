@@ -1,14 +1,20 @@
 <% form_for :politician, :url => {:action => 'edit'} do |f| %>
+  Display Name: <%= f.text_field :display_name %><br />
   First Name: <%= f.text_field :first_name %><br />
   Last Name: <%= f.text_field :last_name %><br />
+  Title: <%= f.text_field :title %><br />
 	Email: <%= f.text_field :email %><br />
 	Phone: <%= f.text_field :phone %><br />
 	Address: <%= f.text_field :address %><br />
+  City: <%= f.text_field :city %><br />
 	Postal Code: <%= f.text_field :postal_code, :size => 15 %><br />
-	State: <%= f.text_field :state, :size => 10 %><br />
+  Contact State: <%= f.us_state_select :contact_state, :show => :abbreviations %><br />
+  District: <%= @politician.district %><br />
+  District Type: <%= @politician.district_type %><br />
+  Party: <%= f.text_field :party %><br />
 	Website: <%= f.text_field :website %><br />
   Image URL: <%= f.text_field :image_url %><br />
-	<%= submit_tag 'Save' %> 
+	<%= submit_tag 'Save' %> or 
 	<%= link_to 'Cancel', :action => 'index' %><br />
 <% end %>
 <br />

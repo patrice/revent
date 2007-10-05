@@ -32,13 +32,14 @@
 <tr id="user-invites-<%= politician.id %>" style="display:none">
 	<td colspan="6" style="padding-left:15px">
 		<table >
-			<th align="left">user</th><th align="left">| invite</th><th align="left">| event</th>
+			<th align="left">user</th><th align="left">| email address</th><th align="left">| invite type</th><th align="left">| event</th>
 				<% politician.politician_invites.each do |i| -%>
 					<% next unless i.event %>
 					<tr>
 						<td align="left"><%= i.user.nil? ? 'unknown user' : i.user.full_name %></td>
+						<td align="left">| <%= i.user.nil? ? 'unknown user' : i.user.email %></td>
 						<td align="left">| <%= i.invite_type %></td>
-						<td align="left">| <%= i.event.name %></td>
+						<td align="left">| <%= link_to i.event.name, :controller => :events, :action => :show, :id => i.event.id %></td>
 					</tr>
 				<% end %>
 		</table>

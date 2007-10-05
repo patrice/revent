@@ -39,15 +39,18 @@ class Admin::InvitesController < AdminController
   def edit
     @politician = Politician.find(params[:id])
     if request.post?
-      p = @politician
-      p.display_name.gsub!(p.first_name, params[:politician][:first_name]) if params[:politician][:first_name]
-      p.display_name.gsub!(p.last_name, params[:politician][:last_name]) if params[:politician][:last_name]
-      p.update_attributes(params[:politician]) 
+      @politician.update_attributes(params[:politician]) 
       flash[:notice] = 'Politician information has been updated!'
       redirect_to :action => 'index'
     end
   end
   
+  def destroy
+    Politician.destroy params[:id]
+    flash[:notice] = "Politician has been deleted!"
+    redirect_to :action => :index
+  end
+
   def confirm
     @politician = Politician.find(params[:id])
     r = @politician.rsvps.build(:event_id => params[:event])
