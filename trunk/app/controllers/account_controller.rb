@@ -30,13 +30,14 @@ class AccountController < ApplicationController
       redirect_to login_url
       return
     end
-    if user.activated_at && user.activated_at > Time.now.utc
+    if user.activated_at 
       user.forgot_password
       user.save
+      flash[:notice] = "Your account was already active.<br />  If you would like to reset your password, click on 'Forgot Your Password?' below" 
     else
       UserMailer.deliver_activation(user.email, user.activation_code)
+      flash[:notice] = 'Account activation email delivered'
     end
-    flash[:notice] = 'Account activation email delivered'
     redirect_to login_url
   end
 
