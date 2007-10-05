@@ -235,7 +235,7 @@ class InvitesController < ApplicationController
 #      'recipient_KEYS' => 121449, #jwarnow@gmail.com 
       'Suggested_Subject' => 'StepItUp',
 #      'Letter_Salutation' => politician.title + politician.first_name + politician.last_name,
-      'Suggested_Content' => @event.letter_script || @calendar.letter_script,
+      'Suggested_Content' => event.letter_script || @calendar.letter_script.gsub('CITY_STATE', [event.city, event.state].join(', ')
       'Max_Number_Of_Faxes' => 100, #100?
       'Hide_Keep_Me_Informed' => 1,
       'Default_Tracking_Code' => "distributed_event_KEY#{@calendar.democracy_in_action_key}"
