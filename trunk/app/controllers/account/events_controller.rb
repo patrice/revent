@@ -13,8 +13,8 @@ class Account::EventsController < ApplicationController
     @nearby_events.reject! { |e| e.id == @event.id }
     @blog = Blog.new(:event => @event)
     city_state = [@event.city, @event.state].join(', ')
-    @event.letter_script ||= @calendar.letter_script.gsub('CITY_STATE', city_state)
-    @event.call_script ||= @calendar.call_script.gsub('CITY_STATE', city_state)
+    @event.letter_script ||= @calendar.letter_script.gsub('CITY_STATE', city_state) if @calendar.letter_script
+    @event.call_script ||= @calendar.call_script.gsub('CITY_STATE', city_state) if @calendar.call_script
     @example = Politician.find_by_district_type_and_state('FS', @event.state)
   end
 
