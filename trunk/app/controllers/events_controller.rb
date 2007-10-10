@@ -102,6 +102,7 @@ class EventsController < ApplicationController
       @event.save!
       flash[:notice] = 'Event was successfully created.'
       expire_page_caches(@event)
+      redirect_to params[:redirect] and return if params[:redirect]
       redirect_to @calendar.signup_redirect and return if @calendar.signup_redirect
       redirect_to :action => 'show', :id => @event.id
     else
