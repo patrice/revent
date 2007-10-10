@@ -1,6 +1,9 @@
 <% @event.start = Time.now.beginning_of_day + 12.hours; @event.end = Time.now.beginning_of_day + 14.hours -%>
-  <div id="content_header"><table width="100%" cellpadding="0" cellspacing="0" border="0" class="text"><tr><td  class="text">
- <h1>Sign Up to Host an Activist Screening Event of Everything's Cool</h1>
+  <div id="content_header"><table width="100%" cellpadding="0" cellspacing="0" border="0" class="text">
+<tr><td  class="text"><BR />
+
+<p class="title">Sign Up to Host an Activist Screening Event of Everything's Cool</p>
+
 <p class="text">
 
 Watching Everything's Cool is sure to get your community fired up. Participate in national days of climate action, support the green jobs revolution, demand leadership that will change energy policy, or motivate your campus to go carbon neutral.
@@ -21,9 +24,10 @@ Sign up here. You will be able to provide information about your event with a br
       <%= error_messages_for 'user' %>
       <h3>Your Information</h3>
       <% fields_for :user, @user do |user| %>
-       <%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", 3903 %>
+       <%= hidden_field_tag "user[democracy_in_action][supporter][Tracking_Code]", "siu_host" %>
+       <%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", 4005 %>
     <%= hidden_field_tag "user[democracy_in_action][supporter][link][groups]", 57113 %>
-   
+    <%= hidden_field_tag "user[democracy_in_action][supporter][link][groups]", 57438 %>
      
       <div id="customFields" class="standardFields">
         <table class="dia_field">
@@ -87,10 +91,6 @@ Sign up here. You will be able to provide information about your event with a br
               <td valign="top"><%= text_field_tag "user[democracy_in_action][supporter][Occupation]", nil, :id => "dataOccupation", :maxlength => "64", :size => "30", :class => "inputStyle", :style => "background-color: #ebd897;" %></td>
               <td class="dia_required">
                 <br /></td>
-            </tr>
-            <tr>
-              <td valign="top" align="right">A picture for your host profile</td>
-              <td><%= file_field_tag "profile_image[uploaded_data]", :class => "inputStyle", :style => "background-color: #ebd897;" %></td>
             </tr>
  
           </tbody>
@@ -199,8 +199,10 @@ Sign up here. You will be able to provide information about your event with a br
             </tr>
           </tbody>
         </table>
+        <%= hidden_field_tag "redirect" ,"http://salsa.democracyinaction.org/o/1047/t/162/thankYou.jsp?key=1299" %>
         <%= hidden_field_tag "event[democracy_in_action][event][Maximum_Attendees]", 10000 %>
         <%= hidden_field_tag "event[democracy_in_action][event][Status]", "Unconfirmed" %>
+        <%= hidden_field_tag "event[democracy_in_action][event][Default_Tracking_Code]", "siu" %>
         <p align="center">
         <br /><input type="submit" value="Submit" />
         <script type="text/javascript" language="javascript">
