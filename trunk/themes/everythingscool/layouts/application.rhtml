@@ -4,6 +4,7 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
 <link rel="icon" href="<%= theme_image_path 'favicon.ico' %>" type="image/x-icon" />
+<link href="/stylesheets/events.css" media="screen" rel="Stylesheet" type="text/css" />
   <%#= javascript_include_tag 'prototype' %>
   <% yield :header %>
 <link rel="stylesheet" type="text/css" href="http://www.everythingscool.org/ec.css" id="default">
@@ -85,11 +86,11 @@ function popUpIK(center,url,winName,width,height,features) {
     <td height="66" align="left" valign="top"><img src="http://everythingscool.org/images/border_09.gif" width="13" height="66"></td>
   </tr>
   <tr> 
-    <td rowspan="5" align="left" valign="top" class="border">&nbsp;</td>
-    <td width="30" rowspan="5" align="left" valign="top" bgcolor="#FFFFFF"> <p>&nbsp;</p>
+    <td rowspan="2" align="left" valign="top" class="border">&nbsp;</td>
+    <td width="30" rowspan="2" align="left" valign="top" bgcolor="#FFFFFF"> <p>&nbsp;</p>
       <p></p>
       <br> <br></td>
-    <td width="455" rowspan="4" align="left" valign="top" bgcolor="#FFFFFF"> 
+    <td width="683" align="left" valign="top" bgcolor="#FFFFFF"> 
       <p class="maincopy">    <% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
       <% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
 	          <%= yield %>
@@ -98,40 +99,14 @@ function popUpIK(center,url,winName,width,height,features) {
      <br>
         
               </td>
-    <td width="236" height="18" align="left" valign="top" bgcolor="#FFFFFF">&nbsp;</td>
-    <td width="21" rowspan="5" align="left" valign="top" bgcolor="#FFFFFF" class="maincopy">&nbsp;</td>
-    <td rowspan="5" align="left" valign="top" class="borderright">&nbsp;</td>
+    <td width="5" align="left" valign="top" bgcolor="#FFFFFF">&nbsp;</td>
+    <td width="21" rowspan="2" align="left" valign="top" bgcolor="#FFFFFF" class="maincopy">&nbsp;</td>
+    <td rowspan="2" align="left" valign="top" class="borderright">&nbsp;</td>
 
-  </tr>
-  <tr>
-    <td height="237" align="left" valign="top" bgcolor="#FFFFFF">
-<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="230" height="209" align="right">
-        <param name="movie" value="scrollbox.swf">
-        <param name="quality" value="high">
-        <embed src="http://www.everythingscool.org/scrollbox.swf" width="230" height="209" align="right" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed></object></td>
-  </tr>
-  <tr>
-
-    <td height="164" align="left" valign="top" bgcolor="#FFFFFF"><a href="http://www.everythingscool.org/javascript:popUpIK(true,'http://www.democracyinaction.org/dia/organizationsORG/workingfilms/signUp.jsp?key=1901&t=ECSendTemplate.dwt','window',700,800,'scrollbars,status,')"><img src="http://everythingscool.org/images/emailbox.gif" alt="Get on the E-mail list" name="Image811" width="224" height="140" border="0" align="right" id="Image8" onMouseOver="MM_swapImage('Image811','','http://www.everythingscool.org/images/emailbox_ro.gif',1)" onMouseOut="MM_swapImgRestore()"></a></td>
-  </tr>
-  <tr>
-    <td align="left" valign="top" bgcolor="#FFFFFF"><a href="http://www.everythingscool.org/javascript:popUpIK(true,'http://www.democracyinaction.org/dia/organizationsORG/workingfilms/tellafriend.jsp?tell_a_friend_KEY=1454&t=ECSendTemplate.dwt','window',700,800,'scrollbars,status,')"><img src="http://everythingscool.org/images/wordbox.gif" alt="E-mail this site to a friend" name="Image81" width="227" height="140" border="0" align="right" id="Image8" onMouseOver    MM_swapImage('Image81','','http://www.everythingscool.org/images/wordbox_ro.gif',1)" onMouseOut="MM_swapImgRestore()"></a></td>
   </tr>
   <tr> 
     <td colspan="2" align="left" valign="top" bgcolor="#FFFFFF" class="maincopybold"><p><br>
-        <img src="http://everythingscool.org/images/divider-dashed.gif" width="651" height="2" style="margin:10px 0px 10px 0px;"><br>
-        <span class="maincopyheader">Thanks to the following organizations for 
-        content support:</span><br>
-
-        <br>
-        <a href="http://utahcleanenergy.org" target="_blank"><strong>Utah Clean 
-        Energy</strong></a>, <strong> <a href="http://www.nrdc.org/" target="_blank">National 
-        Resources Defense Council</a></strong>, <strong><a href="http://www.ikea.com/" target="_blank">IKEA</a></strong>, 
-        <strong><a href="http://www.nativeenergy.com/" target="_blank">NativeEnergy 
-        </a></strong><strong><a href="http://www.clifbar.com/" target="_blank">Clif 
-        Bar</a></strong>, and <strong><a href="http://www.lcv.org/%20" target="_blank">League 
-        of Conservation Voters</a></strong></p>
-      <p>&nbsp;</p></td>
+ </td>
 
   </tr>
   <tr> 
