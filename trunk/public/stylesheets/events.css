@@ -346,16 +346,26 @@ text-align: center;
   background: url(http://stepitup2007.org/img/original/stepitup2_buttommkr_02.gif) top left repeat;
   margin: 3px;
 }
+span.first .button-maker {
+  background-image: url(http://events.stepitup2007.org/themes/stepitup2/images/stepitup2_button_red_center.gif);
+}
 
 .button-maker-left {
   display: block;
   background: url(http://stepitup2007.org/img/original/stepitup2_buttommkr_01.gif) top left no-repeat;
   height: 26px;
 }
+span.first .button-maker-left {
+  background-image: url(http://events.stepitup2007.org/themes/stepitup2/images/stepitup2_button_red_left.gif);
+}
+
 .button-maker-right {
   display: block;
 background: url(http://stepitup2007.org/img/original/stepitup2_buttommkr_04.gif) top right no-repeat;
   height: 26px;
+}
+span.first .button-maker-right {
+  background-image: url(http://events.stepitup2007.org/themes/stepitup2/images/stepitup2_button_red_right.gif);
 }
 
 .report-intro-text .button-maker {
