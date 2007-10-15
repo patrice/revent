@@ -7,7 +7,7 @@ class Admin::InvitesController < AdminController
   end
 
   def index
-    @politicians = Candidate.find(:all, :include => [:rsvps, :politician_invites], :conditions => ['office = ?', 'president'])
+    @politicians = Candidate.find(:all, :include => [:rsvps, :politician_invites], :conditions => ['office = ?', 'president']).sort_by {|p| p.politician_invites.length}.reverse
     @select_events = @calendar.events.find(:all).map{|e| [e.name, e.id]}
   end
   
