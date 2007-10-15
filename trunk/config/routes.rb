@@ -100,7 +100,7 @@ ActionController::Routing::Routes.draw do |map|
                                         :requirements => { :zip => /\d{5}/ }
 
 #  map.connect 'reports/new/:service/:service_foreign_key', :controller => "reports", :action => "new"
-  map.report 'reports/:event_id', :controller => 'reports', :action => 'show', :requirements => {:event_id => /\d+/}, :defaults => {:event_id => nil}
+  map.report 'reports/:event_id', :controller => 'reports', :action => 'show', :requirements => {:event_id => /\d+/}
 
   map.connect ':controller/page/:page', :action => 'list'
   map.connect ':controller/search/zip/:zip/:page', :action => 'search'
