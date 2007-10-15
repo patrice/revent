@@ -2,19 +2,14 @@
   <div id="content_header"><table width="100%" cellpadding="0" cellspacing="0" border="0" class="text">
 <tr><td  class="text"><BR />
 
-<p class="title">Sign Up to Host an Activist Screening Event of Everything's Cool</p>
+<p class="title">Welcome Step It Up Event Organizer!
+<br>Sign Up Here to Host an Activist Screening Event of Everything's Cool</p>
 
 <p class="text">
-
-Watching Everything's Cool is sure to get your community fired up. Participate in national days of climate action, support the green jobs revolution, demand leadership that will change energy policy, or motivate your campus to go carbon neutral.
-<br><br>
-When you sign up for the activist DVD of Everything's Cool we'll link you to the coolest activists working on climate change and some urgent and ongoing direct actions. The $10 purchase price for this special edition DVD and all its extra content Ð including chapters on Step It Up and Green Jobs! 
-<br><br>
-If you're among the first 100 folks to sign up to this campaign from the Step It Up website, we'll send you a FREE DVD with your toolkit. Thanks to Clif Bar for this support!
-<br><br>
-Sign up here. You will be able to provide information about your event with a brief description so that others can join with you to fight climate change. 
-!
-
+Watching Everything's Cool is sure to get your community fired up. Simply sign up, and Step It Up will mail you two dozen Clif Bars and a copy of Everything's Cool with new Activist Extras. This screening can be used at your event itself, or as part of a planning meeting, as long as it's used for Step It Up! Watch the movie, enjoy an organic snack and chew on some good dialogue. Of you have any questions, please email <a href="mailto:viewandchew@stepitup2007.org">viewandchew@stepitup2007.org</a>.
+ <br><br>
+ Sign up here. You will be able to provide information about your screening event with a brief description.
+  
 
 </p>
 
@@ -26,7 +21,6 @@ Sign up here. You will be able to provide information about your event with a br
       <% fields_for :user, @user do |user| %>
        <%= hidden_field_tag "user[democracy_in_action][supporter][Tracking_Code]", "siu_host" %>
        <%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", 4005 %>
-    <%= hidden_field_tag "user[democracy_in_action][supporter][link][groups]", 57113 %>
     <%= hidden_field_tag "user[democracy_in_action][supporter][link][groups]", 57438 %>
      
       <div id="customFields" class="standardFields">
@@ -101,7 +95,7 @@ Sign up here. You will be able to provide information about your event with a br
     </div>
     <div id="eventInformation" class="eventInformation">
       <%= error_messages_for 'event' %>
-      <h3>Event Information
+      <h3>Screening Event Information
         
         
         
@@ -112,10 +106,10 @@ Sign up here. You will be able to provide information about your event with a br
           <tbody>
             <tr valign="top">
               <td width="157" valign="top" align="right" id="dia_field_name_data_Event_Name" class="dia_field_name">
-                <div align="left">Action Name:</div>
+                <div align="left">Event Name:</div>
               </td>
               <td width="704" valign="top">
-                <%= f.text_field "name", :id => "dataEvent_Name", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your action's name", :class => "required inputStyle" %>
+                <%= f.text_field "name", :id => "dataEvent_Name", :maxlength => "64", :value => "Step It Up Screening of Everything's Cool", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your action's name", :class => "required inputStyle" %>
               </td>
               <td width="12" class="dia_required"><strong>*</strong></td>
             </tr>
