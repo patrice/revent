@@ -31,7 +31,7 @@ class DemocracyInActionSupporter <  DemocracyInActionResource
   end
 
   def events_attending
-    links = @@api.get('supporter_event', 'where' => "supporter_KEY=#{key}")
+    links = api.get('supporter_event', 'where' => "supporter_KEY=#{key}")
     return [] if links.empty?
     remote_events_attending = [DemocracyInActionEvent.find(links.collect {|l| l['event_KEY']})].flatten.compact
     events_attending = DemocracyInActionObject.find_all_by_synced_type_and_key('Event', remote_events_attending.collect {|e| e.key}).collect {|obj| obj.synced}

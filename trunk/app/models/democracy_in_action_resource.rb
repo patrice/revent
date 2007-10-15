@@ -16,7 +16,12 @@ end
 class DemocracyInActionResource < ActiveResource::Base
   self.logger = ActiveRecord::Base.logger
   require 'democracyinaction'
-  @@api = DemocracyInAction::API.new(DemocracyInAction::Config.new(File.join(Site.current_config_path, 'democracyinaction-config.yml')))
+  @@api = []
+  def api
+    key = Site.current ? Site.current.id : 0
+    @@api[key] ||= DemocracyInAction::API.new(DemocracyInAction::Config.new(File.join(Site.current_config_path, 'democracyinaction-config.yml')))
+  end
+
 
   # create a data set from a hash, verifying the contents...
   protected 
@@ -45,7 +50,7 @@ class DemocracyInActionResource < ActiveResource::Base
     else
       opts['key'] = type
     end
-    records = @@api.get(self.table, opts)
+    records = api.get(self.table, opts)
     records.map! { |r| self.new(r) }
     if type == :all or records.size > 1
       return records
@@ -80,18 +85,18 @@ class DemocracyInActionResource < ActiveResource::Base
   # This writes an existing object to the db (make with new)
   def save
     data = self.get_hash
-    result = @@api.process(self.class.table, data)
+    result = api.process(self.class.table, data)
     self.key = result if result
   end
 
   # destroys an existing object
   def destroy
-    @@api.deleteKey(self.class.table, @data['key'])
+    api.deleteKey(self.class.table, @data['key'])
   end
 
   # destroy by id
   def DemocracyInActionResource.destroy(id)
-    @@api.deleteKey(self.table, id)
+    api.deleteKey(self.table, id)
   end
 
   # check if a column links to another table. 
