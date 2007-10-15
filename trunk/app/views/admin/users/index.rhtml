@@ -1,18 +1,25 @@
-<h1>Listing users</h1>
+<div class="banner">Listing Users</div>
 
-<br/>
 <% form_tag :action => 'search' do %>
-  Search for user by email address:<br/> 
+ <span class="intitle"> Search for user by email address:</span> 
 	<%= text_field_tag :email %>
   <%= submit_tag 'Search' %>
 <% end %>
 <br/>
 
-<table>
-	<tr><th>Name</th><th>Email</th></tr>
+<div class="list_table">
+<table class="list_table">
+	<tbody class="system">
+	<tr  class="list_column_header">
+		<td >Name</td>
+		<td>Email</td>
+		<td>Events</td>
+		<td></td>
+	</tr>
 	<%= render :partial => 'user', :collection => @users %>
+	</tbody>
 </table>
-
+</div>
 <hr>
 <%= pagination_links(@user_pages) %>
 </hr>
