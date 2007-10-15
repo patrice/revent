@@ -38,11 +38,11 @@ class Account::BlogsController < ApplicationController
     elsif %w(create).include?(action_name)
       @event = Event.find(params[:blog][:event_id])
     end
-    return true if current_user.events.include?(@event)
+    return true if current_user.admin? || current_user.events.include?(@event)
     false
   end
 
   def expire_page_cache
-    expire_page :controller => '/events', :action => 'show', :id => @blog.event_id
+    expire_page :controller => '/events', :action => 'show', :id => @blog.event_id if @blog
   end
 end
