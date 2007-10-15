@@ -259,13 +259,13 @@ class InvitesController < ApplicationController
       @user.password = @user.password_confirmation = password
     end
     @user.save
-    @invite = {}
-    @invite[:user_id] = @user.id
-    @invite[:politician_id] = params[:politician_id]
-    @invite[:event_id] = @event.id
-    @invite[:invite_type] = params[:invite_type]    
-    PoliticianInvite.create(@invite)
-    redirect_to url_for(:action => 'thank_you', :politician_id => params[:politician_id])
+    invite = {}
+    invite[:user_id] = @user.id
+    invite[:politician_id] = params[:politician_id]
+    invite[:event_id] = @event.id
+    invite[:invite_type] = params[:invite_type]    
+    @invite = PoliticianInvite.create(invite)
+    thank_you and render :action => 'thank_you'
   end
     
   def thank_you

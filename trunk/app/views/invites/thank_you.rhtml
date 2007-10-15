@@ -1,5 +1,21 @@
 <h1>Thank You!</h1>
-Thank you for inviting  <%= @politician.full_name %> to <%= @event.name %>!<br /><br />
-
+Thank you for inviting <%= @politician.display_name %> to <%= @event.name %>!
+<br />
+<% if @invite.invite_type != 'call' %>
+	<br />
+	<table>
+		<tr>
+		<td><strong>The next step is to invite <%= @politician.display_name %> by phone.</strong></td>
+		<td>
+	      <span class="first">
+          <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right">
+				<%= link_to 'Call', {:action => 'call', :id => @event, :politician_id => @politician} %>
+          </span></span></span>
+	      </span>
+		</td>
+		</tr>
+	</table>
+<% end %>
+<br />
 <%= link_to 'Invite more Leaders', invite_url(:permalink => @calendar.permalink, :id => @event) %> | 
-<%= link_to 'Back to event', url_for(:permalink => @calendar.permalink, :controller => :events, :action => :show, :id => @event) %>
+<%= link_to 'Show event details', :permalink => @calendar.permalink, :controller => :events, :action => :show, :id => @event %>
