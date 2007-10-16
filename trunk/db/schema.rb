@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 54) do
+ActiveRecord::Schema.define(:version => 56) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -41,10 +41,10 @@ ActiveRecord::Schema.define(:version => 54) do
     t.column "name",              :string
     t.column "short_description", :text
     t.column "user_id",           :integer
-    t.column "permalink",         :string
-    t.column "site_id",           :integer
     t.column "current",           :boolean,  :default => false
     t.column "theme",             :string
+    t.column "permalink",         :string
+    t.column "site_id",           :integer
     t.column "signup_redirect",   :string
     t.column "event_start",       :datetime
     t.column "event_end",         :datetime
@@ -130,6 +130,10 @@ ActiveRecord::Schema.define(:version => 54) do
     t.column "office",               :string
     t.column "created_at",           :datetime
     t.column "updated_at",           :datetime
+    t.column "city",                 :string
+    t.column "contact_state",        :string
+    t.column "fax",                  :string
+    t.column "web_form",             :string
   end
 
   add_index "politicians", ["state"], :name => "index_politicians_on_state"
@@ -203,8 +207,8 @@ ActiveRecord::Schema.define(:version => 54) do
   add_index "sites", ["host"], :name => "index_sites_on_host"
 
   create_table "taggings", :force => true do |t|
-    t.column "tag_id",        :integer,                  :null => false
-    t.column "taggable_id",   :integer,                  :null => false
+    t.column "tag_id",        :integer,  :default => 0,  :null => false
+    t.column "taggable_id",   :integer,  :default => 0,  :null => false
     t.column "taggable_type", :string,   :default => "", :null => false
     t.column "created_at",    :datetime
     t.column "updated_at",    :datetime
