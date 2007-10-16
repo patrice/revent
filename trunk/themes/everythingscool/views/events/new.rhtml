@@ -107,7 +107,7 @@ Sign up here. You will be able to provide information about your event with a br
                 <div align="left">*Event Type:</div>
               </td>
               <td valign="top">
-              	<%= f.select "category_id", Category.find(:all).collect {|c| [c.name, c.id] }, :title => "Please select your event type", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEvent_Category_Id", :include_blank=>true %>
+                <%= f.select "category_id", Category.find(:all).collect {|c| [c.name, c.id] }, {:include_blank => true}, {:title => "Please select your event type", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEvent_Category_Id" } %>
               
                 
               </td>
