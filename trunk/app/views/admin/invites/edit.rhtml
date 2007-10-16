@@ -1,28 +1,28 @@
 <% form_for :politician, :url => {:action => 'edit'} do |f| %>
-<table>
-<tr><td>Display Name:</td><td><%= f.text_field :display_name %></td></tr>
-<tr><td>Title:</td><td><%= f.text_field :title %></td></tr>
-<tr><td>First Name:</td><td><%= f.text_field :first_name %></td></tr>
-<tr><td>Last Name:</td><td><%= f.text_field :last_name %></td></tr>
-<tr><td>District:</td><td><%= @politician.district %></td></tr>
-<tr><td>District Type:</td><td><%= @politician.district_type %></td></tr>
-<tr><td>Party:</td><td><%= f.text_field :party %></td></tr>
-<tr><td>Website:</td><td><%= f.text_field :website %></td></tr>
-<tr><td>Image URL:</td><td><%= f.text_field :image_url %></td></tr>
+  <table>
+    <tr><td>Display Name:</td><td><%= f.text_field :display_name %></td></tr>
+    <tr><td>Title:</td><td><%= f.text_field :title %></td></tr>
+    <tr><td>First Name:</td><td><%= f.text_field :first_name %></td></tr>
+    <tr><td>Last Name:</td><td><%= f.text_field :last_name %></td></tr>
+    <tr><td>District:</td><td><%= @politician.district %></td></tr>
+    <tr><td>District Type:</td><td><%= @politician.district_type %></td></tr>
+    <tr><td>Party:</td><td><%= f.text_field :party %></td></tr>
+    <tr><td>Website:</td><td><%= f.text_field :website %></td></tr>
+    <tr><td>Image URL:</td><td><%= f.text_field :image_url %></td></tr>
 
 
-<tr><td>Address:</td><td><%= f.text_field :address %></td></tr>
-<tr><td>City:</td><td><%= f.text_field :city %></td></tr>
-<tr><td>State:</td><td><%= f.us_state_select :contact_state, :show => :abbreviations %></td></tr>
-<tr><td>Postal Code:</td><td><%= f.text_field :postal_code, :size => 15 %></td></tr>
+    <tr><td>Address:</td><td><%= f.text_field :address %></td></tr>
+    <tr><td>City:</td><td><%= f.text_field :city %></td></tr>
+    <tr><td>State:</td><td><%= f.us_state_select :contact_state, :show => :abbreviations, :include_blank => true %></td></tr>
+    <tr><td>Postal Code:</td><td><%= f.text_field :postal_code, :size => 15 %></td></tr>
 
 
-<tr><td>Phone:</td><td><%= f.text_field :phone %></td></tr>
-<tr><td>Fax:  </td><td><%= f.text_field :fax %></td></tr>
-<tr><td>Email:</td><td><%= f.text_field :email %></td></tr>
-<tr><td>Web Form:</td><td><%= f.text_field :web_form %></td></tr>
-	<%= submit_tag 'Save' %> or 
-	<%= link_to 'Cancel', :action => 'index' %><br />
+    <tr><td>Phone:</td><td><%= f.text_field :phone %></td></tr>
+    <tr><td>Fax:  </td><td><%= f.text_field :fax %></td></tr>
+    <tr><td>Email:</td><td><%= f.text_field :email %></td></tr>
+  </table>
+  <%= submit_tag 'Save' %> or 
+  <%= link_to 'Cancel', :action => 'index' %><br />
 <% end %>
 <br />
 <%= link_to 'Back to admin', :controller => '/admin', :action => 'index' %> | 

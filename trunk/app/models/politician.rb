@@ -26,8 +26,11 @@ class Politician < ActiveRecord::Base
     }
     key = api.process 'recipient', recipient
     unless democracy_in_action_object
-      self.create_democracy_in_action_object :table => 'recipient', :key => key
+      self.build_democracy_in_action_object :table => 'recipient', :key => key
     end
+    local = api.get 'recipient', key
+    self.democracy_in_action_object.local = local
+    self.democracy_in_action_object.save
   end
 
   def full_name
