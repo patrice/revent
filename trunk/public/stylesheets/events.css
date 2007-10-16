@@ -218,8 +218,6 @@ padding-bottom: 15px;
 padding-bottom: 15px; 
 }
 
-
-
 #event-list-container{
        margin-left: 10px;
 }
@@ -374,9 +372,11 @@ span.first .button-maker-right {
 
 .map_key {
 display: block;
+float: left;
 font-size: 11px;
-width: 300px;
-padding: 20px 0px 20px 140px;
+width: 150px;
+line-height: 11px;
+padding: 10px 0px 20px 20px;
 }
 
 .map_less {
@@ -400,5 +400,24 @@ padding: 5px;
 background-color:#5b791e ;
 }
 
+#map-header h4 {
+display: block;
+float: left;
+padding: 0px;
+width: 300px;
+}
 
+#map-header img {
+width: 60px;
+height: auto;
+padding-right: 15px;
+}
 
+.map-header-sen {
+  width: 205px;
+  display:block;
+  float:left;
+  font-weight: bold;
+  font-size: 12px;
+  color: #555555;
+}

@@ -58,7 +58,8 @@ class InvitesController < ApplicationController
 
   # find events near politician (params[:politician_id]) to invite them to
   def events
-    @politician = Politician.find(params[:politician_id])
+    @politician = Politician.find_by_district(params[:politician_id]) if params[:politician_id] =~ /[A-Z]{2}\d+/
+    @politician ||= Politician.find(params[:politician_id])
     if @politician.is_a?(Candidate)
       @events = @calendar.events.sort {|a,b| state = a.state <=> b.state; state == 0 ? a.city.downcase <=> b.city.downcase : state}
     else # congress-person
@@ -273,6 +274,13 @@ class InvitesController < ApplicationController
     @politician = Politician.find(params[:politician_id])
   end
   
+  #js
+  def flashmaps
+    @senators = Politician.find(:all, :conditions => "district_type = 'FS'")
+#    @representatives = Politician.find(:all, :conditions => "district_type = 'FH'")
+    render :layout => false
+  end
+
   def flashmap_pois
     @level = params[:level]
     state = case @level
@@ -310,6 +318,11 @@ class InvitesController < ApplicationController
     @districts = Flashmaps::DISTRICTS.select {|d| d[0] == "us_#{@state.downcase}"}
     @politicians = Politician.find(:all, :conditions => ["state = ?", @state], :include => [:rsvps, :politician_invites])
     render :layout => false
+  end
+
+  def flashmap_buttons
+    area = params[:id]
+    render "buttons"
   end
 
   def congress_invited

@@ -259,7 +259,34 @@ class EventsController < ApplicationController
     @auto_center = true
   end
 
+  def by_geo
+    @events = @calendar.events.find(:all, :origin => [params[:lat], params[:lng]], :within => 50)
+    @zips = ZipCode.find(:all, :origin => [params[:lat], params[:lng]], :within => 50, :order => 'distance')
+    code = @zips.first.zip
+    @district = Cache.get "district_for_postal_code_#{code}" do
+      dia_warehouse = "http://warehouse.democracyinaction.org/dia/api/warehouse/append.jsp?id=radicaldesigns".freeze
+      uri = dia_warehouse + "&postal_code=" + code.to_s
+      begin
+        data = XmlSimple.xml_in(open(uri)) 
+        data['entry'][0]['district'].nil? ? nil : data['entry'][0]['district'][0].strip
+      rescue REXML::ParseException
+        nil
+      end
+    end
+    @codes = @zips.collect {|z| z.zip}
+    @events += @calendar.events.find(:all, :conditions => ["postal_code IN (?)", @codes])
+    @events.uniq!
+    @events.each {|e| e.instance_variable_set(:@distance_from_search, e.respond_to?(:distance) ? e.distance.to_f : @zips.find {|z| z.zip == e.postal_code}.distance.to_f) }
+    @events = @events.sort_by {|e| e.instance_variable_get(:@distance_from_search)}
+    render :layout => false
+  end
+
   def by_state
+    if request.xhr?
+      # this looks weird because by_state was traditionally not called directly, now it's being called by the map using xhr.  should refactor this.
+      @events = @calendar.events.find(:all, :conditions => ["state = ?", params[:id]])
+      render :partial => 'report', :collection => @events and return
+    end
     @search_area = params[:state]
     @events = @calendar.events.find(:all, :conditions => ["state = ?", params[:state]])
     @map_center = DaysOfAction::Geo::STATE_CENTERS[params[:state].to_sym]

@@ -4,6 +4,8 @@ xml.areas do
     category = "2" if politician.attending?
     category ||= "1" if politician.invited?
     category ||= "0"
-    xml.area :id => "us_#{@state.downcase}_#{d[1]}", :category => "dis_#{category}", :label => d[2], :state => category, :name => "#{politician.display_name} - #{politician.district}", :image => politician.image_url
+    xml.area :id => "us_#{@state.downcase}_#{d[1]}", :category => "dis_#{category}", :label => d[2], :state => category, :name => "#{politician.display_name} - #{politician.district}", :image => politician.image_url do
+      xml.action :event => 'onRelease', :target => '_JS', :url => 'districtClick'
+    end
   end
 end

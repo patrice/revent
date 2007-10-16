@@ -17,6 +17,7 @@ class Event < ActiveRecord::Base
   has_many :press_links, :through => :reports
   has_many :rsvps, :dependent => :destroy
   has_many :attendees, :through => :rsvps, :source => :user
+  has_many :attending_politicians, :through => :rsvps, :source => :attending, :source_type => 'Politician'
   has_many :politician_invites
 
   belongs_to :category

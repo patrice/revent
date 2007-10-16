@@ -1,4 +1,6 @@
 <POICategories>
 	<category id='event_state' enabled='true' iconUrl='event' iconEmbedded='true' tooltip='false' />
+	<category id='event_state_attending' enabled='true' iconUrl='star_event' iconEmbedded='true' tooltip='false' />
 	<category id='event_district' enabled='true' iconUrl='event' iconEmbedded='true' tooltip='popups/event_district.swf' />
+	<category id='event_district_attending' enabled='true' iconUrl='star_event' iconEmbedded='true' tooltip='popups/event_district.swf' />
 </POICategories>
