@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 56) do
+ActiveRecord::Schema.define(:version => 57) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -57,6 +57,11 @@ ActiveRecord::Schema.define(:version => 56) do
   add_index "calendars", ["permalink"], :name => "index_calendars_on_permalink"
   add_index "calendars", ["site_id"], :name => "index_calendars_on_site_id"
 
+  create_table "categories", :force => true do |t|
+    t.column "name",        :string
+    t.column "description", :string
+  end
+
   create_table "democracy_in_action_objects", :force => true do |t|
     t.column "synced_type",     :string
     t.column "synced_id",       :integer
@@ -91,6 +96,9 @@ ActiveRecord::Schema.define(:version => 56) do
     t.column "updated_at",            :datetime
     t.column "letter_script",         :text
     t.column "call_script",           :text
+    t.column "private",               :boolean
+    t.column "max_attendees",         :integer
+    t.column "category_id",           :integer
   end
 
   add_index "events", ["latitude", "longitude"], :name => "index_events_on_latitude_and_longitude"
