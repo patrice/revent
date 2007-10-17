@@ -130,7 +130,7 @@ Sign up here. You will be able to provide information about your event with a br
                 <div align="left">Tie your screening to action:</div>
               </td>
               <td valign="top">
-                <%= f.select "tags", {['Step It Up'], ['SIU'], ['Focus The Nation'],['Focus'],['Green Jobs Revolution'],['GreenJobs'],['Hot Leaders'],['HotLeaders'],['Youth for a Sustainable Future'],['Youth'] }, {:include_blank => true}, {  :size => "1", :id => "dataEvent_Tag" } %>
+                <%= select_tag "tag", options_for_select([['',''],['Step It Up','Step It Up'], ['Focus The Nation','Focus The Nation'],['Green Jobs Revolution','Green Jobs Revolution'],['Hot Leaders','Hot Leaders'],['Youth for a Sustainable Future','Youth for a Sustainable Future']] ), {   :size => "1", :id => "dataEvent_Tag" } %>
               
                 
               </td>
@@ -246,7 +246,7 @@ Sign up here. You will be able to provide information about your event with a br
        
         
         <p align="center">
-         <br>After saving, you can place your order for the special activist DVD<br> and then you can view your event and email your friends about it.<br><br>Please note that you may not charge an entrance fee for your activist screening, although donations for your organization and/or the film’s outreach campaign may be suggested.
+         <br>After saving, you can place your order for the special activist DVD<br> and then you can view your event and email your friends about it.<br><br>Please note that you may not charge an entrance fee for your activist screening, although donations for your organization and/or the film's outreach campaign may be suggested.
         <br /><input type="submit" value="Submit" />
         <script type="text/javascript" language="javascript">
           var valid = new Validation("event-signup-form", {useTitles : true});

@@ -2,116 +2,176 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-<link rel="Search" href="http://nowarnowarming.org/search.php" />
-<link rel="icon" href="http://nowarnowarming.org" type="image/x-icon" />
-<link rel="stylesheet" type="text/css" href="http://nowarnowarming.org/styles_default.css" id="default" />
-<link href="http://nowarnowarming.org/styles.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" type="text/css" href="http://nowarnowarming.org/custom/styles.css" />
-<title>No War No Warming</title>
-<script language="Javascript"  type="text/javascript" src="http://nowarnowarming.org/scripts/functions.js"></script>
 
-<script src="/javascripts/prototype.js?1189055006" type="text/javascript"></script>
+<link rel="icon" href="<%= theme_image_path 'favicon.ico' %>" type="image/x-icon" />
+
+<link href="/stylesheets/events.css" media="screen" rel="Stylesheet" type="text/css" />
+  <%#= javascript_include_tag 'prototype' %>
+
+<link rel="stylesheet" type="text/css" href="http://everything.live.radicaldesigns.org/custom/ec.css" >
+<link rel="stylesheet" type="text/css" href="http://everything.live.radicaldesigns.org/custom/styles.css" >
+
+<%= stylesheet_link_tag 'events' %>
 
 
+<title>Everything's Cool &#8212; A Hot Documentary about global warming</title>
+
+<script src="http://s3.amazonaws.com/stepitup2007.org/prototype.js" type="text/javascript"></script>
 <script src="http://s3.amazonaws.com/stepitup2007.org/validation.js" type="text/javascript"></script>
-<link rel="stylesheet" type="text/css" href="http://events.nowarnowarming.org/stylesheets/events.css" />
 
+  <%= yield :header %>
+  <%= Cartographer::Gmap::Header.header_for(request) if @map %>
+
+<script language="JavaScript" type="text/JavaScript">
+<!--
+
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+
+function popUp(URL) {
+day = new Date();
+id = day.getTime();
+eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=400,height=400,left = 540,top = 275');");
+}
+
+function popUpIK(center,url,winName,width,height,features) {
+		if (center) {
+			x = (640 - width)/2, y = (480 - height)/2;
+			if (screen) {
+				y = (screen.availHeight - height)/2;
+				x = (screen.availWidth - width)/2;
+			}
+			if (screen.availWidth > 1800) { 
+				x = ((screen.availWidth/2) - width)/2; 
+			} 
+		}
+		var newWin = window.open(url,winName,'scrollbars=no,width='+width+',height='+height+',screenX='+x+',screenY='+y+',top='+y+',left='+x+','+features);
+		newWin.focus();
+	}
+//-->
+</script>
 </head>
-<body topmargin="0">
-<div align="center">
- <table cellpadding="0" cellspacing="0" width="789" style="border-left: 1px solid #000; border-right: 1px solid #000;">
-	<tr>
-		<td><table width="798"  border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td><a href="http://nowarnowarming.org/index.php"><img src="http://nowarnowarming.org/img/nowar_index_banner_01.gif" width="354" height="60" border="0" /></a></td>
-            <td><img src="http://nowarnowarming.org/img/nowar_index_banner_02.gif" width="296" height="60" /></td>
-            <td><img src="http://nowarnowarming.org/img/nowar_index_banner_03.gif" width="148" height="60" /></td>
-          </tr>
-          <tr>
-            <td><a href="http://nowarnowarming.org/index.php"><img src="http://nowarnowarming.org/img/nowar_index_banner_04.gif" width="354" height="81" border="0" /></a></td>
-            <td><img src="http://nowarnowarming.org/img/nowar_index_banner_05.gif" width="296" height="81" /></td>
-            <td><a href="http://nowarnowarming.org/donate"><img src="http://nowarnowarming.org/img/nowar_index_banner_06.gif" width="148" height="81" border="0" /></td>
-          </tr>
-        </table></td>
-	</tr>
-	<tr>
-		<td height="26" bgcolor="#000000" style="border: 1px solid #446e7e;">
-			<table height="26" border="0" cellspacing="0" cellpadding="0">
-			  <tr>
-				<td class="topnav_cell"><a href="http://nowarnowarming.org/section.php?id=11" class="topnav">ABOUT US</a></td>	
 
-<td  class="topnav_cell"><a href="http://nowarnowarming.org/section.php?id=12" class="topnav">TAKE ACTION</a></td>	
-				
-<td  class="topnav_cell"><a href="http://nowarnowarming.org/section.php?id=13" class="topnav">DC INTERVENTION</a></td>
-				
-				<td  class="topnav_cell"><a href="http://events.nowarnowarming.org/" class="topnav">LOCAL ACTIONS</a></td>
-				<td  class="topnav_cell"><a href="http://nowarnowarming.org/section.php?id=9" class="topnav">ORGANIZER HQ</a></td>
-				
-				<td  class="topnav_cell"><a href="http://nowarnowarming.org/section.php?id=3" class="topnav">PRESS ROOM</a></td>	
 
-<td  class="topnav_cell"><a href="http://nowarnowarming.org/article.php?list=class&class=20" class="topnav">BLOG</a></td>				
-	</tr>
-        </table>
-		
-		</td>
-	</tr>
-	<tr>
-		<td height="100%" valign="top" style="background: #ACE5FF; "><br />
-			
-			<table border="0" align="center" cellpadding="0" cellspacing="0">
-				
-				<tr>
-	 <td valign="top"><div align="center">
-						<table width="180">
-							<tr>
-								<td>
-								
-								<!-- widget js -->
-				<script language="javascript" type="text/javascript" src="http://www.nowarnowarming.org/nav_widget.php?position=left&type=6&format=js"></script>
+<body bgcolor="#e3f4fc" link="#000000" vlink="#999999" ALINK="#000000" onLoad="MM_preloadImages('http://everything.live.radicaldesigns.org/img/hlinks_ro_18.gif','http://everything.live.radicaldesigns.org/img/hlinks_ro_19.gif','http://everything.live.radicaldesigns.org/img/hlinks_ro_20.gif','http://everything.live.radicaldesigns.org/img/hlinks_ro_22.gif','http://everything.live.radicaldesigns.org/img/hlinks_ro_23.gif','http://everything.live.radicaldesigns.org/img/head_8_ro.gif','http://everything.live.radicaldesigns.org/img/nav/ab_makers_ro.gif','http://everything.live.radicaldesigns.org/img/nav/ab_message_ro.gif','http://everything.live.radicaldesigns.org/img/nav/ab_fc_ro.gif','http://everything.live.radicaldesigns.org/img/nav/ab_se_ro.gif','http://everything.live.radicaldesigns.org/img/nav/ab_buy_ro.gif','http://everything.live.radicaldesigns.org/img/nav/ab_vc_ro.gif','http://everything.live.radicaldesigns.org/img/hlinks_active_21.gif')">
+<table width="761" height="448" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr> 
+    <td width="10" height="15" align="left" valign="bottom"><img src="http://everything.live.radicaldesigns.org/img/border_01.gif" width="10" height="15"></td>
+    <td colspan="3" align="left" valign="bottom"><img src="http://everything.live.radicaldesigns.org/img/border_02.gif" width="738" height="15"></td>
 
-			<!-- end widget js --> 
-				</td>
-				  <td valign="top"><br />
-				  
-				  <table  bgcolor="#FFFFFF" width="597" cellpadding="0" cellspacing="0" style="margin-left:5px; margin-right:10px; "  >
-					  <tr><td><img src="http://nowarnowarming.org/img/nowar_body_03.gif" width="597" height="10" /></td>
-					  </tr>
-							<tr>
-								<td>
-								
-								<div class="fp_text_block">
+    <td width="13" align="left" valign="bottom"><img src="http://everything.live.radicaldesigns.org/img/border_03.gif" width="13" height="15"></td>
+  </tr>
+  <tr> 
+    <td align="left" valign="top"><img src="http://everything.live.radicaldesigns.org/img/border_04.gif" width="10" height="76"></td>
+    <td colspan="3" align="left" valign="top"><img src="http://everything.live.radicaldesigns.org/img/head_7_on.gif" width="87" height="76"><a href="http://everythingscool.org/home.html"><img src="http://everything.live.radicaldesigns.org/img/head_8_on.gif" alt="everything's cool" name="Image7" width="339" height="76" border="0" id="Image7" onMouseOver="MM_swapImage('Image7','','http://everything.live.radicaldesigns.org/img/head_8_ro.gif',1)" onMouseOut="MM_swapImgRestore()"></a><img src="http://everything.live.radicaldesigns.org/img/head_9_on.gif" width="312" height="76"></td>
+    <td width="13" height="76" align="left" valign="top"><img src="http://everything.live.radicaldesigns.org/img/border_06.gif" width="13" height="76"></td>
+  </tr>
+  <tr> 
+    <td align="left" valign="top"><img src="http://everything.live.radicaldesigns.org/img/border_07.gif" width="10" height="66"></td>
+    <td colspan="3" align="left" valign="top"><a href="http://everythingscool.org/home.htm"><img src="http://everything.live.radicaldesigns.org/img/hlinks_on_18.gif" alt="home" name="Image1" width="92" height="66" border="0" id="Image1" onMouseOver="MM_swapImage('Image1','','http://everything.live.radicaldesigns.org/img/hlinks_ro_18.gif',1)" onMouseOut="MM_swapImgRestore()"></a><a href="http://everythingscool.org/about.htm"><img src="http://everything.live.radicaldesigns.org/img/hlinks_on_19.gif" alt="about the film" name="Image2" width="129" height="66" border="0" id="Image2" onMouseOver="MM_swapImage('Image2','','http://everything.live.radicaldesigns.org/img/hlinks_ro_19.gif',1)" onMouseOut="MM_swapImgRestore()"></a><a href="http://everythingscoolfilm.blogspot.com" target="_blank"><img src="http://everything.live.radicaldesigns.org/img/hlinks_on_20.gif" alt="global warming in the news" name="Image3" width="157" height="66" border="0" id="Image3" onMouseOver="MM_swapImage('Image3','','http://everything.live.radicaldesigns.org/img/hlinks_ro_20.gif',1)" onMouseOut="MM_swapImgRestore()"></a><a href="http://everythingscool.org/backyard.php"><img src="http://everything.live.radicaldesigns.org/img/hlinks_on_21.gif" alt="global warming in my backyard" name="Image4" width="140" height="66" border="0" id="Image4" onMouseOver="MM_swapImage('Image4','','http://everything.live.radicaldesigns.org/img/hlinks_active_21.gif',1)" onMouseOut="MM_swapImgRestore()"></a><a href="http://everythingscool.org/action.htm"><img src="http://everything.live.radicaldesigns.org/img/hlinks_on_22.gif" alt="take action" name="Image5" width="109" height="66" border="0" id="Image5" onMouseOver="MM_swapImage('Image5','','http://everything.live.radicaldesigns.org/img/hlinks_ro_22.gif',1)" onMouseOut="MM_swapImgRestore()"></a><a href="http://everythingscool.org/hotstuff.htm"><img src="http://everything.live.radicaldesigns.org/img/hlinks_on_23.gif" alt="hot stuff" name="Image6" width="111" height="66" border="0" id="Image6" onMouseOver="MM_swapImage('Image6','','http://everything.live.radicaldesigns.org/img/hlinks_ro_23.gif',1)" onMouseOut="MM_swapImgRestore()"></a></td>
 
-                  An error occurred
+    <td height="66" align="left" valign="top"><img src="http://everything.live.radicaldesigns.org/img/border_09.gif" width="13" height="66"></td>
+  </tr>
+  <tr> 
+    <td align="left" valign="top" class = "_border">&nbsp;</td>
+    <td width="174" align="left" valign="top" bgcolor="#FFFFFF">
+    <div style="padding:5px;">
+    <br>
+    <p class="subside">Attend a Screening</p>    
+		<a href="http://events.everythingscool.org/screenings" class="sidelist">Search for a Screening</a><br>
+	
+    
+    <p class="subside">Host a Screening</p>    
+		<a href="http://events.everythingscool.org/screenings/signup/" class="sidelist">Activist and Community Organizational Screenings<a/><br><br>
+		<a href="http://events.everythingscool.org/screenings/signup/" class="sidelist">High School / College Institutional screenings</a><br>
 
-								</div>
-								
-							  </td>
-							</tr>
-							<tr><td><img src="http://nowarnowarming.org/img/nowar_body_12.gif" width="597" height="8" /></td>
-					  </tr>
-						
-					</table>
-				  </td>
-                   
-			  </tr>
-			
-			
-		  </table>
-			<br /><br />
-		</td>
-	</tr>
-	<tr>
-		<td height="18" bgcolor="#000000">
-		<div class="footer"> 
-		 
-		</div>
-		
-		</td>
-		
-	</tr>
+	<p class="subside">Buy the DVD</p>
+		<a href="https://salsa.democracyinaction.org/o/1047/t/162/shop/custom.jsp?donate_page_KEY=2853" class="sidelist">Home Viewing</a> <br><br>
+		<a href="http://www.bullfrogfilms.com/" class="sidelist">High School/College</a><br>
 
+    <p class="subside">Manage Your<br>Screening</p>    
+		<a href="http://events.everythingscool.org/profile/events" class="sidelist">Login<a/><br>
+	
+    </td>
+    <td width="11" align="left" valign="top" bgcolor="#FFFFFF" class = "_vdash">&nbsp;</td>
+    <td width="566" align="left" valign="top" bgcolor="#FFFFFF" class = "_maincopy">
+       <p class="maincopy">    An Error Occurred 
+     <br>
+          </td>
+
+    <td align="left" valign="top" class = "_borderright">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td align="left" valign="top"><img src="http://everything.live.radicaldesigns.org/img/border_13s.gif" width="10" height="20"></td>
+    <td height="20" colspan="3"><img src="http://everything.live.radicaldesigns.org/img/border_14.gif" width="738" height="20"></td>
+    <td align="left" valign="top"><img src="http://everything.live.radicaldesigns.org/img/border_15s.gif" width="13" height="20"></td>
+  </tr>
+  <tr> 
+    <td align="left" valign="top" class = "_border">&nbsp;</td>
+    <td colspan="3" bgcolor="#7b6133"><div align="center" class = "_footer"><a href="http://everythingscool.org/home.htm" class = "_footer">Home</a> 
+        | <a href="http://everythingscool.org/about.htm" class = "_footer">About the Film</a> | <a href="http://everythingscool.org/makers.htm" class = "_footer">About 
+        the Filmmakers</a> | <a href="http://everythingscool.org/message.htm" class = "_footer">Filmmaker's 
+        Message</a> | <a href="http://everythingscool.org/clips.htm" class = "_footer">Film Clips</a> | <a href="http://everythingscool.org/credits.htm" class = "_footer">Film 
+        Credits</a> | <a href="http://everythingscool.org/action.htm" class = "_footer">Take Action</a> <br>
+
+        <a href="http://everythingscool.org/javascript:popUpIK(true,'events.htm','window',800,700,'scrollbars,status,')" class = "_footer">Screenings 
+        &amp; Events</a> | <a href="http://everythingscoolfilm.blogspot.com" target="_blank" class = "_footer">Everything's 
+        Cooler Blog</a> | <a href="http://everythingscool.org/backyard.php" class = "_footer">Global Warming 
+        in My Backyard</a> | <a href="http://everythingscool.org/javascript:popUp('cs_buy.htm')" class = "_footer">Buy 
+        the DVD</a> | <a href="http://everythingscool.org/hotstuff.htm" class = "_footer">Hot Stuff</a> <br>
+
+        <a href="http://everythingscool.org/javascript:popUpIK(true,'http://www.democracyinaction.org/dia/organizationsORG/workingfilms/tellafriend.jsp?tell_a_friend_KEY=1454&t=ECSendTemplate.dwt','window',700,800,'scrollbars,status,')" class = "_footer">Email 
+        this Site to a Friend</a> | <a href="http://everythingscool.org/press.htm" class = "_footer">Press</a> 
+        |<a href="http://everythingscool.org/javascript:popUpIK(true,'http://www.democracyinaction.org/dia/organizationsORG/workingfilms/signUp.jsp?key=1901&t=ECSendTemplate.dwt','window',700,850,'scrollbars,status,')" class = "_footer"> 
+        Get on the Email List </a>| <a href="http://everythingscool.org/javascript:popUpIK(true,'site.htm','window',800,700,'scrollbars,status,')" class = "_footer">Website 
+        Credits </a> | <a href="http://everythingscool.org/javascript:popUpIK(true,'contact.php','window',800,700,'scrollbars,status,')" class = "_footer">Contact 
+        Us</a><a href="http://everythingscool.org/javascript:popUpIK(true,'http://www.democracyinaction.org/dia/organizationsORG/workingfilms/signUp.jsp?key=1901&t=ECSendTemplate.dwt','window',700,850,'scrollbars,status,')" class = "_footer"> 
+        </a>| <a href="http://everythingscool.org/privacy_policy.php" class = "_footer">Privacy/Terms of Use 
+        Policy</a><a href="http://everythingscool.org/javascript:popUpIK(true,'contact.php','window',800,700,'scrollbars,status,')" class = "_footer"> 
+        </a></div></td>
+
+    <td height="51" align="left" valign="top" class = "_borderright">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td align="left" valign="top"><img src="http://everything.live.radicaldesigns.org/img/border_19s.gif" width="10" height="19"></td>
+    <td colspan="3" align="left" valign="top"><img src="http://everything.live.radicaldesigns.org/img/border_20.gif" width="738" height="19"></td>
+    <td height="19" align="left" valign="top"><img src="http://everything.live.radicaldesigns.org/img/border_21s.gif" width="13" height="19"></td>
+  </tr>
 </table>
-</div>
 
+<table width="761" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+
+    <td width="219" valign="top" class = "ec_bottom">&copy; 2007 <a href="http://www.workingfilms.org" target="_blank"><font color="#666666">Working 
+      Films</font></a></td>
+    <td width="387" valign="top">
+<div align="right" class = "ec_bottom">Make a tax-free donation to the funding<br>
+        of this film &amp; outreach program.</div></td>
+	<td width="140" valign="top">
+<div align="right"><a href="http://everythingscool.org/https://secure.groundspring.org/dn/index.php?aid=10065"><img src="http://www.groundspring.org/button/lime_med.gif" border=0 alt="DonateNow"></a></div></td>
+
+    <td width="15"></td> 
+  </tr>
+</table>
+<p>&nbsp;</p>
 </body>
-</html>
