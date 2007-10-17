@@ -1,3 +1,4 @@
+<%= render :partial => 'nav' %>
 <% @event.start = Time.now.beginning_of_day + 12.hours; @event.end = Time.now.beginning_of_day + 14.hours -%>
 <h1>Sign Up to Host an Activist Screening Event of Everything's Cool</h1>
 <p class="text">
@@ -113,29 +114,32 @@ Sign up here. You will be able to provide information about your event with a br
               </td>
              
             </tr>
-          
-            <tr valign="top">
+            </tr>
+                      <tr valign="top">
               <td valign="top"  class="dia_field_name">
                 <div align="left">*Event Name:</div>
               </td>
               <td valign="top">
-                <%= f.text_field "name", :id => "dataEvent_Namexxxx", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your event's name", :class => "required inputStyle" %>
+                <%= f.text_field "name", :id => "dataEvent_Name", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your event's name", :class => "required inputStyle" %>
               </td>
               
             </tr>
-            <tr valign="top">
-        
-              <td valign="top" colspan=2>
-                <% @event.private = false -%>
-                <%= f.radio_button "private", "false", :id => "dataEvent_Private", :title => "Please enter your event's public status",  :class => "inputStyle"  %> Please make this event public, so anyone may search for it.<br>
-                 <%= f.radio_button "private", "true",  :id => "dataEvent_Private", :title => "Please enter your event's public status", :class => "inputStyle" %> Please make this event private, so it will not show up in any public listings.
-              </td>
             
-            </tr>
+		  	<tr valign="top">
+              <td valign="top"  class="dia_field_name">
+                <div align="left">Tie your screening to action:</div>
+              </td>
+              <td valign="top">
+                <%= f.select "name", {['Step It Up'], ['SIU'], ['Focus The Nation'],['Focus'],['Green Jobs Revolution'],['GreenJobs'],['Hot Leaders'],['HotLeaders'],['Youth for a Sustainable Future'],['Youth'] }, {:include_blank => true}, {  :size => "1", :id => "dataEvent_Tag" } %>
+              
+                
+              </td>
+             </tr>
+             
             <tr>
             
               <td valign="top"  class="dia_field_name" colspan="2">
-                <div align="left">*Description:<br />                  <%= f.text_area "description", :title => "Please enter your action's description", :class => "required", :rows => "7", :cols => "45", :style => "background-color: #ebd897;", :id => "dataDescription" %>
+                <div align="left">*Description:<br />                  <%= f.text_area "description", :title => "Please enter your event's description", :class => "required", :rows => "7", :cols => "45", :style => "background-color: #ebd897;", :id => "dataDescription" %>
                 </div>
               </td>
              
@@ -143,7 +147,7 @@ Sign up here. You will be able to provide information about your event with a br
             <tr>
               <td valign="top"  class="dia_field_name" colspan="2">
                 <div align="left">*Address:<br />
-                  <%= f.text_area 'location', :title => "Please enter your action's address", :class => "required", :rows => "5", :cols => "45", :style => "background-color: #ebd897;" %>
+                  <%= f.text_area 'location', :title => "Please enter your event's address", :class => "required", :rows => "5", :cols => "45", :style => "background-color: #ebd897;" %>
                 </div>
               </td>
             
@@ -153,14 +157,14 @@ Sign up here. You will be able to provide information about your event with a br
                 <div align="left">*City:</div>
               </td>
               <td valign="top">
-              <%= f.text_field "city", :id => "dataEventCity", :maxlength => "128", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your action's city", :class => "required inputStyle" %></td>
+              <%= f.text_field "city", :id => "dataEventCity", :maxlength => "128", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your event's city", :class => "required inputStyle" %></td>
              
             </tr>
             <tr>
               <td valign="top"  class="dia_field_name">
                 <div align="left">*State:</div>
               </td>
-              <td><%= f.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), {}, :title => "Please choose your action's state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventState" %></td>
+              <td><%= f.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), {}, :title => "Please choose your event's state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventState" %></td>
               
             </tr>
             <tr>
@@ -168,7 +172,7 @@ Sign up here. You will be able to provide information about your event with a br
                 <div align="left">*Zip Code:</div>
               </td>
               <td>
-              <%= f.text_field "postal_code", :id => 'postal_code', :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your action's zip code", :class => "required inputStyle" %>&nbsp;&nbsp;
+              <%= f.text_field "postal_code", :id => 'postal_code', :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your event's zip code", :class => "required inputStyle" %>&nbsp;&nbsp;
               <span id="spinner" style="font-style: italic; font-size: 90%; display: none;"><%= image_tag 'spinner.gif' %> looking for nearby events</span></td>
 				  <%= observe_field :postal_code,
 										 :on => 'blur',
@@ -183,11 +187,22 @@ Sign up here. You will be able to provide information about your event with a br
 					 <div id='nearbyEvents'/>
 				  </td>
 			</tr>
+			<tr valign="top">
+        
+              <td valign="top" colspan=2>
+              Privacy and Searches:<br>
+                <% @event.private = false -%>
+                <%= f.radio_button "private", "false", :id => "dataEvent_Private", :title => "Please enter your event's public status",  :class => "inputStyle"  %> Please make this event public, so anyone may search for it.<br>
+                 <%= f.radio_button "private", "true",  :id => "dataEvent_Private", :title => "Please enter your event's public status", :class => "inputStyle" %> Please make this event private, so it will not show up in any public listings.
+              </td>
+            
+            </tr>
+			
             </tr>
             <tr>
               <td valign="top"  class="dia_field_name" colspan="2">
                 <div align="left">*Directions<br />
-                  <%= f.text_area "directions", :style => "background-color: #ebd897;", :rows => "5", :cols => "45", :class => "required", :title => "Please enter directions to your action" %>
+                  <%= f.text_area "directions", :style => "background-color: #ebd897;", :rows => "5", :cols => "45", :class => "required", :title => "Please enter directions to your event" %>
                 </div>
               </td>
               
@@ -215,7 +230,7 @@ Sign up here. You will be able to provide information about your event with a br
                 <div align="left">Maximum Attendees:</div>
               </td>
               <td valign="top">
-                <%= f.text_field "max_attendees", :id => "dataEvent_Max", :value=>"100", :size => "16", :title => "Please enter your event's maximun atendees"  %>
+                <%= f.text_field "max_attendees", :id => "dataEvent_Max",  :size => "16", :title => "Please enter your event's maximun atendees"  %>
               </td>
               
             </tr>
