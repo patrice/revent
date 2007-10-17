@@ -71,24 +71,20 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
-    if params[:form]
+    if current_theme
       self.class.ignore_missing_templates = true #themes only
-      render "signup/#{params[:form]}" and return
+      if params[:form]
+        if is_partner(params[:form])
+          cookies[:partner] = {:value => params[:form], :expires => 3.hours.from_now}
+          render "events/partners/#{cookies[:partner]}/new"
+        elsif is_signup(params[:form])
+          render "signup/#{params[:form]}" and return
+        end
+      elsif cookies[:partner] && is_partner(cookies[:partner])
+        render "events/partners/#{cookies[:partner]}/new"
+      end
       self.class.ignore_missing_templates = false
     end
-    if cookies[:partner]
-      self.class.ignore_missing_templates = true #themes only
-      render "events/partners/#{cookies[:partner]}/new"
-      self.class.ignore_missing_templates = false
-    end
-  end
-
-  def partner_signup
-    cookies[:partner] = {:value => params[:partner], :expires => 3.hours.from_now} if params[:partner]
-    @event = Event.new
-    self.class.ignore_missing_templates = true #themes only
-    render "events/partners/#{params[:partner]}/new"
-    self.class.ignore_missing_templates = false
   end
 
   def create
@@ -325,4 +321,12 @@ class EventsController < ApplicationController
       raise error
     end  
 
+  private
+    def is_partner(form)
+      File.exist?("themes/#{current_theme}/views/events/partners/#{form}")
+    end
+
+    def is_signup(form)
+      File.exist?("themes/#{current_theme}/views/signup/#{form}.rhtml")
+    end
 end
