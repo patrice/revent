@@ -1,4 +1,4 @@
-<%= render :partial => 'nav' %>
+
 <% @event.start = Time.now.beginning_of_day + 12.hours; @event.end = Time.now.beginning_of_day + 14.hours -%>
 <h1>Sign Up to Host an Activist Screening Event of Everything's Cool</h1>
 <p class="text">
@@ -99,7 +99,7 @@ Sign up here. You will be able to provide information about your event with a br
         
         
         <br /></h3>
-      <p><strong><font color="#ff0000"><em>Please be as specific as possible with your event information. It will be displayed publicly. This is your chance to get the word out about your screening event to the world! Your information can be updated later.</em></font></strong></p>
+      <p><strong><font color="#ff0000"><em>Please be as specific as possible with your event information (i.e. be sure to note what organizations are hosting the event and what your focus will be). It will be displayed publicly. This is your chance to get the word out about your screening event to the world! Your information can be updated later.</em></font></strong></p>
       <div id="eventFields" class="eventFields">
         <table class="dia_field">
           <tbody>
@@ -130,7 +130,7 @@ Sign up here. You will be able to provide information about your event with a br
                 <div align="left">Tie your screening to action:</div>
               </td>
               <td valign="top">
-                <%= f.select "name", {['Step It Up'], ['SIU'], ['Focus The Nation'],['Focus'],['Green Jobs Revolution'],['GreenJobs'],['Hot Leaders'],['HotLeaders'],['Youth for a Sustainable Future'],['Youth'] }, {:include_blank => true}, {  :size => "1", :id => "dataEvent_Tag" } %>
+                <%= f.select "tags", {['Step It Up'], ['SIU'], ['Focus The Nation'],['Focus'],['Green Jobs Revolution'],['GreenJobs'],['Hot Leaders'],['HotLeaders'],['Youth for a Sustainable Future'],['Youth'] }, {:include_blank => true}, {  :size => "1", :id => "dataEvent_Tag" } %>
               
                 
               </td>
@@ -238,7 +238,7 @@ Sign up here. You will be able to provide information about your event with a br
           </tbody>
         </table>
         
-
+		
         <%= hidden_field_tag "redirect", "https://salsa.democracyinaction.org/o/1047/t/162/shop/custom.jsp?donate_page_KEY=2853" %>
         
         <%= hidden_field_tag "event[democracy_in_action][event][Maximum_Attendees]", 10000 %>
@@ -246,7 +246,7 @@ Sign up here. You will be able to provide information about your event with a br
        
         
         <p align="center">
-         <br>After saving, you can place your order for the special activist DVD<br> and then you can view your event and email your friends about it.<br>
+         <br>After saving, you can place your order for the special activist DVD<br> and then you can view your event and email your friends about it.<br><br>Please note that you may not charge an entrance fee for your activist screening, although donations for your organization and/or the film’s outreach campaign may be suggested.
         <br /><input type="submit" value="Submit" />
         <script type="text/javascript" language="javascript">
           var valid = new Validation("event-signup-form", {useTitles : true});
