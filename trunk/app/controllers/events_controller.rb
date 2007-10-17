@@ -71,6 +71,11 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+    if params[:form]
+      self.class.ignore_missing_templates = true #themes only
+      render "signup/#{params[:form]}" and return
+      self.class.ignore_missing_templates = false
+    end
     if cookies[:partner]
       self.class.ignore_missing_templates = true #themes only
       render "events/partners/#{cookies[:partner]}/new"

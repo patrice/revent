@@ -49,10 +49,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'partners/:id', :controller => 'partners'
   map.connect ':permalink/signup/:partner', :controller => 'events', :action => 'partner_signup'
   map.with_options :controller => 'events', :action => 'new' do |m|
-    m.signup ':permalink/signup'
-    m.connect 'calendars/:calendar_id/signup'
-    m.connect 'signup'
-    m.connect 'signup.:format', :defaults => {:format => ''}
+    m.signup ':permalink/signup/:form', :defaults => {:form => nil}
+    m.connect 'calendars/:calendar_id/signup/:form', :defaults => {:form => nil}
+    m.connect 'signup/:form', :defaults => {:form => nil}
+    m.connect 'signup/:form.:format', :defaults => {:form => nil, :format => ''}
   end
 
   map.connect '/attachments/:id1/:id2/*file', :controller => 'attachments', :action => 'show', :requirements => { :id1 => /\d+/, :id2 => /\d+/ }
