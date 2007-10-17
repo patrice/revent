@@ -29,6 +29,7 @@ class Politician < ActiveRecord::Base
       self.build_democracy_in_action_object :table => 'recipient', :key => key
     end
     local = api.get 'recipient', key
+    local = local.first if local.is_a?(Array)
     self.democracy_in_action_object.local = local
     self.democracy_in_action_object.save
   end
