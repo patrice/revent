@@ -100,6 +100,7 @@ class EventsController < ApplicationController
       @user.save!
       @event.host = @user
       @event.save!
+      @event.tags << Tag.find_or_create_by_name(params[:tag]) if params[:tag]
       flash[:notice] = 'Event was successfully created.'
       expire_page_caches(@event)
       redirect_to params[:redirect] and return if params[:redirect]
