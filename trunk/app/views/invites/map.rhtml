@@ -60,12 +60,12 @@ Help us turn America green.  Search the map below to find out which members of c
 
           fmAreaCenterLatLon('us_' + state.toLowerCase(), point.lat(), point.lng(), 2000);
           new Ajax.Updater('event-list', '/' + DaysOfAction.permalink + '/events/by_geo?lat=' + point.lat() + '&lng=' + point.lng(), {asynchronous:true,evalScripts:true})
-          if(DaysOfAction.current_district) {
-            setButtons('us_' + DaysOfAction.current_district);
-            DaysOfAction.current_district = null;
-          } else {
-            $('invite-context').update('');
-          }
+//          if(DaysOfAction.current_district) {
+//            setButtons(DaysOfAction.current_district);
+//            DaysOfAction.current_district = null;
+//          } else {
+//            $('invite-context').update('');
+//          }
           showSenators(state);
         }
       }
@@ -73,32 +73,32 @@ Help us turn America green.  Search the map below to find out which members of c
   }
 
   function centerOnState(state) {
-    area_id = 'us_' + state.toLowerCase();
+    var area_id = 'us_' + state.toLowerCase();
     fmAreaZoomIn(('us', area_id));
-    onStateZoom(area_id);
+    onStateZoom(state);
   }
 
   //event handler for flashmaps api
   function stateClick(event_name, area_id, area_label) {
-    onStateZoom(area_id);
+    var state = area_id.substring(3).toUpperCase();
+    onStateZoom(state);
   };
 
-  function onStateZoom(area_id) {
-    var state = area_id.substring(3).toUpperCase();
-    setButtons(area_id);
+  function onStateZoom(state) {
+    setButtons(state);
     showSenators(state);
     new Ajax.Updater('event-list', '/' + DaysOfAction.permalink + '/events/by_state/' + state, {asynchronous:true})
   }
 
   function setButtons(area_id) {
-    area_id = area_id.substring(3);
-    area_id = area_id.toUpperCase();
-    permalink = DaysOfAction.permalink;
+    var permalink = DaysOfAction.permalink;
     if(area_id.length == 2) {
       $('invite-context').update('<span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><a href="/' + permalink + '/invites/list/state/' + area_id + '">Invite ' + area_id + ' Congresspeople</a></span></span></span>');
     } else {
-      area_id = area_id.split('_').join('');
-      name = DaysOfAction.representatives[area_id];
+      if(area_id.indexOf('ONE') != -1) {
+        area_id = area_id.substring(0,2) + '01';
+      }
+      var name = DaysOfAction.representatives[area_id];
       $('invite-context').update('<span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><a href="/' + permalink + '/events/all/invite/events/' + area_id + '">Invite ' + name + '</a></span></span></span>');
     }
     $('invite-context').show();
@@ -106,13 +106,14 @@ Help us turn America green.  Search the map below to find out which members of c
 
 
   function showSenators(area_id) {
+    var permalink = DaysOfAction.permalink;
     var senators = DaysOfAction.senators[area_id];
-    $('map-header').update('<div class="map-header-sen"><img align="left" src="' + senators[0].image + '" />' + senators[0].name + '<br/><span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><a href="/' + permalink + '/events/all/invite/events/' + senators[0].id + '">Invite</a></span></span></span></div><div class="map-header-sen"><img align="left" src="' + senators[1].image + '" />' + senators[1].name + '<br/><span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><a href="/' + permalink + '/events/all/invite/events/' + senators[1].id + '">Invite</a></span></span></span></div>');
+    $('map-header').update('<div class="map-header-sen"><img align="left" src="' + senators[0].image + '" /><div class="map-header-sen-names">' + senators[0].name + '<br/><span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><a href="/' + permalink + '/events/all/invite/events/' + senators[0].id + '">Invite</a></span></span></span></div></div><div class="map-header-sen"><img align="left" src="' + senators[1].image + '" /><div class="map-header-sen-names">' + senators[1].name + '<br/><span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><a href="/' + permalink + '/events/all/invite/events/' + senators[1].id + '">Invite</a></span></span></span></div></div>');
   }
 
   //event handler for flashmaps api
   function districtClick(event_name, area_id, area_label) {
-    setButtons(area_id);
+    setButtons(area_label);
   };
 
 </script>

@@ -1,8 +1,8 @@
 <%= render :partial => 'report', :collection => @events %>
 <script>
-  DaysOfAction.current_district = <%= @district ? "'#{@district.downcase.insert(2,'_')}'" : 'null' %>;
+//  DaysOfAction.current_district = <%= @district ? "'#{@district}'" : 'null' %>;
   <% if @district -%>
-  setButtons('us_<%= @district.downcase.insert(2,'_') %>');
+  setButtons('<%= @district %>');
   <% else -%>
   $('invite-context').update('');
   <% end -%>

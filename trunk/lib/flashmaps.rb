@@ -1,7 +1,7 @@
 module Flashmaps
   #[:stateID, :districtID, :district]
   DISTRICTS = [
-    ['us_ak', 'one', '00'],
+    ['us_ak', 'one', '01'],
     ['us_al', '1', '01'],
     ['us_al', '2', '02'],
     ['us_al', '3', '03'],
@@ -87,7 +87,7 @@ module Flashmaps
     ['us_ct', '4', '04'],
     ['us_ct', '5', '05'],
     ['us_dc', '98', '98'],
-    ['us_de', 'one', '00'],
+    ['us_de', 'one', '01'],
     ['us_fl', '1', '01'],
     ['us_fl', '10', '10'],
     ['us_fl', '11', '11'],
@@ -236,7 +236,7 @@ module Flashmaps
     ['us_ms', '2', '02'],
     ['us_ms', '3', '03'],
     ['us_ms', '4', '04'],
-    ['us_mt', 'one', '00'],
+    ['us_mt', 'one', '01'],
     ['us_nc', '1', '01'],
     ['us_nc', '10', '10'],
     ['us_nc', '11', '11'],
@@ -250,7 +250,7 @@ module Flashmaps
     ['us_nc', '7', '07'],
     ['us_nc', '8', '08'],
     ['us_nc', '9', '09'],
-    ['us_nd', 'one', '00'],
+    ['us_nd', 'one', '01'],
     ['us_ne', '1', '01'],
     ['us_ne', '2', '02'],
     ['us_ne', '3', '03'],
@@ -360,7 +360,7 @@ module Flashmaps
     ['us_sc', '4', '04'],
     ['us_sc', '5', '05'],
     ['us_sc', '6', '06'],
-    ['us_sd', 'one', '00'],
+    ['us_sd', 'one', '01'],
     ['us_tn', '1', '01'],
     ['us_tn', '2', '02'],
     ['us_tn', '3', '03'],
@@ -416,7 +416,7 @@ module Flashmaps
     ['us_va', '7', '07'],
     ['us_va', '8', '08'],
     ['us_va', '9', '09'],
-    ['us_vt', 'one', '00'],
+    ['us_vt', 'one', '01'],
     ['us_wa', '1', '01'],
     ['us_wa', '2', '02'],
     ['us_wa', '3', '03'],
@@ -437,7 +437,7 @@ module Flashmaps
     ['us_wv', '1', '01'],
     ['us_wv', '2', '02'],
     ['us_wv', '3', '03'],
-    ['us_wy', 'one', '00']
+    ['us_wy', 'one', '01']
   ]
 
   #[:stateID, :state, :state_abrv]
