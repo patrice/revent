@@ -27,4 +27,16 @@ class Admin::UsersController < AdminController
       redirect_to :action => 'index'
     end
   end
+
+  def export
+    @users = User.find(:all, :conditions => ['site_id = ?', Site.current.id])
+    require 'fastercsv'
+    string = FasterCSV.generate do |csv|
+      csv << ["Email", "First_Name", "Last_Name", "Phone", "Street", "Street_2", "City", "State", "Postal_Code"]
+      @users.each do |user|
+        csv << [user.email, user.first_name, user.last_name, user.phone, user.street, user.street_2, user.city, user.state, user.postal_code]
+      end
+    end
+    send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "users.csv")
+  end
 end
