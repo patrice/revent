@@ -513,5 +513,14 @@ margin-bottom:5px;
 
 }
 
+.validation-advice {
+	margin: 5px 0;
+	padding: 5px;
+	background-color: #FF3300;
+	color : #FFF;
+	font-weight: bold;
+}
+
+
 /*  END SIU CORE MERGE  */
 
