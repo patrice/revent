@@ -53,7 +53,7 @@ class Admin::InvitesController < AdminController
 
   def confirm
     @politician = Politician.find(params[:id])
-    r = @politician.rsvps.build(:event_id => params[:event])
+    r = @politician.rsvps.build(:event_id => params[:event], :proxy => params[:proxy])
     r.save
     redirect_to :action => 'index'
   end

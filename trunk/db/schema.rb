@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 57) do
+ActiveRecord::Schema.define(:version => 58) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -192,6 +192,7 @@ ActiveRecord::Schema.define(:version => 57) do
     t.column "attending_id",   :integer
     t.column "created_at",     :datetime
     t.column "updated_at",     :datetime
+    t.column "proxy",          :boolean
   end
 
   add_index "rsvps", ["attending_id", "attending_type"], :name => "index_rsvps_on_attending_id_and_attending_type"

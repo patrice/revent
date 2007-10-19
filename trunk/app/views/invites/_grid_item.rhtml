@@ -9,9 +9,11 @@
 	<div class="invites-list-count"><%= grid_item.politician_invites.length %></div>
 		</td>
   <td class="invites-list-checks">
-     <% if grid_item.attending? %>
+    <% if grid_item.supporting? %>
+      <%= image_tag 'support.jpg' %>
+    <% elsif grid_item.attending? %>
       <%= image_tag 'confirmed.jpg' %>
-	 <% else %>
+    <% else %>
     	<%= image_tag 'siu_questionmark.gif' %>
     <% end %>
   </td>

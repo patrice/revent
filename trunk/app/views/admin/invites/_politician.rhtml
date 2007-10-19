@@ -13,7 +13,7 @@
 			<b>Attending:</b><br/>
 			<% politician.rsvps.each do |r| %>
 				<% next if r.event.nil? %>
-				<%= r.event.name %>
+        <%= r.event.name %><%= ' (sending representative or statement)' if r.proxy %>
 				<%= link_to 'unconfirm', :action => 'unconfirm', :id => politician, :rsvp => r.id %><br />
 			<% end %>
 		<% else %>
@@ -24,6 +24,7 @@
 			<% events_attending = [] %>
 			<% politician.rsvps.each {|r| events_attending << [r.event.name, r.event.id] if r.event } %>
 			<%= select_tag :event, options_for_select(@select_events - events_attending) %>
+      sending a representative or statement <%= check_box_tag :proxy %>
 			<%= submit_tag 'Add Event' %>
 		<% end %>
 		<br/>

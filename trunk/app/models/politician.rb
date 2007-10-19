@@ -47,6 +47,14 @@ class Politician < ActiveRecord::Base
   end
 
   def attending?
+    rsvpd? && !rsvps.all? {|r| r.proxy }
+  end
+
+  def supporting?
+    rsvpd? && rsvps.all? {|r| r.proxy }
+  end
+
+  def rsvpd?
     !rsvps.empty?
   end
   
