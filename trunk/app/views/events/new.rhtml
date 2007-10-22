@@ -6,11 +6,14 @@ else
 	@event.start = Time.now.beginning_of_day + 12.hours
 	@event.end = Time.now.beginning_of_day + 14.hours
 end
--%>
 
-<h1>Sign Up to Host an Event</h1>
+@hostform = @calendar.hostform
+ -%>
+<h1><%= @hostform.title %></h1>
 <p class="text">
 
+
+<%= @hostform.intro_text %>
 </p>
 
 <% form_for :event, @event, :url => url_for(:permalink => @calendar.permalink, :controller => 'events', :action => 'create'), :html => {:id => 'event-signup-form', :multipart => true} do |f| -%>
@@ -19,7 +22,18 @@ end
       <%= error_messages_for 'user' %>
       <h3>Your Information</h3>
       <% fields_for :user, @user do |user| %>
- 
+      
+      <% if @hostform.dia_user_tracking_code %>
+        <%= hidden_field_tag "user[democracy_in_action][supporter][Tracking_Code]", @hostform.dia_user_tracking_code %>
+	  <%- end %>
+      
+      <% if @hostform.dia_trigger_key%>
+      	<%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", @hostform.dia_trigger_key %>
+      <%- end %>
+
+      <% if @hostform.dia_group_key %>
+      	<%=  hidden_field_tag "user[democracy_in_action][supporter][link][groups]",  @hostform.dia_group_key %>
+      <%- end %>
    
      
       <div id="customFields" class="standardFields">
@@ -94,27 +108,14 @@ end
     </div>
     <div id="eventInformation" class="eventInformation">
       <%= error_messages_for 'event' %>
-      <h3>Event Information
-        
-        
-        
-        <br /></h3>
-      <p><strong><font color="#ff0000"><em>Please be as specific as possible with your event information. It will be displayed publicly. This is your chance to get the word out about your event to the world! Your information can be updated later.</em></font></strong></p>
+      <h3>Event Information<br /></h3>
+      <% if @hostform.event_info_text %>
+      	<p><strong><font color="#ff0000"><em><%= @hostform.event_info_text %></em></font></strong></p>
+      <%- end %>
       <div id="eventFields" class="eventFields">
         <table class="dia_field">
           <tbody>
-		  	<tr valign="top">
-              <td valign="top"  class="dia_field_name">
-                <div align="left">*Event Type:</div>
-              </td>
-              <td valign="top">
-                <%= f.select "category_id", Category.find(:all).collect {|c| [c.name, c.id] }, {:include_blank => true}, {:title => "Please select your event type", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEvent_Category_Id" } %>
-              
-                
-              </td>
-             
-            </tr>
-            </tr>
+
                       <tr valign="top">
               <td valign="top"  class="dia_field_name">
                 <div align="left">*Event Name:</div>
@@ -125,6 +126,7 @@ end
               
             </tr>
             
+	
              
             <tr>
             
@@ -227,14 +229,28 @@ end
             <tr>
           </tbody>
         </table>
-       
+        
+      	<% if @hostform.redirect %>
+      		<%= hidden_field_tag "redirect",  @hostform.redirect %>
+      	<%- end %>
+        
+        <% if @hostform.tag %>
+        	<%= hidden_field_tag "tag", @hostform.tag %>
+        <%- end %>
         
         <%= hidden_field_tag "event[democracy_in_action][event][Maximum_Attendees]", 10000 %>
         <%= hidden_field_tag "event[democracy_in_action][event][Status]", "Unconfirmed" %>
-       
+
+		<% if @hostform.dia_event_tracking_code %>
+        	<%= hidden_field_tag "event[democracy_in_action][event][Default_Tracking_Code]", @hostform.dia_event_tracking_code %>
+        <%- end %>
+
         
-        <p align="center"></p>
-     <input type="submit" value="Submit" />
+        <p align="center">
+        <% if @hostform.pre_submit_text %>
+         <br><%= @hostform.pre_submit_text %>. <br>
+        <%- end %>
+        <br /><input type="submit" value="Submit" />
         <script type="text/javascript" language="javascript">
           var valid = new Validation("event-signup-form", {useTitles : true});
         </script>
@@ -242,4 +258,6 @@ end
       </div>
     </div>
 <% end -%>
+
+
 
