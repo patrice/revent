@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 58) do
+ActiveRecord::Schema.define(:version => 61) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -38,20 +38,25 @@ ActiveRecord::Schema.define(:version => 58) do
   end
 
   create_table "calendars", :force => true do |t|
-    t.column "name",              :string
-    t.column "short_description", :text
-    t.column "user_id",           :integer
-    t.column "current",           :boolean,  :default => false
-    t.column "theme",             :string
-    t.column "permalink",         :string
-    t.column "site_id",           :integer
-    t.column "signup_redirect",   :string
-    t.column "event_start",       :datetime
-    t.column "event_end",         :datetime
-    t.column "created_at",        :datetime
-    t.column "updated_at",        :datetime
-    t.column "letter_script",     :text
-    t.column "call_script",       :text
+    t.column "name",                   :string
+    t.column "short_description",      :text
+    t.column "user_id",                :integer
+    t.column "permalink",              :string
+    t.column "site_id",                :integer
+    t.column "current",                :boolean,  :default => false
+    t.column "theme",                  :string
+    t.column "signup_redirect",        :string
+    t.column "event_start",            :datetime
+    t.column "event_end",              :datetime
+    t.column "created_at",             :datetime
+    t.column "updated_at",             :datetime
+    t.column "letter_script",          :text
+    t.column "call_script",            :text
+    t.column "hostform_id",            :integer
+    t.column "rsvp_dia_group_key",     :integer
+    t.column "rsvp_dia_trigger_key",   :integer
+    t.column "report_dia_group_key",   :integer
+    t.column "report_dia_trigger_key", :integer
   end
 
   add_index "calendars", ["permalink"], :name => "index_calendars_on_permalink"
@@ -60,6 +65,8 @@ ActiveRecord::Schema.define(:version => 58) do
   create_table "categories", :force => true do |t|
     t.column "name",        :string
     t.column "description", :string
+    t.column "calendar_id", :integer
+    t.column "site_id",     :integer
   end
 
   create_table "democracy_in_action_objects", :force => true do |t|
@@ -105,6 +112,23 @@ ActiveRecord::Schema.define(:version => 58) do
   add_index "events", ["postal_code"], :name => "index_events_on_postal_code"
   add_index "events", ["state", "city"], :name => "index_events_on_state_and_city"
   add_index "events", ["calendar_id"], :name => "index_events_on_calendar_id"
+
+  create_table "hostforms", :force => true do |t|
+    t.column "title",                   :string
+    t.column "intro_text",              :text
+    t.column "event_info_text",         :text
+    t.column "thank_you_text",          :text
+    t.column "pre_submit_text",         :text
+    t.column "trigger_id",              :integer
+    t.column "dia_trigger_key",         :integer
+    t.column "dia_group_key",           :integer
+    t.column "dia_user_tracking_code",  :string
+    t.column "dia_event_tracking_code", :string
+    t.column "tag",                     :string
+    t.column "redirect",                :string
+    t.column "calendar_id",             :integer
+    t.column "site_id",                 :integer
+  end
 
   create_table "politician_invites", :force => true do |t|
     t.column "user_id",       :integer
@@ -232,6 +256,21 @@ ActiveRecord::Schema.define(:version => 58) do
   end
 
   add_index "tags", ["name"], :name => "index_tags_on_name", :unique => true
+
+  create_table "triggers", :force => true do |t|
+    t.column "name",        :string
+    t.column "from",        :string
+    t.column "from_name",   :string
+    t.column "reply_to",    :string
+    t.column "subject",     :string
+    t.column "bcc",         :string
+    t.column "email_text",  :text
+    t.column "email_html",  :text
+    t.column "calendar_id", :integer
+    t.column "site_id",     :integer
+    t.column "created_at",  :datetime
+    t.column "updated_at",  :datetime
+  end
 
   create_table "users", :force => true do |t|
     t.column "login",                      :string
