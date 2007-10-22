@@ -30,7 +30,7 @@ class EventsController < ApplicationController
 
   def tagged
     tag = Tag.find_by_name(params[:id])
-    @events = tag.nil? ? [] : tag.events
+    @events = tag.nil? ? [] : tag.events(:conditions => ["calendar_id = ?", @calendar.id])
 #    @event_pages = Paginator.new self, @events.length, 10, params[:page]
   end
 
