@@ -4,6 +4,18 @@ class Admin::UsersController < AdminController
     @user_pages, @users = paginate(:users, :conditions => ['site_id = ?', Site.current.id], :order => 'last_name', :per_page => 10)
   end
   
+  
+  active_scaffold :users do |config|
+ 	config.list.columns = [:first_name, :last_name, :email, :roles, :events, :site]
+	config.columns = [:first_name, :last_name, :email, :roles, :site]
+ 	columns[:roles].ui_type = :select
+ 	columns[:site].ui_type = :select
+ 	config.action_links.add 'reset_password', :label => 'Reset Password', :type => :record, :page => true
+ 	
+  end
+  
+  
+  
   def search
     @users = []
     @users = User.find(:all, :conditions => ['site_id = ? AND email like ?', Site.current.id, params[:email] + "%"])

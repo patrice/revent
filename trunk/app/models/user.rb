@@ -1,6 +1,5 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
-  has_many :medias
   has_many :events, :foreign_key => 'host_id'
   has_many :calendars
   has_many :reports

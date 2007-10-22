@@ -9,7 +9,7 @@ class Calendar < ActiveRecord::Base
 
   @@deleted_events = []
   @@all_events = []
-
+  
   has_many :events do
     def unique_states
       states = proxy_target.collect {|e| e.state}.compact.uniq.select do |state|
@@ -32,6 +32,10 @@ class Calendar < ActiveRecord::Base
     democracy_in_action_object.key if democracy_in_action_object
   end
   #XXX
+
+  has_many :triggers
+  has_many :categories
+  has_one :hostform
 
   def self.clear_deleted_events
     raise 'method deprecated, use DemocracyInAction::Util.clear_deleted_events'
