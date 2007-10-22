@@ -1,18 +1,39 @@
 xml.areas do
   @states.each do |state|
-    rep = @politicians.select {|p| p.state == state[2] && p.district_type == 'FH' && p.invited?}
-    sen = @politicians.select {|p| p.state == state[2] && p.district_type == 'FS' && p.invited?}
-    total = @politicians.select {|p| p.state == state[2]}.length
-    percent = (rep + sen).length / total.to_f
-    category = case percent * 100
-      when 0 then 'state_0'
-      when 0..50 then 'state_1_33'
-      when 50..99 then 'state_33_66'
-      when 100 then 'state_66_100'
-    end
-    action_total = @calendar.events.select {|e| e.state == state[2]}.length
 
-    xml.area :id => state[0], :category => category, :label => state[1], :child => "/#{@calendar.permalink}/invites/flashmap/areas/state/#{state[2]}.xml", :total_sen => '2', :total_rep => @totals[state[0]], :actions => action_total, :state_sen => sen.length, :state_rep => rep.length do
+    events = @calendar.events.select {|e| e.state == state[2]}
+    events_in_state = !events.empty?
+
+    congresspeople = @politicians.select {|p| p.state == state[2]}
+    all_invited = congresspeople.all? {|p| p.invited?}
+
+    rep = congresspeople.select {|p| p.district_type == 'FH' && p.invited?}
+    sen = congresspeople.select {|p| p.district_type == 'FS' && p.invited?}
+
+    # NATIONAL LEVEL
+    # 0- no actions in the state
+    # 1- action in the state, all congressmen invited at least once 
+    # 2- all congressmen invited, and average number of invites is greater than or equal to 10. OR 1 congressman RSVPed
+    # 3- all congressmen invited, and average number of invites is greater than or equal to 10. AND 2 congressmen RSVPed
+    # 4- all congressmen invited, and average number of invites is greater than or equal to 10. AND at least 50% of congressman RSVPed
+    if !events_in_state || !all_invited
+      category = 'state_0'
+    else
+      number_invites = congresspeople.sum {|p| p.politician_invites.length}
+      average_number_of_invites = number_invites / congresspeople.length
+      number_rsvpd = congresspeople.select {|p| p.rsvpd?}.length
+      if average_number_of_invites >= 10 && (number_rsvpd.to_f / congresspeople.length.to_f) >= 0.5
+        category = 'state_4'
+      elsif average_number_of_invites >= 10 && number_rsvpd >= 2
+        category = 'state_3'
+      elsif average_number_of_invites >= 10 || number_rsvpd >= 1
+        category = 'state_2'
+      else
+        category = 'state_1'
+      end
+    end
+
+    xml.area :id => state[0], :category => category, :label => state[1], :child => "/#{@calendar.permalink}/invites/flashmap/areas/state/#{state[2]}.xml", :total_sen => '2', :total_rep => @totals[state[0]], :actions => events.length, :state_sen => sen.length, :state_rep => rep.length do
       xml.action :event => 'onRelease', :target => '_JS', :url => 'stateClick' 
     end
   end

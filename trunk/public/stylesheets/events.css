@@ -374,30 +374,37 @@ span.first .button-maker-right {
 display: block;
 float: left;
 font-size: 11px;
-width: 150px;
+width: 185px;
 line-height: 11px;
-padding: 10px 0px 20px 20px;
+padding: 10px 0px 20px 10px;
 }
 
-.map_less {
+.map_1 {
 display: block;
 color: #000000;
 padding: 5px;
-background: #c7e28d;
+background: #afd365;
 }
 
-.map_more {
+.map_2 {
 display: block;
 color: #000000;
 padding: 5px;
-background-color: #99CC33;
+background-color: #789b30;
 }
 
-.map_all {
+.map_3 {
 display: block;
 color: #FFFFFF;
 padding: 5px;
-background-color:#5b791e ;
+background-color: #5b791e;
+}
+
+.map_4 {
+display: block;
+color: #FFFFFF;
+padding: 5px;
+background-color: #335115;
 }
 
 #map-header {
