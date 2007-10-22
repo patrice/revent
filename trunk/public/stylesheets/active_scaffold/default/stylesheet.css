@@ -68,6 +68,7 @@ padding: 2px 0px;
 margin: 0;
 color: #555;
 font: bold 160% arial, sans-serif;
+background-image:none;
 }
 
 .blue-theme .active-scaffold-header h2 {
