@@ -16,12 +16,24 @@
     <%= gmaps_auto_center_and_zoom(@map) if @auto_center %>
 
 	</div>
-	
+
+	<% 	current = @events.select {|e| e.start > Time.now}
+		past = @events.select {|e| e.start <  Time.now.at_midnight} %>	
+	<% unless current.empty? %>	
 	<div id="event-list-container">
-    <%= render :partial => "report", :collection => @events %>
+	 <b>Upcomming Events:</b><br>
+    <%= render :partial => "report", :collection => current %>
 	</div>
+	<% end -%>
+	
+	<% unless past.empty? %>
+	<div id="event-list-container">	
+    <b>Past Events:</b><br>
+    <%= render :partial => "report", :collection => past %>
+	</div>
+	<% end -%>
 		<div id="event-map-footer">
-    <%= link_to 'Click here', home_url %> to go back to the national map and see all the <%= @calendar.name.pluralize %> across the country.
+    <%= link_to 'Click here',  :permalink =>  @calendar.permalink, :controller => 'calendars', :action => 'show'  %> to go back to the national map and see all the <%= @calendar.name.pluralize.downcase %> across the country.
 		</div>
 	<div id="event-list-footer">
 	<!--<a href="">Sign up to host a <%= @calendar.name %></a>-->
