@@ -2,7 +2,7 @@
 *required fields
 <!--[form:report]-->
 <p><label for="event_id">*Select Your Event</label><br/>
-<%= f.select 'event_id', Event.find(:all, :order=>"state,city").collect {|e| ["#{e.state} - #{e.city}: #{truncate e.name,30}", e.id]}, :include_blank=>true%>
+<%= f.select 'event_id', @calendar.events.find(:all, :order=>"state,city").collect {|e| ["#{e.state} - #{e.city}: #{truncate e.name,30}", e.id]}, :include_blank=>true%>
 
 <p><label for="report_name">*Your Name:</label><br/>
 <%= f.text_field 'reporter_name' %></p>
@@ -32,7 +32,7 @@
 </div>
 <div class="form_block">
 	<p class='form_subtitle'>Attach A YouTube Video</p>
-	<p><label for="report_embed">Paste in the html in the Embed field to the right of your YouTube Video that you have already uploaded.  After you've uploaded your video, please add the tag 'stepitup07' (all one word) so we can easily compile all Step It Up 2007 videos.</label><br/>
+	<p><label for="report_embed">Paste in the html in the Embed field to the right of your YouTube Video that you have already uploaded.</label><br/>
 	<%= f.text_area 'embed', :rows => 5 %></p>
 </div>
 

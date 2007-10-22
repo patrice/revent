@@ -1,9 +1,10 @@
 <div class="intro-title">
-	Press Coverage of the Action
+	Press Coverage of the <%= @calendar.name %>
 </div>
 
 <div class="intro-text">
-Did the press cover an action that you attended?  Lets us know by posting a <%= link_to 'report of your event', :controller => "reports", :action => "new" %>.
+Did the press cover a <%= @calendar.name.downcase %> that you attended?<br>
+Lets us know by posting a <%= link_to 'report of your event', :controller => "reports", :action => "new" %>.
 </div>
 		
 	
