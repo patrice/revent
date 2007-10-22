@@ -6,6 +6,8 @@
   <link rel="stylesheet" type="text/css" href="http://radicaldesigns.org/system/system_interface.css" id="default">
 
   <%= stylesheet_link_tag 'application' %>
+  <%= javascript_include_tag :defaults %>
+	<%= active_scaffold_includes %>
   <%= yield :header %>
 </head>
 <body>
@@ -39,6 +41,10 @@
 					<ul class=side>
 						<li class = "side_user"><%= link_to 'manage users', :controller => 'admin/users', :action => 'index' %></l1>
 						<li class = "side_view"><%= link_to 'manage events', :controller => 'admin/calendars', :action => 'index' %></l1>
+						<li class = "side_view"><%= link_to 'manage calendars', :controller => 'admin/calendars2', :action => 'index' %></l1>
+						<!-- <li class = "side_view"><%= link_to 'manage email triggers', :controller => 'admin/triggers', :action => 'index' %></l1> -->
+						<li class = "side_view"><%= link_to 'manage event categories', :controller => 'admin/categories', :action => 'index' %></l1>
+						<li class = "side_view"><%= link_to 'manage host forms', :controller => 'admin/hostforms', :action => 'index' %></l1>
 						<li class = "side_view"><%= link_to 'manage invites', :controller => 'admin/invites', :action => 'index' %></l1>
 						<% if logged_in? %><li class = "side_exit"><%= link_to "Log Out", :controller => 'account', :action => 'logout' %></li><% end %>
 					</ul>

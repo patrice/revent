@@ -1,5 +1,13 @@
+<%  
+if @calendar.event_start
+	@event.start = @calendar.event_start.beginning_of_day + 12.hours
+	@event.end = 	@calendar.event_start.beginning_of_day + 14.hours 
+else
+	@event.start = Time.now.beginning_of_day + 12.hours
+	@event.end = Time.now.beginning_of_day + 14.hours
+end
+-%>
 
-<% @event.start = Time.now.beginning_of_day + 12.hours; @event.end = Time.now.beginning_of_day + 14.hours -%>
 <h1>Sign Up to Host an Activist Screening Event of <i>Everything's Cool</i></h1>
 <p class="text">
 
