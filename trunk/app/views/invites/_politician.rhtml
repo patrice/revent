@@ -44,14 +44,14 @@ No leaders found for this area.
 	        <% if @event -%>
 	          <%= link_to '2) Send a Letter', {:action => 'write', :id => @event, :politician_id => politician.id}, :popup => true %>
 	        <% else -%>
-	          <%= link_to_function '2) Send a Letter', "if($('event_id').value != 'none') { window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/call/#{politician.id}'); } else { alert('You must choose an action to invite this candidate to.'); } return false;" %>
+	          <%= link_to_function '2) Send a Letter', "if($('event_id').value != 'none') { window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/write/#{politician.id}'); } else { alert('You must choose an action to invite this candidate to.'); } return false;" %>
 	        <% end -%>
 	      </span></span></span>
 	      <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right">
 	        <% if @event -%>
 	          <%= link_to '3) Send an Email/Fax', {:action => 'email', :id => @event, :politician_id => politician.id}, :popup => true %>
 	        <% else -%>
-	          <%= link_to_function '3) Email', "if($('event_id').value != 'none') { window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/call/#{politician.id}'); } else { alert('You must choose an action to invite this candidate to.'); } return false;" %>
+	          <%= link_to_function '3) Email', "if($('event_id').value != 'none') { window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/email/#{politician.id}'); } else { alert('You must choose an action to invite this candidate to.'); } return false;" %>
 	        <% end -%>
 	      </span></span></span>
 	    </td>
