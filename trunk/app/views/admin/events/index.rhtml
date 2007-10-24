@@ -1,6 +1,8 @@
 <div class="banner">Listing Events</div>
 <h4>(Total number of events for <%= @calendar.permalink %>:  <%= @calendar.events.length %>)</h4>
 
+<%= link_to 'Export All Events', :action => 'export' %>
+
 <% form_tag :action => 'search' do %>
  <div class="system_heading"> Search for event by: </div>
   Name: <%= text_field_tag :name %>  City <%= text_field_tag :city%>  State <%= select_tag :state, options_for_select(DemocracyInAction::Helpers.state_options_for_select(:include_none=>true)) %>
