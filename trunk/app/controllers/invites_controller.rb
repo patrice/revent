@@ -65,6 +65,9 @@ class InvitesController < ApplicationController
     else # congress-person
       @events = @calendar.events.find(:all, :conditions => ["state = ?", @politician.state])
     end
+    @events_select = []
+    @events_select << ['--- SELECT AN ACTION ---', 'none']
+    @events.each {|e| @events_select << ["#{[e.city, e.state].join(', ')} - #{e.name}", e.id]}
   end
 
   def index
@@ -112,7 +115,7 @@ class InvitesController < ApplicationController
     respond_to do |format|
       format.html { @politicians = params[:state] ? 
         Politician.find_all_by_state(params[:state], :include => [:rsvps, :politician_invites], :order => 'district_type desc') :
-        Candidate.find(:all)
+        Candidate.find(:all, :include => [:rsvps, :politician_invites])
       }
       format.js { 
         @politicians = Politician.find(:all, :include => [:rsvps, :politician_invites])
@@ -239,7 +242,8 @@ class InvitesController < ApplicationController
       'Suggested_Content' => event.letter_script || @calendar.letter_script.gsub('CITY_STATE', [@event.city, @event.state].join(', ')),
       'Max_Number_Of_Faxes' => 100, #100?
       'Hide_Keep_Me_Informed' => 1,
-      'Default_Tracking_Code' => "distributed_event_KEY#{@calendar.democracy_in_action_key}"
+      'Default_Tracking_Code' => "distributed_event_KEY#{@calendar.democracy_in_action_key}",
+      'redirect_path' => invite_url(:permalink => @calendar.permalink, :controller => 'invites', :action => 'thank_you', :id => @event, :politician_id => politician.id)
     )
     key = campaign.save
     event.democracy_in_action_campaigns.create :table => 'campaign', :key => key, :local => campaign

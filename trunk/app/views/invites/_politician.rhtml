@@ -8,18 +8,18 @@ No leaders found for this area.
 <% unless @event -%>
   <% if politician.is_a?(Candidate) -%>
 	  <% if @events && @events.length > 0 -%>
-	   <br /><b>Choose an event to invite this candidate to:</b>
-	    <%= select_tag 'event_id', options_for_select(@events.collect {|e| ["#{[e.city, e.state].join(', ')} - #{e.name}", e.id]}), :style => 'width: auto;' %>
+	   <br /><b>Choose an action to invite this candidate to:</b>
+	    <%= select_tag 'event_id', options_for_select(@events_select), :style => 'width: auto;' %>
 	  <% else -%>
-	    <b>There are no events in this calendar</b><br/>
+	    <b>There are no actions in this calendar</b><br/>
 		 Perhaps you should <%= link_to 'start one!', signup_url(@calendar.permalink) %>
-	  <% end -%>
+	  <% end -%> 
   <% else # congress-person %>
 	  <% if @events && @events.length > 0 -%>
-	    Choose an event in <%= DemocracyInAction::Helpers.state_options_for_select.inject({}) {|states, o| states[o[1]] = o[0]; states}[politician.state] %><br/>
-	    <%= select_tag 'event_id', options_for_select(@events.collect {|e| ["#{[e.city, e.state].join(', ')} - #{e.name}", e.id]}), :style => 'width: auto;' %>
+	    Choose an action in <%= DemocracyInAction::Helpers.state_options_for_select.inject({}) {|states, o| states[o[1]] = o[0]; states}[politician.state] %><br/>
+	    <%= select_tag 'event_id', options_for_select(@events_select), :style => 'width: auto;' %>
 	  <% else -%>
-      There are no events in <%= DemocracyInAction::Helpers.state_options_for_select.inject({}) {|states, o| states[o[1]] = o[0]; states}[politician.state] %><br/>
+      There are no actions in <%= DemocracyInAction::Helpers.state_options_for_select.inject({}) {|states, o| states[o[1]] = o[0]; states}[politician.state] %><br/>
       Perhaps you should <%= link_to 'start one!', signup_url(@calendar.permalink) %>
 	  <% end -%>
 	<% end -%>
@@ -36,7 +36,7 @@ No leaders found for this area.
                   <% if @event -%>
                     <%= link_to '1) Call', {:action => 'call', :id => @event, :politician_id => politician.id}, :popup => true %>
                   <% else -%>
-                    <%= link_to_function '1) Call', "window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/call/#{politician.id}');return false;" %>
+                    <%= link_to_function '1) Call', "if($('event_id').value != 'none') { window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/call/#{politician.id}'); } else { alert('You must choose an action to invite this candidate to.'); } return false;" %>
                   <% end -%>
                 </span></span></span>
 	      </span>
@@ -44,14 +44,14 @@ No leaders found for this area.
 	        <% if @event -%>
 	          <%= link_to '2) Send a Letter', {:action => 'write', :id => @event, :politician_id => politician.id}, :popup => true %>
 	        <% else -%>
-	          <%= link_to_function '2) Send a Letter', "window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/write/#{politician.id}');return false;" %>
+	          <%= link_to_function '2) Send a Letter', "if($('event_id').value != 'none') { window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/call/#{politician.id}'); } else { alert('You must choose an action to invite this candidate to.'); } return false;" %>
 	        <% end -%>
 	      </span></span></span>
 	      <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right">
 	        <% if @event -%>
 	          <%= link_to '3) Send an Email/Fax', {:action => 'email', :id => @event, :politician_id => politician.id}, :popup => true %>
 	        <% else -%>
-	          <%= link_to_function '3) Email', "window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/email/#{politician.id}');return false;" %>
+	          <%= link_to_function '3) Email', "if($('event_id').value != 'none') { window.open('/#{@calendar.permalink}/events/' + $('event_id').value + '/invite/call/#{politician.id}'); } else { alert('You must choose an action to invite this candidate to.'); } return false;" %>
 	        <% end -%>
 	      </span></span></span>
 	    </td>
