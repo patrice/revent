@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 61) do
+ActiveRecord::Schema.define(:version => 63) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(:version => 61) do
 
   add_index "attachments", ["report_id"], :name => "index_attachments_on_report_id"
   add_index "attachments", ["parent_id"], :name => "index_attachments_on_parent_id"
+  add_index "attachments", ["event_id"], :name => "index_attachments_on_event_id"
+  add_index "attachments", ["content_type"], :name => "index_attachments_on_content_type"
 
   create_table "blogs", :force => true do |t|
     t.column "title",      :string
@@ -37,14 +39,16 @@ ActiveRecord::Schema.define(:version => 61) do
     t.column "event_id",   :integer
   end
 
+  add_index "blogs", ["event_id"], :name => "index_blogs_on_event_id"
+
   create_table "calendars", :force => true do |t|
     t.column "name",                   :string
     t.column "short_description",      :text
     t.column "user_id",                :integer
-    t.column "permalink",              :string
-    t.column "site_id",                :integer
     t.column "current",                :boolean,  :default => false
     t.column "theme",                  :string
+    t.column "permalink",              :string
+    t.column "site_id",                :integer
     t.column "signup_redirect",        :string
     t.column "event_start",            :datetime
     t.column "event_end",              :datetime
@@ -80,6 +84,10 @@ ActiveRecord::Schema.define(:version => 61) do
     t.column "created_at",      :datetime
     t.column "updated_at",      :datetime
   end
+
+  add_index "democracy_in_action_objects", ["synced_id", "synced_type"], :name => "index_on_synced_id_and_synced_type"
+  add_index "democracy_in_action_objects", ["associated_id", "associated_type"], :name => "index_on_associated_id_and_associated_type"
+  add_index "democracy_in_action_objects", ["table", "key"], :name => "index_on_table_and_key"
 
   create_table "events", :force => true do |t|
     t.column "name",                  :string
@@ -171,6 +179,8 @@ ActiveRecord::Schema.define(:version => 61) do
   add_index "politicians", ["state"], :name => "index_politicians_on_state"
   add_index "politicians", ["district_type"], :name => "index_politicians_on_district_type"
   add_index "politicians", ["district"], :name => "index_politicians_on_district"
+  add_index "politicians", ["type"], :name => "index_politicians_on_type"
+  add_index "politicians", ["person_legislator_id"], :name => "index_on_person_legislator_id"
 
   create_table "press_links", :force => true do |t|
     t.column "url",        :string
@@ -179,6 +189,8 @@ ActiveRecord::Schema.define(:version => 61) do
     t.column "created_at", :datetime
     t.column "updated_at", :datetime
   end
+
+  add_index "press_links", ["report_id"], :name => "index_press_links_on_report_id"
 
   create_table "reports", :force => true do |t|
     t.column "event_id",       :integer
@@ -195,8 +207,8 @@ ActiveRecord::Schema.define(:version => 61) do
   end
 
   add_index "reports", ["event_id"], :name => "index_reports_on_event_id"
-  add_index "reports", ["status"], :name => "index_reports_on_status"
   add_index "reports", ["status", "position"], :name => "index_reports_on_status_and_position"
+  add_index "reports", ["embed"], :name => "index_reports_on_embed"
 
   create_table "roles", :force => true do |t|
     t.column "title", :string
@@ -206,6 +218,8 @@ ActiveRecord::Schema.define(:version => 61) do
     t.column "role_id", :integer
     t.column "user_id", :integer
   end
+
+  add_index "roles_users", ["role_id", "user_id"], :name => "unique_index_on_role_id_and_user_id", :unique => true
 
   create_table "rsvps", :force => true do |t|
     t.column "event_id",       :integer
@@ -220,6 +234,8 @@ ActiveRecord::Schema.define(:version => 61) do
   end
 
   add_index "rsvps", ["attending_id", "attending_type"], :name => "index_rsvps_on_attending_id_and_attending_type"
+  add_index "rsvps", ["event_id"], :name => "index_rsvps_on_event_id"
+  add_index "rsvps", ["user_id"], :name => "index_rsvps_on_user_id"
 
   create_table "sessions", :force => true do |t|
     t.column "session_id", :string
@@ -296,6 +312,8 @@ ActiveRecord::Schema.define(:version => 61) do
     t.column "show_phone_on_host_profile", :boolean
     t.column "site_id",                    :integer
   end
+
+  add_index "users", ["email", "site_id"], :name => "unique_index_on_email_and_site_id", :unique => true
 
   create_table "zip_codes", :force => true do |t|
     t.column "zip",        :string
