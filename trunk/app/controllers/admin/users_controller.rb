@@ -1,20 +1,16 @@
 class Admin::UsersController < AdminController
+  
+  active_scaffold :users do |config|
+  	config.columns = config.list.columns = [:first_name, :last_name, :email, :state, :city, :events, :attending, :site]
+  	config.columns[:events].label = "Hosting"
+   	columns[:site].ui_type = :select
+   	config.action_links.add 'reset_password', :label => 'Reset Password', :type => :record, :page => true
+  end
+  
   def index
     @site_name = Site.current.theme
     @user_pages, @users = paginate(:users, :conditions => ['site_id = ?', Site.current.id], :order => 'last_name', :per_page => 10)
-  end
-  
-  
-  active_scaffold :users do |config|
- 	config.list.columns = [:first_name, :last_name, :email, :roles, :events, :site]
-	config.columns = [:first_name, :last_name, :email, :roles, :site]
- 	columns[:roles].ui_type = :select
- 	columns[:site].ui_type = :select
- 	config.action_links.add 'reset_password', :label => 'Reset Password', :type => :record, :page => true
- 	
-  end
-  
-  
+  end  
   
   def search
     @users = []
