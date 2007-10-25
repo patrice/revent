@@ -5,6 +5,7 @@ class Admin::UsersController < AdminController
   	config.columns[:events].label = "Hosting"
    	columns[:site].ui_type = :select
    	config.action_links.add 'reset_password', :label => 'Reset Password', :type => :record, :page => true
+    config.columns[:events].clear_link
   end
   
   def index
