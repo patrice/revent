@@ -11,13 +11,11 @@ class MoreIndexes < ActiveRecord::Migration
     execute "CREATE INDEX #{quote_column_name('index_reports_on_embed')} ON reports (#{quote_column_name('embed')}(128))"
     remove_index :reports, :name => "index_reports_on_status" #unnecessary
     add_index :roles_users, [:role_id, :user_id], :name => "unique_index_on_role_id_and_user_id", :unique => true
-    add_index :users, [:email, :site_id], :name => "unique_index_on_email_and_site_id", :unique => true
+    add_index :users, [:email, :site_id], :name => "unique_index_on_email_and_site_id"
     add_index :politicians, :person_legislator_id, :name => "index_on_person_legislator_id"
-    add_index :users, :site_id, :name => "index_users_on_site_id"
   end
 
   def self.down
-    remove_index :users, :name => "index_users_on_site_id"
     remove_index :politicians, :name => "index_on_person_legislator_id"
     remove_index :users, :name => "unique_index_on_email_and_site_id"
     remove_index :roles_users, :name => "unique_index_on_role_id_and_user_id"

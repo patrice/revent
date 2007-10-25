@@ -45,10 +45,10 @@ ActiveRecord::Schema.define(:version => 63) do
     t.column "name",                   :string
     t.column "short_description",      :text
     t.column "user_id",                :integer
-    t.column "current",                :boolean,  :default => false
-    t.column "theme",                  :string
     t.column "permalink",              :string
     t.column "site_id",                :integer
+    t.column "current",                :boolean,  :default => false
+    t.column "theme",                  :string
     t.column "signup_redirect",        :string
     t.column "event_start",            :datetime
     t.column "event_end",              :datetime
@@ -313,7 +313,7 @@ ActiveRecord::Schema.define(:version => 63) do
     t.column "site_id",                    :integer
   end
 
-  add_index "users", ["email", "site_id"], :name => "unique_index_on_email_and_site_id", :unique => true
+  add_index "users", ["email", "site_id"], :name => "unique_index_on_email_and_site_id"
 
   create_table "zip_codes", :force => true do |t|
     t.column "zip",        :string
