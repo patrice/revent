@@ -45,6 +45,10 @@ class Politician < ActiveRecord::Base
   def invites
     politician_invites.length
   end
+  
+  def allow_invite?
+    !rsvpd?
+  end
 
   def attending?
     rsvpd? && !rsvps.all? {|r| r.proxy }
