@@ -2,6 +2,7 @@ class Admin::UsersController < AdminController
   
   active_scaffold :users do |config|
   	config.columns = config.list.columns = [:first_name, :last_name, :email, :state, :city, :events, :attending, :site]
+  	config.update.columns = [:first_name, :last_name, :email , :site ]
   	config.columns[:events].label = "Hosting"
    	columns[:site].ui_type = :select
    	config.action_links.add 'reset_password', :label => 'Reset Password', :type => :record, :page => true
