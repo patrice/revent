@@ -4,7 +4,9 @@
 <% end %>
 <div id='profile_event' >
 	<p class='profile_title'>Manage Your Event</p>
-	<b><%= link_to @event.name, :controller => '/events', :action => 'show', :id => @event %></b><br>
+		<p><em>Remember changes to your event information might take a few moments to update.
+	Please check back soon to see if your edits have registered. Thanks.</em></p>
+<b><%= link_to @event.name, :controller => '/events', :action => 'show', :id => @event %></b><br>
 	<b><%= @event.city %>, <%= @event.state %> </b><br>
 	<br>
 
