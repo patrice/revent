@@ -21,9 +21,19 @@
   <h3><%= white_list @event.city %>, <%= @event.state %></h3>
   <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y  %I:%M%p') : '?' %> to <%= @event.end? ? @event.end.strftime('%I:%M%p') : '?' %></b></p>
   <h4>Hosted by <%= link_to @event.host.full_name, :action => :host, :id => @event %></h4>
-
-  <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><%= link_to 'Invite Leaders', invite_url(:permalink => @calendar.permalink, :id => @event) %></span></span></span>
- 
+  <% if @event.attending_politicians.empty? -%>
+  	 <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><%= link_to 'Invite Leaders', invite_url(:permalink => @calendar.permalink, :id => @event) %></span></span></span>
+  <% else -%>
+    The following politician(s) will be attending this event:
+	 <table>
+	 <% @event.attending_politicians.each do |p| %>
+	    <tr><td><%= image_tag(p.image_url, :alt => "No Image", :size => "65x80") if p.image_url %></td>
+		 <td><h4><%= p.display_name %></h4></td></tr>
+	 <% end -%>
+	 </table><br />
+    <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><%= link_to 'Invite More Leaders', invite_url(:permalink => @calendar.permalink, :id => @event) %></span></span></span>
+  <% end -%>
+  <br />  
   <div id="description"> <b>Event Description:</b><br><%= white_list(auto_link(@event.description)) %></div>
   
   <div id="location"><b>Location:</b><br><%= white_list @event.location %></div>
