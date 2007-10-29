@@ -98,8 +98,10 @@ class InvitesController < ApplicationController
     # get representative for this event's district
     @politicians << Politician.find_by_district(@event.district)
     # get both senators for this event's state 
-    @politicians << Politician.find_by_district(@event.state + "1")
-    @politicians << Politician.find_by_district(@event.state + "2")
+    senator = Politician.find_by_district(@event.state + "1")
+    @politicians << senator if senator
+    senator = Politician.find_by_district(@event.state + "2")
+    @politicians << senator if senator
   end
   
   def state
