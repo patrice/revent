@@ -5,22 +5,27 @@
   //inline
   DaysOfAction.permalink = '<%= @calendar.permalink %>';
 </script>
-<div id="map-header">
-<h4>
-Help us turn America green.  Search the map below to find out which members of congress have been invited or are attending events, and be sure to continue flooding them with invitations until they agree to show up.
-</h4>
-<div class="map_key">
-<span class="map_1">100% Members of Congress Invited</span>
-<div>More than 10 Invitations per Congressperson...</div>
-<span class="map_2">or 1 RSVPed</span>
-<span class="map_3">and 2 RSVPed</span>
-<span class="map_4">and >50% RSVPed</span>
-</div>
-</div>
 <% content_for :header do %>
   <script language="JavaScript" src="/flashmaps/include/fmActivate.js"></script>
   <script language="JavaScript" src="/flashmaps/include/fmASAPI.js"></script>
 <% end %>
+<h3>Join An Action</h3>
+Select your state or enter your zip code to find an event in your area:<br />
+<table>
+<tr>
+<td>
+<% form_tag "/november/invites/map/zip", :onsubmit => "centerOnPostalCode($('postal_code').value); return false;" do -%>
+Zip: <%= text_field_tag 'postal_code' %>
+<%= submit_tag 'search' %>
+<% end -%>
+</td>
+<td>
+State: <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "centerOnState(this.value);" %>
+</td>
+</tr>
+</table>
+<br />
+
 <% if request.domain.include?("stepitup2007.org") || request.domain.include?("radicaldesigns.org") -%>
 <script type="text/javascript">
   if (DetectFlashVer(8,0,0)) {
@@ -120,24 +125,25 @@ Help us turn America green.  Search the map below to find out which members of c
 
 </script>
 
-<table>
-<tr>
-<td>
-<% form_tag "/november/invites/map/zip", :onsubmit => "centerOnPostalCode($('postal_code').value); return false;" do -%>
-Zip: <%= text_field_tag 'postal_code' %>
-<%= submit_tag 'search' %>
-<% end -%>
-</td>
-<td>
-State: <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "centerOnState(this.value);" %>
-</td>
-</tr>
-</table>
-
 <br/>
 
 <div id="map-invite-buttons">
 <%= render "invites/buttons" %>
+</div>
+
+<br clear="both">
+
+<div id="map-header">
+<h4>
+Help us turn America green.  Search the map below to find out which members of congress have been invited or are attending events, and be sure to continue flooding them with invitations until they agree to show up.
+</h4>
+<div class="map_key">
+<span class="map_1">100% Members of Congress Invited</span>
+<div style="padding: 5px;">More than 10 Invitations per Congressperson...</div>
+<span class="map_2">or 1 RSVPed</span>
+<span class="map_3">and 2 RSVPed</span>
+<span class="map_4">and >50% RSVPed</span>
+</div>
 </div>
 
 <br clear="both" />

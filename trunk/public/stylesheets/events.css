@@ -408,7 +408,7 @@ background-color: #335115;
 }
 
 #map-header {
-  height: 120px;
+  height: 100px;
 }
 
 #map-header h4 {
@@ -433,7 +433,9 @@ float: left;
   font-weight: bold;
   font-size: 12px;
   color: #555555;
+  padding-top: 15px;
 }
+
 .map-header-sen-names {
   display:block;
   float:left;
