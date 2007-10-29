@@ -53,6 +53,7 @@ class EventsController < ApplicationController
   def show
     @partner = cookies[:partner] if cookies[:partner]
     @event = @calendar.events.find(params[:id], :include => [:blogs, {:reports => :attachments}])
+    @attending_politicians = @event.attending_politicians.map {|p| p.parent || p}.uniq.reject{|p| p.supporting?(@event.id)}
     if @event.latitude && @event.longitude
       @map = Cartographer::Gmap.new('eventmap')
       @map.init do |m|
