@@ -3,6 +3,7 @@ class Politician < ActiveRecord::Base
   has_many :politician_invites
   has_many :rsvps, :as => :attending
   has_many :events, :through => :rsvps
+  acts_as_tree
   
   attr_reader :name # virtual attribute
 
@@ -50,12 +51,12 @@ class Politician < ActiveRecord::Base
     !rsvpd?
   end
 
-  def attending?
-    rsvpd? && !rsvps.all? {|r| r.proxy }
+  def attending?(event_id = nil)
+    rsvpd? && !rsvps.all? {|r| (event_id ? r.event_id == event_id : true) && r.proxy}
   end
 
-  def supporting?
-    rsvpd? && rsvps.all? {|r| r.proxy }
+  def supporting?(event_id = nil)
+    rsvpd? && rsvps.all? {|r| (event_id ? r.event_id == event_id : true) && r.proxy}
   end
 
   def rsvpd?
