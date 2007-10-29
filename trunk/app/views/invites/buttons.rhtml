@@ -1,6 +1,6 @@
 <div style="float: left;">           
-  <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><%= link_to 'Start an Action', signup_url %></span></span></span>
-  <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><%= link_to 'Invite the Presidential Candidates', :action => 'candidates', :office => 'president' %> </span></span></span>
+  <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><%= link_to 'Start an Action', signup_url(:permalink => @calendar.permalink) %></span></span></span>
+  <span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><%= link_to 'Invite the Presidential Candidates', :controller => 'invites', :action => 'candidates', :office => 'president' %> </span></span></span>
 </div>
 <div style="float: left; display: none;" id="invite-context">
 <% if @state %>
