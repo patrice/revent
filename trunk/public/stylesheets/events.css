@@ -56,10 +56,9 @@ display:block;
 PADDING-BOTTOM: 10px;
 PADDING-TOP: 10px;
 }
-.report-list-image {
+img.report-list-image {
 	float: left;
 	height: 100px;
-
 	padding-right: 10px; 
 	
 	}
@@ -69,9 +68,7 @@ PADDING-TOP: 10px;
 	}
 
 .report-list-basics {
-	margin-left: 110px;
-height: 90px;
-
+	float:left;
 	}
 .report-list-title {
         font-size:17px;
