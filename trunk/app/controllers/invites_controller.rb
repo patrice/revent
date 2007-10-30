@@ -12,7 +12,7 @@ class InvitesController < ApplicationController
   caches_action :flashmap_pois
   # using the action_cache plugin http://www.agilewebdevelopment.com/plugins/action_cache
   def action_fragment_key(options)
-    url_for(options). + '?' + params.sort.collect {|k,v| "#{k}=#{v}"}.join('&') + "&version=#{flashmap_cache_version}"
+    (url_for(options). + '?' + params.sort.collect {|k,v| "#{k}=#{v}"}.join('&') + "&version=#{flashmap_cache_version}").gsub(/\s+/,'')
   end
 
   def flashmap_cache_version
@@ -243,6 +243,7 @@ class InvitesController < ApplicationController
 #      'Letter_Salutation' => politician.title + politician.first_name + politician.last_name,
       'Suggested_Content' => event.letter_script || @calendar.letter_script.gsub('CITY_STATE', [@event.city, @event.state].join(', ')),
       'Max_Number_Of_Faxes' => 100, #100?
+      'Hide_Message_Type_Options' => 1,
       'Hide_Keep_Me_Informed' => 1,
       'Default_Tracking_Code' => "distributed_event_KEY#{@calendar.democracy_in_action_key}",
       'redirect_path' => invite_url(:permalink => @calendar.permalink, :controller => 'invites', :action => 'thank_you', :id => @event, :politician_id => politician.id)
@@ -299,10 +300,10 @@ class InvitesController < ApplicationController
             end
     if state
       # @events = @calendar.events.find(:all, :conditions => ["latitude <> 0 AND longitude <> 0 AND state = ?", state])
-      @events = @calendar.events.find(:all, :conditions => ["postal_code != ? AND events.state = ?", 0, state], :joins => "INNER JOIN zip_codes ON zip_codes.zip = postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude")
+      @events = @calendar.events.find(:all, :conditions => ["events.postal_code != ? AND events.state = ?", 0, state], :joins => "INNER JOIN zip_codes ON zip_codes.zip = events.postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude", :include => :attending_politicians, :order => 'politicians.id')
     else
       # @events = @calendar.events.find(:all, :conditions => "latitude <> 0 AND longitude <> 0")
-      @events = @calendar.events.find(:all, :conditions => ["postal_code != ?", 0], :joins => "INNER JOIN zip_codes ON zip_codes.zip = postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude")
+      @events = @calendar.events.find(:all, :conditions => ["events.postal_code != ?", 0], :joins => "INNER JOIN zip_codes ON zip_codes.zip = events.postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude", :include => :attending_politicians, :order => 'politicians.id')
     end
     render :layout => false
   end
