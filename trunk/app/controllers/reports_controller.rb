@@ -1,8 +1,4 @@
 class ReportsController < ApplicationController
-  ADMIN_METHODS = [:edit, :update, :destroy, :publish, :unpublish]
-  session :disabled => false, :only => ADMIN_METHODS
-  before_filter :login_required, :only => ADMIN_METHODS
-  access_control ADMIN_METHODS => 'admin'
 
   caches_page :show, :index, :flashmap, :list, :new, :press, :video, :lightbox
   cache_sweeper :report_sweeper, :only => [ :create, :update, :destroy, :publish, :unpublish ]
@@ -34,10 +30,6 @@ class ReportsController < ApplicationController
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => :post, :only => [ :destroy, :create, :update ],
          :redirect_to => { :action => :list }
-
-  def old_list
-    @report_pages, @reports = paginate :reports, :select => "reports.*, reports.status = '#{Report::PUBLISHED}' as published", :joins => "LEFT OUTER JOIN events ON events.id=event_id", :order => "published DESC, state, city", :per_page => 10
-  end
 
   def show
     @event = Event.find(params[:event_id], :include => {:reports => :attachments}, :order => 'reports.position')
@@ -87,32 +79,6 @@ class ReportsController < ApplicationController
     end
   end
 
-  def edit
-    @report = Report.find(params[:id])
-  end
-
-  def update
-    @report = Report.find(params[:id])
-    if @report.update_attributes(params[:report])
-      flash[:notice] = 'Report was successfully updated.'
-      redirect_to :action => 'show', :id => @report
-    else
-      render :action => 'edit'
-    end
-  end
-
-  def destroy
-    @report = Report.find(params[:id]).destroy
-    respond_to do |wants|
-      wants.html { redirect_to :action => 'list' }
-      wants.js do
-        render :update do |page|
-          page.remove "report_#{@report.id}"
-        end
-      end
-    end
-  end
-
   def lightbox
     @parent = Attachment.find(params[:id])
     return unless @parent
@@ -123,30 +89,6 @@ class ReportsController < ApplicationController
   def share 
     @event = Event.find(params[:id])
     render :layout => false
-  end
-
-  def publish
-    @report = Report.publish(params[:id])
-    respond_to do |wants|
-      wants.html { redirect_to :action => 'show', :id => @report }
-      wants.js do
-        render :update do |page|
-          page.alert "Report has been published"
-        end
-      end
-    end
-  end
-
-  def unpublish
-    @report = Report.unpublish(params[:id])
-    respond_to do |wants|
-      wants.html { redirect_to :action => 'list' }
-      wants.js do
-        render :update do |page|
-          page.alert "Report has been unpublished"
-        end
-      end
-    end
   end
 
   def widget
