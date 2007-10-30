@@ -31,7 +31,7 @@
     <div class="national-intro-count">
       <p><img src="/images/green_dot.png"> Green Dot = Events with Reports  |  <img src="/images/red_dot.png"> Red Dot = Events without Reports</P>
       
-      There are <%= Report.count_published  %> reports from  <%= @calendar.events.count %> scheduled events.
+      There are <%= @calendar.events.published_reports.length %> reports from  <%= @calendar.events.count %> scheduled events.
           </div>
               
                <%= render :partial =>'reports/report_nav' %>                

@@ -17,6 +17,12 @@ class Calendar < ActiveRecord::Base
       end
       states.length
     end
+    def reports
+      @reports ||= proxy_target.collect {|e| e.reports}.flatten.compact
+    end
+    def published_reports
+      @published_reports ||= reports.select {|r| r.published?}
+    end
   end
 
   def self.any?
