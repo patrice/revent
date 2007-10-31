@@ -9,11 +9,14 @@ invitations to come to Step It Up actions and be leaders on global warming.
 <em><b>Even if a politician has already been invited</b>, send out your invites anyway.  The more invitations they get, the greater the chances that they'll come. Let's keep the pressure on!</em>
 </p>
 
-<%= link_to 'Click Here to Invite the Presidential Candidates', :action => 'candidates', :office => 'president' %><br/>
-<%= link_to 'Click Here to Invite the Senators', :action => 'senators' %><br/>
-<%= link_to 'Click Here to Invite U.S. Representative', :controller => 'invites', :action => 'representatives' %>	<br/><br/>
-<div style="text-decoration: underline;">Find and Invite Members of Congress (House and Senate).</div>
+Invite the Candidates:  
+<%= link_to 'Presidential Candidates', :action => 'candidates', :office => 'president' %> | 
+<%= link_to 'Congressional Candidates', :action => 'candidates', :office => 'congress' %><br />
+Invite Members of Congress:
+<%= link_to 'Senators', :action => 'senators' %> | 
+<%= link_to 'U.S. Representatives', :action => 'representatives' %><br /><br />
 
+<div style="text-decoration:underline">Find and Invite Members of Congress (House and Senate):</div>
 <% form_tag :action => 'list', :only_path => false do -%>
 <div style="float: left; width: 120px;"><%= select_tag :state, us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='#{request.protocol}#{request.host}/#{@calendar.permalink}/invites/list/state/' + this.value", :style => "width: 100px;" %></div>
   <%= submit_tag 'show by state' %>

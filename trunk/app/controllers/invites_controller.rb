@@ -95,13 +95,11 @@ class InvitesController < ApplicationController
   def all
     @event = @calendar.events.find(params[:id])
     @politicians = []
-    # get representative for this event's district
-    @politicians << Politician.find_by_district(@event.district)
     # get both senators for this event's state 
-    senator = Politician.find_by_district(@event.state + "1")
-    @politicians << senator if senator
-    senator = Politician.find_by_district(@event.state + "2")
-    @politicians << senator if senator
+    @politicians << Politician.find_all_by_state(@event.state, :conditions => "district_type = 'FS'")
+    # get representative for this event's district
+    @politicians << Politician.find_all_by_district(@event.district)
+    @politicians.flatten!
   end
   
   def state
@@ -116,8 +114,8 @@ class InvitesController < ApplicationController
     @states = valid_states
     respond_to do |format|
       format.html { @politicians = params[:state] ? 
-        Politician.find_all_by_state(params[:state], :include => [:rsvps, :politician_invites], :order => 'district_type desc') :
-        Candidate.find(:all, :include => [:rsvps, :politician_invites])
+        Politician.find_all_by_state(params[:state], :include => [:rsvps, :politician_invites], :order => 'district_type DESC, district ASC') :
+        Candidate.find(:all, :include => [:rsvps, :politician_invites], :conditions => "office = 'president'")
       }
       format.js { 
         @politicians = Politician.find(:all, :include => [:rsvps, :politician_invites])
@@ -181,7 +179,11 @@ class InvitesController < ApplicationController
   end
 
   def candidates
-    @politicians = Candidate.find_all_by_office(params[:office], :include => [:rsvps, :politician_invites], :order => "last_name")
+    if params[:office] == 'congress'
+      @politicians = Candidate.find(:all, :conditions => "office = 'senator' or office = 'representative'", :include => [:rsvps, :politician_invites], :order => "last_name")
+    else
+      @politicians = Candidate.find_all_by_office(params[:office], :include => [:rsvps, :politician_invites], :order => "last_name")
+    end
     subset
   end
 
@@ -283,7 +285,7 @@ class InvitesController < ApplicationController
   
   #js
   def flashmaps
-    @senators = Politician.find(:all, :conditions => "district_type = 'FS'")
+    @senators = Politician.find(:all, :conditions => "district_type = 'FS' and type != 'Candidate'")
 #    @representatives = Politician.find(:all, :conditions => "district_type = 'FH'")
     render :layout => false
   end
@@ -312,7 +314,7 @@ class InvitesController < ApplicationController
   def flashmap_area_states
     @totals = Flashmaps::DISTRICTS.inject({}) {|counts, district| counts[district[0]].nil? ? counts[district[0]] = 1 : counts[district[0]] += 1; counts}
     @states = Flashmaps::STATES
-    @politicians = Politician.find(:all, :include => [:rsvps, :politician_invites])
+    @politicians = Politician.find(:all, :conditions => "type != 'Candidate'", :include => [:rsvps, :politician_invites])
     render :layout => false
   end
 
@@ -324,7 +326,7 @@ class InvitesController < ApplicationController
   def flashmap_area_districts
     @state = params[:state]
     @districts = Flashmaps::DISTRICTS.select {|d| d[0] == "us_#{@state.downcase}"}
-    @politicians = Politician.find(:all, :conditions => ["state = ?", @state], :include => [:rsvps, :politician_invites])
+    @politicians = Politician.find(:all, :conditions => ["state = ? and type = 'Candidate'", @state], :include => [:rsvps, :politician_invites])
     render :layout => false
   end
 

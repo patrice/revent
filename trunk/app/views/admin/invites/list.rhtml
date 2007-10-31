@@ -1,0 +1,25 @@
+<% content_for :header do -%>
+<%= javascript_include_tag 'prototype' %>
+<% end -%>
+This page allows you to edit any politicians contact info, mark them as<br />  
+attending an event, and view which users have invited them to which events.<br /><br />
+<%= link_to 'Add a Candidate', :action => 'new' %><br /><br />
+View  
+<%= link_to 'Presidential Candidates', :action => 'list', :id => 'president' %> |
+<%= link_to 'Congressional Candidates', :action => 'list', :id => 'congress' %> |
+<%= link_to 'All Politicians', :action => 'list', :id => 'all' %><br />
+<br/>
+<% form_tag :action => 'search' do %>
+  Search by:
+  Name: <%= text_field_tag :name %> 
+  State: <%= select_tag :state, us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}) %>
+  <%= submit_tag 'Search' %>
+<% end %>
+
+<hr />
+* Indicates a Candidate
+<hr />
+<table>
+<%= render :partial => 'list_item', :collection => @politicians %>
+</table>
+<br />

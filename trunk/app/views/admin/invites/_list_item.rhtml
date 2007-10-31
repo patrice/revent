@@ -1,0 +1,53 @@
+<% invited = list_item.invited? -%>
+<% attending = list_item.attending? -%>
+<tr>
+	<% if list_item.is_a?(Candidate) %>
+		<td>*</td>
+	<% else %>
+		<td></td>
+	<% end -%>
+	 <td><%= list_item.district %></td>
+	 <td><%= list_item.display_name %></td>
+	 <td><%= link_to 'edit', :action => 'edit', :id => list_item.id %></td>
+	 <td>| <%= link_to_function "attending (#{list_item.rsvps.length})", "$('rsvp-#{list_item.id}').toggle()" %></td>
+	 <td>| <%= link_to_function "user invites (#{list_item.politician_invites.length})", "$('user-invites-#{list_item.id}').toggle()" %></td>
+</tr>
+<tr id="rsvp-<%= list_item.id %>" style="display:none">
+	<td colspan="6" style="padding-left:15px">
+		<br/>
+		<% if list_item.attending? %>
+			<b>Attending:</b><br/>
+			<% list_item.rsvps.each do |r| %>
+				<% next if r.event.nil? %>
+				<%= r.event.name %>
+				<%= link_to 'unconfirm', :action => 'unconfirm', :id => list_item, :rsvp => r.id %><br />
+			<% end %>
+		<% else %>
+			Not attending any events.
+		<% end -%>
+		<br/>
+		<% form_tag(:action => 'confirm', :id => list_item) do %>
+			<% events_attending = [] %>
+			<% list_item.rsvps.each {|r| events_attending << [r.event.name, r.event.id] if r.event } %>
+			<%= select_tag :event, options_for_select(@select_events - events_attending) %>
+			<%= submit_tag 'Add Event' %>
+		<% end %>
+		<br/>
+	</td>
+</tr>
+<tr id="user-invites-<%= list_item.id %>" style="display:none">
+	<td colspan="6" style="padding-left:15px">
+		<table >
+			<th align="left">user</th><th align="left">| email address</th><th align="left">| invite type</th><th align="left">| event</th>
+				<% list_item.politician_invites.each do |i| -%>
+					<% next unless i.event %>
+					<tr>
+						<td align="left"><%= i.user.nil? ? 'unknown user' : i.user.full_name %></td>
+						<td align="left">| <%= i.user.nil? ? 'unknown user' : i.user.email %></td>
+						<td align="left">| <%= i.invite_type %></td>
+						<td align="left">| <%= link_to i.event.name, :controller => :events, :action => :show, :id => i.event.id %></td>
+					</tr>
+				<% end %>
+		</table>
+	</td>
+</tr>

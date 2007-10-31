@@ -7,7 +7,17 @@ class Admin::InvitesController < AdminController
   end
 
   def index
-    @politicians = Candidate.find(:all, :include => [:rsvps, :politician_invites], :conditions => ['office = ?', 'president']).sort_by {|p| p.politician_invites.length}.reverse
+    redirect_to :action => 'list', :id => 'president'
+  end
+    
+  def list
+    if params[:id] == 'all'
+      @politicians = Politician.find(:all, :include => [:rsvps, :politician_invites]).sort_by {|p| p.politician_invites.length}.reverse
+    elsif params[:id] == 'congress'
+      @politicians = Candidate.find(:all, :conditions => "office = 'representative' or office = 'senator'", :include => [:rsvps, :politician_invites]).sort_by {|p| p.politician_invites.length}.reverse
+    else 
+      @politicians = Candidate.find_all_by_office(params[:id], :include => [:rsvps, :politician_invites]).sort_by {|p| p.politician_invites.length}.reverse
+    end
     @select_events = @calendar.events.find(:all).map{|e| [e.name, e.id]}
   end
   
@@ -19,36 +29,53 @@ class Admin::InvitesController < AdminController
     fields << "state like ?" 
     values << params[:state].downcase + "%" 
     query = [fields.join(' AND '), values].flatten
-    @politicians = Politician.find(:all, :conditions => query, :order => "district_type DESC")
+    @politicians = Politician.find(:all, :conditions => query, :order => "district_type DESC, district ASC")
     @events = @calendar.events.find(:all, :select => "name, id", :order => "name")
     @select_events = []
     @events.each {|e| @select_events << [e.name, e.id]}
-    render :action => 'index'
+    render :action => 'list'
   end 
-
+  
   def new 
-    @candidate = Candidate.new(params[:candidate])
-    if request.post?
-      @candidate.display_name = @candidate.first_name + ' ' + @candidate.last_name
-      @candidate.save
+    @politician = Candidate.new(params[:politician])
+  end
+  
+  def create
+    @politician = Candidate.new(params[:politician])
+    if @politician.save
       flash[:notice] = 'New candidate has been added!'
-      redirect_to :action => 'index'
+      redirect_to :action => 'index' and return
+    else 
+      render :action => 'new'
     end
-  end 
+  end
 
   def edit
     @politician = Politician.find(params[:id])
-    if request.post?
-      @politician.update_attributes(params[:politician]) 
-      flash[:notice] = 'Politician information has been updated!'
-      redirect_to :action => 'index'
+    @district_number = @politician.district.slice(2..3).to_i if @politician.district
+    unless @politician.office
+      @politician.office = case @politician.district_type
+        when "FS": "senator"
+        when "FH": "representative"
+      end
     end
   end
+
+  def update
+    @politician = Politician.find(params[:id])
+    @district_number = @politician.district.slice(2..3).to_i if @politician.district
+    if @politician.update_attributes(params[:politician])
+      flash[:notice] = 'Politician information has been updated!'
+      redirect_to :action => 'index' and return
+    else
+      render :action => 'edit'
+    end
+  end 
   
   def destroy
-    Politician.destroy params[:id]
+    Politician.destroy(params[:id])
     flash[:notice] = "Politician has been deleted!"
-    redirect_to :action => :index
+    redirect_to :action => 'index'
   end
 
   def confirm

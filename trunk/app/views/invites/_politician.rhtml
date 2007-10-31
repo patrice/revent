@@ -1,6 +1,11 @@
 <div class="politician">
 <% if not politician.nil? %>
-<span class="politician-name"><%= politician.display_name %></span>
+<span class="politician-name">
+  <%= politician.display_name %>
+  <% if politician.is_a?(Candidate) -%>
+    (Candidate)
+  <% end -%>
+</span>
 <% else %>
 No leaders found for this area.
 <% end %>

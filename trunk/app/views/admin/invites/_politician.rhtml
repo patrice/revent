@@ -1,48 +1,26 @@
-<% invited = politician.invited? -%>
-<% attending = politician.attending? -%>
-<tr><td><%= politician.district %></td>
-	 <td><%= politician.display_name %></td>
-	 <td><%= link_to 'edit', :action => 'edit', :id => politician.id %></td>
-	 <td>| <%= link_to_function "attending (#{politician.rsvps.length})", "$('rsvp-#{politician.id}').toggle()" %></td>
-	 <td>| <%= link_to_function "user invites (#{politician.politician_invites.length})", "$('user-invites-#{politician.id}').toggle()" %></td>
-</tr>
-<tr id="rsvp-<%= politician.id %>" style="display:none">
-	<td colspan="6" style="padding-left:15px">
-		<br/>
-		<% if politician.attending? %>
-			<b>Attending:</b><br/>
-			<% politician.rsvps.each do |r| %>
-				<% next if r.event.nil? %>
-        <%= r.event.name %><%= ' (sending representative or statement)' if r.proxy %>
-				<%= link_to 'unconfirm', :action => 'unconfirm', :id => politician, :rsvp => r.id %><br />
-			<% end %>
-		<% else %>
-			Not attending any events.
-		<% end -%>
-		<br/>
-		<% form_tag(:action => 'confirm', :id => politician) do %>
-			<% events_attending = [] %>
-			<% politician.rsvps.each {|r| events_attending << [r.event.name, r.event.id] if r.event } %>
-			<%= select_tag :event, options_for_select(@select_events - events_attending) %>
-      sending a representative or statement <%= check_box_tag :proxy %>
-			<%= submit_tag 'Add Event' %>
-		<% end %>
-		<br/>
-	</td>
-</tr>
-<tr id="user-invites-<%= politician.id %>" style="display:none">
-	<td colspan="6" style="padding-left:15px">
-		<table >
-			<th align="left">user</th><th align="left">| email address</th><th align="left">| invite type</th><th align="left">| event</th>
-				<% politician.politician_invites.each do |i| -%>
-					<% next unless i.event %>
-					<tr>
-						<td align="left"><%= i.user.nil? ? 'unknown user' : i.user.full_name %></td>
-						<td align="left">| <%= i.user.nil? ? 'unknown user' : i.user.email %></td>
-						<td align="left">| <%= i.invite_type %></td>
-						<td align="left">| <%= link_to i.event.name, :controller => :events, :action => :show, :id => i.event.id %></td>
-					</tr>
-				<% end %>
-		</table>
-	</td>
-</tr>
+<table>
+  <tr><td>Display Name:</td><td><%= f.text_field :display_name %></td></tr>
+  <tr><td>First Name:</td><td><%= f.text_field :first_name %></td></tr>
+  <tr><td>Last Name:</td><td><%= f.text_field :last_name %></td></tr>
+	<% if politician.is_a?(Candidate) -%>
+	  	 <tr><td>Office:</td><td><%= f.select :office, offices, :include_blank => true, :size => 15 %></td></tr>
+	   <tr><td>State/District:</td><td><%= f.us_state_select :state, :show => :abbreviations, :include_blank => true %>
+	 <%= f.select :district, districts, :selected => @district_number, :include_blank => true, :size => 15 %></td></tr>
+	<% else -%>
+	   <tr><td>Office:</td><td><%= politician.office %></td></tr>
+	  <tr><td>District:</td><td><%= politician.district %></td></tr>	
+	<% end -%>
+  <tr><td>Party:</td><td><%= f.text_field :party %></td></tr>
+  <tr><td>Website:</td><td><%= f.text_field :website %></td></tr>
+  <tr><td>Image URL:</td><td><%= f.text_field :image_url %></td></tr>
+
+  <tr><td>Address:</td><td><%= f.text_field :address %></td></tr>
+  <tr><td>City:</td><td><%= f.text_field :city %></td></tr>
+  <tr><td>Postal Code:</td><td><%= f.text_field :postal_code, :size => 15 %></td></tr>
+  <tr><td>Contact State:</td><td><%= f.us_state_select :contact_state, :show => :abbreviations, :include_blank => true %></td></tr>
+
+  <tr><td>Phone:</td><td><%= f.text_field :phone %></td></tr>
+  <tr><td>Fax:  </td><td><%= f.text_field :fax %></td></tr>
+  <tr><td>Email:</td><td><%= f.text_field :email %></td></tr>
+</table>
+<%= submit_tag 'Save' %> or <%= link_to 'Cancel', :action => 'index' %><br />

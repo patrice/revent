@@ -138,6 +138,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':permalink/invites/include/list', :controller => 'invites', :action => 'widget', :format => 'html'
   map.connect ':permalink/invites/list', :controller => 'invites', :action => 'list', :format => 'html' #would be great to figure this caching thing out
 
+  map.connect ':permalink/invites/list/senators', :controller => 'invites', :action => 'senators'
+  map.connect ':permalink/invites/list/senators.:format', :controller => 'invites', :action => 'senators'
+  map.connect ':permalink/invites/list/representatives', :controller => 'invites', :action => 'representatives'
+  map.connect ':permalink/invites/list/representatives.:format', :controller => 'invites', :action => 'representatives'
   map.invite ':permalink/events/:id/invite/:action/:politician_id', :controller => 'invites', :defaults => { :action => 'all', :politician_id => nil, :id => 'all' }
   map.connect ':permalink/invites/list/state/:state', :controller => 'invites', :action => 'list'
   map.connect ':permalink/invites/list/state/:state.:format', :controller => 'invites', :action => 'list'
@@ -145,10 +149,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':permalink/invites/list/zip/:postal_code.:format', :controller => 'invites', :action => 'search'
   map.connect ':permalink/invites/list/candidates/:office', :controller => 'invites', :action => 'candidates'
   map.connect ':permalink/invites/list/candidates/:office.:format', :controller => 'invites', :action => 'candidates'
-  map.connect ':permalink/invites/list/senators', :controller => 'invites', :action => 'senators'
-  map.connect ':permalink/invites/list/senators.:format', :controller => 'invites', :action => 'senators'
-  map.connect ':permalink/invites/list/representatives', :controller => 'invites', :action => 'representatives'
-  map.connect ':permalink/invites/list/representatives.:format', :controller => 'invites', :action => 'representatives'
 
   map.connect ':permalink/events/show/:id', :controller => 'events', :action => 'show', :format => 'html'
 
