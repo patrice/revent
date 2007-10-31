@@ -60,10 +60,14 @@ State: <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbre
         if (!response) {
           alert(postalCode+ " not found");
         } else {
+	  if(response.Placemark[0].AddressDetails.Country.CountryNameCode != 'US' || !response.Placemark[0].AddressDetails.Country.AdministrativeArea) {
+            window.location.href='/' + DaysOfAction.permalink + '/events/search/zip/' + postalCode; 
+	    return false;
+	  }
           var state = response.Placemark[0].AddressDetails.Country.AdministrativeArea.AdministrativeAreaName;
-          var place = response.Placemark[0];
-          var point = new GLatLng(place.Point.coordinates[1],
-                                  place.Point.coordinates[0]);
+          var place = response.Placemark[0].Point.coordinates;
+          var point = new GLatLng(place[1],
+                                  place[0]);
 
           fmAreaCenterLatLon('us_' + state.toLowerCase(), point.lat(), point.lng(), 2000);
           new Ajax.Updater('event-list', '/' + DaysOfAction.permalink + '/events/by_geo?lat=' + point.lat() + '&lng=' + point.lng(), {asynchronous:true,evalScripts:true})

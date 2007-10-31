@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
     require 'democracyinaction'
     api = DemocracyInAction::API.new(DemocracyInAction::Config.new(File.join(Site.current_config_path, 'democracyinaction-config.yml')))
     supporter_key = api.process 'supporter', @d_attrs.merge(supporter)
-    self.create_democracy_in_action_object :key => supporter_key, :table => 'supporter'
+    create_democracy_in_action_object :key => supporter_key, :table => 'supporter' unless self.democracy_in_action_object
 
     supporter_custom = @democracy_in_action[:supporter_custom] || {}
     supporter_custom_key = api.process('supporter_custom', {'supporter_KEY' => supporter_key}.merge(supporter_custom))

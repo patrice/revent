@@ -14,7 +14,7 @@ module DemocracyInAction
       end
     end
 
-    def import_sc(sc)
+    def self.import_sc(sc)
       user = User.find_or_initialize_by_site_id_and_email Site.current.id, sc['Email']
       unless user.crypted_password || (user.password && user.password_confirmation)
         password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
@@ -26,7 +26,7 @@ module DemocracyInAction
       politicians_ids = sc['person_legislator_IDS'].split(',').map(&:strip)
       recipient_keys = sc['recipient_KEYS'].split(',').map(&:strip)
       event = DemocracyInActionObject.find_by_table_and_key('campaign', sc['campaign_KEY']).associated
-      next unless event
+      return unless event
       politicians_ids.each do |p|
         politician = Politician.find_by_person_legislator_id(p)
         next unless politician

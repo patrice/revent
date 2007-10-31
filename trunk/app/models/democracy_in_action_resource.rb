@@ -16,12 +16,15 @@ end
 class DemocracyInActionResource < ActiveResource::Base
   self.logger = ActiveRecord::Base.logger
   require 'democracyinaction'
-  @@api = []
-  def api
+  @@apis = []
+  def self.api
     key = Site.current ? Site.current.id : 0
-    @@api[key] ||= DemocracyInAction::API.new(DemocracyInAction::Config.new(File.join(Site.current_config_path, 'democracyinaction-config.yml')))
+    @@apis[key] ||= DemocracyInAction::API.new(DemocracyInAction::Config.new(File.join(Site.current_config_path, 'democracyinaction-config.yml')))
   end
 
+  def api
+    self.class.api
+  end
 
   # create a data set from a hash, verifying the contents...
   protected 

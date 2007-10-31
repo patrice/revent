@@ -6,6 +6,7 @@ class PartnersController < ApplicationController
   def set_partner_cookie
     cookies[:partner] = {:value => params[:id], :expires => 3.hours.from_now} if params[:id]
   end
+  before_filter(:only => :index) {|c| c.request.env["HTTP_IF_MODIFIED_SINCE"] = nil} #don't 304
   caches_action :index
   def index
     file = File.join(RAILS_ROOT, 'themes', current_theme, 'views', 'partners', "#{params[:id]}.rhtml")

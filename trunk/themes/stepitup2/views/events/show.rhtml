@@ -31,7 +31,7 @@
 	 </table><br />
   <% end -%>
   <% if not @supporting_politicians.empty? %>
-    The following politician(s) support this event:
+    The following politician(s) are sending a representative/statement of support for this event:
 	 <table>
 		 <% @supporting_politicians.each do |p| %>
 		    <tr><td><%= image_tag(p.image_url, :alt => "No Image", :size => "65x80") if p.image_url %></td>
