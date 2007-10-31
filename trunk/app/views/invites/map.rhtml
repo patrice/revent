@@ -1,11 +1,9 @@
-<% content_for :header do -%>
-<%= theme_javascript_include_tag 'flashmaps.js' %>
-<% end -%>
 <script>
   //inline
   DaysOfAction.permalink = '<%= @calendar.permalink %>';
 </script>
 <% content_for :header do %>
+  <%= theme_javascript_include_tag 'flashmaps.js' %>
   <script language="JavaScript" src="/flashmaps/include/fmActivate.js"></script>
   <script language="JavaScript" src="/flashmaps/include/fmASAPI.js"></script>
 <% end %>
@@ -47,87 +45,9 @@ State: <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbre
 <%#= submit_tag 'show by zip', :onclick => "window.location.href='#{request.protocol}#{request.host}/#{@calendar.permalink}/invites/list/zip/' + $('postal_code').value; return false;" %>
 <% end -%>
 
-<script>
 <% content_for :header do %>
   <%= Cartographer::Gmap::Header.header_for(request) %>
 <% end -%>
-
-  var geocoder = new GClientGeocoder();
-  function centerOnPostalCode(postalCode) {
-    geocoder.getLocations(
-      postalCode,
-      function(response) {
-        if (!response) {
-          alert(postalCode+ " not found");
-        } else {
-	  if(response.Placemark[0].AddressDetails.Country.CountryNameCode != 'US' || !response.Placemark[0].AddressDetails.Country.AdministrativeArea) {
-            window.location.href='/' + DaysOfAction.permalink + '/events/search/zip/' + postalCode; 
-	    return false;
-	  }
-          var state = response.Placemark[0].AddressDetails.Country.AdministrativeArea.AdministrativeAreaName;
-          var place = response.Placemark[0].Point.coordinates;
-          var point = new GLatLng(place[1],
-                                  place[0]);
-
-          fmAreaCenterLatLon('us_' + state.toLowerCase(), point.lat(), point.lng(), 2000);
-          new Ajax.Updater('event-list', '/' + DaysOfAction.permalink + '/events/by_geo?lat=' + point.lat() + '&lng=' + point.lng(), {asynchronous:true,evalScripts:true})
-//          if(DaysOfAction.current_district) {
-//            setButtons(DaysOfAction.current_district);
-//            DaysOfAction.current_district = null;
-//          } else {
-//            $('invite-context').update('');
-//          }
-          showSenators(state);
-        }
-      }
-    );
-  }
-
-  function centerOnState(state) {
-    var area_id = 'us_' + state.toLowerCase();
-    fmAreaZoomIn(('us', area_id));
-    onStateZoom(state);
-  }
-
-  //event handler for flashmaps api
-  function stateClick(event_name, area_id, area_label) {
-    var state = area_id.substring(3).toUpperCase();
-    onStateZoom(state);
-  };
-
-  function onStateZoom(state) {
-    setButtons(state);
-    showSenators(state);
-    new Ajax.Updater('event-list', '/' + DaysOfAction.permalink + '/events/by_state/' + state, {asynchronous:true})
-  }
-
-  function setButtons(area_id) {
-    var permalink = DaysOfAction.permalink;
-    if(area_id.length == 2) {
-      $('invite-context').update('<span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><a href="/' + permalink + '/invites/list/state/' + area_id + '">Invite ' + area_id + ' Congresspeople</a></span></span></span>');
-    } else {
-      if(area_id.indexOf('ONE') != -1) {
-        area_id = area_id.substring(0,2) + '01';
-      }
-      var name = DaysOfAction.representatives[area_id];
-      $('invite-context').update('<span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><a href="/' + permalink + '/events/all/invite/events/' + area_id + '">Invite ' + name + '</a></span></span></span>');
-    }
-    $('invite-context').show();
-  };
-
-
-  function showSenators(area_id) {
-    var permalink = DaysOfAction.permalink;
-    var senators = DaysOfAction.senators[area_id];
-    $('map-header').update('<div class="map-header-sen"><img align="left" src="' + senators[0].image + '" /><div class="map-header-sen-names">' + senators[0].name + '<br/><span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><a href="/' + permalink + '/events/all/invite/events/' + senators[0].id + '">Invite</a></span></span></span></div></div><div class="map-header-sen"><img align="left" src="' + senators[1].image + '" /><div class="map-header-sen-names">' + senators[1].name + '<br/><span class="button-maker"><span class="button-maker-left"><span class="button-maker-right"><a href="/' + permalink + '/events/all/invite/events/' + senators[1].id + '">Invite</a></span></span></span></div></div>');
-  }
-
-  //event handler for flashmaps api
-  function districtClick(event_name, area_id, area_label) {
-    setButtons(area_label);
-  };
-
-</script>
 
 <br/>
 
