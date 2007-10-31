@@ -285,7 +285,7 @@ class InvitesController < ApplicationController
   
   #js
   def flashmaps
-    @senators = Politician.find(:all, :conditions => "district_type = 'FS' and type != 'Candidate'")
+    @senators = Politician.find(:all, :conditions => "district_type = 'FS' and (type IS NULL OR type != 'Candidate')")
 #    @representatives = Politician.find(:all, :conditions => "district_type = 'FH'")
     render :layout => false
   end
@@ -314,7 +314,7 @@ class InvitesController < ApplicationController
   def flashmap_area_states
     @totals = Flashmaps::DISTRICTS.inject({}) {|counts, district| counts[district[0]].nil? ? counts[district[0]] = 1 : counts[district[0]] += 1; counts}
     @states = Flashmaps::STATES
-    @politicians = Politician.find(:all, :conditions => "type != 'Candidate'", :include => [:rsvps, :politician_invites])
+    @politicians = Politician.find(:all, :conditions => "type IS NULL OR type != 'Candidate'", :include => [:rsvps, :politician_invites])
     render :layout => false
   end
 
@@ -326,7 +326,7 @@ class InvitesController < ApplicationController
   def flashmap_area_districts
     @state = params[:state]
     @districts = Flashmaps::DISTRICTS.select {|d| d[0] == "us_#{@state.downcase}"}
-    @politicians = Politician.find(:all, :conditions => ["state = ? and type = 'Candidate'", @state], :include => [:rsvps, :politician_invites])
+    @politicians = Politician.find(:all, :conditions => ["state = ? and (type IS NULL OR type != 'Candidate')", @state], :include => [:rsvps, :politician_invites])
     render :layout => false
   end
 
