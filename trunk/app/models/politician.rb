@@ -52,11 +52,11 @@ class Politician < ActiveRecord::Base
   end
 
   def attending?(event_id = nil)
-    rsvpd? && !rsvps.all? {|r| (event_id ? r.event_id == event_id : true) && r.proxy}
+    rsvpd? && rsvps.any? {|r| (event_id ? r.event_id == event_id : true) && !r.proxy}
   end
 
   def supporting?(event_id = nil)
-    rsvpd? && rsvps.all? {|r| (event_id ? r.event_id == event_id : true) && r.proxy}
+    rsvpd? && rsvps.any? {|r| (event_id ? r.event_id == event_id : true) && r.proxy}
   end
 
   def rsvpd?

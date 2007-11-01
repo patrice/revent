@@ -15,21 +15,22 @@
 <tr id="rsvp-<%= list_item.id %>" style="display:none">
 	<td colspan="6" style="padding-left:15px">
 		<br/>
-		<% if list_item.attending? %>
-			<b>Attending:</b><br/>
+		<% if list_item.attending? or list_item.supporting? %>
+			<b>Attending/Supporting:</b><br/>
 			<% list_item.rsvps.each do |r| %>
 				<% next if r.event.nil? %>
-				<%= r.event.name %>
+			   <%= r.event.name %><%= ' (sending representative or statement)' if r.proxy %> 
 				<%= link_to 'unconfirm', :action => 'unconfirm', :id => list_item, :rsvp => r.id %><br />
 			<% end %>
 		<% else %>
-			Not attending any events.
+			Not attending any events.<br />
 		<% end -%>
 		<br/>
 		<% form_tag(:action => 'confirm', :id => list_item) do %>
 			<% events_attending = [] %>
 			<% list_item.rsvps.each {|r| events_attending << [r.event.name, r.event.id] if r.event } %>
 			<%= select_tag :event, options_for_select(@select_events - events_attending) %>
+      	sending a representative or statement <%= check_box_tag :proxy %> 
 			<%= submit_tag 'Add Event' %>
 		<% end %>
 		<br/>
