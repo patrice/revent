@@ -153,6 +153,8 @@ class EventsController < ApplicationController
     else
       flash.now[:notice] = 'There was a problem registering your RSVP.'
       @event = @rsvp.event
+      @attending_politicians = @event.attending_politicians.map {|p| p.parent || p}.uniq
+      @supporting_politicians = @event.supporting_politicians.map {|p| p.parent || p}.uniq
       render :action => 'show', :id => @event.id
     end
   end
@@ -223,6 +225,9 @@ class EventsController < ApplicationController
 #    latitudes = @events.collect {|e| e.latitude}.compact.sort
 #    longitudes = @events.collect {|e| e.longitude}.compact.sort
 #    @bounds = [latitudes.first, longitudes.first]
+  end
+  
+  def simple
   end
 
   def cache_search_results
