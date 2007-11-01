@@ -1,6 +1,6 @@
 <tr class ="profile_item_row" id="report-<%= report.id %>">
   <td><%= truncate report.text, 80 %></td>
-    <td><%= report.reporter_name %></td>
+    <td><%= report.user.first_name %> <%= report.user.last_name %></td>
   
   <td><%= link_to 'Edit', :controller => 'account/reports', :action => 'edit', :id => report %></td>
   <td><%= link_to_unless(report.primary?, 'Make Primary', :controller => 'account/reports', :action => 'primary', :id => report) { "Primary" } %></td>

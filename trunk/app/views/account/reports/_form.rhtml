@@ -1,0 +1,30 @@
+<%= error_messages_for 'report' %>
+
+<!--[form:report]-->
+
+<p><label for="report_text">Event Description:</label><br/>
+<%= f.text_area 'text', :rows => 7 %></p>
+
+<!--<p><label for="report_embed">You Tube Embed Code:</label><br/>
+<%= f.text_area 'embed', :rows => 5 %></p> -->
+
+<p><label for="attendees">Estimated Attendance:</label><br/>
+<%= f.text_field 'attendees' %></p>
+
+
+<% fields_for :user, @user do |user| %>
+
+<p><label for="report_name">Reporter First Name:</label><br/>
+<%= user.text_field 'reporter_name' %></p>
+
+<p><label for="report_email">Reporter Last Name:</label><br/>
+<%= user.text_field 'reporter_email' %></p>
+
+<p><label for="report_email">Reporter Email:</label><br/>
+<%= user.text_field 'reporter_email' %></p>
+
+<% end -%>
+
+
+<!--[eoform:report]-->
+
