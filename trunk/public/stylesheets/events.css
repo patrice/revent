@@ -184,6 +184,12 @@ border:2px solid blue;
 	display: none;
 }
 
+div.report_add_attachment{
+background-color:#f0f0f0;
+margin:10px;
+padding:10px;
+}
+
 /**** Event MAP List PAGE ****/
 
 #description{
