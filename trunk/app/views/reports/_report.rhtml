@@ -9,7 +9,7 @@
 	</div>
 	<div class="report-list-basics">
 		<div class="report-list-title">
-			 <%= link_to "#{report.event.city}, #{report.event.state}", report_url(report.event.id) %>		
+      <%= link_to "#{report.event.city}, #{report.event.state}", report_url(:permalink => @calendar.permalink, :event_id => report.event.id) %>		
 		</div>
 		<div class="report-list-text">
 			<%= truncate report.text, 280 %>
@@ -19,7 +19,7 @@
         <%= report.instance_variable_get(:@distance_from_search).round %> miles away</div>
       <% end -%>
     <div class="report-list-more">
-      <%= link_to "[[Read More]]",   report_url(report.event.id) %>
+      <%= link_to "[[Read More]]",   report_url(:permalink => @calendar.permalink, :event_id => report.event.id) %>
 		</div>
 	</div>
 </div>
