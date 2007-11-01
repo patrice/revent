@@ -3,16 +3,15 @@ class EventsController < ApplicationController
 #  access_control [:edit, :update, :destroy, :create] => 'admin'
   include DaysOfAction::Geo
 
-  caches_page :index, :total, :by_state
-#  after_filter { |c| c.cache_page(nil, :permalink => c.params[:permalink]) if c.action_name == 'show' }
-  before_filter(:only => :show) {|c| c.request.env["HTTP_IF_MODIFIED_SINCE"] = nil} #don't 304
-  caches_action :show
-  def action_fragment_key(options)
-    key = url_for(options).split('://').last
-    key << "&#{cache_version_key}=#{cache_version}"
-    key << "&partner=#{cookies[:partner]}" if cookies[:partner]
-    key
-  end
+  caches_page :index, :total, :by_state, :show
+#  before_filter(:only => :show) {|c| c.request.env["HTTP_IF_MODIFIED_SINCE"] = nil} #don't 304
+#  caches_action :show
+#  def action_fragment_key(options)
+#    key = url_for(options).split('://').last
+#    key << "&#{cache_version_key}=#{cache_version}"
+#    key << "&partner=#{cookies[:partner]}" if cookies[:partner]
+#    key
+#  end
 
   def cache_version
     Cache.get(cache_version_key) { rand(10000) }
@@ -51,7 +50,6 @@ class EventsController < ApplicationController
   end
 
   def show
-    @partner = cookies[:partner] if cookies[:partner]
     @event = @calendar.events.find(params[:id], :include => [:blogs, {:reports => :attachments}])
     @attending_politicians = @event.attending_politicians.map {|p| p.parent || p}.uniq
     @supporting_politicians = @event.supporting_politicians.map {|p| p.parent || p}.uniq
@@ -145,6 +143,11 @@ class EventsController < ApplicationController
 
     @rsvp = Rsvp.new(:event_id => params[:id])
     if @user.valid? && @rsvp.valid?
+      if cookies[:partner]
+        @user.democracy_in_action ||= {}
+        @user.democracy_in_action['supporter'] ||= {}
+        @user.democracy_in_action['supporter']['Tracking_Code'] = "#{cookies[:partner]}_rsvp"
+      end
       @user.save
       @rsvp.user_id = @user.id
       @rsvp.save

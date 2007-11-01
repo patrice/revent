@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   has_one :democracy_in_action_object, :as => :synced
   # (extract me) to the plugin!!!
   # acts_as_mirrored? acts_as_synced?
-  attr_writer :democracy_in_action
+  attr_accessor :democracy_in_action
   after_save :sync_to_democracy_in_action
   def sync_to_democracy_in_action
     return unless File.exists?(File.join(Site.current_config_path, 'democracyinaction-config.yml'))

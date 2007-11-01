@@ -75,11 +75,7 @@
 
 <% unless @event.past? -%>
  
-<% if @partner -%>
-  <%= render :partial => "events/partners/#{@partner}/rsvp", :locals => { :event => @event} %>
-<% else -%> 
-  <%= render :partial => "rsvp", :locals => { :event => @event} %>
-<% end -%>
+<%= render :partial => "rsvp", :locals => { :event => @event} %>
 
 <% end -%>
 <% if !@event.blogs.empty? -%>
