@@ -47,7 +47,12 @@ class Report < ActiveRecord::Base
     with_scope :find => { :conditions => [ 'reports.status = ?', PUBLISHED ] } do
       find(*args)
     end
-   end
+  end
+  def self.paginate_published(*args)
+    with_scope :find => { :conditions => [ 'reports.status = ?', PUBLISHED ] } do
+      paginate(*args)
+    end
+  end
   def self.count_all_published(*args)
     with_scope :find => { :conditions => [ 'reports.status = ?', PUBLISHED ] } do
       count(*args)

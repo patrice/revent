@@ -7,7 +7,7 @@
 	</div>
 	<div class="intro-text">
 		<br>There are <%= @calendar.events.published_reports.length %> reports from  <%= @calendar.events.count %> scheduled events.
-		
+	
 		<!--Read press coverage <a href="">here</a> -->
 	</div>
 	<div id='report-search'>
@@ -20,15 +20,13 @@
   <%= @search_results_message %>
 <hr>	
 <div class='pagination-footer'>
-<span style="float:left;" class="previous-page"><%= link_to 'Previous page', { :page => @report_pages.current.previous } if @report_pages.current.previous %></span>
-<span style="float:right;margin-right:0;"><%= link_to 'Next page', { :page => @report_pages.current.next }.merge(@search_params || {}) if @report_pages.current.next %></span>
+  <%= will_paginate @reports %>
 </div>
 
   <%= render :partial => 'report', :collection => @reports %>
 
   <br><br><div class='pagination-footer'>
-    <span style="float:left;" class="previous-page"><%= link_to 'Previous page', { :page => @report_pages.current.previous } if @report_pages.current.previous %></span>
-    <span style="float:right;margin-right:0;"><%= link_to 'Next page', { :page => @report_pages.current.next }.merge(@search_params || {}) if @report_pages.current.next %></span>
+    <%= will_paginate @reports %>
   </div>
 </div>
 

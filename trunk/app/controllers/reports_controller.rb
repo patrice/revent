@@ -23,8 +23,7 @@ class ReportsController < ApplicationController
   end
 
   def list
-    @report_pages = Paginator.new self, Report.count_published, 20, params[:page]
-    @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ['reports.position = ?', 1], :order => "reports.id DESC", :limit  =>  @report_pages.items_per_page, :offset =>  @report_pages.current.offset)
+    @reports = Report.paginate_published(:all, :include => [:event, :attachments], :conditions => ['events.calendar_id = ? AND reports.position = ?', @calendar.id, 1], :order => "reports.id DESC", :page => params[:page], :per_page => 20)
   end
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
@@ -115,20 +114,16 @@ class ReportsController < ApplicationController
                         max_lat, 
                         max_lon])
     end
-    @report_pages = Paginator.new self, Report.count_all_published(:include => :event, :conditions => ["reports.position = ? AND events.postal_code IN (?)", 1, @zips.collect {|z| z.zip}]), 20, params[:page]
-    @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ["reports.position = ? AND events.postal_code IN (?)", 1, @zips.collect {|z| z.zip}])
-                                     #, :order => "", :limit => @report_pages.items_per_page, :offset => @report_pages.current.offset)
+    @reports = Report.paginate_published(:all, :include => [:event, :attachments], :conditions => ['events.calendar_id = ? AND reports.position = ? AND events.postal_code IN (?)', @calendar.id, 1, @zips.collect {|z| z.zip}], :order => "reports.id DESC", :page => params[:page], :per_page => 20)
     @codes = @zips.collect {|z| z.zip}
-    @reports = @reports.sort_by {|r| @codes.index(r.event.postal_code)}
-    @reports = @reports[@report_pages.current.offset, @report_pages.current.offset + @report_pages.items_per_page]
+#    @reports = @reports.sort_by {|r| @codes.index(r.event.postal_code)}
     @reports.each {|r| r.instance_variable_set(:@distance_from_search, @zips.find {|z| z.zip == r.event.postal_code}.distance_to_search_zip) }
     @search_results_message = "Showing reports within 100 miles of #{@zip.zip}"
     @search_params = {:zip => @zip.zip}
   end
 
   def do_state_search
-    @report_pages = Paginator.new self, Report.count_all_published(:include => :event, :conditions => ["reports.position = ? AND events.state = ?", 1, params[:state]]), 20, params[:page]
-    @reports = Report.find_published(:all, :include => [ :event, :attachments ], :conditions => ["reports.position = ? AND events.state = ?", 1, params[:state]], :order => "events.state, events.city", :limit => @report_pages.items_per_page, :offset => @report_pages.current.offset)
+    @reports = Report.paginate_published(:all, :include => [:event, :attachments], :conditions => ['events.calendar_id = ? AND reports.position = ? AND events.state = ?', @calendar.id, 1, params[:state]], :order => "events.state, events.city", :page => params[:page], :per_page => 20)
     @search_results_message = "Showing reports in #{params[:state]}"
     @search_params = {:state => params[:state]}
   end
