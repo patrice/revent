@@ -1,6 +1,11 @@
 <%= error_messages_for 'report' %>
 *required fields
 <!--[form:report]-->
+
+<%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", '4156' %>
+<%=  hidden_field_tag "user[democracy_in_action][supporter][link][groups]", '57946'%>
+
+
 <p><label for="event_id">*Select Your Event</label><br/>
 <%= f.select 'event_id', @calendar.events.find(:all, :order=>"state,city").collect {|e| ["#{e.state} - #{e.city}: #{truncate e.name,30}", e.id]}, :include_blank=>true%>
 
@@ -9,6 +14,7 @@
 
 <p><label for="report_email">*Your Email Address (will not be public):</label><br/>
 <%= f.text_field 'reporter_email' %></p>
+
 
 <p><label for="report_text">*Tell Us About What Happened at Your Event:</label><br/>
 <%= f.text_area 'text', :rows => 7 %></p>

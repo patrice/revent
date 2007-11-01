@@ -6,8 +6,8 @@
     Add Your Own <%= link_to 'Report of the Event',  :permalink => @calendar.permalink, :controller => "reports", :action => "new" %>
 	</div>
 	<div class="intro-text">
-		<br>There are <%= Report.count_published %> reports from  <%= @calendar.events.count %> scheduled events.
-	
+		<br>There are <%= @calendar.events.published_reports.length %> reports from  <%= @calendar.events.count %> scheduled events.
+		
 		<!--Read press coverage <a href="">here</a> -->
 	</div>
 	<div id='report-search'>
