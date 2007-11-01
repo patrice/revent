@@ -18,7 +18,7 @@
 
 <div class="form_block">
 	<p class='form_subtitle'>Upload Images</p>
-	We support images up to 2 megabytes in size in the .gif, .jpg, or .png format. <br/> For large file uploads this page may take while to load.  All of your pictures will also be uploaded onto Flickr
+	We support images up to 2 megabytes in size in the .gif, .jpg, or .png format. <br/> For large file uploads this page may take while to load.  All of your pictures will also be uploaded onto Flickr.  
 	<p>
 	<% 4.times do %>
 	  <p>
@@ -26,14 +26,23 @@
 	    <%= file_field_tag "attachments[][uploaded_data]" %><br/>
 	    Caption:<br/>
 	    <%= text_area_tag "attachments[][caption]",nil, :rows => 3, :cols => 40 %><br/>
-	    <%= check_box_tag "attachments[][primary]" %> Primary Image for Report
+	    <%= check_box_tag "attachments[][primary]" %> Check this box if the image is the main event photo<br><br>
 	  </p>
 	<% end %>
 </div>
 <div class="form_block">
-	<p class='form_subtitle'>Attach A YouTube Video</p>
-	<p><label for="report_embed">Paste in the html in the Embed field to the right of your YouTube Video that you have already uploaded.</label><br/>
-	<%= f.text_area 'embed', :rows => 5 %></p>
+	<p class='form_subtitle'>Attach a video from your event </p>
+	<p><label for="report_embed">Paste in the html in the Embed field to the right of your YouTube Video that you have already uploaded.  Make sure to not add the link to the YouTube page.
+	<br><br>  Upload your video to YouTube <a href="http://youtube.com/signup?next=/my_videos_upload" target="_blank">here</a>.<br>  Not sure what Embed code is <a href="" target="_blank">click here</a> for help.</label></p>
+	
+	<% 4.times do %>
+		<p>
+		Video Embed Code<br><%= text_area_tag 'attachments[][embed]',nil, :rows => 3, :cols => 40  %><br>
+		Video Title: <%= text_field_tag "attachments[][caption]", nil, :size => 40  %><br/>
+		<%= check_box_tag "attachments[][greenfinger]" %> This is a Green Finger video<br>
+		<%= check_box_tag "attachments[][politician]" %> This video contains footage of a congressperson or presidential candidate<br><br>
+		</p>
+	<% end %>
 </div>
 
 <div class="form_block">
@@ -41,8 +50,8 @@
 	Did the press cover your event?<br>  If so, paste in links to the press coverage below.
 
   <% 2.times do %>
-  <p>Press Coverage URL:<br/><%= text_field_tag 'press_links[][url]', nil, :size => 40 %><br/>
-  Press Coverage Title/Outlet:<br/><%= text_field_tag 'press_links[][text]', nil, :size => 40  %></p>
+  <p>Press Coverage URL:<br/><%= text_field_tag 'press_links[][url]', nil, :size => 40 %> <i>(start with http://)</i><br/>
+  Press Coverage Title/Outlet:<br/><%= text_field_tag 'press_links[][text]', nil, :size => 40  %><br></p>
   <% end %>
 </div>
 </p>
