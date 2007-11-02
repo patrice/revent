@@ -32,74 +32,20 @@
 	We support images up to 2 megabytes in size in the .gif, .jpg, or .png format. <br/> For large file uploads this page may take while to load.  All of your pictures will also be uploaded onto Flickr.  
 	<p>
 	
-		<div id="report_add_photo_1" class="report_add_attachment">
-	    File:<br/>
-	    <%= file_field_tag "attachments[][uploaded_data]" %><br/>
-	    Caption:<br/>
-	    <%= text_area_tag "attachments[][caption]",nil, :rows => 3, :cols => 40 %><br/>
-	    <%= check_box_tag "attachments[][primary]" %> Check this box if the image is the main event photo<br>
-	    <%= check_box_tag "attachments[][greenfinger]" %> This is a green finger photo<br>
-	    <%= check_box_tag "attachments[][politician]" %> This is a photo of a congressperson or presidential candidate<br>
-	    <p class="report_add_another"><%= link_to_function 'Add Another Photo', visual_effect(:toggle_blind,'report_add_photo_2') %>
-	    </div>
-
-		<div id="report_add_photo_2" class="report_add_attachment" <% if @report.errors.empty? %> style="display:none;"<% end %>>
-	    File:<br/>
-	    <%= file_field_tag "attachments[][uploaded_data]" %><br/>
-	    Caption:<br/>
-	    <%= text_area_tag "attachments[][caption]",nil, :rows => 3, :cols => 40 %><br/>
-	    <%= check_box_tag "attachments[][primary]" %> Check this box if the image is the main event photo<br>
-	    <%= check_box_tag "attachments[][greenfinger]" %> This is a green finger photo<br>
-	    <%= check_box_tag "attachments[][politician]" %> This is a photo of a congressperson or presidential candidate<br>
-	    <p class="report_add_another"><%= link_to_function 'Add Another Photo', visual_effect(:toggle_blind,'report_add_photo_3') %>
-	    </div>
-	
-	    
-	    <div id="report_add_photo_3" class="report_add_attachment" <% if @report.errors.empty? %> style="display:none;"<% end %>>
-	    File:<br/>
-	    <%= file_field_tag "attachments[][uploaded_data]" %><br/>
-	    Caption:<br/>
-	    <%= text_area_tag "attachments[][caption]",nil, :rows => 3, :cols => 40 %><br/>
-	    <%= check_box_tag "attachments[][primary]" %> Check this box if the image is the main event photo<br>
-	    <%= check_box_tag "attachments[][greenfinger]" %> This is a green finger photo<br>
-	    <%= check_box_tag "attachments[][politician]" %> This is a photo of a congressperson or presidential candidate<br>
-	    <p class="report_add_another"><%= link_to_function 'Add Another Photo', visual_effect(:toggle_blind,'report_add_photo_4') %>
-	    </div>
-	    
-	    
-	    <div id="report_add_photo_4" class="report_add_attachment" <% if @report.errors.empty? %> style="display:none;"<% end %>>
-	    File:<br/>
-	    <%= file_field_tag "attachments[][uploaded_data]" %><br/>
-	    Caption:<br/>
-	    <%= text_area_tag "attachments[][caption]",nil, :rows => 3, :cols => 40 %><br/>
-	    <%= check_box_tag "attachments[][primary]" %> Check this box if the image is the main event photo<br>
-	    <%= check_box_tag "attachments[][greenfinger]" %> This is a green finger photo<br>
-	    <%= check_box_tag "attachments[][politician]" %> This is a photo of a congressperson or presidential candidate<br>
-	    <p class="report_add_another"><%= link_to_function 'Add Another Photo', visual_effect(:toggle_blind,'report_add_photo_5') %>
-	    </div>
-
-	    <div id="report_add_photo_5" class="report_add_attachment" <% if @report.errors.empty? %> style="display:none;"<% end %>>
-	    File:<br/>
-	    <%= file_field_tag "attachments[][uploaded_data]" %><br/>
-	    Caption:<br/>
-	    <%= text_area_tag "attachments[][caption]",nil, :rows => 3, :cols => 40 %><br/>
-	    <%= check_box_tag "attachments[][primary]" %> Check this box if the image is the main event photo<br>
-	    <%= check_box_tag "attachments[][greenfinger]" %> This is a green finger photo<br>
-	    <%= check_box_tag "attachments[][politician]" %> This is a photo of a congressperson or presidential candidate<br>
-	    <p class="report_add_another"><%= link_to_function 'Add Another Photo', visual_effect(:toggle_blind,'report_add_photo_6') %>
-	    </div>
-	    
-	    <div id="report_add_photo_6" class="report_add_attachment" <% if @report.errors.empty? %> style="display:none;"<% end %>>
-	    File:<br/>
-	    <%= file_field_tag "attachments[][uploaded_data]" %><br/>
-	    Caption:<br/>
-	    <%= text_area_tag "attachments[][caption]",nil, :rows => 3, :cols => 40 %><br/>
-	    <%= check_box_tag "attachments[][primary]" %> Check this box if the image is the main event photo<br>
-	    <%= check_box_tag "attachments[][greenfinger]" %> This is a green finger photo<br>
-	    <%= check_box_tag "attachments[][politician]" %> This is a photo of a congressperson or presidential candidate<br>
-	    </div>
-
-
+<% 1.upto(6) do |n| -%>
+  <div id="report_add_photo_<%= n %>" class="report_add_attachment"<% if n > 1 %> style="display:none;"<% end %>>
+    File:<br/>
+    <%= file_field_tag "attachments[#{n}][uploaded_data]" %><br/>
+    Caption:<br/>
+    <%= text_area_tag "attachments[#{n}][caption]",nil, :rows => 3, :cols => 40 %><br/>
+    <%= check_box_tag "attachments[#{n}][primary]" %> Check this box if the image is the main event photo<br>
+    <%= check_box_tag "attachments[#{n}][tags][]", "greenfinger" %> This is a green finger photo<br>
+    <%= check_box_tag "attachments[#{n}][tags][]", "politician" %> This is a photo of a congressperson or presidential candidate<br>
+    <% if n < 6 -%>
+    <p class="report_add_another"><%= link_to_function 'Add Another Photo', visual_effect(:toggle_blind,"report_add_photo_#{n+1}") %>
+    <% end -%>
+  </div>
+<% end -%>
 
 
 </div>
@@ -108,39 +54,18 @@
 	<p><label for="report_embed">Paste in the html in the Embed field to the right of your YouTube Video that you have already uploaded.  Make sure to not add the link to the YouTube page.
 	<br><br>  Upload your video to YouTube <a href="http://youtube.com/signup?next=/my_videos_upload" target="_blank">here</a>.<br>  Not sure what Embed code is <a href="" target="_blank">click here</a> for help.</label></p>
 	
-		<div id="report_add_video_1" class="report_add_attachment">
-		Video Embed Code<br><%= text_area_tag 'attachments[][embed]',nil, :rows => 3, :cols => 40  %><br>
-		Video Title: <%= text_field_tag "attachments[][caption]", nil, :size => 40  %><br/>
-		<%= check_box_tag "attachments[][greenfinger]" %> This is a green finger video<br>
-		<%= check_box_tag "attachments[][politician]" %> This video contains footage of a congressperson or presidential candidate<br>
-		<p class="report_add_another"><%= link_to_function 'Add Another Video', visual_effect(:toggle_blind,"report_add_video_2") %></p>
+<% 1.upto(4) do |n| -%>
+  <div id="report_add_video_<%= n %>" class="report_add_attachment"<% if n > 1 %> style="display:none;"<% end %>>
+    Video Embed Code<br><%= text_area_tag "embeds[#{n}][html]", nil, :rows => 3, :cols => 40  %><br>
+    Video Title: <%= text_field_tag "embeds[#{n}][caption]", nil, :size => 40  %><br/>
+    <%= check_box_tag "embeds[#{n}][tags][]", "greenfinger" %> This is a green finger video<br>
+    <%= check_box_tag "embeds[#{n}][tags][]", "politician" %> This video contains footage of a congressperson or presidential candidate<br>
+    <% if n < 4 %>
+    <p class="report_add_another"><%= link_to_function 'Add Another Video', visual_effect(:toggle_blind,"report_add_video_#{n+1}") %></p>
+    <% end %>
 		</div>
+<% end -%>
 
-				
-		<div id="report_add_video_2" class="report_add_attachment" <% if @report.errors.empty? %> style="display:none;"<% end %>>
-		Video Embed Code<br><%= text_area_tag 'attachments[][embed]',nil, :rows => 3, :cols => 40  %><br>
-		Video Title: <%= text_field_tag "attachments[][caption]", nil, :size => 40  %><br/>
-		<%= check_box_tag "attachments[][greenfinger]" %> This is a green finger video<br>
-		<%= check_box_tag "attachments[][politician]" %> This video contains footage of a congressperson or presidential candidate<br>
-		<p class="report_add_another"><%= link_to_function 'Add Another Video', visual_effect(:toggle_blind,'report_add_video_3') %></p>
-		</div>
-		
-		<div id="report_add_video_3" class="report_add_attachment" <% if @report.errors.empty? %> style="display:none;"<% end %>>
-		Video Embed Code<br><%= text_area_tag 'attachments[][embed]',nil, :rows => 3, :cols => 40  %><br>
-		Video Title: <%= text_field_tag "attachments[][caption]", nil, :size => 40  %><br/>
-		<%= check_box_tag "attachments[][greenfinger]" %> This is a green finger video<br>
-		<%= check_box_tag "attachments[][politician]" %> This video contains footage of a congressperson or presidential candidate<br>
-		<p class="report_add_another"><%= link_to_function 'Add Another Video', visual_effect(:toggle_blind,'report_add_video_4') %></p>
-		</div>
-		
-		<div id="report_add_video_4" class="report_add_attachment" <% if @report.errors.empty? %> style="display:none;"<% end %>>
-		Video Embed Code<br><%= text_area_tag 'attachments[][embed]',nil, :rows => 3, :cols => 40  %><br>
-		Video Title: <%= text_field_tag "attachments[][caption]", nil, :size => 40  %><br/>
-		<%= check_box_tag "attachments[][greenfinger]" %> This is a green finger video<br>
-		<%= check_box_tag "attachments[][politician]" %> This video contains footage of a congressperson or presidential candidate
-		</div>				
-		
-	
 </div>
 
 <div class="form_block">

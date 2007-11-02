@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 64) do
+ActiveRecord::Schema.define(:version => 65) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -45,10 +45,10 @@ ActiveRecord::Schema.define(:version => 64) do
     t.column "name",                   :string
     t.column "short_description",      :text
     t.column "user_id",                :integer
-    t.column "permalink",              :string
-    t.column "site_id",                :integer
     t.column "current",                :boolean,  :default => false
     t.column "theme",                  :string
+    t.column "permalink",              :string
+    t.column "site_id",                :integer
     t.column "signup_redirect",        :string
     t.column "event_start",            :datetime
     t.column "event_end",              :datetime
@@ -88,6 +88,15 @@ ActiveRecord::Schema.define(:version => 64) do
   add_index "democracy_in_action_objects", ["synced_id", "synced_type"], :name => "index_on_synced_id_and_synced_type"
   add_index "democracy_in_action_objects", ["associated_id", "associated_type"], :name => "index_on_associated_id_and_associated_type"
   add_index "democracy_in_action_objects", ["table", "key"], :name => "index_on_table_and_key"
+
+  create_table "embeds", :force => true do |t|
+    t.column "html",             :text
+    t.column "caption",          :string
+    t.column "user_id",          :integer
+    t.column "youtube_video_id", :string
+    t.column "preview_url",      :string
+    t.column "report_id",        :integer
+  end
 
   create_table "events", :force => true do |t|
     t.column "name",                  :string
@@ -314,7 +323,8 @@ ActiveRecord::Schema.define(:version => 64) do
     t.column "site_id",                    :integer
   end
 
-  add_index "users", ["email", "site_id"], :name => "unique_index_on_email_and_site_id"
+  add_index "users", ["email", "site_id"], :name => "unique_index_on_email_and_site_id", :unique => true
+  add_index "users", ["site_id"], :name => "index_users_on_site_id"
 
   create_table "zip_codes", :force => true do |t|
     t.column "zip",        :string

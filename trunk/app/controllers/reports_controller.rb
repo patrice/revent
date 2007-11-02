@@ -43,22 +43,27 @@ class ReportsController < ApplicationController
   end
 
   def create
-    require 'starling_client'
-    queue = Starling.new 'localhost:22122'
     @report = Report.new(params[:report])
-    @attachments = []
-    params[:press_links].reject {|link| link[:url].empty? || link[:text].empty?}.each do |link|
-      @report.press_links.build(link)
-    end
-    params[:attachments].reject {|a| a[:uploaded_data].blank?}.each do |a|
-      a.delete :embed #XXX this doesn't work yet, no embed field
-      @attachments << Attachment.new(a)
-    end
     @user = User.find_or_initialize_by_site_id_and_email(Site.current.id, params[:user][:email]) # or current_user
     @user.attributes = params[:user].reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
     unless @user.crypted_password || (@user.password && @user.password_confirmation)
       password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
       @user.password = @user.password_confirmation = password
+    end
+    params[:press_links].reject {|link| link[:url].empty? || link[:text].empty?}.each do |link|
+      @report.press_links.build(link)
+    end
+    @attachments = params[:attachments].reject {|i,a| a[:uploaded_data].blank?}.collect do |i,a|
+      tags = a.delete(:tags).join(' ')
+      attachment = Attachment.new(a)
+      attachment.tag_depot = tags
+      attachment
+    end
+    @embeds = params[:embeds].reject {|i,embed| embed[:html].empty?}.collect do |i,embed|
+      tags = embed.delete(:tags).join(' ')
+      e = Embed.new embed
+      e.tag_depot = tags
+      e
     end
 
     if @user.valid? && @report.valid? && @attachments.all? {|a| a.valid?}
@@ -67,7 +72,10 @@ class ReportsController < ApplicationController
       @report.user_id = @user.id
       @report.save
       @attachments.each {|a| a.report_id = @report.id}
+      @embeds.each {|e| e.report_id = @report.id; e.save}
       begin
+        require 'starling_client'
+        queue = Starling.new 'localhost:22122'
         r = {:remote_ip => request.remote_ip, :user_agent => request.user_agent, :referer => request.referer}
         attachments = @attachments.collect {|a| [a, a.temp_data]}
         attachments.each {|a| a[0].clear_temp_paths}
@@ -75,8 +83,9 @@ class ReportsController < ApplicationController
         queue.set 'users', @user
       rescue Exception => e
         raise e
-        attachments.each {|a| a[0].temp_data = a[1]; a[0].save }
+        attachments.each {|a| a[0].temp_data = a[1]; a[0].save; a.tags = a.tag_depot }
         @report.attachments = attachments.collect {|a| a[0]}
+        @report.embeds.each {|e| e.tags = e.tag_depot}
         @report.upload_images_to_flickr
         @report.check_akismet(r)
         @user.deferred = false

@@ -81,5 +81,7 @@ class Attachment < ActiveRecord::Base
   def clear_temp_paths
     @temp_paths.clear
   end
+
+  attr_accessor :tag_depot
 #  after_save { GC.start } # please, hope this helps
 end
