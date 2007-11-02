@@ -59,7 +59,10 @@
   <hr>
          <% if report.reporter_name %>
                <div class="report-by">By:<%= report.reporter_name %></div>
-                     <% end -%><!-- end if reporter_name -->
+         <% end -%><!-- end if reporter_name -->
+         <% if report.user.first_name %>
+               <div class="report-by">By:<%= report.user.first_name %> <%= report.user.last_name %></div>
+         <% end -%><!-- end if reporter_name -->
   <br>
   <%= simple_format(report.text) %>
   <br>
@@ -85,16 +88,12 @@
   <% end -%><!-- end if any audio -->
 
   <% if report.attachments.any? {|a| a.video?} %>
-	<div id="report_videos">
-    <% report.attachments.find_all {|a| a.video?}.each do |video| %>
-		<div class="report_video">
-			<a href=""><img src="<%= video.filename %>" alt="Click Here to Watch Video of Event"></a>
-			<div style="media-caption">
-				<%= video.caption %>
-			</div>
-		</div>	
-    <% end -%><!-- end each video -->
+    <% report.attachments.find_all {|a| a.video?}.each do |video| %>			
+	<div class="report-embed" >
+		<%= white_list video.embed, :tags => %w(object embed param), :attributes => %w(name value type wmode) %>
+		<div style="media-caption"><%= white_list video.caption %></div>		
 	</div>
+    <% end -%><!-- end each video -->
   <% end -%><!-- end any video -->
 
   <% if report.attachments.any? {|a| a.image?} %>
