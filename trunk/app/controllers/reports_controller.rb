@@ -53,13 +53,13 @@ class ReportsController < ApplicationController
       @report.press_links.build(link)
     end
     @attachments = params[:attachments].reject {|i,a| a[:uploaded_data].blank?}.collect do |i,a|
-      tags = a.delete(:tags).join(' ')
+      tags = a.delete(:tags).join(' ') if a[:tags]
       attachment = Attachment.new(a)
       attachment.tag_depot = tags
       attachment
     end
     @embeds = params[:embeds].reject {|i,embed| embed[:html].empty?}.collect do |i,embed|
-      tags = embed.delete(:tags).join(' ')
+      tags = embed.delete(:tags).join(' ') if embed[:tags]
       e = Embed.new embed
       e.tag_depot = tags
       e
@@ -81,7 +81,6 @@ class ReportsController < ApplicationController
         queue.set 'reports', {:report => @report, :attachments => attachments, :request => r}
         queue.set 'users', @user
       rescue Exception => e
-        raise e
         attachments.each {|a| a[0].temp_data = a[1]; a[0].save; a[0].tags = a[0].tag_depot }
         @report.attachments = attachments.collect {|a| a[0]}
         @report.embeds.each {|e| e.tags = e.tag_depot}
