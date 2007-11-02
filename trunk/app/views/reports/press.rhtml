@@ -16,8 +16,9 @@ Lets us know by posting a <%= link_to 'report of your event', :controller => "re
 	<h3><%= state %></h3>
 
   <% press_links.each do |press_link| %>
-<li><%= link_to press_link.report.event.city, report_url(press_link.report.event_id)  %>:
-<%= auto_link(press_link.url) { |url| press_link.text } %></li>
+<li><%= link_to press_link.report.event.city, report_url(:permalink => @calendar.permalink, :event_id => press_link.report.event_id)  %>:
+<%= link_to press_link.text, press_link.url %>
+</li>
 
 <% end %>
 <% end %>
