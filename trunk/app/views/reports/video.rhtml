@@ -15,7 +15,7 @@ Lets us know by posting a <%= link_to 'report of your event', :controller => "re
 	<div class="video-embed">
 	<%= white_list report.embed, :tags => %w(object embed param), :attributes => %w(name value type wmode) %>
 	<br>
-  <%= link_to("#{report.event.city}, #{report.event.state}", report_url(report.event) ) %>: <%= report.event.name %>
+  <%= link_to("#{report.event.city}, #{report.event.state}", report_url(:event_id => report.event) ) %>: <%= report.event.name %>
 	</div>		
 
   <% end %>
