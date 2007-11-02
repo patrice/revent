@@ -79,3 +79,5 @@ end
 require 'democracyinaction'
 
 GeoKit::Geocoders::google = 'ABQIAAAA9C-o-5_7dL0qOO28APyPUxRkXutPkvyJzQgIe_vZE5iNiMK4ZBRkjBRIiRuewJiZ3eU47BhDWO0luw'
+
+require 'tagging_extensions'
