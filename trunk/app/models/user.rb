@@ -18,6 +18,11 @@ class User < ActiveRecord::Base
     roles.any? {|r| 'admin' == r.title}
   end
 
+  def deferred?
+    @deffered
+  end
+  attr_accessor :deferred
+
   has_one :democracy_in_action_object, :as => :synced
   # (extract me) to the plugin!!!
   # acts_as_mirrored? acts_as_synced?
@@ -25,6 +30,7 @@ class User < ActiveRecord::Base
   after_save :sync_to_democracy_in_action
   def sync_to_democracy_in_action
     return unless File.exists?(File.join(Site.current_config_path, 'democracyinaction-config.yml'))
+    return if deferred?
 
     # return unless DemocracyInAction.sync? => returns true or can be overridden like authorized?
     # with something lke Site.current.uses_crm(DemocracyInAction)

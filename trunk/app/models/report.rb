@@ -18,8 +18,7 @@ class Report < ActiveRecord::Base
     self.first?
   end
 
-  validates_presence_of :event_id, :reporter_name, :reporter_email, :text
-  validates_format_of :reporter_email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :on => :create
+  validates_presence_of :event_id, :text
   validates_associated :attachments
 
   PUBLISHED = 'published'
@@ -97,5 +96,13 @@ class Report < ActiveRecord::Base
 
       self.publish
     end
+  end
+
+  def reporter_name
+    user ? user.full_name : read_attribute('reporter_name')
+  end
+
+  def reporter_email
+    user ? user.email : read_attribute('email')
   end
 end
