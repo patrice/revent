@@ -45,4 +45,39 @@ class Admin::EventsController < AdminController
     end
     send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "events.csv")
   end
+
+  def featured_images
+    require 'Logger'
+    log = Logger.new('stepitup2-report-images.log')
+    log.level = Logger::INFO
+    collect_featured_images
+    image_names = []
+    @featured_images.each do |a|
+      local_filename = a.report.event.state + "_" + a.report.event.id + File.extname(a.public_filename)
+      result = `curl #{a.public_filename} > #{local_filename}`
+      image_names << local_filename
+      log.info("#{local_filename}")
+    end
+    image_names = image_names.join(' ')
+    result = `zip #{File.join(RAILS_ROOT,'public','featured_images.zip')} #{image_names}`
+    render :inline => "generated zip successfully, please download it <%= link_to 'here', '/featured_images.zip' %>"
+#    send_data result, :filename => 'featured_images.zip'
+  end
+
+private  
+  def collect_featured_images
+    events = @calendar.events.find(:all, :include => {:reports => :attachments}, :conditions => "attachments.id")
+    @featured_images = []
+    events.each do |e|
+      next unless e.reports
+      attachments = e.reports.collect {|r| r.attachments}.flatten.sort_by {|a| a.primary ? 1 : 0}
+      next if attachments.empty?
+      primary = attachments.first if attachments.first.primary
+      primary ||= e.reports.first.attachments.first
+      primary ||= attachments.first
+      @featured_images << primary
+    end
+#    send_data `zip -j - #{package.collect {|a| a.full_filename}.join(' ')}`, :filename => 'featured_images.zip'
+  end
+
 end
