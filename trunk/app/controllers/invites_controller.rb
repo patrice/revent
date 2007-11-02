@@ -39,7 +39,7 @@ class InvitesController < ApplicationController
     @candidate_invites = Candidate.count :include => :politician_invites, :conditions => "politician_invites.id"
 
     @congress_rsvps = Politician.count :include => :rsvps, :conditions => "(district_type = 'FS' OR district_type = 'FH') AND rsvps.id"
-    @candidate_rsvps = Candidate.count :include => :rsvps, :conditions => "rsvps.id"
+    @candidate_rsvps = Candidate.count :include => :rsvps, :conditions => "rsvps.id and office = 'president'"
   end
 
   def totals
@@ -346,12 +346,12 @@ class InvitesController < ApplicationController
   end
   
   def candidates_invited
-    @politicians = Candidate.find :all, :include => :politician_invites, :conditions => "politician_invites.id"
+    @politicians = Candidate.find :all, :include => :politician_invites, :conditions => "politician_invites.id and office = 'president'"
     render :action => 'list'
   end
   
   def candidates_attending
-    @politicians = Candidate.find :all, :include => :rsvps, :conditions => "rsvps.id"
+    @politicians = Candidate.find :all, :include => :rsvps, :conditions => "rsvps.id and office = 'president'"
     render :action => 'list'
   end
 
