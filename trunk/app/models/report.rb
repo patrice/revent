@@ -1,4 +1,6 @@
 class Report < ActiveRecord::Base
+  @@flickr = []
+
   belongs_to :event
   belongs_to :user
   acts_as_list :scope => :event_id
@@ -63,5 +65,37 @@ class Report < ActiveRecord::Base
   end
   def find_published(*args)
     self.find_published(id, *args)
+  end
+
+  def upload_images_to_flickr
+    attachments.each do |attachment|
+      begin
+        data = attachment.temp_data
+        data ||= File.read(attachment.full_filename) if File.exists?(attachment.full_filename)
+        data ||= open(attachment.public_filename).read
+        flickr.photos.upload.upload_image_async(data, attachment.content_type, "#{event.name} - #{event.city}, #{event.state}", attachment.caption, ["stepitup", "stepitup#{event_id}"])
+      rescue XMLRPC::FaultException
+      end
+    end
+  end
+
+  def flickr
+    site_id = Site.current.id
+    @@flickr[site_id] ||= {}
+    @@flickr[site_id][:config] ||= YAML.load_file(File.join(RAILS_ROOT,'sites',site_id.to_s,'config','flickr',RAILS_ENV,'flickr.yml'))
+    @@flickr[site_id][:api] ||= Flickr.new(File.join(RAILS_ROOT,'sites',site_id.to_s,'config','flickr',RAILS_ENV,'token.cache'), @@flickr[site_id][:config]['api_key'], @@flickr[site_id][:config]['shared_secret'])
+  end
+
+  def check_akismet(request)
+    akismet = Akismet.new '8ec4905c5374', 'http://events.stepitup2007.org'
+    if akismet.comment_check(:user_ip => request[:remote_ip],
+                             :user_agent => request[:user_agent],
+                             :referrer => request[:referer],
+                             :comment_author => reporter_name,
+                             :comment_author_email => reporter_email,
+                             :comment_content => text)
+
+      self.publish
+    end
   end
 end

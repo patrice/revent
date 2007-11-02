@@ -43,33 +43,34 @@ class ReportsController < ApplicationController
   end
 
   def create
+    require 'starling_client'
+    queue = Starling.new 'localhost:22122'
     @report = Report.new(params[:report])
-    akismet = Akismet.new '8ec4905c5374', 'http://events.stepitup2007.org'
-    if akismet.comment_check(:user_ip => request.remote_ip,
-                             :user_agent => request.user_agent,
-                             :referrer => request.referer,
-                             :comment_author => @report.reporter_name,
-                             :comment_author_email => @report.reporter_email,
-                             :comment_content => @report.text)
-      flash[:notice] = "There was a problem saving your report"
-      render :action => 'new' and return
-    end
-
+    @attachments = []
     params[:press_links].reject {|link| link[:url].empty? || link[:text].empty?}.each do |link|
       @report.press_links.build(link)
     end
-    params[:attachments].reject {|att| att[:uploaded_data].blank?}.each do |att|
-      @report.attachments.build(att)
+    params[:attachments].reject {|a| a[:uploaded_data].blank?}.each do |a|
+      a.delete :embed #XXX this doesn't work yet, no embed field
+      @attachments << Attachment.new(a)
     end
 
-    if @report.save
-      @report.attachments.each do |attachment|
-        begin
-          @@flickr ||= Flickr.new(File.join(RAILS_ROOT, 'config', 'flickr',RAILS_ENV,'token.cache'))
-          @@flickr.photos.upload.upload_file_async(attachment.full_filename, "#{@report.event.name} - #{@report.event.city}, #{@report.event.state}", attachment.caption, ["stepitup", "stepitup#{@report.event.id}"])
-        rescue XMLRPC::FaultException
-        end
+    if @report.valid? && @attachments.all? {|a| a.valid?}
+      @report.save
+      @attachments.each {|a| a.report_id = @report.id}
+      begin
+        r = {:remote_ip => request.remote_ip, :user_agent => request.user_agent, :referer => request.referer}
+        attachments = @attachments.collect {|a| [a, a.temp_data]}
+        attachments.each {|a| a[0].clear_temp_paths}
+        queue.set 'reports', {:report => @report, :attachments => attachments, :request => r}
+      rescue Exception => e
+        raise e
+        attachments.each {|a| a[0].temp_data = a[1]; a[0].save }
+        @report.attachments = attachments.collect {|a| a[0]}
+        @report.upload_images_to_flickr
+        @report.check_akismet(r)
       end
+        
       flash[:notice] = 'Report was successfully created.'
       @events = @calendar.events
       render :action => 'index'

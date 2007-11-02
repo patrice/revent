@@ -48,10 +48,12 @@ class Attachment < ActiveRecord::Base
 
   @@document_condition = send(:sanitize_sql, ['content_type IN (?)', @@document_content_types]).freeze
   cattr_reader :document_content_types, :image_content_types, :document_condition
-  if File.exists?(s3_config_file = File.join(Site.current_config_path, 'amazon_s3.yml'))
-    has_attachment :storage => :s3, :s3_config_path => s3_config_file, :path_prefix => 'events/attachments', :content_type => [@@image_content_types, @@document_content_types].flatten, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 10.megabytes #generate print version after the fact
+  if RAILS_ENV == 'test'
+    has_attachment :storage => :file_system, :path_prefix => 'test/tmp/attachments', :content_type => [@@image_content_types, @@document_content_types].flatten, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 2.megabytes #generate print version after the fact
+  elsif File.exists?(s3_config_file = File.join(RAILS_ROOT, 'config', 'amazon_s3.yml'))
+    has_attachment :storage => :s3, :path_prefix => 'events/attachments', :content_type => [@@image_content_types, @@document_content_types].flatten, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 2.megabytes #generate print version after the fact
   else
-    has_attachment :storage => :file_system, :content_type => [@@image_content_types, @@document_content_types].flatten, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 10.megabytes 
+    has_attachment :storage => :file_system, :content_type => [@@image_content_types, @@document_content_types].flatten, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 2.megabytes 
   end
   validates_as_attachment
 
@@ -76,5 +78,8 @@ class Attachment < ActiveRecord::Base
     self.update_attribute(:primary, true)
   end
 
-  after_save { GC.start } # please, hope this helps
+  def clear_temp_paths
+    @temp_paths.clear
+  end
+#  after_save { GC.start } # please, hope this helps
 end
