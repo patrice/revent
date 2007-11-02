@@ -14,8 +14,14 @@
   <%= render :partial => 'form', :locals => { :f => f } %>
   
   <div align="center">
-  <h3>Please click this button only once and allow<br> several minutes for your report to upload.</h4>
-  <%= submit_tag "Create" %></div>
+  <h3>Please allow several minutes for your report to upload.</h3>
+  <table>
+   <tr>
+	 <td id="create_button"><%= submit_tag "Create", :onclick => "Element.hide('create_button'); Element.show('spinner')"  %></td>
+    <td id="spinner" style="font-style: font-size: 90%; display: none;"><%= image_tag 'spinner.gif' %> Uploading Report</td>
+   </tr>
+  </table>
+
 <br>
 
   After you are taken to the next page, please allow up to an hour for your report to be posted on the website
