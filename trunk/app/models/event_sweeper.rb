@@ -1,4 +1,3 @@
-require 'event'
 class EventSweeper < ActionController::Caching::Sweeper
   observe Event
 
