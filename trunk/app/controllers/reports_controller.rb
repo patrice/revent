@@ -31,8 +31,7 @@ class ReportsController < ApplicationController
          :redirect_to => { :action => :list }
 
   def show
-    @event = Event.find(params[:event_id], :include => {:reports => :attachments}, :order => 'reports.position')
-    @event ||= Event.find(params[:event_id])
+    @event = @calendar.events.find(params[:event_id], :include => {:reports => :attachments}, :order => 'reports.position')
   end
 
   def new
@@ -83,7 +82,7 @@ class ReportsController < ApplicationController
         queue.set 'users', @user
       rescue Exception => e
         raise e
-        attachments.each {|a| a[0].temp_data = a[1]; a[0].save; a.tags = a.tag_depot }
+        attachments.each {|a| a[0].temp_data = a[1]; a[0].save; a[0].tags = a[0].tag_depot }
         @report.attachments = attachments.collect {|a| a[0]}
         @report.embeds.each {|e| e.tags = e.tag_depot}
         @report.upload_images_to_flickr
