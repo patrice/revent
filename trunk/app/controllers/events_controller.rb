@@ -3,7 +3,7 @@ class EventsController < ApplicationController
 #  access_control [:edit, :update, :destroy, :create] => 'admin'
   include DaysOfAction::Geo
 
-  caches_page :index, :total, :by_state, :show
+  caches_page :index, :total, :by_state, :show, :simple
 #  before_filter(:only => :show) {|c| c.request.env["HTTP_IF_MODIFIED_SINCE"] = nil} #don't 304
 #  caches_action :show
 #  def action_fragment_key(options)
@@ -154,7 +154,7 @@ class EventsController < ApplicationController
       redirect_to :action => 'show', :id => @rsvp.event.id and return
     else
       flash.now[:notice] = 'There was a problem registering your RSVP.'
-      @event = @rsvp.event
+      show
       @attending_politicians = @event.attending_politicians.map {|p| p.parent || p}.uniq
       @supporting_politicians = @event.supporting_politicians.map {|p| p.parent || p}.uniq
       render :action => 'show', :id => @event.id
@@ -293,6 +293,7 @@ class EventsController < ApplicationController
   end
 
   def by_state
+    params[:state] ||= params[:id]
     if request.xhr?
       # this looks weird because by_state was traditionally not called directly, now it's being called by the map using xhr.  should refactor this.
       @events = @calendar.events.find(:all, :conditions => ["state = ?", params[:id]])
