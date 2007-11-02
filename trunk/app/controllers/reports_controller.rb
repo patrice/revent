@@ -52,6 +52,7 @@ class ReportsController < ApplicationController
     params[:press_links].reject {|link| link[:url].empty? || link[:text].empty?}.each do |link|
       @report.press_links.build(link)
     end
+    Tag #why not?
     @attachments = params[:attachments].reject {|i,a| a[:uploaded_data].blank?}.collect do |i,a|
       tags = a.delete(:tags).join(' ') if a[:tags]
       attachment = Attachment.new(a)
@@ -81,9 +82,13 @@ class ReportsController < ApplicationController
         queue.set 'reports', {:report => @report, :attachments => attachments, :request => r}
         queue.set 'users', @user
       rescue Exception => e
-        attachments.each {|a| a[0].temp_data = a[1]; a[0].save; a[0].tags = a[0].tag_depot }
+        attachments.each do |a| 
+          a[0].temp_data = a[1]
+          a[0].save
+          a[0].tags = a[0].tag_depot  if a[0].tag_depot
+        end
         @report.attachments = attachments.collect {|a| a[0]}
-        @report.embeds.each {|e| e.tags = e.tag_depot}
+        @report.embeds.each {|e| e.tags = e.tag_depot if e.tag_depot }
         @report.upload_images_to_flickr
         @report.check_akismet(r)
         @user.deferred = false
