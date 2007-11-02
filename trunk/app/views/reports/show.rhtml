@@ -60,9 +60,7 @@
          <% if report.reporter_name %>
                <div class="report-by">By:<%= report.reporter_name %></div>
          <% end -%><!-- end if reporter_name -->
-         <% if report.user.first_name %>
-               <div class="report-by">By:<%= report.user.first_name %> <%= report.user.last_name %></div>
-         <% end -%><!-- end if reporter_name -->
+
   <br>
   <%= simple_format(report.text) %>
   <br>
