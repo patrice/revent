@@ -18,7 +18,15 @@ class ReportProcessor
       puts "processing report #{report.id}"
       attachments.each do |a| 
         a[0].temp_data = a[1]
-        a[0].save
+	err_cnt = 0
+	begin
+	  a[0].save
+	rescue Errno::EPIPE
+	  puts 'caught broken pipe'
+	  err_cnt = err_cnt + 1
+	  sleep 0.25
+	  retry if err_cnt < 5
+	end
         a[0].tags = a[0].tag_depot if a[0].tag_depot
       end
       report.attachments = attachments.collect {|a| a[0]}
