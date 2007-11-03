@@ -27,9 +27,8 @@ class ReportsController < ApplicationController
     if params[:tag]
       tag = Tag.find_by_name params[:tag]
       @photos = tag.attachments.find(:all, :include => {:report => :event}, :conditions => "events.calendar_id = #{@calendar.id}")
-      @reports = @photos.collect {|p| p.report}.uniq
     else
-      @reports = @calendar.published_reports.find(:all, :include => [:attachments, :event], :conditions => "attachments.id")
+      @photos = @calendar.published_reports.find(:all, :include => [:attachments, :event], :conditions => "attachments.id").collect {|r| r.attachments}.flatten
     end
   end
 
