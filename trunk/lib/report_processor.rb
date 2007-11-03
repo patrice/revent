@@ -30,7 +30,7 @@ class ReportProcessor
         a[0].tags = a[0].tag_depot if a[0].tag_depot
       end
       report.attachments = attachments.collect {|a| a[0]}
-      report.upload_images_to_flickr
+      report.upload_images_to_flickr(false)
       puts 'uploaded to flickr'
       spam = report.check_akismet(request)
       puts 'checked with akismet, got: ' + spam

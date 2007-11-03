@@ -64,13 +64,19 @@ class Report < ActiveRecord::Base
     self.find_published(id, *args)
   end
 
-  def upload_images_to_flickr
+  def upload_images_to_flickr(async = true)
     attachments.each do |attachment|
       begin
         data = attachment.temp_data
         data ||= File.read(attachment.full_filename) if File.exists?(attachment.full_filename)
         data ||= open(attachment.public_filename).read
-        flickr.photos.upload.upload_image_async(data, attachment.content_type, attachment.filename, "#{event.name} - #{event.city}, #{event.state}", attachment.caption, ["stepitup2", "stepitup#{event_id}"])
+	if async
+	  flickr.photos.upload.upload_image_async(data, attachment.content_type, attachment.filename, "#{event.name} - #{event.city}, #{event.state}", attachment.caption, ["stepitup2", "stepitup#{event_id}"])
+	else
+	  photo_id = flickr.photos.upload.upload_image(data, attachment.content_type, attachment.filename, "#{event.name} - #{event.city}, #{event.state}", attachment.caption, ["stepitup2", "stepitup#{event_id}"])
+	  attachment.update_attribute(:flickr_id, photo_id)
+	  flickr.photosets.addPhoto('72157602812476432', photo_id)
+	end
       rescue XMLRPC::FaultException
       end
     end
