@@ -1,0 +1,3 @@
+<% Dir[File.join(RAILS_ROOT, 'public', 'featured_images_*')].map {|path| File.basename(path)}.each do |file| %>
+<%= link_to "#{file}.zip", "/#{file}.zip" %><br/>
+<% end %>
