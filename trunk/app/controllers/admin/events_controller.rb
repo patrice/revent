@@ -35,16 +35,16 @@ class Admin::EventsController < AdminController
   end
   
   def export
-    @events = @calendar.events.find(:all, :include => :host)
+    @events = @calendar.events.find(:all, :include => :reports)
     require 'fastercsv'
     string = FasterCSV.generate do |csv|
-      csv << ["Event Name", "Event ID", "City", "State", "Postal_Code", "District", "Organizer", "Email", "Phone"]
+      csv << ["Event Name", "Event ID", "City", "State", "Postal_Code", "District", "High Attendees", "Low Attendees", "Average Attendees"]
       @events.each do |event|
-        csv << [event.name, event.id, event.city, event.state, event.postal_code, event.district, event.host.full_name, event.host.email, event.host.phone]
+        csv << [event.name, event.id, event.city, event.state, event.postal_code, event.district, event.attendees_high, event.attendees_low, event.attendees_average]
       end
     end
     send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "events.csv")
-  end
+  end  
 
   def featured_images
     collect_featured_images
