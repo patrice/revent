@@ -70,7 +70,7 @@ class Report < ActiveRecord::Base
         data = attachment.temp_data
         data ||= File.read(attachment.full_filename) if File.exists?(attachment.full_filename)
         data ||= open(attachment.public_filename).read
-        flickr.photos.upload.upload_image_async(data, attachment.content_type, "#{event.name} - #{event.city}, #{event.state}", attachment.caption, ["stepitup2", "stepitup#{event_id}"])
+        flickr.photos.upload.upload_image_async(data, attachment.content_type, attachment.filename, "#{event.name} - #{event.city}, #{event.state}", attachment.caption, ["stepitup2", "stepitup#{event_id}"])
       rescue XMLRPC::FaultException
       end
     end
