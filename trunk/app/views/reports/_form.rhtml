@@ -51,8 +51,12 @@
 </div>
 <div class="form_block">
 	<p class='form_subtitle'>Attach a video from your event </p>
-	<p><label for="report_embed">Paste in the html in the Embed field to the right of your YouTube Video that you have already uploaded.  Make sure to not add the link to the YouTube page.
-	<br><br>  Upload your video to YouTube <a href="http://youtube.com/signup?next=/my_videos_upload" target="_blank">here</a>.<br>  Not sure what Embed code is <a href="" target="_blank">click here</a> for help.</label></p>
+  <p><label for="report_embed">To include your videos in your event report, you first need to upload them to YouTube and tag them "stepitup2." Once you've done that, you can copy the video's "embed code" and paste it in the box below. For more detailed instructions, please <a href="http://stepitup2007.org/article.php?id=661" target="_blank">click here</a>.
+    <br><br><i>And an important note: in order for your photo to be delivered to Congress, it must be uploaded on our website by the night of Saturday, 11/3, so if your movie isn't quite done or YouTube isn't working, just upload your stories and your photo and you can always come back later to upload your video.</i>
+
+    <br><br>  Upload your video to YouTube <a href="http://youtube.com/signup?next=/my_videos_upload" target="_blank">here</a>.
+    <br> Confused by any of this?  <a href="http://stepitup2007.org/article.php?id=661" target="_blank">Click here</a> for help uploading your videos
+  </label></p>
 	
 <% 1.upto(4) do |n| -%>
   <div id="report_add_video_<%= n %>" class="report_add_attachment"<% if n > 1 %> style="display:none;"<% end %>>

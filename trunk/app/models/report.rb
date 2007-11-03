@@ -7,9 +7,6 @@ class Report < ActiveRecord::Base
   has_many :attachments, :dependent => :destroy
   has_many :embeds, :dependent => :destroy
   has_many :press_links, :dependent => :destroy
-  def before_create
-    self.status = Report::PUBLISHED
-  end
 
   def primary!
     self.move_to_top
@@ -88,15 +85,15 @@ class Report < ActiveRecord::Base
 
   def check_akismet(request)
     akismet = Akismet.new '8ec4905c5374', 'http://events.stepitup2007.org'
-    if akismet.comment_check(:user_ip => request[:remote_ip],
+    unless akismet.comment_check(:user_ip => request[:remote_ip],
                              :user_agent => request[:user_agent],
                              :referrer => request[:referer],
                              :comment_author => reporter_name,
                              :comment_author_email => reporter_email,
                              :comment_content => text)
-
       self.publish
     end
+    akismet.last_response
   end
 
   def reporter_name

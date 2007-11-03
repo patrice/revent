@@ -23,7 +23,12 @@ class Calendar < ActiveRecord::Base
     def published_reports
       @published_reports ||= reports.select {|r| r.published?}
     end
+    def with_reports
+      published_reports.collect {|r| r.event}.uniq
+    end
   end
+
+  has_many :published_reports, :through => :events, :source => "reports", :conditions => "reports.status = '#{Report::PUBLISHED}'"
 
   def self.any?
     self.count != 0

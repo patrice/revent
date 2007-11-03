@@ -4,7 +4,7 @@
 
 <div class="intro-text">
 Do you have video of a <%= @calendar.name.downcase %> that you attended? <br>
-Lets us know by posting a <%= link_to 'report of your event', :controller => "reports", :action => "new" %>.
+Lets us know by posting a <%= link_to 'report of your event', :permalink => @calendar.permalink, :controller => "reports", :action => "new" %>.
 </div>
 		
 
@@ -12,9 +12,11 @@ Lets us know by posting a <%= link_to 'report of your event', :controller => "re
 	<h3><%= state %></h3>
 
   <% reports.each do |report| %>
+  <% report.embeds.each do |embed| %>
 	<div class="video-embed">
-	<%= white_list report.embed, :tags => %w(object embed param), :attributes => %w(name value type wmode) %>
+	<%= white_list embed.html, :tags => %w(object embed param), :attributes => %w(name value type wmode) %>
 	<br>
+  <% end %>
   <%= link_to("#{report.event.city}, #{report.event.state}", report_url(:event_id => report.event) ) %>: <%= report.event.name %>
 	</div>		
 

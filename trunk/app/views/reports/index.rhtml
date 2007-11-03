@@ -22,7 +22,7 @@
       &nbsp;Zip Code:  <%= text_field_tag 'zip', nil, :size=>10 %>
       <%= submit_tag "GO" %><br> 
       <b>OR</b> State:
-        <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='/reports/search/state/' + this.value" %>
+        <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='/#{@calendar.permalink}/reports/search/state/' + this.value" %>
         <% end -%></td></tr></table>
     </div>
     <%= render :partial => "flashmap" %>
@@ -31,7 +31,7 @@
     <div class="national-intro-count">
       <p><img src="/images/green_dot.png"> Green Dot = Events with Reports  |  <img src="/images/red_dot.png"> Red Dot = Events without Reports</P>
       
-      There are <%= @calendar.events.published_reports.length %> reports from  <%= @calendar.events.count %> scheduled events.
+      There are <%= @calendar.events.with_reports.length %> reports from  <%= @calendar.events.count %> scheduled events.
           </div>
               
                <%= render :partial =>'reports/report_nav' %>                

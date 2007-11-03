@@ -7,12 +7,24 @@ class ReportsController < ApplicationController
     @events = @calendar.events
   end
 
+  def call
+    @event = @calendar.events.find params[:id]
+    @rep = Politician.find_by_district @event.district
+    @senators = Politician.find_all_by_state_and_district_type @event.state, 'FS'
+  end
+
   def video
-    @reports = Report.find(:all, :conditions => "embed <> ''", :include => :event)
+    if params[:tag]
+      tag = Tag.find_by_name params[:tag]
+      @embeds = tag.embeds.find(:all, :include => {:report => :event}, :conditions => "events.calendar_id = #{@calendar.id}")
+      @reports = @embeds.collect {|e| e.report}.uniq
+    else
+      @reports = @calendar.published_reports.find(:all, :conditions => "embeds.id", :include => [:event, :embeds])
+    end
   end
 
   def press
-    @press_links = PressLink.find(:all, :include => {:report => :event})
+    @press_links = @calendar.published_reports.find(:all, :include => [:event, :press_links], :conditions => "press_links.id").collect {|r| r.press_links}.flatten
   end
 
   def flashmap
@@ -59,12 +71,6 @@ class ReportsController < ApplicationController
       attachment.tag_depot = tags
       attachment
     end
-    @embeds = params[:embeds].reject {|i,embed| embed[:html].empty?}.collect do |i,embed|
-      tags = embed.delete(:tags).join(' ') if embed[:tags]
-      e = Embed.new embed
-      e.tag_depot = tags
-      e
-    end
 
     if @user.valid? && @report.valid? && @attachments.all? {|a| a.valid?}
       @user.deferred = true
@@ -72,7 +78,11 @@ class ReportsController < ApplicationController
       @report.user_id = @user.id
       @report.save
       @attachments.each {|a| a.report_id = @report.id}
-      @embeds.each {|e| e.report_id = @report.id; e.save}
+      params[:embeds].reject {|i,embed| embed[:html].empty?}.each do |i,embed|
+        tags = embed.delete(:tags) if embed[:tags]
+        e = @report.embeds.create embed
+        e.tags = tags if tags
+      end
       begin
         require 'starling_client'
         queue = Starling.new 'localhost:22122'

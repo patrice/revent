@@ -16,7 +16,7 @@
 		</div>
     <% if report.instance_variable_get(:@distance_from_search) -%>
     <div class="event-list-miles">
-        <%= report.instance_variable_get(:@distance_from_search).round %> miles away</div>
+      <i><%= report.instance_variable_get(:@distance_from_search).round %> miles away</i></div>
       <% end -%>
     <div class="report-list-more">
       <%= link_to "[[Read More]]",   report_url(:permalink => @calendar.permalink, :event_id => report.event.id) %>

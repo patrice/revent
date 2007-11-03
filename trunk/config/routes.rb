@@ -122,7 +122,7 @@ ActionController::Routing::Routes.draw do |map|
                                         :action => "search",
                                         :requirements => { :zip => /\d{5}/ }
 
-#  map.connect 'reports/new/:service/:service_foreign_key', :controller => "reports", :action => "new"
+  map.connect ':permalink/reports/video/tagged/:tag', :controller => 'reports', :action => 'video'
   map.report ':permalink/reports/:event_id', :controller => 'reports', :action => 'show', :requirements => {:event_id => /\d+/}
 
   map.connect ':controller/page/:page', :action => 'list'

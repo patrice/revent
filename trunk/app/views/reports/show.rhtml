@@ -3,29 +3,29 @@
 <%= javascript_include_tag 'lightbox' %>
 <% end %>
 
-          <div id="nav-event"><% link_to 'Manage Event Reports', :controller => 'account', :action => 'profile' %>
-
+<div id="nav-event"><%=  link_to 'Manage Event Reports',   :permalink => @calendar.permalink, :controller => 'account', :action => 'profile' %>
+          </div>
 <div class="intro-title">
 	Event Report
 </div>
 
 <div class="report-intro-text">
 
-  <h2><%= link_to(white_list(@event.name), :controller => 'events', :action => 'show', :id => @event.id ) %></h2>
+  <h2><%= link_to(white_list(@event.name),   :permalink => @calendar.permalink, :controller => 'events', :action => 'show', :id => @event.id ) %></h2>
   <h3><%= white_list @event.city %>, <%= @event.state %></h3>
   <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y') : '?' %></b></p>
  
 	<div class="report-nav">			
-    <%= link_to(image_tag("/themes/stepitup/images/report_action.jpg", {:alt => 'Tell Your Representatives about this Action', :border => 0, :class=>"report_bt"}), "http://www.democracyinaction.org/dia/organizationsORG/SIU/campaign.jsp?campaign_KEY=#{@event.campaign_key}") if @event.campaign_key %>
+    <%= link_to(image_tag("/themes/stepitup/images/report_action.jpg", {:alt => 'Tell Your Representatives about this Action', :border => 0, :class=>"report_bt"}), :permalink => @calendar.permalink, :action => 'call', :id => @event) %>
 		<% if @event.reports.slideshow? -%>		
     <%= link_to(image_tag("/themes/stepitup/images/report_slideshow.jpg", {:alt => 'Watch A Slideshow of Pictures From This Event', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "slideshow", :id => @event.id} ) %>
 		<% end -%>
 		
-		<%= link_to(image_tag("/themes/stepitup/images/report_add.jpg", {:alt => 'Add Your Report of the Event', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "new", :id => @event.id}) %>
+    <%= link_to(image_tag("/themes/stepitup/images/report_add.jpg", {:alt => 'Add Your Report of the Event', :border => 0, :class=>"report_bt"}), { :permalink => @calendar.permalink, :controller => "reports", :action => "new", :id => @event.id}) %>
 		
     <%= link_to(image_tag("/themes/stepitup/images/report_share.jpg", {:alt => 'Share/Save this Report', :border => 0, :class=>"report_bt"}), {:controller => 'reports', :action => 'share', :id => @event.id }, :class => 'lbOn') %>
 	
-		<%= link_to(image_tag("/themes/stepitup/images/report_all.jpg", {:alt => 'See All Event Reports', :border => 0, :class=>"report_bt"}), {:controller => 'reports', :action => 'list' }) %>
+    <%= link_to(image_tag("/themes/stepitup/images/report_all.jpg", {:alt => 'See All Event Reports', :border => 0, :class=>"report_bt"}), {  :permalink => @calendar.permalink, :controller => 'reports', :action => 'list' }) %>
 
 	</div>
 <p></p>
@@ -84,6 +84,20 @@
     <% end -%><!-- end each audio -->
 	</div>
   <% end -%><!-- end if any audio -->
+
+
+
+  <% report.embeds.each do |embed| %>
+      <div class="report-embed" >
+      <%= white_list embed.html, :tags => %w(object embed param), :attributes => %w(name value type wmode) %>
+      <br>
+      <%= white_list embed.caption %>
+      </div>
+      <% end %>
+
+
+
+
 
   <% if report.attachments.any? {|a| a.video?} %>
     <% report.attachments.find_all {|a| a.video?}.each do |video| %>			

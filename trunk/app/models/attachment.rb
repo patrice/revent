@@ -71,7 +71,7 @@ class Attachment < ActiveRecord::Base
 
   def primary!
     event = self.event || self.report.event
-    event.report.attachments.each do |attachment|
+    event.reports.collect {|r| r.attachments}.flatten.each do |attachment|
       next if attachment == self
       attachment.update_attribute(:primary, false) if attachment.primary?
     end

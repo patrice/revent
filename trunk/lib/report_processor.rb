@@ -15,11 +15,16 @@ class ReportProcessor
       attachments = data[:attachments]
       request = data[:request]
       puts "processing report #{report.id}"
-      attachments.each {|a| a[0].temp_data = a[1]; a[0].save; a[0].tags = a[0].tag_depot}
-      report.embeds.each {|e| e.tags = e.tag_depot}
+      attachments.each do |a| 
+        a[0].temp_data = a[1]
+        a[0].save
+        a[0].tags = a[0].tag_depot if a[0].tag_depot
+      end
       report.attachments = attachments.collect {|a| a[0]}
       report.upload_images_to_flickr
-      report.check_akismet(request)
+      puts 'uploaded to flickr'
+      spam = report.check_akismet(request)
+      puts 'checked with akismet, got: ' + spam
     end
   end
 end

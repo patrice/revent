@@ -4,7 +4,7 @@
 
 <div class="intro-text">
 Did the press cover a <%= @calendar.name.downcase %> that you attended?<br>
-Lets us know by posting a <%= link_to 'report of your event', :controller => "reports", :action => "new" %>.
+Lets us know by posting a <%= link_to 'report of your event', :permalink => @calendar.permalink,  :controller => "reports", :action => "new" %>.
 </div>
 		
 	
@@ -14,13 +14,15 @@ Lets us know by posting a <%= link_to 'report of your event', :controller => "re
   }
   state_name ? state_name[0] : link.report.event.state}.sort.each do |state, press_links| %>
 	<h3><%= state %></h3>
-
+  <ul>
   <% press_links.each do |press_link| %>
-<li><%= link_to press_link.report.event.city, report_url(:permalink => @calendar.permalink, :event_id => press_link.report.event_id)  %>:
-<%= link_to press_link.text, press_link.url %>
+  <li><b><%= link_to press_link.report.event.city, report_url(:permalink => @calendar.permalink, :event_id => press_link.report.event_id)  %></b>: 
+  <%= link_to press_link.text, press_link.url %>
 </li>
 
 <% end %>
+</ul>
+
 <% end %>
 
  <%= render :partial =>'reports/report_nav' %>	
