@@ -47,20 +47,22 @@ class Admin::EventsController < AdminController
   end
 
   def featured_images
-    require 'Logger'
-    log = Logger.new('stepitup2-report-images.log')
-    log.level = Logger::INFO
     collect_featured_images
     image_names = []
+    image_urls = []
+    image_dir = File.join(RAILS_ROOT, 'public', 'featured_images') 
+    result = `mkdir #{image_dir}` if not File.exists?(image_dir)
+    timestamp = Time.now.strftime("%y%m%d_%H%M%S")
     @featured_images.each do |a|
-      local_filename = a.report.event.state + "_" + a.report.event.id + File.extname(a.public_filename)
+      local_filename = File.join(image_dir, a.report.event.state + "_" + a.report.event.id.to_s + File.extname(a.public_filename))
       result = `curl #{a.public_filename} > #{local_filename}`
       image_names << local_filename
-      log.info("#{local_filename}")
+      image_urls << a.public_filename
     end
     image_names = image_names.join(' ')
     result = `zip #{File.join(RAILS_ROOT,'public','featured_images.zip')} #{image_names}`
-    render :inline => "generated zip successfully, please download it <%= link_to 'here', '/featured_images.zip' %>"
+    render :inline => image_urls.join("\n")
+    #render :inline => "generated zip successfully, please download it <%= link_to 'here', '/featured_images.zip' %>"
 #    send_data result, :filename => 'featured_images.zip'
   end
 
