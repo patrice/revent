@@ -23,6 +23,16 @@ class ReportsController < ApplicationController
     end
   end
 
+  def photos
+    if params[:tag]
+      tag = Tag.find_by_name params[:tag]
+      @photos = tag.attachments.find(:all, :include => {:report => :event}, :conditions => "events.calendar_id = #{@calendar.id}")
+      @reports = @photos.collect {|p| p.report}.uniq
+    else
+      @reports = @calendar.published_reports.find(:all, :include => [:attachments, :event], :conditions => "attachments.id")
+    end
+  end
+
   def press
     @press_links = @calendar.published_reports.find(:all, :include => [:event, :press_links], :conditions => "press_links.id").collect {|r| r.press_links}.flatten
   end
@@ -44,6 +54,8 @@ class ReportsController < ApplicationController
 
   def show
     @event = @calendar.events.find(params[:event_id], :include => {:reports => :attachments}, :order => 'reports.position')
+    @attending_politicians = @event.attending_politicians.map {|p| p.parent || p}.uniq
+    @supporting_politicians = @event.supporting_politicians.map {|p| p.parent || p}.uniq
   end
 
   def new

@@ -165,18 +165,6 @@
 		</div>
 
 
-		<div id='profile_event_embed_list'>
-			<p class='profile_subtitle'>Event Videos</p>
-      		<table class='profile_list_table'>
-				<tr class = "profile_header_row">
-					<td>Embed Code</td>
-					<td>Caption</td>
-					<td>Tags</td>
-					<td></td>
-				</tr>
-				<%= render :partial => 'embed', :collection => @event.reports.embeds %>
-			</table>
-		</div>
 
 		<div id='profile_event_photo_list'>
 			<p class='profile_subtitle'>Event Photos</p>
@@ -190,7 +178,7 @@
 				<tr class = "profile_header_row">
 					<td>Image</td>
 					<td>Caption</td>
-					<td></td>
+					<td>Tags</td>
 					<td></td>
 					<td></td>
 				</tr>

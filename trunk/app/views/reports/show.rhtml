@@ -29,6 +29,31 @@
 
 	</div>
 <p></p>
+
+
+  <% if not @attending_politicians.empty? -%>
+    The following politician(s) attended this event:
+   <table>
+     <% @attending_politicians.each do |p| -%>
+        <tr><td><%= image_tag(p.image_url, :alt => "No Image", :size => "65x80") if p.image_url %></td>
+       <td><h4><%= p.display_name %></h4></td></tr>
+     <% end -%>
+   </table><br />
+  <% end -%>
+  <% if not @supporting_politicians.empty? %>
+    The following politician(s) sent a representative/statement of support for this event:
+   <table>
+     <% @supporting_politicians.each do |p| %>
+        <tr><td><%= image_tag(p.image_url, :alt => "No Image", :size => "65x80") if p.image_url %></td>
+       <td><h4><%= p.display_name %></h4></td></tr>
+     <% end -%>
+   </table><br />
+  <% end -%>
+
+
+
+
+
 </div>
 
 <% if @event.reports.empty? -%>

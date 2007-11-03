@@ -122,6 +122,7 @@ ActionController::Routing::Routes.draw do |map|
                                         :action => "search",
                                         :requirements => { :zip => /\d{5}/ }
 
+  map.connect ':permalink/reports/photos/tagged/:tag', :controller => 'reports', :action => 'photos'
   map.connect ':permalink/reports/video/tagged/:tag', :controller => 'reports', :action => 'video'
   map.report ':permalink/reports/:event_id', :controller => 'reports', :action => 'show', :requirements => {:event_id => /\d+/}
 
