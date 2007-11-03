@@ -49,20 +49,16 @@ class Admin::EventsController < AdminController
   def featured_images
     collect_featured_images
     image_names = []
-    image_urls = []
-    image_dir = File.join(RAILS_ROOT, 'public', 'featured_images') 
+    image_dir = File.join(RAILS_ROOT, 'public', 'featured_images_' + Time.now.strftime("%y%m%d_%H%M%S"))
     result = `mkdir #{image_dir}` if not File.exists?(image_dir)
-    timestamp = Time.now.strftime("%y%m%d_%H%M%S")
     @featured_images.each do |a|
       local_filename = File.join(image_dir, a.report.event.state + "_" + a.report.event.id.to_s + File.extname(a.public_filename))
       result = `curl #{a.public_filename} > #{local_filename}`
       image_names << local_filename
-      image_urls << a.public_filename
     end
     image_names = image_names.join(' ')
     result = `zip #{File.join(RAILS_ROOT,'public','featured_images.zip')} #{image_names}`
-    render :inline => image_urls.join("\n")
-    #render :inline => "generated zip successfully, please download it <%= link_to 'here', '/featured_images.zip' %>"
+    render :inline => "generated zip successfully, please download it <%= link_to 'here', '/featured_images.zip' %>"
 #    send_data result, :filename => 'featured_images.zip'
   end
 
