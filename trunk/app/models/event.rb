@@ -174,18 +174,20 @@ class Event < ActiveRecord::Base
   end
 
   def attendees_high
-    return nil if reports.empty? or reports.all? {|r| not r.attendees }
-    reports.map{|r| r.attendees ? r.attendees : 0}.max
+    rprts = reports.reject{|r| not r.attendees or r.attendees < 0}
+    return nil if rprts.empty
+    rprts.map{|r| r.attendees}.max
   end
   
   def attendees_low
-    return nil if reports.empty? or reports.all? {|r| not r.attendees }
-    reports.map{|r| r.attendees ? r.attendees : attendees_high}.min
+    rprts = reports.reject{|r| not r.attendees or r.attendees < 0}
+    return nil if rprts.empty
+    rprts.map{|r| r.attendees}.min
   end
   
   def attendees_average
-    return nil if reports.empty? or reports.all? {|r| not r.attendees }
-    rprts = reports.reject{|r| not r.attendees}
+    rprts = reports.reject{|r| not r.attendees or r.attendees < 0}
+    return nil if rprts.empty
     rprts.map{|r| r.attendees}.sum / rprts.length
   end
   
