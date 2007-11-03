@@ -21,7 +21,7 @@
   <h3><%= white_list @event.city %>, <%= @event.state %></h3>
   <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y  %I:%M%p') : '?' %> to <%= @event.end? ? @event.end.strftime('%I:%M%p') : '?' %></b></p>
   <h4>Hosted by <%= link_to @event.host.full_name, :action => :host, :id => @event %></h4>
-  <% if not @attending_politicians.empty? -%>
+  <% if @attending_politicians and not @attending_politicians.empty? -%>
     The following politician(s) will be attending this event:
 	 <table>
 		 <% @attending_politicians.each do |p| -%>
@@ -30,7 +30,7 @@
 		 <% end -%>
 	 </table><br />
   <% end -%>
-  <% if not @supporting_politicians.empty? %>
+  <% if @supporting_politicians and not @supporting_politicians.empty? %>
     The following politician(s) are sending a representative/statement of support for this event:
 	 <table>
 		 <% @supporting_politicians.each do |p| %>
