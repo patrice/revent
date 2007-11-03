@@ -173,6 +173,26 @@ class Event < ActiveRecord::Base
     start && start < Time.now
   end
 
+  def attendees_high
+    return nil if reports.empty? or reports.all? {|r| not r.attendees }
+    reports.map{|r| r.attendees ? r.attendees : 0}.max
+  end
+  
+  def attendees_low
+    return nil if reports.empty? or reports.all? {|r| not r.attendees }
+    reports.map{|r| r.attendees ? r.attendees : attendees_high}.min
+  end
+  
+  def attendees_average
+    return nil if reports.empty? or reports.all? {|r| not r.attendees }
+    rprts = reports.reject{|r| not r.attendees}
+    rprts.map{|r| r.attendees}.sum / rprts.length
+  end
+  
+  def reports_with_attendees_set
+    
+  end
+
 =begin
   class << self
     def find_or_import_by_service_foreign_key(key)
