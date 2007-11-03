@@ -63,6 +63,11 @@ class Admin::EventsController < AdminController
 #    send_data result, :filename => 'featured_images.zip'
   end
 
+  def mail_merge
+    @calendar = Calendar.find_by_permalink(params[:permalink])
+    render :layout => false
+  end
+
 private  
   def collect_featured_images
     events = @calendar.events.find(:all, :include => {:reports => :attachments}, :conditions => "attachments.id")
