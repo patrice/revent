@@ -8,6 +8,7 @@ require 'press_link'
 class ReportProcessor
   def self.run
     Site.current = Site.find 2
+    Tag
     queue = Starling.new 'localhost:22122'
     loop do
       data = queue.get 'reports'
