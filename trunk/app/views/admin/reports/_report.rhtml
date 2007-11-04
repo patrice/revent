@@ -1,0 +1,14 @@
+<tr bordercolor="#333333" bgcolor="#E5E5E5" onMouseover="this.bgColor='#CCFFCC';" onMouseout="this.bgColor='#E5E5E5';" id="report_<%= report.id %>">
+ 
+  <td><%= report.event.name %></td>
+  <td><%= report.reporter_name %></td>
+  <td><%= report.reporter_email%></td>
+  <td><%= report.status %></td>
+  <td><%= truncate(white_list(report.text)) %></td>
+  <td><%= report.attachments.length %></td>
+  
+  <td><%= link_to 'Show', url_for(:controller => '/reports', :action => :show, :id => report.event_id) %>
+  <td><%= link_to_remote 'Publish', :url => {:action => :publish, :id => report} %>
+  <td><%= link_to_remote 'Unpublish', :url => {:action => :unpublish, :id => report} %>
+  <td><%= link_to_remote 'Delete', :url => {:action => :destroy, :id => report}, :confirm => 'Are you sure?' %>
+</tr>

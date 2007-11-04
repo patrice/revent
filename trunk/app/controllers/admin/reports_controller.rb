@@ -1,5 +1,12 @@
 class Admin::ReportsController < AdminController 
-  ADMIN_METHODS = [:edit, :update, :destroy, :publish, :unpublish]
+  def list
+    if params[:id] == 'unpublished'
+      @reports = Report.find(:all, :include => [:attachments, {:event => :calendar}], :conditions => "calendars.site_id = #{site.id} AND (status IS NULL OR status <> '#{Report::PUBLISHED}')")
+    else
+      @reports = Report.find(:all, :include => [:attachments, {:event => :calendar}], :conditions => "calendars.site_id = #{site.id}")
+    end
+  end
+
   def edit
     @report = Report.find(params[:id])
   end
@@ -21,6 +28,7 @@ class Admin::ReportsController < AdminController
       wants.js do
         render :update do |page|
           page.remove "report_#{@report.id}"
+          page.alert "Report has been deleted"
         end
       end
     end
