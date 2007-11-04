@@ -39,13 +39,14 @@
 				<% restrict_to "admin" do %>
 					<p class ='sidetitle'>Admin Tools</p>
 					<ul class=side>
-						<li class = "side_user"><%= link_to 'manage users', :controller => 'admin/users', :action => 'index' %></l1>
-						<li class = "side_view"><%= link_to 'manage events', :controller => 'admin/calendars', :action => 'index' %></l1>
-						<li class = "side_view"><%= link_to 'manage calendars', :controller => 'admin/calendars2', :action => 'index' %></l1>
-						<!-- <li class = "side_view"><%= link_to 'manage email triggers', :controller => 'admin/triggers', :action => 'index' %></l1> -->
-						<li class = "side_view"><%= link_to 'manage event categories', :controller => 'admin/categories', :action => 'index' %></l1>
-						<li class = "side_view"><%= link_to 'manage host forms', :controller => 'admin/hostforms', :action => 'index' %></l1>
-						<li class = "side_view"><%= link_to 'manage invites', :controller => 'admin/invites', :action => 'index' %></l1>
+						<li class = "side_user"><%= link_to 'manage users', :controller => 'admin/users', :action => 'index' %></li>
+						<li class = "side_view"><%= link_to 'manage events', :controller => 'admin/calendars', :action => 'index' %></li>
+						<li class = "side_view"><%= link_to 'manage calendars', :controller => 'admin/calendars2', :action => 'index' %></li>
+						<!-- <li class = "side_view"><%= link_to 'manage email triggers', :controller => 'admin/triggers', :action => 'index' %></li> -->
+						<li class = "side_view"><%= link_to 'manage event categories', :controller => 'admin/categories', :action => 'index' %></li>
+						<li class = "side_view"><%= link_to 'manage host forms', :controller => 'admin/hostforms', :action => 'index' %></li>
+						<li class = "side_view"><%= link_to 'manage invites', :controller => 'admin/invites', :action => 'index' %></li>
+						<li class = "side_view"><%= link_to 'manage reports', :controller => 'admin/reports', :action => 'list' %></li>
 						<% if logged_in? %><li class = "side_exit"><%= link_to "Log Out", :controller => 'account', :action => 'logout' %></li><% end %>
 					</ul>
 				<% end %>

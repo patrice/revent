@@ -1,9 +1,9 @@
 class Admin::ReportsController < AdminController 
   def list
     if params[:id] == 'unpublished'
-      @reports = Report.find(:all, :include => [:attachments, {:event => :calendar}], :conditions => "calendars.site_id = #{site.id} AND (status IS NULL OR status <> '#{Report::PUBLISHED}')")
+      @reports = Report.paginate(:all, :include => [:attachments, {:event => :calendar}], :conditions => "calendars.site_id = #{site.id} AND (status IS NULL OR status <> '#{Report::PUBLISHED}')", :per_page => 50, :page => params[:page])
     else
-      @reports = Report.find(:all, :include => [:attachments, {:event => :calendar}], :conditions => "calendars.site_id = #{site.id}")
+      @reports = Report.paginate(:all, :include => [:attachments, {:event => :calendar}], :conditions => "calendars.site_id = #{site.id}", :per_page => 50, :page => params[:page])
     end
   end
 
