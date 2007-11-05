@@ -39,7 +39,8 @@
     Caption:<br/>
     <%= text_area_tag "attachments[#{n}][caption]",nil, :rows => 3, :cols => 40 %><br/>
     <%= check_box_tag "attachments[#{n}][primary]" %> Check this box if the image is the main event photo<br>
-
+    <%= check_box_tag "attachments[#{n}][tags][]", "greenfinger" %> This is a green finger photo<br>
+    <%= check_box_tag "attachments[#{n}][tags][]", "politician" %> This is a photo of a congressperson or presidential candidate<br>
     <% if n < 6 -%>
     <p class="report_add_another"><%= link_to_function 'Add Another Photo', visual_effect(:toggle_blind,"report_add_photo_#{n+1}") %>
     <% end -%>
@@ -50,17 +51,19 @@
 </div>
 <div class="form_block">
 	<p class='form_subtitle'>Attach a video from your event </p>
-  <p><label for="report_embed">To include your videos in your event report, you first need to upload them to YouTube. Once you've done that, you can copy the video's "embed code" and paste it in the box below.
-  
+  <p><label for="report_embed">To include your videos in your event report, you first need to upload them to YouTube and tag them "stepitup2." Once you've done that, you can copy the video's "embed code" and paste it in the box below. For more detailed instructions, please <a href="http://stepitup2007.org/article.php?id=661" target="_blank">click here</a>.
+    <br><br><i>And an important note: in order for your photo to be delivered to Congress, it must be uploaded on our website by the night of Saturday, 11/3, so if your movie isn't quite done or YouTube isn't working, just upload your stories and your photo and you can always come back later to upload your video.</i>
+
     <br><br>  Upload your video to YouTube <a href="http://youtube.com/signup?next=/my_videos_upload" target="_blank">here</a>.
-  
+    <br> Confused by any of this?  <a href="http://stepitup2007.org/article.php?id=661" target="_blank">Click here</a> for help uploading your videos
   </label></p>
 	
 <% 1.upto(4) do |n| -%>
   <div id="report_add_video_<%= n %>" class="report_add_attachment"<% if n > 1 %> style="display:none;"<% end %>>
     Video Embed Code<br><%= text_area_tag "embeds[#{n}][html]", nil, :rows => 3, :cols => 40  %><br>
     Video Title: <%= text_field_tag "embeds[#{n}][caption]", nil, :size => 40  %><br/>
-  
+    <%= check_box_tag "embeds[#{n}][tags][]", "greenfinger" %> This is a green finger video<br>
+    <%= check_box_tag "embeds[#{n}][tags][]", "politician" %> This video contains footage of a congressperson or presidential candidate<br>
     <% if n < 4 %>
     <p class="report_add_another"><%= link_to_function 'Add Another Video', visual_effect(:toggle_blind,"report_add_video_#{n+1}") %></p>
     <% end %>

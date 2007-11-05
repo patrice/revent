@@ -7,7 +7,8 @@
 	</div>
 
 	<div class="intro-text">
-		Please take a few minutes to share your stories, videos, and pictures from your event.  This information will be displayed publically.	</div>
+		Please take a few minutes to share your stories, videos, and pictures from the National Day of Climate Action on November 3.  This information will be displayed publically, so use your report to show the world the strength of this growing movement. 
+	</div>
 
 <% form_for :report, @report, :url => { :action => 'create' }, :html => { :multipart => true } do |f| -%>
   <%= render :partial => 'form', :locals => { :f => f } %>
@@ -26,7 +27,12 @@
   After you are taken to the next page, please allow up to an hour for your report to be posted on the website
   <br> <br>
 
-
+  <P>Since your event report will be visible to anyone who visits stepitup2007.org
+, please put your best face forward! Strive to be respectful of those people
+who attended your event,  and provide an unbiased assessment of what took
+place. Step It Up 2007 will not support or oppose any particular candidate
+for public office or any political party, nor does it take positions on
+legislation.</P>
 
 <% end -%>
 
