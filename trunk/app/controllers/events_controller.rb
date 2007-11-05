@@ -40,6 +40,15 @@ class EventsController < ApplicationController
     cache_page nil, :permalink => params[:permalink]
   end
 
+  def upcoming
+    @events = @calendar.events.find(:all, :conditions => ["end >= ?", Time.now], :order => "start, state")
+    respond_to do |format|
+      format.xml { render :layout => false }
+    end
+#    cache_page nil, :permalink => params[:permalink]
+  end
+
+
   def total
     render :layout => false
   end
@@ -192,7 +201,7 @@ class EventsController < ApplicationController
   def index
     redirect_to home_url
   end
-
+  
   def search
     extract_search_params
     render 'calendars/show' and return unless @events
