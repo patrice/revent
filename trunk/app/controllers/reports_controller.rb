@@ -65,6 +65,7 @@ class ReportsController < ApplicationController
   end
 
   def create
+    redirect_to(:action => :index) and return unless params[:user]
     @report = Report.new(params[:report])
     @user = User.find_or_initialize_by_site_id_and_email(Site.current.id, params[:user][:email]) # or current_user
     @user.attributes = params[:user].reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}

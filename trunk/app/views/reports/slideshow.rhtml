@@ -1,4 +1,4 @@
 <div style="width:500px;height:700px;margin-right:auto;margin-left:auto;"><iframe align=center src=http://www.flickr.com/slideShow/index.gne?user_id=82047420@N00&tags=stepitup<%= params[:id] %> frameBorder=0 width=500 scrolling=no height=500></iframe>
-  <br> <br><%= link_to( 'Return Back To Report', report_url(:event_id => params[:id]) ) %><br/></div>
+  <br> <br><%= link_to( 'Return Back To Report', report_url(:permalink => @calendar.permalink, :event_id => params[:id]) ) %><br/></div>
 
  <%= render :partial =>'reports/report_nav' %>

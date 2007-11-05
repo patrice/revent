@@ -48,19 +48,13 @@ class Admin::EventsController < AdminController
 
   def featured_images
     collect_featured_images
-    image_names = []
+    require 'starling_client'
+    queue = Starling.new 'localhost:22122'
     timestamp = Time.now.strftime("%y%m%d_%H%M%S") 
-    image_dir = File.join(RAILS_ROOT, 'public', 'featured_images_' + timestamp)
-    result = `mkdir #{image_dir}` if not File.exists?(image_dir)
-    @featured_images.each do |a|
-      local_filename = File.join(image_dir, a.report.event.state + "_" + a.report.event.id.to_s + File.extname(a.public_filename))
-      next if Dir[File.join(RAILS_ROOT, 'public', 'featured_images*', '*')].map {|full_path| File.basename(full_path)}.include?(File.basename(local_filename))
-      result = `curl #{a.public_filename} > #{local_filename}`
-      image_names << local_filename
-    end
-    image_names = image_names.join(' ')
-    result = `zip -j #{File.join(RAILS_ROOT,'public','featured_images_' + timestamp + '.zip')} #{image_names}`
-#    render :inline => "generated zip successfully, please download it <%= link_to 'here', '/featured_images.zip' %>"
+    @latest = File.join(RAILS_ROOT,'public','featured_images_' + timestamp + '.zip')
+    queue.set 'images', [timestamp, @featured_images]
+
+#    render :inline => "generated zip successfully, please download it <%= link_to 'here', '/#{zip_file_name}' %>"
 #    send_data result, :filename => 'featured_images.zip'
   end
 
@@ -70,6 +64,22 @@ class Admin::EventsController < AdminController
   end
 
 private  
+  def zip_em_up(timestamp)
+    image_names = []
+    image_dir = File.join(RAILS_ROOT, 'public', 'featured_images_' + timestamp)
+    result = `mkdir #{image_dir}` if not File.exists?(image_dir)
+    @featured_images.each do |a|
+      local_filename = File.join(image_dir, a.report.event.state + "_" + a.report.event.id.to_s + File.extname(a.public_filename))
+      next if Dir[File.join(RAILS_ROOT, 'public', 'featured_images*', '*')].map {|full_path| File.basename(full_path)}.include?(File.basename(local_filename))
+      result = `curl #{a.public_filename} > #{local_filename}`
+      image_names << local_filename
+    end
+    return if image_names.empty?
+    image_names = image_names.join(' ')
+    @latest = File.join(RAILS_ROOT,'public','featured_images_' + timestamp + '.zip')
+    result = `zip -j #{@latest} #{image_names}`
+  end
+
   def collect_featured_images
     events = @calendar.events.find(:all, :include => {:reports => :attachments}, :conditions => "attachments.id")
     @featured_images = []

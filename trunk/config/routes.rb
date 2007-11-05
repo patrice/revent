@@ -37,6 +37,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'admin/:permalink/events/:action.:format', :controller => 'admin/events'
   map.connect 'admin/:permalink/events/:action/:id', :controller => 'admin/events'
  
+  map.connect 'admin/:permalink/reports/:action/:id.:format', :controller => 'admin/reports'
+  map.connect 'admin/:permalink/reports/:action.:format', :controller => 'admin/reports'
+  map.connect 'admin/:permalink/reports/:action/:id', :controller => 'admin/reports'
+ 
   map.connect 'admin/calendars/:action/:id.:format', :controller => 'admin/calendars'
   map.connect 'admin/calendars/:action.:format', :controller => 'admin/calendars'
   map.connect 'admin/calendars/:action/:id', :controller => 'admin/calendars'

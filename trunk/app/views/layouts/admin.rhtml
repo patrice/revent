@@ -46,7 +46,7 @@
 						<li class = "side_view"><%= link_to 'manage event categories', :controller => 'admin/categories', :action => 'index' %></li>
 						<li class = "side_view"><%= link_to 'manage host forms', :controller => 'admin/hostforms', :action => 'index' %></li>
 						<li class = "side_view"><%= link_to 'manage invites', :controller => 'admin/invites', :action => 'index' %></li>
-						<li class = "side_view"><%= link_to 'manage reports', :controller => 'admin/reports', :action => 'list' %></li>
+						<li class = "side_view"><%= link_to 'manage reports', :controller => 'admin/reports', :action => 'index' %></li>
 						<% if logged_in? %><li class = "side_exit"><%= link_to "Log Out", :controller => 'account', :action => 'logout' %></li><% end %>
 					</ul>
 				<% end %>

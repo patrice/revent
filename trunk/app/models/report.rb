@@ -75,7 +75,7 @@ class Report < ActiveRecord::Base
 	else
 	  photo_id = flickr.photos.upload.upload_image(data, attachment.content_type, attachment.filename, "#{event.name} - #{event.city}, #{event.state}", attachment.caption, ["stepitup2", "stepitup#{event_id}"])
 	  attachment.update_attribute(:flickr_id, photo_id)
-	  flickr.photosets.addPhoto('72157602812476432', photo_id)
+	  flickr.photosets.addPhoto('72157602812476432', photo_id) if attachment.primary?
 	end
       rescue XMLRPC::FaultException
       end

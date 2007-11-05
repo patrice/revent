@@ -6,7 +6,7 @@
   If you attended this event please <%= link_to 'Submit a Report', :permalink => @calendar.permalink, :controller => "reports", :action => "new", :id=>@event.id %>.<br>
 
 	<% unless @event.reports.empty? -%>
-	   <%= link_to 'Click here', report_url(@event.id)  %> to see reports for this event.<br>
+	   <%= link_to 'Click here', report_url(:permalink => @calendar.permalink, :event_id => @event.id)  %> to see reports for this event.<br>
 	<% end -%>
   See all <%= link_to 'Event Reports', :permalink => @calendar.permalink, :controller => 'reports', :action => 'index' %>.<br><br>
 </b>
