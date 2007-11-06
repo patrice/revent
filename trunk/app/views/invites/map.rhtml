@@ -7,9 +7,13 @@
   <script language="JavaScript" src="/flashmaps/include/fmActivate.js"></script>
   <script language="JavaScript" src="/flashmaps/include/fmASAPI.js"></script>
 <% end %>
+<% unless @calendar.past? -%>
 <h3>Join An Action</h3>
+<% else -%>
+<h3>Find An Action</h3>
+<% end -%>
 Having trouble loading the map? <%= link_to 'Click here', :controller => 'events', :action => 'simple' %><br /><br />
-Select your state or enter your zip code to find an event in your area:<br />
+Select your state or enter your zip code to find an event <%= @calendar.past? ? "that occurred " : " " %>in your area:<br />
 <table>
 <tr>
 <td>
@@ -52,15 +56,21 @@ State: <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbre
 
 <br/>
 
-<div id="map-invite-buttons">
-<%= render "invites/buttons" %>
-</div>
+<% unless @calendar.past? -%>
+  <div id="map-invite-buttons">
+  <%= render "invites/buttons" %>
+  </div>
+<% end -%>
 
 <br clear="both">
 
 <div id="map-header">
 <h4>
-Help us turn America green.  Search the map below to find out which members of congress have been invited or are attending events, and be sure to continue flooding them with invitations until they agree to show up.
+<% unless @calendar.past? -%>
+Help us turn America green.  Search the map above to find out which members of congress have been invited or are attending events, and be sure to continue flooding them with invitations until they agree to show up.
+<% else -%>
+Search the map above to find out which members of congress were invited or attended events.
+<% end -%>
 </h4>
 <div class="map_key">
 <span class="map_1">100% Members of Congress Invited</span>

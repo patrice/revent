@@ -1,4 +1,7 @@
-  <div id="content_header"><table width="100%" cellpadding="0" cellspacing="0" border="0" class="text"><tr><td><p class="title">Sign Up to Host A Step It Up Action on November 3rd</p>
+<% unless @calendar.past? -%>
+<div id="content_header">
+	<table width="100%" cellpadding="0" cellspacing="0" border="0" class="text">
+		<tr><td><p class="title">Sign Up to Host A Step It Up Action on November 3rd</p>
 </td></tr>
 <td></td><tr><td  class="text"><BR />
 
@@ -326,3 +329,11 @@ from &quot;Manage Your Action&quot; within the &quot;Organizer Headquarters.&quo
     </div>
 <% end -%>
   </td></tr></table></div>
+<% else -%>
+<div id="content_header">
+<h1>Step It Up 2 Was a Success!</h1>
+<p class="text">Step It Up 2 took place on November 3rd, 2007.<br /><br />  
+To see reports for Step It Up 2, click <%= link_to 'here', :permalink => @calendar.permalink, :controller => 'reports' %>.<br />
+To see how leaders responded to Step It Up 2, click <%= link_to 'here', 'http://stepitup2007.org/article.php?list=type&type=49' %>.
+</p>
+<% end -%>

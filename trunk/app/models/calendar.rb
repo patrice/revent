@@ -33,6 +33,10 @@ class Calendar < ActiveRecord::Base
   def self.any?
     self.count != 0
   end
+  
+  def past?
+    event_start && event_start < Time.now
+  end
 
   #XXX
   has_one :democracy_in_action_object, :as => :synced

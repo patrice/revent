@@ -13,7 +13,7 @@
   <div id="national-map-container">
     <div id='national-map-search'>
       <table cellpadding=8><tr><td valign=top><b>Search by: </b></td><td>
-            <% form_tag :permalink => @calendar.permalink, :controller => 'events', :action => 'search' do -%>
+         <% form_tag :permalink => @calendar.permalink, :controller => 'events', :action => 'search' do -%>
          
       &nbsp;Zip Code:  <%= text_field_tag 'zip', nil, :size=>10 %>
       <%= submit_tag "GO" %><br> 
