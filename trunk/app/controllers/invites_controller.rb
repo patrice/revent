@@ -65,6 +65,7 @@ class InvitesController < ApplicationController
     else # congress-person
       @events = @calendar.events.find(:all, :conditions => ["state = ?", @politician.state])
     end
+    @events.reject!{|e| e.past?}
     @events_select = []
     @events_select << ['--- SELECT AN ACTION ---', 'none']
     @events.each {|e| @events_select << ["#{[e.city, e.state].join(', ')} - #{e.name}", e.id]}
