@@ -205,6 +205,9 @@ class EventsController < ApplicationController
   def search
     extract_search_params
     render 'calendars/show' and return unless @events
+    @categories = @calendar.categories.find(:all).map{|c| [c.name.pluralize, c.id]}
+    @categories.insert(0, ["All " + @calendar.permalink.capitalize, "all"]) unless @categories.empty?
+    @category_id = params[:category].to_i if params[:category]
     @map = Cartographer::Gmap.new('eventmap')
     @map.init do |m|
       m.center = @map_center || [37.160317,-95.800781]
@@ -270,8 +273,11 @@ class EventsController < ApplicationController
                         max_lon])
     end
     @codes = @zips.collect {|z| z.zip}
-    @events = @calendar.events.find(:all, :conditions => ["postal_code IN (?)", @codes])
-
+    if params[:category] and not params[:category] == "all"
+      @events = @calendar.events.find(:all, :conditions => ["postal_code IN (?) AND category_id = ?", @codes, params[:category]])
+    else
+      @events = @calendar.events.find(:all, :conditions => ["postal_code IN (?)", @codes])
+    end
     @events = @events.sort_by {|e| @codes.index(e.postal_code)}
 
     @events.each {|e| e.instance_variable_set(:@distance_from_search, @zips.find {|z| z.zip == e.postal_code}.distance_to_search_zip) }
@@ -309,7 +315,11 @@ class EventsController < ApplicationController
       render :partial => 'report', :collection => @events and return
     end
     @search_area = params[:state]
-    @events = @calendar.events.find(:all, :conditions => ["state = ?", params[:state]])
+    if params[:category] and not params[:category] == "all"
+      @events = @calendar.events.find(:all, :conditions => ["state = ? AND category_id = ?", params[:state], params[:category]])
+    else
+      @events = @calendar.events.find(:all, :conditions => ["state = ?", params[:state]])
+    end
     @map_center = DaysOfAction::Geo::STATE_CENTERS[params[:state].to_sym]
     @map_zoom = DaysOfAction::Geo::STATE_ZOOM_LEVELS[params[:state].to_sym]
   end
