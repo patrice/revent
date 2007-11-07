@@ -207,7 +207,8 @@ class EventsController < ApplicationController
     render 'calendars/show' and return unless @events
     @categories = @calendar.categories.find(:all).map{|c| [c.name.pluralize, c.id]}
     @categories.insert(0, ["All " + @calendar.permalink.capitalize, "all"]) unless @categories.empty?
-    @category_id = params[:category].to_i if params[:category]
+    @category = @calendar.categories.find(params[:category]) if (params[:category] and not params[:category] == 'all')
+#    @category_id = params[:category].to_i if params[:category]
     @map = Cartographer::Gmap.new('eventmap')
     @map.init do |m|
       m.center = @map_center || [37.160317,-95.800781]
