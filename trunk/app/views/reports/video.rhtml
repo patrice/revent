@@ -17,7 +17,7 @@ Let us know by posting a <%= link_to 'report of your event', :permalink => @cale
 	<%= white_list embed.html, :tags => %w(object embed param), :attributes => %w(name value type wmode) %>
 	<br>
   <% end %>
-  <%= link_to("#{report.event.city}, #{report.event.state}", report_url(:event_id => report.event) ) %>: <%= report.event.name %>
+  <%= link_to("#{report.event.city}, #{report.event.state}", report_url(:permalink => @calendar.permalink, :event_id => report.event_id) ) %>: <%= report.event.name %>
 	</div>		
 
   <% end %>
