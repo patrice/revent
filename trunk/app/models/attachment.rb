@@ -51,8 +51,8 @@ class Attachment < ActiveRecord::Base
   if RAILS_ENV == 'test'
     has_attachment :storage => :file_system, :path_prefix => 'test/tmp/attachments', :content_type => [@@image_content_types, @@document_content_types].flatten, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 2.megabytes #generate print version after the fact
   elsif File.exists?(s3_config_file = File.join(RAILS_ROOT, 'config', 'amazon_s3.yml'))
-    has_attachment :storage => :s3
-    self.attachment_options = AttachmentOptions.new
+    has_attachment :storage => :s3, :content_type => [Attachment.image_content_types, Attachment.document_content_types].flatten, :path_prefix => 'events/attachments', :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :bucket_name => 'radicaldesigns.org'
+    self.attachment_options = AttachmentOptions.new(attachment_options)
   else
     has_attachment :storage => :file_system, :content_type => [@@image_content_types, @@document_content_types].flatten, :thumbnails => { :lightbox => '490x390>', :list => '100x100', :display => '300x300' }, :max_size => 2.megabytes 
   end
