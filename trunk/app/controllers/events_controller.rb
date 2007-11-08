@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_filter :login_required, :only => [:edit, :update, :destroy]
-  before_filter :disable_create_when_event_past, :only => [:new, :create]
+  before_filter :disable_create_when_event_past, :only => [:new, :create, :rsvp]
 #  access_control [:edit, :update, :destroy, :create] => 'admin'
   include DaysOfAction::Geo
 
@@ -29,7 +29,12 @@ class EventsController < ApplicationController
          :redirect_to => { :action => :list }
 
   def disable_create_when_event_past
-    redirect_to home_url if @calendar.past?
+    if params[:id]
+      @event = @calendar.events.find(params[:id]) 
+      redirect_to home_url if @event.past?
+    else
+      redirect_to home_url if @calendar.past?
+    end
   end
 
   def tagged
