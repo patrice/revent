@@ -1,6 +1,7 @@
 #require 'ruby-debug'
 
 class InvitesController < ApplicationController  
+  before_filter :disable_invites_when_event_past, :only => [:events, :list, :search, :state, :write, :call, :email, :thank_you, :create, :congress_invited, :congress_attending, :candidates_invited, :candidates_attending]
   before_filter :find_or_initialize_event, :only => [:write, :call, :email]
   session :off
   layout 'invites'
@@ -17,6 +18,10 @@ class InvitesController < ApplicationController
 
   def flashmap_cache_version
     Cache.get("site_#{Site.current.id}_flashmap_version") { rand(10000) }
+  end
+
+  def disable_invites_when_event_past
+    redirect_to home_url if @calendar.past?
   end
 
   def widget
