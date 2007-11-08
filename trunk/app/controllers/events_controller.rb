@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_filter :login_required, :only => [:edit, :update, :destroy]
+  before_filter :disable_create_when_event_past, :only => [:new, :create]
 #  access_control [:edit, :update, :destroy, :create] => 'admin'
   include DaysOfAction::Geo
 
@@ -26,6 +27,10 @@ class EventsController < ApplicationController
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => :post, :only => [ :destroy, :create, :update ],
          :redirect_to => { :action => :list }
+
+  def disable_create_when_event_past
+    redirect_to home_url if @calendar.past?
+  end
 
   def tagged
     tag = Tag.find_by_name(params[:id])
