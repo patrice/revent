@@ -102,7 +102,8 @@ class ReportsController < ApplicationController
         r = {:remote_ip => request.remote_ip, :user_agent => request.user_agent, :referer => request.referer}
         attachments = @attachments.collect {|a| [a, a.temp_data]}
         attachments.each {|a| a[0].clear_temp_paths}
-        queue.set 'reports', {:report => @report, :attachments => attachments, :request => r}
+        queue.set 'reports', {:report => @report, :attachments => attachments, :request => r, :site => Site.current, 
+              :flickr_tags => @calendar.flickr_tags(@report.event.id), :flickr_photoset => @calendar.flickr_photoset}
         queue.set 'users', @user
       rescue Exception => e
         attachments.each do |a| 
@@ -112,7 +113,11 @@ class ReportsController < ApplicationController
         end
         @report.attachments = attachments.collect {|a| a[0]}
         @report.embeds.each {|e| e.tags = e.tag_depot if e.tag_depot }
-        @report.upload_images_to_flickr
+        upload_images_to_flickr(@report.attachments, 
+              :site_id => Site.current, 
+              :title => "#{event.name} - #{event.city}, #{event.state}",
+              :flickr_tags =>  @calendar.flickr_tags(@report.event.id), 
+              :flickr_photoset => @calendar.flickr_photoset)
         @report.check_akismet(r)
         @user.deferred = false
         @user.sync_to_democracy_in_action

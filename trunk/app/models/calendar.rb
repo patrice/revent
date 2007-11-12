@@ -10,6 +10,9 @@ class Calendar < ActiveRecord::Base
   @@deleted_events = []
   @@all_events = []
   
+  has_many :public_events, 
+           :class_name  => "Event",
+           :conditions  => "private IS NULL OR private = FALSE"
   has_many :events do
     def unique_states
       states = proxy_target.collect {|e| e.state}.compact.uniq.select do |state|
@@ -36,6 +39,16 @@ class Calendar < ActiveRecord::Base
   
   def past?
     event_start && event_start < Time.now
+  end
+
+  def flickr_tags(event_id = nil)
+    tags = []
+    if tag = flickr_tag
+      tags << tag.to_s
+      tags << (tag.to_s + event_id.to_s) if event_id
+      tags << flickr_additional_tags.split(',') if flickr_additional_tags
+    end
+    tags.flatten
   end
 
   #XXX

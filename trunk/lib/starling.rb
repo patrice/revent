@@ -191,6 +191,7 @@ module Starling
     attr_reader :start_time
 
     def initialize(host, port, persistence_path, num_processors=(2**30-1), timeout=0)
+      require 'socket'
       @socket = TCPServer.new(host, port)
 
       @socket.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_NODELAY, 1)
