@@ -1,5 +1,6 @@
 class Admin::ReportsController < AdminController 
   def index
+    redirect_to :action => :list unless @calendar.nil?
     @calendars = Site.current.calendars
   end
 

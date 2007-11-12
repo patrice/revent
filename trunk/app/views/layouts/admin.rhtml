@@ -2,93 +2,87 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title>Days of Action</title>
-  <link rel="stylesheet" type="text/css" href="http://radicaldesigns.org/system/system_interface.css" id="default">
+  <title> <%= @page_title ||= "Days of action" %></title>
 
   <%= stylesheet_link_tag 'application' %>
+  <%= stylesheet_link_tag 'admin' %>
   <%= javascript_include_tag :defaults %>
 	<%= active_scaffold_includes %>
+  <%= stylesheet_link_tag 'active_scaffold_overrides' %>
   <%= yield :header %>
 </head>
 <body>
 
-<table cellpadding="0" cellspacing="0" width="100%" align="center">
-	<tr bordercolor="#FFFFFF" bgcolor="#dedede" valign="top">
-		<td colspan="2" id="pagetitle">
-
-			<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#006699">
-				<tr id="header">
-					<td ><img src="http://radicaldesigns.org/system/images/amp-megaphone.png" align ="middle" style="padding-right:25px"><span class="toptitle">Radical Designs Event Organizing Tool</span></td>
-					<td align="left" valign="middle"  ><span class="toplinks"><%= site.host %></span></td>
-				</tr>
-				<tr>
-					<td id="navlinks" colspan="2" >
-					<% restrict_to "admin" do %>
-			
-						<div style="text-align:right;">	<%= select_tag 'admin', "<option value='' selected>Select Event To Edit</option>" +options_for_select(@calendar.events.find(:all, :order=>"state,city").collect {|e| ["#{e.state} - #{e.city}: #{truncate e.name,30}", "/profile/events/#{e.id}"]}, :include_blank=>true), :onChange=>'window.location=this.options[this.selectedIndex].value;'%>
-				  </div>
-						<% end %>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td bgcolor="#dedede" width="160" valign="top">
-			<p class='side_banner'>Administration </p>
-				<% restrict_to "admin" do %>
-					<p class ='sidetitle'>Admin Tools</p>
-					<ul class=side>
-						<li class = "side_user"><%= link_to 'manage users', :controller => 'admin/users', :action => 'index' %></li>
-						<li class = "side_view"><%= link_to 'manage events', :controller => 'admin/calendars', :action => 'index' %></li>
-						<li class = "side_view"><%= link_to 'manage calendars', :controller => 'admin/calendars2', :action => 'index' %></li>
-						<!-- <li class = "side_view"><%= link_to 'manage email triggers', :controller => 'admin/triggers', :action => 'index' %></li> -->
-						<li class = "side_view"><%= link_to 'manage event categories', :controller => 'admin/categories', :action => 'index' %></li>
-						<li class = "side_view"><%= link_to 'manage host forms', :controller => 'admin/hostforms', :action => 'index' %></li>
-						<li class = "side_view"><%= link_to 'manage invites', :controller => 'admin/invites', :action => 'index' %></li>
-						<li class = "side_view"><%= link_to 'manage reports', :controller => 'admin/reports', :action => 'index' %></li>
-						<% if logged_in? %><li class = "side_exit"><%= link_to "Log Out", :controller => 'account', :action => 'logout' %></li><% end %>
-					</ul>
-				<% end %>
-
-<% restrict_to "developer" do %>
-  <br clear='all' /><p class ='sidetitle'>Developer Tools</p>
-  <ul class=side>
-  
-  	<li class = "side_settings"><%= link_to 'load fixtures', :controller => :site, :action => :load_data, :id => :test %></li>
-  	<li class = "side_settings"><%= link_to 'load events from DIA', :controller => :site, :action => :load_data, :id => :dia %></li>
-	<% if logged_in? %><li class = "side_exit"><%= link_to "Log Out", :controller => 'account', :action => 'logout' %></li><% end %>
-	</ul>  
-<% end %>
-
-
-
-<br clear='all' /><br/><br/><img src ="http://radicaldesigns.org/system/images/spacer.gif" width = "165" height="1">
-
-</td>
-
-<td valign="top" bgcolor="#FFFFFF" width="100%"><div>
-
-
-
-<fieldset class="system_main_content">
-
-
-
-
-   <div id="flash"><%= flash[:notice] %></div>
+<div id="container">
+  <div id="header">
+      <%= link_to "skip navigation", "#main", :class => 'screen-reader'  %>
+      <% if logged_in? -%>
+        <%= link_to "main menu", "#main_menu", :class => 'screen-reader'  %>
+        <div id="user_menu">
+          <span><%= current_user.full_name %></span>
+          <%= link_to 'Account', :controller => '/account', :action => :profile, :id => current_user.id %>
+          <%= link_to 'Log Out', :controller => 'account', :action => 'logout' %>
+          <%= mail_to 'help@radicaldesigns.org', 'help', :subject => site.host + ': ' ,  :id => 'help' %>
+        </div>
+      <% end -%>
+        <div id="site_menu">
+          <div id="site_id"><%= "#{site.theme.camelize}: #{site.host}:" %></div>
+          <% restrict_to 'admin' do -%>
+          <div>
+            <% form_tag :controller => @current_controller, :action => @current_action, :method => :get do %>
+              <ul id="calendar_menu">
+                <li class='current'>
+                  <% button_tag = radio_button(:calendar, :permalink, @calendar.permalink ) -%>
+                  <%= link_to button_tag + @calendar.name, '#header' %>
+                </li>
+              <% site.calendars.each do |cal| -%> 
+                <% next if cal == @calendar %>
+                <li>
+                  <% button_tag = radio_button( :calendar, :permalink, cal.permalink) -%>
+                  <%= link_to button_tag + cal.name, :controller => '/admin/events', :permalink => cal.permalink %>
+                </li>
+              <% end -%>
+              </ul>
+            <% end -%>
+          </div>
+          <% end -%>
+        </div> 
+        <ul id='main_menu' class="tabs">
+          <% restrict_to 'admin' do -%>
+          <li><%= activate_link_to "Users",   :controller => 'admin/users' %></li>
+          <li><%= activate_link_to 'Events',  :controller => 'admin/events', :permalink => @calendar.permalink %></li>
+          <li><%= activate_link_to 'Invites', :controller => 'admin/invites'  %></li>
+          <li><%= activate_link_to 'Reports', :controller => 'admin/reports', :permalink => @calendar.permalink %></li>
+          <li>
+            <div id="fast-edit">
+              <%= select_tag  'admin', 
+                              "<option value='' selected>Select Event To Edit</option>" + 
+                                  options_for_select(
+                                      @calendar.events.find(:all, :order=>"state,city").collect do |e| 
+                                          ["#{e.state} - #{e.city}: #{truncate e.name,30}", "/profile/events/#{e.id}"]
+                                      end, 
+                                      :include_blank=>true), 
+                                :onChange=>'window.location=this.options[this.selectedIndex].value;'%>
+              </div>
+            </li>
+            <li class='dropdown less'><a name="setup_options">Setup</a>
+              <ul>
+                <li><%= activate_link_to 'Calendars', :controller => 'admin/calendars', :action => 'index' %></li>
+                <li><%= link_to 'Event Categories', :controller => 'admin/categories', :action => 'index' %></li>
+                <li><%= link_to 'Host Forms', :controller => 'admin/hostforms', :action => 'index' %></li>
+              </ul>
+            </li>
+          </ul>
+    <% end -%>
+      </div>
+    <div id="main">
+      <div id="flash"><%= flash[:notice] %></div>
       <%= yield %>
- </fieldset>
+    </div>
+    <div id="footer">
+      <div id="branding">Days of Action Tool <%= link_to "Radical Designs", "http://radicaldesigns.org", :target => 'blank' %></div>
+    </div>
+  </div>
 
-</div>
-</td>
-</tr></table>
-<p id="footer">
-Revent Days of Action Tool<br />
-Please report problems to <a href="mailto:help@radicaldesigns.org">help@radicaldesigns.org</a></p>
-
- 
 </body>
 </html>
-
-

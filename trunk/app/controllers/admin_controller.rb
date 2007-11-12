@@ -1,5 +1,6 @@
 class AdminController < ApplicationController
   before_filter :login_required, :except => 'login'
+  before_filter :instantiate_controller_and_action_names
 
   def login
     return unless request.post?
@@ -16,7 +17,21 @@ class AdminController < ApplicationController
       flash[:notice] = "Login failed"
     end
   end
+
+  def instantiate_controller_and_action_names
+    @current_action = action_name
+    @current_controller = controller_path
+  end
   
+  def set_calendar
+    #admin version checks for a cookie to specify the working calendar
+    @calendar = site.calendars.detect {|calendar| params[:permalink] == calendar.permalink } || site.calendars.detect {|calendar| cookies[:permalink] == calendar.permalink } || site.calendars.current || site.calendars.first    
+    if not @calendar
+      redirect_to :controller => :site, :action => :splash
+      return false
+    end
+  end
+
 protected
   def authorized?
     if current_user.admin?
@@ -31,7 +46,7 @@ protected
     respond_to do |accepts|
       accepts.html do
         store_location
-        redirect_to :controller => 'admin', :action => 'login'
+        redirect_to :controller => '/admin', :action => 'login'
       end
     end
   end

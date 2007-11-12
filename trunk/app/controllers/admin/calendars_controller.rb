@@ -1,3 +1,30 @@
+class Admin::CalendarsController < AdminController 
+	def index
+	
+	end
+
+  active_scaffold :calendar do |config|
+  	config.columns = [:name, :permalink, :short_description, :event_start, :event_end, :signup_redirect, :hostform, :rsvp_dia_group_key, :rsvp_dia_trigger_key, :rsvp_redirect,  :report_title_text, :report_intro_text, :report_dia_group_key, :report_dia_trigger_key, :report_redirect, :flickr_tag, :flickr_additional_tags, :flickr_photoset, :current, :theme, :letter_script, :call_script,  :site ]
+  	#config.update.columns = [:name, :permalink, :short_description, 
+    #                  :signup_redirect, :hostform, :current, :theme, :letter_script, :call_script ]
+  	config.list.columns = [:current, :name, :events_count, :site]
+  	config.list.sorting = [{ :name => :asc}]
+  	columns[:current].list_ui = :checkbox
+  	columns[:current].form_ui = :checkbox
+  	columns[:hostform].form_ui = :select
+
+  end
+
+  def conditions_for_collection
+    [ "site_id = ?", Site.current.id ]
+    #{:conditians => [ "site_id = ?", Site.current.id ]}
+    #{ :conditions => {:site => Site.current.id }}
+    #"site_id=#{Site.current.id}"
+  end
+  
+  
+end
+=begin 
 class Admin::CalendarsController < AdminController
   skip_before_filter :set_calendar
   def index
@@ -65,3 +92,4 @@ class Admin::CalendarsController < AdminController
   end
 
 end
+=end 

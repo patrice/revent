@@ -1,6 +1,7 @@
 class Admin::EventsController < AdminController
   def index
     @calendar = Calendar.find_by_permalink(params[:permalink])
+    cookies[:permalink] = params[:permalink]
     @events_pages, @events = paginate(:events, :conditions => ['calendar_id = ?', @calendar.id], :order => 'name', :per_page => 50)
   end
   

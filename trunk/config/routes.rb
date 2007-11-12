@@ -53,9 +53,11 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'admin/triggers/:action.:format', :controller => 'admin/triggers'
   map.connect 'admin/triggers/:action/:id', :controller => 'admin/triggers'
 
+=begin
   map.connect 'admin/calendars2/:action/:id.:format', :controller => 'admin/calendars2'
   map.connect 'admin/calendars2/:action.:format', :controller => 'admin/calendars2'
   map.connect 'admin/calendars2/:action/:id', :controller => 'admin/calendars2'
+=end
 
   map.connect 'admin/categories/:action/:id.:format', :controller => 'admin/categories'
   map.connect 'admin/categories/:action.:format', :controller => 'admin/categories'
