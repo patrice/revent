@@ -3,11 +3,19 @@
 <% end %>
 <div id='detail-container'>
 	<div class="intro-title">
+		<% if @calendar.report_title_text %>
+			<%=  @calendar.report_title_text %>
+		<% else %>
 		Tell us what happened at your event
+		<% end -%>
 	</div>
 
 	<div class="intro-text">
-		Please take a few minutes to share your stories, videos, and pictures from your event.  This information will be displayed publically.	</div>
+		<% if @calendar.report_intro_text %>
+			<%=  @calendar.report_intro_text %>
+		<% else %>
+		Please take a few minutes to share your stories, videos, and pictures from your event.  This information will be displayed publically.		<% end -%>
+	</div>
 
 <% form_for :report, @report, :url => { :action => 'create' }, :html => { :multipart => true } do |f| -%>
   <%= render :partial => 'form', :locals => { :f => f } %>
