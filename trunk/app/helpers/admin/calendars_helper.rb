@@ -17,16 +17,25 @@ module Admin::CalendarsHelper
   end
 
   def permalink_form_column( record, input_name )
-    record.permalink
+    if record.permalink
+      record.permalink
+    else
+      text_field( :record, :permalink )
+    end
   end
   
   def theme_form_column( record, input_name )
-    record.theme
+    if record.theme
+      record.theme
+    else
+      text_field( :record, :theme  )
+    end
   end
 
-  def site_form_column( record, input_name )
+  def site_id_form_column( record, input_name )
+    return Site.find( record.site_id ).host if record.site_id
     record.site_id = Site.current.id
-    hidden_field :record, :site 
+    text_field( :record, :site_id )
   end
 
   def signup_redirect_form_column( record, input_name )

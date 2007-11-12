@@ -1,12 +1,25 @@
 class Admin::CalendarsController < AdminController 
-	def index
-	
-	end
+
+  def index
+  
+  end
+
+  def set_calendar
+    #admin version checks for a cookie to specify the working calendar
+    @most_recent_calendar = site.calendars.detect {|calendar| params[:permalink] == calendar.permalink } || site.calendars.detect {|calendar| cookies[:permalink] == calendar.permalink } || site.calendars.current || site.calendars.first    
+    @calendar = Calendar.find params[:id] if params[:id]
+  end
 
   active_scaffold :calendar do |config|
-  	config.columns = [:name, :permalink, :short_description, :event_start, :event_end, :signup_redirect, :hostform, :rsvp_dia_group_key, :rsvp_dia_trigger_key, :rsvp_redirect,  :report_title_text, :report_intro_text, :report_dia_group_key, :report_dia_trigger_key, :report_redirect, :flickr_tag, :flickr_additional_tags, :flickr_photoset, :current, :theme, :letter_script, :call_script,  :site ]
-  	#config.update.columns = [:name, :permalink, :short_description, 
-    #                  :signup_redirect, :hostform, :current, :theme, :letter_script, :call_script ]
+  	config.columns = 
+      [:name, :permalink, :short_description, 
+      :event_start, :event_end, 
+      :signup_redirect, :hostform, :rsvp_dia_group_key, 
+      :rsvp_dia_trigger_key, :rsvp_redirect,  :report_title_text, 
+      :report_intro_text, :report_dia_group_key, :report_dia_trigger_key, 
+      :report_redirect, :flickr_tag, :flickr_additional_tags, :flickr_photoset, 
+      :current, :letter_script, :call_script, :site_id ]
+
   	config.list.columns = [:current, :name, :events_count, :site]
   	config.list.sorting = [{ :name => :asc}]
   	columns[:current].list_ui = :checkbox
