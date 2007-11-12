@@ -17,9 +17,6 @@ class Admin::CalendarsController < AdminController
 
   def conditions_for_collection
     [ "site_id = ?", Site.current.id ]
-    #{:conditians => [ "site_id = ?", Site.current.id ]}
-    #{ :conditions => {:site => Site.current.id }}
-    #"site_id=#{Site.current.id}"
   end
   
   
