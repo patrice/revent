@@ -1,14 +1,2 @@
-<div class="banner">Listing calendars</div>
-
-<table>
-  <tr><th>Calendar</th></tr>  
-	<% for calendar in @calendars %>
-	  <tr>
-		<td><%= link_to calendar.permalink, url_for(:controller => 'admin/events', :permalink => calendar.permalink) %><% if calendar.current? -%> <strong>(current)</strong><% end -%></td>
-		<td>Has <%= calendar.events.length %> events.</td>
-	  </tr>
-	<% end %>
-</table>
-
-<br />
-<%= link_to 'Back to admin', url_for(:controller => '/admin')%>
+<%= render  :active_scaffold => "admin/calendars", :constraints => { :site => Site.current.id }
+%>
