@@ -91,12 +91,6 @@
   <br>
 </div>
 
-	<% if report.embed %>
- 	<div class="report-embed" >
-		<%= white_list report.embed, :tags => %w(object embed param), :attributes => %w(name value type wmode) %>
-	</div>
-  <% end -%><!-- end if report.embed -->
-
   <% if report.attachments.any? {|a| a.audio?} %>
 	<div id="report_audios">
     <% report.attachments.find_all {|a| a.audio?}.each do |audio| %>

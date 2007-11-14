@@ -9,7 +9,8 @@ class Embed < ActiveRecord::Base
     embed = doc.at "embed"
     uri = params_movie['value'] if params_movie && params_movie['value'] =~ /youtube.com/
     uri ||= embed['src'] if embed && embed['src'] =~ /youtube.com/
-    youtube_video_id = uri.split('/').last
+    return unless uri
+    youtube_video_id = uri.split('/').last 
     self.youtube_video_id ||= youtube_video_id
   end
 
