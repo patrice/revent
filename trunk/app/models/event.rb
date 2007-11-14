@@ -32,7 +32,7 @@ class Event < ActiveRecord::Base
 #  alias before_validation_on_update before_validation_on_create  
   before_save :set_district
   
-  validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id, :host_id
+  validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id
 #  validates_format_of :postal_code, :with => /^\d{5}(-\d{4})?$/
   def validate
     if event_start = self.calendar.event_start
@@ -129,6 +129,9 @@ class Event < ActiveRecord::Base
   alias address address_for_geocode
   
   def set_district
+    # don't lookup us congressional district for non-us postal_codes (i.e. blame canada)
+    return unless postal_code =~ /^\d{5}(-\d{4})?$/
+    
     # get congressional district based on postal code
     dia_warehouse = "http://warehouse.democracyinaction.org/dia/api/warehouse/append.jsp?id=radicaldesigns".freeze
     uri = dia_warehouse + "&postal_code=" + postal_code.to_s
