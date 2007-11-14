@@ -3,10 +3,11 @@
 <%= javascript_include_tag 'lightbox' %>
 <% end %>
 
-<div id="nav-event"><%=  link_to 'Manage Event Reports',   :controller => 'account', :action => 'profile' %>
-          </div>
+<div id="nav-event">
+  <%= link_to 'Manage Event Reports', :controller => 'account', :action => 'profile' %>
+</div>
 <div class="intro-title">
-	Event Report
+  Event Report
 </div>
 
 <div class="report-intro-text">
@@ -15,22 +16,18 @@
   <h3><%= white_list @event.city %>, <%= @event.state %></h3>
   <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y') : '?' %></b></p>
  
-	<div class="report-nav">			
-		<% if @event.reports.slideshow? -%>		
+  <div class="report-nav">      
+    <% if @event.reports.slideshow? -%>   
     <%= link_to(image_tag("/themes/stepitup/images/report_slideshow.jpg", {:alt => 'Watch A Slideshow of Pictures From This Event', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "slideshow", :id => @event.id} ) %>
-		<% end -%>
-		
+    <% end -%>
+    
     <%= link_to(image_tag("/themes/stepitup/images/report_add.jpg", {:alt => 'Add Your Report of the Event', :border => 0, :class=>"report_bt"}), { :permalink => @calendar.permalink, :controller => "reports", :action => "new", :id => @event.id}) %>
-		
+    
     <%= link_to(image_tag("/themes/stepitup/images/report_share.jpg", {:alt => 'Share/Save this Report', :border => 0, :class=>"report_bt"}), {:controller => 'reports', :action => 'share', :id => @event.id }, :class => 'lbOn') %>
-	
+  
     <%= link_to(image_tag("/themes/stepitup/images/report_all.jpg", {:alt => 'See All Event Reports', :border => 0, :class=>"report_bt"}), {  :permalink => @calendar.permalink, :controller => 'reports', :action => 'list' }) %>
 
-	</div>
-<p></p>
-
-
-
+  </div>
 </div>
 
 <% if @event.reports.empty? -%>
@@ -59,63 +56,48 @@
 
 <div class="report_text">
   <hr>
-         <% if report.reporter_name %>
-               <div class="report-by">By:<%= report.reporter_name %></div>
-         <% end -%><!-- end if reporter_name -->
+  <% if report.reporter_name %>
+  <div class="report-by">By:<%= report.reporter_name %></div>
+  <% end -%><!-- end if reporter_name -->
 
   <br>
   <%= simple_format(report.text) %>
   <br>
 </div>
 
-  <% if report.attachments.any? {|a| a.audio?} %>
-	<div id="report_audios">
-    <% report.attachments.find_all {|a| a.audio?}.each do |audio| %>
-		<div class="report_audio">
-			<a href=""><img src="<%= @audio.filename %>" alt="Click Here to Listen to Audio Report"></a>
-			<div style="media-caption">
-				<%= @audio.caption %>
-			</div>
-		</div>
-    <% end -%><!-- end each audio -->
-	</div>
-  <% end -%><!-- end if any audio -->
+<% if report.attachments.any? {|a| a.audio?} %>
+<div id="report_audios">
+  <% report.attachments.find_all {|a| a.audio?}.each do |audio| %>
+  <div class="report_audio">
+    <a href=""><img src="<%= @audio.filename %>" alt="Click Here to Listen to Audio Report"></a>
+    <div style="media-caption">
+      <%= @audio.caption %>
+    </div>
+  </div>
+  <% end -%><!-- end each audio -->
+</div>
+<% end -%><!-- end if any audio -->
 
+<% report.embeds.each do |embed| %>
+  <div class="report-embed" >
+  <%= white_list embed.html, :tags => %w(object embed param), :attributes => %w(name value type wmode) %>
+  <br>
+  <%= white_list embed.caption %>
+  </div>
+<% end %>
 
-
-  <% report.embeds.each do |embed| %>
-      <div class="report-embed" >
-      <%= white_list embed.html, :tags => %w(object embed param), :attributes => %w(name value type wmode) %>
-      <br>
-      <%= white_list embed.caption %>
-      </div>
-      <% end %>
-
-
-
-
-
-  <% if report.attachments.any? {|a| a.video?} %>
-    <% report.attachments.find_all {|a| a.video?}.each do |video| %>			
-	<div class="report-embed" >
-		<%= white_list video.embed, :tags => %w(object embed param), :attributes => %w(name value type wmode) %>
-		<div style="media-caption"><%= white_list video.caption %></div>		
-	</div>
-    <% end -%><!-- end each video -->
-  <% end -%><!-- end any video -->
-
-  <% if report.attachments.any? {|a| a.image?} %>
-	<div id="report_images">
+<% if report.attachments.any? {|a| a.image?} %>
+  <div id="report_images">
     <% report.attachments.find_all {|a| a.image?}.each do |image| %>
-		<div class="report_image">
+    <div class="report_image">
       <%= link_to(image_tag(image.public_filename(:display)), {:controller => :reports, :action => :lightbox, :id => image.id}, :class => 'lbOn') %>
-			<div style="media-caption">
-				<%= image.caption %>
-			</div>
-		</div>
+      <div style="media-caption">
+        <%= image.caption %>
+      </div>
+    </div>
     <% end -%><!-- end each image -->
-	</div>
-  <% end -%><!-- end any image -->
+  </div>
+<% end -%><!-- end any image -->
 
 <br>
 
@@ -123,4 +105,4 @@
 
 <% end -%><!-- end else reports not empty -->
 
- <%= render :partial =>'reports/report_nav' %>
+<%= render :partial =>'reports/report_nav' %>
