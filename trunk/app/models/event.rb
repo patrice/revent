@@ -32,8 +32,8 @@ class Event < ActiveRecord::Base
 #  alias before_validation_on_update before_validation_on_create  
   before_save :set_district
   
-  validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id
-  validates_format_of :postal_code, :with => /^\d{5}(-\d{4})?$/
+  validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id, :host_id
+#  validates_format_of :postal_code, :with => /^\d{5}(-\d{4})?$/
   def validate
     if event_start = self.calendar.event_start
       if event_end = self.calendar.event_end
@@ -191,10 +191,6 @@ class Event < ActiveRecord::Base
     rprts.map{|r| r.attendees}.sum / rprts.length
   end
   
-  def reports_with_attendees_set
-    
-  end
-
 =begin
   class << self
     def find_or_import_by_service_foreign_key(key)
@@ -232,9 +228,10 @@ class Event < ActiveRecord::Base
 =end
 
 private
-  # no longer throwing error if address is not geocodable
+  # throw error if address is not geocodable
   def geocode_address      
     geo=GeoKit::Geocoders::MultiGeocoder.geocode(address_for_geocode)
+    errors.add(:address, "Could not Geocode address") if !geo.success
     self.latitude, self.longitude = geo.lat,geo.lng if geo.success
   end
 end
