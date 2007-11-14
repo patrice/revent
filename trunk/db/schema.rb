@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 65) do
+ActiveRecord::Schema.define(:version => 68) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -61,6 +61,13 @@ ActiveRecord::Schema.define(:version => 65) do
     t.column "rsvp_dia_trigger_key",   :integer
     t.column "report_dia_group_key",   :integer
     t.column "report_dia_trigger_key", :integer
+    t.column "flickr_tag",             :string
+    t.column "flickr_additional_tags", :string
+    t.column "flickr_photoset",        :integer
+    t.column "rsvp_redirect",          :string
+    t.column "report_redirect",        :string
+    t.column "report_title_text",      :string
+    t.column "report_intro_text",      :text
   end
 
   add_index "calendars", ["permalink"], :name => "index_calendars_on_permalink"
@@ -210,7 +217,6 @@ ActiveRecord::Schema.define(:version => 65) do
     t.column "status",         :string
     t.column "reporter_name",  :string
     t.column "reporter_email", :string
-    t.column "embed",          :text
     t.column "attendees",      :integer
     t.column "created_at",     :datetime
     t.column "updated_at",     :datetime
@@ -218,7 +224,6 @@ ActiveRecord::Schema.define(:version => 65) do
 
   add_index "reports", ["event_id"], :name => "index_reports_on_event_id"
   add_index "reports", ["status", "position"], :name => "index_reports_on_status_and_position"
-  add_index "reports", ["embed"], :name => "index_reports_on_embed"
 
   create_table "roles", :force => true do |t|
     t.column "title", :string
