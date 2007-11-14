@@ -10,7 +10,7 @@ class ReportSweeper < ActionController::Caching::Sweeper
     FileUtils.rm_rf(File.join(ActionController::Base.page_cache_directory,'reports','page')) rescue Errno::ENOENT
 
     expire_page :controller => "/reports", :action => "press" unless record.press_links.empty?
-    expire_page :controller => "/reports", :action => "video" if record.embed?
+    expire_page :controller => "/reports", :action => "video" if not record.embeds.empty?
     record.attachments.each {|a| expire_page :controller => "/reports", :action => "lightbox", :id => a.id}
   end
 
