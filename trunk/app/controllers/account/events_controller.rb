@@ -9,7 +9,7 @@ class Account::EventsController < ApplicationController
 
   def show
     extend ActionView::Helpers::TextHelper
-    @nearby_events = @calendar.events.find(:all, :origin => @event, :within => 50)
+    @nearby_events = @calendar.public_events.find(:all, :origin => @event, :within => 50)
     @nearby_events.reject! { |e| e.id == @event.id }
     @blog = Blog.new(:event => @event)
     city_state = [@event.city, @event.state].join(', ')
@@ -25,7 +25,7 @@ class Account::EventsController < ApplicationController
       redirect_to :action => 'show'
     else
       #XXX: to much of this, should move someplace else
-      @nearby_events = @calendar.events.find(:all, :origin => @event, :within => 50)
+      @nearby_events = @calendar.public_events.find(:all, :origin => @event, :within => 50)
       @nearby_events.reject! { |e| e.id == @event.id }
       flash[:error] = "Upload failed"
       render :action => 'show'
@@ -43,7 +43,7 @@ class Account::EventsController < ApplicationController
     end
     redirect_to :action => 'show', :id => @event
   rescue ActiveRecord::RecordInvalid
-    @nearby_events = @calendar.events.find(:all, :origin => @event, :within => 50)
+    @nearby_events = @calendar.public_events.find(:all, :origin => @event, :within => 50)
     @nearby_events.reject! { |e| e.id == @event.id }
     render :action => 'show'
   end

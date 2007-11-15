@@ -43,7 +43,7 @@ class EventsController < ApplicationController
   end
 
   def flashmap
-    @events = @calendar.events.find(:all, :conditions => ["postal_code != ?", 0], :joins => "INNER JOIN zip_codes ON zip_codes.zip = postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude")
+    @events = @calendar.public_events.find(:all, :conditions => ["postal_code != ?", 0], :joins => "INNER JOIN zip_codes ON zip_codes.zip = postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude")
     respond_to do |format|
       format.xml { render :layout => false }
     end
@@ -51,13 +51,12 @@ class EventsController < ApplicationController
   end
 
   def upcoming
-    @events = @calendar.events.find(:all, :conditions => ["end >= ?", Time.now], :order => "start, state")
+    @events = @calendar.public_events.find(:all, :conditions => ["end >= ?", Time.now], :order => "start, state")
     respond_to do |format|
       format.xml { render :layout => false }
     end
 #    cache_page nil, :permalink => params[:permalink]
   end
-
 
   def total
     render :layout => false
@@ -192,7 +191,7 @@ class EventsController < ApplicationController
     postal_code = params[:postal_code]
     unless postal_code.blank?
       begin
-        @nearby_events = @calendar.events.find(:all, :origin => postal_code, :within => 25)
+        @nearby_events = @calendar.public_events.find(:all, :origin => postal_code, :within => 25)
       rescue GeoKit::Geocoders::GeocodeError
         render(:text => "could not find that postal code", :layout => false) and return
       end
@@ -285,9 +284,9 @@ class EventsController < ApplicationController
     end
     @codes = @zips.collect {|z| z.zip}
     if params[:category] and not params[:category] == "all"
-      @events = @calendar.events.find(:all, :conditions => ["postal_code IN (?) AND category_id = ?", @codes, params[:category]])
+      @events = @calendar.public_events.find(:all, :conditions => ["postal_code IN (?) AND category_id = ?", @codes, params[:category]])
     else
-      @events = @calendar.events.find(:all, :conditions => ["postal_code IN (?)", @codes])
+      @events = @calendar.public_events.find(:all, :conditions => ["postal_code IN (?)", @codes])
     end
     @events = @events.sort_by {|e| @codes.index(e.postal_code)}
 
@@ -297,7 +296,7 @@ class EventsController < ApplicationController
   end
 
   def by_geo
-    @events = @calendar.events.find(:all, :origin => [params[:lat], params[:lng]], :within => 50)
+    @events = @calendar.public_events.find(:all, :origin => [params[:lat], params[:lng]], :within => 50)
     @zips = ZipCode.find(:all, :origin => [params[:lat], params[:lng]], :within => 50, :order => 'distance')
     code = @zips.first.zip
     @district = Cache.get "district_for_postal_code_#{code}" do
@@ -311,7 +310,7 @@ class EventsController < ApplicationController
       end
     end
     @codes = @zips.collect {|z| z.zip}
-    @events += @calendar.events.find(:all, :conditions => ["postal_code IN (?)", @codes])
+    @events += @calendar.public_events.find(:all, :conditions => ["postal_code IN (?)", @codes])
     @events.uniq!
     @events.each {|e| e.instance_variable_set(:@distance_from_search, e.respond_to?(:distance) ? e.distance.to_f : @zips.find {|z| z.zip == e.postal_code}.distance.to_f) }
     @events = @events.sort_by {|e| e.instance_variable_get(:@distance_from_search)}
@@ -322,14 +321,14 @@ class EventsController < ApplicationController
     params[:state] ||= params[:id]
     if request.xhr?
       # this looks weird because by_state was traditionally not called directly, now it's being called by the map using xhr.  should refactor this.
-      @events = @calendar.events.find(:all, :conditions => ["state = ?", params[:id]])
+      @events = @calendar.public_events.find(:all, :conditions => ["state = ?", params[:id]])
       render :partial => 'report', :collection => @events and return
     end
     @search_area = params[:state]
     if params[:category] and not params[:category] == "all"
-      @events = @calendar.events.find(:all, :conditions => ["state = ? AND category_id = ?", params[:state], params[:category]])
+      @events = @calendar.public_events.find(:all, :conditions => ["state = ? AND category_id = ?", params[:state], params[:category]])
     else
-      @events = @calendar.events.find(:all, :conditions => ["state = ?", params[:state]])
+      @events = @calendar.public_events.find(:all, :conditions => ["state = ?", params[:state]])
     end
     @map_center = DaysOfAction::Geo::STATE_CENTERS[params[:state].to_sym]
     @map_zoom = DaysOfAction::Geo::STATE_ZOOM_LEVELS[params[:state].to_sym]
