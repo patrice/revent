@@ -23,7 +23,7 @@ class CalendarsController < ApplicationController
          :redirect_to => { :action => :list }
 
   def list
-    @calendars = @site.calendars
+    @calendars = Site.current.calendars
   end
 
   def events
@@ -31,7 +31,7 @@ class CalendarsController < ApplicationController
   end
 
   def show
-    @events = @calendar.events
+    @events = @calendar.public_events.find(:all)
     render :action => 'show'
   end
 end

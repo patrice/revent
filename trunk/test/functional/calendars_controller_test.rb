@@ -11,6 +11,8 @@ class CalendarsControllerTest < Test::Unit::TestCase
     @controller = CalendarsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+
+    @request.host = sites(:stepitup).host
   end
 
   def test_index

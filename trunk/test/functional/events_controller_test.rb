@@ -11,10 +11,11 @@ class EventsControllerTest < Test::Unit::TestCase
     @controller = EventsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+
+    @request.host = sites(:stepitup).host
   end
 
   def test_should_set_site_from_host
-    @request.host = sites(:stepitup).host
     get :index
     assert_equal @controller.site.host, 'events.stepitup2007.org'
     assert_equal @controller.site, sites(:stepitup)
@@ -164,6 +165,10 @@ class EventsControllerTest < Test::Unit::TestCase
     assert_raise(ActiveRecord::RecordNotFound) {
       Event.find(1)
     }
+  end
+  
+  def test_hiding_private_events
+    assert true
   end
   
 =begin

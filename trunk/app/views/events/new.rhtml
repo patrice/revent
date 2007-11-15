@@ -9,11 +9,11 @@ end
 
 @hostform = @calendar.hostform
  -%>
-<h1><%= @hostform.title %></h1>
+<h1><%= @hostform.title if @hostform %></h1>
 <p class="text">
 
 
-<%= @hostform.intro_text %>
+<%= @hostform.intro_text if @hostform %>
 </p>
 
 <% form_for :event, @event, :url => url_for(:permalink => @calendar.permalink, :controller => 'events', :action => 'create'), :html => {:id => 'event-signup-form', :multipart => true} do |f| -%>
@@ -23,15 +23,15 @@ end
       <h3>Your Information</h3>
       <% fields_for :user, @user do |user| %>
       
-      <% if @hostform.dia_user_tracking_code %>
+      <% if @hostform and @hostform.dia_user_tracking_code %>
         <%= hidden_field_tag "user[democracy_in_action][supporter][Tracking_Code]", @hostform.dia_user_tracking_code %>
 	  <%- end %>
       
-      <% if @hostform.dia_trigger_key%>
+      <% if @hostform and @hostform.dia_trigger_key%>
       	<%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", @hostform.dia_trigger_key %>
       <%- end %>
 
-      <% if @hostform.dia_group_key %>
+      <% if @hostform and @hostform.dia_group_key %>
       	<%=  hidden_field_tag "user[democracy_in_action][supporter][link][groups]",  @hostform.dia_group_key %>
       <%- end %>
    
@@ -109,7 +109,7 @@ end
     <div id="eventInformation" class="eventInformation">
       <%= error_messages_for 'event' %>
       <h3>Event Information<br /></h3>
-      <% if @hostform.event_info_text %>
+      <% if @hostform and @hostform.event_info_text %>
       	<p><strong><font color="#ff0000"><em><%= @hostform.event_info_text %></em></font></strong></p>
       <%- end %>
       <div id="eventFields" class="eventFields">
@@ -230,24 +230,24 @@ end
           </tbody>
         </table>
         
-      	<% if @hostform.redirect %>
+      	<% if @hostform and @hostform.redirect %>
       		<%= hidden_field_tag "redirect",  @hostform.redirect %>
       	<%- end %>
         
-        <% if @hostform.tag %>
+        <% if @hostform and @hostform.tag %>
         	<%= hidden_field_tag "tag", @hostform.tag %>
         <%- end %>
         
         <%= hidden_field_tag "event[democracy_in_action][event][Maximum_Attendees]", 10000 %>
         <%= hidden_field_tag "event[democracy_in_action][event][Status]", "Unconfirmed" %>
 
-		<% if @hostform.dia_event_tracking_code %>
+		<% if @hostform and @hostform.dia_event_tracking_code %>
         	<%= hidden_field_tag "event[democracy_in_action][event][Default_Tracking_Code]", @hostform.dia_event_tracking_code %>
         <%- end %>
 
         
         <p align="center">
-        <% if @hostform.pre_submit_text %>
+        <% if @hostform and @hostform.pre_submit_text %>
          <br><%= @hostform.pre_submit_text %>. <br>
         <%- end %>
         <br /><input type="submit" value="Submit" />

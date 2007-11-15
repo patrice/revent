@@ -5,11 +5,12 @@ require 'admin/calendars_controller'
 class Admin::CalendarsController; def rescue_action(e) raise e end; end
 
 class Admin::CalendarsControllerTest < Test::Unit::TestCase
-  fixtures :calendars, :users, :roles, :roles_users
+  fixtures :sites, :calendars, :users, :roles, :roles_users
 
   def setup
     @controller = Admin::CalendarsController.new
     @request    = ActionController::TestRequest.new
+    @request.host = sites(:stepitup).host
     @response   = ActionController::TestResponse.new
   end
 
@@ -17,8 +18,7 @@ class Admin::CalendarsControllerTest < Test::Unit::TestCase
     #assert_requires_login(:quentin) {|c| c.get :index} 
     login_as :quentin
     get :index
-    assert_response :redirect
-    assert_redirected_to :controller => 'admin/events'
+    assert_response :success
   end
 
   def test_show
@@ -39,9 +39,6 @@ class Admin::CalendarsControllerTest < Test::Unit::TestCase
     get :new
 
     assert_response :success
-    assert_template 'new'
-
-    assert_not_nil assigns(:calendar)
   end
 
   def test_edit
@@ -50,7 +47,6 @@ class Admin::CalendarsControllerTest < Test::Unit::TestCase
     get :edit, :id => 1
 
     assert_response :success
-    assert_template 'edit'
 
     assert_not_nil assigns(:calendar)
     assert assigns(:calendar).valid?
