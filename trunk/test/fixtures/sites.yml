@@ -4,6 +4,8 @@ main:
 stepitup:
   id: 2
   host: events.stepitup2007.org
+  theme: stepitup2
 nwnw:
   id: 3
   host: events.nowarnowarming.org
+  theme: nowarnowarming
