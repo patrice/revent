@@ -29,11 +29,12 @@ class Event < ActiveRecord::Base
   acts_as_mappable :lat_column_name => 'latitude', :lng_column_name => 'longitude'
   before_validation_on_create :geocode_address
   before_validation_on_update :geocode_address
-#  alias before_validation_on_update before_validation_on_create  
   before_save :set_district
   
   validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id
-#  validates_format_of :postal_code, :with => /^\d{5}(-\d{4})?$/
+  # second part of this regular expression checks for Canadian postal codes (US only /^\d{5}(-\d{4})?$)
+  validates_format_of :postal_code, :with => /(^\d{5}(-\d{4})?$)|(^\D\d\D((-| )?\d\D\d)?$)/ # 
+
   def validate
     if event_start = self.calendar.event_start
       if event_end = self.calendar.event_end
@@ -129,7 +130,7 @@ class Event < ActiveRecord::Base
   alias address address_for_geocode
   
   def set_district
-    # don't lookup us congressional district for non-us postal_codes (i.e. blame canada)
+    # don't lookup us congressional district for non-us postal_codes
     return unless postal_code =~ /^\d{5}(-\d{4})?$/
     
     # get congressional district based on postal code
@@ -233,8 +234,15 @@ class Event < ActiveRecord::Base
 private
   # throw error if address is not geocodable
   def geocode_address      
-    geo=GeoKit::Geocoders::MultiGeocoder.geocode(address_for_geocode)
-    errors.add(:address, "Could not Geocode address") if !geo.success
-    self.latitude, self.longitude = geo.lat,geo.lng if geo.success
+    geo = GeoKit::Geocoders::MultiGeocoder.geocode(address_for_geocode)
+    if geo.success
+      self.latitude, self.longitude = geo.lat, geo.lng 
+      # only allow US or Canadian addresses
+      if geo.country_code != "US" and geo.country_code != "CA"
+        errors.add :address, "must be a US or Canadian address"
+      end
+    else
+      errors.add(:address, "Could not Geocode address")
+    end
   end
 end
