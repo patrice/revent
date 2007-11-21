@@ -308,10 +308,12 @@ class InvitesController < ApplicationController
             end
     if state
       # @events = @calendar.events.find(:all, :conditions => ["latitude <> 0 AND longitude <> 0 AND state = ?", state])
-      @events = @calendar.events.find(:all, :conditions => ["events.postal_code != ? AND events.state = ?", 0, state], :joins => "INNER JOIN zip_codes ON zip_codes.zip = events.postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude", :include => :rsvpd_politicians, :order => 'politicians.id')
+      # all events should have lat/lng or fallback lat/lng; remove ones that don't just in case
+      @events = @calendar.public_events.find(:all, :conditions => ["((latitude <> 0 AND longitude <> 0) OR (fallback_latitude <> 0 AND fallback_longitude <> 0)) AND state = ?", state], :include => :rsvpd_politicians)
     else
-      # @events = @calendar.events.find(:all, :conditions => "latitude <> 0 AND longitude <> 0")
-      @events = @calendar.events.find(:all, :conditions => ["events.postal_code != ?", 0], :joins => "INNER JOIN zip_codes ON zip_codes.zip = events.postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude", :include => :rsvpd_politicians, :order => 'politicians.id')
+      # @events = @calendar.events.find(:all, :conditions => ["latitude <> 0 AND longitude <> 0"])
+      # all events should have lat/lng or fallback lat/lng; remove ones that don't just in case
+      @events = @calendar.public_events.find(:all, :conditions => "(latitude <> 0 AND longitude <> 0) OR (fallback_latitude <> 0 AND fallback_longitude <> 0)", :include => :rsvpd_politicians)
     end
     @events = @events.sort_by {|e| e.rsvpd_politicians.length }
     render :layout => false

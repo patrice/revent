@@ -37,7 +37,8 @@ class ReportsController < ApplicationController
   end
 
   def flashmap
-    @events = Event.find(:all, :conditions => ["postal_code != ?", 0], :joins => "INNER JOIN zip_codes ON zip_codes.zip = postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude")
+    # all events should have lat/lng or fallback lat/lng; remove ones that don't just in case
+    @events = @calendar.events.find(:all, :conditions => "(latitude <> 0 AND longitude <> 0) OR (fallback_latitude <> 0 AND fallback_longitude <> 0)")
     respond_to do |format|
       format.xml { render :layout => false }
     end

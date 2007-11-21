@@ -43,7 +43,7 @@ class EventsController < ApplicationController
   end
 
   def flashmap
-    @events = @calendar.public_events.find(:all, :conditions => ["postal_code != ?", 0], :joins => "INNER JOIN zip_codes ON zip_codes.zip = postal_code", :select => "events.*, zip_codes.latitude as zip_latitude, zip_codes.longitude as zip_longitude")
+    @events = @calendar.public_events.find(:all, :conditions => "(latitude <> 0 AND longitude <> 0) OR (fallback_latitude <> 0 AND fallback_longitude <> 0)")
     respond_to do |format|
       format.xml { render :layout => false }
     end
@@ -233,8 +233,8 @@ class EventsController < ApplicationController
         coordinates = false
         if e.latitude && e.longitude
           coordinates = [e.latitude, e.longitude]
-        elsif e.zip_latitude && e.zip_longitude
-          coordinates = [e.zip_latitude, e.zip_longitude]
+        elsif e.fallback_latitude && e.fallback_longitude
+          coordinates = [e.fallback_latitude, e.fallback_longitude]
         end
         marker = coordinates ? Cartographer::Gmarker.new( 
         :name => "event_#{e.id}_marker",

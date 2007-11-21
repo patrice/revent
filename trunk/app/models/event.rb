@@ -27,12 +27,11 @@ class Event < ActiveRecord::Base
   belongs_to :category
 
   acts_as_mappable :lat_column_name => 'latitude', :lng_column_name => 'longitude'
-  before_validation_on_create :geocode_address
-  before_validation_on_update :geocode_address
+  before_validation :geocode
   before_save :set_district
   
   validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id
-  # second part of this regular expression checks for Canadian postal codes (US only /^\d{5}(-\d{4})?$)
+  # second part of this regular expression checks for Canadian postal codes
   validates_format_of :postal_code, :with => /(^\d{5}(-\d{4})?$)|(^\D\d\D((-| )?\d\D\d)?$)/ # 
 
   def validate
@@ -51,6 +50,9 @@ class Event < ActiveRecord::Base
           errors.add :start, "must be on #{event_start.strftime('%B %e, %Y')}"
         end
       end
+    end    
+    unless (self.latitude and self.longitude) or (self.fallback_latitude and self.fallback_longitude)
+      errors.add_to_base "Not enough information provided to place event on a map. Please give us at least a valid postal code."
     end
   end
   #XXX: need to strip out DIA specific language
@@ -141,7 +143,9 @@ class Event < ActiveRecord::Base
       self.district = data['entry'][0]['district'][0].strip 
     end
   end
-  
+
+# zip_latitude & zip_longitude superseded by fallback_latitude & fallback_longitude
+=begin
   def zip_latitude
     return attributes["zip_latitude"] if attributes["zip_latitude"]
     @zip ||= ZipCode.find_by_zip(postal_code)
@@ -153,6 +157,7 @@ class Event < ActiveRecord::Base
     @zip ||= ZipCode.find_by_zip(postal_code)
     @zip.longitude if @zip
   end
+=end
 
   def national_map_coordinates
     @zip ||= ZipCode.find_by_zip(postal_code)
@@ -232,17 +237,13 @@ class Event < ActiveRecord::Base
 =end
 
 private
-  # throw error if address is not geocodable
-  def geocode_address      
-    geo = GeoKit::Geocoders::MultiGeocoder.geocode(address_for_geocode)
-    if geo.success
-      self.latitude, self.longitude = geo.lat, geo.lng 
-      # only allow US or Canadian addresses
-      if geo.country_code != "US" and geo.country_code != "CA"
-        errors.add :address, "must be a US or Canadian address"
-      end
-    else
-      errors.add(:address, "Could not Geocode address")
+  def geocode
+    if (geo = GeoKit::Geocoders::MultiGeocoder.geocode(address_for_geocode)).success
+      self.latitude, self.longitude = geo.lat, geo.lng
+    elsif (geo = GeoKit::Geocoders::MultiGeocoder.geocode(self.postal_code)).success 
+      self.fallback_latitude, self.fallback_longitude = geo.lat, geo.lng
+    elsif (geo = GeoKit::Geocoders::MultiGeocoder.geocode([self.city, self.state].join(', '))).success
+      self.fallback_latitude, self.fallback_longitude = geo.lat, geo.lng
     end
   end
 end

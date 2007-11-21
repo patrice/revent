@@ -8,9 +8,10 @@ xml.us_states do
   xml.state( :id => "scale_points" )     { xml.data 30 }
 
   @events.each do |e|
+    next unless (e.latitude && e.longitude) or (e.fallback_latitude && e.fallback_longitude)
     xml.state :id => "point" do
       xml.name e.city
-      xml.loc "#{e.latitude || e.zip_latitude},#{e.longitude || e.zip_longitude}"
+      xml.loc "#{e.latitude || e.fallback_latitude},#{e.longitude || e.fallback_longitude}"
       xml.url state_search_url(:permalink => @calendar.permalink, :state => e.state)
       xml.hover e.name
     end
