@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 68) do
+ActiveRecord::Schema.define(:version => 69) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -130,6 +130,8 @@ ActiveRecord::Schema.define(:version => 68) do
     t.column "private",               :boolean
     t.column "max_attendees",         :integer
     t.column "category_id",           :integer
+    t.column "fallback_latitude",     :float
+    t.column "fallback_longitude",    :float
   end
 
   add_index "events", ["latitude", "longitude"], :name => "index_events_on_latitude_and_longitude"
@@ -328,8 +330,7 @@ ActiveRecord::Schema.define(:version => 68) do
     t.column "site_id",                    :integer
   end
 
-  add_index "users", ["email", "site_id"], :name => "unique_index_on_email_and_site_id", :unique => true
-  add_index "users", ["site_id"], :name => "index_users_on_site_id"
+  add_index "users", ["email", "site_id"], :name => "unique_index_on_email_and_site_id"
 
   create_table "zip_codes", :force => true do |t|
     t.column "zip",        :string
