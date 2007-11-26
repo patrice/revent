@@ -4,10 +4,12 @@ class FallbackLatLng < ActiveRecord::Migration
     add_column :events, :fallback_latitude,  :float
     add_column :events, :fallback_longitude, :float
 
+=begin
     puts 'Processing all events...'
-    Event.find(:all).each_threaded(:num_threads => 30, :verbose => true) do |event|
+    Event.find(:all, :conditions => "latitude IS NULL AND fallback_latitude IS NULL").each_threaded(:num_threads => 30, :verbose => true) do |event|
       event.save unless event.latitude and event.longitude 
     end
+=end
   end
 
   def self.down
@@ -16,6 +18,10 @@ class FallbackLatLng < ActiveRecord::Migration
   end
 end
 
+=begin
+# tried this threaded thing out on zheng but never got it working
+# required setting config.active_record.allow_concurrency = true
+# in one of the environment config files but still doesn't seem to work
 class Array
   def chunk(pieces=2)
     len = self.length;
@@ -53,3 +59,4 @@ class Array
     puts "Avg time (in seconds) per item: #{(end_time - start_time) / self.length}" if verbose
   end
 end
+=end
