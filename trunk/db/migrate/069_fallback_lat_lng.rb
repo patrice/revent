@@ -31,9 +31,9 @@ class Array
     chunks
   end
 
-  def each_threaded(options)
+  def each_threaded(options = {})
     num_threads = options[:num_threads] || 4
-#    num_threads = (num_threads > 40) ? 40 : num_threads        
+    num_threads = (num_threads > 40) ? 40 : num_threads        
     verbose = options[:verbose] || false
     start_time = Time.now
     threads = []
