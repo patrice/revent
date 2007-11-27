@@ -75,7 +75,7 @@ end
             <tr>
             
               <td valign="top"  class="dia_field_name">*State/Province </td>
-              <td><%= user.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true, :province=>true), {}, :title => "Please select your state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataState" %>
+              <td><%= user.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true, :include_provinces=>true), {}, :title => "Please select your state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataState" %>
               
      
               </td>
@@ -156,7 +156,7 @@ end
               <td valign="top"  class="dia_field_name">
                 <div align="left">*State/Province:</div>
               </td>
-              <td><%= f.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true, :province=>true), {}, :title => "Please choose your event's state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventState" %></td>
+              <td><%= f.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true, :include_provinces=>true), {}, :title => "Please choose your event's state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventState" %></td>
               
             </tr>
             <tr>
