@@ -270,28 +270,35 @@ class EventsController < ApplicationController
 
   def by_zip
     @search_area = params[:zip]
-    @zip = ZipCode.find_by_zip(params[:zip])
-    flash.now[:notice] = "Could not locate that zip code" and return unless @zip
-    @map_center = [@zip.latitude,@zip.longitude]
-    @map_zoom = 12
-    @zips = @zip.find_objects_within_radius(50) do |min_lat, min_lon, max_lat, max_lon|
-      ZipCode.find(:all, 
-                   :conditions => [ "(latitude > ? AND longitude > ? AND latitude < ? AND longitude < ? ) ", 
-                        min_lat, 
-                        min_lon, 
-                        max_lat, 
-                        max_lon])
-    end
-    @codes = @zips.collect {|z| z.zip}
-    if params[:category] and not params[:category] == "all"
-      @events = @calendar.public_events.find(:all, :conditions => ["postal_code IN (?) AND category_id = ?", @codes, params[:category]])
+    case params[:zip]
+    when /^\d{5}(-\d{4})?$/ # US postal code
+      @zip = ZipCode.find_by_zip(params[:zip])
+      flash.now[:notice] = "Could not locate that postal code" and return unless @zip
+      @map_center = [@zip.latitude,@zip.longitude]
+      @map_zoom = 12
+      @zips = @zip.find_objects_within_radius(50) do |min_lat, min_lon, max_lat, max_lon|
+        ZipCode.find(:all, :conditions => [ "(latitude > ? AND longitude > ? AND latitude < ? AND longitude < ? ) ", 
+                          min_lat, min_lon, max_lat, max_lon])
+      end
+      @codes = @zips.collect {|z| z.zip}
+      if params[:category] and not params[:category] == "all"
+        @events = @calendar.public_events.find(:all, :conditions => ["postal_code IN (?) AND category_id = ?", @codes, params[:category]])
+      else
+        @events = @calendar.public_events.find(:all, :conditions => ["postal_code IN (?)", @codes])
+      end      
+    when /^\D\d\D((-| )?\d\D\d)?$/ # Canadian postal code
+      @postal_code = GeoKit::Geocoders::MultiGeocoder.geocode(params[:zip])
+      flash.now[:notice] = "Could not locate that postal code" and return unless @postal_code.success
+      if params[:category] and not params[:category] == "all"
+        @events = @calendar.public_events.find(:all, :origin=> @postal_code, :within => 75, :conditions => ["postal_code IN (?) AND category_id = ?", @codes, params[:category]])
+      else
+        @events = @calendar.public_events.find(:all, :origin=> @postal_code, :within => 75)
+      end      
     else
-      @events = @calendar.public_events.find(:all, :conditions => ["postal_code IN (?)", @codes])
+      flash.now[:notice] = "Not a valid postal code." and return    
     end
     @events = @events.sort_by {|e| @codes.index(e.postal_code)}
-
     @events.each {|e| e.instance_variable_set(:@distance_from_search, @zips.find {|z| z.zip == e.postal_code}.distance_to_search_zip) }
-
     @auto_center = true
   end
 
