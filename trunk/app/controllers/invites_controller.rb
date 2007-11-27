@@ -309,7 +309,7 @@ class InvitesController < ApplicationController
     if state
       # @events = @calendar.events.find(:all, :conditions => ["latitude <> 0 AND longitude <> 0 AND state = ?", state])
       # all events should have lat/lng or fallback lat/lng; remove ones that don't just in case
-      @events = @calendar.public_events.find(:all, :conditions => ["((latitude <> 0 AND longitude <> 0) OR (fallback_latitude <> 0 AND fallback_longitude <> 0)) AND state = ?", state], :include => :rsvpd_politicians)
+      @events = @calendar.public_events.find(:all, :conditions => ["((latitude <> 0 AND longitude <> 0) OR (fallback_latitude <> 0 AND fallback_longitude <> 0)) AND events.state = ?", state], :include => :rsvpd_politicians)
     else
       # @events = @calendar.events.find(:all, :conditions => ["latitude <> 0 AND longitude <> 0"])
       # all events should have lat/lng or fallback lat/lng; remove ones that don't just in case
