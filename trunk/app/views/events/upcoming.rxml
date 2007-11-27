@@ -7,7 +7,7 @@ xml.div(:class => "eventlist") do
       xml.name event.name
       xml.city event.city
       xml.state event.state
-      xml.start event.start
+      xml.date event.start.strftime("%m/%d")
       xml.url url_for(:permalink => @calendar.permalink, :controller => 'events', :action => :show, :id => event.id, :only_path => false)
     end
   end
