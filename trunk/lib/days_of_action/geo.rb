@@ -175,7 +175,7 @@ module DaysOfAction
       :WI => 6,
       :WY => 5,
       
-      :BC => 3,
+      :BC => 4,
       :MB => 3,
       :NF => 6, 
       :NB => 6,
