@@ -286,21 +286,21 @@ class EventsController < ApplicationController
       else
         @events = @calendar.public_events.find(:all, :conditions => ["postal_code IN (?)", @codes])
       end      
+      @events = @events.sort_by {|e| @codes.index(e.postal_code)}
+      @events.each {|e| e.instance_variable_set(:@distance_from_search, @zips.find {|z| z.zip == e.postal_code}.distance_to_search_zip) }
     when /^\D\d\D((-| )?\d\D\d)?$/ # Canadian postal code
       @postal_code = GeoKit::Geocoders::MultiGeocoder.geocode(params[:zip])
       flash.now[:notice] = "Could not locate that postal code" and return unless @postal_code.success
       @map_center = [@postal_code.lat,@postal_code.lng]
       @map_zoom = 12
       if params[:category] and not params[:category] == "all"
-        @events = @calendar.public_events.find(:all, :origin=> @postal_code, :within => 75, :conditions => ["postal_code IN (?) AND category_id = ?", @codes, params[:category]])
+        @events = @calendar.public_events.find(:all, :origin=> @postal_code, :within => 50, :order => 'distance', :conditions => ["postal_code IN (?) AND category_id = ?", @codes, params[:category]])
       else
-        @events = @calendar.public_events.find(:all, :origin=> @postal_code, :within => 75)
+        @events = @calendar.public_events.find(:all, :origin=> @postal_code, :within => 50, :order => 'distance')
       end      
     else
       flash.now[:notice] = "Not a valid postal code." and return    
     end
-    @events = @events.sort_by {|e| @codes.index(e.postal_code)}
-    @events.each {|e| e.instance_variable_set(:@distance_from_search, @zips.find {|z| z.zip == e.postal_code}.distance_to_search_zip) }
     @auto_center = true
   end
 
