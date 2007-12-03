@@ -10,6 +10,9 @@ class PoliticianInviteSweeper < ActionController::Caching::Sweeper
     end
     #this must be something else
     return unless @politician
+    
+    # expire events show page if politician is now attending/supporting the event
+    FileUtils.rm(Dir.glob(File.join(ActionController::Base.page_cache_directory,'*','events','show',@politician.rsvps.last.id.to_s + '.*' ))) if record.is_a?(Rsvp)
 
     #this politician has been invited / rsvpd before
     return unless @politician.politician_invites.length == 1 || @politician.rsvps.length == 1
