@@ -24,8 +24,8 @@
     <%
     @map = Cartographer::Gmap.new('eventmap')
     @map.init do |m|
-      m.center = @map_center || [37,-121]   
-      m.zoom = @map_zoom || 5 
+      m.center = @map_center || DaysOfAction::Geo::STATE_CENTERS[:CA]
+      m.zoom = @map_zoom || DaysOfAction::Geo::STATE_ZOOM_LEVELS[:CA] 
       m.controls = [:zoom, :large]
     end
     @icon = Cartographer::Gicon.new(:image_url => '/images/green_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
