@@ -7,7 +7,8 @@
       <!--      There are <%= pluralize @calendar.events.length, @calendar.name %> in <%= @calendar.events.unique_states %> states. -->
     </div>
     <div class="national-intro-directions">
-      <br> Enter your zip/postal code to find a <%= @calendar.name.singularize %> near you.  You can also <a href="/dec4/signup">host your own event</a>
+      <br> Enter your zip/postal code to find a <%= @calendar.name.singularize %> near you.  
+      You can also <%= link_to 'host your own event', signup_url(:permalink => @calendar.permalink) %>.
     </div>
   </div>
   <div id="national-map-container">
