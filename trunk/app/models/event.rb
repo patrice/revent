@@ -32,7 +32,7 @@ class Event < ActiveRecord::Base
   
   validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id
   # second part of this regular expression checks for Canadian postal codes
-  validates_format_of :postal_code, :with => /(^\d{5}(-\d{4})?$)|(^\D\d\D((-| )?\d\D\d)?$)/ # 
+  validates_format_of :postal_code, :with => /(^\d{5}(-\d{4})?$)|(^\D\d\D((-| )?\d\D\d)?$)/
 
   def validate
     if event_start = self.calendar.event_start
@@ -132,7 +132,7 @@ class Event < ActiveRecord::Base
   alias address address_for_geocode
   
   def set_district
-    # don't lookup us congressional district for non-us postal_codes
+    # don't lookup U.S. congressional district for non-us postal_codes
     return unless postal_code =~ /^\d{5}(-\d{4})?$/
     
     # get congressional district based on postal code
@@ -143,21 +143,6 @@ class Event < ActiveRecord::Base
       self.district = data['entry'][0]['district'][0].strip 
     end
   end
-
-# zip_latitude & zip_longitude superseded by fallback_latitude & fallback_longitude
-=begin
-  def zip_latitude
-    return attributes["zip_latitude"] if attributes["zip_latitude"]
-    @zip ||= ZipCode.find_by_zip(postal_code)
-    @zip.latitude if @zip
-  end
-
-  def zip_longitude
-    return attributes["zip_longitude"] if attributes["zip_longitude"]
-    @zip ||= ZipCode.find_by_zip(postal_code)
-    @zip.longitude if @zip
-  end
-=end
 
   def national_map_coordinates
     @zip ||= ZipCode.find_by_zip(postal_code)
@@ -240,10 +225,17 @@ private
   def geocode
     if (geo = GeoKit::Geocoders::MultiGeocoder.geocode(address_for_geocode)).success
       self.latitude, self.longitude = geo.lat, geo.lng
-    elsif (geo = GeoKit::Geocoders::MultiGeocoder.geocode(self.postal_code)).success 
-      self.fallback_latitude, self.fallback_longitude = geo.lat, geo.lng
-    elsif (geo = GeoKit::Geocoders::MultiGeocoder.geocode([self.city, self.state].join(', '))).success
-      self.fallback_latitude, self.fallback_longitude = geo.lat, geo.lng
+    else
+      if self.postal_code =~ /^\d{5}(-\d{4})?$/ # US postal code
+        zip = ZipCode.find_by_zip(self.postal_code)
+        self.fallback_latitude, self.fallback_longitude = zip.latitude, zip.longitude if zip
+      elsif self.postal_code =~ /^\D\d\D((-| )?\d\D\d)?$/ # Canadian postal code
+        if (geo = GeoKit::Geocoders::MultiGeocoder.geocode(self.postal_code)).success 
+          self.latitude, self.longitude = nil, nil
+          self.fallback_latitude, self.fallback_longitude = geo.lat, geo.lng
+        end
+      end
     end
   end
+
 end
