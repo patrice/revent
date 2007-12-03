@@ -33,6 +33,8 @@ ActionMailer::Base.delivery_method = :sendmail
 #   :address            => 'smtp.engineyard.com',
 #   :port               => 25 }
 
+DIA_ENABLED = true
+
 CACHE = MemCache.new 'localhost:11211', :namespace => 'daysofaction'
 require 'memcache_util'
 require 'mem_cache_fragment_store'
