@@ -53,6 +53,12 @@ class UserMailer < ActionMailer::Base
     @subject    += 'Your password has been reset'
   end
 
+  def reportback_reminder(event)
+    setup_email(event.host)
+    @subject += 'Report-back reminder'
+    @body[:event] = event
+  end
+  
   protected
   def setup_email(user)
     host = Site.current && Site.current.host ? Site.current.host : 'events.stepitup2007.org'
