@@ -34,26 +34,26 @@
       m.zoom = @map_zoom || 3
       m.controls = [:zoom, :large]
     end
-    @green_dot = Cartographer::Gicon.new(:name => 'green_dot', :image_url => '/images/green_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
-    @red_dot  = Cartographer::Gicon.new(:name => 'red_dot', :image_url => '/images/red_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
-    @map.icons << @green_dot
-    @map.icons << @red_dot
-    @calendar.events.each do |e|
+    @green_icon = Cartographer::Gicon.new(:name => 'green_icon', :image_url => '/images/green_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
+    @red_icon = Cartographer::Gicon.new(:name => 'red_icon', :image_url => '/images/red_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
+    @map.icons.concat([@green_icon, @red_icon])
+	
+	# display events from all calendars for this site
+	(Site.current.calendars - [@calendar]).each {|c| @events.concat(c.events) }
+
+    @events.each do |e|
       marker = nil
+      coordinates = false
+      if e.latitude && e.longitude
+        coordinates = [e.latitude, e.longitude]
+      elsif e.fallback_latitude && e.fallback_longitude
+        coordinates = [e.fallback_latitude, e.fallback_longitude]
+      end
+      marker = coordinates ? Cartographer::Gmarker.new(:name => "event_#{e.id}_marker", :position => coordinates,
+      :click => "window.location.href='#{url_for :controller => 'reports', :action => 'show', :event_id => e.id}';") : nil
+      # :info_window => render_to_string(:partial => 'info_window', :locals => {:event => e}), :icon => @icon.name 
 
-        coordinates = false
-        if e.latitude && e.longitude
-          coordinates = [e.latitude, e.longitude]
-        elsif e.fallback_latitude && e.fallback_longitude
-          coordinates = [e.fallback_latitude, e.fallback_longitude]
-        end
-        marker = coordinates ? Cartographer::Gmarker.new( 
-        :name => "event_#{e.id}_marker",
-        :position => coordinates,
-        :click => "window.location.href='#{url_for :controller => 'reports', :action => 'show', :event_id => e.id}';") : nil
-        # :info_window => render_to_string(:partial => 'info_window', :locals => {:event => e}), :icon => @icon.name 
-
-        marker.icon = e.reports.empty? ? @red_dot.name : @green_dot.name
+      marker.icon = e.reports.empty? ? @red_icon.name : @green_icon.name
       @map.markers << marker if marker
     end
    %>
