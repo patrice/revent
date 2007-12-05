@@ -52,12 +52,6 @@ class UserMailer < ActionMailer::Base
     setup_email(user)
     @subject    += 'Your password has been reset'
   end
-
-  def reportback_reminder(event)
-    setup_email(event.host)
-    @subject += 'Report-back reminder'
-    @body[:event] = event
-  end
   
   protected
   def setup_email(user)
