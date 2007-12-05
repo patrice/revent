@@ -38,7 +38,7 @@ class Calendar < ActiveRecord::Base
   end
   
   def past?
-    event_start && event_start < Time.now
+    self.event_end && (self.event_end + 1.day).at_beginning_of_day < Time.now
   end
 
   def flickr_tags(event_id = nil)
