@@ -16,6 +16,9 @@ config.action_controller.page_cache_directory        = File.join(RAILS_ROOT, 'te
 config.action_controller.fragment_cache_store        = :file_store, File.join(RAILS_ROOT, 'test/tmp/cache/fragments')
 config.active_record.observers = :event_sweeper, :politician_invite_sweeper
 
+# need to test dia functionality using test account
+DIA_ENABLED = true  
+
 # Tell ActionMailer not to deliver emails to the real world.
 # The :test delivery method accumulates sent emails in the
 # ActionMailer::Base.deliveries array.
