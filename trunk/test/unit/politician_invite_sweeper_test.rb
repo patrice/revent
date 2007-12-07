@@ -2,6 +2,13 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class PoliticianInviteSweeperTest < Test::Unit::TestCase
   def test_expires_totals
+    p = Politician.new :state => 'CA'
+    e = Event.new :id => 111
+    p.stubs(:politician_invites).returns ['one']
+    Rsvp.any_instance.stubs(:attending).returns(p)
+    Rsvp.any_instance.stubs(:event).returns(e)
+    PoliticianInvite.any_instance.stubs(:politician).returns(p)
+
     url = "/thepermalink/invites/totals.html"
     cache_and_assert_expires(url) { @r = Rsvp.create }
     cache_and_assert_expires(url) { @p = PoliticianInvite.create }
@@ -11,11 +18,13 @@ class PoliticianInviteSweeperTest < Test::Unit::TestCase
 
   def test_expires_list
     p = Politician.new :state => 'CA'
+    e = Event.new :id => 111
     p.stubs(:politician_invites).returns ['one']
     Rsvp.any_instance.stubs(:attending).returns(p)
+    Rsvp.any_instance.stubs(:event).returns(e)
     PoliticianInvite.any_instance.stubs(:politician).returns(p)
 
-    urls = {:zip => "/thepermalink/invites/list/zip/11111.html", :cali => "/thepermalink/invites/list/state/CA.html", :ny => "/thepermalink/invites/list/state/NY.html", :list => "/thepermalink/invites/list.html"}
+    urls = {:zip => "/thepermalink/invites/list/zip/11111.html", :cali => "/thepermalink/invites/list/state/CA.html", :ny => "/thepermalink/invites/list/state/NY.html", :list => "/thepermalink/invites/list.html" }
     cache_urls *urls.values
     assert_expires_pages(urls[:zip], urls[:cali], urls[:list]) { @r = Rsvp.create }
     assert_cached(urls[:ny])

@@ -36,8 +36,6 @@ class EventTest < Test::Unit::TestCase
     assert !event.valid?
     
     # test canadian postal codes
-    event.postal_code = "ZZZ-ZZZ"
-    assert !event.valid?
     event.postal_code = "V6B-3N9"
     assert event.valid?
     event.postal_code = "V6B 3N9"
@@ -46,6 +44,10 @@ class EventTest < Test::Unit::TestCase
     assert event.valid?
     event.postal_code = "V6B"
     assert event.valid?    
+    event.postal_code = "ZZZ-ZZZ"
+    assert !event.valid?
+    event.postal_code = "VV6B-3N99"
+    assert !event.valid?    
 
     # test US postal codes
     event.location = "1942 15th St."
@@ -59,5 +61,37 @@ class EventTest < Test::Unit::TestCase
     assert !event.valid?
     event.postal_code = "94114-"
     assert !event.valid?
+  end
+
+  def test_geocode_validation
+    event = Event.new(:calendar_id => 2,
+                      :name => "Test Canadian Event",
+                      :description => "description",
+                      :location => "TBD",
+                      :city => "TBD",
+                      :state => "TBD",
+                      :postal_code => "TBD",
+                      :directions => "TBD",
+                      :start => 2.weeks.from_now,
+                      :end => 2.weeks.from_now + 4.hours)
+    assert !event.save
+
+    event.postal_code = "V6B-3N9"
+    assert event.save
+    assert event.fallback_latitude and event.fallback_longitude
+
+    event.location = "1248 Seymour Street"
+    event.city = "Vancouver"
+    event.state = "BC"
+    event.postal_code = "V6B-3N9"
+    assert event.save
+    assert event.latitude and event.longitude
+
+    event.location = "Colorado State University, Clark C Room 361\r\nFort Collins, Colorado 80524"
+    event.city = "Fort Collins"
+    event.state = "CO"
+    event.postal_code = "80526"
+    assert event.save
+    assert event.fallback_latitude and event.fallback_longitude    
   end
 end
