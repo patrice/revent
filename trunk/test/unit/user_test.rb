@@ -4,7 +4,7 @@ class UserTest < Test::Unit::TestCase
   # Be sure to include AuthenticatedTestHelper in test/test_helper.rb instead.
   # Then, you can remove it from this and the functional test.
   include AuthenticatedTestHelper
-  fixtures :users
+  fixtures :users, :sites
 
   def test_should_create_user
     DemocracyInAction::API.any_instance.stubs(:process).returns(1111) unless connect?
@@ -46,17 +46,20 @@ class UserTest < Test::Unit::TestCase
 
   def test_should_reset_password
     DemocracyInAction::API.any_instance.stubs(:process).returns(1111) unless connect?
+    Site.current = Site.find(users(:quentin).site_id)
     users(:quentin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
     assert_equal users(:quentin), User.authenticate('quentin@example.com', 'new password')
   end
 
   def test_should_not_rehash_password
     DemocracyInAction::API.any_instance.stubs(:process).returns(1111) unless connect?
+    Site.current = Site.find(users(:quentin).site_id)
     users(:quentin).update_attributes(:login => 'quentin2', :email => 'quentin2@example.com')
     assert_equal users(:quentin), User.authenticate('quentin2@example.com', 'test')
   end
 
   def test_should_authenticate_user
+    Site.current = Site.find(users(:quentin).site_id)
     assert_equal users(:quentin), User.authenticate('quentin@example.com', 'test')
   end
 
