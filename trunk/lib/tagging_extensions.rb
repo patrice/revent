@@ -25,9 +25,9 @@ class ActiveRecord::Base #:nodoc:
       taggable?(true)
       outgoing = tag_cast_to_string(outgoing)
      
-      tags.delete(tags.select do |tag|
+      tags.delete(*(tags.select do |tag|
         outgoing.include? tag.name    
-      end)
+      end))
       end
 
    # Returns the tags on <tt>self</tt> as a string.
@@ -60,10 +60,6 @@ class ActiveRecord::Base #:nodoc:
       tags.to_s
       #:startdoc:
     end
-    
-    #:stopdoc:
-    alias :tags= :tag_with
-    #:startdoc:
     
     private 
     
