@@ -50,7 +50,7 @@
         coordinates = [e.fallback_latitude, e.fallback_longitude]
       end
       marker = coordinates ? Cartographer::Gmarker.new(:name => "event_#{e.id}_marker", :position => coordinates,
-      :click => "window.location.href='#{url_for :controller => 'reports', :action => 'show', :id => e.id}';") : nil
+      :click => "window.location.href='#{report_url(:permalink => @calendar.permalink, :event_id => e.id)}';") : nil
       # :info_window => render_to_string(:partial => 'info_window', :locals => {:event => e}), :icon => @icon.name 
 
       marker.icon = e.reports.empty? ? @red_icon.name : @green_icon.name
