@@ -3,7 +3,8 @@ class AttachmentOptions
     @scoped_attachment_options = {}
     @global_attachment_options = {
       :storage => :s3,
-      :max_size => 2.megabytes
+      :max_size => 2.megabytes,
+      :size => 1..2.megabytes
     }
     @default_attachment_options = defaults
   end
