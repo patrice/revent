@@ -5,6 +5,11 @@ class ReportMailer < ActionMailer::Base
     @subject += 'Report-back reminder for ' + event.name
     @body[:event] = event
   end
+
+  # only send thank you from revent if dia trigger is not set
+  def self.send_thank_you(report)
+    self.deliver_thank_you(report) unless Calendar.current.report_dia_trigger_key
+  end
   
   def thank_you(report)
     setup_email(report.user)
