@@ -31,7 +31,7 @@ class Account::EventsControllerTest < Test::Unit::TestCase
   end
 
   def test_show
-    login_as :quentin
+    login_as :action_host
     get :show, :id => 1
     assert_response :success
     assert_template 'show'

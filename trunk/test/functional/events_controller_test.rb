@@ -74,12 +74,13 @@ class EventsControllerTest < Test::Unit::TestCase
 
   def test_create_with_existing_user
     DemocracyInAction::API.any_instance.stubs(:process).returns(1111) unless connect?
-    user = User.create! :login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :password => 'apassword', :password_confirmation => 'apassword', :activated_at => Time.now.utc
+    Site.current = sites(:main)
+    user = User.create! :login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :password => 'apassword', :password_confirmation => 'apassword', :activated_at => Time.now.utc, :site_id => sites(:main).id
     assert User.authenticate('new@event.com', 'apassword')
     user_count = User.count
 
     post :create, :calendar_id => 1,
-      :user => {:login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :password => 'another', :password_confirmation => 'another'},
+      :user => {:login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :password => 'another', :password_confirmation => 'another', :site_id => sites(:main).id},
       :event => {:name => 'some event', :description => 'a description', :city => 'city', :state => 'CA', :postal_code => '94110', :directions => 'directions', :start => 1.hour.from_now, :end => 2.hours.from_now, :calendar_id => 1, :location => 'location'}
 
     assert_response :redirect
