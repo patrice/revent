@@ -153,6 +153,10 @@ class User < ActiveRecord::Base
     [first_name, last_name].compact.join(' ')
   end
 
+  def address
+    [street, street_2, city, state, postal_code].compact.join(', ')
+  end
+
   protected
     # before filter 
     def encrypt_password

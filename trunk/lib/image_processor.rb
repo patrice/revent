@@ -8,14 +8,14 @@ require 'application'
 require 'admin/events_controller'
 class ImageProcessor
   def self.run
-    Site.current = Site.find 2
     queue = Starling.new 'localhost:22122'
     loop do
-      ts, images = queue.get 'images'
+      data = queue.get 'images'
+      Site.current = data[:site]
       puts 'zipping'
       c = Admin::EventsController.new
-      c.instance_variable_set :@featured_images, images
-      c.send :zip_em_up, ts
+      c.instance_variable_set :@featured_images, data[:images]
+      c.send :zip_em_up, data[:timestamp]
     end
   end
 end

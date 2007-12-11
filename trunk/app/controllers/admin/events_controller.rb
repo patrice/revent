@@ -39,9 +39,15 @@ class Admin::EventsController < AdminController
     @events = @calendar.events.find(:all, :include => :reports)
     require 'fastercsv'
     string = FasterCSV.generate do |csv|
-      csv << ["Event Name", "Event ID", "City", "State", "Postal_Code", "District", "High Attendees", "Low Attendees", "Average Attendees"]
+      csv << ["Event ID", "Event Name", "City", "State", "Postal_Code", "District", 
+              "Host Name", "Host Email", "Host Phone", "Host Address", 
+              "High Attendees", "Low Attendees", "Average Attendees"]
       @events.each do |event|
-        csv << [event.name, event.id, event.city, event.state, event.postal_code, event.district, event.attendees_high, event.attendees_low, event.attendees_average]
+        host = event.host
+        csv << [event.id, event.name, event.city, event.state, event.postal_code, event.district,
+                (host ? host.full_name : nil), (host ? host.email : nil), 
+                (host ? host.phone : nil), (host ? host.address : nil),
+                event.attendees_high, event.attendees_low, event.attendees_average]
       end
     end
     send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "events.csv")
@@ -53,7 +59,7 @@ class Admin::EventsController < AdminController
     queue = Starling.new 'localhost:22122'
     timestamp = Time.now.strftime("%y%m%d_%H%M%S") 
     @latest = File.join(RAILS_ROOT,'public','featured_images_' + timestamp + '.zip')
-    queue.set 'images', [timestamp, @featured_images]
+    queue.set 'images', {:timestamp => timestamp, :images => @featured_images, :site => Site.current}
 
 #    render :inline => "generated zip successfully, please download it <%= link_to 'here', '/#{zip_file_name}' %>"
 #    send_data result, :filename => 'featured_images.zip'
