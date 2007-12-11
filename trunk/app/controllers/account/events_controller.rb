@@ -1,6 +1,9 @@
 class Account::EventsController < ApplicationController
   session :disabled => false
-  before_filter :login_required
+
+  # login_required calls authorized? (at bottom of this file) 
+  # which sets up @event for any method in this controller to use
+  before_filter :login_required   
 
   def index
     @hosting = current_user.events
@@ -9,8 +12,7 @@ class Account::EventsController < ApplicationController
 
   def show
     extend ActionView::Helpers::TextHelper
-    @nearby_events = @calendar.public_events.find(:all, :origin => @event, :within => 50)
-    @nearby_events.reject! { |e| e.id == @event.id }
+    @nearby_events = @calendar.public_events.find(:all, :origin => @event, :within => 50, :conditions => ["events.id <> ?", @event.id])
     @blog = Blog.new(:event => @event)
     city_state = [@event.city, @event.state].join(', ')
     @event.letter_script ||= @calendar.letter_script.gsub('CITY_STATE', city_state) if @calendar.letter_script
@@ -19,14 +21,12 @@ class Account::EventsController < ApplicationController
   end
 
   def upload
-    @event = Event.find(params[:id])
     if !params[:attachment][:uploaded_data].blank? && @event.attachments.create!(params[:attachment])
       flash[:notice] = "Upload successful"
       redirect_to :action => 'show'
     else
       #XXX: to much of this, should move someplace else
-      @nearby_events = @calendar.public_events.find(:all, :origin => @event, :within => 50)
-      @nearby_events.reject! { |e| e.id == @event.id }
+      @nearby_events = @calendar.public_events.find(:all, :origin => @event, :within => 50, :conditions => ["events.id <> ?", @event.id])
       flash[:error] = "Upload failed"
       render :action => 'show'
     end
@@ -43,8 +43,7 @@ class Account::EventsController < ApplicationController
     end
     redirect_to :action => 'show', :id => @event
   rescue ActiveRecord::RecordInvalid
-    @nearby_events = @calendar.public_events.find(:all, :origin => @event, :within => 50)
-    @nearby_events.reject! { |e| e.id == @event.id }
+    @nearby_events = @calendar.public_events.find(:all, :origin => @event, :within => 50, :conditions => ["events.id <> ?", @event.id])
     render :action => 'show'
   end
   
@@ -72,7 +71,6 @@ class Account::EventsController < ApplicationController
   end
 
   def remove
-    @event = Event.find(params[:id])
     @event.destroy
 =begin
     api = DIA_API_Simple.new API_OPTS
