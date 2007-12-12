@@ -30,7 +30,7 @@ class Event < ActiveRecord::Base
   before_validation :geocode
   before_save :set_district
   
-  validates_presence_of :name, :description, :location, :city, :state, :postal_code, :directions, :start, :end, :calendar_id
+  validates_presence_of :name, :description, :location, :city, :state, :postal_code, :start, :end, :calendar_id
   # second part of this regular expression checks for Canadian postal codes
   validates_format_of :postal_code, :with => /(^\d{5}(-\d{4})?$)|(^\D\d\D((-| )?\d\D\d)?$)/
 
