@@ -46,8 +46,7 @@
 <% end -%>
   
   <div id="location"><b>Location:</b><br><%= white_list @event.location %></div>
-<% if @event.directions %>
-  
+<% unless @event.directions.blank? %>
 <div id="directions"><b>Directions:</b><br><%= white_list word_wrap(auto_link(@event.directions) {|text| truncate(text, 40) + " " }) %></div>
 <% end -%>
 

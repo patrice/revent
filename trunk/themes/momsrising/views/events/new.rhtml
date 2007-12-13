@@ -23,6 +23,7 @@ end
     <div id="profile" class="profileInformation">
       <%= error_messages_for 'user' %>
       <h3>Your Information</h3>
+		<em>*Required Fields</em><br /><br />
       <% fields_for :user, @user do |user| %>
       
       <% if @hostform and @hostform.dia_user_tracking_code %>
@@ -44,22 +45,18 @@ end
             <tr valign="top">
               <td valign="top" class="dia_field_name">*First Name</td>
               <td valign="top"><%= user.text_field "first_name", :maxlength => "32", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your first name", :class => "required inputStyle" %></td>
-              
             </tr>
             <tr>
               <td valign="top" class="dia_field_name">*Last Name</td>
               <td valign="top"><%= user.text_field "last_name", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your last name", :class => "required inputStyle" %></td>
-              
             </tr>
             <tr>
               <td valign="top" class="dia_field_name">*Email</td>
               <td valign="top"><%= user.text_field "email", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter a valid email address", :class => "required validate-email inputStyle" %></td>
-              
             </tr>
             <tr>
               <td valign="top" class="dia_field_name">*Phone</td>
               <td valign="top"><%= user.text_field "phone", :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your phone number", :class => "required inputStyle" %></td>
-              
             </tr>
             <tr>
               <td colspan="2" valign="top"  class="dia_field_name">Show phone number on your host profile?&nbsp;&nbsp;<%= user.check_box "show_phone_on_host_profile", :style => "background-color: #ebd897;", :class => "inputStyle" %></td>
@@ -67,34 +64,27 @@ end
             <tr>
               <td valign="top" class="dia_field_name">*Street</td>
               <td valign="top"><%= user.text_field "street", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your street address", :class => "required inputStyle" %></td>
-              
             </tr>
             <tr>
               <td valign="top" class="dia_field_name">*City</td>
               <td valign="top"><%= user.text_field "city", :maxlength => "32", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your city", :class => "required inputStyle" %></td>
-              
             </tr>
             <tr>
-            
               <td valign="top"  class="dia_field_name">*State/Region</td>
-              <td><%= user.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), {}, :title => "Please select your state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1" %>     
+              <td><%= user.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), :selected => "CA",  :title => "Please select your state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1" %>     
               </td>
-              
             </tr>
             <tr>
               <td  class="dia_field_name">*Zip Code</td>
               <td><%= user.text_field "postal_code", :style => "background-color: #ebd897;", :maxlength => "16", :size => "16", :title => "Please enter your zip code", :class => "required inputStyle" %></td>
-             
             </tr>
             <tr>
               <td valign="top" class="dia_field_name">Organization</td>
               <td valign="top"><%= text_field_tag "user[democracy_in_action][supporter][Organization]", nil, :id => "dataOrganization", :maxlength => "64", :size => "30", :class => "inputStyle" %></td>
-           
             </tr>
             <tr>
               <td valign="top" colspan="2">A picture for your host profile <%= file_field_tag "profile_image[uploaded_data]", :class => "inputStyle" %></td>
             </tr>
- 
           </tbody>
           </table>
       </div>
@@ -121,7 +111,7 @@ end
             </tr>          
    			<%= f.hidden_field "description" %>
             <tr>
-              <td colspan="2" valign="top"  class="dia_field_name">Copy address from above?&nbsp;&nbsp;
+              <td colspan="2" valign="top"  class="dia_field_name">Copy your address from above?&nbsp;&nbsp;
 					<%= check_box_tag "copy_address", :style => "background-color: #ebd897;", :class => "inputStyle" %>
 				  </td>
             </tr>
@@ -169,7 +159,7 @@ end
                 <div align="left">*State:</div>
               </td>
               <td>	 
-					<%= f.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), {}, :title => "Please choose your event's state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1" %>
+					<%= f.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), :title => "Please choose your event's state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1" %>
 				  </td>
             </tr>
             <tr>
