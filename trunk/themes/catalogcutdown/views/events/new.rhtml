@@ -9,11 +9,24 @@ end
 
 @hostform = @calendar.hostform
  -%>
-<h1><%= @hostform.title %></h1>
+<h1>
+	<% if @hostform and @hostform.title -%>
+	  <%= @hostform.title %>
+	<% else -%>
+	   Organize an Action 
+	<% end -%>
+</h1>
 <p class="text">
 
+	<% if @hostform and @hostform.intro_text -%>
+	  <%= @hostform.intro_text %>
+	<% else -%>
+	   Sign up below
+		<p>Be a part of our Day of Action.&nbsp; Join us by organizing a demonstration!&nbsp; 
+			Fill out the form below if you can host an event in your community.&nbsp; 
+		</p>
+	<% end -%>
 
-<%= @hostform.intro_text %>
 </p>
 
 <% form_for :event, @event, :url => url_for(:permalink => @calendar.permalink, :controller => 'events', :action => 'create'), :html => {:id => 'event-signup-form', :multipart => true} do |f| -%>
@@ -23,15 +36,15 @@ end
       <h3>Your Information</h3>
       <% fields_for :user, @user do |user| %>
       
-      <% if @hostform.dia_user_tracking_code %>
+      <% if @hostform and @hostform.dia_user_tracking_code %>
         <%= hidden_field_tag "user[democracy_in_action][supporter][Tracking_Code]", @hostform.dia_user_tracking_code %>
 	  <%- end %>
       
-      <% if @hostform.dia_trigger_key%>
+      <% if @hostform and @hostform.dia_trigger_key%>
       	<%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", @hostform.dia_trigger_key %>
       <%- end %>
 
-      <% if @hostform.dia_group_key %>
+      <% if @hostform and @hostform.dia_group_key %>
       	<%=  hidden_field_tag "user[democracy_in_action][supporter][link][groups]",  @hostform.dia_group_key %>
       <%- end %>
    
@@ -109,27 +122,21 @@ end
     <div id="eventInformation" class="eventInformation">
       <%= error_messages_for 'event' %>
       <h3>Event Information<br /></h3>
-      <% if @hostform.event_info_text %>
+      <% if @hostform and @hostform.event_info_text %>
       	<p><strong><font color="#ff0000"><em><%= @hostform.event_info_text %></em></font></strong></p>
       <%- end %>
       <div id="eventFields" class="eventFields">
         <table class="dia_field">
           <tbody>
-
-                      <tr valign="top">
+				<tr valign="top">
               <td valign="top"  class="dia_field_name">
                 <div align="left">*Event Name:</div>
               </td>
               <td valign="top">
                 <%= f.text_field "name", :id => "dataEvent_Name", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your event's name", :class => "required inputStyle" %>
               </td>
-              
             </tr>
-            
-	
-             
-            <tr>
-            
+            <tr>            
               <td valign="top"  class="dia_field_name" colspan="2">
                 <div align="left">*Description:<br />                  <%= f.text_area "description", :title => "Please enter your event's description", :class => "required", :rows => "7", :cols => "45", :style => "background-color: #ebd897;", :id => "dataDescription" %>
                 </div>
@@ -230,24 +237,24 @@ end
           </tbody>
         </table>
         
-      	<% if @hostform.redirect %>
+      	<% if @hostform and @hostform.redirect %>
       		<%= hidden_field_tag "redirect",  @hostform.redirect %>
       	<%- end %>
         
-        <% if @hostform.tag %>
+        <% if @hostform and @hostform.tag %>
         	<%= hidden_field_tag "tag", @hostform.tag %>
         <%- end %>
         
         <%= hidden_field_tag "event[democracy_in_action][event][Maximum_Attendees]", 10000 %>
         <%= hidden_field_tag "event[democracy_in_action][event][Status]", "Unconfirmed" %>
 
-		<% if @hostform.dia_event_tracking_code %>
+		<% if @hostform and @hostform.dia_event_tracking_code %>
         	<%= hidden_field_tag "event[democracy_in_action][event][Default_Tracking_Code]", @hostform.dia_event_tracking_code %>
         <%- end %>
 
         
         <p align="center">
-        <% if @hostform.pre_submit_text %>
+        <% if @hostform and @hostform.pre_submit_text %>
          <br><%= @hostform.pre_submit_text %>. <br>
         <%- end %>
         <br /><input type="submit" value="Submit" />

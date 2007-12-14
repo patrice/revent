@@ -14,7 +14,7 @@ There are three storage options for files uploaded through attachment_fu:
   Database file
   Amazon S3
 
-Each method of storage many options associated with it that will be covered in the following section.  Something to note, however, is that the Amazon S3 storage requires you to modify config/amazon_s3.yml and the Database file storage requires an extra table.
+Each method of storage has many options associated with it that will be covered in the following section.  Something to note, however, is that the Amazon S3 storage requires you to modify config/amazon_s3.yml and the Database file storage requires an extra table.
 
 
 attachment_fu models

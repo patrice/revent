@@ -6,14 +6,25 @@ else
 	@event.start = Time.now.beginning_of_day + 12.hours
 	@event.end = Time.now.beginning_of_day + 14.hours
 end
-
 @hostform = @calendar.hostform
  -%>
-<h1><%= @hostform.title if @hostform %></h1>
+
+<h1>
+	<% if @hostform and @hostform.title -%>
+	  <%= @hostform.title %>
+	<% else -%>
+	   Organize an Action 
+	<% end -%>
+</h1>
 <p class="text">
-
-
-<%= @hostform.intro_text if @hostform %>
+	<% if @hostform and @hostform.intro_text -%>
+	  <%= @hostform.intro_text %>
+	<% else -%>
+	   Sign up below
+		<p>Be a part of our Day of Action.&nbsp; Join us by organizing a demonstration!&nbsp; 
+			Fill out the form below if you can host an event in your community.&nbsp; 
+		</p>
+	<% end -%>
 </p>
 
 <% form_for :event, @event, :url => url_for(:permalink => @calendar.permalink, :controller => 'events', :action => 'create'), :html => {:id => 'event-signup-form', :multipart => true} do |f| -%>
