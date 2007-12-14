@@ -49,21 +49,16 @@
 </table></td>
   </tr>
   <tr>
-
     <td><table width="100%"  border="0" cellspacing="0" cellpadding="0" style="border-left: 1px solid #000; border-right: 1px solid #000; ">
       <tr>
-        <td width="530" valign="top" bgcolor="#FFFFFF"><table width="100%"  border="0" cellpadding="20" cellspacing="0" bgcolor="#FFFFFF">
+        <td width="530" valign="top" bgcolor="#FFFFFF">
+			<table width="100%"  border="0" cellpadding="20" cellspacing="0" bgcolor="#FFFFFF">
           <tr>
             <td valign="top">
-              <BR />
-			  
-			  
 			  <% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
-      <% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
+      		<% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
 	          <%= yield %>
-	   
-
-</td>
+				</td>
           </tr>
         </table></td>
         <td width="10">&nbsp;</td>

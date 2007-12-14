@@ -1,14 +1,10 @@
 <div id="national-container">
   <div id="national-intro">
     <div class="national-intro-text">
-<p class="title">Get involved in the Dec 4th Day of Action! </p>
-<%#=  @calendar.name %>
-    </div>
-    <div class="national-intro-count">
-      <!--      There are <%= pluralize @calendar.events.length, @calendar.name %> in <%= @calendar.events.unique_states %> states. -->
+		<p class="title">Get involved in the Dec 4th Day of Action! </p>
     </div>
     <div class="national-intro-directions">
-      <br> Click on a state/province or enter your zip/postal code to find a <%= @calendar.name.pluralize %> event near you.  You can also <a href="/dec4/signup">host your own event</a>
+      Click on a state/province or enter your zip/postal code to find a <%= @calendar.name.pluralize %> event near you.  You can also <a href="/dec4/signup">host your own event</a>
     </div>
   </div>
   <div id="national-map-container">
