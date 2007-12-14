@@ -1,17 +1,23 @@
-<%= @event.name %> is hosted by:
-<h2><%= @host.full_name %></h2>
-<%= @host.city %>, <%= @host.state %>
-<% if @host.show_phone_on_host_profile -%>
-<br/>
-Contact: <%= @host.phone %>
-<br/>
+<%= render :partial => 'nav' %>
+<h2><%= @event.name %><br /> is hosted by:</h2>
+<h4>
+	<%= @host.full_name %>
+	<% if @host.city and @host.state -%>
+	  of <%= @host.city %>, <%= @host.state %><br />
+	<% end -%>
+</h4>
+<% if @host.show_phone_on_host_profile and @host.phone -%>
+<br/>Contact: <%= @host.phone %><br/>
 <% end -%>
-<br/><br/>
+<p style="font-size: 14px; font-weight: bold;">
+  <a href="#" onclick="window.open('http://democracyinaction.org/dia/api/event/email.jsp?event_KEY=<%= @event.democracy_in_action_key %>','','width=500,height=450'); return false;">Questions? Email the Host</a>
+</p>
+<br /><br />
 <% if @host.profile_image -%>
-<%= image_tag(@host.profile_image.public_filename(:display)) %>
-<br/>
+  <%= image_tag(@host.profile_image.public_filename(:display)) %><br />
 <% end -%>
-
+<div align="right">
 <%= link_to 'Back to Event Details', :action => :show, :id => @event %>
+</div>
 
 
