@@ -1,14 +1,12 @@
 class Event
   def geocode
   end
-  def sync_to_democracy_in_action
-  end
 end
 
 class LatlngPrecision < ActiveRecord::Migration
   def self.up
     add_column :events, :precision, :string
-    Event.find(:all, :conditions => "id > 1800").each do |e|
+    Event.find(:all).each do |e|
       if e.latitude and e.longitude
         e.precision = "address"
       elsif e.fallback_latitude and e.fallback_longitude
