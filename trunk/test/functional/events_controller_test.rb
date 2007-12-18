@@ -25,16 +25,7 @@ class EventsControllerTest < Test::Unit::TestCase
     assert_response :redirect
   end
 
-  def test_list
-    get :list
-
-    assert_response :success
-    assert_template 'list'
-
-    assert_not_nil assigns(:events)
-  end
-
-  def test_show
+\  def test_show
     get :show, :id => 1
 
     assert_response :success
@@ -59,8 +50,8 @@ class EventsControllerTest < Test::Unit::TestCase
     assert !User.find_by_email('new@event.com')
 
     post :create, :calendar_id => 1,
-      :user => {:login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com'},
-      :event => {:name => 'some event', :description => 'a description', :city => 'city', :state => 'CA', :postal_code => '94110', :directions => 'directions', :start => 1.hour.from_now, :end => 2.hours.from_now, :calendar_id => 1, :location => 'location'}
+      :user => {:login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :site_id => sites(:main)},
+      :event => {:name => 'some event', :description => 'a description', :city => 'San Francisco', :state => 'CA', :postal_code => '94114', :directions => 'directions', :start => 1.hour.from_now, :end => 2.hours.from_now, :calendar_id => 1, :location => '1942 15th St.'}
 
     assert_response :redirect
     assert_redirected_to :action => 'show'
@@ -81,7 +72,7 @@ class EventsControllerTest < Test::Unit::TestCase
 
     post :create, :calendar_id => 1,
       :user => {:login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :password => 'another', :password_confirmation => 'another', :site_id => sites(:main).id},
-      :event => {:name => 'some event', :description => 'a description', :city => 'city', :state => 'CA', :postal_code => '94110', :directions => 'directions', :start => 1.hour.from_now, :end => 2.hours.from_now, :calendar_id => 1, :location => 'location'}
+      :event => {:name => 'some event', :description => 'a description', :location => '1942 15th St. #2', :city => 'San Francisco', :state => 'CA', :postal_code => '94114', :directions => 'directions', :start => 1.hour.from_now, :end => 2.hours.from_now, :calendar_id => 1}
 
     assert_response :redirect
     assert_redirected_to :action => 'show'
