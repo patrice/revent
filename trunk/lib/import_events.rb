@@ -62,11 +62,12 @@ FasterCSV.foreach(events_csv_file) do |row|
   else
     geo = GeoKit::Geocoders::MultiGeocoder.geocode([event.city, event.state].join(', '))
     origin = [geo.lat, geo.lng]
-    event.fallback_latitude, event.fallback_longitude = origin[0], origin[1]
+    event.latitude, event.longitude = origin[0], origin[1]
+    event.precision = "zip"
   end
   if event.postal_code.blank?
-    if events = ZipCode.find(:all, :select => 'zip', :origin => origin, :within => 50, :order => 'distance')
-      event.postal_code = events.first.zip
+    if zipcode = ZipCode.find(:nearest, :select => 'zip', :origin => origin, :within => 50, :order => 'distance')
+      event.postal_code = zipcode.zip
     else
       print "F(#{event_params['id']}:zip)"
       next

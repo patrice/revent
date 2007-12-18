@@ -11,7 +11,7 @@ xml.us_states do
   @calendar.events.each do |e|
     xml.state :id => "point" do
       xml.name e.city
-      xml.loc "#{e.latitude || e.fallback_latitude},#{e.longitude || e.fallback_longitude}"
+      xml.loc "#{e.latitude},#{e.longitude}"
       xml.url report_state_search_url(:permalink => @calendar.permalink, :state => e.state)
       xml.hover e.name
       xml.data 1 unless e.reports.empty?

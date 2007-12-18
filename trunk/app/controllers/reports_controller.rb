@@ -38,13 +38,17 @@ class ReportsController < ApplicationController
 
   def flashmap
     # all events should have lat/lng or fallback lat/lng; remove ones that don't just in case
-    @events = @calendar.events.find(:all, :conditions => "(latitude <> 0 AND longitude <> 0) OR (fallback_latitude <> 0 AND fallback_longitude <> 0)")
+    @events = @calendar.events.find(:all, :conditions => "(latitude <> 0 AND longitude <> 0)")
     respond_to do |format|
       format.xml { render :layout => false }
     end
   end
 
   def list
+=begin
+    @calendar_ids = Site.current.calendars.find(:all, :conditions => ["calendars.id = ?", @calendar.id]).map{|c| c.id}
+    @events = Event.paginate(:all, :include => {:reports => :attachments}, :conditions => ["events.calendar_id IN (?) AND reports.id AND reports.status = '#{Report::PUBLISHED}'", @calendar_ids], :order => "reports.id", :page => params[:page], :per_page => 20)
+=end
     @events = Event.paginate(:all, :include => {:reports => :attachments}, :conditions => ["events.calendar_id = ? AND reports.id AND reports.status = '#{Report::PUBLISHED}'", @calendar.id], :order => "reports.id", :page => params[:page], :per_page => 20)
     @reports = @events.collect {|e| e.reports.first}
   end
@@ -123,7 +127,7 @@ class ReportsController < ApplicationController
         @user.deferred = false
         @user.sync_to_democracy_in_action
       end
-      #ReportMailer.deliver_thank_you(@report)
+      #ReportMailer.send_thank_you(@report)
       flash[:notice] = 'Report was successfully created.'
       @events = @calendar.events
       render :action => 'index'

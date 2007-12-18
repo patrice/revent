@@ -46,8 +46,6 @@
       coordinates = false
       if e.latitude && e.longitude
         coordinates = [e.latitude, e.longitude]
-      elsif e.fallback_latitude && e.fallback_longitude
-        coordinates = [e.fallback_latitude, e.fallback_longitude]
       end
       marker = coordinates ? Cartographer::Gmarker.new(:name => "event_#{e.id}_marker", :position => coordinates,
       :click => "window.location.href='#{report_url(:permalink => @calendar.permalink, :event_id => e.id)}';") : nil

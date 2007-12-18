@@ -78,20 +78,20 @@ class EventTest < Test::Unit::TestCase
 
     event.postal_code = "V6B-3N9"
     assert event.save
-    assert event.fallback_latitude and event.fallback_longitude
+    assert event.latitude and event.longitude and event.precision = "zip"    
 
     event.location = "1248 Seymour Street"
     event.city = "Vancouver"
     event.state = "BC"
     event.postal_code = "V6B-3N9"
     assert event.save
-    assert event.latitude and event.longitude
+    assert event.latitude and event.longitude and event.precision = "address"
 
     event.location = "Colorado State University, Clark C Room 361\r\nFort Collins, Colorado 80524"
     event.city = "Fort Collins"
     event.state = "CO"
     event.postal_code = "80526"
     assert event.save
-    assert event.fallback_latitude and event.fallback_longitude    
+    assert event.latitude and event.longitude
   end
 end

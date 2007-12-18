@@ -1,9 +1,9 @@
 xml.POIs do
   @events.each do |e|
     if @level == "1"
-      xml.POI :id => e.id, :category => e.rsvpd_politicians.any? ? 'event_state_attending' : 'event_state', :label => e.name, :lat => (e.latitude || e.fallback_latitude), :lon => (e.longitude || e.fallback_longitude)
+      xml.POI :id => e.id, :category => e.rsvpd_politicians.any? ? 'event_state_attending' : 'event_state', :label => e.name, :lat => e.latitude, :lon => e.longitude
     else
-      xml.POI :id => e.id, :category => e.rsvpd_politicians.any? ? 'event_district_attending' : 'event_district', :label => e.name, :lat => (e.latitude || e.fallback_latitude), :lon => (e.longitude || e.fallback_longitude), :location => [e.city, e.state].join(', '), :date => e.start do
+      xml.POI :id => e.id, :category => e.rsvpd_politicians.any? ? 'event_district_attending' : 'event_district', :label => e.name, :lat => e.latitude, :lon => e.longitude, :location => [e.city, e.state].join(', '), :date => e.start do
         xml.action :event => 'onRelease', :target => '_blank', :url => url_for(:controller => 'events', :action => 'show', :id => e.id)
       end
     end

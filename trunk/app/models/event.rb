@@ -30,7 +30,7 @@ class Event < ActiveRecord::Base
   before_validation :geocode
   before_save :set_district
   
-  validates_presence_of :name, :city, :state, :postal_code, :start, :end, :calendar_id, :description, :location 
+  validates_presence_of :name, :city, :state, :postal_code, :start, :end, :calendar_id #, :description, :location 
   # second part of this regular expression checks for Canadian postal codes
   validates_format_of :postal_code, :with => /(^\d{5}(-\d{4})?$)|(^\D\d\D((-| )?\d\D\d)?$)/
 
@@ -51,7 +51,7 @@ class Event < ActiveRecord::Base
         end
       end
     end    
-    unless (self.latitude and self.longitude) or (self.fallback_latitude and self.fallback_longitude)
+    unless (self.latitude and self.longitude)
       errors.add_to_base "Not enough information provided to place event on a map. Please give us at least a valid postal code."
     end
   end
@@ -225,15 +225,14 @@ private
   def geocode
     if (geo = GeoKit::Geocoders::MultiGeocoder.geocode(address_for_geocode)).success
       self.latitude, self.longitude = geo.lat, geo.lng
-    else
-      if self.postal_code =~ /^\d{5}(-\d{4})?$/ # US postal code
-        zip = ZipCode.find_by_zip(self.postal_code)
-        self.fallback_latitude, self.fallback_longitude = zip.latitude, zip.longitude if zip
-      elsif self.postal_code =~ /^\D\d\D((-| )?\d\D\d)?$/ # Canadian postal code
-        if (geo = GeoKit::Geocoders::MultiGeocoder.geocode(self.postal_code)).success 
-          self.latitude, self.longitude = nil, nil
-          self.fallback_latitude, self.fallback_longitude = geo.lat, geo.lng
-        end
+      self.precision = geo.precision
+    elsif self.postal_code =~ /^\d{5}(-\d{4})?$/ and (zip = ZipCode.find_by_zip(self.postal_code))
+      self.latitude, self.longitude = zip.latitude, zip.longitude if zip
+      self.precision = 'zip'
+    elsif self.postal_code   # handle Canadian postal codes and US postal codes not in ZipCode
+      if (geo = GeoKit::Geocoders::MultiGeocoder.geocode(self.postal_code)).success
+        self.latitude, self.longitude = geo.lat, geo.lng
+        self.precision = geo.precision
       end
     end
   end

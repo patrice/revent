@@ -43,7 +43,7 @@ class EventsController < ApplicationController
   end
 
   def flashmap
-    @events = @calendar.public_events.find(:all, :conditions => "(latitude <> 0 AND longitude <> 0) OR (fallback_latitude <> 0 AND fallback_longitude <> 0)")
+    @events = @calendar.public_events.find(:all, :conditions => "(latitude <> 0 AND longitude <> 0)")
     respond_to do |format|
       format.xml { render :layout => false }
     end
@@ -168,7 +168,7 @@ class EventsController < ApplicationController
       @user.save
       @rsvp.user_id = @user.id
       @rsvp.save
-      #RsvpMailer.deliver_thank_you(@event, @user)
+      #RsvpMailer.send_thank_you(@event, @user)
       flash[:notice] = 'RSVP was successfully registered.'
       redirect_to :action => 'show', :id => @rsvp.event.id and return
     else
@@ -218,7 +218,6 @@ class EventsController < ApplicationController
     @categories = @calendar.categories.find(:all).map{|c| [c.name.pluralize, c.id]}
     @categories.insert(0, ["All " + @calendar.permalink.capitalize, "all"]) unless @categories.empty?
     @category = @calendar.categories.find(params[:category]) if (params[:category] and not params[:category] == 'all')
-#    @category_id = params[:category].to_i if params[:category]
     @map = Cartographer::Gmap.new('eventmap')
     @map.init do |m|
       m.center = @map_center || [37.160317,-95.800781]
@@ -234,8 +233,6 @@ class EventsController < ApplicationController
         coordinates = false
         if e.latitude && e.longitude
           coordinates = [e.latitude, e.longitude]
-        elsif e.fallback_latitude && e.fallback_longitude
-          coordinates = [e.fallback_latitude, e.fallback_longitude]
         end
         marker = coordinates ? Cartographer::Gmarker.new( 
         :name => "event_#{e.id}_marker",
