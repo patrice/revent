@@ -127,7 +127,6 @@ class ReportsController < ApplicationController
         @user.deferred = false
         @user.sync_to_democracy_in_action
       end
-      #ReportMailer.send_thank_you(@report)
       flash[:notice] = 'Report was successfully created.'
       @events = @calendar.events
       render :action => 'index'

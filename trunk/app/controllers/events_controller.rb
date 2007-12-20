@@ -164,7 +164,6 @@ class EventsController < ApplicationController
       @user.save
       @rsvp.user_id = @user.id
       @rsvp.save
-      #RsvpMailer.send_thank_you(@event, @user)
       flash[:notice] = 'RSVP was successfully registered.'
       redirect_to :action => 'show', :id => @rsvp.event.id and return
     else

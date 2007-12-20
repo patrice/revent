@@ -6,6 +6,19 @@ class Report < ActiveRecord::Base
   has_many :embeds, :dependent => :destroy
   has_many :press_links, :dependent => :destroy
 
+  after_save :trigger_email  
+  def trigger_email
+    calendar = Calendar.current
+    unless calendar.report_dia_trigger_key
+      type = TriggerType.find_by_tag("report_thank_you")
+      trigger = calendar.triggers.find_by_type_id(type.id) || Site.current.triggers.find_by_type_id(type.id)
+      if trigger
+        self.user ||= User.new(:first_name => self.reporter_name, :email => self.reporter_email)
+        #TriggerMailer.deliver_email(trigger, self.user))
+      end
+    end
+  end
+    
   def primary!
     self.move_to_top
   end
