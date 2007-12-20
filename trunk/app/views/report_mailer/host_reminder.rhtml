@@ -1,8 +1,0 @@
-Dear <%= @event.host.first_name %>,
-
-Thank you for organizing <%= @event.name %>. Don't forget to tell everyone who
-attended <%= @event.name %> to <%= link_to 'submit a report', :controller => 'reports', :action => 'new', :id => @event %>.
-Reports can include photos and videos.
-
-Thanks!
-<%= @event.calendar.theme %>

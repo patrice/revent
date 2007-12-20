@@ -1,6 +1,0 @@
-Dear <%= @rsvp.user.first_name %>,
-
-Thank you for RSVP'ing to <%= @rsvp.event.name %>. Don't forget to <%= link_to 'submit a report', :controller => 'reports', :action => 'new', :id => @rsvp.event.id %> after the event has occurred.
-
-Thank you!
-<%= Site.current.theme %>
