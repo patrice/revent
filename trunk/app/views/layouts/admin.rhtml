@@ -51,7 +51,9 @@
           <% restrict_to 'admin' do -%>
           <li><%= activate_link_to "Users",   :controller => 'admin/users' %></li>
           <li><%= activate_link_to 'Events',  :controller => 'admin/events', :permalink => @most_recent_calendar.permalink %></li>
+			 <% if @most_recent_calendar.site.theme == "stepitup" -%>
           <li><%= activate_link_to 'Invites', :controller => 'admin/invites'  %></li>
+			 <% end -%>
           <li><%= activate_link_to 'Reports', :controller => 'admin/reports', :permalink => @most_recent_calendar.permalink %></li>
           <li>
             <div id="fast-edit">
@@ -70,6 +72,7 @@
                 <li><%= activate_link_to 'Calendars', :controller => 'admin/calendars', :action => 'index' %></li>
                 <li><%= link_to 'Event Categories', :controller => 'admin/categories', :action => 'index' %></li>
                 <li><%= link_to 'Host Forms', :controller => 'admin/hostforms', :action => 'index' %></li>
+                <li><%= link_to 'Email Triggers', :controller => 'admin/triggers', :action => 'index' %></li>
               </ul>
             </li>
           </ul>
