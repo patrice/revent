@@ -1,8 +1,17 @@
 class Rsvp < ActiveRecord::Base
   belongs_to :event
   belongs_to :user
-
   belongs_to :attending, :polymorphic => true
+  
+  after_save :trigger_email
+  def trigger_email
+    calendar = Calendar.current
+    unless calendar.rsvp_dia_trigger_key
+      type = TriggerType.find_by_tag("rsvp_thank_you")
+      trigger = calendar.triggers.find_by_type(type.id) || Site.current.triggers.find_by_type_id(type.id)
+      #TriggerMailer.deliver_email(trigger, self.user) if trigger
+    end
+  end
 
 =begin
   has_one :democracy_in_action_object, :as => :synced
