@@ -1,4 +1,5 @@
 class Calendar < ActiveRecord::Base
+  cattr_accessor :current
   validates_uniqueness_of :permalink, :scope => :site_id
   before_validation :escape_permalink
   def escape_permalink
