@@ -1,14 +1,13 @@
 <div id="national-container">
   <div id="national-intro">
     <div class="national-intro-text">
-      <p class="title">Get involved with our California House Parties! </p>
+      <%#=  @calendar.name %>
     </div>
     <div class="national-intro-count">
       <!--      There are <%= pluralize @calendar.events.length, @calendar.name %> in <%= @calendar.events.unique_states %> states. -->
     </div>
     <div class="national-intro-directions">
-      <br> Enter your zip code to find a <%= @calendar.name.singularize %> near you.  
-      You can also <%= link_to 'host your own event', signup_url(:permalink => @calendar.permalink) %>.
+      <br> Click on a state or enter your zip code to find <%= @calendar.name.pluralize %> near you...
     </div>
   </div>
   <div id="national-map-container">
@@ -16,45 +15,13 @@
       <table cellpadding=8><tr><td valign=top><b>Search by: </b></td><td>
          <% form_tag :permalink => @calendar.permalink, :controller => 'events', :action => 'search' do -%>
          
-      &nbsp;Zip:  <%= text_field_tag 'zip', nil, :size=>10 %>
+      &nbsp;Zip Code:  <%= text_field_tag 'zip', nil, :size=>10 %>
       <%= submit_tag "GO" %><br> 
+      <b>OR</b> State:
+      <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='/#{@calendar.permalink}/events/search/state/' + this.value" %>
         <% end -%></td></tr></table>
     </div>
-
-
-    <%
-    @map = Cartographer::Gmap.new('eventmap')
-    @map.init do |m|
-      m.center = @map_center || DaysOfAction::Geo::STATE_CENTERS[:CA]
-      m.zoom = @map_zoom || DaysOfAction::Geo::STATE_ZOOM_LEVELS[:CA] 
-      m.controls = [:zoom, :large]
-    end
-    @icon = Cartographer::Gicon.new(:image_url => '/images/green_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
-    @map.icons << @icon
-    @calendar.events.each do |e|
-      marker = nil
-
-        coordinates = false
-        if e.latitude && e.longitude
-          coordinates = [e.latitude, e.longitude]
-        end
-        marker = coordinates ? Cartographer::Gmarker.new( 
-        :name => "event_#{e.id}_marker",
-        :position => coordinates,
-       :click => "window.location.href='#{url_for :controller => 'events', :action => 'show', :id => e.id}';") : nil
-      #  :info_window => render_to_string(:partial => 'info_window', :locals => {:event => e}), :icon => @icon.name 
-
-      @map.markers << marker if marker
-    end
-   %>
-
-		<div id="eventmap" style="width: 450px; height: 350px; border: 7px solid #ccc; margin-left:15px;">
-		</div>
-    <%= @map.to_html %>
-    <%= gmaps_auto_center_and_zoom(@map) if @auto_center %>
-
-
-
+    <%= render :partial => "/calendars/flashmap" %>
   </div>
   <div id="national-footer">
    

@@ -7,8 +7,8 @@ unless @event.start && @event.end
 	end
 	@event.end = @event.start + 2.hours
 end
-#@event.state = "CA"
-#@event.description = "California House Party for Moms Rising"
+@event.state = "CA"
+@event.description = "California House Party for Moms Rising"
 @hostform = @calendar.hostform
  -%>
 <h1><%= @hostform.title if @hostform %></h1>
@@ -71,7 +71,7 @@ end
             </tr>
             <tr>
               <td valign="top"  class="dia_field_name">*State/Region</td>
-              <td><%= user.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), :title => "Please select your state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1" %>     
+              <td><%= user.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), :selected => "CA",  :title => "Please select your state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1" %>     
               </td>
             </tr>
             <tr>
