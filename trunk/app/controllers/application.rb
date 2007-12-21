@@ -24,6 +24,7 @@ class ApplicationController < ActionController::Base
 
   def clean
     Site.current = nil
+    Calendar.current = nil
     true
   end
 
@@ -38,8 +39,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_calendar
-    @calendar = site.calendars.detect {|calendar| params[:permalink] == calendar.permalink } || site.calendars.current || site.calendars.first    
-    if not @calendar
+    Calendar.current = @calendar = site.calendars.detect {|c| params[:permalink] == c.permalink } || site.calendars.current || site.calendars.first    
+    if not Calendar.current 
       redirect_to :controller => :site, :action => :splash
       return false
     end
