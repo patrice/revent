@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>SWAN Day Overview</title>
+
+<link href="http://womenarts.org/FWAsite.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+body {
+	margin-left: 15px;
+	margin-top: 10px;
+	margin-right: 20px;
+}
+-->
+</style>
+
+  <%= javascript_include_tag 'prototype' %>
+  <%= stylesheet_link_tag 'events' %>
+  <%= yield :header %>
+  <%= Cartographer::Gmap::Header.header_for(request) if @map %>
+
+</head>
+
+<body> 
+<table width="650" border="0" cellpadding="0" cellspacing="0">  
+
+
+<tr>
+    <td colspan="7" valign="top"><div align="left"><a href="http://womenarts.org/index.html"><img src="http://womenarts.org/SWAN_Banner_F3.GIF" alt="Support Women Artists Now Day" height= "184" /></a></div></td> 
+  </tr>
+</table>
+<table width= "493">
+  <tr> </tr>
+  <tr>
+    <td height="34" colspan="4" valign="middle"><a href="http://womenarts.org/share"><img src="http://womenarts.org/images/home_about_us.gif" alt="About Us" border="0" /></a><img src="http://womenarts.org/images/spacer6.gif" alt="space" /><a href="http://womenarts.org/network"><img src="http://womenarts.org/images/home_womenarts.gif" alt="WomenArts Network" border="0" /></a><img src="http://womenarts.org/images/spacer6.gif" alt="space" /><a href="http://womenarts.org/fund"><img src="http://womenarts.org/images/home_grants.gif" alt="Grants/Resources" border="0" /></a><img src="http://womenarts.org/images/spacer6.gif" alt="space" /><a href="http://womenarts.org/swan"><img src="http://womenarts.org/images/home_swan.gif" alt="SWAN Day" border="0" /></a></td>
+  </tr>
+  <tr>
+
+    <td height="10" colspan="4" valign="top"><img src="http://womenarts.org/images/Yellow_Line650.gif" alt="line" height="5" align="top" /></td>
+  </tr>
+  <tr>
+    <td width="158" height="408" valign="top"><table width="158" border="0" cellpadding="0" cellspacing="0">
+
+      <tr>
+        <td height="2" align="center" valign="top" bgcolor="#FECD08"><a href="http://womenarts.org/index.html"><img src="http://womenarts.org/images/newhome.gif" /></a></td>
+      </tr>
+      <tr>
+
+        <td height="2" valign="top"><img src="http://womenarts.org/images/spacer158.gif" /></td>
+      </tr>
+      <tr>
+        <td height="130" align="left" valign="middle" bgcolor="#FFFFCC" class="advsearch"><p class="lvl2navlink"> &nbsp;&nbsp;&#8226;<a href="http://womenarts.org/swan/index.htm" class="lvl2navlink">&nbsp;Overview</a><br />
+            &nbsp;&nbsp;&#8226;<a href="http://womenarts.org/swan/fundraising.htm">&nbsp;Fundraising Basics </a><br />
+            &nbsp;&nbsp;&#8226;<a href="http://womenarts.org/swan/proposal.htm">&nbsp;Sample Proposal   </a><br />
+          &nbsp;&nbsp;&#8226; <a href="http://womenarts.org/swan/press.htm">Sample Press</a><br />
+
+          &nbsp;&nbsp;&#8226;<a href="http://www.partylaunch.com/womenarts" class="lvl2navlink">&nbsp;</a><a href="http://womenarts.org/swan/employment.htm">Employment Stats</a><br />
+           &nbsp;&nbsp;&#8226;<a href="http://womenarts.org/swan/Employment Stats" class="lvl2navlink">&nbsp;</a><a href="http://womenarts.org/swan/resources.htm">Women's Films</a><br />
+           &nbsp;&nbsp;&#8226;<a href="http://womenarts.org/swan/events.htm" class="lvl2navlink">&nbsp;Events So Far</a>&nbsp;<br />
+&nbsp;&nbsp;&#8226;<a href="http://womenarts.org/swan/contact.htm" class="lvl2navlink">&nbsp;Contact
+    Us</a></p>
+          </td>
+      </tr>
+      <tr>
+
+        <td height="2" valign="top"><img src="http://womenarts.org/images/spacer158.gif" /></td>
+      </tr>
+      <tr>
+        <td height="81" valign="top" bgcolor="#FECD08"><form action="http://ga4.org/womenarts/join.tcl" method="POST">
+          <font color="#000000"><br />
+            <span class="bodytextbold">&nbsp;&nbsp;&nbsp;Sign up for our<br />
+              &nbsp;&nbsp;&nbsp;Newsletters</span></font><br />
+          &nbsp;&nbsp;
+
+          <input  name="login_email" type="text" class="searchboxtext" value="Enter Your Email" size="20" align="middle" />
+        </form></td>
+      </tr>
+      <tr>
+        <td height="2" valign="top"><img src="http://womenarts.org/images/spacer158.gif" /></td>
+      </tr>
+      <tr>
+        <td height="102" valign="top" bgcolor="#F8981C"><form action="http://www.WomenArts.org/network/index.php" method="get">
+          <input type="hidden" name="action" value="profilesearch" />
+
+          <input type="hidden" name="subaction" value="performsearch" />
+          <span class="bodytextbold">&nbsp;<br />
+            &nbsp;&nbsp;&nbsp;Search for <br />
+            &nbsp;&nbsp;&nbsp;Women Artists<br />
+            &nbsp;&nbsp;</span>
+          <input name="ss" type="text" class="searchboxtext" id="ss" value="Enter Name/Keyword" size="20" />
+          <br />
+          &nbsp;&nbsp;&nbsp;<a href="http://www.womenarts.org/network/index.php?action=profilesearch" class="style13">Advanced
+            Search</a>
+
+        </form></td>
+      </tr>
+      <tr>
+        <td height="2" valign="top"><img src="http://womenarts.org/images/spacer158.gif" /></td>
+      </tr>
+      <tr>
+        <td height="65" align="center" valign="middle" bgcolor="#FECD08"><a href="https://secure.ga4.org/01/push"><img src="http://womenarts.org/images/Donate7.gif" alt="Donate Now" width="127" height="40" border="0" align="middle" /></a></td>
+      </tr>
+      <tr>
+
+        <td height="2" valign="top"><img src="http://womenarts.org/images/spacer158.gif" /></td>
+      </tr>
+    </table></td>
+    <td width="493" valign="top"><table width="490" cellpadding="6">
+    
+      <tr>
+        <td width="478" align="left" valign="top"></td>
+      </tr>
+      <tr>
+        <td>
+  <% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
+      <% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
+	          <%= yield %>		
+		<hr />
+
+          <span class="bodytextbold">The Fund for Women Artists</span><span class="bodytext">          <br />
+          3739 Balboa Street #181 <br />
+          San Francisco, CA 94121 <br />
+          Phone: (415) 751-2202 <br />
+          Website: &nbsp;<a href="http://www.womenarts.org">www.womenarts.org </a><br />
+
+          Email: &nbsp;<a href="mailto:info@womenarts.org">info@womenarts.org</a></span></p>
+</span></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="1"></td>
+  </tr>
+
+</table>
+</body>
+</html>
