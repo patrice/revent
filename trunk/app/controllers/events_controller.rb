@@ -147,6 +147,7 @@ class EventsController < ApplicationController
   end
 
   def rsvp
+    @event = Event.find(params[:id])
     @user = User.find_or_initialize_by_site_id_and_email(Site.current.id, params[:user][:email]) # or current_user
     @user.attributes = params[:user].reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
     unless @user.crypted_password || (@user.password && @user.password_confirmation)
@@ -164,15 +165,11 @@ class EventsController < ApplicationController
       @user.save
       @rsvp.user_id = @user.id
       @rsvp.save
-      flash[:notice] = 'RSVP was successfully registered.'
-      redirect_to :action => 'show', :id => @rsvp.event.id and return
+      flash.now[:notice] = 'RSVP was successfully registered.'
     else
       flash.now[:notice] = 'There was a problem registering your RSVP.'
-      show
-      @attending_politicians = @event.attending_politicians.map {|p| p.parent || p}.uniq
-      @supporting_politicians = @event.supporting_politicians.map {|p| p.parent || p}.uniq
-      render :action => 'show', :id => @event.id
     end
+    show && render(:action => 'show', :id => @event) && return
   end
   
   def reports
