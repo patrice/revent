@@ -165,7 +165,7 @@ class EventsController < ApplicationController
       @user.save
       @rsvp.user_id = @user.id
       @rsvp.save
-      flash.now[:notice] = 'RSVP was successfully registered.'
+      flash.now[:notice] = 'RSVP was successfully registered. An email with all the event details has been sent to the email address you provided.'
     else
       flash.now[:notice] = 'There was a problem registering your RSVP.'
     end
