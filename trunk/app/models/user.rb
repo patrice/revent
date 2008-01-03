@@ -156,6 +156,11 @@ class User < ActiveRecord::Base
   def address
     [street, street_2, city, state, postal_code].compact.join(', ')
   end
+  
+  def attending?(event)
+    self.attending.any? {|e| e.id == event.id}
+    self.events.any? {|e| e.id == event.id}
+  end
 
   protected
     # before filter 
