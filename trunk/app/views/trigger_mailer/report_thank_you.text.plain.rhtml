@@ -1,6 +1,9 @@
 <%= @email_text %>
 
-You can access the latest information for this event by clicking 
-<%= link_to 'here', :controller => 'events', :action => 'show', :id => @event %>.
-You can see the submitted reports for this event by clicking 
-<%= link_to 'here', report_url(:event_id => @event.id) %>.
+Use the following link to access this event: 
+<%= @event_url %>
+
+Use the following link to access all submitted reports for this event:
+<%= @report_url %>
+
+

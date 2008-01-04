@@ -5,7 +5,7 @@ class Admin::TriggersController < AdminController
 	active_scaffold :trigger do |config|
     config.label = "Email Response Triggers"
   	config.columns = [:name, :calendar, :site, :from_name, :from, :reply_to, :bcc, :subject, :email_text, :email_html]
-  	config.columns[:calendar].form_ui = :select     # just want drop down on form (no crazy subforms)
+  	config.columns[:calendar].form_ui = :select     # just want drop down on form (no crazy subforms) 	
   	config.columns[:calendar].clear_link            # just want calendar name on list (no links)
 #  	config.columns[:calendar].description = "Calendar triggers over-ride 'All Calendars' triggers"
   	config.columns[:calendar].label = "Apply to calendar"
