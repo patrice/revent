@@ -185,6 +185,15 @@ class Event < ActiveRecord::Base
     rprts.map{|r| r.attendees}.sum / rprts.length
   end
   
+  # render letter/call scripts that can come from event model (scripts will 
+  # have been created by host) or calendar (scripts will have been created 
+  # by admin).  event (host) scripts over-ride calendar (admin) scripts
+  def render_scripts
+    city_state = [self.city, self.state].join(', ')
+    self.letter_script ||= self.calendar.letter_script.gsub('CITY_STATE', city_state) if self.calendar.letter_script
+    self.call_script ||= self.calendar.call_script.gsub('CITY_STATE', city_state) if self.calendar.call_script
+  end
+  
 =begin
   class << self
     def find_or_import_by_service_foreign_key(key)
