@@ -14,26 +14,21 @@ class Account::EventsController < ApplicationController
     extend ActionView::Helpers::TextHelper
     @nearby_events = @calendar.public_events.find(:all, :origin => @event, :within => 50, :conditions => ["events.id <> ?", @event.id])
     @blog = Blog.new(:event => @event)
-    city_state = [@event.city, @event.state].join(', ')
-    @event.letter_script ||= @calendar.letter_script.gsub('CITY_STATE', city_state) if @calendar.letter_script
-    @event.call_script ||= @calendar.call_script.gsub('CITY_STATE', city_state) if @calendar.call_script
+    @event.render_scripts   # render letter/call scripts
     @example = Politician.find_by_district_type_and_state('FS', @event.state)
   end
 
   def upload
     if !params[:attachment][:uploaded_data].blank? && @event.attachments.create!(params[:attachment])
       flash[:notice] = "Upload successful"
-      redirect_to :action => 'show'
     else
-      #XXX: to much of this, should move someplace else
-      @nearby_events = @calendar.public_events.find(:all, :origin => @event, :within => 50, :conditions => ["events.id <> ?", @event.id])
       flash[:error] = "Upload failed"
-      render :action => 'show'
     end
+    redirect_to :action => 'show', :id => @event
   end
 
   def update
-    redirect_to :action => 'show' and return unless params[:event]
+    redirect_to :action => 'show', :id => @event and return unless params[:event]
     @event.update_attributes!(params[:event])
     if params[:event][:letter_script] || params[:event][:call_script]
       update_campaign_scripts(@event) if params[:event][:letter_script]
@@ -43,8 +38,7 @@ class Account::EventsController < ApplicationController
     end
     redirect_to :action => 'show', :id => @event
   rescue ActiveRecord::RecordInvalid
-    @nearby_events = @calendar.public_events.find(:all, :origin => @event, :within => 50, :conditions => ["events.id <> ?", @event.id])
-    render :action => 'show'
+    redirect_to :action => 'show', :id => @event
   end
   
   def update_campaign_scripts(event)
