@@ -119,7 +119,7 @@ class EventsController < ApplicationController
       expire_page_caches(@event)
       redirect_to params[:redirect] and return if params[:redirect]
       redirect_to @calendar.signup_redirect and return if @calendar.signup_redirect
-      redirect_to :action => 'show', :id => @event.id
+      redirect_to :action => 'show', :id => @event
     else
       flash[:notice] = 'There was a problem creating your event.'
       render :action => 'new'
@@ -147,7 +147,7 @@ class EventsController < ApplicationController
   end
 
   def rsvp
-    @event = Event.find(params[:id])
+    @event = @calendar.events.find(params[:id])
     @user = User.find_or_initialize_by_site_id_and_email(Site.current.id, params[:user][:email]) # or current_user
     @user.attributes = params[:user].reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
     unless @user.crypted_password || (@user.password && @user.password_confirmation)
@@ -165,9 +165,9 @@ class EventsController < ApplicationController
       @user.save
       @rsvp.user_id = @user.id
       @rsvp.save
-      flash.now[:notice] = 'RSVP was successfully registered. An email with all the event details has been sent to the email address you provided.'
+      flash.now[:notice] = "<b>Thanks for the RSVP!</b><br /> An email with the event details has been sent to the email address you provided."
     else
-      flash.now[:notice] = 'There was a problem registering your RSVP.'
+      flash.now[:notice] = "There was a problem registering your RSVP."
     end
     show && render(:action => 'show', :id => @event) && return
   end
