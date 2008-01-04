@@ -17,7 +17,7 @@ class TriggerMailer < ActionMailer::Base
   end
   
   private
-  def setup(trigger, recipient, event = nil)
+  def setup(trigger, recipient, event)
     @from                 = ["trigger.from_name <#{trigger.from}>"]
     @headers["reply-to"]  = trigger.reply_to
     @recipients           = ["recipient.full_name <#{recipient.email}>"]
