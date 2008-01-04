@@ -488,7 +488,7 @@ border:1px solid black;
 }
 .profile_title {
 	font-size:22px;
-	padding:5px;
+	padding:0 20px 20px 20px;
 }
 
 .profile_submit {
