@@ -7,9 +7,8 @@ class Rsvp < ActiveRecord::Base
   def trigger_email
     calendar = Calendar.current
     unless calendar.rsvp_dia_trigger_key
-      type = TriggerType.find_by_tag("rsvp_thank_you")
-      trigger = calendar.triggers.find_by_type(type.id) || Site.current.triggers.find_by_type_id(type.id)
-      #TriggerMailer.deliver_email(trigger, self.user) if trigger
+      trigger = calendar.triggers.find_by_name("RSVP Thank You") || Site.current.triggers.find_by_name("RSVP Thank You")
+      TriggerMailer.deliver_rsvp_thank_you(trigger, self) if trigger
     end
   end
 

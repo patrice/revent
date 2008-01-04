@@ -1,0 +1,6 @@
+<%= @email_html %><br />
+<br />
+You can access your event page by clicking 
+<%= link_to 'here', :controller => 'events', :action => 'show', :id => @event %>.<br />
+You can manage your event by clicking <%= link_to 'here', :controller => 'account/events', :action => 'show', :id => @event.id %>.
+Managing your event requires logging in using your email and a password. You can create a password by following the instructions in the "First Time Logging In?" section at the bottom of the login page.

@@ -10,12 +10,8 @@ class Report < ActiveRecord::Base
   def trigger_email
     calendar = Calendar.current
     unless calendar.report_dia_trigger_key
-      type = TriggerType.find_by_tag("report_thank_you")
-      trigger = calendar.triggers.find_by_type_id(type.id) || Site.current.triggers.find_by_type_id(type.id)
-      if trigger
-        self.user ||= User.new(:first_name => self.reporter_name, :email => self.reporter_email)
-        #TriggerMailer.deliver_email(trigger, self.user))
-      end
+      trigger = calendar.triggers.find_by_name("Report Thank You") || Site.current.triggers.find_by_name("Report Thank You")
+      TriggerMailer.deliver_report_thank_you(trigger, report) if trigger
     end
   end
     

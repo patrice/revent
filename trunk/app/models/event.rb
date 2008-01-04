@@ -79,10 +79,9 @@ class Event < ActiveRecord::Base
   end
 
   attr_writer :democracy_in_action
-  after_save :sync_to_democracy_in_action
+  after_save :sync_to_democracy_in_action, :trigger_email
   def sync_to_democracy_in_action
     return unless File.exists?(File.join(Site.current_config_path, 'democracyinaction-config.yml'))
-
     @democracy_in_action ||= {}
     extra = @democracy_in_action[:event] || {}
     event = self.to_democracy_in_action_event
@@ -93,6 +92,14 @@ class Event < ActiveRecord::Base
     self.create_democracy_in_action_object :key => key, :table => 'event' unless self.democracy_in_action_object
   end
 
+  def trigger_email
+    calendar = Calendar.current
+#    unless calendar.host_dia_trigger_key
+      trigger = calendar.triggers.find_by_name("Host Thank You") || Site.current.triggers.find_by_name("Host Thank You")
+      TriggerMailer.deliver_host_thank_you(trigger, self) if trigger
+#    end
+  end
+  
   before_destroy :delete_from_democracy_in_action
   def delete_from_democracy_in_action
     o = democracy_in_action_object
