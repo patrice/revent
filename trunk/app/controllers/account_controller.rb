@@ -36,7 +36,7 @@ class AccountController < ApplicationController
       flash[:notice] = "Your account was already active.<br />  If you would like to reset your password, click on 'Forgot Your Password?' below" 
     else
       UserMailer.deliver_activation(user.email, user.activation_code)
-      flash[:notice] = 'Account activation email delivered'
+      flash[:notice] = 'An email with an account activation link has been sent to you.'
     end
     redirect_to login_url
   end
@@ -138,22 +138,25 @@ class AccountController < ApplicationController
     end
   end
 
+  # this method is used both for initially setting a users password
+  # and for resetting a users password if they have forgotten it.
   def reset_password
     @user = User.find_by_password_reset_code(params[:id]) if params[:id]
+    @password_reset_code_present = true if @user
     @user ||= current_user
     raise if @user.nil?
     return if @user unless params[:password]
-      if (params[:password] == params[:password_confirmation])
-        self.current_user = @user #for the next two lines to work
-        current_user.password_confirmation = params[:password_confirmation]
-        current_user.password = params[:password]
-        current_user.activated_at ||= Time.now.utc
-        @user.reset_password
-        flash[:notice] = current_user.save ? "Password reset" : "Password not reset" 
-      else
-        flash[:notice] = "Password mismatch" 
-      end  
-      redirect_back_or_default(:controller => '/account', :action => 'index') 
+    if (params[:password] == params[:password_confirmation])
+      self.current_user = @user #for the next two lines to work
+      current_user.password_confirmation = params[:password_confirmation]
+      current_user.password = params[:password]
+      current_user.activated_at ||= Time.now.utc
+      @user.reset_password if @password_reset_code_present
+      flash[:notice] = current_user.save ? "Password reset" : "Password not reset" 
+    else
+      flash[:notice] = "Password mismatch" 
+    end  
+    redirect_back_or_default(:controller => '/account', :action => 'index') 
   rescue
     logger.error "Invalid Reset Code entered" 
     flash[:notice] = "Sorry - That is an invalid password reset code. Please check your code and try again. (Perhaps your email client inserted a carriage return?" 
