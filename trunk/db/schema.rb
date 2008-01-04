@@ -291,6 +291,12 @@ ActiveRecord::Schema.define(:version => 70) do
 
   add_index "tags", ["name"], :name => "index_tags_on_name", :unique => true
 
+  create_table "trigger_types", :force => true do |t|
+    t.column "tag",         :string
+    t.column "name",        :string
+    t.column "description", :text
+  end
+
   create_table "triggers", :force => true do |t|
     t.column "name",        :string
     t.column "from",        :string
@@ -304,6 +310,7 @@ ActiveRecord::Schema.define(:version => 70) do
     t.column "site_id",     :integer
     t.column "created_at",  :datetime
     t.column "updated_at",  :datetime
+    t.column "type_id",     :integer
   end
 
   create_table "users", :force => true do |t|
