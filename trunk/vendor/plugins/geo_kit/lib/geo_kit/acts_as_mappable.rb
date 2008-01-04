@@ -198,7 +198,7 @@ module GeoKit
         # Prepares either a find or a count action by parsing through the options and
         # conditionally adding to the select clause for finders.
         def prepare_for_find_or_count(action, args)
-          options = extract_options_from_args!(args)
+          options = defined?(args.extract_options!) ? args.extract_options! : extract_options_from_args!(args)
           # Obtain items affecting distance condition.
           origin = extract_origin_from_options(options)
           units = extract_units_from_options(options)
@@ -236,7 +236,7 @@ module GeoKit
         # :first and ensures the limit is set to one.
         def apply_find_scope(args, options)
           case args.first
-            when :nearest
+            when :nearest, :closest
               args[0] = :first
               options[:limit] = 1
               options[:order] = "#{distance_column_name} ASC"
@@ -292,7 +292,7 @@ module GeoKit
         # Alters the conditions to include rectangular bounds conditions.
         def apply_bounds_conditions(options,bounds)
           sw,ne=bounds.sw,bounds.ne
-          lng_sql= bounds.crosses_meridian? ? "#{qualified_lng_column_name}<#{sw.lng} OR #{qualified_lng_column_name}>#{ne.lng}" : "#{qualified_lng_column_name}>#{sw.lng} AND #{qualified_lng_column_name}<#{ne.lng}"
+          lng_sql= bounds.crosses_meridian? ? "(#{qualified_lng_column_name}<#{sw.lng} OR #{qualified_lng_column_name}>#{ne.lng})" : "#{qualified_lng_column_name}>#{sw.lng} AND #{qualified_lng_column_name}<#{ne.lng}"
           bounds_sql="#{qualified_lat_column_name}>#{sw.lat} AND #{qualified_lat_column_name}<#{ne.lat} AND #{lng_sql}"
           options[:conditions]=augment_conditions(options[:conditions],bounds_sql)          
         end
