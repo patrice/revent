@@ -8,7 +8,7 @@ unless @event.start && @event.end
 	@event.end = @event.start + 2.hours
 end
 #@event.state = "CA"
-@event.description = "California House Party for Moms Rising"
+@event.description = "Fair Pay Restoration Act"
 @hostform = @calendar.hostform
  -%>
 <h1><%= @hostform.title if @hostform %></h1>
@@ -170,14 +170,6 @@ end
                  <%= f.text_field "postal_code", :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your event's zip code", :class => "required inputStyle" %>&nbsp;&nbsp;
 				  </td>
 				</tr>
-				<tr valign="top">
-              <td valign="top" colspan=2>
-              Privacy and Searches:<br>
-                <% @event.private = false -%>
-                <%= f.radio_button "private", "false", :id => "dataEvent_Private", :title => "Please enter your event's public status",  :class => "inputStyle"  %> Please make this event public, so anyone may search for it.<br>
-                <%= f.radio_button "private", "true",  :id => "dataEvent_Private", :title => "Please enter your event's public status", :class => "inputStyle" %> Please make this event private, so it will not show up in any public listings.
-              </td>
-            </tr>
             <tr>
               <td valign="top"  class="dia_field_name">
                 <div align="left">*Start:</div>
