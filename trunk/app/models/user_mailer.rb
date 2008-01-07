@@ -5,12 +5,12 @@ class UserMailer < ActionMailer::Base
   def force_liquid_template
   end
 
-  def invite(from, event, message, host=nil)
+  def invite(from, message, event, host=nil)
     host ||= Site.current.host if Site.current && Site.current.host
     @subject    = message[:subject]
     @body       = {:event => event, :message => message[:body], :url => url_for(:host => host, :permalink => event.calendar.permalink, :controller => 'events', :action => 'show', :id => event)}
     @recipients = from
-    @bcc        = message[:recipients]
+    @bcc        = message[:recipients].split(';').each{|email| email.strip!}
     @from       = from
     @headers    = {}
   end
