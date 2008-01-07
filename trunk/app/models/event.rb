@@ -30,11 +30,22 @@ class Event < ActiveRecord::Base
   before_validation :geocode
   before_save :set_district
   
-  validates_presence_of :name, :city, :state, :postal_code, :start, :end, :calendar_id, :description, :location 
+  validates_presence_of :name, :city, :postal_code, :start, :end, :calendar_id, :description, :location 
   # second part of this regular expression checks for Canadian postal codes
   validates_format_of :postal_code, :with => /(^\d{5}(-\d{4})?$)|(^\D\d\D((-| )?\d\D\d)?$)/
+  USA_COUNTRY_CODE = 840
+  CANADA_COUNTRY_CODE = 124
 
   def validate
+    # if US or Canada 
+    if (country_code == USA_COUNTRY_CODE or country_code == CANADA_COUNTRY_CODE)
+      if state.blank?
+        errors.add :state, "cannot be blank"
+      end
+      unless (self.latitude and self.longitude)
+        errors.add_to_base "Not enough information provided to place event on a map. Please give us at least a valid postal code."
+      end
+    end
     if event_start = self.calendar.event_start
       if event_end = self.calendar.event_end
         if self.start && self.start < event_start.at_beginning_of_day
@@ -50,10 +61,7 @@ class Event < ActiveRecord::Base
           errors.add :start, "must be on #{event_start.strftime('%B %e, %Y')}"
         end
       end
-    end    
-    unless (self.latitude and self.longitude)
-      errors.add_to_base "Not enough information provided to place event on a map. Please give us at least a valid postal code."
-    end
+    end 
   end
   #XXX: need to strip out DIA specific language
 
@@ -239,13 +247,15 @@ class Event < ActiveRecord::Base
 
 private
   def geocode
+    # only geocode US or Canadian events
+    return unless (country_code == USA_COUNTRY_CODE or country_code == CANADA_COUNTRY_CODE)
     if (geo = GeoKit::Geocoders::MultiGeocoder.geocode(address_for_geocode)).success
       self.latitude, self.longitude = geo.lat, geo.lng
       self.precision = geo.precision
     elsif self.postal_code =~ /^\d{5}(-\d{4})?$/ and (zip = ZipCode.find_by_zip(self.postal_code))
       self.latitude, self.longitude = zip.latitude, zip.longitude if zip
       self.precision = 'zip'
-    elsif self.postal_code   # handle Canadian postal codes and US postal codes not in ZipCode
+    elsif self.postal_code   # handle US postal codes not in ZipCode table and Canadian postal
       if (geo = GeoKit::Geocoders::MultiGeocoder.geocode(self.postal_code)).success
         self.latitude, self.longitude = geo.lat, geo.lng
         self.precision = geo.precision
