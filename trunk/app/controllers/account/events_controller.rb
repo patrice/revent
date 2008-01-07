@@ -52,7 +52,10 @@ class Account::EventsController < ApplicationController
   end  
 
   def invite
-    redirect_to :action => 'show', :id => @event and return unless params[:invite]
+    unless (params[:invite] && params[:invite][:recipients] && params[:invite][:subject] && params[:invite][:body])
+      flash[:notice] = 'Must provide recipient emails (separated by semicolon), subject, and message for invitations.'      
+      redirect_to :action => 'show', :id => @event and return
+    end
     UserMailer.deliver_invite(current_user.email, @event, params[:invite])
     flash[:notice] = 'Invites delivered'
     redirect_to :action => 'show', :id => @event
