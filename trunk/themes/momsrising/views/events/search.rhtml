@@ -7,8 +7,7 @@
 		<div class="event-list-intro-results">
 			Right now there are <%= pluralize @events.length, (@category ? @category.name : @calendar.name) %>.  <%= link_to 'Click here',:permalink =>  @calendar.permalink, :controller => 'events', :action => 'new' %> and see how easy it is to host a meeting with your state senator. 
 			
-			Found <%= pluralize @events.length, (@category ? @category.name : @calendar.name) %><br />
-			<% if @categories and not @categories.empty? %>
+			
 			  <% form_tag :permalink => @calendar.permalink, :controller => 'events', :action => 'search', :zip => params[:zip] do -%>
 			    View: <%= select_tag 'category', options_for_select(@categories, (@category and @category.id)) %>
 			    <%= submit_tag 'Go' %>
