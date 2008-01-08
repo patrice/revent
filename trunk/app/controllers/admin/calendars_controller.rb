@@ -18,7 +18,7 @@ class Admin::CalendarsController < AdminController
       :rsvp_dia_trigger_key, :rsvp_redirect,  :report_title_text, 
       :report_intro_text, :report_dia_group_key, :report_dia_trigger_key, 
       :report_redirect, :flickr_tag, :flickr_additional_tags, :flickr_photoset, 
-      :current, :letter_script, :call_script, :site_id ]
+      :current, :attendee_invite_subject, :attendee_invite_message ]
 
   	config.list.columns = [:current, :name, :events_count, :site]
   	config.list.sorting = [{ :name => :asc}]

@@ -99,7 +99,7 @@
 	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_invite.gif'><%= link_to_function 'Invite People to Your Event', visual_effect(:toggle_blind, 'profile_event_invite') %></p>
 	<div id='profile_event_invite' style="display:none;">	
 		<p class='profile_subtitle'>Invite People to Your Event</p>
-    <% form_for :invite, nil, :url => {:controller => 'account/events', :action => 'invite', :id => @event} do |f| %>
+    <% form_for :invite, :url => {:controller => 'account/events', :action => 'invite', :id => @event} do |f| %>
 		This e-mail will have the event name, date, location, and RSVP link appended to the bottom of the message.  The message box below is for a personal note from you to the recipients.<br /><br />
     	Recipients:<br />
 		<%= f.text_field 'recipients' %><br />
