@@ -33,19 +33,17 @@ class Event < ActiveRecord::Base
   validates_presence_of :name, :city, :postal_code, :start, :end, :calendar_id, :description, :location 
   # second part of this regular expression checks for Canadian postal codes
   validates_format_of :postal_code, :with => /(^\d{5}(-\d{4})?$)|(^\D\d\D((-| )?\d\D\d)?$)/
-  USA_COUNTRY_CODE = 840
-  CANADA_COUNTRY_CODE = 124
 
   def validate
     # if US or Canada 
-    if (country_code == USA_COUNTRY_CODE or country_code == CANADA_COUNTRY_CODE)
+    #if (country_code == USA_COUNTRY_CODE or country_code == CANADA_COUNTRY_CODE)
       if state.blank?
         errors.add :state, "cannot be blank"
       end
       unless (self.latitude and self.longitude)
         errors.add_to_base "Not enough information provided to place event on a map. Please give us at least a valid postal code."
       end
-    end
+    #end
     if event_start = self.calendar.event_start
       if event_end = self.calendar.event_end
         if self.start && self.start < event_start.at_beginning_of_day
@@ -87,7 +85,7 @@ class Event < ActiveRecord::Base
   end
 
   attr_writer :democracy_in_action
-  after_save :sync_to_democracy_in_action, :trigger_email
+  after_save :sync_to_democracy_in_action #, :trigger_email
   def sync_to_democracy_in_action
     return unless File.exists?(File.join(Site.current_config_path, 'democracyinaction-config.yml'))
     @democracy_in_action ||= {}
@@ -100,13 +98,15 @@ class Event < ActiveRecord::Base
     self.create_democracy_in_action_object :key => key, :table => 'event' unless self.democracy_in_action_object
   end
 
+=begin
   def trigger_email
     calendar = Calendar.current
-#    unless calendar.host_dia_trigger_key
+    unless calendar and calendar.hostform and calendar.hostform.dia_trigger_key
       trigger = calendar.triggers.find_by_name("Host Thank You") || Site.current.triggers.find_by_name("Host Thank You")
       TriggerMailer.deliver_host_thank_you(trigger, self) if trigger
-#    end
+    end
   end
+=end
   
   before_destroy :delete_from_democracy_in_action
   def delete_from_democracy_in_action
@@ -248,7 +248,7 @@ class Event < ActiveRecord::Base
 private
   def geocode
     # only geocode US or Canadian events
-    return unless (country_code == USA_COUNTRY_CODE or country_code == CANADA_COUNTRY_CODE)
+    #return unless (country_code == USA_COUNTRY_CODE or country_code == CANADA_COUNTRY_CODE)
     if (geo = GeoKit::Geocoders::MultiGeocoder.geocode(address_for_geocode)).success
       self.latitude, self.longitude = geo.lat, geo.lng
       self.precision = geo.precision
