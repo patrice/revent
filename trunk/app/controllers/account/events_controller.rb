@@ -16,6 +16,8 @@ class Account::EventsController < ApplicationController
     @blog = Blog.new(:event => @event)
     @event.render_scripts   # render letter/call scripts
     @example = Politician.find_by_district_type_and_state('FS', @event.state)
+    require 'ostruct'
+    @invite = OpenStruct.new(:recipients => nil, :subject => @calendar.attendee_invite_subject, :body => @calendar.attendee_invite_message)
   end
 
   def upload
