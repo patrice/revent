@@ -10,7 +10,11 @@ class UserMailer < ActionMailer::Base
     @subject    = message[:subject]
     @body       = {:event => event, :message => message[:body], :url => url_for(:host => host, :permalink => event.calendar.permalink, :controller => 'events', :action => 'show', :id => event)}
     @recipients = from
-    @bcc        = message[:recipients].split(';').each{|email| email.strip!}
+    separator = case message[:recipients]
+      when /;/: ';'
+      when /,/: ','
+    end
+    @bcc        = message[:recipients].split(separator).each{|email| email.strip!}
     @from       = from
     @headers    = {}
   end

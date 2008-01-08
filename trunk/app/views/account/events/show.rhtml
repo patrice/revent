@@ -103,7 +103,7 @@
 		This e-mail will have the event name, date, location, and RSVP link appended to the bottom of the message.  The message box below is for a personal note from you to the recipients.<br /><br />
     	Recipients:<br />
 		<%= f.text_field 'recipients' %><br />
-		<em>Enter email addresses separated by a semi-colon (abc@hotmail.com; sample@gmail.com)<br />
+		<em>Enter email addresses separated by commas (example@hotmail.com, example@gmail.com)<br />
 		Our organization will not collect email addresses of people who you invite using this form.</em><br /><br />
 		Subject:<br/><%= f.text_field 'subject' %><br/>
 		Message Text:<br/><%= f.text_area 'body', :rows => 10 %><br/>
