@@ -14,7 +14,7 @@ config.logger.level = Logger::INFO
 # Full error reports are disabled and caching is turned on
 config.action_controller.consider_all_requests_local = false
 config.action_controller.perform_caching             = true
-config.active_record.observers = :event_sweeper, :politician_invite_sweeper
+config.active_record.observers = :event_sweeper, :politician_invite_sweeper, :rsvp_sweeper, :calendar_sweeper
 
 config.active_record.verification_timeout = 14400
 
