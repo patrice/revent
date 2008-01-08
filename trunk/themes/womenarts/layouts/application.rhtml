@@ -24,25 +24,28 @@ body {
 <body> 
 <table width="650" border="0" cellpadding="0" cellspacing="0">  
 
-
 <tr>
-    <td colspan="7" valign="top"><div align="left"><a href="http://womenarts.org/index.html"><img src="http://womenarts.org/SWAN_Banner_F3.GIF" alt="Support Women Artists Now Day" height= "184" /></a></div></td> 
+    <td colspan="7" valign="top"><div align="left"><a href="http://www.womenarts.org/index.html"><img src="http://www.womenarts.org/SWAN_Banner_F3.GIF" alt="Support Women Artists Now Day" height= "184" /></a></div></td> 
   </tr>
 </table>
 <table width= "493">
+  <tr> </tr>
   <tr>
-    <td width="493" height="34" colspan="4" valign="middle"><a href="http://womenarts.org/share"><img src="http://womenarts.org/images/home_about_us.gif" alt="About Us" border="0" /></a><img src="http://womenarts.org/images/spacer6.gif" alt="space" /><a href="http://womenarts.org/network"><img src="http://womenarts.org/images/home_womenarts.gif" alt="WomenArts Network" border="0" /></a><img src="http://womenarts.org/images/spacer6.gif" alt="space" /><a href="http://womenarts.org/fund"><img src="http://womenarts.org/images/home_grants.gif" alt="Grants/Resources" border="0" /></a><img src="http://womenarts.org/images/spacer6.gif" alt="space" /><a href="http://womenarts.org/swan"><img src="http://womenarts.org/images/home_swan.gif" alt="SWAN Day" border="0" /></a></td>
+    <td height="34" colspan="4" valign="middle"><a href="http://www.womenarts.org/swan"><img src="http://www.womenarts.org/images/home_swan.gif" alt="Swan Day" width="158" height="23" border="0" /></a><img src="http://www.womenarts.org/images/spacer6.gif" alt="space" /><a href="http://www.womenarts.org/swan/publicity"><img src="http://www.womenarts.org/images/home_publicity.gif" alt="Publicity Tools" width="158" height="23" border="0" /></a><img src="http://www.womenarts.org/images/spacer6.gif" alt="space" /><a href="http://www.womenarts.org/swan/fundraising"><img src="http://www.womenarts.org/images/home_fundraising.gif" alt="Fundraising Tools" width="158" height="23" border="0" /></a><img src="http://www.womenarts.org/images/spacer6.gif" alt="space" /><a href="http://www.womenarts.org/share"><img src="http://www.womenarts.org/images/home_about_us.gif" alt="About Us" width="158" height="23" border="0" /></a></td>
   </tr>
   <tr>
 
-    <td height="10" colspan="4" valign="top"><img src="http://womenarts.org/images/Yellow_Line650.gif" alt="line" height="5" align="top" /></td>
+    <td height="10" colspan="4" valign="top"><img src="http://www.womenarts.org/images/Yellow_Line650.gif" alt="line" height="5" align="top" /></td>
   </tr>
-  <tr>
-    <td width="158" height="1"></td>
-  </tr>
-
-</table>
-<p>
+  
+    <td width="650" valign="top"><table width="650" cellpadding="6">
+      
+      <tr>
+        <td width="478" align="left" valign="top"></td>
+      </tr>
+      <tr>
+        <td>
+		<p>
   <% if flash[:notice] %>
 </p>
 <div class="flash" id="notice"><%= flash[:notice] %></div>
@@ -51,13 +54,24 @@ body {
 <div class="flash" id="error"><%= flash[:error] %></div>
 <% end %>
 <%= yield %>
-<hr />
-<span class="bodytextbold">The Fund for Women Artists</span><span class="bodytext"> <br />
-3739 Balboa Street #181 <br />
-San Francisco, CA 94121 <br />
-Phone: (415) 751-2202 <br />
-Website: &nbsp;<a href="http://www.womenarts.org">www.womenarts.org </a><br />
-Email: &nbsp;<a href="mailto:info@womenarts.org">info@womenarts.org</a></span>
-<p></p>
+		<br /><br />
+		<hr />
+
+          <span class="bodytextbold">The Fund for Women Artists</span><span class="bodytext">          <br />
+          3739 Balboa Street #181 <br />
+          San Francisco, CA 94121 <br />
+          Phone: (415) 751-2202 <br />
+          Website: &nbsp;<a href="http://www.womenarts.org">www.womenarts.org </a><br />
+
+          Email: &nbsp;<a href="mailto:info@womenarts.org">info@womenarts.org</a></span></p>
+</span></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="1"></td>
+  </tr>
+
+</table>
 </body>
 </html>
