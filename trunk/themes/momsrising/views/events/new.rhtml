@@ -109,24 +109,6 @@ end
               </td>
             </tr>          
    			<%= f.hidden_field "description" %>
-            <tr>
-              <td colspan="2" valign="top"  class="dia_field_name">Copy your address from above?&nbsp;&nbsp;
-					<%= check_box_tag "copy_address", :style => "background-color: #ebd897;", :class => "inputStyle" %>
-				  </td>
-            </tr>
-				<%= observe_field :copy_address,
-										:frequency => 0.2,
-										:function => "if($('copy_address').checked) { 
-																$('event_location').value = $('user_street').value;
-																$('event_state').value = $('user_state').value;
-																$('event_city').value = $('user_city').value;
-																$('event_postal_code').value = $('user_postal_code').value;
-														  } else { 
-																$('event_location').value = '';
-																$('event_state').value = 'CA';
-															   $('event_city').value = '';
-																$('event_postal_code').value = '';
-															}" %>
             <tr valign="top">
               <td valign="top"  class="dia_field_name">
                 <div align="left">*Street Address:</div>
