@@ -4,7 +4,7 @@ class EventsController < ApplicationController
 #  access_control [:edit, :update, :destroy, :create] => 'admin'
   include DaysOfAction::Geo
 
-  caches_page :index, :total, :by_state, :show, :simple
+  caches_page :index, :total, :by_state, :show, :simple, :international
 #  before_filter(:only => :show) {|c| c.request.env["HTTP_IF_MODIFIED_SINCE"] = nil} #don't 304
 #  caches_action :show
 #  def action_fragment_key(options)
@@ -66,6 +66,7 @@ class EventsController < ApplicationController
     @event = @calendar.events.find(params[:id], :include => [:blogs, {:reports => :attachments}])
     @attending_politicians = @event.attending_politicians.map {|p| p.parent || p}.uniq
     @supporting_politicians = @event.supporting_politicians.map {|p| p.parent || p}.uniq
+    @event_country = CountryCodes.find_by_numeric(@event.country_code)[:name]
     if @event.latitude && @event.longitude
       @map = Cartographer::Gmap.new('eventmap')
       @map.init do |m|
@@ -200,6 +201,10 @@ class EventsController < ApplicationController
 
   def index
     redirect_to home_url
+  end
+  
+  def international
+    @events = Event.paginate(:all, :conditions => ["events.calendar_id = ? AND country_code <> ? AND (private IS NULL OR private = 0)", @calendar.id, Event::USA_COUNTRY_CODE], :order => 'country_code', :page => params[:page])
   end
   
   def search

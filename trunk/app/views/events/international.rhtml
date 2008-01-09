@@ -1,0 +1,30 @@
+HELELELELELE
+<div id='detail-container'>
+	<div class="intro-title">
+		<%= @calendar.name %> Events 
+	</div>
+	<div class="report_add">
+    <%= link_to 'Host Your Own Event',  signup_url(:permalink => @calendar.permalink) %>
+	</div>
+	<div class="intro-text">
+		Events taking place outside the United States:<br> 
+	
+		<!--Read press coverage <a href="">here</a> -->
+	</div>
+	<div id='report-search'>
+		
+    <% form_tag :permalink => @calendar.permalink, :controller => "events", :action => "search", :zip => nil, :state => nil do -%>
+       Search by Country:
+        <%= text_field_tag 'country_code', '', {:size=>10} %>
+        <%= submit_tag "GO" %>
+      <% end -%>
+  </div>
+<hr>	
+<div class='pagination-footer'>
+  <%= will_paginate @events %>
+</div>
+  <%= render :partial => 'list_intl', :collection => @events %>
+  <br><br><div class='pagination-footer'>
+    <%= will_paginate @events %>
+  </div>
+</div>

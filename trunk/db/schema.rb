@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 70) do
+ActiveRecord::Schema.define(:version => 72) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -42,32 +42,34 @@ ActiveRecord::Schema.define(:version => 70) do
   add_index "blogs", ["event_id"], :name => "index_blogs_on_event_id"
 
   create_table "calendars", :force => true do |t|
-    t.column "name",                   :string
-    t.column "short_description",      :text
-    t.column "user_id",                :integer
-    t.column "permalink",              :string
-    t.column "site_id",                :integer
-    t.column "current",                :boolean,  :default => false
-    t.column "theme",                  :string
-    t.column "signup_redirect",        :string
-    t.column "event_start",            :datetime
-    t.column "event_end",              :datetime
-    t.column "created_at",             :datetime
-    t.column "updated_at",             :datetime
-    t.column "letter_script",          :text
-    t.column "call_script",            :text
-    t.column "hostform_id",            :integer
-    t.column "rsvp_dia_group_key",     :integer
-    t.column "rsvp_dia_trigger_key",   :integer
-    t.column "report_dia_group_key",   :integer
-    t.column "report_dia_trigger_key", :integer
-    t.column "flickr_tag",             :string
-    t.column "flickr_additional_tags", :string
-    t.column "flickr_photoset",        :integer
-    t.column "rsvp_redirect",          :string
-    t.column "report_redirect",        :string
-    t.column "report_title_text",      :string
-    t.column "report_intro_text",      :text
+    t.column "name",                    :string
+    t.column "short_description",       :text
+    t.column "user_id",                 :integer
+    t.column "permalink",               :string
+    t.column "site_id",                 :integer
+    t.column "current",                 :boolean,  :default => false
+    t.column "theme",                   :string
+    t.column "signup_redirect",         :string
+    t.column "event_start",             :datetime
+    t.column "event_end",               :datetime
+    t.column "created_at",              :datetime
+    t.column "updated_at",              :datetime
+    t.column "letter_script",           :text
+    t.column "call_script",             :text
+    t.column "hostform_id",             :integer
+    t.column "rsvp_dia_group_key",      :integer
+    t.column "rsvp_dia_trigger_key",    :integer
+    t.column "report_dia_group_key",    :integer
+    t.column "report_dia_trigger_key",  :integer
+    t.column "flickr_tag",              :string
+    t.column "flickr_additional_tags",  :string
+    t.column "flickr_photoset",         :integer
+    t.column "rsvp_redirect",           :string
+    t.column "report_redirect",         :string
+    t.column "report_title_text",       :string
+    t.column "report_intro_text",       :text
+    t.column "attendee_invite_subject", :string
+    t.column "attendee_invite_message", :text
   end
 
   add_index "calendars", ["permalink"], :name => "index_calendars_on_permalink"
@@ -133,6 +135,7 @@ ActiveRecord::Schema.define(:version => 70) do
     t.column "fallback_latitude",     :float
     t.column "fallback_longitude",    :float
     t.column "precision",             :string
+    t.column "country_code",          :integer,  :default => 840
   end
 
   add_index "events", ["latitude", "longitude"], :name => "index_events_on_latitude_and_longitude"
@@ -336,6 +339,7 @@ ActiveRecord::Schema.define(:version => 70) do
     t.column "profile_image_id",           :integer
     t.column "show_phone_on_host_profile", :boolean
     t.column "site_id",                    :integer
+    t.column "country_code",               :integer
   end
 
   add_index "users", ["email", "site_id"], :name => "unique_index_on_email_and_site_id"

@@ -50,14 +50,16 @@ class AccountController < ApplicationController
     flash.now[:notice] = "Your profile has been updated"
   end
 
+=begin
   def events
     @user = current_user
-    @event = current_user.find(params[:id])
+    @event = Event.find(params[:id])
     if current_user.supporter_KEY != @event.dia_event.supporter_KEY
       flash[:error] = 'You can only edit events you are hosting'
       redirect_to :action => 'profile' and return
     end
   end
+=end
 
   def old_events
     @user = current_user

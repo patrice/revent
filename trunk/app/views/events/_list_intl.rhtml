@@ -1,0 +1,6 @@
+<div class="event-list-element">
+	<div class="event-list-location">
+  		<%= link_to white_list(list_intl.name), :action => 'show', :id => list_intl.id %> - 
+		<%= white_list(list_intl.city) %>, <%= CountryCodes.find_by_numeric(list_intl.country_code)[:name] %>
+	</div>
+</div>

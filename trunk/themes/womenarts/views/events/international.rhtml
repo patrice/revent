@@ -1,0 +1,17 @@
+<%= render :partial => 'nav' %>
+<div id='detail-container'>
+	<div class="intro-title">
+		<%= @calendar.name %> International Events 
+	</div>
+	<div class="intro-text">
+		Events taking place outside the United States:<br> 
+	</div>
+<hr>	
+<div class='pagination-footer'>
+  <%= will_paginate @events %>
+</div>
+  <%= render :partial => 'list_intl', :collection => @events %>
+  <br><br><div class='pagination-footer'>
+    <%= will_paginate @events %>
+  </div>
+</div>
