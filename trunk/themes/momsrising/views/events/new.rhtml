@@ -7,7 +7,7 @@ unless @event.start && @event.end
 	end
 	@event.end = @event.start + 2.hours
 end
-@event.description = "Fair Pay Restoration Act"
+@event.description = "Fair Pay Meeting with my Senator"
 @hostform = @calendar.hostform
  -%>
 <h1><%= @hostform.title if @hostform %></h1>
@@ -105,7 +105,7 @@ end
               </td>
               <td valign="top">
                 <%= f.text_field "name", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your event's name", :class => "required inputStyle" %><br />
-					 &nbsp;&nbsp;<em>e.g. "Cover All Kids - Berkeley House Party"</em>
+					 &nbsp;&nbsp;<em>e.g. "Fair Pay Meeting with my Senator"</em>
               </td>
             </tr>          
    			<%= f.hidden_field "description" %>
