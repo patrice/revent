@@ -24,7 +24,7 @@ end
       <h3>Your Information</h3>
 		<em>*Required Fields</em><br /><br />
       <% fields_for :user, @user do |user| %>
-      <%= hidden_field_tag "user[democracy_in_action][supporter][VARCHAR3]", "moveon" %>
+      <%= hidden_field_tag "user[democracy_in_action][supporter_custom][VARCHAR3]", "moveon" %>
 
       <% if @hostform and @hostform.dia_user_tracking_code %>
         <%= hidden_field_tag "user[democracy_in_action][supporter][Tracking_Code]", @hostform.dia_user_tracking_code %>
