@@ -94,7 +94,7 @@ end
       <%= error_messages_for 'event' %>
       <h3>Event Information<br /></h3>
       <% if @hostform and @hostform.event_info_text %>
-      	<p><strong><font color="#ff0000"><em><%= @hostform.event_info_text %></em></font></strong></p>
+      	<p><strong><font color="#ff0000"><%= @hostform.event_info_text %></font></strong></p>
       <%- end %>
       <div id="eventFields" class="eventFields">
         <table class="dia_field">
