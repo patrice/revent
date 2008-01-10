@@ -159,6 +159,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect ':permalink/events/show/:id', :controller => 'events', :action => 'show', :format => 'html'
 
+  map.connect ':controller/:action/page/:page'
+  map.connect ':permalink/:controller/:action/page/:page'
+
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action.:format'
