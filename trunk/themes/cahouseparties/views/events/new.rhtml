@@ -1,7 +1,7 @@
 <%  
 unless @event.start && @event.end
 	if @calendar.event_start
-		@event.start = @calendar.event_start.beginning_of_day + 12.hours
+		@event.start = [@calendar.event_start, Time.now].max.beginning_of_day + 12.hours
 	else
 		@event.start = ['1/1/08'.to_time, Time.now].max.beginning_of_day + 12.hours
 	end
