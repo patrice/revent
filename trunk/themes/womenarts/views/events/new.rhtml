@@ -82,6 +82,7 @@ end
               <td valign="top"><%= user.text_field "city", :id => "dataCity", :maxlength => "32", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your city", :class => "required inputStyle" %></td>
               
             </tr>
+	    <tr><td colspan="2"><span style="display: block; padding-top: 6px; width: 280px; font-size: 90%">State and Postal Code not required for events outside the United States.</span></td></tr>
             <tr>
             
               <td valign="top"  class="dia_field_name">*State/Region</td>
@@ -169,6 +170,8 @@ end
               <%= f.text_field "city", :id => "dataEventCity", :maxlength => "128", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your event's city", :class => "required inputStyle" %></td>
              
             </tr>
+<tr><td colspan="2"><span style="display: block; padding-top: 6px; width: 280px; font-size: 90%">State and Postal Code not required for events outside the United States.</span></td></tr>
+
             <tr>
               <td valign="top"  class="dia_field_name">
                 <div align="left">*State:</div>
