@@ -35,7 +35,6 @@ class Event < ActiveRecord::Base
   CANADA_COUNTRY_CODE = 124
 
   def validate
-    return if self.calendar.event_info_not_required?
     usa_valid_states = DemocracyInAction::Helpers.state_options_for_select.map{|a| a[1]}
     if self.in_usa?
       unless postal_code =~ /^\d{5}(-\d{4})?$/

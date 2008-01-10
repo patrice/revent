@@ -42,12 +42,6 @@ class Calendar < ActiveRecord::Base
     self.event_end && (self.event_end + 1.day).at_beginning_of_day < Time.now
   end
 
-  # total hack to get momsrising off my back
-  # TODO: get rid of this as soon as possible
-  def event_info_not_required?
-    self.permalink == "fair-pay"
-  end
-
   def flickr_tags(event_id = nil)
     tags = []
     if tag = flickr_tag
