@@ -51,9 +51,14 @@ class EventsController < ApplicationController
   end
 
   def upcoming
-    @events = @calendar.public_events.find(:all, :conditions => ["end >= ?", Time.now], :order => "start, state")
     respond_to do |format|
-      format.xml { render :layout => false }
+      format.html do 
+        @events = Event.paginate(:all, :conditions => ["(private IS NULL OR private = 0) AND calendar_id = ? AND start > ?", @calendar.id, Time.now], :order => 'start, state', :page => params[:page])
+      end
+      format.xml do 
+        @events = @calendar.public_events.find(:all, :conditions => ["end >= ?", Time.now], :order => "start, state")
+        render :layout => false 
+      end
     end
 #    cache_page nil, :permalink => params[:permalink]
   end
