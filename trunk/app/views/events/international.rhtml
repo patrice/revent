@@ -1,4 +1,3 @@
-HELELELELELE
 <div id='detail-container'>
 	<div class="intro-title">
 		<%= @calendar.name %> Events 
@@ -8,8 +7,6 @@ HELELELELELE
 	</div>
 	<div class="intro-text">
 		Events taking place outside the United States:<br> 
-	
-		<!--Read press coverage <a href="">here</a> -->
 	</div>
 	<div id='report-search'>
 		
@@ -23,7 +20,7 @@ HELELELELELE
 <div class='pagination-footer'>
   <%= will_paginate @events %>
 </div>
-  <%= render :partial => 'list_intl', :collection => @events %>
+  <%= render :partial => 'list_item', :collection => @events %>
   <br><br><div class='pagination-footer'>
     <%= will_paginate @events %>
   </div>

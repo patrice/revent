@@ -66,7 +66,6 @@ class EventsController < ApplicationController
     @event = @calendar.events.find(params[:id], :include => [:blogs, {:reports => :attachments}])
     @attending_politicians = @event.attending_politicians.map {|p| p.parent || p}.uniq
     @supporting_politicians = @event.supporting_politicians.map {|p| p.parent || p}.uniq
-    @event_country = CountryCodes.find_by_numeric(@event.country_code)[:name]
     if @event.latitude && @event.longitude
       @map = Cartographer::Gmap.new('eventmap')
       @map.init do |m|
@@ -204,7 +203,7 @@ class EventsController < ApplicationController
   end
   
   def international
-    @events = Event.paginate(:all, :conditions => ["events.calendar_id = ? AND country_code <> ? AND (private IS NULL OR private = 0)", @calendar.id, Event::USA_COUNTRY_CODE], :order => 'country_code', :page => params[:page])
+    @events = Event.paginate(:all, :conditions => ["events.calendar_id = ? AND country_code <> ? AND (private IS NULL OR private = 0)", @calendar.id, Event::USA_COUNTRY_CODE], :order => 'country_code, city', :page => params[:page])
   end
   
   def search

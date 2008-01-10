@@ -1,25 +1,24 @@
-		<div class="event-list-element">
-			<div class="event-list-location">
-        <%= link_to white_list(list_item.location), :action => 'show', :id => list_item.id %>
-			</div>
-			<div class="event-list-address">
-				<%#= list_item.address %>
-			</div>
-			<div class="event-list-city">
-				<%= white_list(list_item.city) %>, <%= list_item.state %> <%= list_item.postal_code %>
-			</div>
-			<div class="event-list-current">
-				Current Attendees: <%#= list_item.members.count %>
-			</div>
-			<div class="event-list-max">
-				Maximum Attendees: <%#= list_item.max_attendence %>
-			</div>
-      <% if @distance_from_search -%>
-      <div class="event-list-miles">
-        <%= @distance_from_search %> miles away
-      </div>
-      <% end -%>
-			<div class="event-list-rsvp">
-				<a href="">RSVP</a> <br>
-			</div>
-		</div>
+<div class="event-list-element">
+	<div class="event-list-location">
+      <%= link_to white_list(list_item.name), :permalink => list_item.calendar.permalink, :action => 'show', :id => list_item.id %>
+	</div>
+	<div class="event-list-address">
+		<%= white_list(list_item.location) %>, <%= white_list(list_item.city) %>, 
+		<% unless list_item.state == "none" -%>
+			<%= list_item.state %>, 
+		<% end -%>
+		<%= list_item.postal_code %>
+	</div>
+	<div class="event-list-city">
+		<% if list_item.in_usa? -%>
+		  <%= white_list(list_item.city) %>, <%= list_item.state %>
+		<% else -%>
+		  <%= white_list(list_item.city) %>, <%= list_item.country %>
+		<% end -%>
+	</div>
+    <% if @distance_from_search -%>
+     <div class="event-list-miles">
+       <%= @distance_from_search %> miles away
+     </div>
+    <% end -%>
+</div>

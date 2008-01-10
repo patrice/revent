@@ -31,19 +31,27 @@ class Event < ActiveRecord::Base
   before_save :set_district
   
   validates_presence_of :name, :city, :postal_code, :start, :end, :calendar_id, :description, :location 
-  # second part of this regular expression checks for Canadian postal codes
-  validates_format_of :postal_code, :with => /(^\d{5}(-\d{4})?$)|(^\D\d\D((-| )?\d\D\d)?$)/
   USA_COUNTRY_CODE = 840
   CANADA_COUNTRY_CODE = 124
 
-  def validate
-    if (country_code == USA_COUNTRY_CODE or country_code == CANADA_COUNTRY_CODE)
-      valid_states = DemocracyInAction::Helpers.state_options_for_select(:include_provinces => true).map{|a| a[1]}
-      if state.blank? or not valid_states.include?(state)
-        errors.add :state, "must be specified"
+  def validate    
+    usa_valid_states = DemocracyInAction::Helpers.state_options_for_select.map{|a| a[1]}
+    if self.in_usa?
+      unless postal_code =~ /^\d{5}(-\d{4})?$/
+        errors.add :postal_code, "is not a valid US postal code"
       end
-      unless (self.latitude and self.longitude)
-        errors.add_to_base "Not enough information provided to place event on a map. Please give us at minimum a valid postal code."
+      if state.blank? or not usa_valid_states.include?(state)
+        errors.add :state, "is not a valid USA state"
+      end
+    end
+    if self.in_canada?
+      unless postal_code =~ /^\D\d\D((-| )?\d\D\d)?$/
+        errors.add :postal_code, "is not a valid Canadian postal code"
+      end
+      all_valid_states = DemocracyInAction::Helpers.state_options_for_select(:include_provinces => true).map{|a| a[1]}
+      valid_provinces = all_valid_states - usa_valid_states
+      if state.blank? or not valid_provinces.include?(state)
+        errors.add :state, "is not a valid Canadian province"
       end
     end
     if event_start = self.calendar.event_start
@@ -62,6 +70,9 @@ class Event < ActiveRecord::Base
         end
       end
     end 
+    unless (self.latitude and self.longitude) or (country_code != USA_COUNTRY_CODE and country_code != CANADA_COUNTRY_CODE)
+      errors.add_to_base "Not enough information provided to place event on a map. Please give us at minimum a valid postal code."
+    end
   end
   #XXX: need to strip out DIA specific language
 
@@ -148,7 +159,7 @@ class Event < ActiveRecord::Base
   
   def set_district
     # don't lookup U.S. congressional district for non-us postal_codes
-    return unless postal_code =~ /^\d{5}(-\d{4})?$/
+    return unless (country_code == USA_COUNTRY_CODE and postal_code =~ /^\d{5}(-\d{4})?$/)
     
     # get congressional district based on postal code
     dia_warehouse = "http://warehouse.democracyinaction.org/dia/api/warehouse/append.jsp?id=radicaldesigns".freeze
@@ -180,6 +191,22 @@ class Event < ActiveRecord::Base
 
   def past?
     start && start < Time.now
+  end
+  
+  def in_usa?
+    country_code == USA_COUNTRY_CODE
+  end
+
+  def in_canada?
+    country_code == CANADA_COUNTRY_CODE
+  end
+  
+  def country
+    CountryCodes.find_by_numeric(self.country_code)[:name]
+  end
+  
+  def country=(name)
+    self.country_code = CountryCodes.find_by_name(name)[:numeric]
   end
 
   def attendees_high
