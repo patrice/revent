@@ -2,7 +2,9 @@
 	<div class="event-list-element">
 		<div class="event-list-city">
 		
-		 <%= link_to white_list("#{report.city}, #{report.state}"),  :action => 'show', :id => report.id %>
+		<%= link_to white_list("#{report.city}, #{report.state}"), :permalink => report.calendar.permalink, :controller => 'events', :action => 'show', :id => report.id %>
+		
+
 		</div>
 		<div class="event-list-location">
      		<%= white_list report.name %>- <i><%= report.start.strftime('%m/%e') %></i>
