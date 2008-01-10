@@ -4,7 +4,7 @@ class EventsController < ApplicationController
 #  access_control [:edit, :update, :destroy, :create] => 'admin'
   include DaysOfAction::Geo
 
-  caches_page :index, :total, :by_state, :show, :simple, :international
+  caches_page :index, :total, :by_state, :show, :simple, :international, :upcoming
 #  before_filter(:only => :show) {|c| c.request.env["HTTP_IF_MODIFIED_SINCE"] = nil} #don't 304
 #  caches_action :show
 #  def action_fragment_key(options)
