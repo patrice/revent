@@ -34,7 +34,8 @@ class Event < ActiveRecord::Base
   USA_COUNTRY_CODE = 840
   CANADA_COUNTRY_CODE = 124
 
-  def validate    
+  def validate
+    return if self.calendar.event_info_not_required?
     usa_valid_states = DemocracyInAction::Helpers.state_options_for_select.map{|a| a[1]}
     if self.in_usa?
       unless postal_code =~ /^\d{5}(-\d{4})?$/
@@ -69,7 +70,7 @@ class Event < ActiveRecord::Base
           errors.add :start, "must be on #{event_start.strftime('%B %e, %Y')}"
         end
       end
-    end 
+    end
     unless (self.latitude and self.longitude) or (country_code != USA_COUNTRY_CODE and country_code != CANADA_COUNTRY_CODE)
       errors.add_to_base "Not enough information provided to place event on a map. Please give us at minimum a valid postal code."
     end
@@ -112,10 +113,10 @@ class Event < ActiveRecord::Base
   end
 
   def trigger_email
-    calendar = Calendar.current
-    unless calendar and calendar.hostform and calendar.hostform.dia_trigger_key
+    calendar = self.calendar
+    unless calendar.hostform and calendar.hostform.dia_trigger_key
       trigger = calendar.triggers.find_by_name("Host Thank You") || Site.current.triggers.find_by_name("Host Thank You")
-      TriggerMailer.deliver_host_thank_you(trigger, self) if trigger
+      TriggerMailer.deliver_trigger(trigger, self.host, self) if trigger
     end
   end
   
@@ -154,8 +155,18 @@ class Event < ActiveRecord::Base
   def address_for_geocode
     [location, city, state, postal_code].compact.join(', ').gsub /\n/, ' '
   end
-
-  alias address address_for_geocode
+  
+  def address
+    self.location
+  end
+  
+  def start_date
+    self.start.strftime("%m/%d/%Y")
+  end
+  
+  def start_time
+    self.start.strftime("%I:%M%p").downcase
+  end
   
   def set_district
     # don't lookup U.S. congressional district for non-us postal_codes

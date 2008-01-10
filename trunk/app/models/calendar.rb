@@ -1,5 +1,4 @@
 class Calendar < ActiveRecord::Base
-  cattr_accessor :current
   validates_uniqueness_of :permalink, :scope => :site_id
   validates_presence_of :site_id, :permalink, :name
   before_validation :escape_permalink
@@ -41,6 +40,12 @@ class Calendar < ActiveRecord::Base
   
   def past?
     self.event_end && (self.event_end + 1.day).at_beginning_of_day < Time.now
+  end
+
+  # total hack to get momsrising off my back
+  # TODO: get rid of this as soon as possible
+  def event_info_not_required?
+    self.permalink == "fair-pay"
   end
 
   def flickr_tags(event_id = nil)
