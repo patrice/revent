@@ -154,13 +154,10 @@ class Event < ActiveRecord::Base
   def address_for_geocode
     [location, city, state, postal_code].compact.join(', ').gsub /\n/, ' '
   end
-  
-  def address
-    self.location
-  end
+  alias address address_for_geocode
   
   def start_date
-    self.start.strftime("%m/%d/%Y")
+    self.start.strftime("%B %w, %Y")
   end
   
   def start_time
