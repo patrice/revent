@@ -35,7 +35,7 @@ class AccountController < ApplicationController
       user.save
       flash[:notice] = "Your account was already active.<br />  If you would like to reset your password, click on 'Forgot Your Password?' below" 
     else
-      UserMailer.deliver_activation(user.email, user.activation_code)
+      UserMailer.deliver_activation(user)
       flash[:notice] = 'An email with an account activation link has been sent to you.'
     end
     redirect_to login_url
