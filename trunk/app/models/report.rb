@@ -8,7 +8,7 @@ class Report < ActiveRecord::Base
 
   after_save :trigger_email  
   def trigger_email
-    calendar = self.event.current
+    calendar = self.event.calendar
     unless calendar.report_dia_trigger_key
       trigger = calendar.triggers.find_by_name("Report Thank You") || Site.current.triggers.find_by_name("Report Thank You")
       TriggerMailer.deliver_report_thank_you(trigger, report) if trigger
