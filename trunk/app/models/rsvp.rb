@@ -5,7 +5,7 @@ class Rsvp < ActiveRecord::Base
   
   after_save :trigger_email
   def trigger_email
-    calendar = Calendar.current
+    calendar = self.event.calendar
     unless calendar.rsvp_dia_trigger_key
       trigger = calendar.triggers.find_by_name("RSVP Thank You") || Site.current.triggers.find_by_name("RSVP Thank You")
       TriggerMailer.deliver_rsvp_thank_you(trigger, self) if trigger
