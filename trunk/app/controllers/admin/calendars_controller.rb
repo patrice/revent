@@ -14,11 +14,12 @@ class Admin::CalendarsController < AdminController
   	config.columns = 
       [:name, :permalink, :short_description, 
       :event_start, :event_end, 
-      :signup_redirect, :hostform, :rsvp_dia_group_key, 
+      :signup_redirect, :hostform, :admin_email, :rsvp_dia_group_key, 
       :rsvp_dia_trigger_key, :rsvp_redirect,  :report_title_text, 
       :report_intro_text, :report_dia_group_key, :report_dia_trigger_key, 
       :report_redirect, :flickr_tag, :flickr_additional_tags, :flickr_photoset, 
       :current, :attendee_invite_subject, :attendee_invite_message ]
+    config.columns[:admin_email].label = "Admin email<br /><br />This email is used as the 'from' email for activation and other system emails."
 
   	config.list.columns = [:current, :name, :events_count, :site]
   	config.list.sorting = [{ :name => :asc}]

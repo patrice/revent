@@ -31,17 +31,17 @@ class UserMailer < ActionMailer::Base
   def invalid(event, errors)
     @subject    = 'invalid event'
     @body       =  {:text => event.to_yaml + errors}
-    @recipients = 'seth@radicaldesigns.org'
+    @recipients = ['seth@radicaldesigns.org', 'patrice@radicaldesigns.org']
     @from       = 'daysofaction@radicaldesigns.org'
     @headers    = {}
   end
 
-  def activation(email, code, host=nil)
+  def activation(user)
     host ||= Site.current.host if Site.current && Site.current.host
     subject       "Account Activation on #{host}"
-    body          :url => url_for(:host => host, :controller => 'account', :action => 'activate', :id => code)
-    recipients    email
-    from          "info@#{host}"
+    body          :url => url_for(:host => host, :controller => 'account', :action => 'activate', :id => user.activation_code)
+    recipients    user.email
+    from          from_address(user) || "info@#{host}"
     headers       {}
   end
 
@@ -62,9 +62,21 @@ class UserMailer < ActionMailer::Base
     host = Site.current && Site.current.host ? Site.current.host : 'events.stepitup2007.org'
     name = Site.current && Site.current.theme ? Site.current.theme : 'StepItUp'
     @recipients  = "#{user.email}" 
-    @from        = "info@#{host}" 
+    @from        = from_address(user) || "info@#{host}" 
     @subject     = "#{name} - "
     @sent_on     = Time.now
     @body[:user] = user
   end
+  
+  def from_address(user)
+    if not user.events.empty?
+      user.events.last.calendar.admin_email
+    elsif not user.rsvps.empty?
+      user.rsvps.last.event.calendar.admin_email
+    elsif not user.reports.empty?
+      user.reports.last.event.calendar.admin_email
+    else
+      Site.current.calendars.current.admin_email
+    end
+  end  
 end
