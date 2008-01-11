@@ -183,6 +183,17 @@ class EventsController < ApplicationController
     end
   end
 
+  def other_state_events
+    state = params[:event_state]
+    unless state.blank?
+      @other_state_events = @calendar.public_events.find_all_by_state(state)
+      unless @other_state_events.empty?
+        render(:partial => 'other_state_events', :layout => false) && return
+      end
+    end
+    render :nothing => true    
+  end
+
   def nearby_events
     postal_code = params[:postal_code]
     unless postal_code.blank?
