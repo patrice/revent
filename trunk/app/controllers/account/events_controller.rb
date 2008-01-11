@@ -12,12 +12,12 @@ class Account::EventsController < ApplicationController
 
   def show
     extend ActionView::Helpers::TextHelper
-    @nearby_events = @calendar.public_events.find(:all, :origin => @event, :within => 50, :conditions => ["events.id <> ?", @event.id])
+    @nearby_events = @event.nearby_events
     @blog = Blog.new(:event => @event)
     @event.render_scripts   # render letter/call scripts
     @example = Politician.find_by_district_type_and_state('FS', @event.state)
     require 'ostruct'
-    @invite = OpenStruct.new(:recipients => nil, :subject => @calendar.attendee_invite_subject, :body => @calendar.attendee_invite_message)
+    @invite = OpenStruct.new(:recipients => nil, :subject => @event.calendar.attendee_invite_subject, :body => @event.calendar.attendee_invite_message)
   end
 
   def upload

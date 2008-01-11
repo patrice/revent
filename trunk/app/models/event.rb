@@ -38,10 +38,10 @@ class Event < ActiveRecord::Base
     usa_valid_states = DemocracyInAction::Helpers.state_options_for_select.map{|a| a[1]}
     if self.in_usa?
       unless postal_code =~ /^\d{5}(-\d{4})?$/
-        errors.add :postal_code, "is not a valid US postal code"
+        errors.add :postal_code, "is not a valid U.S. postal code"
       end
       if state.blank? or not usa_valid_states.include?(state)
-        errors.add :state, "is not a valid USA state"
+        errors.add :state, "is not a valid U.S. state"
       end
     end
     if self.in_canada?
@@ -167,6 +167,10 @@ class Event < ActiveRecord::Base
     self.start.strftime("%I:%M%p").downcase
   end
   
+  def nearby_events
+    self.calendar.public_events.find(:all, :origin => self, :within => 50, :conditions => ["events.id <> ?", self.id])
+  end
+    
   def set_district
     # don't lookup U.S. congressional district for non-us postal_codes
     return unless (country_code == USA_COUNTRY_CODE and postal_code =~ /^\d{5}(-\d{4})?$/)
