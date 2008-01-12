@@ -3,12 +3,14 @@
     <div class="national-intro-text">
       <p class="title">Get involved with our California House Parties! </p>
     </div>
-    <div class="national-intro-count">
-      <!--      There are <%= pluralize @calendar.events.length, @calendar.name %> in <%= @calendar.events.unique_states %> states. -->
-    </div>
     <div class="national-intro-directions">
-      <br> Enter your zip code to find a <%= @calendar.name.singularize %> near you.  
-      You can also <%= link_to 'host your own event', signup_url(:permalink => @calendar.permalink) %>.
+      <% if @calendar.map_intro_text -%>
+        <%= @calendar.map_intro_text %>
+      <% else -%>
+        Enter your zip code to find a <%= @calendar.name.singularize %> near you.  
+        You can also <%= link_to 'host your own event', signup_url(:permalink => @calendar.permalink) %>.
+      <% end -%>
+      <br /><br />
     </div>
   </div>
   <div id="national-map-container">
