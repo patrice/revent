@@ -7,7 +7,13 @@
       <!--      There are <%= pluralize @calendar.events.length, @calendar.name %> in <%= @calendar.events.unique_states %> states. -->
     </div>
     <div class="national-intro-directions">
-      <br> Click on a state or enter your zip code to find <%= @calendar.name.pluralize %> near you...
+      <br />
+      <% if @calendar.map_intro_text -%>
+        <%= @calendar.map_intro_text %>
+      <% else -%>
+        Click on a state or enter your zip code to find <%= @calendar.name.pluralize %> near you...
+      <% end -%>
+      <br /><br />
     </div>
   </div>
   <div id="national-map-container">
