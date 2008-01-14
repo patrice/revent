@@ -17,7 +17,7 @@
   <%= image_tag(@host.profile_image.public_filename(:display)) %><br />
 <% end -%>
 <div align="right">
-<%= link_to 'Back to Event Details', :action => :show, :id => @event %>
+<%= link_to 'Back to Event Details', :permalink => @calendar.permalink, :action => :show, :id => @event %>
 </div>
 
 

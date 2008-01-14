@@ -1,11 +1,10 @@
 <%  
 if @calendar.event_start
-	@event.start = @calendar.event_start.beginning_of_day + 12.hours
-	@event.end = 	@calendar.event_start.beginning_of_day + 14.hours 
+	@event.start = [@calendar.event_start, Time.now].max.beginning_of_day + 12.hours
 else
 	@event.start = Time.now.beginning_of_day + 12.hours
-	@event.end = Time.now.beginning_of_day + 14.hours
 end
+@event.end = @event.start + 2.hours	
 @hostform = @calendar.hostform
  -%>
 
