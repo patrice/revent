@@ -53,8 +53,10 @@ class UserMailer < ActionMailer::Base
   end
 
   def reset_password(user)
+    host = Site.current && Site.current.host ? Site.current.host : 'events.stepitup2007.org'
     setup_email(user)
     @subject    += 'Your password has been reset'
+    @body[:url] = login_url(:host => host)
   end
   
   protected
