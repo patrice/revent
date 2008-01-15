@@ -24,10 +24,9 @@ class AdminController < ApplicationController
   end
   
   def set_calendar
-    @calendar = super
+    super
     #admin version checks for a cookie to specify the working calendar
-    @most_recent_calendar = site.calendars.detect {|calendar| params[:permalink] == calendar.permalink } || site.calendars.detect {|calendar| cookies[:permalink] == calendar.permalink } || site.calendars.current || site.calendars.first    
-    @calendar
+    @most_recent_calendar = site.calendars.detect {|calendar| params[:permalink] == calendar.permalink } || site.calendars.detect {|calendar| cookies[:permalink] == calendar.permalink } || site.calendars.current || site.calendars.first
   end
 
 protected

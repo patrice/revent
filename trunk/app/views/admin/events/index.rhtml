@@ -12,6 +12,7 @@
 
 <p>show events that are... <%= link_to 'not mappable', :action => 'nomap' %>
 <div class="list_table">
+<%= will_paginate @events %>	
 <table class="list_table">
 <tbody class="system">
   <tr class="list_column_header">
@@ -33,7 +34,7 @@
 </table>
 </div>
 <hr>
-<%= pagination_links(@events_pages) %>
+<%= will_paginate @events %>
 </hr>
 <br />
 <%= link_to 'Back to calendars', url_for(:controller => 'admin/calendars') %>

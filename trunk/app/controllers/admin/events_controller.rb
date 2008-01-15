@@ -2,7 +2,7 @@ class Admin::EventsController < AdminController
   def index
     @calendar = Calendar.find_by_permalink(params[:permalink])
     cookies[:permalink] = params[:permalink]
-    @events_pages, @events = paginate(:events, :conditions => ['calendar_id = ?', @calendar.id], :order => 'name', :per_page => 50)
+    @events = Event.paginate(:conditions => ['calendar_id = ?', @calendar.id], :order => 'name', :page => params[:page])
   end
   
   def destroy
@@ -14,16 +14,13 @@ class Admin::EventsController < AdminController
   end
   
   def search
-    @events = []
-    string = []
-    crit = []
-    %w(name state city).each do |s|
-      string << s + " like ?"
-      crit << params[s] + "%"
+    @events, sql, crit = [], [], []
+    %w(name state city).each do |att|
+      sql << att + " like ?"
+      crit << params[att] + "%"
     end
-    event_criteria = [string.join(' AND '), crit].flatten
+    event_criteria = [sql.join(' AND '), crit].flatten
     @events = @calendar.events.find(:all, :conditions => event_criteria)
-    
     if @events.empty?
       flash[:notice] = "Could not find that event."
       redirect_to :action => 'index'
