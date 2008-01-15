@@ -20,7 +20,19 @@ config.action_view.cache_template_extensions         = false
 config.action_view.debug_rjs                         = true
 
 # Don't care if the mailer can't send
+#config.action_mailer.delivery_method = :smtp
 config.action_mailer.raise_delivery_errors = false
+
+ActionMailer::Base.delivery_method = :smtp
+ActionMailer::Base.smtp_settings = {
+  :domain => 'events.radicaldesigns.org',
+  :perform_deliveries => true,
+  :address => 'npomail.electricembers.net',
+  :port => 25,
+  :authentication => :login,
+  :user_name => 'events@radicaldesigns.org',
+  :password => 'fuckhotmail'
+}
 
 DIA_ENABLED = false
 
