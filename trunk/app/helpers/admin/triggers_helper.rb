@@ -9,6 +9,6 @@ module Admin::TriggersHelper
   end
 
   def name_form_column(record, input_name)
-    select_tag(input_name, options_for_select(Trigger::TRIGGER_NAMES.unshift(["- select -", nil])))
+    select_tag(input_name, options_for_select(Trigger::TRIGGER_NAMES.unshift(["- select -", nil]), record.name))
   end  
 end
