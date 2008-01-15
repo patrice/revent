@@ -3,13 +3,6 @@
       <%= link_to white_list(list_item.name), :permalink => list_item.calendar.permalink, :action => 'show', :id => list_item.id %><br />
 		<%= list_item.start.strftime("%B %d, %Y") %> at <%= list_item.start.strftime("%I:%M%p").downcase %>
 	</div>
-	<div class="event-list-address">
-		<%= white_list(list_item.location) %>, <%= white_list(list_item.city) %>, 
-		<% unless list_item.state == "none" -%>
-			<%= list_item.state %>, 
-		<% end -%>
-		<%= list_item.postal_code %>
-	</div>
 	<div class="event-list-city">
 		<% if list_item.in_usa? -%>
 		  <%= white_list(list_item.city) %>, <%= list_item.state %>
