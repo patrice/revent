@@ -7,9 +7,9 @@ config.cache_classes = true
 # Use a different logger for distributed setups
 #require 'syslog_logger'
 #config.logger = RAILS_DEFAULT_LOGGER = SyslogLogger.new('daysofaction')
-require 'hodel_3000_compliant_logger'
-config.logger = Hodel3000CompliantLogger.new(config.log_path)
-config.logger.level = Logger::INFO
+#require 'hodel_3000_compliant_logger'
+#config.logger = Hodel3000CompliantLogger.new(config.log_path)
+#config.logger.level = Logger::INFO
 
 # Full error reports are disabled and caching is turned on
 config.action_controller.consider_all_requests_local = false
@@ -24,14 +24,40 @@ config.active_record.verification_timeout = 14400
 # Disable delivery errors if you bad email addresses should just be ignored
 # config.action_mailer.raise_delivery_errors = false
 
-ActionMailer::Base.delivery_method = :sendmail
-#ActionMailer::Base.delivery_method = :smtp
+#ActionMailer::Base.delivery_method = :sendmail
+ActionMailer::Base.delivery_method = :smtp
 
-#ActionMailer::Base.server_settings = {
-#  :domain             => "stepitup2007.org",
-#   :perform_deliveries => true,
-#   :address            => 'smtp.engineyard.com',
-#   :port               => 25 }
+ActionMailer::Base.server_settings = {
+  :domain             => "events.radicaldesigns.org",
+   :perform_deliveries => true,
+   :address            => 'npomail.electricembers.net',
+   :port               => 25,
+   :user_name		=> 'events@radicaldesigns.org',
+   :password		=> 'fuckhotmail',
+   :authentication	=> :login
+   }
+
+#require 'tlsmail'
+#Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
+
+=begin
+ActionMailer::Base.delivery_method = :msmtp
+
+module ActionMailer
+  class Base
+    def perform_delivery_msmtp(mail)
+      IO.popen("/usr/bin/msmtp -t -C /var/www/daysofaction/shared/msmtprc -a provider --", "w") do |sm|
+        sm.puts(mail.encoded.gsub(/\r/, ''))
+        sm.flush
+      end
+      if $? != 0
+        # why >> 8? because this is posix and exit code is in bits 8-16
+        logger.error("failed to send mail errno #{$? >> 8}")
+      end
+    end
+  end
+end
+=end
 
 DIA_ENABLED = true
 

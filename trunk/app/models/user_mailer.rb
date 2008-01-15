@@ -32,7 +32,7 @@ class UserMailer < ActionMailer::Base
     @subject    = 'invalid event'
     @body       =  {:text => event.to_yaml + errors}
     @recipients = ['seth@radicaldesigns.org', 'patrice@radicaldesigns.org']
-    @from       = 'daysofaction@radicaldesigns.org'
+    @from       = 'events@radicaldesigns.org'
     @headers    = {}
   end
 
@@ -41,7 +41,7 @@ class UserMailer < ActionMailer::Base
     subject       "Account Activation on #{host}"
     body          :url => url_for(:host => host, :controller => 'account', :action => 'activate', :id => user.activation_code)
     recipients    user.email
-    from          from_address(user) || "info@#{host}"
+    from          from_address(user) || 'events@radicaldesigns.org'
     headers       {}
   end
 
@@ -62,13 +62,15 @@ class UserMailer < ActionMailer::Base
     host = Site.current && Site.current.host ? Site.current.host : 'events.stepitup2007.org'
     name = Site.current && Site.current.theme ? Site.current.theme : 'StepItUp'
     @recipients  = "#{user.email}" 
-    @from        = from_address(user) || "info@#{host}" 
+    @from        = from_address(user) || 'events@radicaldesigns.org'
     @subject     = "#{name} - "
     @sent_on     = Time.now
     @body[:user] = user
   end
   
   def from_address(user)
+    # don't allow admin to edit from_address for now
+    return 'events@radicaldesigns.org' 	
     if not user.events.empty?
       user.events.last.calendar.admin_email
     elsif not user.rsvps.empty?
