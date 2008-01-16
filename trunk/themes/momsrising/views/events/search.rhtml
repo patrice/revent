@@ -5,7 +5,7 @@
     <%= @calendar.name.pluralize %> in <%= @search_area %>
 		</div>
 		<div class="event-list-intro-results">
-			Right now there are <%= pluralize @events.length, (@category ? @category.name : @calendar.name) %>.  <%= link_to 'Click here',:permalink =>  @calendar.permalink, :controller => 'events', :action => 'new' %> and see how easy it is to host a meeting with your state senator. 
+			Right now there are <%= pluralize @events.length, (@category ? @category.name : @calendar.name) %>.  <%= link_to 'Click here',:permalink =>  @calendar.permalink, :controller => 'events', :action => 'new' %> and see how easy it is to host a meeting with your senator. 
 			
 			<br />
 			<% if @categories and not @categories.empty? %>
