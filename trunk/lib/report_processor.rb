@@ -9,6 +9,7 @@ require 'press_link'
 require 'tag'
 require 'site'
 require 'calendar'
+require 'trigger'
 
 class ReportProcessor
   def self.run
