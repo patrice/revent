@@ -120,7 +120,7 @@ class ReportsController < ApplicationController
         @report.embeds.each {|e| e.tags = e.tag_depot if e.tag_depot }
         upload_images_to_flickr(@report.attachments, 
               :site_id => Site.current, 
-              :title => "#{event.name} - #{event.city}, #{event.state}",
+              :title => "#{@report.event.name} - #{@report.event.city}, #{@report.event.state}",
               :flickr_tags =>  @calendar.flickr_tags(@report.event.id), 
               :flickr_photoset => @calendar.flickr_photoset)
         @report.check_akismet(r)
@@ -129,9 +129,9 @@ class ReportsController < ApplicationController
       end
       flash[:notice] = 'Report was successfully created.'
       @events = @calendar.events
-      render :action => 'index'
+      render :permalink => @calendar.permalink, :action => 'index'
     else
-      render :action => 'new'
+      render :permalink => @calendar.permalink, :action => 'new'
     end
   end
 
