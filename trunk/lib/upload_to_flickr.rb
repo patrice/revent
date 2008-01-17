@@ -1,10 +1,15 @@
 require 'site'
 require 'attachment'
+require 'logger'
 
 def upload_images_to_flickr(attachments, options = {})
+  log = Logger.new(File.expand_path(File.dirname(__FILE__) + '/../log/flickr.log'), 5, 10*1024)
+  log.level = Logger::INFO
+  log.debug("Uploading to flickr...")
   unless options.empty?
     options.symbolize_keys
-    async = options[:async] || true
+    # if options[:async] not specified, default to async=true
+    async = options[:async].nil? ? true : options[:async]
     site_id = options[:site_id] || Site.current
     title = options[:title]
     tags = options[:tags]
@@ -19,11 +24,13 @@ def upload_images_to_flickr(attachments, options = {})
       data ||= File.read(attachment.full_filename) if File.exists?(attachment.full_filename)
       data ||= open(attachment.public_filename).read
     	if async
-    	  flickr.photos.upload.upload_image_async(data, attachment.content_type, attachment.filename, title, attachment.caption, tags)
+    	  photo_id = flickr.photos.upload.upload_image_async(data, attachment.content_type, attachment.filename, title, attachment.caption, tags)
+	  log.debug("uploaded async...")
     	else
     	  photo_id = flickr.photos.upload.upload_image(data, attachment.content_type, attachment.filename, title, attachment.caption, tags)
-    	  attachment.update_attribute(:flickr_id, photo_id)
-    	  flickr.photosets.addPhoto(photoset, photo_id) if (photoset and attachment.primary?)  # photoset = '72157602812476432'
+	  log.("uploaded photo_id: #{photo_id}")
+	  attachment.update_attribute(:flickr_id, photo_id)
+	  flickr.photosets.addPhoto(photoset, photo_id) if (photoset and attachment.primary?)  # photoset = '72157602812476432'
     	end
     rescue XMLRPC::FaultException
     end
