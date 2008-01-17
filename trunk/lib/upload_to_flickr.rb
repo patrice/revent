@@ -31,6 +31,7 @@ def upload_images_to_flickr(attachments, options = {})
 	  log.info("uploaded photo_id: #{photo_id}")
 	  attachment.update_attribute(:flickr_id, photo_id)
 	  flickr.photosets.addPhoto(photoset, photo_id) if (photoset and attachment.primary?)  # photoset = '72157602812476432'
+	  log.info("added to photoset: #{photoset}")
     	end
     rescue XMLRPC::FaultException
     end
