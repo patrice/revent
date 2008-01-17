@@ -8,6 +8,7 @@ else
 end
 @hostform = @calendar.hostform
 -%>
+<%= render :partial => 'nav' %>
 <h1>
 	<% if @hostform and @hostform.title -%>
 	  <%= @hostform.title %>
@@ -101,7 +102,7 @@ end
 		        <td  class="dia_field_name">
 		          <div align="left">*Country:</div>
 		        </td>
-            <td><%= user.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort, :selected => (@user.country_code || Event::USA_COUNTRY_CODE), :title => "Please choose your event's country", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventCountry" %></td>
+            <td><%= user.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort, :selected => ((@user && @user.country_code) || Event::USA_COUNTRY_CODE), :title => "Please choose your event's country", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventCountry" %></td>
 
 		      </tr>
             <tr>
