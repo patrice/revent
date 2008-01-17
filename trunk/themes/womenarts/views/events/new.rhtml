@@ -1,10 +1,10 @@
 <%  
 if @calendar.event_start
-	@event.start = @calendar.event_start.beginning_of_day + 12.hours
-	@event.end = 	@calendar.event_start.beginning_of_day + 14.hours 
+	@event.start ||= @calendar.event_start.beginning_of_day + 12.hours
+	@event.end ||= 	@calendar.event_start.beginning_of_day + 14.hours 
 else
-	@event.start = Time.now.beginning_of_day + 12.hours
-	@event.end = Time.now.beginning_of_day + 14.hours
+	@event.start ||= Time.now.beginning_of_day + 12.hours
+	@event.end ||= Time.now.beginning_of_day + 14.hours
 end
 @hostform = @calendar.hostform
 -%>
@@ -66,7 +66,7 @@ end
             </tr>
             <tr>
               <td valign="top" class="dia_field_name">*Phone</td>
-              <td valign="top"><%= user.text_field "phone", :id => "dataPhone", :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your phone number", :class => "required inputStyle" %></td>
+              <td valign="top"><%= user.text_field "phone", :id => "dataPhone", :maxlength => "32", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your phone number", :class => "required inputStyle" %></td>
               
             </tr>
             <tr>
@@ -101,7 +101,7 @@ end
 		        <td  class="dia_field_name">
 		          <div align="left">*Country:</div>
 		        </td>
-		        <td><%= user.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort, :selected => 840, :title => "Please choose your event's country", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventCountry" %></td>
+            <td><%= user.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort, :selected => (@user.country_code || Event::USA_COUNTRY_CODE), :title => "Please choose your event's country", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventCountry" %></td>
 
 		      </tr>
             <tr>
@@ -203,7 +203,7 @@ end
         <td  class="dia_field_name">
           <div align="left">*Country:</div>
         </td>
-        <td><%= f.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort,  :selected => 840, :title => "Please choose your event's country", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventCountry" %></td>
+        <td><%= f.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort,  :selected => (@event.country_code || USA_COUNTRY_CODE), :title => "Please choose your event's country", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventCountry" %></td>
       </tr>
               <td valign="top" colspan=2>
               Privacy and Searches:<br>

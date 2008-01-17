@@ -200,7 +200,7 @@ class EventsController < ApplicationController
       begin
         @nearby_events = @calendar.public_events.find(:all, :origin => postal_code, :within => 25)
       rescue GeoKit::Geocoders::GeocodeError
-        render(:text => "could not find that postal code", :layout => false) and return
+        render(:text => "", :layout => false) and return
       end
       unless @nearby_events.empty?
         render(:partial => 'shared/nearby_events', :layout => false) && return
