@@ -219,7 +219,13 @@ class EventsController < ApplicationController
   end
   
   def international
-    @events = Event.paginate(:all, :conditions => ["events.calendar_id = ? AND country_code <> ? AND (private IS NULL OR private = 0)", @calendar.id, Event::USA_COUNTRY_CODE], :order => 'country_code, city', :page => params[:page])
+    @country_code = params[:id] || "all"
+    if @country_code == "all"
+      @events = Event.paginate(:all, :conditions => ["events.calendar_id = ? AND country_code <> ? AND (private IS NULL OR private = 0)", @calendar.id, Event::USA_COUNTRY_CODE], :order => 'country_code, city, start', :page => params[:page])
+    else
+      @events = Event.paginate(:all, :conditions => ["events.calendar_id = ? AND country_code = ? AND (private IS NULL OR private = 0)", @calendar.id, @country_code], :order => 'start, city', :page => params[:page])
+    end
+    @countries_for_select = CountryCodes::countries_for_select('name', 'numeric').sort.unshift(['All Countries', 'all'])
   end
   
   def search
