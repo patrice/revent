@@ -28,7 +28,7 @@ def upload_images_to_flickr(attachments, options = {})
 	  log.debug("uploaded async...")
     	else
     	  photo_id = flickr.photos.upload.upload_image(data, attachment.content_type, attachment.filename, title, attachment.caption, tags)
-	  log.("uploaded photo_id: #{photo_id}")
+	  log.info("uploaded photo_id: #{photo_id}")
 	  attachment.update_attribute(:flickr_id, photo_id)
 	  flickr.photosets.addPhoto(photoset, photo_id) if (photoset and attachment.primary?)  # photoset = '72157602812476432'
     	end
