@@ -10,7 +10,7 @@
 	<b><%= @event.city %>, <%= @event.state %> </b><br>
 	<br>
 
-	<%= render :partial => 'shared/nearby_events', :layout => false %>
+	<%= render :partial => 'shared/nearby_events', :layout => false %><br />
 
 	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_edit.gif'><%= link_to_function 'Edit Your Event', visual_effect(:toggle_blind,'profile_event_edit') %></p>
   <div id='profile_event_edit'<% if @event.errors.empty? %> style="display:none;"<% end %>>
@@ -19,7 +19,7 @@
 		<%= render :partial => "form", :locals => {:f => f} %>
 		<%= submit_tag %>
 		<% end %>
-
+		<br />
   <p class="profile_subtitle">Edit Attachments</p>
   <div id="profile_event_attachments">
       <table class='profile_list_table'>
