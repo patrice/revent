@@ -35,7 +35,7 @@
       m.zoom = @map_zoom || DaysOfAction::Geo::STATE_ZOOM_LEVELS[:CA] 
       m.controls = [:zoom, :large]
     end
-    @icon = Cartographer::Gicon.new(:name => 'has_reports', :image_url => '/images/marker_green.png', :anchor_x => 11, :anchor_y => 34)
+    @icon = Cartographer::Gicon.new(:name => 'has_reports', :image_url => '/images/marker_green.png', :anchor_x => 10, :anchor_y => 34)
     @map.icons << @icon
     @calendar.events.each do |e|
       marker = nil
