@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   end
 
   def deferred?
-    @deffered
+    @deferred
   end
   attr_accessor :deferred
 
@@ -152,6 +152,7 @@ class User < ActiveRecord::Base
   def full_name
     [first_name, last_name].compact.join(' ')
   end
+  alias name full_name
 
   def address
     [street, street_2, city, state, postal_code].compact.join(', ')
