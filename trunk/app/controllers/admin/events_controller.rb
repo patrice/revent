@@ -36,14 +36,14 @@ class Admin::EventsController < AdminController
     @events = @calendar.events.find(:all, :include => :reports)
     require 'fastercsv'
     string = FasterCSV.generate do |csv|
-      csv << ["Event ID", "Event Name", "City", "State", "Postal_Code", "District", 
-              "Host Name", "Host Email", "Host Phone", "Host Address", 
-              "High Attendees", "Low Attendees", "Average Attendees"]
+      csv << ["Event ID", "Event Name", "Start Date", "Address", "City", "State", 
+       	      "Postal_Code", "District", "Host Name", "Host Email", "Host Phone", 
+	      "Host Address", "High Attendees", "Low Attendees", "Average Attendees"]
       @events.each do |event|
         host = event.host
-        csv << [event.id, event.name, event.city, event.state, event.postal_code, event.district,
-                (host ? host.full_name : nil), (host ? host.email : nil), 
-                (host ? host.phone : nil), (host ? host.address : nil),
+        csv << [event.id, event.name, event.start, event.location, event.city, event.state, 
+		event.postal_code, event.district, (host ? host.full_name : nil), 
+		(host ? host.email : nil), (host ? host.phone : nil), (host ? host.address : nil),
                 event.attendees_high, event.attendees_low, event.attendees_average]
       end
     end
