@@ -4,7 +4,8 @@ class ReportsController < ApplicationController
   cache_sweeper :report_sweeper, :only => [ :create, :update, :destroy, :publish, :unpublish ]
 
   def index
-    @events = @calendar.events
+    @events = @calendar.public_events
+#    @events = @calendar.events.find(:all, :include => :reports, :order => 'reports.id ASC')
   end
 
   def call
