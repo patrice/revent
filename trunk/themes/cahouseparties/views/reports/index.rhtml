@@ -35,21 +35,15 @@
       m.zoom = @map_zoom || DaysOfAction::Geo::STATE_ZOOM_LEVELS[:CA] 
       m.controls = [:zoom, :large]
     end
-    @green_icon = Cartographer::Gicon.new(:name => 'has_reports', :image_url => '/images/green_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
-    @red_icon = Cartographer::Gicon.new(:name => 'has_no_reports', :image_url => '/images/red_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
-    @map.icons << @red_icon
-    @map.icons << @green_icon
+    @icon = Cartographer::Gicon.new(:name => 'has_reports', :image_url => '/images/marker_green.png', :anchor_x => 11, :anchor_y => 34)
+    @map.icons << @icon
     @calendar.events.each do |e|
       marker = nil
-      coordinates = false
-      coordinates = [e.latitude, e.longitude] if e.latitude && e.longitude
-		if coordinates
-			icon = e.reports.any? ? @green_icon : @red_icon
-	      marker = Cartographer::Gmarker.new(
-	       :name => "event_#{e.id}_marker",
-	       :position => coordinates,
-	       :click => "window.location.href='#{url_for :permalink => @calendar.permalink, :controller => 'reports', :action => 'show', :event_id => e.id}';",
-			 :icon => icon.name)
+		if e.latitude && e.longitude
+			options = {:name => "event_#{e.id}_marker", :position => [e.latitude, e.longitude],
+	       			  :click => "window.location.href='#{url_for :permalink => @calendar.permalink, :controller => 'reports', :action => 'show', :event_id => e.id}';"}
+			options.merge!(e.reports.any? ? {:icon => @icon.name} : {})
+	      marker = Cartographer::Gmarker.new(options)
 	      @map.markers << marker if marker
 		end
     end
@@ -62,7 +56,7 @@
   </div>
 </div>
  <div class="national-intro-count">
-   <p><img src="/images/green_dot.png"> Green Dot = Events with Reports  |  <img src="/images/red_dot.png"> Red Dot = Events without Reports</P>
+   <p><img src="/images/marker_green.png"> Green Marker = Events with Reports  |  <img src="http://www.google.com/intl/en_us/mapfiles/markerff.gif"> Red Marker = Events without Reports</P>
 <!-- There are <%= @calendar.events.with_reports.length %> reports from  <%= @calendar.events.count %> scheduled events. -->      
  </div>
  <%= render :partial =>'reports/report_nav' %>                
