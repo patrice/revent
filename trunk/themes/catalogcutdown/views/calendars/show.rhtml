@@ -1,10 +1,10 @@
 <div id="national-container">
   <div id="national-intro">
     <div class="national-intro-text">
-		<p class="title">Get involved in the Dec 4th Day of Action! </p>
+		<p class="title">Get involved!</p>
     </div>
     <div class="national-intro-directions">
-      Click on a state/province or enter your zip/postal code to find a <%= @calendar.name.pluralize %> event near you.  You can also <a href="/dec4/signup">host your own event</a>
+      Click on a state/province or enter your zip/postal code to find a <%= @calendar.name.pluralize %> event near you.  You can also <%= link_to 'host your own event', :permalink => @calendar.permalink, :controller => 'events', :action => 'new' %>
     </div>
   </div>
   <div id="national-map-container">
