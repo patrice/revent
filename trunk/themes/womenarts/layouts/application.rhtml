@@ -18,6 +18,7 @@ body {
   <%= stylesheet_link_tag 'events' %>
   <%= yield :header %>
   <%= Cartographer::Gmap::Header.header_for(request) if @map %>
+   <link rel="shortcut icon" href="http://www.womenarts.org/favicon.ico" type="image/x-icon" />
 
 </head>
 
