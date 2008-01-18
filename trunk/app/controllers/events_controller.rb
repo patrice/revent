@@ -219,18 +219,18 @@ class EventsController < ApplicationController
   end
   
   def international
-    @country_code = params[:id] || "all"
+    @country_code = CountryCodes.find_by_a3(params[:id].upcase)[:numeric] || "all"
     if @country_code == "all"
       @events = Event.paginate(:all, :conditions => ["events.calendar_id = ? AND country_code <> ? AND (private IS NULL OR private = 0)", @calendar.id, Event::USA_COUNTRY_CODE], :order => 'country_code, city, start', :page => params[:page])
     else
       @events = Event.paginate(:all, :conditions => ["events.calendar_id = ? AND country_code = ? AND (private IS NULL OR private = 0)", @calendar.id, @country_code], :order => 'start, city', :page => params[:page])
     end
-    @countries_for_select = CountryCodes::countries_for_select('name', 'numeric').sort.unshift(['All Countries', 'all'])
+    @countries_for_select = CountryCodes::countries_for_select('name', 'a3').map{|a| [a[0],a[1].downcase]}.sort.unshift(['All Countries', 'all'])
   end
   
   def search
     extract_search_params
-    render 'calendars/show' and return unless @events
+    redirect_to(:permalink => @calendar.permalink, :controller => 'calendars', :action => 'show') and return unless @events
     @categories = @calendar.categories.find(:all).map{|c| [c.name.pluralize, c.id]}
     @categories.insert(0, ["All " + @calendar.permalink.capitalize, "all"]) unless @categories.empty?
     @category = @calendar.categories.find(params[:category]) if (params[:category] and not params[:category] == 'all')
@@ -284,13 +284,14 @@ class EventsController < ApplicationController
 
   def by_zip
     case params[:zip]
-      when /^\d{5}(-\d{4})?$/ # US postal code
-        zip = ZipCode.find_by_zip(params[:zip])
-        @map_center = [zip.latitude, zip.longitude] if zip
-      when /^\D\d\D((-| )?\d\D\d)?$/ # Canadian postal code
-        geo = GeoKit::Geocoders::MultiGeocoder.geocode(params[:zip])
-        @map_center = [geo.lat, geo.lng] if geo.success
-      else flash.now[:notice] = "Invalid postal code" and return
+    when /^\d{5}(-\d{4})?$/ # US postal code
+      zip = ZipCode.find_by_zip(params[:zip])
+      @map_center = [zip.latitude, zip.longitude] if zip
+    when /^\D\d\D((-| )?\d\D\d)?$/ # Canadian postal code
+      geo = GeoKit::Geocoders::MultiGeocoder.geocode(params[:zip])
+      @map_center = [geo.lat, geo.lng] if geo.success
+    else 
+      return  # let calling method redirect based on @events 
     end    
     flash.now[:notice] = "Could not find postal code" and return unless @map_center
     @events = @calendar.public_events.find(:all, :origin => @map_center, :within => 50, :order => 'distance')

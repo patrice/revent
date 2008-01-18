@@ -97,14 +97,12 @@ ActionController::Routing::Routes.draw do |map|
   map.ally '/ally/:referrer', :controller => 'events', :action => 'ally', :defaults => {:referrer => ''}
 
   map.zip_search ":permalink/events/search/zip/:zip",  :controller => "events",
-                                        :action => "search",
-                                        :requirements => { :zip => /\d{5}/ }
+                                        :action => "search"
   map.state_search ":permalink/events/search/state/:state", :controller => "events",
                                            :action => "search",
                                            :requirements => { :state => /\w{2}/ }
   map.connect "events/search/zip/:zip",  :controller => "events",
-                                        :action => "search",
-                                        :requirements => { :zip => /\d{5}/ }
+                                        :action => "search"
   map.connect "events/search/state/:state", :controller => "events",
                                            :action => "search",
                                            :requirements => { :state => /\w{2}/ }
