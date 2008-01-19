@@ -219,7 +219,8 @@ class EventsController < ApplicationController
   end
   
   def international
-    @country_code = CountryCodes.find_by_a3(params[:id].upcase)[:numeric] || "all"
+    @country_a3 = params[:id] || 'all'
+    @country_code = CountryCodes.find_by_a3(@country_a3.upcase)[:numeric] || "all"
     if @country_code == "all"
       @events = Event.paginate(:all, :conditions => ["events.calendar_id = ? AND country_code <> ? AND (private IS NULL OR private = 0)", @calendar.id, Event::USA_COUNTRY_CODE], :order => 'country_code, city, start', :page => params[:page])
     else
@@ -286,10 +287,10 @@ class EventsController < ApplicationController
     case params[:zip]
     when /^\d{5}(-\d{4})?$/ # US postal code
       zip = ZipCode.find_by_zip(params[:zip])
-      @map_center = [zip.latitude, zip.longitude] if zip
+      @map_center, @state = [zip.latitude, zip.longitude], zip.state if zip
     when /^\D\d\D((-| )?\d\D\d)?$/ # Canadian postal code
       geo = GeoKit::Geocoders::MultiGeocoder.geocode(params[:zip])
-      @map_center = [geo.lat, geo.lng] if geo.success
+      @map_center, @state = [geo.lat, geo.lng], geo.state if geo.success
     else 
       return  # let calling method redirect based on @events 
     end    
