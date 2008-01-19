@@ -8,10 +8,11 @@ require 'user'
 require 'democracy_in_action_object'
 class UserProcessor
   def self.run
-    Site.current = Site.find 2
     queue = Starling.new 'localhost:22122'
     loop do
-      user = queue.get 'users'
+      data = queue.get 'users'
+      user = data[:user]
+      Site.current = data[:site]
       puts 'processing user ' + user.full_name
       user.deferred = false
       user.sync_to_democracy_in_action

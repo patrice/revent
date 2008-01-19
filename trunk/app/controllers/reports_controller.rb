@@ -110,7 +110,7 @@ class ReportsController < ApplicationController
         attachments.each {|a| a[0].clear_temp_paths}
         queue.set 'reports', {:report => @report, :attachments => attachments, :request => r, :site => Site.current, 
               :flickr_tags => @calendar.flickr_tags(@report.event.id), :flickr_photoset => @calendar.flickr_photoset}
-        queue.set 'users', @user
+        queue.set 'users', {:user => @user, :site => Site.current}
       rescue Exception => e
         attachments.each do |a| 
           a[0].temp_data = a[1]
