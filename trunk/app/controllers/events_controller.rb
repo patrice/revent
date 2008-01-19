@@ -172,7 +172,8 @@ class EventsController < ApplicationController
       @rsvp.save
       flash.now[:notice] = "<b>Thanks for the RSVP!</b><br /> An email with the event details has been sent to the email address you provided."
     end
-    show && render(:action => 'show', :id => @event) && return
+    show  # don't call show on same line as render
+    render(:action => 'show', :id => @event) && return
   end
   
   def reports
