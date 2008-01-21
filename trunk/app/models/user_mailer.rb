@@ -19,9 +19,10 @@ class UserMailer < ActionMailer::Base
     @headers    = {}
   end
 
-  def message(from, event, message)
+  def message(from, event, message, host=nil)
+    host ||= Site.current.host if Site.current && Site.current.host
     @subject    = message[:subject]
-    @body       = {:event => event, :message => message[:body]}
+    @body       = {:event => event, :message => message[:body], :url => url_for(:host => host, :permalink => event.calendar.permalink, :controller => 'events', :action => 'show', :id => event)}
     @recipients = from
     @bcc        = (event.attendees || event.to_democracy_in_action_event.attendees.collect {|a| User.new :email => a.Email}).collect {|a| a.email}.compact.join(',')
     @from       = from

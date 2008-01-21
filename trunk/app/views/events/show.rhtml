@@ -55,11 +55,10 @@
 <% unless @event.directions.blank? %>
 <div id="directions"><b>Directions:</b><br><%= white_list word_wrap(auto_link(@event.directions) {|text| truncate(text, 40) + " " }) %></div>
 <% end -%>
-
-
-
-
-<!--
+<br />
+ 
+<% if @event.attachments.any? -%>
+<B>Attachments From Host:</B><br /><br />
 <% if @event.documents.any? -%>
 <div id="files">
   <b>Files provided by host:<b><br/>
@@ -69,7 +68,6 @@
 </div>
 <% end -%>
 
-
 <% if @event.images.any? %>
 <div id="images">
   <% @event.images.collect do |image| -%>
@@ -77,7 +75,7 @@
   <% end.join('<br/>') -%>
 </div>
 <% end -%>
--->
+<% end -%>
 
   <p align="center" style="font-size: 14px; font-weight: bold;"><a href="#" onclick="window.open('http://democracyinaction.org/dia/api/event/email.jsp?event_KEY=<%= @event.democracy_in_action_key %>','','width=500,height=450'); return false;">Questions? Email the Host</a>
 	</p>

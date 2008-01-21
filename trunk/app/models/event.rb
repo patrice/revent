@@ -30,7 +30,7 @@ class Event < ActiveRecord::Base
   before_validation :geocode
   before_save :set_district
   
-  validates_presence_of :name, :city, :start, :end, :calendar_id, :description, :location 
+  validates_presence_of :name, :city, :start, :end, :calendar_id, :description, :location, :country_code 
   USA_COUNTRY_CODE = 840
   CANADA_COUNTRY_CODE = 124
 
