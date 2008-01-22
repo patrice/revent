@@ -1,6 +1,6 @@
 class Admin::EventsController < AdminController
   def index
-    @calendar = Calendar.find_by_permalink(params[:permalink])
+    @calendar ||= Calendar.find_by_permalink(params[:permalink]) 
     cookies[:permalink] = params[:permalink]
     @events = Event.paginate(:conditions => ['calendar_id = ?', @calendar.id], :order => 'name', :page => params[:page])
   end
@@ -33,15 +33,15 @@ class Admin::EventsController < AdminController
   end
   
   def export
-    @events = @calendar.events.find(:all, :include => :reports)
+    @events = @calendar.events.find(:all, :include => :reports, :order => 'start')
     require 'fastercsv'
     string = FasterCSV.generate do |csv|
-      csv << ["Event ID", "Event Name", "Start Date", "Address", "City", "State", 
-       	      "Postal_Code", "District", "Host Name", "Host Email", "Host Phone", 
+      csv << ["Event ID", "Event Name", "Start Date", "Start Time", "Address", "City", "State", 
+       	      "Postal Code", "District", "Host Name", "Host Email", "Host Phone", 
 	      "Host Address", "High Attendees", "Low Attendees", "Average Attendees"]
       @events.each do |event|
         host = event.host
-        csv << [event.id, event.name, event.start, event.location, event.city, event.state, 
+        csv << [event.id, event.name, event.start.strftime("%m/%d/%Y"), event.start_time, event.location, event.city, event.state, 
 		event.postal_code, event.district, (host ? host.full_name : nil), 
 		(host ? host.email : nil), (host ? host.phone : nil), (host ? host.address : nil),
                 event.attendees_high, event.attendees_low, event.attendees_average]
