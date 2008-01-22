@@ -1,0 +1,311 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+<meta http-equiv="Description" content="After two decades of research, computer modeling and miles of ancient glaciers melting away, most scientists around the world agree that human behavior is causing global warming and it is happening faster than ever anticipated.">
+<meta name="Keywords" content="Everything's Cool Documentary Global Warming">
+<link rel="Search" href="http://everythingscool.org/search.php">
+
+<link rel="icon" href="<%= theme_image_path 'favicon.ico' %>" type="image/x-icon" />
+
+<link rel="stylesheet" type="text/css" href="http://everythingscool.org/styles_default.css" id="default">
+<link rel="stylesheet" type="text/css" href="http://everythingscool.org/custom/styles.css">
+<link rel="stylesheet" type="text/css" href="http://everythingscool.org/custom/ec.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://everythingscool.org/rssfeed.php">
+<title>Everything's Cool&#8212; A Hot Documentary about global warming</title>
+
+
+  <%= javascript_include_tag 'prototype' %>
+  <%= stylesheet_link_tag 'events' %>
+  <%= yield :header %>
+  <%= Cartographer::Gmap::Header.header_for(request) if @map %>
+
+<script language="Javascript"  type="text/javascript" src="http://everythingscool.org/scripts/functions.js"></script>
+
+<script language="JavaScript" type="text/JavaScript">
+<!--
+
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+
+function popUp(URL) {
+day = new Date();
+id = day.getTime();
+eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=400,height=400,left = 540,top = 275');");
+}
+
+	function popUpIK(center,url,winName,width,height,features) {
+		if (center) {
+			x = (640 - width)/2, y = (480 - height)/2;
+			if (screen) {
+				y = (screen.availHeight - height)/2;
+				x = (screen.availWidth - width)/2;
+			}
+			if (screen.availWidth > 1800) { 
+				x = ((screen.availWidth/2) - width)/2; 
+			} 
+		}
+		var newWin = window.open(url,winName,'scrollbars=no,width='+width+',height='+height+',screenX='+x+',screenY='+y+',top='+y+',left='+x+','+features);
+		newWin.focus();
+	}
+
+
+//-->
+</script>
+<script language="Javascript"  type="text/javascript">
+temp_find_youtube_url = function( ) {
+    if (document.forms['Hot Stuff'].elements['custom4'].value )  {
+        return;
+    }
+    matcher = /src=[^>]*youtube.com\/v\/([^>"'&]+)/
+    matches = matcher.exec( document.forms['Hot Stuff'].elements['custom3'].value );
+    youtube_id = matches[1];
+    if (!youtube_id) return;
+    new_url_value = ( "http://img.youtube.com/vi/%s/"+youtube_thumbnail_options[youtube_thumbnail_counter]+".jpg").replace( "%s", youtube_id ); 
+    document.forms['Hot Stuff'].elements['custom4'].value = new_url_value;
+
+    youtube_thumbnail_counter++;
+    if ( youtube_thumbnail_counter >= youtube_thumbnail_options.length ) youtube_thumbnail_counter = 0;
+    $( 'info_block_thumb_close').update( "<img src='"+new_url_value+"'>");
+    $( 'info_block_thumb_close' ).show( );
+}
+
+window.youtube_thumbnail_options = new Array( "default", "1", "2", "3" );
+window.youtube_thumbnail_counter = 0;
+</script>
+<script language="javascript">AC_FL_RunContent = 0;</script>
+<script src="/custom/AC_RunActiveContent.js" language="javascript"></script></head>
+<body bgcolor="#e3f4fc" link="#000000" vlink="#999999" ALINK="#000000" onLoad="MM_preloadImages('http://everythingscool.org/img/hlinks_ro_18.gif','http://everythingscool.org/img/hlinks_ro_19.gif','http://everythingscool.org/img/hlinks_ro_20.gif','http://everythingscool.org/img/hlinks_ro_22.gif','http://everythingscool.org/img/hlinks_ro_23.gif','http://everythingscool.org/img/head_8_ro.gif','http://everythingscool.org/img/nav/ab_makers_ro.gif','http://everythingscool.org/img/nav/ab_message_ro.gif','http://everythingscool.org/img/nav/ab_fc_ro.gif','http://everythingscool.org/img/nav/ab_se_ro.gif','http://everythingscool.org/img/nav/ab_buy_ro.gif','http://everythingscool.org/img/nav/ab_vc_ro.gif','http://everythingscool.org/img/hlinks_active_21.gif')">
+<table width="761" height="448" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr> 
+    <td width="10" height="15" align="left" valign="bottom"><img src="http://everythingscool.org/img/border_01.gif" width="10" height="15"></td>
+    <td colspan="3" align="left" valign="bottom"><img src="http://everythingscool.org/img/border_02.gif" width="738" height="15"></td>
+
+    <td width="13" align="left" valign="bottom"><img src="http://everythingscool.org/img/border_03.gif" width="13" height="15"></td>
+
+  </tr>
+  <tr> 
+    <td align="left" valign="top"><img src="http://everythingscool.org/img/border_04.gif" width="10" height="76"></td>
+    <td colspan="3" align="left" valign="top"><img src="http://everythingscool.org/img/head_7_on.gif" width="87" height="76"><a href="http://everythingscool.org/home.html"><img src="http://everythingscool.org/img/head_8_on.gif" alt="everything's cool" name="Image7" width="339" height="76" border="0" id="Image7" onMouseOver="MM_swapImage('Image7','','http://everythingscool.org/img/head_8_ro.gif',1)" onMouseOut="MM_swapImgRestore()"></a><img src="http://everythingscool.org/img/head_9_on.gif" width="312" height="76"></td>
+    <td width="13" height="76" align="left" valign="top"><img src="http://everythingscool.org/img/border_06.gif" width="13" height="76"></td>
+  </tr>
+  <tr> 
+    <td align="left" valign="top"><img src="http://everythingscool.org/img/border_07.gif" width="10" height="66"></td>
+    <td colspan="3" align="left" valign="top"><a href="http://everythingscool.org/home.htm"><img src="http://everythingscool.org/img/hlinks_on_18.gif" alt="home" name="Image1" width="92" height="66" border="0" id="Image1" onMouseOver="MM_swapImage('Image1','','http://everythingscool.org/img/hlinks_ro_18.gif',1)" onMouseOut="MM_swapImgRestore()"></a><a href="http://everythingscool.org/about.htm"><img src="http://everythingscool.org/img/hlinks_on_19.gif" alt="about the film" name="Image2" width="129" height="66" border="0" id="Image2" onMouseOver="MM_swapImage('Image2','','http://everythingscool.org/img/hlinks_ro_19.gif',1)" onMouseOut="MM_swapImgRestore()"></a><a href="http://www.everythingscool.org/blog" target="_blank"><img src="http://everythingscool.org/img/hlinks_on_20.gif" alt="global warming in the news" name="Image3" width="157" height="66" border="0" id="Image3" onMouseOver="MM_swapImage('Image3','','http://everythingscool.org/img/hlinks_ro_20.gif',1)" onMouseOut="MM_swapImgRestore()"></a><a href="http://everythingscool.org/backyard.php"><img src="http://everythingscool.org/img/hlinks_on_21.gif" alt="global warming in my backyard" name="Image4" width="140" height="66" border="0" id="Image4" onMouseOver="MM_swapImage('Image4','','http://everythingscool.org/img/hlinks_active_21.gif',1)" onMouseOut="MM_swapImgRestore()"></a><a href="http://everythingscool.org/action.htm"><img src="http://everythingscool.org/img/hlinks_on_22.gif" alt="take action" name="Image5" width="109" height="66" border="0" id="Image5" onMouseOver="MM_swapImage('Image5','','http://everythingscool.org/img/hlinks_ro_22.gif',1)" onMouseOut="MM_swapImgRestore()"></a><a href="http://everythingscool.org/hotstuff.htm"><img src="http://everythingscool.org/img/hlinks_on_23.gif" alt="hot stuff" name="Image6" width="111" height="66" border="0" id="Image6" onMouseOver="MM_swapImage('Image6','','http://everythingscool.org/img/hlinks_ro_23.gif',1)" onMouseOut="MM_swapImgRestore()"></a></td>
+
+    <td height="66" align="left" valign="top"><img src="http://everythingscool.org/img/border_09.gif" width="13" height="66"></td>
+  </tr>
+  <tr> 
+    <td align="left" valign="top" class = "ec_border">&nbsp;</td>
+    <td width="174" align="left" valign="top" bgcolor="#FFFFFF">
+    <div class="left_nav_parent">
+    <div class="nav_block" id="_nav"><div class="left_nav_wrapper"><table cellpadding="0" cellspacing="0"><tr><td class="subside" valign="top"></td></tr>
+
+<tr><td>
+<table width="100%" border="0" cellpadding="2" cellspacing="0" ><tr><td class="sidelist" valigin="top"><a href="article.php?id=39" class="sidelist">Hot Efforts</a></td></tr></table></td></tr></table></div></div>
+
+<div class="nav_element nav_position_2" id="nav_id_205"><div class="left_nav_wrapper"><table cellpadding="0" cellspacing="0"><tr><td class="subside" valign="top"></td></tr>
+
+<tr><td>
+<table width="100%" border="0" cellpadding="2" cellspacing="0" ><tr><td class="sidelist" valigin="top"><div style="text-align:center; width: 113px;"><a href="http://flashandburn.net/youtubeBadge/workingfilmsdocs/goto"><img border="0" src="http://flashandburn.net/youtubeBadge/workingfilmsdocs/logo:1-color:000000/recent.png" width="113"></a><br /></div></td></tr></table></td></tr></table></div></div>
+<div class="nav_element nav_position_3" id="nav_id_204"><div class="left_nav_wrapper"><table cellpadding="0" cellspacing="0"><tr><td class="subside" valign="top"></td></tr>
+
+<tr><td>
+<table width="100%" border="0" cellpadding="2" cellspacing="0" ><tr><td class="sidelist" valigin="top"><!-- Start of Flickr Badge -->
+<style type="text/css">
+.zg_div {margin:0px 5px 5px 0px; width:117px;}
+.zg_div_inner { color:#66FFFF; text-align:center; font-family:arial, helvetica; font-size:11px;}
+.zg_div a, .zg_div a:hover, .zg_div a:visited {color:#CC0033; background:inherit !important; text-decoration:none !important;}
+</style>
+<script type="text/javascript">
+zg_insert_badge = function() {
+var zg_bg_color = 'ffffff';
+var zgi_url = 'http://www.flickr.com/apps/badge/badge_iframe.gne?zg_bg_color='+zg_bg_color+'&zg_tags=everythingscool&zg_tag_mode=any';
+document.write('<iframe style="background-color:#'+zg_bg_color+'; border-color:#'+zg_bg_color+'; border:none;" width="113" height="151" frameborder="0" scrolling="no" src="'+zgi_url+'" title="Flickr Badge"><\/iframe>');
+}
+zg_toggleWhat = function() {
+document.getElementById('zg_whatdiv').style.display = (document.getElementById('zg_whatdiv').style.display != 'none') ? 'none' : 'block';
+document.getElementById('zg_whatlink').style.display = (document.getElementById('zg_whatdiv').style.display != 'none') ? 'none' : 'block';
+return false;
+}
+</script>
+<div class="zg_div"><div class="zg_div_inner">
+<script type="text/javascript">zg_insert_badge();</script>
+<div id="zg_whatdiv">This is a Flickr badge showing public photos from Flickr tagged with <a href="http://www.flickr.com/photos/tags/everythingscool">everythingscool</a>. Make your own badge <a href="http://www.flickr.com/badge.gne">here</a>.</div>
+
+<script type="text/javascript">if (document.getElementById) document.getElementById('zg_whatdiv').style.display = 'none';</script>
+</div>
+</div>
+<!-- End of Flickr Badge --></td></tr></table></td></tr></table></div></div>
+<div class="nav_element nav_position_5" id="nav_id_203"><div class="left_nav_wrapper"><table cellpadding="0" cellspacing="0"><tr><td class="subside" valign="top"></td></tr>
+
+<tr><td>
+<table width="100%" border="0" cellpadding="2" cellspacing="0" ><tr><td class="sidelist" valigin="top"><br>
+<div >
+<a class="dia_signup_box" href="javascript:popUpIK(true,'http://www.democracyinaction.org/dia/organizationsORG/workingfilms/signUp.jsp?key=1901&t=ECSendTemplate.dwt','window',700,800,'scrollbars,status,')">
+Get on the Email List
+</a>
+</div>
+<br>
+<div >
+<a class="dia_signup_box" href="javascript:popUpIK(true,'http://www.democracyinaction.org/dia/organizationsORG/workingfilms/tellafriend.jsp?tell_a_friend_KEY=1454&t=ECSendTemplate.dwt','window',700,800,'scrollbars,status,')">
+Email this site to a Friend
+</a>
+</div></td></tr></table></td></tr></table></div></div>
+<div class="nav_element nav_position_6" id="nav_id_54"><div class="left_nav_wrapper"><table cellpadding="0" cellspacing="0"><tr><td class="subside" valign="top"><a></td></tr>
+
+<tr><td>
+<table width="100%" border="0" cellpadding="2" cellspacing="0" ><tr><td class="sidelist" valigin="top"><div class="features_wrapper">
+
+  
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr> 
+    <td width="15" valign="middle"><img src="http://everythingscool.org/img/email.gif" align="top"></td>
+    <td valign="middle"><a href="javascript:openform('http://everythingscool.org/mailto.php')" class="sidelist">E-Mail 
+      This Page</a></td>
+  </tr>
+
+  <tr> 
+    <td width="15" valign="middle"><img src="http://everythingscool.org/img/print.gif" align="top"></td>
+    <td valign="middle"><a href="http://everythingscool.org/userdata_display.php?modin=51&printsafe=1" class="sidelist">Printer 
+      Safe Version</a></td>
+  </tr> 
+  
+
+  <tr>
+    <td valign="middle"><img src="http://everythingscool.org/img/sitemap.gif" width="21" height="19"></td>
+    <td valign="middle"><a href="http://everythingscool.org/sitemap.php" class="sidelist">Site Map</a></td>
+  </tr>
+
+ 
+</table>
+
+
+
+</div></td></tr></table></td></tr></table></div></div>
+</div>
+
+    </div>
+    </td>
+    <td width="11" align="left" valign="top" bgcolor="#FFFFFF" class = "ec_vdash">&nbsp;</td>
+    <td width="566" align="left" valign="top" bgcolor="#FFFFFF" class = "ec_maincopy">
+
+
+		  <p class="maincopy">    <% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
+		      <% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
+			          <%= yield %>
+
+		     <br>
+		</P>
+
+	    </td>
+
+	    <td align="left" valign="top" class = "ec_borderright">&nbsp;</td>
+	  </tr>
+	  <tr> 
+	    <td align="left" valign="top"><img src="http://everythingscool.org/img/border_13s.gif" width="10" height="20"></td>
+	    <td height="20" colspan="3"><img src="http://everythingscool.org/img/border_14.gif" width="738" height="20"></td>
+	    <td align="left" valign="top"><img src="http://everythingscool.org/img/border_15s.gif" width="13" height="20"></td>
+
+	  </tr>
+	  <tr> 
+	    <td align="left" valign="top" class = "ec_border">&nbsp;</td>
+	    <td colspan="3" bgcolor="#7b6133"><div align="center" class = "ec_footer"><a href="http://everythingscool.org/home.htm" class = "ec_footer">Home</a> 
+	        | <a href="http://everythingscool.org/about.htm" class = "ec_footer">About the Film</a> | <a href="http://everythingscool.org/article.php?id=34" class = "ec_footer">About 
+	        the Filmmakers</a> | <a href="http://everythingscool.org/article.php?id=35" class = "ec_footer">Filmmaker's 
+	        Message</a> | <a href="http://everythingscool.org/clips.htm" class = "ec_footer">Film Clips</a> | <a href="http://everythingscool.org/article.php?id=37" class = "ec_footer">Film 
+	        Credits</a> | <a href="http://everythingscool.org/action.htm" class = "ec_footer">Take Action</a> <br>
+
+	        <a href="http://events.everythingscool.org" class = "ec_footer">Screenings 
+	        &amp; Events</a> | <a href="http://www.everythingscool.org/blog" target="_blank" class = "ec_footer">Everything's 
+	        Cooler Blog</a> | <a href="http://everythingscool.org/backyard.php" class = "ec_footer">Global Warming 
+	        in My Backyard</a> | <a href="http://everythingscool.org/article.php?id=38" class = "ec_footer">Buy 
+	        the DVD</a> | <a href="http://everythingscool.org/hotstuff.htm" class = "ec_footer">Hot Stuff</a> <br>
+
+	        <a href="http://everythingscool.org/javascript:popUpIK(true,'http://www.democracyinaction.org/dia/organizationsORG/workingfilms/tellafriend.jsp?tell_a_friend_KEY=1454&t=ECSendTemplate.dwt','window',700,800,'scrollbars,status,')" class = "ec_footer">Email 
+	        this Site to a Friend</a> | <a href="http://everythingscool.org/press.htm" class = "ec_footer">Press</a> 
+	        |<a href="http://everythingscool.org/javascript:popUpIK(true,'http://www.democracyinaction.org/dia/organizationsORG/workingfilms/signUp.jsp?key=1901&t=ECSendTemplate.dwt','window',700,850,'scrollbars,status,')" class = "ec_footer"> 
+	        Get on the Email List </a>| <a href="http://everythingscool.org/javascript:popUpIK(true,'site.htm','window',800,700,'scrollbars,status,')" class = "ec_footer">Website 
+	        Credits </a> | <a href="http://everythingscool.org/contactus.php" class = "ec_footer">Contact 
+	        Us</a><a href="http://everythingscool.org/javascript:popUpIK(true,'http://www.democracyinaction.org/dia/organizationsORG/workingfilms/signUp.jsp?key=1901&t=ECSendTemplate.dwt','window',700,850,'scrollbars,status,')" class = "ec_footer"> 
+	        </a>| <a href="http://everythingscool.org/privacy_policy.php" class = "ec_footer">Privacy/Terms of Use 
+	        Policy</a></div>
+	<br />	
+	<table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
+
+	  <tr>
+
+	    <td valign="top" width="100" class = "ec_bottom">&copy; 2007</td>
+	    <td valign="top" class = "ec_bottom" width="130"> <a href="http://www.workingfilms.org" target="_blank"><img src="http://everythingscool.org/img/WF-logo-3.gif" border="0"></a></td>
+	    <td valign="top" class = "ec_bottom" width="150"><a href="http://everythingscool.org/article.php?id=38" target="_blank"><img src="http://everythingscool.org/img/EC-Official-DVD-Cover2.gif" border="0"></a></td>
+	    <td  valign="top" width="120" align="left" class="ec_bottom">
+	<div style="padding-bottom:5px;padding-left:15px">
+	<img src="http://everythingscool.org/img/myspace_icon.gif"/>
+	<a href="http://www.myspace.com/everythingscoolfilm">MySpace</a>
+	<br/>
+	<img src="http://everythingscool.org/img/youtube_icon.gif"/>
+	<a href="http://www.youtube.com/workingfilmsdocs">YouTube</a>
+	<br/>
+	<img src="http://everythingscool.org/img/flickr_icon.gif"/>
+	<a href="http://www.flickr.com/photos/workingfilms">Flickr</a>
+	<br/>
+	</div>
+	<div style="padding-left:15px">
+
+	<img src="http://everythingscool.org/img/delicious.ico"/>
+	<a href="http://del.icio.us/post?url=http://everythingscool.org&title=Everythings+Cool">del.icio.us</a>
+	<br/>
+	<img src="http://everythingscool.org/img/stumbleupon.ico"/>
+	<a href="http://www.stumbleupon.com/submit?url=http://everythingscool.org&title=Everythings+Cool">stumbleUpon</a>
+	<br/>
+	<img src="http://everythingscool.org/img/reddit.ico"/>
+	<a href="http://reddit.com/submit?url=http://everythingscool.org&title=Everythings+Cool">Reddit</a>
+	</div>
+	</td><td valign="top">
+	<div align="right" style="padding:5px">
+	<a class="DIA_Donate_Btn" href="http://everythingscool.org/https://salsa.democracyinaction.org/o/1047/t/162/shop/custom.jsp?donate_page_KEY=2444">DONATE</a>
+	</div>
+
+	<div align="left" class = "ec_bottom" style="padding-top:5px">Make a tax-free donation to the funding of this film &amp; outreach program.</div></td>
+		<td valign="top">
+	</td>
+
+	    <td width="15"></td> 
+	  </tr>
+	</table>
+
+
+		</td>
+
+	    <td height="51" align="left" valign="top" class = "ec_borderright">&nbsp;</td>
+	  </tr>
+	  <tr> 
+	    <td align="left" valign="top"><img src="http://everythingscool.org/img/border_19s.gif" width="10" height="19"></td>
+	    <td colspan="3" align="left" valign="top"><img src="http://everythingscool.org/img/border_20.gif" width="738" height="19"></td>
+	    <td height="19" align="left" valign="top"><img src="http://everythingscool.org/img/border_21s.gif" width="13" height="19"></td>
+	  </tr>
+	</table>
+
+	<p>&nbsp;</p>
+	</body>
