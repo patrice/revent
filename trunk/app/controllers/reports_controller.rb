@@ -4,7 +4,7 @@ class ReportsController < ApplicationController
   cache_sweeper :report_sweeper, :only => [ :create, :update, :destroy, :publish, :unpublish ]
 
   def index
-    @events = @calendar.public_events
+    @events = @calendar.public_events.find(:all, :include => :reports, :conditions => ["latitude <> 0 AND longitude <> 0 AND country_code = ?", Event::COUNTRY_CODE_USA])
 #    @events = @calendar.events.find(:all, :include => :reports, :order => 'reports.id ASC')
   end
 
@@ -39,7 +39,7 @@ class ReportsController < ApplicationController
 
   def flashmap
     # all events should have lat/lng or fallback lat/lng; remove ones that don't just in case
-    @events = @calendar.events.find(:all, :conditions => "(latitude <> 0 AND longitude <> 0)")
+    @events = @calendar.events.find(:all, :conditions => ["(latitude <> 0 AND longitude <> 0 AND country_code = ?)", Event::COUNTRY_CODE_USA])
     respond_to do |format|
       format.xml { render :layout => false }
     end

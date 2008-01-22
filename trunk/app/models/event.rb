@@ -31,8 +31,8 @@ class Event < ActiveRecord::Base
   before_save :set_district
   
   validates_presence_of :name, :city, :start, :end, :calendar_id, :description, :location, :country_code 
-  USA_COUNTRY_CODE = 840
-  CANADA_COUNTRY_CODE = 124
+  COUNTRY_CODE_USA = CountryCodes.find_by_name("United States of America")[:numeric] 
+  COUNTRY_CODE_CANADA = CountryCodes.find_by_name("Canada")[:numeric] 
 
   def validate
     usa_valid_states = DemocracyInAction::Helpers.state_options_for_select.map{|a| a[1]}
@@ -54,6 +54,7 @@ class Event < ActiveRecord::Base
         errors.add :state, "is not a valid Canadian province"
       end
     end
+    self.state = nil unless self.in_usa? or self.canada?
     if event_start = self.calendar.event_start
       if event_end = self.calendar.event_end
         if self.start && self.start < event_start.at_beginning_of_day
@@ -70,7 +71,7 @@ class Event < ActiveRecord::Base
         end
       end
     end
-    unless (self.latitude and self.longitude) or (country_code != USA_COUNTRY_CODE and country_code != CANADA_COUNTRY_CODE)
+    unless (self.latitude and self.longitude) or (country_code != COUNTRY_CODE_USA and country_code != COUNTRY_CODE_CANADA)
       errors.add_to_base "Not enough information provided to place event on a map. Please give us at minimum a valid postal code."
     end
   end
@@ -170,7 +171,7 @@ class Event < ActiveRecord::Base
     
   def set_district
     # don't lookup U.S. congressional district for non-us postal_codes
-    return unless (country_code == USA_COUNTRY_CODE and postal_code =~ /^\d{5}(-\d{4})?$/)
+    return unless (country_code == COUNTRY_CODE_USA and postal_code =~ /^\d{5}(-\d{4})?$/)
     
     # get congressional district based on postal code
     dia_warehouse = "http://warehouse.democracyinaction.org/dia/api/warehouse/append.jsp?id=radicaldesigns".freeze
@@ -205,11 +206,11 @@ class Event < ActiveRecord::Base
   end
   
   def in_usa?
-    country_code == USA_COUNTRY_CODE
+    country_code == COUNTRY_CODE_USA
   end
 
   def in_canada?
-    country_code == CANADA_COUNTRY_CODE
+    country_code == COUNTRY_CODE_CANADA
   end
   
   def country
@@ -286,7 +287,7 @@ class Event < ActiveRecord::Base
 private
   def geocode
     # only geocode US or Canadian events
-    return unless (country_code == USA_COUNTRY_CODE or country_code == CANADA_COUNTRY_CODE)
+    return unless (country_code == COUNTRY_CODE_USA or country_code == COUNTRY_CODE_CANADA)
     if (geo = GeoKit::Geocoders::MultiGeocoder.geocode(address_for_geocode)).success
       self.latitude, self.longitude = geo.lat, geo.lng
       self.precision = geo.precision

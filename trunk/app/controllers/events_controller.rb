@@ -171,6 +171,8 @@ class EventsController < ApplicationController
       @rsvp.user_id = @user.id
       @rsvp.save
       flash.now[:notice] = "<b>Thanks for the RSVP!</b><br /> An email with the event details has been sent to the email address you provided."
+    else
+      flash.now[:notice] = 'There was a problem registering your RSVP.'       
     end
     show  # don't call show on same line as render
     render(:action => 'show', :id => @event) && return
@@ -223,7 +225,7 @@ class EventsController < ApplicationController
     @country_a3 = params[:id] || 'all'
     @country_code = CountryCodes.find_by_a3(@country_a3.upcase)[:numeric] || "all"
     if @country_code == "all"
-      @events = Event.paginate(:all, :conditions => ["events.calendar_id = ? AND country_code <> ? AND (private IS NULL OR private = 0)", @calendar.id, Event::USA_COUNTRY_CODE], :order => 'country_code, city, start', :page => params[:page])
+      @events = Event.paginate(:all, :conditions => ["events.calendar_id = ? AND country_code <> ? AND (private IS NULL OR private = 0)", @calendar.id, Event::COUNTRY_CODE_USA], :order => 'country_code, city, start', :page => params[:page])
     else
       @events = Event.paginate(:all, :conditions => ["events.calendar_id = ? AND country_code = ? AND (private IS NULL OR private = 0)", @calendar.id, @country_code], :order => 'start, city', :page => params[:page])
     end

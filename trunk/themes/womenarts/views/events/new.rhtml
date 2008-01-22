@@ -102,7 +102,7 @@ end
 		        <td  class="dia_field_name">
 		          <div align="left">*Country:</div>
 		        </td>
-            <td><%= user.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort, :selected => ((@user && @user.country_code) || Event::USA_COUNTRY_CODE), :title => "Please choose your event's country", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventCountry" %></td>
+            <td><%= user.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort, :selected => ((@user && @user.country_code) || Event::COUNTRY_CODE_USA), :title => "Please choose your event's country", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventCountry" %></td>
 
 		      </tr>
             <tr>
@@ -204,7 +204,7 @@ end
         <td  class="dia_field_name">
           <div align="left">*Country:</div>
         </td>
-        <td><%= f.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort,  :selected => (@event.country_code || USA_COUNTRY_CODE), :title => "Please choose your event's country", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventCountry" %></td>
+        <td><%= f.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort,  :selected => (@event.country_code || COUNTRY_CODE_USA), :title => "Please choose your event's country", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventCountry" %></td>
       </tr>
               <td valign="top" colspan=2>
               Privacy and Searches:<br>
