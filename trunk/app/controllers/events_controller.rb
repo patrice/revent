@@ -57,7 +57,7 @@ class EventsController < ApplicationController
       end
       format.xml do 
         @events = @calendar.public_events.find(:all, :conditions => ["end >= ?", Time.now], :order => "start, state")
-        render :layout => false 
+        render :action => 'upcoming.rxml', :layout => false
       end
     end
 #    cache_page nil, :permalink => params[:permalink]
