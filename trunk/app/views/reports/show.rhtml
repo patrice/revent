@@ -18,14 +18,11 @@
  
   <div class="report-nav">      
     <% if @event.reports.slideshow? -%>   
-    <%= link_to(image_tag("/themes/stepitup/images/report_slideshow.jpg", {:alt => 'Watch A Slideshow of Pictures From This Event', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "slideshow", :id => @event.id} ) %>
+    	<%= link_to(image_tag("report_slideshow.jpg", {:alt => 'Watch A Slideshow of Pictures From This Event', :border => 0, :class=>"report_bt"}), {:controller => "reports", :action => "slideshow", :id => @event} ) %>
     <% end -%>
-    
-    <%= link_to(image_tag("/themes/stepitup/images/report_add.jpg", {:alt => 'Add Your Report of the Event', :border => 0, :class=>"report_bt"}), { :permalink => @calendar.permalink, :controller => "reports", :action => "new", :id => @event.id}) %>
-    
-    <%= link_to(image_tag("/themes/stepitup/images/report_share.jpg", {:alt => 'Share/Save this Report', :border => 0, :class=>"report_bt"}), {:controller => 'reports', :action => 'share', :id => @event.id }, :class => 'lbOn') %>
-  
-    <%= link_to(image_tag("/themes/stepitup/images/report_all.jpg", {:alt => 'See All Event Reports', :border => 0, :class=>"report_bt"}), {  :permalink => @calendar.permalink, :controller => 'reports', :action => 'list' }) %>
+    <%= link_to(image_tag("report_add.jpg", {:alt => 'Add Your Report of the Event', :border => 0, :class=>"report_bt"}), { :permalink => @calendar.permalink, :controller => "reports", :action => "new", :id => @event}) %>    
+    <%= link_to(image_tag("report_share.jpg", {:alt => 'Share/Save this Report', :border => 0, :class=>"report_bt"}), {:controller => 'reports', :action => 'share', :id => @event }, :class => 'lbOn') %>  
+    <%= link_to(image_tag("report_all.jpg", {:alt => 'See All Event Reports', :border => 0, :class=>"report_bt"}), {  :permalink => @calendar.permalink, :controller => 'reports', :action => 'list' }) %>
 
   </div>
 </div>
