@@ -4,7 +4,7 @@ class EventsController < ApplicationController
 #  access_control [:edit, :update, :destroy, :create] => 'admin'
   include DaysOfAction::Geo
 
-  caches_page :index, :total, :by_state, :show, :simple, :international, :upcoming
+  caches_page :index, :total, :by_state, :show, :simple, :international #, :upcoming
 #  before_filter(:only => :show) {|c| c.request.env["HTTP_IF_MODIFIED_SINCE"] = nil} #don't 304
 #  caches_action :show
 #  def action_fragment_key(options)
@@ -57,7 +57,9 @@ class EventsController < ApplicationController
       end
       format.xml do 
         @events = @calendar.public_events.find(:all, :conditions => ["end >= ?", Time.now], :order => "start, state")
-        render :action => 'upcoming.rxml', :layout => false
+#        render :file => 'events/upcoming.rxml', :use_full_path => true, :layout => false
+#        render :template => 'events/upcoming.rxml', :layout => false
+        render :action => 'upcoming.rxml', :use_full_path => false, :layout => false
       end
     end
 #    cache_page nil, :permalink => params[:permalink]
@@ -89,6 +91,7 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+    @categories = @calendar.categories.map {|c| [c.name, c.id] }
     if current_theme
       self.class.ignore_missing_templates = true #themes only
       if params[:form]
