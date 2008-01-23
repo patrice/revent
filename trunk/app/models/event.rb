@@ -3,7 +3,7 @@ class Event < ActiveRecord::Base
   belongs_to :host, :class_name => 'User', :foreign_key => 'host_id'
   has_many :reports, :conditions => "reports.status = '#{Report::PUBLISHED}'", :include => :attachments, :order => 'reports.position', :dependent => :destroy do
     def slideshow?
-      !proxy_target.collect {|r| r.attachments}.flatten.empty?
+      Site.current.flickr_user_id && proxy_target.collect {|r| r.attachments}.flatten.any?
     end
     
     def attachments

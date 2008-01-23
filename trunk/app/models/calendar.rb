@@ -44,12 +44,13 @@ class Calendar < ActiveRecord::Base
 
   def flickr_tags(event_id = nil)
     tags = []
-    if tag = flickr_tag
-      tags << tag.to_s
-      tags << (tag.to_s + event_id.to_s) if event_id
+    if flickr_tag
+      tags << flickr_tag.to_s
+      tags << (flickr_tag.to_s + event_id.to_s) if event_id
       tags << flickr_additional_tags.split(',') if flickr_additional_tags
+      tags.flatten
     end
-    tags.flatten
+    tags
   end
 
   #XXX

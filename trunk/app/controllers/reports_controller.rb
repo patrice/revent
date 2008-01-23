@@ -202,4 +202,11 @@ class ReportsController < ApplicationController
     end
     render :action => 'list'
   end
+
+  def slideshow
+    if @flickr_user_id = Site.current.flickr_user_id
+      @slideshow_url = "http://www.flickr.com/slideShow/index.gne?user_id=#{@flickr_user_id}"
+      @slideshow_url += "&tags=#{@calendar.flickr_tag}#{params[:id]}" if @calendar.flickr_tags
+    end
+  end
 end
