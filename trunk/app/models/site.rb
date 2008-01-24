@@ -43,9 +43,11 @@ class Site < ActiveRecord::Base
   end
   
   def flickr_user_id
-    site_id = self.id.to_s
-    flickr_config_file = File.join(RAILS_ROOT,'sites',site_id,'config','flickr',RAILS_ENV,'flickr.yml')
+    site_id = self.id
+    flickr_config_file = File.join(RAILS_ROOT,'sites',site_id.to_s,'config','flickr',RAILS_ENV,'flickr.yml')
     return nil if not File.exist?(flickr_config_file)
+    @@flickr[site_id] ||= {}
+    @@flickr[site_id][:config] ||= YAML.load_file(flickr_config_file)    
     @@flickr[site_id][:config] ||= YAML.load_file(flickr_config_file)    
     @@flickr[site_id][:config]['user_id']
   end
