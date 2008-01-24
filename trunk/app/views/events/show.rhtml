@@ -71,7 +71,11 @@
 <% if @event.images.any? %>
 <div id="images">
   <% @event.images.collect do |image| -%>
-  <%= image_tag image.public_filename(:display) %>
+  <%= image_tag image.public_filename(:display) %><br />
+    <% if image.caption %>
+      <%= image.caption %><br />
+    <% end -%>
+    <br />
   <% end.join('<br/>') -%>
 </div>
 <% end -%>
