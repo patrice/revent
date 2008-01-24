@@ -2,7 +2,7 @@ ENV['RAILS_ENV'] = ENV['RAILS_ENV'] || $RAILS_ENV || 'production'
 require File.expand_path(File.dirname(__FILE__) + '/../config/boot')
 require File.expand_path(File.dirname(__FILE__) + '/../config/environment')
 require File.expand_path(File.dirname(__FILE__) + '/../lib/upload_to_flickr')
-ActiveRecord::Base.allow_concurrency = true
+#ActiveRecord::Base.allow_concurrency = true #hopefully the reconnect trick will work intead
 
 require 'starling_client'
 require 'press_link'
@@ -16,6 +16,18 @@ class ReportProcessor
     queue = Starling.new 'localhost:22122'
     loop do
       data = queue.get 'reports'
+      begin
+        Site.count #see if our connection is still ok
+      rescue ActiveRecord::StatementInvalid
+        # Our database connection has gone away, reconnect and retry this method
+	ActiveRecord::Base.connection.reconnect!
+        unless @retried_connection
+	  @retried_connection = true
+	  retry
+	end
+	raise
+      end
+
       report = data[:report]
       attachments = data[:attachments]
       request = data[:request]
