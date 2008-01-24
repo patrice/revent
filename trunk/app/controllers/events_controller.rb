@@ -43,7 +43,7 @@ class EventsController < ApplicationController
   end
 
   def flashmap
-    @events = @calendar.public_events.find(:all, :conditions => "(latitude <> 0 AND longitude <> 0)")
+    @events = @calendar.public_events.find(:all, :conditions => ["(latitude <> 0 AND longitude <> 0) AND state IS NOT NULL AND country_code = ?", Event::COUNTRY_CODE_USA])
     respond_to do |format|
       format.xml { render :layout => false }
     end

@@ -22,7 +22,7 @@ class CalendarsController < ApplicationController
   end
 
   def show
-    @events = @calendar.public_events.find(:all, :conditions => "(latitude <> 0 AND longitude <> 0) AND state <> 'none'")
+    # event query is in events_controller#flashmap or inline in themes/#{theme}/views/calendars/show.rhtml
     render :action => 'show'
   end
 end
