@@ -81,15 +81,14 @@ end
             <tr>
               <td valign="top" class="dia_field_name">*City</td>
               <td valign="top"><%= user.text_field "city", :id => "dataCity", :maxlength => "32", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your city", :class => "required inputStyle" %></td>
-              
             </tr>
-	    <tr><td colspan="2"><span style="display: block; padding-top: 6px; width: 280px; font-size: 90%">State and Postal Code not required for events outside the United States.</span></td></tr>
-            <tr>
-            
+				<tr>
+					<td colspan="2"><span style="display: block; padding-top: 6px; width: 380px; font-size: 90%;">
+						&nbsp;<em>State and Postal Code not required for events outside the United States.</em>
+					</span></td>
+				</tr>
               <td valign="top"  class="dia_field_name">*State/Region</td>
               <td><%= user.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true, :include_provinces=>true), {}, :title => "Please select your state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataState" %>
-              
-     
               </td>
               
             </tr>
@@ -134,35 +133,46 @@ end
       <div id="eventFields" class="eventFields">
         <table class="dia_field">
           <tbody>
-
-                      <tr valign="top">
+            <tr valign="top">
               <td valign="top"  class="dia_field_name">
                 <div align="left">*Event Name:</div>
               </td>
               <td valign="top">
                 <%= f.text_field "name", :id => "dataEvent_Name", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your event's name", :class => "required inputStyle" %>
-              </td>
-              
+              </td>  
             </tr>
-            
-	
-             
-            <tr>
-            
-              <td valign="top"  class="dia_field_name" colspan="2">
-                <div align="left">*Description:<br />                  <%= f.text_area "description", :title => "Please enter your event's description", :class => "required", :rows => "7", :cols => "45", :style => "background-color: #ebd897;", :id => "dataDescription" %>
-                </div>
+            <tr valign="top">
+              <td valign="top"  class="dia_field_name">
+                <div align="left">*Description:</div>
               </td>
-             
-            </tr>
-            <tr>
-              <td valign="top"  class="dia_field_name" colspan="2">
-                <div align="left">*Address:<br />
-                  <%= f.text_area 'location', :title => "Please enter your event's address", :class => "required", :rows => "5", :cols => "45", :style => "background-color: #ebd897;" %>
-                </div>
+              <td valign="top">
+                &nbsp;<%= f.text_area "description", :rows => "8", :cols => "25", :style => "background-color: #ebd897;", :class => "required", :title => "Please enter directions to your event" %>
+              </td>  
+            </tr>            
+				<tr>
+					<td></td>
+					<td colspan="2"><span style="display: block; padding-top: 6px; width: 260px; font-size: 90%;">
+						&nbsp;<em>Street address will be used to map your event.</em>
+					</span></td>
+				</tr>
+            <tr valign="top">
+              <td valign="top"  class="dia_field_name">
+                <div align="left">*Street Address:</div>
               </td>
-            
+              <td valign="top">
+					 <div id="event_address">
+                  <%= f.text_field "location", :maxlength => "256", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your event's address", :class => "required inputStyle" %>
+					 </div>
+              </td>  
             </tr>
+            <tr valign="top">
+              <td valign="top"  class="dia_field_name">
+                <div align="left">*Additional Directions:</div>
+              </td>
+              <td valign="top">
+                &nbsp;<%= f.text_area "description", :rows => "3", :cols => "25", :style => "background-color: #ebd897;", :class => "required", :title => "Please enter directions to your event" %>
+              </td>  
+            </tr>            
             <tr>
               <td valign="top" class="dia_field_name">
                 <div align="left">*City:</div>
@@ -171,8 +181,8 @@ end
               <%= f.text_field "city", :id => "dataEventCity", :maxlength => "128", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your event's city", :class => "required inputStyle" %></td>
              
             </tr>
-<tr><td colspan="2"><span style="display: block; padding-top: 6px; width: 280px; font-size: 90%">State and Postal Code not required for events outside the United States.</span></td></tr>
-
+				<tr><td colspan="2"><span style="display: block; padding-top: 10px; width: 380px; font-size: 90%;">
+					<em>State and Postal Code not required for events outside the United States.</em></span></td></tr>
             <tr>
               <td valign="top"  class="dia_field_name">
                 <div align="left">*State:</div>
@@ -212,17 +222,7 @@ end
                 <%= f.radio_button "private", "false", :id => "dataEvent_Private", :title => "Please enter your event's public status",  :class => "inputStyle"  %> Please make this event public, so anyone may search for it.<br>
                  <%= f.radio_button "private", "true",  :id => "dataEvent_Private", :title => "Please enter your event's public status", :class => "inputStyle" %> Please make this event private, so it will not show up in any public listings.
               </td>
-            
             </tr>
-			
-            </tr>
-            <tr>
-              <td valign="top"  class="dia_field_name" colspan="2">
-                <div align="left">*Directions<br />
-                  <%= f.text_area "directions", :style => "background-color: #ebd897;", :rows => "5", :cols => "45", :class => "required", :title => "Please enter directions to your event" %>
-                </div>
-              </td>
-              
             </tr>
             <tr>
               <td valign="top"  class="dia_field_name">
