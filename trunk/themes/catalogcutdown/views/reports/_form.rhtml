@@ -1,0 +1,116 @@
+<%= error_messages_for 'report', 'user' %>
+*required fields
+<!--[form:report]-->
+
+<p><label for="event_id">*Select Your Event</label><br/>
+<%= f.select 'event_id', @calendar.events.find(:all, :order=>"state,city").collect {|e| ["#{e.state} - #{e.city}: #{truncate e.name,30}", e.id]}, :include_blank=>true%><br />
+
+<em>Don't see your event in the drop-down box? Add it <%= link_to 'here', signup_url %></em>  
+
+
+<% fields_for :user, @user do |user| %>
+
+	<p><label for="user_first_name">*First Name:</label><br/>
+	<%= user.text_field 'first_name', :title => "Please enter your first name" %></p>
+	
+	<p><label for="user_last_name">*Last Name:</label><br/>
+	<%= user.text_field 'last_name', :title => "Please enter your last name" %></p>
+
+	<p><label for="user_email">*Your Email Address (will not be public):</label><br/>
+	<%= user.text_field 'email', :title => "Please enter a valid email address" %></p>
+	
+	<% if @calendar.report_dia_trigger_key %>
+		<%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", @calendar.report_dia_trigger_key %>
+	<% end -%>
+	
+	<% if @calendar.report_dia_group_key %>
+		<%=  hidden_field_tag "user[democracy_in_action][supporter][link][groups]", @calendar.report_dia_group_key%>
+	<% end -%>
+<% end -%>
+
+<p><label for="report_text">*Tell Us About What Happened at Your Event:</label><br/>
+<%= f.text_area 'text', :rows => 7 %></p>
+
+<p><label for="attendees">Estimated Attendance:</label><br/>
+<%= f.text_field 'attendees',  :size=>10 %></p>
+
+<div class="form_block">
+	<p class='form_subtitle'>Upload Images</p>
+	We support images up to 2 megabytes in size in the .gif, .jpg, or .png format. <br/> For large file uploads this page may take while to load.  All of your pictures will also be uploaded onto Flickr.  
+	<p>
+	
+<% 1.upto(6) do |n| -%>
+  <div id="report_add_photo_<%= n %>" class="report_add_attachment"<% if n > 1 %> style="display:none;"<% end %>>
+    File:<br/>
+    <%= file_field_tag "attachments[#{n}][uploaded_data]" %><br/>
+    Caption:<br/>
+    <%= text_area_tag "attachments[#{n}][caption]",nil, :rows => 3, :cols => 40 %><br/>
+    <%= check_box_tag "attachments[#{n}][primary]" %> Check this box if the image is the main event photo<br>
+
+    <% if n < 6 -%>
+    <p class="report_add_another"><%= link_to_function 'Add Another Photo', visual_effect(:toggle_blind,"report_add_photo_#{n+1}") %>
+    <% end -%>
+  </div>
+<% end -%>
+
+
+</div>
+<div class="form_block">
+	<p class='form_subtitle'>Attach a video from your event </p>
+  <p><label for="report_embed">To include your videos in your event report, you first need to upload them to YouTube.   
+  <% if @calendar.flickr_tag %>
+  After you've uploaded your video, please add the tag '<%= @calendar.flickr_tag  %>'  so we can easily compile all the videos.
+  <% end  -%>
+  Once you've done that, you can copy the video's "embed code" and paste it in the box below. 
+
+  
+    <br><br>  Upload your video to YouTube <a href="http://youtube.com/signup?next=/my_videos_upload" target="_blank">here</a>.
+  
+  </label></p>
+	
+<% 1.upto(4) do |n| -%>
+  <div id="report_add_video_<%= n %>" class="report_add_attachment"<% if n > 1 %> style="display:none;"<% end %>>
+    Video Embed Code<br><%= text_area_tag "embeds[#{n}][html]", nil, :rows => 3, :cols => 40  %><br>
+    Video Title: <%= text_field_tag "embeds[#{n}][caption]", nil, :size => 40  %><br/>
+  
+    <% if n < 4 %>
+    <p class="report_add_another"><%= link_to_function 'Add Another Video', visual_effect(:toggle_blind,"report_add_video_#{n+1}") %></p>
+    <% end %>
+		</div>
+<% end -%>
+
+</div>
+
+<div class="form_block">
+	<p class='form_subtitle'>Press Coverage</p>
+	Did the press cover your event?<br>  If so, paste in links to the press coverage below.<br>
+
+		<div id="report_add_press_1" class="report_add_attachment">
+		Press Coverage URL:<br/><%= text_field_tag 'press_links[][url]', nil, :size => 40 %> <i>(start with http://)</i><br/>
+  Press Coverage Title/Outlet:<br/><%= text_field_tag 'press_links[][text]', nil, :size => 40  %><br>	    <p class="report_add_another"><%= link_to_function 'Add Press Coverage', visual_effect(:toggle_blind,'report_add_press_2') %></p>
+	    </div>
+	    
+	    <div id="report_add_press_2" class="report_add_attachment" <% if @report.errors.empty? %> style="display:none;"<% end %>>
+		Press Coverage URL:<br/><%= text_field_tag 'press_links[][url]', nil, :size => 40 %> <i>(start with http://)</i><br/>
+  Press Coverage Title/Outlet:<br/><%= text_field_tag 'press_links[][text]', nil, :size => 40  %><br>	    <p class="report_add_another"><%= link_to_function 'Add Press Coverage', visual_effect(:toggle_blind,'report_add_press_3') %></p>
+	    </div>
+	    
+	    <div id="report_add_press_3" class="report_add_attachment" <% if @report.errors.empty? %> style="display:none;"<% end %>>
+		Press Coverage URL:<br/><%= text_field_tag 'press_links[][url]', nil, :size => 40 %> <i>(start with http://)</i><br/>
+  Press Coverage Title/Outlet:<br/><%= text_field_tag 'press_links[][text]', nil, :size => 40  %><br>	    <p class="report_add_another"><%= link_to_function 'Add Press Coverage', visual_effect(:toggle_blind,'report_add_press_4') %></p>
+	    </div>
+	    
+	    <div id="report_add_press_4" class="report_add_attachment" <% if @report.errors.empty? %> style="display:none;"<% end %>>
+		Press Coverage URL:<br/><%= text_field_tag 'press_links[][url]', nil, :size => 40 %> <i>(start with http://)</i><br/>
+  Press Coverage Title/Outlet:<br/><%= text_field_tag 'press_links[][text]', nil, :size => 40  %><br>
+	    </div>
+
+</div>
+</p>
+
+<% if @calendar.report_redirect %>
+	<%= hidden_field_tag "redirect", @calendar.report_redirect %>
+<% end -%>
+
+<!--[eoform:report]-->
+
