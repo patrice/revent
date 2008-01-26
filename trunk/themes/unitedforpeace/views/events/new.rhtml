@@ -66,35 +66,35 @@ end
               
             </tr>
             <tr>
-              <td valign="top" class="dia_field_name">*Phone</td>
-              <td valign="top"><%= user.text_field "phone", :id => "dataPhone", :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your phone number", :class => "required inputStyle" %></td>
+              <td valign="top" class="dia_field_name">Phone</td>
+              <td valign="top"><%= user.text_field "phone", :id => "dataPhone", :maxlength => "16", :size => "16", :title => "Please enter your phone number", :class => "required inputStyle" %></td>
               
             </tr>
             <tr>
               <td colspan="2" valign="top"  class="dia_field_name">Show phone number on your host profile?&nbsp;&nbsp;<%= user.check_box "show_phone_on_host_profile", :style => "background-color: #ebd897;", :class => "inputStyle" %></td>
             </tr>
             <tr>
-              <td valign="top" class="dia_field_name">*Street</td>
-              <td valign="top"><%= user.text_field "street", :id => "dataStreet", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your street address", :class => "required inputStyle" %></td>
+              <td valign="top" class="dia_field_name">Street</td>
+              <td valign="top"><%= user.text_field "street", :id => "dataStreet", :maxlength => "64", :size => "30", :title => "Please enter your street address", :class => "required inputStyle" %></td>
               
             </tr>
             <tr>
-              <td valign="top" class="dia_field_name">*City</td>
-              <td valign="top"><%= user.text_field "city", :id => "dataCity", :maxlength => "32", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your city", :class => "required inputStyle" %></td>
+              <td valign="top" class="dia_field_name">City</td>
+              <td valign="top"><%= user.text_field "city", :id => "dataCity", :maxlength => "32", :size => "30", :title => "Please enter your city", :class => "required inputStyle" %></td>
               
             </tr>
             <tr>
             
-              <td valign="top"  class="dia_field_name">*State/Region</td>
-              <td><%= user.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), {}, :title => "Please select your state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataState" %>
+              <td valign="top"  class="dia_field_name">State/Region</td>
+              <td><%= user.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), {}, :title => "Please select your state", :class => "required validate-selection", :size => "1", :id => "dataState" %>
               
      
               </td>
               
             </tr>
             <tr>
-              <td  class="dia_field_name">*Zip Code</td>
-              <td><%= user.text_field "postal_code", :style => "background-color: #ebd897;", :maxlength => "10", :size => "10", :id => "dataZip", :title => "Please enter your zip code", :class => "required inputStyle" %></td>
+              <td  class="dia_field_name">Zip Code</td>
+              <td><%= user.text_field "postal_code", :maxlength => "10", :size => "10", :id => "dataZip", :title => "Please enter your zip code", :class => "required inputStyle" %></td>
              
             </tr>
             <tr>
@@ -224,7 +224,7 @@ end
                 <div align="left">*Start:</div>
               </td>
               <td valign="top">
-                <%= f.datetime_select 'start', :minute_step => 15, :html => {:style => "background-color: #ebd897;"} %>
+                <%= f.datetime_select 'start', :minute_step => 15, :html => {:style => "background-color: #ebd897;"}, :order => [:month, :day, :year, :hour, :minute]  %>
               </td>
               
             </tr>
@@ -233,7 +233,7 @@ end
                 <div align="left">*End:</div>
               </td>
               <td valign="top">
-                <%= f.datetime_select 'end', :minute_step => 15, :style => "background-color: #ebd897;" %>
+                <%= f.datetime_select 'end', :minute_step => 15, :style => "background-color: #ebd897;", :order => [:month, :day, :year, :hour, :minute, :ampm] %>
               </td>
               
             </tr>
