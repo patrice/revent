@@ -49,7 +49,7 @@ module FlexTimes
     end
     
     # Specifies the default field and text order for the datetime_select function
-    DEFAULT_DATETIME_ORDER = [:year, :month, :day, "&mdash; ", :hour, " : ", :minute].freeze
+    DEFAULT_DATETIME_ORDER = [:month, :day, :year, "&mdash; ", :hour, " : ", :minute].freeze
     DEFAULT_DATE_ORDER = [:year, :month, :day]
     DEFAULT_TIME_ORDER = [:hour, " : ", :minute]
     
