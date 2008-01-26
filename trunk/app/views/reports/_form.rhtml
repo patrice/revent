@@ -3,7 +3,7 @@
 <!--[form:report]-->
 
 <p><label for="event_id">*Select Your Event</label><br/>
-<%= f.select 'event_id', @calendar.events.find(:all, :order=>"state,city").collect {|e| ["#{e.state} - #{e.city} - #{e.start.strftime('%m/%d')}: #{truncate e.name,30}", e.id]}, :include_blank=>true%>
+<%= f.select 'event_id', @events_select, :include_blank => true %>
 
 <% fields_for :user, @user do |user| %>
 
