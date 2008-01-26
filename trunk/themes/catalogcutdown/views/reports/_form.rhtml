@@ -3,7 +3,7 @@
 <!--[form:report]-->
 
 <p><label for="event_id">*Select Your Event</label><br/>
-<%= f.select 'event_id', @calendar.events.find(:all, :order=>"state,city").collect {|e| ["#{e.state} - #{e.city}: #{truncate e.name,30}", e.id]}, :include_blank=>true%><br />
+	<%= f.select 'event_id', @calendar.events.find(:all, :order=>"state,city").collect {|e| ["#{e.state} - #{e.city} - #{e.start.strftime('%m/%d')}: #{truncate e.name,30}", e.id]}, :include_blank=>true%>
 
 <em>Don't see your event in the drop-down box? Add it <%= link_to 'here', signup_url %></em>  
 
