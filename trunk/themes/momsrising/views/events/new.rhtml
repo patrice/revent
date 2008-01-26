@@ -1,11 +1,10 @@
 <%  
-unless @event.start && @event.end
-	@event.start = '1/31/08'.to_time.beginning_of_day + 12.hours
-	@event.end = @event.start + 2.hours
-end
+@event.start = '1/31/08'.to_time.beginning_of_day + 12.hours unless @event.start
+@event.end = @event.start + 2.hours unless @event.end
 @event.description = "Fair Pay Meeting with my Senator"
 @hostform = @calendar.hostform
  -%>
+
 <h1><%= @hostform.title if @hostform %></h1>
 <p class="text">
 
@@ -164,7 +163,7 @@ end
                 <div align="left">*Start:</div>
               </td>
               <td valign="top">
-                <%= f.datetime_select 'start', :minute_step => 15, :html => {:style => "background-color: #ebd897;"} %>
+                <%= f.datetime_select 'start', :minute_step => 15, :style => "background-color: #ebd897;", :order => [:month, :day, :year, "&#151", :hour, ':', :minute]  %>
               </td>
               
             </tr>
@@ -173,7 +172,7 @@ end
                 <div align="left">*End:</div>
               </td>
               <td valign="top">
-                <%= f.datetime_select 'end', :minute_step => 15, :style => "background-color: #ebd897;" %>
+                <%= f.datetime_select 'end', :minute_step => 15, :style => "background-color: #ebd897;", :order => [:month, :day, :year, "&#151", :hour, ':', :minute]  %>
               </td>
               
             </tr>

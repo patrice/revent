@@ -183,7 +183,7 @@ end
                 <div align="left">*Start:</div>
               </td>
               <td valign="top">
-                <%= f.datetime_select 'start', :minute_step => 15, :html => {:style => "background-color: #ebd897;"} %>
+                <%= f.datetime_select 'start', :minute_step => 15, :style => "background-color: #ebd897;", :order => [:month, :day, :year, "&#151", :hour, ':', :minute]  %>
               </td>
               
             </tr>
@@ -192,7 +192,7 @@ end
                 <div align="left">*End:</div>
               </td>
               <td valign="top">
-                <%= f.datetime_select 'end', :minute_step => 15, :style => "background-color: #ebd897;" %>
+                <%= f.datetime_select 'end', :minute_step => 15, :style => "background-color: #ebd897;", :order => [:month, :day, :year, "&#151", :hour, ':', :minute]  %>
               </td>
               
             </tr>
