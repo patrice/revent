@@ -54,7 +54,7 @@ class Event < ActiveRecord::Base
         errors.add :state, "is not a valid Canadian province"
       end
     end
-    self.state = nil unless self.in_usa? or self.canada?
+    self.state = nil unless self.in_usa? or self.in_canada?
     if event_start = self.calendar.event_start
       if event_end = self.calendar.event_end
         if self.start && self.start < event_start.at_beginning_of_day
