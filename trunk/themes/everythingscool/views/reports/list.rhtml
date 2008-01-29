@@ -3,7 +3,7 @@
     Hot Efforts
   </div>
   <h3>
-		<%= @calendar.name %> Reports
+		<%= @calendar.name.singularize %> Reports
 	</h3>
 	<div class="report_add">
     Add Your Own <%= link_to 'Report of the Event',  :permalink => @calendar.permalink, :controller => "reports", :action => "new" %>
