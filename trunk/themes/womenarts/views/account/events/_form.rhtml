@@ -26,10 +26,10 @@
 <%= f.text_area 'directions', :rows => 5  %></p>
 
 <p><label for="event_start">Start</label><br/>
-<%= f.datetime_select 'start', :twelve_hour => true %></p>
+<%= f.datetime_select 'start', :twelve_hour => true, :minute_step => 15 %></p>
 
 <p><label for="event_end">End</label><br/>
-<%= f.datetime_select 'end', :twelve_hour => true %></p>
+<%= f.datetime_select 'end', :twelve_hour => true, :minute_step => 15 %></p>
 
 <p><label for="event_max_attendees">Max Attendees</label><br/>
 <%= f.text_field 'max_attendees' %></p>
