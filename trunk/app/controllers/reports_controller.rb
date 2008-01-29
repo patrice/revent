@@ -52,6 +52,11 @@ class ReportsController < ApplicationController
 =end
     @events = Event.paginate(:all, :include => {:reports => :attachments}, :conditions => ["events.calendar_id = ? AND reports.id AND reports.status = '#{Report::PUBLISHED}'", @calendar.id], :order => "reports.id", :page => params[:page], :per_page => 20)
     @reports = @events.collect {|e| e.reports.first}
+
+    # temporary fix to get everythingscool layout to load here
+    if File.exists?("#{Theme.path_to_theme(Site.current.theme || @calendar.theme)}/layouts/reports.rhtml")
+      render(:layout => "../../themes/#{Site.current.theme || @calendar.theme}/layouts/reports")
+    end    
   end
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
