@@ -19,7 +19,7 @@
 <p><label for="event_postal_code">Zip</label><br/>
 <%= f.text_field 'postal_code' %></p>
 
-<p><label for="event_postal_code">Country</label><br/>
+<p><label for="event_country_code">Country</label><br/>
 <%= f.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort,  :selected => (@event.country_code || COUNTRY_CODE_USA), :title => "Please choose your event's country", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventCountry" %></p>
 
 <p><label for="event_directions">Directions</label><br/>
