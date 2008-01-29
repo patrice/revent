@@ -152,6 +152,12 @@ end
                 </div>
               </td>
             </tr>
+				<tr>
+              <td valign="top"  class="dia_field_name"></td>
+					<td><span style="display: block; padding-top: 6px; width: 380px; font-size: 90%;">
+						&nbsp;<em>Street Address will be used for mapping.</em>
+					</span></td>
+				</tr>
             <tr valign="top">
               <td valign="top"  class="dia_field_name">
                 <div align="left">*Street Address:</div>
@@ -220,22 +226,18 @@ end
 			
             </tr>
             <tr>
-              <td valign="top"  class="dia_field_name">
-                <div align="left">*Start:</div>
+              <td valign="top"  class="dia_field_name" colspan="2">
+					 <table>
+						<tr>
+							<td><div align="left">*Start</div></td>
+							<td><%= f.datetime_select 'start', :minute_step => 15, :html => {:style => "background-color: #ebd897;"}, :twelve_hour => true %>
+						</tr>
+						<tr>
+							<td><div align="left">*End</div></td>
+							<td><%= f.datetime_select 'end', :minute_step => 15, :html => {:style => "background-color: #ebd897;"}, :twelve_hour => true %>
+						</tr>							
+					 </table>
               </td>
-              <td valign="top">
-                <%= f.datetime_select 'start', :minute_step => 15, :style => "background-color: #ebd897;", :order => [:month, :day, :year, "&#151", :hour, ':', :minute, :ampm]  %>
-              </td>
-              
-            </tr>
-            <tr>
-              <td valign="top"  class="dia_field_name">
-                <div align="left">*End:</div>
-              </td>
-              <td valign="top">
-                <%= f.datetime_select 'end', :minute_step => 15, :style => "background-color: #ebd897;" , :order => [:month, :day, :year, "&#151", :hour, ':', :minute, :ampm] %>
-              </td>
-              
             </tr>
             <tr valign="top">
               <td valign="top"  class="dia_field_name">
