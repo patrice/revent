@@ -49,6 +49,21 @@ cp sites/3/config/flickr/production/flickr.yml sites/#{s.id}/config
 #    sample description: Moms Rising is a grass-roots organization helping to give a voice to issues that affect moms, such as fair-pay, maternity leave, flexible hours, and healthcare for kids.  We are building an events system to organize events for our members.  We would like members to be able to upload photos from the events to flickr.
 #  copy api-key and shared-secret to sites/#{s.id}/config/flickr/production/flickr.yml
 # 	follow directions here: http://wiki.rubyonrails.org/rails/pages/rflickr
+require 'flickr'
+API_KEY = 'api_key_here'
+SHARED_SECRET = 'shared_secret_key_here'
+flickr = Flickr.new("sites/#{s.id}/config/flickr/production/token.cache", API_KEY, SHARED_SECRET)
+flickr.auth.token
+FROB = flickr.auth.getFrob
+flickr.auth.login_link
+flickr.auth.getToken(FROB)
+flickr.auth.cache_token
+
+
+# set up akismet configuration
+# aquire API key from wordpress: http://wordpress.com/api-keys/ 
+# you don't need to sign up for a new blog, just get a username and they'll email you an api key
+# not yet - cp sites/2/config/akismet.yml sites/#{s.id}/config
 
 # 	Setup DIA triggers:
 #	login to https://salsa.democracyinaction.org/dia/hq/ (using dia account from above)
@@ -62,6 +77,8 @@ c.report_dia_group_key = [copy key from dia]
 c.report_dia_trigger_key = [copy key from dia]
 c.rsvp_dia_group_key = [copy key from dia]
 c.rsvp_dia_trigger_key = [copy key from dia]
+
+
 
 # add "#{s.host}" to ServerAlias
 sudo vim /etc/apache2/sites-enabled/daysofaction.slicehost.radicaldesigns.org
