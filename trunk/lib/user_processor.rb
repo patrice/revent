@@ -5,6 +5,7 @@ ActiveRecord::Base.allow_concurrency = true
 
 require 'starling_client'
 require 'user'
+require 'site'
 require 'democracy_in_action_object'
 class UserProcessor
   def self.run
