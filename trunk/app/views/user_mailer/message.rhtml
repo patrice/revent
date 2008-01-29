@@ -1,5 +1,5 @@
 <%= @message %>
 
-<%= @event.name %> will take place on <%= @event.start.strftime('%A %B %e at %l:%M%p') %> at <%= @event.location %> in <%= @event.city %>, <%= @event.state ? @event.state : @event.country %>.
+<%= @event.name %> will take place on <%= @event.start.strftime('%A %B %e at %l:%M%p') %> at <%= @event.location %> in <%= @event.city %>, <%= @event.in_usa? ? @event.state : @event.country %>.
 
 For the latest information on this event, visit: <%= @url %>
