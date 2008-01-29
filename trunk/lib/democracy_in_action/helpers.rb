@@ -20,7 +20,7 @@ module DemocracyInAction
     end
 
     def self.state_options_for_select(options = {})
-      none = [ ["Select One...","none"] ]
+      none = [ ["Select One...",nil] ]
 
       states = [
         ["Alabama","AL"],
