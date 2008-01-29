@@ -95,7 +95,7 @@ class EventsController < ApplicationController
       if params[:form]
         if is_partner(params[:form])
           cookies[:partner] = {:value => params[:form], :expires => 3.hours.from_now}
-          render "events/partners/#{cookies[:partner]}/new"
+          render "events/partners/#{params[:form]}/new"
         elsif is_signup(params[:form])
           render "signup/#{params[:form]}" and return
         end
@@ -121,10 +121,10 @@ class EventsController < ApplicationController
       @event.host = @user
       @event.save!
       @event.tags << Tag.find_or_create_by_name(params[:tag]) unless params[:tag].blank?
-      flash[:notice] = 'Event was successfully created.'
       expire_page_caches(@event)
       redirect_to params[:redirect] and return if params[:redirect]
       redirect_to @calendar.signup_redirect and return if @calendar.signup_redirect
+      flash[:notice] = 'Your event was successfully created.'
       redirect_to :action => 'show', :id => @event
     else
       flash[:notice] = 'There was a problem creating your event.'
@@ -165,13 +165,18 @@ class EventsController < ApplicationController
     if @user.valid? && @rsvp.valid?
       if cookies[:partner]
         @user.democracy_in_action ||= {}
-        @user.democracy_in_action['supporter'] ||= {}
-        @user.democracy_in_action['supporter']['Tracking_Code'] = "#{cookies[:partner]}_rsvp"
+        if cookies[:partner] == "moveon" && Site.current.id == 6 && @calendar.id == 8
+          @user.democracy_in_action['supporter_custom'] ||= {}
+          @user.democracy_in_action['supporter_custom']['VARCHAR3'] = "moveon"
+        else
+          @user.democracy_in_action['supporter'] ||= {}
+          @user.democracy_in_action['supporter']['Tracking_Code'] = "#{cookies[:partner]}_rsvp"
+        end
       end
       @user.save
       @rsvp.user_id = @user.id
       @rsvp.save
-      flash.now[:notice] = "<b>Thanks for the RSVP!</b><br /> An email with the event details has been sent to the email address you provided."
+      flash.now[:notice] = "<b>Thanks for the RSVP!</b><br /> An email confirming your RSVP has been sent to the email address you provided."
     else
       flash.now[:notice] = 'There was a problem registering your RSVP.'       
     end
