@@ -5,15 +5,19 @@
     <%= @calendar.name.pluralize %> in <%= @search_area %>
 		</div>
 		<div class="event-list-intro-results">
-			Right now there are <%= pluralize @events.length, (@category ? @category.name : @calendar.name) %>.  <%= link_to 'Click here',:permalink =>  @calendar.permalink, :controller => 'events', :action => 'new' %> and see how easy it is to host a meeting with your senator. 
-			
-			<br />
-			<% if @categories and not @categories.empty? %>
-			  <% form_tag :permalink => @calendar.permalink, :controller => 'events', :action => 'search', :zip => params[:zip] do -%>
-			    View: <%= select_tag 'category', options_for_select(@categories, (@category and @category.id)) %>
-			    <%= submit_tag 'Go' %>
-			  <% end -%>
-			<% end -%>
+			<% if @events.empty? %>
+				There are no <%= (@category ? @category.name : @calendar.name) %> in your immediate area.<br />
+				<%= link_to 'Click here', :action => 'search', :state => @state %> to see all events in <%= @state %>.
+			<% else %>
+				Right now there are <%= pluralize @events.length, (@category ? @category.name : @calendar.name) %>.  <%= link_to 'Click here',:permalink =>  @calendar.permalink, :controller => 'events', :action => 'new' %> and see how easy it is to host a meeting with your senator. 			
+				<br />
+				<% if @categories and not @categories.empty? %>
+				  <% form_tag :permalink => @calendar.permalink, :controller => 'events', :action => 'search', :zip => params[:zip] do -%>
+				    View: <%= select_tag 'category', options_for_select(@categories, (@category and @category.id)) %>
+				    <%= submit_tag 'Go' %>
+				  <% end -%>
+				<% end -%>
+			<% end %>
 		</div>
 	</div>
 	
@@ -38,6 +42,7 @@
     <%= render :partial => "report", :collection => past %>
 	</div>
 	<% end -%>
+	
 		<div id="event-map-footer">
     <%= link_to 'Click here',  :permalink =>  @calendar.permalink, :controller => 'calendars', :action => 'show'  %> to go back to the national map and see all the <%= @calendar.name.pluralize.downcase %> across the country.
 		</div>
