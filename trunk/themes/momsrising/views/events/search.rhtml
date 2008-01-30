@@ -7,7 +7,8 @@
 		<div class="event-list-intro-results">
 			<% if @events.empty? %>
 				There are no <%= (@category ? @category.name : @calendar.name) %> in your immediate area.<br />
-				<%= link_to 'Click here', :action => 'search', :state => @state %> to see all events in <%= @state %>.
+				<%= link_to 'Click here',:permalink =>  @calendar.permalink, :controller => 'events', :action => 'new' %> and see how easy it is to host a meeting with your senator.
+				See all events in <%= link_to @state, :action => 'search', :state => @state %>.
 			<% else %>
 				Right now there are <%= pluralize @events.length, (@category ? @category.name : @calendar.name) %>.  <%= link_to 'Click here',:permalink =>  @calendar.permalink, :controller => 'events', :action => 'new' %> and see how easy it is to host a meeting with your senator. 			
 				<br />
