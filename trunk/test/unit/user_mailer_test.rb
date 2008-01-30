@@ -1,31 +1,19 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class UserMailerTest < Test::Unit::TestCase
-  FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures'
-  CHARSET = "utf-8"
-
-  include ActionMailer::Quoting
 
   def setup
-    ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
-    ActionMailer::Base.deliveries = []
+    @user = User.new(:email => 'test@gmail.com')
+    @events = [Event.new(:id => 111)]
+    @calendar = Calendar.new(:id => 222, :admin_email => 'info@radicaldesigns.org')
+    @user.stubs(:events).returns(@events)
+    Event.any_instance.stubs(:calendar).returns(@calendar)
+  end 
 
-    @expected = TMail::Mail.new
-    @expected.set_content_type "text", "plain", { "charset" => CHARSET }
-    @expected.mime_version = '1.0'
+  def test_activation 
+    Site.current = Site.new(:host => 'events.radicaldesigns.org')  
+    response = UserMailer.create_activation(@user)
+    assert_equal('info@radicaldesigns.org', response.from[0])
   end
 
-  def test_truth
-    assert true
-  end
-
-  private
-    def read_fixture(action)
-      IO.readlines("#{FIXTURES_PATH}/user_mailer/#{action}")
-    end
-
-    def encode(subject)
-      quoted_printable(subject, CHARSET)
-    end
 end

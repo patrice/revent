@@ -1,12 +1,16 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class PoliticianInviteSweeperTest < Test::Unit::TestCase
+  fixtures :calendars, :events
   def test_expires_totals
     p = Politician.new :state => 'CA'
-    e = Event.new :id => 111
+    c = Calendar.new :id => 111
+    e = Event.new :id => 222
     p.stubs(:politician_invites).returns ['one']
     Rsvp.any_instance.stubs(:attending).returns(p)
     Rsvp.any_instance.stubs(:event).returns(e)
+    e.stubs(:calendar).returns(c)
+    c.stubs(:rsvp_dia_trigger_key).returns('333')
     PoliticianInvite.any_instance.stubs(:politician).returns(p)
 
     url = "/thepermalink/invites/totals.html"
@@ -18,10 +22,13 @@ class PoliticianInviteSweeperTest < Test::Unit::TestCase
 
   def test_expires_list
     p = Politician.new :state => 'CA'
-    e = Event.new :id => 111
+    c = Calendar.new :id => 111
+    e = Event.new :id => 222
     p.stubs(:politician_invites).returns ['one']
     Rsvp.any_instance.stubs(:attending).returns(p)
     Rsvp.any_instance.stubs(:event).returns(e)
+    e.stubs(:calendar).returns(c)
+    c.stubs(:rsvp_dia_trigger_key).returns('333')
     PoliticianInvite.any_instance.stubs(:politician).returns(p)
 
     urls = {:zip => "/thepermalink/invites/list/zip/11111.html", :cali => "/thepermalink/invites/list/state/CA.html", :ny => "/thepermalink/invites/list/state/NY.html", :list => "/thepermalink/invites/list.html" }

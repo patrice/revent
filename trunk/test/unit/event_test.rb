@@ -1,7 +1,12 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class EventTest < Test::Unit::TestCase
-  fixtures :events
+  fixtures :calendars, :events
+
+  def setup
+    # geocoding takes forever, stub that shit and set lat/lng explicitly
+    Event.any_instance.stubs(:geocode).returns(true)
+  end
 
   def test_to_dia_event
     assert true
@@ -32,8 +37,12 @@ class EventTest < Test::Unit::TestCase
                       :postal_code => "blah blah blah",
                       :directions => "here",
                       :start => 2.hours.from_now,
-                      :end => 3.hours.from_now)
+                      :end => 3.hours.from_now,
+                      :country_code => Event::COUNTRY_CODE_CANADA)
     assert !event.valid?
+    
+    # set lat/lng to avoid geocoding 
+    event.latitude, event.longitude = 44, -123
     
     # test canadian postal codes
     event.postal_code = "V6B-3N9"
@@ -50,6 +59,7 @@ class EventTest < Test::Unit::TestCase
     assert !event.valid?    
 
     # test US postal codes
+    event.country_code = Event::COUNTRY_CODE_USA
     event.location = "1942 15th St."
     event.city = "San Francisco"
     event.state = "CA"
@@ -72,13 +82,16 @@ class EventTest < Test::Unit::TestCase
                       :state => "TBD",
                       :postal_code => "TBD",
                       :directions => "TBD",
+                      :country_code => Event::COUNTRY_CODE_CANADA,
                       :start => 2.weeks.from_now,
                       :end => 2.weeks.from_now + 4.hours)
     assert !event.save
 
+    event.state = "BC"
     event.postal_code = "V6B-3N9"
+    # set lat/lng to avoid geocoding 
+    event.latitude, event.longitude = 44, -123
     assert event.save
-    assert event.latitude and event.longitude and event.precision = "zip"    
 
     event.location = "1248 Seymour Street"
     event.city = "Vancouver"
@@ -91,6 +104,7 @@ class EventTest < Test::Unit::TestCase
     event.city = "Fort Collins"
     event.state = "CO"
     event.postal_code = "80526"
+    event.country_code = Event::COUNTRY_CODE_USA
     assert event.save
     assert event.latitude and event.longitude
   end
