@@ -143,7 +143,10 @@ end
             </tr>
             <tr>
               <td valign="top" align="right" class="dia_field_name" colspan="2">
-                <div align="left">*Description:<br />
+                <div align="left">*Description:
+                  <span style="display: block; padding-top: 6px; width: 260px; font-size: 90%;">
+                    &nbsp;<em>This text box accepts <%= link_to 'textile formatting', 'http://hobix.com/textile/', :popup => true %>.</em>
+                  </span>
                   <%= f.text_area "description", :title => "Please enter your action's description", :class => "required", :rows => "7", :cols => "43", :style => "margin-top: 8px; background-color: #ebd897;", :id => "dataDescription" %>
                 </div>
               </td>
