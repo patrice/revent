@@ -2,52 +2,111 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="Search" href="http://5yearstoomany.org/search.php">
-<link rel="icon" href="" type="image/x-icon" />
+<link rel="icon" href="http://5yearstoomany.org/" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="http://5yearstoomany.org/styles_default.css" id="default">
 <link rel="stylesheet" type="text/css" href="http://5yearstoomany.org/custom/styles.css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="http://5yearstoomany.org/rssfeed.php"><title>5 YEARS TOO MANY</title>
 <script language="Javascript"  type="text/javascript" src="http://5yearstoomany.org/scripts/functions.js"></script>
-
-</script>
-
-  <%= javascript_include_tag 'prototype' %>
-  <%= stylesheet_link_tag 'events' %>
-  <%= yield :header %>
-  <%= Cartographer::Gmap::Header.header_for(request) if @map %>
-
-</head>
-
+<%= javascript_include_tag 'prototype' %>
+<%= stylesheet_link_tag 'events' %>
+<%= theme_stylesheet_link_tag 'unitedforpeace' %>
+<%= yield :header %>
+<%= Cartographer::Gmap::Header.header_for(request) if @map %>
 </head>
 <body>
-<div align="left">
+<div align="center" style="margin: 0; padding: 0; border-style:none;" class="shutup">
+<a href="http://www.5yearstoomany.org" title="home page" style="border-style: none; text-decoration: none;" class="shutup"><img src="http://5yearstoomany.org/img/original/banner_temp_final.jpg" alt="banner" width="900" height="150" style="border-style: none;"></a>
+</div>
 
-<table rules="none" frame="void" cellspacing="0" cellpadding="0" border="0" align="center" style="border:thin solid black; width: 910px; float: none;  background-image: none;">
+<table rules="none" frame="void" cellspacing="0" cellpadding="0" border="0" align="center" style="border: 2px solid black; width: 900px; float: none;  background-image: none;">
   <tbody>
-
     <tr align="center">
-      <td  colspan="2" style="width: 70%; background-color: #000000; text-align: center;"><a href="http://www.5yearstoomany.org" style="color: #ffffff; text-decoration: none; A:link-color:#ffffff; A:active-color:#ffffff; A:visited-color:#ffffff; A:hover-color:#ffffff;"><span style="font-family: verdana,arial,helvetica,sans-serif; font-size:48px; font-weight:bold; letter-spacing: 10px;">5 YEARS TOO MANY</span></a> </td>
+      <td  colspan="2" style="width: 70%; background-color: #000000; text-align: center;"><!-- <a href="http://www.5yearstoomany.org" style="color: #ffffff; text-decoration: none; A:link-color:#ffffff; A:active-color:#ffffff; A:visited-color:#ffffff; A:hover-color:#ffffff;"><span style="font-family: verdana,arial,helvetica,sans-serif; font-size:48px; font-weight:bold; letter-spacing: 10px;">5 YEARS TOO MANY</span></a> --> <!-- <img src="file://localhost/Users/david/Documents/ufpj/5years/banners/banner_3C.jpg" alt="banner" width="900" height="150"> --></td>
     </tr>
-    <tr>
+   <!-- 
+ <tr>
       <td style="background-color: #000000;" colspan="2" align="center"><img src="http://www.unitedforpeace.org/img/original/inaug_coffins_smaller.png" height="70" alt="coffins" /><img src="http://www.5yearstoomany.org/img/original/carbomb.jpg" height="70" alt="Car bomb detonated near entrance to Green Zone. Photo: Dahr Jamail" title="Car bomb detonated near entrance to Green Zone. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/woman_missing_relatives3.jpg" height="70" alt="Woman with several family members detained pleads for their release. Photo: Dahr Jamail" title="Woman with several family members detained pleads for their release. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/bombedhomefalluja.jpg" height="70" alt="Bombed home in Falluja. Photo: Dahr Jamail" title="Bombed home in Falluja. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/fatimaharouz.jpg" height="70" alt="Soldiers attacked the home of Fatima Harouz. Photo: Dahr Jamail" title="Soldiers attacked the home of Fatima Harouz. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/destroyedambulance.jpg" height="70" alt="Destroyed ambulance in Falluja. Photo: Dahr Jamail" title="Destroyed ambulance in Falluja. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/hamad_abdulla_amin_close.jpg" height="70" alt="Boy in Samarra wounded by gunfire. Photo: Dahr Jamail" title="Boy in Samarra wounded by gunfire. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/floodedhouse_astern.jpg" height="70" alt="Flooded Lakeview area of New Orleans after Hurricane Katrina. Photo: Andrew Stern" title="Flooded Lakeview area of New Orleans after Hurricane Katrina. Photo: Andrew Stern" /><img src="http://unitedforpeace.org/img/pic/guantanamo.jpg" alt="Guantanamo Detention Center" title="Guantanamo Detention Center" height="70" /></td>
     </tr>
+ -->
     <tr>
-      <td style="width: 750px;" valign="top">
-<br />
- <% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
-      <% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
-	          <%= yield %>
+      <td style="width: 740px;" class="mainbody" valign="top"> 
+<div class="article_public_list home list_block list_contentclass_2">
+<div class="list_item">
+<div class="article_public_detail">
+
+<% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
+<% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
+<%= yield %>
+
+</div>
+</div>
+</div>
+<BR clear="all" class="pgr_newline" />
+
+      </td>
+      <td valign="top" style="width: 160px;"> <div class="nav_block" id="left_nav"><div class="nav_element nav_position_1" id="nav_id_204"><table width="160" border="0" cellspacing="10" cellpadding="0"><tr><td class="subside"></td></tr>
+
+<tr><td>
+<table width="100%" border="0" cellpadding="2" cellspacing="0"><tr><td width="5"> </td><td class="sidelist"><a href="http://www.unitedforpeace.org"><img src="http://www.unitedforpeace.org/img/original/UFPJ Logo 72dpi.jpg" alt="United For Peace and Justice" width="155" height="111" border="0"></a></td></tr></table></td></tr></table></div>
+<div class="nav_element nav_position_2" id="nav_id_38"><table width="160" border="0" cellspacing="10" cellpadding="0"><tr><td class="subside">Get E-Mail Alerts</td></tr>
+
+<tr><td>
+<table width="100%" border="0" cellpadding="2" cellspacing="0"><tr><td width="5"> </td><td class="sidelist">
+<form name="email" method="post" action="http://www.democracyinaction.org/dia/api/process.jsp" style="margin-top: 0px; margin-bottom: 0px;">
+
+<input type="hidden" name="organization_KEY" value="302">
+
+<input type="hidden" name="link" value="groups">
+<input type="hidden" name="linkKey" value="11990">
+
+<input type="hidden" name="redirect" value="http://www.demaction.org/dia/organizations/ufpj/tellafriend.jsp?tell_a_friend_KEY=340"> 
+<input type="hidden" name="table" value="supporter" />
+
+<input name="Email" type="text" size="15" id="email_input" value="Enter E-Mail"  onClick = "this.value='';">
+
+<style>.memberSignup{display:none;}</style>
+
+<div class="memberSignup">
+<input name="first_name_302" value="" />
+<input type="hidden" name="tag" value="5years" />
+
+</div>
+<br><br>
 
 
-</td> <td valign="top" style="width: 160px;">
+<input name="q" type="image" src="http://5yearstoomany.org/img/submit_email.gif" align="right" border="0" > 
 
-<!-- widget js -->
-				<script language="javascript" type="text/javascript" src="http://5yearstoomany.org/nav_widget.php?position=left&type=5&format=js"></script>
+</form></td></tr></table></td></tr></table></div>
+<div class="nav_element nav_position_3" id="nav_id_206"><table width="160" border="0" cellspacing="10" cellpadding="0"><tr><td class="subside"></td></tr>
 
-			<!-- end widget js --> 
+<tr><td>
+<table width="100%" border="0" cellpadding="2" cellspacing="0"><tr><td width="5"> </td><td class="sidelist"><a href="http://5yearstoomany.org/form.php?modin=8" class="sidelist2">Volunteer</a><br><br>
+<a href="http://unitedforpeace.org/donate" class="sidelist2">Donate</a></td></tr></table></td></tr></table></div>
 
-</td>
+<div class="nav_element nav_position_4" id="nav_id_205"><table width="160" border="0" cellspacing="10" cellpadding="0"><tr><td class="subside">Events</td></tr>
+
+<tr><td>
+<table width="100%" border="0" cellpadding="2" cellspacing="0"><tr><td width="5"> </td><td class="sidelist"><A href="http://events.unitedforpeace.org/5yearstoomany" class="sidelist">Find an Event</a><br><br>
+<A href="http://events.unitedforpeace.org/5yearstoomany/signup" class="sidelist">Host an Event</a></td></tr></table></td></tr></table></div>
+<div class="nav_element nav_position_5" id="nav_id_207"><table width="160" border="0" cellspacing="10" cellpadding="0"><tr><td class="subside">Post a Web Button on Your Site!</td></tr>
+
+<tr><td>
+<table width="100%" border="0" cellpadding="2" cellspacing="0"><tr><td width="5"> </td><td class="sidelist"><center><img src="http://www.5yearstoomany.org/img/original/M19_buttonC.jpg"></center><br /><a href="http://www.5yearstoomany.org/article.php?id=46">Click here for instructions, as well as more sizes and styles.</a></td></tr></table></td></tr></table></div>
+<div class="nav_element nav_position_6" id="nav_id_18"><table width="160" border="0" cellspacing="10" cellpadding="0"><tr><td class="subside">Endorse</td></tr>
+
+<tr><td>
+<table width="100%" border="0" cellpadding="2" cellspacing="0"><tr><td width="5"> </td><td class="sidelist"><a href="http://5yearstoomany.org/modinput4.php?modin=1" class="sidelist">Endorse</a><br><br><a href="http://www.5yearstoomany.org/article.php?id=39" class="sidelist">View Endorsers
+
+</td></tr></table></td></tr></table></div>
+<div class="nav_element nav_position_7" id="nav_id_63"><table width="160" border="0" cellspacing="10" cellpadding="0"><tr><td class="subside">Sections</td></tr>
+
+<tr><td>
+<table width="100%" border="0" cellpadding="2" cellspacing="0"><tr><td width="5"> </td><td class="sidelist"><a href="http://5yearstoomany.org/article.php?list=type&type=3" class="sidelist">Winter Soldier</a></td></tr><tr><td width="5"> </td><td class="sidelist"><a href="http://5yearstoomany.org/article.php?list=type&type=4" class="sidelist">March 19th - Washington, DC</a></td></tr><tr><td width="5"> </td><td class="sidelist"><a href="http://5yearstoomany.org/article.php?list=type&type=5" class="sidelist">March 19th Local Action</a></td></tr><tr><td width="5"> </td><td class="sidelist"><a href="http://5yearstoomany.org/article.php?list=type&type=6" class="sidelist">National Resources</a></td></tr></table></td></tr></table></div>
+
+</div>
+ </td>
     </tr>
   </tbody>
 </table>
 </body>
-</html>
+</html> 
