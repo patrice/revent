@@ -11,7 +11,7 @@
      <%#=  @calendar.name %>
    </div>
    <div class="national-intro-directions">
-     <br> Click on a state or enter your zip code to find a report from an event near you...
+     <br> Enter your zip code to find a report from an event near you...
    </div>
 </div>
 
@@ -22,10 +22,8 @@
 		<td><% form_tag :permalink => @calendar.permalink, :action => 'search' do -%> 
     	&nbsp;Zip Code:  <%= text_field_tag 'zip', nil, :size=>10 %>
     	<%= submit_tag "GO" %><br> 
-    	<b>OR</b> State:
-      <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='/#{@calendar.permalink}/reports/search/state/' + this.value" %>
       <% end -%></td></tr>
-    </table>
+    </table><br />
   </div>
 
   <%
@@ -57,7 +55,6 @@
 </div>
  <div class="national-intro-count">
    <p><img src="/images/marker_green.png"> Green Marker = Events with Reports  |  <img src="http://www.google.com/intl/en_us/mapfiles/markerff.gif"> Red Marker = Events without Reports</P>
-<!-- There are <%= @calendar.events.with_reports.length %> reports from  <%= @calendar.events.count %> scheduled events. -->      
  </div>
  <%= render :partial =>'reports/report_nav' %>                
 </div>
