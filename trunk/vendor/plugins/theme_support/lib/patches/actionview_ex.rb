@@ -30,14 +30,13 @@ module ActionView
               if File.exists?(full_template_path("#{prefix}/#{template_path_without_extension}", template_extension))
                 # Prevent .rhtml (or any other template type) if force_liquid == true
                 raise ThemeError.new("Template '#{template_path}' must be a liquid document") if controller.force_liquid_template && template_extension.to_s != 'liquid' && prefix != '.'                  
-
-                return __render_file("#{prefix}/#{template_path}", use_full_path, local_assigns)
+                return __render_file("#{prefix}/#{template_path_without_extension}.#{template_extension}", use_full_path, local_assigns)
               end
+            rescue ActionView::TemplateError => err
+              raise err
             rescue ActionView::ActionViewError => err
                next
             rescue ThemeError => err
-              # Should it raise an exception, or just call 'next' and revert to
-              # the default template?
               raise err
             end
           end

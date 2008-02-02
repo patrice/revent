@@ -53,7 +53,7 @@ class EventsController < ApplicationController
   def upcoming
     respond_to do |format|
       format.html do 
-        @events = Event.paginate(:all, :conditions => ["(private IS NULL OR private = 0) AND calendar_id = ? AND start > ?", @calendar.id, Time.now], :order => 'start, state', :page => params[:page])
+        @events = @calendar.public_events.paginate(:all, :conditions => ["start > ?", Time.now], :order => 'start, state', :page => params[:page])
       end
       format.xml do 
         @events = @calendar.public_events.find(:all, :conditions => ["end >= ?", Time.now], :order => "start, state")
@@ -128,6 +128,7 @@ class EventsController < ApplicationController
       redirect_to :action => 'show', :id => @event
     else
       flash[:notice] = 'There was a problem creating your event.'
+      @categories = @calendar.categories.map {|c| [c.name, c.id] }
       render :action => 'new'
     end
   end
@@ -231,9 +232,9 @@ class EventsController < ApplicationController
     @country_a3 = params[:id] || 'all'
     @country_code = CountryCodes.find_by_a3(@country_a3.upcase)[:numeric] || "all"
     if @country_code == "all"
-      @events = Event.paginate(:all, :conditions => ["events.calendar_id = ? AND country_code <> ? AND (private IS NULL OR private = 0)", @calendar.id, Event::COUNTRY_CODE_USA], :order => 'country_code, city, start', :page => params[:page])
+      @events = @calendar.public_events.paginate(:all, :conditions => ["country_code <> ?", Event::COUNTRY_CODE_USA], :order => 'country_code, city, start', :page => params[:page])
     else
-      @events = Event.paginate(:all, :conditions => ["events.calendar_id = ? AND country_code = ? AND (private IS NULL OR private = 0)", @calendar.id, @country_code], :order => 'start, city', :page => params[:page])
+      @events = @calendar.public_events.paginate(:all, :conditions => ["country_code = ?", @country_code], :order => 'start, city', :page => params[:page])
     end
     @countries_for_select = CountryCodes::countries_for_select('name', 'a3').map{|a| [a[0],a[1].downcase]}.sort.unshift(['All Countries', 'all'])
   end
