@@ -5,7 +5,6 @@ class ReportsController < ApplicationController
 
   def index
     @events = @calendar.public_events.find(:all, :include => :reports, :conditions => ["latitude <> 0 AND longitude <> 0 AND country_code = ?", Event::COUNTRY_CODE_USA])
-#    @events = @calendar.events.find(:all, :include => :reports, :order => 'reports.id ASC')
   end
 
   def call
@@ -46,11 +45,8 @@ class ReportsController < ApplicationController
   end
 
   def list
-=begin
-    @calendar_ids = Site.current.calendars.find(:all, :conditions => ["calendars.id = ?", @calendar.id]).map{|c| c.id}
-    @events = Event.paginate(:all, :include => {:reports => :attachments}, :conditions => ["events.calendar_id IN (?) AND reports.id AND reports.status = '#{Report::PUBLISHED}'", @calendar_ids], :order => "reports.id", :page => params[:page], :per_page => 20)
-=end
-    @events = Event.paginate(:all, :include => {:reports => :attachments}, :conditions => ["events.calendar_id = ? AND reports.id AND reports.status = '#{Report::PUBLISHED}'", @calendar.id], :order => "reports.id", :page => params[:page], :per_page => 20)
+    @events = @calendar.public_events.paginate(:all, :include => {:reports => :attachments}, 
+      :conditions => "reports.id AND reports.status = '#{Report::PUBLISHED}'", :order => "reports.id", :page => params[:page], :per_page => 20)
     @reports = @events.collect {|e| e.reports.first}
 
     # temporary fix to get everythingscool layout to load here
@@ -109,6 +105,7 @@ class ReportsController < ApplicationController
         e = @report.embeds.create embed
         e.tags = tags if tags
       end
+      @event = @report.event
       begin
         require 'starling_client'
         queue = Starling.new 'localhost:22122'
@@ -116,7 +113,7 @@ class ReportsController < ApplicationController
         attachments = @attachments.collect {|a| [a, a.temp_data]}
         attachments.each {|a| a[0].clear_temp_paths}
         queue.set 'reports', {:report => @report, :attachments => attachments, :request => r, :site => Site.current, 
-              :flickr_tags => @calendar.flickr_tags(@report.event.id), :flickr_photoset => @calendar.flickr_photoset}
+              :flickr_tags => @event.calendar.flickr_tags(@event.id), :flickr_photoset => @event.calendar.flickr_photoset}
         queue.set 'users', {:user => @user, :site => Site.current}
       rescue Exception => e
         attachments.each do |a| 
@@ -126,17 +123,18 @@ class ReportsController < ApplicationController
         end
         @report.attachments = attachments.collect {|a| a[0]}
         @report.embeds.each {|e| e.tags = e.tag_depot if e.tag_depot }
+        require 'upload_to_flickr'
         upload_images_to_flickr(@report.attachments, 
               :site_id => Site.current, 
               :title => "#{@report.event.name} - #{@report.event.city}, #{@report.event.state}",
-              :flickr_tags =>  @calendar.flickr_tags(@report.event.id), 
-              :flickr_photoset => @calendar.flickr_photoset)
+              :flickr_tags =>  @event.calendar.flickr_tags(@event.id), 
+              :flickr_photoset => @event.calendar.flickr_photoset)
         @report.check_akismet(r)
         @user.deferred = false
         @user.sync_to_democracy_in_action
       end
       flash[:notice] = 'Report was successfully created.'
-      @events = @calendar.events
+      index
       render :permalink => @calendar.permalink, :action => 'index'
     else
       render :permalink => @calendar.permalink, :action => 'new'
@@ -179,7 +177,7 @@ class ReportsController < ApplicationController
                         max_lat, 
                         max_lon])
     end
-    @events = Event.paginate(:all, :include => {:reports => :attachments}, :conditions => ["events.calendar_id = ? AND reports.id AND reports.status = '#{Report::PUBLISHED}' AND events.postal_code IN (?)", @calendar.id, @zips.collect {|z| z.zip}], :order => "reports.id DESC", :page => params[:page], :per_page => 20)
+    @events = @calendar.public_events.paginate(:all, :include => {:reports => :attachments}, :conditions => ["reports.id AND reports.status = '#{Report::PUBLISHED}' AND events.postal_code IN (?)", @zips.collect {|z| z.zip}], :order => "reports.id DESC", :page => params[:page], :per_page => 20)
     @reports = @events.collect {|e| e.reports.first}
     @codes = @zips.collect {|z| z.zip}
 #    @reports = @reports.sort_by {|r| @codes.index(r.event.postal_code)}
@@ -189,7 +187,7 @@ class ReportsController < ApplicationController
   end
 
   def do_state_search
-    @events = Event.paginate(:all, :include => {:reports => :attachments}, :conditions => ["events.calendar_id = ? AND reports.id AND reports.status = '#{Report::PUBLISHED}' AND events.state = ?", @calendar.id, params[:state]], :order => "events.state, events.city", :page => params[:page], :per_page => 20)
+    @events = @calendar.public_events.paginate(:all, :include => {:reports => :attachments}, :conditions => ["reports.id AND reports.status = '#{Report::PUBLISHED}' AND events.state = ?", params[:state]], :order => "events.state, events.city", :page => params[:page], :per_page => 20)
     @reports = @events.collect {|e| e.reports.first}
 
     @search_results_message = "Showing reports in #{params[:state]}"
