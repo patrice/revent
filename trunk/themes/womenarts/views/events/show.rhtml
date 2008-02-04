@@ -51,7 +51,14 @@
 </div>
 <% end -%>
   
-  <div id="location"><b>Location:</b><br><%= white_list @event.location %></div>
+  <div id="location">
+  <b>Location:</b><br><%= white_list @event.location %>,
+  <% if @event.in_usa? or @event.in_canada? -%>
+    <%= white_list @event.city %>, <%= @event.state %>
+  <% else -%>
+    <%= white_list @event.city %>, <%= @event.country %>
+  <% end -%>
+  </div>
 <% unless @event.directions.blank? %>
 <div id="directions"><b>Directions:</b><br><%= white_list word_wrap(auto_link(@event.directions) {|text| truncate(text, 40) + " " }) %></div>
 <% end -%>
