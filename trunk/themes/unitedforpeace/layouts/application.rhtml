@@ -12,23 +12,40 @@
 
   <%= javascript_include_tag 'prototype' %>
   <%= stylesheet_link_tag 'events' %>
-  <%= yield :header %>
+   <%= theme_stylesheet_link_tag 'unitedforpeace' %>
+ <%= yield :header %>
   <%= Cartographer::Gmap::Header.header_for(request) if @map %>
 
 </head>
 
-</head>
 <body>
 <div align="left">
-
-<table rules="none" frame="void" cellspacing="0" cellpadding="0" border="0" align="center" style="border:thin solid black; width: 910px; float: none;  background-image: none;">
+<table rules="none" frame="void" cellspacing="0" cellpadding="0" border="0" align="center" style="border:thin solid black; width: 900px; float: none;  background-image: none;">
   <tbody>
 
-    <tr align="center">
+    <!-- <tr align="center">
       <td  colspan="2" style="width: 70%; background-color: #000000; text-align: center;"><a href="http://www.5yearstoomany.org" style="color: #ffffff; text-decoration: none; A:link-color:#ffffff; A:active-color:#ffffff; A:visited-color:#ffffff; A:hover-color:#ffffff;"><span style="font-family: verdana,arial,helvetica,sans-serif; font-size:48px; font-weight:bold; letter-spacing: 10px;">5 YEARS TOO MANY</span></a> </td>
-    </tr>
+    </tr>-->
     <tr>
-      <td style="background-color: #000000;" colspan="2" align="center"><img src="http://www.unitedforpeace.org/img/original/inaug_coffins_smaller.png" height="70" alt="coffins" /><img src="http://www.5yearstoomany.org/img/original/carbomb.jpg" height="70" alt="Car bomb detonated near entrance to Green Zone. Photo: Dahr Jamail" title="Car bomb detonated near entrance to Green Zone. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/woman_missing_relatives3.jpg" height="70" alt="Woman with several family members detained pleads for their release. Photo: Dahr Jamail" title="Woman with several family members detained pleads for their release. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/bombedhomefalluja.jpg" height="70" alt="Bombed home in Falluja. Photo: Dahr Jamail" title="Bombed home in Falluja. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/fatimaharouz.jpg" height="70" alt="Soldiers attacked the home of Fatima Harouz. Photo: Dahr Jamail" title="Soldiers attacked the home of Fatima Harouz. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/destroyedambulance.jpg" height="70" alt="Destroyed ambulance in Falluja. Photo: Dahr Jamail" title="Destroyed ambulance in Falluja. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/hamad_abdulla_amin_close.jpg" height="70" alt="Boy in Samarra wounded by gunfire. Photo: Dahr Jamail" title="Boy in Samarra wounded by gunfire. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/floodedhouse_astern.jpg" height="70" alt="Flooded Lakeview area of New Orleans after Hurricane Katrina. Photo: Andrew Stern" title="Flooded Lakeview area of New Orleans after Hurricane Katrina. Photo: Andrew Stern" /><img src="http://unitedforpeace.org/img/pic/guantanamo.jpg" alt="Guantanamo Detention Center" title="Guantanamo Detention Center" height="70" /></td>
+      <td style="background-color: #FFFFFF;" colspan="2" align="center">
+      <table width="900" height="150" border="0" cellspacing="0" cellpadding="0" background="http://5yearstoomany.org/img/original/banner_final2.gif">
+        <tr>
+	    <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+	      <tr>
+	          <td width="70%"><a href="http://5yearstoomany.org/index.php" class="imgnoborders"><img src="http://unitedforpeace.org/img/spacer.gif" border="0" width="400" height="135"></td>
+		      <td width="30%" align="center" valign="top"><span class="headerlinks"><a href="http://www.5yearstoomany.org/article.php?id=47">about</a> &bull; <a href="http://www.5yearstoomany.org/article.php?id=49">contact &bull;&nbsp;<a href="http://www.5yearstoomany.org/donate">donate</a> &bull; <a href="http://5yearstoomany.org/article.php?list=type&type=7">press</a></span>
+		            <form name="form1" method="GET" action="http://5yearstoomany.org/search.php" style="margin-top: 0px; margin-bottom: 0px;">             
+			    <input name="fulltext" type="text" value="Search" size="25" style= "border: 2px solid #777777; margin-top: 2px; margin-bottom: 0px; padding: 2px; font: 12px Verdana, Geneva, Arial, Helvetica, sans-serif;" onClick = "this.value='';"><br />
+
+			    			    <input name="fulltext" type="image" src="http://5yearstoomany.org/img/original/ufpj_5y_search.gif" alt="go" border="0" style="border: 0px;"></form> 
+			      </tr>
+			      </table>
+			      </td>
+			        </tr>
+				</table>
+      <!-- <img src="http://www.unitedforpeace.org/img/original/inaug_coffins_smaller.png" height="70" alt="coffins" /><img src="http://www.5yearstoomany.org/img/original/carbomb.jpg" height="70" alt="Car bomb detonated near entrance to Green Zone. Photo: Dahr Jamail" title="Car bomb detonated near entrance to Green Zone. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/woman_missing_relatives3.jpg" height="70" alt="Woman with several family members detained pleads for their release. Photo: Dahr Jamail" title="Woman with several family members detained pleads for their release. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/bombedhomefalluja.jpg" height="70" alt="Bombed home in Falluja. Photo: Dahr Jamail" title="Bombed home in Falluja. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/fatimaharouz.jpg" height="70" alt="Soldiers attacked the home of Fatima Harouz. Photo: Dahr Jamail" title="Soldiers attacked the home of Fatima Harouz. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/destroyedambulance.jpg" height="70" alt="Destroyed ambulance in Falluja. Photo: Dahr Jamail" title="Destroyed ambulance in Falluja. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/hamad_abdulla_amin_close.jpg" height="70" alt="Boy in Samarra wounded by gunfire. Photo: Dahr Jamail" title="Boy in Samarra wounded by gunfire. Photo: Dahr Jamail" /><img src="http://www.5yearstoomany.org/img/original/floodedhouse_astern.jpg" height="70" alt="Flooded Lakeview area of New Orleans after Hurricane Katrina. Photo: Andrew Stern" title="Flooded Lakeview area of New Orleans after Hurricane Katrina. Photo: Andrew Stern" /><img src="http://unitedforpeace.org/img/pic/guantanamo.jpg" alt="Guantanamo Detention Center" title="Guantanamo Detention Center" height="70" />  -->
+      
+      </td>
     </tr>
     <tr>
       <td style="width: 750px;" valign="top">
