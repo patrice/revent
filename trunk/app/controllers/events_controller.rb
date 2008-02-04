@@ -50,6 +50,30 @@ class EventsController < ApplicationController
     cache_page nil, :permalink => params[:permalink]
   end
 
+  def recently_updated
+    respond_to do |format|
+      format.html do 
+        @events = @calendar.public_events.paginate(:all, :order => 'updated_at DESC', :page => params[:page])
+      end
+      format.xml do 
+        @events = @calendar.public_events.find(:all, :order => 'updated_at DESC', :limit => 4)
+        render :action => 'recently_updated.rxml', :layout => false
+      end
+    end
+  end
+
+  def recently_added 
+    respond_to do |format|
+      format.html do 
+        @events = @calendar.public_events.paginate(:all, :order => 'created_at DESC', :page => params[:page])
+      end
+      format.xml do 
+        @events = @calendar.public_events.find(:all, :order => 'created_at DESC', :limit => 4)
+        render :action => 'recently_added.rxml', :layout => false
+      end
+    end
+  end
+
   def upcoming
     respond_to do |format|
       format.html do 
