@@ -12,7 +12,7 @@
         <%= @calendar.map_intro_text %>
       <% else -%>
         United States Events: Click on a state or enter your zip code to find <%= @calendar.name.pluralize %> near you.<br />
-		    International Events:  For events happening outside the United States, <%= link_to 'click here', :permalink => @calendar.permalink, :controller => 'events', :action => 'international' %>.
+        International Events:  For events happening outside the United States, <%= link_to 'click here', {:permalink => @calendar.permalink, :controller => 'events', :action => 'international'}, {:style => 'font-weight:bold;color:#cc0000;'} %>.
       <% end -%>
       <br /><br />
     </div>
