@@ -4,11 +4,7 @@
 		<%= list_item.start.strftime("%B %d, %Y") %> at <%= list_item.start.strftime("%I:%M%p").downcase %>
 	</div>
 	<div class="event-list-city">
-		<% if list_item.in_usa? -%>
-		  <%= white_list(list_item.city) %>, <%= list_item.state %>
-		<% else -%>
-		  <%= white_list(list_item.city) %>, <%= list_item.country %>
-		<% end -%>
+    <%= white_list(list_item.city_state) %>
 	</div>
     <% if @distance_from_search -%>
      <div class="event-list-miles">
