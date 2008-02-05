@@ -9,7 +9,7 @@
 	</div>
 	<div class="report-list-basics">
 		<div class="report-list-title">
-      <%= link_to "#{report.event.city}, #{report.event.state}", report_url(:permalink => @calendar.permalink, :event_id => report.event.id) %>		
+      <%= link_to "#{report.event.city_state}", report_url(:permalink => @calendar.permalink, :event_id => report.event.id) %>		
 		</div>
 		<div class="report-list-text">
 			<%= truncate report.text, 280 %>
