@@ -8,7 +8,7 @@ xml.us_states do
   xml.state( :id => "point_range" )      { xml.data 1; xml.color '00FF00'; xml.size(4)}
   xml.state( :id => "scale_points" )     { xml.data 30 }
 
-  @calendar.events.each do |e|
+  @events.each do |e|
     xml.state :id => "point" do
       xml.name e.city
       xml.loc "#{e.latitude},#{e.longitude}"
