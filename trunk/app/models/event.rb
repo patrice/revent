@@ -229,9 +229,13 @@ class Event < ActiveRecord::Base
   def in_canada?
     country_code == COUNTRY_CODE_CANADA
   end
-  
+
   def country
     CountryCodes.find_by_numeric(self.country_code)[:name]
+  end
+
+  def city_state
+    [city, (state || country)].join(', ')
   end
   
   def country=(name)
