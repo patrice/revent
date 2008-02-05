@@ -1,7 +1,7 @@
 <%= render :partial => 'nav' %>
 <div id='detail-container'>
 	<div class="intro-title">
-		<%= @calendar.name %> International Events 
+		<%= @calendar.name %> &mdash; International Events 
 	</div>
 	<div class="intro-text">
 		<table>
@@ -9,7 +9,7 @@
 				<td>Show events in</td>
 				<td>
 					<% form_tag :permalink => @calendar.permalink, :controller => 'events', :action => 'international' do -%> 
-					  <%= select_tag 'country', options_for_select(@countries_for_select, @country_code.to_i), :onchange => "window.location.href='/#{@calendar.permalink}/events/international/' + this.value" %>
+					  <%= select_tag 'country', options_for_select(@countries_for_select, @country_a3), :onchange => "window.location.href='/#{@calendar.permalink}/events/international/' + this.value" %>
 					<% end -%>
 				</td>
 			</tr>
