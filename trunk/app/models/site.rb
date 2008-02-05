@@ -12,18 +12,9 @@ class Site < ActiveRecord::Base
 
   has_many :calendars do
     def current
-#      find :first, :conditions => ["current = ?", true]
       proxy_target.detect {|c| c.current?}
     end
   end
-=begin
-  has_many :featured_calendars, 
-           :class_name  => "Calendar", 
-           :conditions  => "featured = 1"      
-  has_many :featured_events, 
-           :class_name  => "Event", 
-           :finder_sql  => "SELECT e.* FROM events e, calendars c WHERE c.featured = 1 AND c.id = e.id"
-=end
 
   def to_label
     "#{host}"

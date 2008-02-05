@@ -28,33 +28,17 @@ class Event < ActiveRecord::Base
 
   acts_as_mappable :lat_column_name => 'latitude', :lng_column_name => 'longitude'
   before_validation :geocode
-  before_save :set_district
+  before_save :set_calendar, :set_district
   
   validates_presence_of :name, :city, :start, :end, :calendar_id, :description, :location, :country_code 
   COUNTRY_CODE_USA = CountryCodes.find_by_name("United States of America")[:numeric] 
   COUNTRY_CODE_CANADA = CountryCodes.find_by_name("Canada")[:numeric] 
 
   def validate
-    usa_valid_states = DemocracyInAction::Helpers.state_options_for_select.map{|a| a[1]}
-    if self.in_usa?
-      unless postal_code =~ /^\d{5}(-\d{4})?$/
-        errors.add :postal_code, "is not a valid U.S. postal code"
-      end
-      if state.blank? or not usa_valid_states.include?(state)
-        errors.add :state, "is not a valid U.S. state"
-      end
-    end
-    if self.in_canada?
-      unless postal_code =~ /^\D\d\D((-| )?\d\D\d)?$/
-        errors.add :postal_code, "is not a valid Canadian postal code"
-      end
-      all_valid_states = DemocracyInAction::Helpers.state_options_for_select(:include_provinces => true).map{|a| a[1]}
-      valid_provinces = all_valid_states - usa_valid_states
-      if state.blank? or not valid_provinces.include?(state)
-        errors.add :state, "is not a valid Canadian province"
-      end
-    end
+    validate_us_postal_code and validate_us_state if self.in_usa?
+    validate_canadian_postal_code and validate_canadian_province if self.in_canada?
     self.state = nil unless self.in_usa? or self.in_canada?
+
     if event_start = self.calendar.event_start
       if event_end = self.calendar.event_end
         if self.start && self.start < event_start.at_beginning_of_day
@@ -75,7 +59,34 @@ class Event < ActiveRecord::Base
       errors.add_to_base "Not enough information provided to place event on a map. Please give us at minimum a valid postal code."
     end
   end
-  #XXX: need to strip out DIA specific language
+
+  def validate_us_state
+    usa_valid_states = DemocracyInAction::Helpers.state_options_for_select.map{|a| a[1]}
+    if state.blank? or not usa_valid_states.include?(state)
+      errors.add :state, "is not a valid U.S. state"
+    end
+  end
+
+  def validate_us_postal_code
+    unless postal_code =~ /^\d{5}(-\d{4})?$/
+      errors.add :postal_code, "is not a valid U.S. postal code"
+    end
+  end
+
+  def validate_canadian_province
+    usa_valid_states = DemocracyInAction::Helpers.state_options_for_select.map{|a| a[1]}
+    all_valid_states = DemocracyInAction::Helpers.state_options_for_select(:include_provinces => true).map{|a| a[1]}
+    valid_provinces = all_valid_states - usa_valid_states
+    if state.blank? or not valid_provinces.include?(state)
+      errors.add :state, "is not a valid Canadian province"
+    end
+  end
+
+  def validate_canadian_postal_code
+    unless postal_code =~ /^\D\d\D((-| )?\d\D\d)?$/
+      errors.add :postal_code, "is not a valid Canadian postal code"
+    end
+  end
 
   has_many :blogs
   
@@ -167,6 +178,12 @@ class Event < ActiveRecord::Base
   
   def nearby_events
     self.calendar.public_events.find(:all, :origin => self, :within => 50, :conditions => ["events.id <> ?", self.id])
+  end
+
+  def set_calendar
+    if self.calendar and self.calendar.calendars.any?
+      self.calendar_id = calendar.calendars.current.id
+    end
   end
     
   def set_district

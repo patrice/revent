@@ -43,6 +43,8 @@ class ApplicationController < ActionController::Base
       redirect_to :controller => :site, :action => :splash
       return false
     end
+    # extend calendar scope for calendars that have many calendars
+    @calendar.extend_scope    
   end
 
   theme :get_theme
