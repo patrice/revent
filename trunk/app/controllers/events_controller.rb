@@ -254,13 +254,12 @@ class EventsController < ApplicationController
   
   def international
     @country_a3 = params[:id] || 'all'
-    @country_code = CountryCodes.find_by_a3(@country_a3.upcase)[:numeric] || "all"
-    if @country_code == "all"
+    @country_code = CountryCodes.find_by_a3(@country_a3.upcase)[:numeric] || 'all'
+    if @country_code == 'all'
       @events = @calendar.public_events.paginate(:all, :conditions => ["country_code <> ?", Event::COUNTRY_CODE_USA], :order => 'country_code, city, start', :page => params[:page])
     else
       @events = @calendar.public_events.paginate(:all, :conditions => ["country_code = ?", @country_code], :order => 'start, city', :page => params[:page])
     end
-    @countries_for_select = CountryCodes::countries_for_select('name', 'a3').map{|a| [a[0],a[1].downcase]}.sort.unshift(['All Countries', 'all'])
   end
   
   def search

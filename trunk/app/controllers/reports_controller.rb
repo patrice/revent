@@ -55,10 +55,16 @@ class ReportsController < ApplicationController
   end
 
   def international 
-    @events = @calendar.public_events.paginate(:all, :include => {:reports => :attachments}, 
-      :conditions => "reports.id AND reports.status = '#{Report::PUBLISHED}' AND country_code <> '#{Event::COUNTRY_CODE_USA}'", :order => "reports.id", :page => params[:page], :per_page => 20)
+    @country_a3 = params[:id] || "all"
+    @country_code = CountryCodes.find_by_a3(@country_a3)[:numeric] || "all"
+    if @country_code == "all"
+      @events = @calendar.public_events.paginate(:all, :include => {:reports => :attachments}, 
+        :conditions => "reports.id AND reports.status = '#{Report::PUBLISHED}' AND country_code <> '#{Event::COUNTRY_CODE_USA}'", :order => "reports.id", :page => params[:page], :per_page => 20)
+    else
+      @events = @calendar.public_events.paginate(:all, :include => {:reports => :attachments}, 
+        :conditions => ["reports.id AND reports.status = '#{Report::PUBLISHED}' AND country_code = ?", @country_code], :order => "reports.id", :page => params[:page], :per_page => 20)
+    end
     @reports = @events.collect {|e| e.reports.first}
-    render :action => 'list'
   end
  
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
