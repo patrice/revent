@@ -27,7 +27,6 @@
       <% end -%>
         <div id="site_menu">
           <div id="site_id"><%= "#{site.theme.camelize}: #{site.host}:" %></div>
-          <% restrict_to 'admin' do -%>
           <div>
             <% form_tag :controller => @current_controller, :action => @current_action, :method => :get do %>
               <ul id="calendar_menu">
@@ -45,10 +44,8 @@
               </ul>
             <% end -%>
           </div>
-          <% end -%>
         </div> 
         <ul id='main_menu' class="tabs">
-          <% restrict_to 'admin' do -%>
           <li><%= activate_link_to "Users",   :controller => 'admin/users' %></li>
           <li><%= activate_link_to 'Events',  :controller => 'admin/events', :permalink => @most_recent_calendar.permalink %></li>
 			 <% if @most_recent_calendar.site.theme == "stepitup" -%>
@@ -76,7 +73,6 @@
               </ul>
             </li>
           </ul>
-    <% end -%>
       </div>
     <div id="main">
       <div id="flash"><%= flash[:notice] %></div>
