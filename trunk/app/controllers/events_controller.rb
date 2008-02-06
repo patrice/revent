@@ -188,11 +188,11 @@ class EventsController < ApplicationController
 
     @rsvp = Rsvp.new(:event_id => params[:id])
     if @user.valid? && @rsvp.valid?
-      if cookies[:partner]
+      if is_partner(cookies[:partner])
         @user.democracy_in_action ||= {}
-        if cookies[:partner] == "moveon" && Site.current.id == 6 && @calendar.id == 8
+        if @calendar.id == 8 # momsrising.fair-pay
           @user.democracy_in_action['supporter_custom'] ||= {}
-          @user.democracy_in_action['supporter_custom']['VARCHAR3'] = "moveon"
+          @user.democracy_in_action['supporter_custom']['VARCHAR3'] = cookies[:partner]
         else
           @user.democracy_in_action['supporter'] ||= {}
           @user.democracy_in_action['supporter']['Tracking_Code'] = "#{cookies[:partner]}_rsvp"

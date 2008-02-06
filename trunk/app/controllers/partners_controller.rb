@@ -1,6 +1,6 @@
 class PartnersController < ApplicationController
-  skip_before_filter :calendar
-  skip_before_filter :set_cache_root
+  #skip_before_filter :calendar
+  #skip_before_filter :set_cache_root
 
   before_filter :set_partner_cookie
   def set_partner_cookie
@@ -13,7 +13,11 @@ class PartnersController < ApplicationController
     if(File.exists?(file))
       render :file => file, :layout => true
     else
-      redirect_to home_url
+      if params[:permalink]
+        redirect_to :permalink => @calendar.permalink, :controller => 'calendars', :action => 'show', :id => nil, :format => nil 
+      else
+        redirect_to home_url
+      end
     end
   end
 end

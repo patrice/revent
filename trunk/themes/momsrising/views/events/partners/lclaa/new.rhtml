@@ -18,7 +18,7 @@
       <h3>Your Information</h3>
 		<em>*Required Fields</em><br /><br />
       <% fields_for :user, @user do |user| %>
-      <%= hidden_field_tag "user[democracy_in_action][supporter_custom][VARCHAR3]", "LCLAA" %>
+      <%= hidden_field_tag "user[democracy_in_action][supporter_custom][VARCHAR3]", "lclaa" %>
 
       <% if @hostform and @hostform.dia_user_tracking_code %>
         <%= hidden_field_tag "user[democracy_in_action][supporter][Tracking_Code]", @hostform.dia_user_tracking_code %>
@@ -183,7 +183,7 @@
         
         <%= hidden_field_tag "event[democracy_in_action][event][Maximum_Attendees]", 10000 %>
         <%= hidden_field_tag "event[democracy_in_action][event][Status]", "Unconfirmed" %>
-        <%= hidden_field_tag "event[democracy_in_action][event][Default_Tracking_Code]", "LCLAA" %>
+        <%= hidden_field_tag "event[democracy_in_action][event][Default_Tracking_Code]", "lclaa" %>
 
 
 		<% if @hostform and @hostform.dia_event_tracking_code %>
