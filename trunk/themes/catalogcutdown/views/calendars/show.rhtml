@@ -53,11 +53,19 @@
 		</div>
     <%= @map.to_html %>
     <%= gmaps_auto_center_and_zoom(@map) if @auto_center %>
-
-
-
   </div>
   <div id="national-footer">
-   
+    <br />
+    <b>More Tools</b><br />
+    <%= link_to 'Download', 'http://www.catalogcutdown.org/downloads/OnlineSearsToolkit.pdf' %> a toolkit [pdf]<br />
+    <%= link_to 'Download', 'http://www.catalogcutdown.org/downloads/SearsFactsheet.pdf' %> our factsheet about Sears [pdf]<br />
+    <%= link_to 'Download', 'http://www.catalogcutdown.org/downloads/SearsActionIdeas.pdf' %> list of action ideas [pdf]<br />
+    <%= link_to 'Download', 'http://www.catalogcutdown.org/downloads/SearsPetition.pdf' %> a petition [pdf]<br />
+    <%= link_to 'Download', 'http://www.catalogcutdown.org/downloads/KnowYourRights.pdf' %> information about your rights as an activist [pdf]<br />
+    <%= link_to 'Download', 'http://www.catalogcutdown.org/downloads/forestethicsCC1.pdf' %> the Catastrophic Consumption brochure [pdf]<br />
+    <br />
+    <%= link_to 'Become a Facebook friend of Candice the Caribou', 'http://smcm.facebook.com/s.php?q=candace+caribou' %>  and join the Paper Campaign group!<br />
+    <br />
+    Also, check out our <%= link_to 'photos on Flickr!', 'http://www.flickr.com/photos/9428708@N03/' %>
   </div>
 </div>
