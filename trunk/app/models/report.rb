@@ -11,7 +11,9 @@ class Report < ActiveRecord::Base
     calendar = self.event.calendar
     unless calendar.report_dia_trigger_key
       trigger = calendar.triggers.find_by_name("Report Thank You") || Site.current.triggers.find_by_name("Report Thank You")
-      TriggerMailer.deliver_report_thank_you(trigger, report) if trigger
+      require 'ostruct'
+      reporter = OpenStruct.new(:name => self.reporter_name, :email => self.reporter_email)
+      TriggerMailer.deliver_trigger(trigger, reporter, self.event) if trigger
     end
   end
     

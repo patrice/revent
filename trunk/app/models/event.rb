@@ -28,17 +28,33 @@ class Event < ActiveRecord::Base
 
   acts_as_mappable :lat_column_name => 'latitude', :lng_column_name => 'longitude'
   before_validation :geocode
-  before_save :set_calendar, :set_district
+  before_save :set_calendar, :set_district, :clean_country_state 
   
   validates_presence_of :name, :city, :start, :end, :calendar_id, :description, :location, :country_code 
   COUNTRY_CODE_USA = CountryCodes.find_by_name("United States of America")[:numeric] 
   COUNTRY_CODE_CANADA = CountryCodes.find_by_name("Canada")[:numeric] 
 
-  def validate
-    validate_us_postal_code and validate_us_state if self.in_usa?
-    validate_canadian_postal_code and validate_canadian_province if self.in_canada?
-    self.state = nil unless self.in_usa? or self.in_canada?
+  def state_is_canadian_province?
+      usa_valid_states = DemocracyInAction::Helpers.state_options_for_select.map{|a| a[1]}
+      all_valid_states = DemocracyInAction::Helpers.state_options_for_select(:include_provinces => true).map{|a| a[1]}
+      valid_provinces = all_valid_states - usa_valid_states
+      not state.blank? and valid_provinces.include?(state)
+  end
 
+  def clean_country_state
+    # usa is default country, if user sets state to 
+    # canadian province, set country to canada
+    if in_usa? and state_is_canadian_province? 
+      country_code = COUNTRY_CODE_CANADA 
+    end
+    unless in_usa? or in_canada?
+      state = nil 
+    end
+  end
+
+  def validate
+    validate_us_postal_code and validate_us_state if in_usa?
+    validate_canadian_postal_code and validate_canadian_province if in_canada?
     if event_start = self.calendar.event_start
       if event_end = self.calendar.event_end
         if self.start && self.start < event_start.at_beginning_of_day
@@ -74,10 +90,7 @@ class Event < ActiveRecord::Base
   end
 
   def validate_canadian_province
-    usa_valid_states = DemocracyInAction::Helpers.state_options_for_select.map{|a| a[1]}
-    all_valid_states = DemocracyInAction::Helpers.state_options_for_select(:include_provinces => true).map{|a| a[1]}
-    valid_provinces = all_valid_states - usa_valid_states
-    if state.blank? or not valid_provinces.include?(state)
+    unless state_is_canadian_province?
       errors.add :state, "is not a valid Canadian province"
     end
   end
@@ -110,7 +123,7 @@ class Event < ActiveRecord::Base
   end
 
   attr_writer :democracy_in_action
-  after_save :sync_to_democracy_in_action #, :trigger_email
+  after_save :sync_to_democracy_in_action, :trigger_email
   def sync_to_democracy_in_action
     return unless File.exists?(File.join(Site.current_config_path, 'democracyinaction-config.yml'))
     @democracy_in_action ||= {}
@@ -194,7 +207,7 @@ class Event < ActiveRecord::Base
     dia_warehouse = "http://warehouse.democracyinaction.org/dia/api/warehouse/append.jsp?id=radicaldesigns".freeze
     uri = dia_warehouse + "&postal_code=" + postal_code.to_s
     data = XmlSimple.xml_in(open(uri))
-    unless data['entry'][0]['district'].nil? || (self.district && data['entry'][0]['district'].map {|d| d.strip}.include?(self.district))
+    unless data['entry'][0]['district'].first.empty? || (self.district && data['entry'][0]['district'].map {|d| d.strip}.include?(self.district))
       self.district = data['entry'][0]['district'][0].strip 
     end
   end
