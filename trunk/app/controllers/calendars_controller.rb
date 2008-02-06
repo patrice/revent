@@ -17,12 +17,8 @@ class CalendarsController < ApplicationController
   verify :method => :post, :only => [ :create ],
          :redirect_to => { :action => :list }
 
-  def events
-    @events = @calendar.events
-  end
-
   def show
     # event query is in events_controller#flashmap or inline in themes/#{theme}/views/calendars/show.rhtml
-    render :action => 'show'
+    @flashmap_data_url = url_for(:permalink => @calendar.permalink, :controller => 'events', :action => 'flashmap', :only_path => true)
   end
 end

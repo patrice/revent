@@ -2,7 +2,7 @@
   <param name="movie" value="/us.swf?data_file=/<%= @calendar.permalink %>/events/flashmap.xml" />
 <param name="quality" value="high" />
 <param name="bgcolor" value="#FFFFFF" />
-<embed src="/us.swf?data_file=/<%= @calendar.permalink %>/events/flashmap.xml" quality="high" bgcolor="#FFFFFF"  width="500" height="297" name="Clickable U.S. Map" align="top" 
+<embed src="/us.swf?data_file=<%= @flashmap_data_url %>.xml" quality="high" bgcolor="#FFFFFF"  width="500" height="297" name="Clickable U.S. Map" align="top" 
 type="application/x-shockwave-flash" 
 pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
 </object>
