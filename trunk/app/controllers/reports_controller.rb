@@ -48,13 +48,19 @@ class ReportsController < ApplicationController
     @events = @calendar.public_events.paginate(:all, :include => {:reports => :attachments}, 
       :conditions => "reports.id AND reports.status = '#{Report::PUBLISHED}'", :order => "reports.id", :page => params[:page], :per_page => 20)
     @reports = @events.collect {|e| e.reports.first}
-
     # temporary fix to get everythingscool layout to load here
     if File.exists?("#{Theme.path_to_theme(Site.current.theme || @calendar.theme)}/layouts/reports.rhtml")
       render(:layout => "../../themes/#{Site.current.theme || @calendar.theme}/layouts/reports")
     end    
   end
 
+  def international 
+    @events = @calendar.public_events.paginate(:all, :include => {:reports => :attachments}, 
+      :conditions => "reports.id AND reports.status = '#{Report::PUBLISHED}' AND country_code <> '#{Event::COUNTRY_CODE_USA}'", :order => "reports.id", :page => params[:page], :per_page => 20)
+    @reports = @events.collect {|e| e.reports.first}
+    render :action => 'list'
+  end
+ 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => :post, :only => [ :destroy, :create, :update ],
          :redirect_to => { :action => :list }
@@ -67,7 +73,7 @@ class ReportsController < ApplicationController
 
   include ActionView::Helpers::TextHelper
   def new 
-    @events_select = @calendar.events.find(:all, :order=>"state,city").collect {|e| [truncate("#{e.state} - #{e.city} - #{e.start.strftime('%m/%d/%y')}: #{e.name}",70), e.id]}
+    @events_select = @calendar.events.find(:all, :order=>"state,city").collect {|e| [truncate("#{e.state || e.country} - #{e.city} - #{e.start.strftime('%m/%d/%y')}: #{e.name}",70), e.id]}
     @report = Report.new(:event_id => params[:id])
     if params[:service] && params[:service_foreign_key]
       @report.event = Event.find_or_import_by_service_foreign_key(params[:service_foreign_key])
@@ -126,7 +132,7 @@ class ReportsController < ApplicationController
         require 'upload_to_flickr'
         upload_images_to_flickr(@report.attachments, 
               :site_id => Site.current, 
-              :title => "#{@report.event.name} - #{@report.event.city}, #{@report.event.state}",
+              :title => "#{@report.event.name} - #{@report.event.city_state}",
               :flickr_tags =>  @event.calendar.flickr_tags(@event.id), 
               :flickr_photoset => @event.calendar.flickr_photoset)
         @report.check_akismet(r)
