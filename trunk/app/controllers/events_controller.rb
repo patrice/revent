@@ -328,8 +328,11 @@ class EventsController < ApplicationController
       return  # let calling method redirect based on @events 
     end    
     flash.now[:notice] = "Could not find postal code" and return unless @map_center
-    @events = @calendar.public_events.find(:all, :origin => @map_center, :within => 50, :order => 'distance')
-    @events.reject!{|e| e.category_id != params[:category]}
+    if params[:category] and not params[:category] == "all"
+      @events = @calendar.public_events.find(:all, :origin => @map_center, :within => 50, :order => 'distance', :conditions => ['category_id = ?', params[:category]])
+    else
+      @events = @calendar.public_events.find(:all, :origin => @map_center, :within => 50, :order => 'distance')
+    end
     @map_zoom = 12
     @auto_center = true
   end
