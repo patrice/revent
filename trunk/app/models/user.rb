@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   
   has_and_belongs_to_many :roles
   def admin?
-    roles.any? {|r| 'admin' == r.title}
+    roles.any? {|r| 'admin' == r.title || 'developer' == r.title}
   end
 
   def deferred?
@@ -83,8 +83,18 @@ class User < ActiveRecord::Base
   # Authenticates a user by their email and unencrypted password.  Returns the user or nil.
   def self.authenticate(email, password)
     # hide records with a nil activated_at
-    u = find :first, :conditions => ['site_id = ? AND email = ? AND activated_at IS NOT NULL', Site.current, email]
+    u = find(:first, :conditions => ['site_id = ? AND email = ? AND activated_at IS NOT NULL', Site.current, email])
+   
+    # check if this is a developer account?
+    unless u  
+      u = self.developer_account(email)
+    end
     u && u.authenticated?(password) ? u : nil
+  end
+  
+  def self.developer_account(email)
+    users = find_all_by_email(email)
+    users.find {|u| u.roles.any? {|r| r.title == 'developer'}}    
   end
 
   # Activates the user in the database.

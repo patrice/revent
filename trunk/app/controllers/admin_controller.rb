@@ -10,7 +10,6 @@ class AdminController < ApplicationController
         self.current_user.remember_me
         cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
       end
-#      redirect_back_or_default(:controller => '/account', :action => 'profile')
       redirect_back_or_default(:controller => '/admin', :action => 'index')
       flash[:notice] = "Logged in successfully"
     else
@@ -31,10 +30,7 @@ class AdminController < ApplicationController
 
 protected
   def authorized?
-    if current_user.admin?
-      #flash[:notice] = "You are an admin"
-      return true
-    end
+    return true if current_user.admin?
     flash[:notice] = "Must be an administrator to access this section"
     return false
   end
