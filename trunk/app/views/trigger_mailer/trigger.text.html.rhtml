@@ -1,1 +1,5 @@
-<%= @email_html %>
+<% if @email_html -%>
+  <%= @email_html %>
+<% else -%>
+  <%= simple_format(@email_plain) %>
+<% end -%>

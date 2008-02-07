@@ -4,7 +4,7 @@ class Trigger < ActiveRecord::Base
 
   TRIGGER_NAMES = ["Host Thank You", "RSVP Thank You", "Report Thank You", "Report Host Reminder"]
 
-	validates_presence_of     :from, :email_text, :site_id
+	validates_presence_of     :from, :email_plain, :site_id
   validates_length_of       :from, :within => 3..100
 	validates_uniqueness_of   :name, :scope => [:site_id, :calendar_id]
 end

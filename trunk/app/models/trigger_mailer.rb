@@ -7,7 +7,7 @@ class TriggerMailer < ActionMailer::Base
     @recipients           = ["#{recipient.name} <#{recipient.email}>"]
     @bcc                  = trigger.bcc
     @subject              = trigger.subject
-    @body = {:email_text => trigger.email_text, :email_html => trigger.email_html}
+    @body = {:email_plain => trigger.email_plain, :email_html => trigger.email_html}
   end
 
   protected
@@ -29,7 +29,7 @@ class TriggerMailer < ActionMailer::Base
     tokens['[REPORT_LINK]'] = url_for(:host => host, :permalink => permalink, :controller => 'reports', :action => 'show', :event_id => event)
     tokens['[NEW_REPORT_LINK]'] = url_for(:host => host, :permalink => permalink, :controller => 'reports', :action => 'new', :id => event)
     tokens.each do |token, value|
-      trigger.email_text.gsub!(token, value) if trigger.email_text
+      trigger.email_plain.gsub!(token, value) if trigger.email_plain
       trigger.email_html.gsub!(token, value) if trigger.email_html
     end
   end
