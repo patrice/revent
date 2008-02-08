@@ -25,8 +25,8 @@ class EventsController < ApplicationController
   after_filter :cache_search_results, :only => :search
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => :post, :only => [ :destroy, :create, :update ],
-         :redirect_to => { :action => :list }
+  verify :method => :post, :only => [ :destroy, :create, :update, :rsvp ],
+         :redirect_to => { :action => 'index' }
 
   def disable_create_when_event_past
     if params[:id]
@@ -244,12 +244,12 @@ class EventsController < ApplicationController
   end
 
   def host
-    @event = @calendar.events.find(params[:id], :include => :host)
-    @host = @event.host
+    @host = @calendar.events.find(params[:id], :include => :host).host
   end
 
   def index
-    redirect_to home_url
+    #redirect_to home_url
+    redirect_to :permalink => @calendar.permalink, :controller => 'calendars', :action => 'show'
   end
   
   def international
