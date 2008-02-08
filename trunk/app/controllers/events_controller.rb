@@ -244,7 +244,8 @@ class EventsController < ApplicationController
   end
 
   def host
-    @host = @calendar.events.find(params[:id], :include => :host).host
+    @event = @calendar.events.find(params[:id], :include => :host)
+    @host = @event.host
   end
 
   def index
