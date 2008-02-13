@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+  <title>Energy Action Coalition</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css" media="all">@import "http://energyactioncoalition.org/modules/system/defaults.css";</style>
+<style type="text/css" media="all">@import "http://energyactioncoalition.org/sites/all/themes/zen/energyactioncoal/style.css";</style>
+
+  <%= javascript_include_tag 'prototype' %>
+  <%= stylesheet_link_tag 'events' %>
+  <%= yield :header %>
+  <%= Cartographer::Gmap::Header.header_for(request) if @map %>
+
+
+</head>
+
+<body class="not-front not-logged-in">
+<div id="sub_body">	
+  <div id="page">
+    <div id="header">
+      <div id="logo-title">
+                               
+      </div> <!-- /logo-title -->
+      
+    </div> <!-- /header -->
+
+    <div id="navigation" class="menu withprimary ">
+
+                  <div id="primary" class="clear-block">
+            <ul class="links-menu">
+<li><a href="/newsroom" title="newsroom">newsroom</a></li>
+<li><a href="/projects" title="projects">projects</a></li>
+<li><a href="/partners" title="partners">partners</a></li>
+<li class="active"><a href="/about" title="about" class="active">about</a></li>
+<li><a href="/" title="home">home</a></li>
+</ul>          </div>
+                
+    </div> <!-- /navigation -->
+
+    
+    <div id="container" class="clear-block">
+                  
+        
+	
+      <div id="main" class="column"><div id="squeeze">
+                                                        	<div class="panel-2col"  id='about'>
+	  <div class="panel-col-first">
+	<div class="panel-2col-stacked"  id='about'>
+	  <div class="panel-col-top">
+	    <div></div>
+	  </div>
+	  <div class="panel-col-first">
+	    <div></div>
+	  </div>
+
+	  <div class="panel-col-last">
+	    <div>
+	    		<p>
+  <% if flash[:notice] %>
+</p>
+<div class="flash" id="notice"><%= flash[:notice] %></div>
+<% end %>
+<% if flash[:error] %>
+<div class="flash" id="error"><%= flash[:error] %></div>
+<% end %>
+<%= yield %>
+		<br /><br />
+	    
+	    </div>
+	  </div>
+	</div>
+	<br class="panel-clearer" />
+	  </div>
+
+	  <div class="panel-col-last">
+	    <div>	      </div>
+	  </div>
+	</div>
+	<br class="panel-clearer" />                      </div></div> <!-- /squeeze /main -->
+
+      
+  </div> <!-- /container -->
+
+    <div id="footer-wrapper">
+      <div id="footer">
+        
+      </div> <!-- /footer -->
+    </div> <!-- /footer-wrapper -->
+    
+   
+  </div> <!-- /page -->
+</div> <!-- /sub_body -->
+</body>
+</html>
