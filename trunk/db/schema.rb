@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 72) do
+ActiveRecord::Schema.define(:version => 77) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -63,17 +63,21 @@ ActiveRecord::Schema.define(:version => 72) do
     t.column "report_dia_trigger_key",  :integer
     t.column "flickr_tag",              :string
     t.column "flickr_additional_tags",  :string
-    t.column "flickr_photoset",         :integer
+    t.column "flickr_photoset",         :string
     t.column "rsvp_redirect",           :string
     t.column "report_redirect",         :string
     t.column "report_title_text",       :string
     t.column "report_intro_text",       :text
     t.column "attendee_invite_subject", :string
     t.column "attendee_invite_message", :text
+    t.column "admin_email",             :string
+    t.column "map_intro_text",          :text
+    t.column "parent_id",               :integer
   end
 
   add_index "calendars", ["permalink"], :name => "index_calendars_on_permalink"
   add_index "calendars", ["site_id"], :name => "index_calendars_on_site_id"
+  add_index "calendars", ["parent_id"], :name => "index_calendars_on_parent_id"
 
   create_table "categories", :force => true do |t|
     t.column "name",        :string
@@ -294,12 +298,6 @@ ActiveRecord::Schema.define(:version => 72) do
 
   add_index "tags", ["name"], :name => "index_tags_on_name", :unique => true
 
-  create_table "trigger_types", :force => true do |t|
-    t.column "tag",         :string
-    t.column "name",        :string
-    t.column "description", :text
-  end
-
   create_table "triggers", :force => true do |t|
     t.column "name",        :string
     t.column "from",        :string
@@ -307,13 +305,12 @@ ActiveRecord::Schema.define(:version => 72) do
     t.column "reply_to",    :string
     t.column "subject",     :string
     t.column "bcc",         :string
-    t.column "email_text",  :text
+    t.column "email_plain", :text
     t.column "email_html",  :text
     t.column "calendar_id", :integer
     t.column "site_id",     :integer
     t.column "created_at",  :datetime
     t.column "updated_at",  :datetime
-    t.column "type_id",     :integer
   end
 
   create_table "users", :force => true do |t|
