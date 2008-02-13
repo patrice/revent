@@ -6,6 +6,7 @@ ActiveRecord::Base.allow_concurrency = true
 require 'starling_client'
 require 'application'
 require 'admin/events_controller'
+require 'site'
 class ImageProcessor
   def self.run
     queue = Starling.new 'localhost:22122'
