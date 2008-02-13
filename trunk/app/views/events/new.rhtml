@@ -224,11 +224,11 @@ end
 					 <table>
 						<tr>
 							<td><div align="left">*Start</div></td>
-							<td><%= f.datetime_select 'start', :minute_step => 15, :html => {:style => "background-color: #ebd897;"} %>
+							<td><%= f.datetime_select 'start', :minute_step => 15, :html => {:style => "background-color: #ebd897;"}, :twelve_hour => true %>
 						</tr>
 						<tr>
 							<td><div align="left">*End</div></td>
-							<td><%= f.datetime_select 'end', :minute_step => 15, :html => {:style => "background-color: #ebd897;"} %>
+							<td><%= f.datetime_select 'end', :minute_step => 15, :html => {:style => "background-color: #ebd897;"}, :twelve_hour => true %>
 						</tr>							
 					 </table>
               </td>
