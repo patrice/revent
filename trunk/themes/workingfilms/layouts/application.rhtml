@@ -1,0 +1,144 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="Search" href="http://workingfilms.org/search.php">
+<link rel="icon" href="" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="http://workingfilms.org/styles_default.css" id="default">
+<link rel="stylesheet" type="text/css" href="http://workingfilms.org/custom/styles.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://workingfilms.org/rssfeed.php"><title>Working Films&nbsp;:&nbsp;Films & Projects</title>
+<script language="Javascript"  type="text/javascript" src="http://workingfilms.org/scripts/functions.js"></script>
+<script language="Javascript"  type="text/javascript" src="http://workingfilms.org/scripts/ajax/prototype.js"></script>
+<script language="Javascript"  type="text/javascript" src="http://workingfilms.org/scripts/ajax/scriptaculous.js?load=effects"></script>
+
+<script language="Javascript"  type="text/javascript">
+function AMP_System_Page_Onload( ) {
+WF_Films_Menu = AMP_simple_tabs();
+WF_Films_Menu.add('film_issue_list_14', 'film_issue_trigger_14');
+WF_Films_Menu.add('film_issue_list_15', 'film_issue_trigger_15');
+WF_Films_Menu.add('film_issue_list_16', 'film_issue_trigger_16');
+WF_Films_Menu.add('film_issue_list_17', 'film_issue_trigger_17');
+WF_Films_Menu.add('film_issue_list_18', 'film_issue_trigger_18');
+WF_Films_Menu.add('film_issue_list_20', 'film_issue_trigger_20');
+WF_Films_Menu.add('film_issue_list_19', 'film_issue_trigger_19');
+WF_Films_Menu.collapse();
+}
+if (window.addEventListener) { 
+    window.addEventListener("load", AMP_System_Page_Onload, false);
+} else if (window.attachEvent) { 
+    window.attachEvent("onload", AMP_System_Page_Onload );
+} else if (document.getElementById) { 
+    window.onload=AMP_System_Page_Onload;
+}
+</script>
+
+
+  <%= javascript_include_tag 'prototype' %>
+  <%= stylesheet_link_tag 'events' %>
+  <%= yield :header %>
+  <%= Cartographer::Gmap::Header.header_for(request) if @map %>
+
+
+</head>
+
+<body bgcolor="#343434">
+<div id="centerpage">
+  <div id="page">
+    <div id="pageheader"><a href="http://workingfilms.org/index.php"><img src="http://workingfilms.org/img/layout/header.jpg" border="0" /></a></div>
+    <div id="navbar">
+	 <ul id="navbarul">
+			<li class="about"><a href="http://workingfilms.org/section.php?id=3"></a></li>
+			<li class="filmsactive"><a href="http://workingfilms.org/section.php?id=4"></a></li>
+			<li class="filmmaker"><a href="http://workingfilms.org/section.php?id=5"></a></li>
+			<li class="campaign"><a href="http://workingfilms.org/section.php?id=6"></a></li>
+			<li class="calendar"><a href="http://workingfilms.org/section.php?id=7"></a></li>
+			<li class="donate"><a href="http://workingfilms.org/section.php?id=8"></a></li>
+			<li class="newsroom"><a href="http://workingfilms.org/section.php?id=9"></a></li>
+		  </ul>
+	      </div> <div id="contentframe">
+    <div id="contentwrapper">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td id="shadowboxlefttd"><img src="http://workingfilms.org/img/layout/shadow-top-left.jpg" /></td>
+          <td><div id="content">
+              <div id="leftfilmbluetop"><img src="http://workingfilms.org/img/layout/leftfilmbluetop.jpg" /></div>
+              <div id="leftfilmbluebottom"><img src="http://workingfilms.org/img/layout/leftfilmbluebottom.jpg" /></div>
+              <div id="contentbox">
+                <div id="contentpath"> <!-- BEGIN BREADCRUMB CODE -->
+
+<span class='breadcrumb'><a href="http://workingfilms.org/index.php" class='breadcrumb'>Home</a> &nbsp;&nbsp;<b>&#187;</b>&nbsp;&nbsp;<a href="http://workingfilms.org/article.php?list=type&type=4" class="breadcrumb">Films & Projects</a>&nbsp;&nbsp;<b>&#187;</b>&nbsp;&nbsp;Films & Projects
+</span>
+<br /><br /><!-- END BREADCRUMB CODE --></div>
+               
+
+ <div id="pagecontent">
+								<% if flash[:notice] %>
+			</p>
+			<div class="flash" id="notice"><%= flash[:notice] %></div>
+			<% end %>
+			<% if flash[:error] %>
+			<div class="flash" id="error"><%= flash[:error] %></div>
+			<% end %>
+			<%= yield %>
+                  <br />
+                  <div id="tellafriend"><img src="http://workingfilms.org/img/layout/tellafriend.jpg" /><a href="http://workingfilms.org/javascript:openform('mailto.php')" class="sidelist">Tell a Friend</a></div>
+                </div>
+              </div>
+              <div id="leftfilmcontent">
+               <!-- widget js -->
+				<script language="javascript" type="text/javascript" src="http://workingfilms.org/nav_widget.php?position=left&intro_id=102&format=js"></script>
+
+			<!-- end widget js --> 
+              <!--  <div id="contentpagebluebox"> <a href="http://workingfilms.org/article.php?list=type&type=11"><img src="http://workingfilms.org/img/layout/contentblueboxbullet.jpg" />FIND A SCREENING</a>
+                  <a href="http://workingfilms.org/article.php?list=type&type=11"><img src="http://workingfilms.org/img/layout/contentblueboxbullet.jpg" />HOST A SCREENING</a>
+                  <a href="http://workingfilms.org/#"><img src="http://workingfilms.org/img/layout/contentblueboxbullet.jpg" />READ OUR BLOG!</a> </div>
+-->
+                <div id="leftfilmsearchbluebox">
+			<form name="email" method="post" action="http://www.democracyinaction.org/dia/api/process.jsp" style="margin-top: 0px; margin-bottom: 0px;">		
+			<input type="hidden" name="organization_KEY" value="1047" />
+			<input type="hidden" name="link" value="groups">
+			<input type="hidden" name="linkKey" value="59227">
+			<input type="hidden" name="table" value="supporter" />
+			<input type="hidden" name="redirect" value="http://salsa.democracyinaction.org/o/1047/t/5350/signUp.jsp?key=3004&Email=[[Email]]">
+			<input name="Email" type="text">
+			<input name="q" type="image" class="inputimage" src="http://workingfilms.org/img/layout/leftfilmgo.jpg" alt="go" border="0" > 
+			</form>
+                 </div>
+                <div id="contentpagesearchbluebox">
+         <form method="get" action="search.php"><input type="text" name="fulltext" />
+                  <input name="fulltext" type="image" class="inputimage" src="http://workingfilms.org/img/layout/leftfilmgo.jpg" alt="go" border="0"></form> <form name="filmsbysubject">
+                  <p> Find films by Subject: </p>
+                   <select name="bysubject" OnChange="location.href=filmsbysubject.bysubject.options[selectedIndex].value">
+            	<option>Select Subject</option>
+				<option value="http://workingfilms.org/display.php?modin=52&custom2=14">Civil Rights</option>
+				<option value="http://workingfilms.org/display.php?modin=52&custom2=15">Criminal Justice</option>
+				<option value="http://workingfilms.org/display.php?modin=52&custom2=16">Economic Justice</option>
+				
+				<option value="http://workingfilms.org/display.php?modin=52&custom2=17">Environmental Justice</option>
+				<option value="http://workingfilms.org/display.php?modin=52&custom2=18">Global Conflict</option>
+				<option value="http://workingfilms.org/display.php?modin=52&custom2=20">Human Rights</option>
+				<option value="http://workingfilms.org/display.php?modin=52&custom2=19">Latinos and Social Justice</option>  
+
+  </select>
+
+            </form>
+                </div>
+                <br class="clear" />
+              </div>
+            </div></td>
+          <td id="shadowboxrighttd" valign="top"><img src="http://workingfilms.org/img/layout/shadow-top-right.jpg" /></td>
+        </tr>
+        <tr>
+          <td colspan=2 id="shadowboxbottomtd"><img src="http://workingfilms.org/img/layout/shadow-bottom-left.jpg" /></td>
+          <td><img src="http://workingfilms.org/img/layout/shadow-bottom-right.jpg" /></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+  <div id="footer"> <a href="http://workingfilms.org/index.php">Home</a>&nbsp;&nbsp; | &nbsp;&nbsp; <a href="http://workingfilms.org/article.php?id=41">Contact Us</a>&nbsp;&nbsp; | &nbsp;&nbsp; <a href="http://workingfilms.org/article.php?list=type&type=9">Newsroom</a>&nbsp;&nbsp; | &nbsp;&nbsp; <a href="http://workingfilms.org/sitemap.php">Sitemap</a>&nbsp;&nbsp;<br />
+    <b>Working Films </b> 602 South Fifth Avenue, Wilmington, NC 28401, (910) 342-9000 Phone, (910) 342-9003 Fax <br />
+
+<a href="http://workingfilms.org/http://www.flickr.com/photos/workingfilms"><img src="http://workingfilms.org/img/wf_flickr_bug.gif" border="0"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://workingfilms.org/http://www.myspace.com/workingfilms"><img src="http://workingfilms.org/img/wf_myspace_bug.gif" border="0"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://workingfilms.org/http://www.youtube.com/workingfilmsdocs"><img src="http://workingfilms.org/img/wf_ytube_bug.gif" border="0"></a>&nbsp;&nbsp;</div>
+</div>
+</body>
+</html>
