@@ -2,6 +2,7 @@ class ReportsController < ApplicationController
 
   caches_page :show, :index, :flashmap, :list, :new, :press, :video, :lightbox
   cache_sweeper :report_sweeper, :only => [ :create, :update, :destroy, :publish, :unpublish ]
+  verify :method => :post, :only => :create, :redirect_to => {:action => 'index'}
 
   def index
     @events = @calendar.public_events.find(:all, :include => :reports, :conditions => ["latitude <> 0 AND longitude <> 0 AND country_code = ?", Event::COUNTRY_CODE_USA])
@@ -39,6 +40,13 @@ class ReportsController < ApplicationController
   def flashmap
     # all events should have lat/lng or fallback lat/lng; remove ones that don't just in case
     @events = @calendar.events.find(:all, :conditions => ["(latitude <> 0 AND longitude <> 0 AND country_code = ?)", Event::COUNTRY_CODE_USA])
+    respond_to do |format|
+      format.xml { render :layout => false }
+    end
+  end
+
+  def rss
+    @reports = @calendar.published_reports(:all, :order => "updated_at DESC")
     respond_to do |format|
       format.xml { render :layout => false }
     end
@@ -87,7 +95,7 @@ class ReportsController < ApplicationController
   end
 
   def create
-    redirect_to(:action => :index) and return unless params[:user]
+    #redirect_to(:action => :index) and return unless params[:user]
     @report = Report.new(params[:report])
     @user = User.find_or_initialize_by_site_id_and_email(Site.current.id, params[:user][:email]) # or current_user
     @user.attributes = params[:user].reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
