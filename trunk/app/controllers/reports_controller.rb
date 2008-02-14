@@ -80,7 +80,7 @@ class ReportsController < ApplicationController
          :redirect_to => { :action => :list }
 
   def scrolling_photos 
-    @reports = @calendar.published_reports.find(:all, :include => :attachments, :conditions => "attachments.id AND attachments.content_type = 'image/jpeg'")
+    @reports = @calendar.published_reports.find(:all, :include => :attachments, :conditions => "attachments.id AND attachments.content_type = 'image/jpeg' AND attachments.primary = 1"))
   end
 
   def show
