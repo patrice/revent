@@ -79,6 +79,10 @@ class ReportsController < ApplicationController
   verify :method => :post, :only => [ :destroy, :create, :update ],
          :redirect_to => { :action => :list }
 
+  def scrolling_photos 
+    @reports = @calendar.published_reports.find(:all, :include => :attachments, :conditions => "attachments.id AND attachments.content_type = 'image/jpeg'")
+  end
+
   def show
     @event = @calendar.events.find(params[:event_id], :include => {:reports => :attachments}, :order => 'reports.position')
     @attending_politicians = @event.attending_politicians.map {|p| p.parent || p}.uniq
