@@ -45,6 +45,16 @@ class ReportsController < ApplicationController
     end
   end
 
+  def scrolling_photos 
+    # not quite ready to scroll dynamic content
+    redirect_to :action => 'index' and return
+    @reports = @calendar.published_reports.find(:all, :include => [:attachments], :conditions => "attachments.id AND attachments.content_type = 'image/jpeg'", :limit => 5)
+    #@reports = @calendar.published_reports.find(:all, :include => :attachments, :conditions => "events.id IN (3144, 3155, 3215, 3178, 3181, 3136) AND attachments.primary = 1")
+    respond_to do |format|
+      format.xml {render :layout => false}
+    end
+  end
+
   def rss
     @reports = @calendar.published_reports(:all, :order => "updated_at DESC")
     respond_to do |format|
@@ -78,10 +88,6 @@ class ReportsController < ApplicationController
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => :post, :only => [ :destroy, :create, :update ],
          :redirect_to => { :action => :list }
-
-  def scrolling_photos 
-    @reports = @calendar.published_reports.find(:all, :include => :attachments, :conditions => "attachments.id AND attachments.content_type = 'image/jpeg' AND attachments.primary = 1"))
-  end
 
   def show
     @event = @calendar.events.find(params[:event_id], :include => {:reports => :attachments}, :order => 'reports.position')
