@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
     roles.any? {|r| 'admin' == r.title || 'developer' == r.title}
   end
 
+  def developer?
+    roles.any? {|r| 'developer' == r.title} 
+  end
+
   def deferred?
     @deferred
   end
@@ -59,6 +63,22 @@ class User < ActiveRecord::Base
   
   def democracy_in_action_key
     democracy_in_action_object.key if democracy_in_action_object
+  end
+
+  def self.create_from_democracy_in_action_supporter(supporter, site)
+    u = User.find_or_initialize_by_site_id_and_email(site.id, supporter.Email)
+    u.first_name = supporter.First_Name
+    u.last_name = supporter.Last_Name
+    u.state = supporter.State
+    u.postal_code = supporter.Zip
+    unless u.crypted_password || (u.password && host.password_confirmation)
+      password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+      u.password = host.password_confirmation = password
+    end
+    unless u.save
+      logger.warning("Validation error(s) occurred when trying to create user from DemocracyInActionSupporter: #{u.errors.inspect}")
+      e.save_with_validation(false)
+    end
   end
   # end extract me
 
@@ -158,7 +178,7 @@ class User < ActiveRecord::Base
     self.remember_token            = nil
     save(false)
   end
-  
+
   def full_name
     [first_name, last_name].compact.join(' ')
   end
