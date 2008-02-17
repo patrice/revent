@@ -2,16 +2,35 @@
    Main StyleSheet for the 'Unitedforpeace' theme
 */
 
-BODY { }
+a.imgnoborders {
+background: transparent;
 
+}
 .sidelist input {
 	color:#000000;
 	font-size:13px;
 	border: 0px;
 	margin: 0px 0px 0px 0px;
 	padding: 3px;
+	border: 1px solid #888888;
 }
 
 #email_input {
 	border: 1px solid #000000;
+}
+
+.headerlinks {
+color: #777777;
+font-size: 12px;
+text-align: center;
+display: block;
+font-weight: bold;
+margin: 10px 2px 2px 2px;
+}
+
+.headerlinks a {
+color: #777777;
+font-size: 12px;
+text-align: center;
+font-weight: bold;
 }
