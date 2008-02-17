@@ -161,20 +161,23 @@ class Event < ActiveRecord::Base
     e.latitude = dia_event.Latitude 
     e.longitude = dia_event.Longitude
     e.description = dia_event.Description
-    e.start = dia_event.Start
-    e.end = e.start + 2.hours
-    host = User.create_from_democracy_in_action_supporter(DemocracyInActionSupporter.find(e.supporter_KEY), calendar.site)
+    e.start = dia_event.Start 
+    e.start ||= calendar.start #'4/1/08'.to_time.beginning_of_day + 12.hours
+    e.end = e.start + 2.hours 
+    supporter = DemocracyInActionSupporter.find(dia_event.supporter_KEY)
+    return nil unless supporter
+    host = User.create_from_democracy_in_action_supporter(calendar.site, supporter)
     e.host_id = host.id
     dia_obj = DemocracyInActionObject.new(:table => 'event', :key => dia_event.event_KEY) 
     dia_obj.save
     unless e.save
-      logger.warning("Validation error(s) occurred when trying to create event from DemocracyInActionEvent: #{e.errors.inspect}")
+      logger.warn("Validation error(s) occurred when trying to create event from DemocracyInActionEvent: #{e.errors.inspect}")
       e.save_with_validation(false)
     end
     dia_obj.synced = e
     dia_obj.save
     dia_event.attendees.each do |attendee|
-      u = User.create_from_democracy_in_action_supporter(DemocracyInActionSupporter.find(attendee.supporter_KEY), calendar.site)
+      u = User.create_from_democracy_in_action_supporter(calendar.site, DemocracyInActionSupporter.find(attendee.supporter_KEY))
       rsvp = e.rsvps.create(:user_id => u.id)
     end
   end

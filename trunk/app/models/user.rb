@@ -65,20 +65,27 @@ class User < ActiveRecord::Base
     democracy_in_action_object.key if democracy_in_action_object
   end
 
-  def self.create_from_democracy_in_action_supporter(supporter, site)
+  def self.create_from_democracy_in_action_supporter(site, supporter)
     u = User.find_or_initialize_by_site_id_and_email(site.id, supporter.Email)
     u.first_name = supporter.First_Name
     u.last_name = supporter.Last_Name
+    u.phone = supporter.Phone
     u.state = supporter.State
     u.postal_code = supporter.Zip
+    unless u.democracy_in_action_key
+      dia_obj = DemocracyInActionObject.new(:table => 'supporter', :key => supporter.key)
+      dia_obj.save
+    end
     unless u.crypted_password || (u.password && host.password_confirmation)
       password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-      u.password = host.password_confirmation = password
+      u.password = u.password_confirmation = password
     end
     unless u.save
-      logger.warning("Validation error(s) occurred when trying to create user from DemocracyInActionSupporter: #{u.errors.inspect}")
-      e.save_with_validation(false)
+      logger.warn("Validation error(s) occurred when trying to create user from DemocracyInActionSupporter: #{u.errors.inspect}")
+      u.save_with_validation(false)
     end
+    dia_obj.synced = u
+    dia_obj.save
   end
   # end extract me
 
