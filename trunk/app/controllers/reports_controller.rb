@@ -169,6 +169,8 @@ class ReportsController < ApplicationController
     else
       render :permalink => @calendar.permalink, :action => 'new'
     end
+  rescue NoMethodError
+    redirect_to :permalink => @calendar.permalink, :action => 'index'
   end
 
   def lightbox
