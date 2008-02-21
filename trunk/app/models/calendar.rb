@@ -1,3 +1,9 @@
+# see comments for def extend_scope in this file 
+#class ActiveRecord::Associations::HasManyAssociation
+class ActiveRecord::Associations::AssociationProxy
+  attr_accessor :finder_sql
+end
+
 class Calendar < ActiveRecord::Base
   validates_uniqueness_of :permalink, :scope => :site_id
   validates_presence_of :site_id, :permalink, :name
@@ -5,12 +11,26 @@ class Calendar < ActiveRecord::Base
   def escape_permalink
     self.permalink = PermalinkFu.escape(self.permalink)
   end
-  
+=begin
+  after_create :create_dia_distributed_event
+  def create_dia_distributed_event
+    #obj = self.democracy_in_action_object.build
+    obj = DemocracyInActionObject.new
+    obj.synced_type = "Calendar"
+    obj.synced_id = calendar.id
+    obj.table = democracy_in_action_synced_table
+    obj.key = key 
+    obj.save
+  end
+=end
+
   belongs_to :site
   
   @@deleted_events = []
   @@all_events = []
 #  FINDER_SQL = 'SELECT * FROM events WHERE events.calendar_id IN (#{calendar_ids.unshift(id).join(\',\')})'
+  has_many :reports, :through => :events
+  has_many :published_reports, :through => :events, :source => "reports", :conditions => "reports.status = '#{Report::PUBLISHED}'"
   has_many :public_events, 
            :class_name => "Event",
            :conditions => "private IS NULL OR private = FALSE"
@@ -48,9 +68,10 @@ class Calendar < ActiveRecord::Base
   def extend_scope
     events.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
     public_events.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
+    reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
+    published_reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
   end
   
-  has_many :published_reports, :through => :events, :source => "reports", :conditions => "reports.status = '#{Report::PUBLISHED}'"
 
   def self.any?
     self.count != 0
@@ -94,7 +115,3 @@ class Calendar < ActiveRecord::Base
   end
 end
 
-# see comments for def extend_scope in this file 
-class ActiveRecord::Associations::HasManyAssociation
-  attr_accessor :finder_sql
-end

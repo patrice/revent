@@ -6,9 +6,9 @@ class Admin::ReportsController < AdminController
 
   def list
     if params[:id] == 'unpublished'
-      @reports = Report.paginate(:all, :include => [:attachments, :event], :conditions => "events.calendar_id = #{@calendar.id} AND (status IS NULL OR status <> '#{Report::PUBLISHED}')", :per_page => 50, :page => params[:page])
+      @reports = @calendar.reports.paginate(:all, :per_page => 20, :page => params[:page])
     else
-      @reports = Report.paginate(:all, :include => [:attachments, :event], :conditions => "events.calendar_id = #{@calendar.id}", :per_page => 50, :page => params[:page])
+      @reports = @calendar.published_reports.paginate(:all, :per_page => 20, :page => params[:page])
     end
   end
 
