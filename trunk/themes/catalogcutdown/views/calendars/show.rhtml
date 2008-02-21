@@ -4,8 +4,12 @@
 		<p class="title">For Activists</p>
     </div>
     <div class="national-intro-directions">
+     <% if @calendar.map_intro_text -%>
+        <%= @calendar.map_intro_text %>
+      <% else -%>
       <p>Thanks to your work, we've transformed Victoria's Secret and gotten companies like LL Bean, Dell, and Williams-Sonoma to make new commitments for forest protection.  Sears Holdings Corporation is the largest catalog company that still hasn't made real commitments to get out of Endangered Forests and use more sustainable catalog paper.  With your help, we can hold Sears accountable for its role in forest destruction.</p>
       Click on a state/province or enter your zip/postal code to find an event near you.  You can also <%= link_to 'host your own event', :permalink => @calendar.permalink, :controller => 'events', :action => 'new' %>
+       <% end -%>
     </div>
   </div>
   <div id="national-map-container">
