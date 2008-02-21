@@ -22,20 +22,16 @@ module ActionView
           ".."                                                 # Mailer fallback
         ]
         if use_full_path
-          template_path_without_extension, template_extension_explicit = path_and_extension(template_path)
+          template_path_without_extension, template_extension = path_and_extension(template_path)
+          template_extension = pick_template_extension(template_path).to_s unless template_extension
           local_assigns['active_theme'] = controller.current_theme unless controller.current_theme.nil? 
           search_path.each do |prefix|
             begin
-              template_extension = template_extension_explicit || pick_template_extension("#{prefix}/#{template_path_without_extension}")
               if File.exists?(full_template_path("#{prefix}/#{template_path_without_extension}", template_extension))
                 # Prevent .rhtml (or any other template type) if force_liquid == true
                 raise ThemeError.new("Template '#{template_path}' must be a liquid document") if controller.force_liquid_template && template_extension.to_s != 'liquid' && prefix != '.'                  
-                return __render_file("#{prefix}/#{template_path_without_extension}.#{template_extension}", use_full_path, local_assigns)
+                return __render_file("#{prefix}/#{template_path}", use_full_path, local_assigns)
               end
-            rescue ActionView::TemplateError => err
-              raise err
-            rescue ActionView::ActionViewError => err
-               next
             rescue ThemeError => err
               raise err
             end
