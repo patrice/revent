@@ -4,6 +4,8 @@ class Account::EventsController < ApplicationController
   # login_required calls authorized? (at bottom of this file) 
   # which sets up @event for any method in this controller to use
   before_filter :login_required   
+  cache_sweeper :event_sweeper, :only => [:update, :remove, :upload]
+  #verify :method => :post, :only => [:update, :remove, :upload], :redirect_to => {:action => 'index'}
 
   def index
     @hosting = current_user.events
@@ -71,12 +73,6 @@ class Account::EventsController < ApplicationController
 
   def remove
     @event.destroy
-=begin
-    api = DIA_API_Simple.new API_OPTS
-    records = api.get 'supporter_event', 'where' => "supporter_KEY=#{current_user.key}"
-    rec = records.detect {|r| r['event_KEY'] == @event.dia_event.key}
-    api.deleteKey 'supporter_event', rec['key'] unless rec.nil? || rec.empty?
-=end
     redirect_to :action => 'index'
   end
 

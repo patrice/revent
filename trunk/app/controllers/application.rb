@@ -39,10 +39,7 @@ class ApplicationController < ActionController::Base
 
   def set_calendar
     @calendar = site.calendars.detect {|c| params[:permalink] == c.permalink } || site.calendars.current || site.calendars.first    
-    if not @calendar
-      redirect_to :controller => :site, :action => :splash
-      return false
-    end
+    raise 'no calendar' unless @calendar
     # extend calendar scope for calendars that have many calendars
     @calendar.extend_scope    
   end

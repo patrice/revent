@@ -14,7 +14,8 @@ config.action_controller.consider_all_requests_local = true
 config.action_controller.perform_caching             = true
 config.action_controller.page_cache_directory        = File.join(RAILS_ROOT, 'test/tmp/cache/pages')
 config.action_controller.fragment_cache_store        = :file_store, File.join(RAILS_ROOT, 'test/tmp/cache/fragments')
-config.active_record.observers = :event_sweeper, :politician_invite_sweeper
+config.active_record.observers = :calendar_sweeper, :event_sweeper
+    :report_sweeper, :politician_invite_sweeper, :rsvp_sweeper, :attachment_sweeper
 
 # need to test dia functionality using test account
 DIA_ENABLED = true  

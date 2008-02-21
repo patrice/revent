@@ -1,18 +1,32 @@
 class EventsController < ApplicationController
-  before_filter :login_required, :only => [:edit, :update, :destroy]
-  before_filter :disable_create_when_event_past, :only => [:new, :create, :rsvp]
-#  access_control [:edit, :update, :destroy, :create] => 'admin'
   include DaysOfAction::Geo
+  before_filter :disable_create_when_event_past, :only => [:new, :create, :rsvp]
+  def disable_create_when_event_past
+    if params[:id]
+      @event = @calendar.events.find(params[:id]) 
+      redirect_to home_url if @event.past?
+    else
+      redirect_to home_url if @calendar.past?
+    end
+  end
 
-  caches_page :index, :total, :by_state, :show, :simple, :international #, :upcoming
-#  before_filter(:only => :show) {|c| c.request.env["HTTP_IF_MODIFIED_SINCE"] = nil} #don't 304
-#  caches_action :show
-#  def action_fragment_key(options)
-#    key = url_for(options).split('://').last
-#    key << "&#{cache_version_key}=#{cache_version}"
-#    key << "&partner=#{cookies[:partner]}" if cookies[:partner]
-#    key
-#  end
+  # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
+  verify :method => :post, :only => [:create, :rsvp], :redirect_to => {:action => 'index'}
+
+  caches_page :index, :total, :by_state, :show, :simple, :international
+  cache_sweeper :event_sweeper, :only => :create
+  after_filter :cache_search_results, :only => :search
+  def cache_search_results
+    if params[:state]
+      if params[:permalink]
+        # cache_page accepts string for second argument in rails v2.0
+        # replace url_for hash with state_search_url  once upgrade to 2.0
+        cache_page nil, :permalink => params[:permalink], :controller => :events, :action => :search, :state => params[:state] 
+      else
+        cache_page 
+      end
+    end
+  end
 
   def cache_version
     Cache.get(cache_version_key) { rand(10000) }
@@ -22,20 +36,6 @@ class EventsController < ApplicationController
     "site_#{Site.current.id}_#{self.class.to_s.underscore}_#{action_name}_cache_version"
   end
 
-  after_filter :cache_search_results, :only => :search
-
-  # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => :post, :only => [ :destroy, :create, :update, :rsvp ],
-         :redirect_to => { :action => 'index' }
-
-  def disable_create_when_event_past
-    if params[:id]
-      @event = @calendar.events.find(params[:id]) 
-      redirect_to home_url if @event.past?
-    else
-      redirect_to home_url if @calendar.past?
-    end
-  end
 
   def tagged
     tag = Tag.find_by_name(params[:id])
@@ -145,7 +145,6 @@ class EventsController < ApplicationController
       @event.host = @user
       @event.save!
       @event.tags << Tag.find_or_create_by_name(params[:tag]) unless params[:tag].blank?
-      expire_page_caches(@event)
       redirect_to params[:redirect] and return if params[:redirect]
       redirect_to @calendar.signup_redirect and return if @calendar.signup_redirect
       flash[:notice] = 'Your event was successfully created.'
@@ -157,6 +156,7 @@ class EventsController < ApplicationController
     end
   end
 
+=begin
   def edit
     @event = @calendar.events.find(params[:id])
   end
@@ -165,7 +165,6 @@ class EventsController < ApplicationController
     @event = @calendar.events.find(params[:id])
     if @event.update_attributes(params[:event])
       flash[:notice] = 'Event was successfully updated.'
-      expire_page_caches(@event)
       redirect_to :action => 'show', :id => @event
     else
       render :action => 'edit'
@@ -176,6 +175,7 @@ class EventsController < ApplicationController
     @calendar.events.find(params[:id]).destroy
     redirect_to :action => 'list'
   end
+=end
 
   def rsvp
     @event = @calendar.events.find(params[:id])
@@ -303,11 +303,6 @@ class EventsController < ApplicationController
   def simple
   end
 
-  def cache_search_results
-    if params[:state]
-      cache_page
-    end
-  end
 
   def extract_search_params
     if params[:zip] && !params[:zip].empty?
@@ -392,12 +387,6 @@ class EventsController < ApplicationController
   end
 
   protected
-    def expire_page_caches(event = nil)
-      FileUtils.rm_rf(Dir.glob(File.join(RAILS_ROOT,'tmp','cache','*')))
-      FileUtils.rm_rf(File.join(RAILS_ROOT,'public','events')) rescue Errno::ENOENT
-      FileUtils.rm(File.join(RAILS_ROOT,'public','index.html')) rescue Errno::ENOENT
-      RAILS_DEFAULT_LOGGER.info("Caches fully swept.")
-    end
     #hmm, why is this here? oh yes, for objects retrieved from memcache?
     def autoload_missing_constants
       yield

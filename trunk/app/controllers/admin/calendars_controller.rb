@@ -1,15 +1,4 @@
 class Admin::CalendarsController < AdminController 
-
-  def index
-  
-  end
-
-  def set_calendar
-    #admin version checks for a cookie to specify the working calendar
-    @most_recent_calendar = site.calendars.detect {|calendar| params[:permalink] == calendar.permalink } || site.calendars.detect {|calendar| cookies[:permalink] == calendar.permalink } || site.calendars.current || site.calendars.first    
-    @calendar = Calendar.find params[:id] if params[:id]
-  end
-
   active_scaffold :calendar do |config|
   	config.columns = 
       [:name, :permalink, :short_description, 
@@ -20,21 +9,28 @@ class Admin::CalendarsController < AdminController
       :report_redirect, :flickr_tag, :flickr_additional_tags, :flickr_photoset, 
       :current, :attendee_invite_subject, :attendee_invite_message ]
     config.columns[:admin_email].label = "Admin email<br /><br />This email is used as the 'from' email for activation and other system emails."
-
   	config.list.columns = [:current, :name, :events_count, :site]
   	config.list.sorting = [{ :name => :asc}]
   	columns[:current].list_ui = :checkbox
   	columns[:current].form_ui = :checkbox
   	columns[:hostform].form_ui = :select
+  end
+  
 
+  def index
+  end
+
+  def set_calendar
+    #admin version checks for a cookie to specify the working calendar
+    @most_recent_calendar = site.calendars.detect {|calendar| params[:permalink] == calendar.permalink } || site.calendars.detect {|calendar| cookies[:permalink] == calendar.permalink } || site.calendars.current || site.calendars.first    
+    @calendar = Calendar.find params[:id] if params[:id]
   end
 
   def conditions_for_collection
     [ "site_id = ?", Site.current.id ]
   end
-  
-  
 end
+
 =begin 
 class Admin::CalendarsController < AdminController
   skip_before_filter :set_calendar

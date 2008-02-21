@@ -2,7 +2,7 @@ class Admin::EventsController < AdminController
   def index
     @calendar ||= Calendar.find_by_permalink(params[:permalink]) 
     cookies[:permalink] = params[:permalink]
-    @events = Event.paginate(:conditions => ['calendar_id = ?', @calendar.id], :order => 'name', :page => params[:page])
+    @events = @calendar.events.paginate(:order => 'created_at DESC', :page => params[:page])
   end
   
   def destroy
