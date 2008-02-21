@@ -48,6 +48,12 @@ class ReportsControllerTest < Test::Unit::TestCase
     assert_not_nil assigns(:report)
   end
 
+  # getting hit by spam which embed in report hash
+  def test_create
+    post :create, {:report => {:embed => 'dummy'}}
+    assert_response :redirect 
+  end
+
 =begin
   def test_create
     num_reports = Report.count

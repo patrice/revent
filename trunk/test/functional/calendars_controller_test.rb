@@ -11,31 +11,12 @@ class CalendarsControllerTest < Test::Unit::TestCase
     @controller = CalendarsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-
-    @request.host = sites(:stepitup).host
   end
 
-  def test_index
-    get :index
-    assert_response :success
-    assert_template 'list'
-  end
-
-  def test_list
-    get :list
-
-    assert_response :success
-    assert_template 'list'
-
-    assert_not_nil assigns(:calendars)
-  end
-  
-  # check to see that events don't bleed across sites
-  def test_multi_site_scope
-    Site.find(:all).reject {|s| s.host == sites(:nwnw).host}.each do |site|
-      @request.host = site.host
-      get :show
-      assert !assigns(:events).include?(events(:nwnw_sf))
+  def test_show
+    test_for_each_site do |s|
+      get :show, :permalink => s.calendars.first.permalink
+      assert_response :success
     end
   end
 end

@@ -2,7 +2,6 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 ASSET_PATH = File.join(RAILS_ROOT, 'test/fixtures/tmp/assets') unless Object.const_defined?(:ASSET_PATH)
-Site.current = Site.find(:first)
 
 module DaysOfAction
   module ActionController
@@ -38,6 +37,9 @@ module DemocracyInAction
   # if connect? warn "actually trying connecting to ORGKEY, might not leave things the way they started
 end
 
+# need to make sure rails loads Site model first otherwise 
+# it might think this is the first definition of class Site
+require 'site'
 class Site
   def self.current_config_path
     File.join(RAILS_ROOT, 'test', 'config')
@@ -111,4 +113,30 @@ class Test::Unit::TestCase
     yield(urls) if block_given?
     urls.map { |url| assert_not_cached url }
   end
+
+  def test_for_each_site
+    return unless block_given?
+    Site.find(:all).each do |s|
+      @request.host = s.host
+      yield s
+    end
+  end
+
+  def disable_geocode
+    Event.class_eval do
+      def geocode
+        self.latitude, self.longitude = 0.0, 0.0
+        self.precision = 'zip'
+      end
+    end
+  end
+
+=begin
+  def disable_dia
+    DemocracyInAction::API.class_eval do
+      def process
+      end
+    end
+  end
+=end
 end

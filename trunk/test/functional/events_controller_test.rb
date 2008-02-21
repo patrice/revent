@@ -6,7 +6,6 @@ class EventsController; def rescue_action(e) raise e end; end
 
 class EventsControllerTest < Test::Unit::TestCase
   fixtures :events, :sites, :users, :calendars, :democracy_in_action_objects
-
   def setup
     @controller = EventsController.new
     @request    = ActionController::TestRequest.new
@@ -25,7 +24,7 @@ class EventsControllerTest < Test::Unit::TestCase
     assert_response :redirect
   end
 
-\  def test_show
+  def test_show
     get :show, :id => 1
 
     assert_response :success
@@ -126,6 +125,7 @@ class EventsControllerTest < Test::Unit::TestCase
   def test_create_with_invalid_democracy_in_action_event
   end
 
+=begin
   def test_edit
     login_as :quentin
     get :edit, :id => 1
@@ -156,9 +156,22 @@ class EventsControllerTest < Test::Unit::TestCase
       Event.find(1)
     }
   end
+=end
   
   def test_hiding_private_events
     assert true
+  end
+
+  def test_recently_added
+    @request.host = sites(:stepitup).host
+    get 'recently_added', :format => 'xml'
+    assert_response :success
+  end
+
+  def test_upcoming
+    @request.host = sites(:stepitup).host
+    get 'upcoming', :format => 'xml'
+    assert_response :success
   end
   
 =begin

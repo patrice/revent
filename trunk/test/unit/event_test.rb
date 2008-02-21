@@ -1,11 +1,12 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class EventTest < Test::Unit::TestCase
-  fixtures :calendars, :events
+  fixtures :calendars, :events, :sites
 
   def setup
-    # geocoding takes forever, stub that shit and set lat/lng explicitly
-    Event.any_instance.stubs(:geocode).returns(true)
+    # actual geocoding takes forever, stub it 
+    disable_geocode
+    Site.current = sites(:stepitup)
   end
 
   def test_to_dia_event

@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../../test_helper'
-require 'reports_controller'
+require 'account/reports_controller'
 
 # Re-raise errors caught by the controller.
-class Admin::ReportsController; def rescue_action(e) raise e end; end
+class Account::ReportsController; def rescue_action(e) raise e end; end
 
 class Account::ReportsControllerTest < Test::Unit::TestCase
   fixtures :reports, :users, :roles, :roles_users, :sites, :calendars, :events
