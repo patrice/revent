@@ -119,12 +119,12 @@ class EventsController < ApplicationController
       if params[:form]
         if is_partner(params[:form])
           cookies[:partner] = {:value => params[:form], :expires => 3.hours.from_now}
-          render "events/partners/#{params[:form]}/new"
+          render :template => "events/partners/#{params[:form]}/new"
         elsif is_signup(params[:form])
-          render "signup/#{params[:form]}" and return
+          render :template => "signup/#{params[:form]}" and return
         end
       elsif cookies[:partner] && is_partner(cookies[:partner])
-        render "events/partners/#{cookies[:partner]}/new"
+        render :template => "events/partners/#{cookies[:partner]}/new"
       end
       self.class.ignore_missing_templates = false
     end

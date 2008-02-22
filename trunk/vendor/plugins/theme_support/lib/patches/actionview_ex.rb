@@ -23,10 +23,11 @@ module ActionView
         ]
         if use_full_path
           template_path_without_extension, template_extension = path_and_extension(template_path)
-          template_extension = pick_template_extension(template_path).to_s unless template_extension
           local_assigns['active_theme'] = controller.current_theme unless controller.current_theme.nil? 
           search_path.each do |prefix|
             begin
+              template_extension ||= pick_template_extension("#{prefix}/#{template_path_without_extension}").to_s rescue ActionView::ActionViewError
+              #logger.info("### - trying template path: " + full_template_path("#{prefix}/#{template_path_without_extension}", template_extension))
               if File.exists?(full_template_path("#{prefix}/#{template_path_without_extension}", template_extension))
                 # Prevent .rhtml (or any other template type) if force_liquid == true
                 raise ThemeError.new("Template '#{template_path}' must be a liquid document") if controller.force_liquid_template && template_extension.to_s != 'liquid' && prefix != '.'                  
