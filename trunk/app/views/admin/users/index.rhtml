@@ -1,33 +1,3 @@
-<!--
-
-<div class="banner">Listing Users<span style="color: white; margin-left: 10px; text-size: 12px;">(<%= link_to 'export users', {:action => :export}, :style => "color: white;" %>)</span></div>
-
-<% form_tag :action => 'search' do %>
- <span class="intitle"> Search for user by email address:</span> 
-	<%= text_field_tag :email %>
-  <%= submit_tag 'Search' %>
-<% end %>
-
-<br/>
-
-<div class="list_table">
-<table class="list_table">
-	<tbody class="system">
-	<tr class="list_column_header">
-		<td>Name</td>
-		<td>Email</td>
-		<td>Address</td>
-		<td>Events</td>
-		<td></td>
-	</tr>
-	<%= render :partial => 'user', :collection => @users %>
-	</tbody>
-</table>
-</div>
-<hr>
-<%= pagination_links(@user_pages) %>
-</hr>
--->
 
 <%= link_to 'Export All Users', {:action => :export} %>
 
