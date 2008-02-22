@@ -200,6 +200,16 @@ class User < ActiveRecord::Base
     self.events.any? {|e| e.id == event.id}
   end
 
+  # most recently hosted or attended event
+  def effective_event
+    (self.events + self.attending).max{|a,b| a.end <=> b.end}
+  end  
+
+  # get calendar for most recently hosted or attended event
+  def effective_calendar
+    effective_event ? effective_event.calendar : Site.current.calendars.current
+  end
+  
   protected
     # before filter 
     def encrypt_password

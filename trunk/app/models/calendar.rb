@@ -11,19 +11,6 @@ class Calendar < ActiveRecord::Base
   def escape_permalink
     self.permalink = PermalinkFu.escape(self.permalink)
   end
-=begin
-  after_create :create_dia_distributed_event
-  def create_dia_distributed_event
-    #obj = self.democracy_in_action_object.build
-    obj = DemocracyInActionObject.new
-    obj.synced_type = "Calendar"
-    obj.synced_id = calendar.id
-    obj.table = democracy_in_action_synced_table
-    obj.key = key 
-    obj.save
-  end
-=end
-
   belongs_to :site
   
   @@deleted_events = []
@@ -97,8 +84,17 @@ class Calendar < ActiveRecord::Base
   def democracy_in_action_synced_table
     'distributed_event'
   end
+  
   def democracy_in_action_key
     democracy_in_action_object.key if democracy_in_action_object
+  end
+  
+  def democracy_in_action_key=(key)
+    unless key.blank?
+      obj = self.democracy_in_action_object || self.build_democracy_in_action_object(:table => 'distributed_event')
+      obj.key = key 
+      obj.save
+    end
   end
   #XXX
 
