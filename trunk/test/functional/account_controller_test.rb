@@ -19,6 +19,10 @@ class AccountControllerTest < Test::Unit::TestCase
     ActionMailer::Base.deliveries = []
     @emails = ActionMailer::Base.deliveries 
     @emails.clear
+
+    @calendar = calendars(:siu_nov)
+    @site = @calendar.site
+    @request.host = @site.host
   end
 
   def test_should_login_and_redirect

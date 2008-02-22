@@ -122,6 +122,14 @@ class Test::Unit::TestCase
     end
   end
 
+  def test_for_each_calendar
+    return unless block_given?
+    Calendar.find(:all).each do |c|
+      @request.host = c.site.host
+      yield c
+    end
+  end
+
   def disable_geocode
     Event.class_eval do
       def geocode

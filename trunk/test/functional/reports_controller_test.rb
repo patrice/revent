@@ -11,6 +11,11 @@ class ReportsControllerTest < Test::Unit::TestCase
     @controller = ReportsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+
+    # setup site/calendar and host
+    @calendar   = calendars(:siu_nov)
+    @site       = @calendar.site
+    @request.host = @site.host
   end
 
   def test_index
@@ -30,7 +35,7 @@ class ReportsControllerTest < Test::Unit::TestCase
   end
 
   def test_show
-    get :show, :event_id => 1
+    get :show, :event_id => 3
 
     assert_response :success
     assert_template 'show'

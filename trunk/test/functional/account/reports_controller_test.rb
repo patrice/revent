@@ -11,6 +11,10 @@ class Account::ReportsControllerTest < Test::Unit::TestCase
     @controller = Account::ReportsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+
+    @calendar = calendars(:siu_nov)
+    @site = @calendar.site
+    @request.host = @site.host
   end
 
   def test_edit
@@ -28,7 +32,7 @@ class Account::ReportsControllerTest < Test::Unit::TestCase
     login_as :quentin
     post :update, :id => 1
     assert_response :redirect
-    assert_redirected_to :action => 'show', :id => 1
+    assert_redirected_to :action => 'show', :id => 3
   end
 
   def test_destroy

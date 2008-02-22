@@ -1,7 +1,7 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 first:
   id: 1
-  event_id: 1
+  event_id: 3
   reporter_name: john doe
   reporter_email: john@doe.com
   text: this is my report

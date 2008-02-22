@@ -1,28 +1,29 @@
 require File.dirname(__FILE__) + '/../../test_helper'
-require 'admin/reports_controller'
-require 'site'
+require 'admin/users_controller'
 
 # Re-raise errors caught by the controller.
-class Admin::ReportsController; def rescue_action(e) raise e end; end
+class Admin::UsersController; def rescue_action(e) raise e end; end
 
-class Admin::ReportsControllerTest < Test::Unit::TestCase
+class Admin::UsersControllerTest < Test::Unit::TestCase
   fixtures :sites, :calendars, :users, :roles, :roles_users
 
   def setup
-    @controller = Admin::ReportsController.new
+    @controller = Admin::UsersController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
 
+    # setup site/calendar and host
     @calendar   = calendars(:siu_nov)
     @site       = @calendar.site
     @request.host = @site.host
   end
 
-  def test_redirect_after_login
-    get :index, :permalink =>  @calendar.permalink
+  def test_index
+    get :index
     assert_redirected_to :action => 'login'
-    post :login, {:email => 'quentin@example.com', :password => 'test'}
-    assert_redirected_to :permalink => @calendar.permalink, :controller => 'admin/reports', :action => 'index'
+    login_as :quentin
+    get :index
+    assert_response 302
   end
 
   def test_list

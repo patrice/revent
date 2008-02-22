@@ -10,10 +10,14 @@ class EventsControllerTest < Test::Unit::TestCase
     @controller = EventsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+
+    # setup site/calendar and host
+    @calendar   = calendars(:siu_nov)
+    @site       = @calendar.site
+    @request.host = @site.host
   end
 
   def test_should_set_site_from_host
-    @request.host = sites(:stepitup).host
     get :index
     assert_equal @controller.site.host, 'events.stepitup2007.org'
     assert_equal @controller.site, sites(:stepitup)
@@ -25,7 +29,7 @@ class EventsControllerTest < Test::Unit::TestCase
   end
 
   def test_show
-    get :show, :id => 1
+    get :show, :id => 3
 
     assert_response :success
     assert_template 'show'
@@ -48,14 +52,14 @@ class EventsControllerTest < Test::Unit::TestCase
     num_events = Event.count
     assert !User.find_by_email('new@event.com')
 
-    post :create, :calendar_id => 1,
-      :user => {:login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :site_id => sites(:main)},
+    post :create, :permalink => @calendar.permalink,
+      :user => {:login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :site_id => @site.id}, 
       :event => {:name => 'some event', :description => 'a description', :city => 'San Francisco', :state => 'CA', :postal_code => '94114', :directions => 'directions', :start => 1.hour.from_now, :end => 2.hours.from_now, :calendar_id => 1, :location => '1942 15th St.'}
 
     assert_response :redirect
     assert_redirected_to :action => 'show'
     assert_equal assigns(:event).host.email, 'new@event.com'
-    assert_equal assigns(:event).calendar_id, 1
+    assert_equal assigns(:event).calendar_id, @calendar.id
 
     assert u = User.find_by_email('new@event.com')
     assert u.password.blank?
@@ -64,14 +68,14 @@ class EventsControllerTest < Test::Unit::TestCase
 
   def test_create_with_existing_user
     DemocracyInAction::API.any_instance.stubs(:process).returns(1111) unless connect?
-    Site.current = sites(:main)
-    user = User.create! :login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :password => 'apassword', :password_confirmation => 'apassword', :activated_at => Time.now.utc, :site_id => sites(:main).id
+    Site.current = @site
+    user = User.create! :login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :password => 'apassword', :password_confirmation => 'apassword', :activated_at => Time.now.utc, :site_id => @site.id 
     assert User.authenticate('new@event.com', 'apassword')
     user_count = User.count
 
-    post :create, :calendar_id => 1,
-      :user => {:login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :password => 'another', :password_confirmation => 'another', :site_id => sites(:main).id},
-      :event => {:name => 'some event', :description => 'a description', :location => '1942 15th St. #2', :city => 'San Francisco', :state => 'CA', :postal_code => '94114', :directions => 'directions', :start => 1.hour.from_now, :end => 2.hours.from_now, :calendar_id => 1}
+    post :create, :permalink => @calendar.permalink, 
+      :user => {:login => 'mylogin', :first_name => 'user', :last_name => 'name', :email => 'new@event.com', :password => 'another', :password_confirmation => 'another'},
+      :event => {:name => 'some event', :description => 'a description', :location => '1942 15th St. #2', :city => 'San Francisco', :state => 'CA', :postal_code => '94114', :directions => 'directions', :start => 1.hour.from_now, :end => 2.hours.from_now} 
 
     assert_response :redirect
     assert_redirected_to :action => 'show'
@@ -100,15 +104,14 @@ class EventsControllerTest < Test::Unit::TestCase
 =end
 
   def test_create_with_saving_to_democracy_in_action
-    @request.host = calendars(:stepitup_oct07).site.host
     require 'democracyinaction'
     DemocracyInAction::API.any_instance.expects(:process).with('supporter',all_of(has_entry('Email', 'new@event.com'), has_entry('Organization', 'my organization'))).returns(1111)
 
     DemocracyInAction::API.any_instance.expects(:process).with('supporter_custom', all_of(has_entry('supporter_KEY', 1111), has_entry('BLOB0', 'some custom field'))).returns(1112)
 
-    DemocracyInAction::API.any_instance.expects(:process).with('event', all_of(has_entry('supporter_KEY', 1111), has_entry('Event_Name', 'some event'), has_entry('distributed_event_KEY', calendars(:stepitup_oct07).democracy_in_action_object.key))).returns(1113)
+    DemocracyInAction::API.any_instance.expects(:process).with('event', all_of(has_entry('supporter_KEY', 1111), has_entry('Event_Name', 'some event'), has_entry('distributed_event_KEY', @calendar.democracy_in_action_object.key))).returns(1113)
 
-    post :create, :permalink => calendars(:stepitup_oct07).permalink,
+    post :create, :permalink => @calendar.permalink,
       :user => {:first_name => 'user', :last_name => 'name', :email => 'new@event.com', :democracy_in_action => {:supporter => {'Organization' => 'my organization'}, :supporter_custom => {'BLOB0' => 'some custom field'}}},
       :event => {:name => 'some event', :description => 'a description', :city => 'city', :state => 'CA', :postal_code => '94110', :directions => 'directions', :start => 1.hour.from_now, :end => 2.hours.from_now, :location => 'location'}
 
@@ -163,15 +166,38 @@ class EventsControllerTest < Test::Unit::TestCase
   end
 
   def test_recently_added
-    @request.host = sites(:stepitup).host
     get 'recently_added', :format => 'xml'
     assert_response :success
   end
 
   def test_upcoming
-    @request.host = sites(:stepitup).host
     get 'upcoming', :format => 'xml'
     assert_response :success
+  end
+
+  def test_signup
+    @request.host = sites(:etc).host
+    get 'new', :permalink => 'screenings', :form => 'educational'
+    assert_response :success
+  end
+
+  def test_partner
+    @calendar = calendars(:siu_nov)
+    get 'new', :permalink => @calendar.permalink, :form => 'greenpeace'
+    assert_response :success
+=begin
+    test_for_each_calendar do |calendar|
+      theme = calendar.theme || calendar.site.theme
+      partners_dir = File.join(RAILS_ROOT,theme,'views','events','partners')
+      Dir.foreach(partners_dir) do |file|
+        if file =~ /.rhtml$/
+          partner = $`
+          get 'new', :permalink => calendar.permalink, :form => partner
+          assert_response :success
+        end
+      end
+    end
+=end
   end
   
 =begin

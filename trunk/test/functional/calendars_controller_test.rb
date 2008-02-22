@@ -14,8 +14,8 @@ class CalendarsControllerTest < Test::Unit::TestCase
   end
 
   def test_show
-    test_for_each_site do |s|
-      get :show, :permalink => s.calendars.first.permalink
+    test_for_each_calendar do |c|
+      get :show, :permalink => c.permalink
       assert_response :success
     end
   end

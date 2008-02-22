@@ -9,6 +9,8 @@ dayofaction_sf:
   city: San Francisco
   state: CA
   postal_code: 94110
+  created_at: <%= 1.day.ago.to_s :db %>
+  updated_at: <%= 1.day.ago.to_s :db %>
   start: <%= 1.day.from_now.to_s :db %>
   end: <%= 2.days.from_now.to_s :db %>
   directions: directions
@@ -22,6 +24,8 @@ dayofaction_sf_techspace:
   city: San Francisco
   state: CA
   postal_code: 94110
+  created_at: <%= 1.day.ago.to_s :db %>
+  updated_at: <%= 1.day.ago.to_s :db %>
   start: <%= 1.day.from_now.to_s :db %>
   end: <%= 2.days.from_now.to_s :db %>
 stepitup:
@@ -34,18 +38,22 @@ stepitup:
   city: Oakland
   state: CA
   postal_code: 94618
+  created_at: <%= 1.day.ago.to_s :db %>
+  updated_at: <%= 1.day.ago.to_s :db %>
   start: 2007-04-14 12:00:00
   end: 2007-04-14 14:00:00
   description: description
-nwnw_sf:
+etc1:
   id: 4
   calendar_id: 4
   host_id: 3
-  name: nwnw sf
+  name: screening
   location: 1942 15th St. Apt. #2
   directions: walk
   city: San Francisco
   state: CA
+  created_at: <%= 1.day.ago.to_s :db %>
+  updated_at: <%= 1.day.ago.to_s :db %>
   start: 2007-04-14 12:00:00
   end: 2007-04-14 14:00:00
   postal_code: 94114
@@ -60,6 +68,8 @@ nwnw_oakland:
   city: Oakland
   state: CA
   postal_code: 94618
+  created_at: <%= 1.day.ago.to_s :db %>
+  updated_at: <%= 1.day.ago.to_s :db %>
   start: 2007-04-14 12:00:00
   end: 2007-04-14 14:00:00
   description: description
