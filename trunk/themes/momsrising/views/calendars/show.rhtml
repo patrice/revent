@@ -3,6 +3,7 @@
     <div class="national-intro-text">
       <%#=  @calendar.name %>
     </div>
+    <%= render :partial => "reports/scroll" %>
     <div class="national-intro-count">
       <!--      There are <%= pluralize @calendar.events.length, @calendar.name %> in <%= @calendar.events.unique_states %> states. -->
     </div>
