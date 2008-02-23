@@ -207,9 +207,21 @@ class User < ActiveRecord::Base
 
   # get calendar for most recently hosted or attended event
   def effective_calendar
-    effective_event ? effective_event.calendar : Site.current.calendars.current
+    effective_event ? effective_event.calendar : (Site.current.calendars.current || Site.current.calendars.first)
   end
   
+  def country
+    CountryCodes.find_by_numeric(self.country_code)[:name]
+  end
+
+  def country=(name)
+    self.country_code = CountryCodes.find_by_name(name)[:numeric]
+  end
+
+  def city_state
+    [city, (state || country)].join(', ')
+  end
+    
   protected
     # before filter 
     def encrypt_password
