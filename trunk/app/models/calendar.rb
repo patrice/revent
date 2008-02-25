@@ -13,11 +13,34 @@ class Calendar < ActiveRecord::Base
   end
   belongs_to :site
   
+  # self-referential calendar relationship used for 'all' calendar
+  belongs_to  :parent, :class_name => 'Calendar', :foreign_key => 'parent_id'
+  has_many :calendars, :class_name => 'Calendar', :foreign_key => 'parent_id' do
+    def current
+      proxy_target.detect {|c| c.current?} || proxy_target.first
+    end
+  end
+
+  # set-up 'all calendar': see events across all calendars associated through has_many children.
+  # This method overwrites HasManyAssociation#finder_sql for events and public_events associations
+  # finder_sql is an option for has_many (:finder_sql => 'SQL statement'), but we need to set it 
+  # explicitly to have access to events.find(:all), etc.
+  # See top of this file for adding finder_sql accessor to HasManyAssociation
+  def after_initialize
+    events.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
+    public_events.finder_sql = "(events.calendar_id IN (#{(calendar_ids << id).join(',')}) AND (events.private IS NULL OR events.private = 0))"
+    reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
+    published_reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
+  end
+  
   @@deleted_events = []
   @@all_events = []
-#  FINDER_SQL = 'SELECT * FROM events WHERE events.calendar_id IN (#{calendar_ids.unshift(id).join(\',\')})'
   has_many :reports, :through => :events
-  has_many :published_reports, :through => :events, :source => "reports", :conditions => "reports.status = '#{Report::PUBLISHED}'"
+  has_many :published_reports, :through => :events, :source => "reports", :conditions => "reports.status = '#{Report::PUBLISHED}'"  
+=begin
+  has_many :public_events, :through => :children, :source => 'events', :conditions => "private IS NULL OR private = FALSE"
+  has_many :events, :through => :children, :source => 'events' do
+=end
   has_many :public_events, 
            :class_name => "Event",
            :conditions => "private IS NULL OR private = FALSE"
@@ -38,27 +61,6 @@ class Calendar < ActiveRecord::Base
       published_reports.collect {|r| r.event}.uniq
     end
   end
-
-  # self-referential calendar relationship used for 'all' calendar
-  belongs_to  :parent, :class_name => 'Calendar', :foreign_key => 'parent_id'
-  has_many :calendars, :class_name => 'Calendar', :foreign_key => 'parent_id' do
-    def current
-      proxy_target.detect {|c| c.current?} || proxy_target.first
-    end
-  end
-
-  # extend_scope allows us to see events across all calendars associated through has_many calendars.
-  # This method overwrites HasManyAssociation#finder_sql for events and public_events associations
-  # finder_sql is an option for has_many (:finder_sql => 'SQL statement'), but need to set it 
-  # explicitly to have access to events.find(:all), etc.  
-  # See bottom of this file for adding finder_sql accessor to HasManyAssociation
-  def extend_scope
-    events.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
-    public_events.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
-    reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
-    published_reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
-  end
-  
 
   def self.any?
     self.count != 0

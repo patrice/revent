@@ -40,7 +40,6 @@ class ApplicationController < ActionController::Base
   def set_calendar
     @calendar = site.calendars.detect {|c| params[:permalink] == c.permalink } || site.calendars.current || site.calendars.first    
     raise 'no calendar' unless @calendar
-    @calendar.extend_scope    # extend calendar scope for calendars that have many calendars
   end
 
   theme :get_theme
