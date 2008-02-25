@@ -1,0 +1,32 @@
+<div id="national-container">
+  <div id="national-intro">
+    </div>
+    <div class="national-intro-directions">
+      <br />
+      <% if @calendar.map_intro_text -%>
+        <%= @calendar.map_intro_text %>
+      <% else -%>
+        Click on a state or enter your zip code to find <%= @calendar.name.pluralize %> near you...
+      <% end -%>
+      <br /><br />
+    </div>
+  </div>
+  <div id="national-map-container">
+    <div id='national-map-search'>
+      <table cellpadding=8><tr><td valign=top><b>Search by: </b></td><td>
+         <% form_tag :permalink => @calendar.permalink, :controller => 'events', :action => 'search' do -%>
+         
+      &nbsp;Zip Code:  <%= text_field_tag 'zip', nil, :size=>10 %>
+      <%= submit_tag "GO" %><br> 
+      <b>OR</b> State:
+      <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='/#{@calendar.permalink}/events/search/state/' + this.value" %>
+        <% end -%></td></tr></table>
+    </div>
+    <%= render :partial => "/calendars/flashmap" %>
+  </div>
+  <div id="national-footer">
+    Click on the map once to zoom in; click again to see the list of events in a
+    particular area. To zoom out, right-click on the map (Mac users: ctrl-click
+    on the map).
+  </div>
+</div>
