@@ -198,6 +198,7 @@ class AccountControllerTest < Test::Unit::TestCase
   end
 
   def test__reset_password__valid_code_and_password__should_reset
+    DemocracyInAction::API.any_instance.stubs(:process).returns(1111) unless connect?
     @user = users(:aaron)
     @user.forgot_password && @user.save
     @emails.clear
@@ -212,6 +213,7 @@ class AccountControllerTest < Test::Unit::TestCase
   end
 
   def test__reset_password__valid_code_but_not_matching_password__shouldnt_reset
+    DemocracyInAction::API.any_instance.stubs(:process).returns(1111) unless connect?
     @user = users(:aaron)
     @user.forgot_password && @user.save
     @emails.clear

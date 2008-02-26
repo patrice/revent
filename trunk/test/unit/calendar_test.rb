@@ -16,4 +16,12 @@ class CalendarTest < Test::Unit::TestCase
     assert e
     assert e.tags.include?(Tag.find_by_name('stepitup'))
   end
+
+
+  def test_private_events
+    @calendar = calendars(:siu_nov)
+    @event = events(:siu_private)
+    assert @calendar.events.include?(@event)
+    assert !@calendar.public_events.include?(@event)
+  end
 end

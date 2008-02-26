@@ -73,4 +73,17 @@ nwnw_oakland:
   start: 2007-04-14 12:00:00
   end: 2007-04-14 14:00:00
   description: description
-  
+siu_private:
+  id: 6 
+  calendar_id: 2
+  host_id: 3
+  name: stepitup private event
+  private: true
+  location: 111 Miles Ave.  
+  directions: walk
+  city: Oakland
+  state: CA
+  postal_code: 94618
+  created_at: <%= 1.day.ago.to_s :db %>
+  updated_at: <%= 1.day.ago.to_s :db %>
+  start: 2007-04-14 12:00:00
