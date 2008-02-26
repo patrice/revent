@@ -31,14 +31,14 @@
             <% form_tag :controller => @current_controller, :action => @current_action, :method => :get do %>
               <ul id="calendar_menu">
                 <li class='current'>
-                  <% button_tag = radio_button( :most_recent_calendar, :permalink, @most_recent_calendar.permalink ) -%>
-                  <%= link_to button_tag + @most_recent_calendar.name, '#header' %>
+                  <% button_tag = radio_button( :calendar, :permalink, @calendar.permalink ) -%>
+                  <%= link_to button_tag + @calendar.name, '#header' %>
                 </li>
               <% site.calendars.each do |cal| -%> 
-                <% next if cal == @most_recent_calendar %>
+                <% next if cal == @calendar %>
                 <li>
-                  <% button_tag = radio_button( :most_recent_calendar, :permalink, cal.permalink) -%>
-                  <%= link_to button_tag + cal.name, :controller => '/admin/events', :permalink => cal.permalink %>
+                  <% button_tag = radio_button( :calendar, :permalink, cal.permalink) -%>
+                  <%= link_to button_tag + cal.name, :controller => "/admin/events", :permalink => cal.permalink %>
                 </li>
               <% end -%>
               </ul>
@@ -47,17 +47,17 @@
         </div> 
         <ul id='main_menu' class="tabs">
           <li><%= activate_link_to "Users",   :controller => 'admin/users' %></li>
-          <li><%= activate_link_to 'Events',  :controller => 'admin/events', :permalink => @most_recent_calendar.permalink %></li>
-			 <% if @most_recent_calendar.site.theme == "stepitup" -%>
+          <li><%= activate_link_to 'Events',  :controller => 'admin/events', :permalink => @calendar.permalink %></li>
+			 <% if @calendar.site.theme == "stepitup" -%>
           <li><%= activate_link_to 'Invites', :controller => 'admin/invites'  %></li>
 			 <% end -%>
-          <li><%= activate_link_to 'Reports', :controller => 'admin/reports', :permalink => @most_recent_calendar.permalink %></li>
+          <li><%= activate_link_to 'Reports', :controller => 'admin/reports', :permalink => @calendar.permalink %></li>
           <li>
             <div id="fast-edit">
               <%= select_tag  'admin', 
                               "<option value='' selected>Select Event To Edit</option>" + 
                                   options_for_select(
-                                      @most_recent_calendar.events.find(:all, :order=>"state,city").collect do |e| 
+                                      @calendar.events.find(:all, :order=>"state,city").collect do |e| 
                                           ["#{e.state} - #{e.city}: #{truncate e.name,30}", "/profile/events/#{e.id}"]
                                       end, 
                                       :include_blank=>true), 

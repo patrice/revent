@@ -22,12 +22,6 @@ class Admin::CalendarsController < AdminController
   def index
   end
 
-  def set_calendar
-    #admin version checks for a cookie to specify the working calendar
-    @most_recent_calendar = site.calendars.detect {|calendar| params[:permalink] == calendar.permalink } || site.calendars.detect {|calendar| cookies[:permalink] == calendar.permalink } || site.calendars.current || site.calendars.first    
-    @calendar = Calendar.find params[:id] if params[:id]
-  end
-
   def conditions_for_collection
     [ "site_id = ?", Site.current.id ]
   end

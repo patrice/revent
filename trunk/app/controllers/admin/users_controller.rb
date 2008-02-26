@@ -1,20 +1,27 @@
 class Admin::UsersController < AdminController  
   active_scaffold :users do |config|
-    config.label = "Site Users"
     config.columns.add :effective_calendar
-  	config.columns = config.list.columns = [:created_at, :effective_calendar, :first_name, :last_name, :email, :state, :city, :events, :attending, :site]
-  	columns[:effective_calendar].sort_by :method => 'effective_calendar.name'
-  	config.update.columns = [:first_name, :last_name, :email , :site ]
+  	config.list.columns = 
+  	    [:created_at, :email, :first_name, :last_name, :city, :state, :events, :attending, :effective_calendar, :site]
+  	config.show.columns = 
+  	    [:created_at, :email, :first_name, :last_name, :phone, :street, :street_2, :city, :state, :postal_code]
+  	config.update.columns =     
+  	    [:email, :first_name, :last_name, :phone, :street, :street_2, :city, :state, :postal_code]
+   	config.action_links.add 'reset_password', :label => 'Reset Password', :type => :record, :page => true
+    config.list.sorting = [{ :created_at => :desc }]
   	config.columns[:created_at].label = "Created on"
   	config.columns[:events].label = "Hosting"
-   	columns[:site].form_ui = :select
-   	config.action_links.add 'reset_password', :label => 'Reset Password', :type => :record, :page => true
-    config.columns[:events].clear_link
-    config.list.sorting = [{ :created_at => :desc }]
+  	config.columns[:events].clear_link
+    config.columns[:attending].clear_link    
+  	columns[:effective_calendar].sort_by :method => 'effective_calendar.name'
+=begin
+    config.columns[:attending].set_link('nested', :parameters => {:associations => :attending})
+    config.columns[:events].set_link('nested', :parameters => {:associations => :events})
+=end
   end
-
-  # need this to provide export users link
+  
   def index
+    # embed active_scaffold in index.rhtml so we can provide export users link
   end 
   
   def reset_password

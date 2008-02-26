@@ -1,35 +1,32 @@
 class Admin::EventsController < AdminController
+  active_scaffold :events do |config|
+  	config.list.columns =  
+  	    [:start, :name, :city, :state, :latitude, :longitude, :host, :tags, :category, :attendees, :reports, :calendar]
+  	config.show.columns =  
+  	    [:start, :end, :name, :description, :directions, :location, :city, :state, :postal_code, :latitude, :longitude, :host, :tags, :category, :reports, :calendar]
+  	config.update.columns =  
+  	    [:start, :name, :description, :directions, :location, :city, :state, :postal_code]
+  	config.actions.exclude :create
+  	config.actions.exclude :update
+#	  config.actions = [:list, :show, :delete]
+   	config.action_links.add 'manage', 
+   	  {:label => 'Manage', :controller => 'account/events', :action => 'show', :type => :record, :inline => false} 
+   	  #, :page => true, :crud_type => :update, :inline => true}
+  	config.columns[:attendees].label = "RSVPs"
+    config.columns[:tags].clear_link    
+    config.columns[:category].clear_link    
+  	config.columns[:attendees].clear_link
+    config.columns[:reports].clear_link    
+    config.columns[:calendar].clear_link  
+  	config.list.sorting = [{:start => :desc}]
+  end
+  
   def index
-    @calendar ||= Calendar.find_by_permalink(params[:permalink]) 
-    cookies[:permalink] = params[:permalink]
-    @events = @calendar.events.paginate(:order => 'created_at DESC', :page => params[:page])
-  end
-  
-  def destroy
-    e = Event.find(params[:id])
-    e.destroy
-    # also need to destroy event in DIA
-    flash[:notice] = e.name + " has been destroyed"
-    redirect_to :action => 'index'
-  end
-  
-  def search
-    @events, sql, crit = [], [], []
-    %w(name state city).each do |att|
-      sql << att + " like ?"
-      crit << params[att] + "%"
-    end
-    event_criteria = [sql.join(' AND '), crit].flatten
-    @events = @calendar.events.find(:all, :conditions => event_criteria)
-    if @events.empty?
-      flash[:notice] = "Could not find that event."
-      redirect_to :action => 'index'
-    end
+    #cookies[:permalink] = params[:permalink]
   end
 
-  def nomap
-    @events = @calendar.events.find(:all, :conditions => "latitude = 0 or latitude IS NULL or longitude = 0 or longitude IS NULL")
-    render :action => 'search'
+  def conditions_for_collection
+    ["events.calendar_id IN (#{(@calendar.calendar_ids << @calendar.id).join(',')})"]
   end
   
   def export
@@ -47,7 +44,7 @@ class Admin::EventsController < AdminController
                 event.attendees_high, event.attendees_low, event.attendees_average]
       end
     end
-    send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "events.csv")
+    send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "#{@calendar.theme || Site.current.theme}_events.csv")
   end  
 
   def featured_images

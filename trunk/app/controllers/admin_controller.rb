@@ -22,12 +22,32 @@ class AdminController < ApplicationController
     @current_controller = controller_path
   end
   
-  def set_calendar
-    super
-    #admin version checks for a cookie to specify the working calendar
-    @most_recent_calendar = site.calendars.detect {|calendar| params[:permalink] == calendar.permalink } || site.calendars.detect {|calendar| cookies[:permalink] == calendar.permalink } || site.calendars.current || site.calendars.first
+  # over-ride set_calendar
+  # alright, so here's the deal. when we hit /admin/<permalink>/events
+  # we'll hit set_calendar (below) where we save the permalink. however,
+  # we'll get 302'd (redirected) to an active_scaffold method without
+  # the permalink in the params, so need to save it in the session (for
+  # use in EventsController::conditions_for_selection). 
+  #
+  # tried using cookies, but didn't seem to work correctly (maybe new cookie 
+  # not being sent on 302, not sure). by using session (which is stored on 
+  # server-side) we guarantee that regardless of 302, we have the permalink
+  def current_permalink
+    return if current_user.nil?
+    if params[:permalink]
+      session["#{current_user.id}_permalink"] = params[:permalink]
+    else
+      session["#{current_user.id}_permalink"]
+    end
   end
 
+  def set_calendar
+    @calendar = site.calendars.detect {|c| current_permalink == c.permalink} ||
+                site.calendars.current ||
+                site.calendars.first
+    raise 'no calendar' unless @calendar
+  end
+  
 protected
   def authorized?
     return true if current_user.admin?
