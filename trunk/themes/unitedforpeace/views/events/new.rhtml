@@ -148,9 +148,13 @@ end
             <tr>
               <td valign="top"  class="dia_field_name" colspan="2">
                 <div align="left">*Description:<br />                  
-						<%= f.text_area "description", :title => "Please enter your event's description", :class => "required", :rows => "7", :cols => "42", :style => "background-color: #ebd897;", :id => "dataDescription" %>
+						<%= f.text_area "description", :title => "Please enter your event's description", :class => "required", :rows => "7", :cols => "46", :style => "background-color: #ebd897;", :id => "dataDescription" %>
                 </div>
               </td>
+            </tr>
+            <tr>
+              <td valign="top" class="dia_field_name">Organized/sponsored by:</td>
+              <td valign="top"><%= f.text_field "organization", :id => "dataOrganization", :maxlength => "64", :size => "30", :title => "Please enter your event's name", :class => "required inputStyle" %>
             </tr>
 				<tr>
               <td valign="top"  class="dia_field_name"></td>
@@ -273,9 +277,6 @@ end
          <br><%= @hostform.pre_submit_text %>. <br>
         <%- end %>
         <br /><input type="submit" value="Submit" />
-        <script type="text/javascript" language="javascript">
-          var valid = new Validation("event-signup-form", {useTitles : true});
-        </script>
         </p>
       </div>
     </div>
