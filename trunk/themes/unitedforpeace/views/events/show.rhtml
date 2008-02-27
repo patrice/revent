@@ -55,9 +55,8 @@
 <% unless @event.directions.blank? %>
 <div id="directions"><b>Directions:</b><br><%= white_list word_wrap(auto_link(@event.directions) {|text| truncate(text, 40) + " " }) %></div>
 <% end -%>
-See <%= link_to 'map below', '#eventmap' %>
-<br />
- 
+See <%= link_to 'map below', '#eventmap' %><br />
+<br /> 
 <% if @event.attachments.any? -%>
 <B>Attachments From Host:</B><br /><br />
 <% if @event.documents.any? -%>
