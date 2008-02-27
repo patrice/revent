@@ -295,7 +295,7 @@ class Event < ActiveRecord::Base
   end
 
   def city_state
-    [city, (state || country)].join(', ')
+    [city, (state.blank? ? country : state)].join(', ')
   end
   
   def country=(name)
