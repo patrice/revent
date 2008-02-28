@@ -3,7 +3,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../config/boot')
 require File.expand_path(File.dirname(__FILE__) + '/../config/environment')
 ActiveRecord::Base.allow_concurrency = true
 
-require 'starling_client'
+#require 'starling_client'
+require 'starling'
 require 'application'
 require 'admin/events_controller'
 require 'site'

@@ -137,7 +137,8 @@ class ReportsController < ApplicationController
       end
       @event = @report.event
       begin
-        require 'starling_client'
+#        require 'starling_client'
+        require 'starling'
         queue = Starling.new 'localhost:22122'
         r = {:remote_ip => request.remote_ip, :user_agent => request.user_agent, :referer => request.referer}
         attachments = @attachments.collect {|a| [a, a.temp_data]}

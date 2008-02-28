@@ -50,7 +50,8 @@ class Admin::EventsController < AdminController
 
   def featured_images
     collect_featured_images
-    require 'starling_client'
+#    require 'starling_client'
+    require 'starling'
     queue = Starling.new 'localhost:22122'
     timestamp = Time.now.strftime("%y%m%d_%H%M%S") 
     @latest = File.join(RAILS_ROOT,'public','featured_images_' + timestamp + '.zip')
