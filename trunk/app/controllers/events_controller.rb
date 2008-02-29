@@ -43,13 +43,13 @@ class EventsController < ApplicationController
   end
 
   def flashmap
-    @events = @calendar.public_events.find(:all, :conditions => ["(latitude <> 0 AND longitude <> 0) AND state IS NOT NULL AND country_code = ?", Event::COUNTRY_CODE_USA])
+    @events = @calendar.public_events.find(:all, :conditions => ["(latitude <> 0 AND longitude <> 0) AND (state IS NOT NULL AND state <> '') AND country_code = ?", Event::COUNTRY_CODE_USA])
     respond_to do |format|
       format.xml { render :layout => false }
     end
     cache_page nil, :permalink => params[:permalink]
   end
-
+  
   def recently_updated
     respond_to do |format|
       format.html do 
@@ -303,7 +303,6 @@ class EventsController < ApplicationController
   def simple
   end
 
-
   def extract_search_params
     if params[:zip] && !params[:zip].empty?
       by_zip
@@ -377,7 +376,7 @@ class EventsController < ApplicationController
     @map_center = DaysOfAction::Geo::STATE_CENTERS[params[:state].to_sym]
     @map_zoom = DaysOfAction::Geo::STATE_ZOOM_LEVELS[params[:state].to_sym]
   end
-
+  
   def description
     @event = @calendar.events.find(params[:id])
     render :update do |page|

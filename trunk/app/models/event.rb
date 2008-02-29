@@ -53,8 +53,8 @@ class Event < ActiveRecord::Base
   end
 
   def validate
-    validate_us_postal_code and validate_us_state if in_usa?
-    validate_canadian_postal_code and validate_canadian_province if in_canada?
+    validate_postal_code
+    validate_state
     if event_start = self.calendar.event_start
       if event_end = self.calendar.event_end
         if self.start && self.start < event_start.at_beginning_of_day
@@ -76,28 +76,28 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def validate_us_state
-    usa_valid_states = DemocracyInAction::Helpers.state_options_for_select.map{|a| a[1]}
-    if state.blank? or not usa_valid_states.include?(state)
-      errors.add :state, "is not a valid U.S. state"
-    end
+  def validate_postal_code
+    if in_usa?
+      unless postal_code =~ /^\d{5}(-\d{4})?$/
+        errors.add :postal_code, "is not a valid U.S. postal code"
+      end
+    elsif in_canada?
+      unless postal_code =~ /^\D\d\D((-| )?\d\D\d)?$/
+        errors.add :postal_code, "is not a valid Canadian postal code"
+      end
+    end      
   end
 
-  def validate_us_postal_code
-    unless postal_code =~ /^\d{5}(-\d{4})?$/
-      errors.add :postal_code, "is not a valid U.S. postal code"
-    end
-  end
-
-  def validate_canadian_province
-    unless state_is_canadian_province?
-      errors.add :state, "is not a valid Canadian province"
-    end
-  end
-
-  def validate_canadian_postal_code
-    unless postal_code =~ /^\D\d\D((-| )?\d\D\d)?$/
-      errors.add :postal_code, "is not a valid Canadian postal code"
+  def validate_state
+    if in_usa?
+      valid_us_states = DemocracyInAction::Helpers.state_options_for_select.map{|a| a[1]}
+      if state.blank? or not valid_us_states.include?(state)
+        errors.add :state, "is not a valid U.S. state"
+      end      
+    elsif in_canada?
+      unless state_is_canadian_province?
+        errors.add :state, "is not a valid Canadian province"
+      end
     end
   end
 

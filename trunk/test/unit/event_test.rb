@@ -28,6 +28,25 @@ class EventTest < Test::Unit::TestCase
   def test_old_campaign_for_politician
   end
   
+  def test_state_validation
+    event = events(:stepitup)
+    assert event.valid?
+    event.state = ''
+    assert !event.valid?
+    event.state = 'QC'
+    assert !event.valid?
+    event.state = 'CA'
+    assert event.valid?
+    
+    event.country_code = Event::COUNTRY_CODE_CANADA
+    event.postal_code = "V6B"
+    assert !event.valid?
+    event.state = ""
+    assert !event.valid?
+    event.state = "BC"
+    assert event.valid?
+  end
+  
   def test_postal_code_validation
     event = Event.new(:calendar_id => 2,
                       :name => "Test Canadian Event",
