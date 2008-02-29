@@ -88,13 +88,13 @@ end
 					</span></td>
 				</tr>
               <td valign="top"  class="dia_field_name">*State/Region</td>
-              <td><%= user.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true, :include_provinces=>true), {}, :title => "Please select your state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataState" %>
+              <td><%= user.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true, :include_provinces=>true), {}, :title => "Please select your state", :style => "background-color: #ebd897;", :size => "1", :id => "dataState" %>
               </td>
               
             </tr>
             <tr>
               <td  class="dia_field_name">*Postal Code</td>
-              <td><%= user.text_field "postal_code", :style => "background-color: #ebd897;", :maxlength => "10", :size => "10", :id => "dataZip", :title => "Please enter your zip code", :class => "required inputStyle" %></td>
+              <td><%= user.text_field "postal_code", :style => "background-color: #ebd897;", :maxlength => "10", :size => "10", :id => "dataZip", :title => "Please enter your zip code" %></td>
         
             </tr>
 		      <tr>
