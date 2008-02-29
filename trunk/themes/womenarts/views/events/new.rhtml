@@ -189,7 +189,7 @@ end
               <td valign="top"  class="dia_field_name">
                 <div align="left">*State:</div>
               </td>
-              <td><%= f.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true, :include_provinces=>true), {}, :title => "Please choose your event's state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventState" %></td>
+              <td><%= f.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true, :include_provinces=>true), {}, :title => "Please choose your event's state", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventState" %></td>
               
             </tr>
             <tr>
@@ -197,7 +197,7 @@ end
                 <div align="left">*Postal Code:</div>
               </td>
               <td>
-              <%= f.text_field "postal_code", :id => 'postal_code', :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your event's zip code", :class => "required inputStyle" %>&nbsp;&nbsp;
+              <%= f.text_field "postal_code", :id => 'postal_code', :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your event's zip code" %>&nbsp;&nbsp;
               <span id="spinner" style="font-style: italic; font-size: 90%; display: none;"><%= image_tag 'spinner.gif' %> looking for nearby events</span></td>
 				  <%= observe_field :postal_code,
 										 :on => 'blur',
