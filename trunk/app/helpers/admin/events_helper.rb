@@ -3,9 +3,8 @@ module Admin::EventsHelper
     event.tags.collect{|t| t.name}.join(', ')
   end
 
-  def attendees_column(event)
-    #event.attendees.collect {|a| a.email}.join(', ')
-    event.attendees.length
+  def rsvps_column(event)
+    event.rsvps.length
   end
   
   def reports_column(event)
