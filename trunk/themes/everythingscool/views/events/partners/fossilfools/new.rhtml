@@ -1,16 +1,18 @@
+<%  
+	@event.start = (@calendar.event_start || Time.now).beginning_of_day + 12.hours
+	@event.end = 	@event.start + 2.hours
+-%>
 
-<% @event.start = Time.now.beginning_of_day + 12.hours; @event.end = Time.now.beginning_of_day + 14.hours -%>
-<p class="title">Sign Up to Host a Fossil Fools Screening of Everything’s Cool</p>
+<p class="title">Sign Up to Host an Activist Screening Event of <i>Everything's Cool</p>
 <p class="text">
 
-
-Please sign up here to register your fossil fools screening.
+Watching <i>Everything's Cool</i> is sure to get your community fired up. Participate in national days of climate action, support the green jobs revolution, demand leadership that will change energy policy, or motivate your campus to go carbon neutral. 
 <br><br>
-The educational version of the film will be available for purchase through <a href="http://bullfrogfilms.com">Bullfrog Films</a> in December. We will send you a reminder as soon as it is released. Below you will be able to provide information about your event with a brief description so that others can attend your screening. 
+When you sign up for the activist DVD of <i>Everything's Cool</i> we'll link you to the coolest activists working on climate change and some urgent and ongoing direct actions. After submitting your event information, you will be able to order this special edition DVD and all its extra content - including chapters on Step It Up and Green Jobs! <b>Please allow 5 business days for shipping.</b>
 <br><br>
-
-
-If you’re planning on hosting an Activist Screening of <i>Everything's Cool</i>, and move people out of their seats and into the streets, please <a href="/screenings/signup">click here</a>.  
+If you're planning on hosting a High School or University Educational Screening of Everything's Cool, please <a href="/screenings/signup/educational">click here</a>.
+<br><br>
+Sign up here. You will be able to provide information about your event with a brief description so that others can join with you to fight climate change!
 
 </p>
 
@@ -20,8 +22,9 @@ If you’re planning on hosting an Activist Screening of <i>Everything's Cool</i
       <%= error_messages_for 'user' %>
       <h3>Your Information</h3>
       <% fields_for :user, @user do |user| %>
-       <%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", 4051 %>
-    <%= hidden_field_tag "user[democracy_in_action][supporter][link][groups]", 57602 %>
+     		<%= hidden_field_tag "user[democracy_in_action][supporter][Tracking_Code]", "fossilfools" %>
+       	<%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", 3903 %>
+    		<%= hidden_field_tag "user[democracy_in_action][supporter][link][groups]", 57113 %>
    
      
       <div id="customFields" class="standardFields">
@@ -101,11 +104,21 @@ If you’re planning on hosting an Activist Screening of <i>Everything's Cool</i
         
         
         <br /></h3>
-      <p><strong><font color="#ff0000"><em>Please be as specific as possible with your event information (i.e. What school or university will the screening will be held? Will your screening be for students and faculty only, or open to the public?). It will be displayed publicly. This is your chance to get the word out about your screening event to the world! Your information can be updated later.</em></font></strong></p>
+      <p><strong><font color="#ff0000"><em>Please be as specific as possible with your event information (i.e. be sure to note what organizations are hosting the event and what your focus will be). It will be displayed publicly. This is your chance to get the word out about your screening event to the world! Your information can be updated later.</em></font></strong></p>
       <div id="eventFields" class="eventFields">
         <table class="dia_field">
           <tbody>
-
+				
+		  		<tr valign="top">
+              <td valign="top"  class="dia_field_name">
+                <div align="left">*Event Type:</div>
+              </td>
+              <td valign="top">
+                <%= f.select "category_id", @categories, {:include_blank => true}, {:title => "Please select your event type", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEvent_Category_Id" } %>
+              </td>
+            </tr>
+            
+				</tr>
                       <tr valign="top">
               <td valign="top"  class="dia_field_name">
                 <div align="left">*Event Name:</div>
@@ -116,7 +129,16 @@ If you’re planning on hosting an Activist Screening of <i>Everything's Cool</i
               
             </tr>
             
-	
+		  	<tr valign="top">
+              <td valign="top"  class="dia_field_name">
+                <div align="left">*Tie your screening<br> to an action:</div>
+              </td>
+              <td valign="top">
+                <%= select_tag "tag", options_for_select([['',''],['Step It Up','Step It Up'], ['Focus The Nation','Focus The Nation'],['Green Jobs Revolution','Green Jobs Revolution'],['Hot Leaders Cool Actions','Hot Leaders Cool Actions'],['Youth for a Cool Now','Youth for a Cool Now']] ), {  :title => "Please select your event action",:class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1",  :id => "dataEvent_Tag" } %>
+              
+                
+              </td>
+             </tr>
              
             <tr>
             
@@ -215,16 +237,16 @@ If you’re planning on hosting an Activist Screening of <i>Everything's Cool</i
             <tr>
           </tbody>
         </table>
-       
-        <%= hidden_field_tag "redirect", "http://salsa.democracyinaction.org/o/1047/t/162/thankYou.jsp?key=1310" %>
-        <%= hidden_field_tag "tag", "educational" %>
+        
+		
+        <%= hidden_field_tag "redirect", "https://salsa.democracyinaction.org/o/1047/t/162/shop/custom.jsp?donate_page_KEY=2853" %>
         
         <%= hidden_field_tag "event[democracy_in_action][event][Maximum_Attendees]", 10000 %>
         <%= hidden_field_tag "event[democracy_in_action][event][Status]", "Unconfirmed" %>
        
         
         <p align="center">
-         <br>After saving, you will be able to purchase the educational version of the DVD,<br> view your event and email your students and colleagues about it. <br>
+         <br>After saving, you can place your order for the special activist DVD<br> and then you can view your event and email your friends about it.<br><br>Please note that you may not charge an entrance fee for your activist screening, although donations for your organization and/or the film's outreach campaign may be suggested.
         <br /><input type="submit" value="Submit" />
         <script type="text/javascript" language="javascript">
           var valid = new Validation("event-signup-form", {useTitles : true});
