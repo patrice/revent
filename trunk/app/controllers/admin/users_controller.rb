@@ -7,6 +7,7 @@ class Admin::UsersController < AdminController
   	    [:created_at, :email, :first_name, :last_name, :phone, :street, :street_2, :city, :state, :postal_code]
   	config.update.columns =     
   	    [:email, :first_name, :last_name, :phone, :street, :street_2, :city, :state, :postal_code]
+    config.actions.exclude :create
    	config.action_links.add 'reset_password', :label => 'Reset Password', :type => :record, :page => true
     config.list.sorting = [{ :created_at => :desc }]
   	config.columns[:created_at].label = "Created on"

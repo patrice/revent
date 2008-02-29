@@ -1,28 +1,29 @@
 class Admin::EventsController < AdminController
   active_scaffold :events do |config|
   	config.list.columns =  
-  	    [:start, :name, :city, :state, :latitude, :longitude, :host, :tags, :category, :attendees, :reports, :calendar]
+  	    [:start, :name, :city, :state, :latitude, :longitude, :host, :tags, :category, :rsvps, :reports, :calendar]
   	config.show.columns =  
   	    [:start, :end, :name, :description, :directions, :location, :city, :state, :postal_code, :latitude, :longitude, :host, :tags, :category, :reports, :calendar]
   	config.update.columns =  
   	    [:start, :name, :description, :directions, :location, :city, :state, :postal_code]
   	config.actions.exclude :create
   	config.actions.exclude :update
-#	  config.actions = [:list, :show, :delete]
    	config.action_links.add 'manage', 
    	  {:label => 'Manage', :controller => 'account/events', :action => 'show', :type => :record, :inline => false} 
-   	  #, :page => true, :crud_type => :update, :inline => true}
   	config.columns[:attendees].label = "RSVPs"
     config.columns[:tags].clear_link    
     config.columns[:category].clear_link    
-  	config.columns[:attendees].clear_link
+  	config.columns[:rsvps].clear_link
     config.columns[:reports].clear_link    
     config.columns[:calendar].clear_link  
   	config.list.sorting = [{:start => :desc}]
+  	columns[:rsvps].sort_by :method => 'rsvps.length'
+  	columns[:reports].sort_by :method => 'reports.length'
+  	columns[:host].sort_by :method => 'host.name'
   end
   
   def index
-    #cookies[:permalink] = params[:permalink]
+    # need this since active scaffold is embeded in order to provide export link
   end
 
   def conditions_for_collection
