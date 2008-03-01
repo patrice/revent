@@ -4,7 +4,7 @@
 </p>
 <%= render(:partial => 'politician', :collection => @politicians) %>
 <% unless params[:action] == 'state' %>
-<%= link_to ("Invite other Representatives from #{@event.state}", :permalink => @calendar.permalink, :controller => :invites, :id => @event, :action => :state) %><br />
+<%= link_to "Invite other Representatives from #{@event.state}", :permalink => @calendar.permalink, :controller => :invites, :id => @event, :action => :state %><br />
 <% end %>
 <%= link_to 'Back to event details', :permalink => @calendar.permalink, :controller => :events, :action => :show, :id => @event %>
 
