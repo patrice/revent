@@ -36,10 +36,21 @@ class EventsController < ApplicationController
     "site_#{Site.current.id}_#{self.class.to_s.underscore}_#{action_name}_cache_version"
   end
 
-
   def tagged
     tag = Tag.find_by_name(params[:id])
     @events = tag.nil? ? [] : tag.events(:conditions => ["calendar_id = ?", @calendar.id])
+  end
+  
+  def category
+    @category_options = @calendar.categories.collect{|c| [c.name, c.id]}.unshift(['All Events', 'all'])
+    if params[:id] and not params[:id] == 'all'
+      @category = @calendar.categories.find(params[:id])  
+      @events = @calendar.public_events.paginate_all_by_category_id(@category.id, :page => nil)
+    else
+      require 'ostruct'
+      @category = OpenStruct.new(:id => 'all', :name => 'All Events')
+      @events = @calendar.public_events.paginate(:all, :page => nil)
+    end
   end
 
   def flashmap

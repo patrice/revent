@@ -14,11 +14,17 @@
   <div id="national-map-container">
     <div id='national-map-search'>
       <table cellpadding=8><tr><td valign=top><b>Search by: </b></td><td>
-				<% form_tag :permalink => @calendar.permalink, :controller => 'events', :action => 'search' do -%>         
-		      &nbsp;Zip Code:  <%= text_field_tag 'zip', nil, :size=>10 %>
-		      <%= submit_tag "GO" %><br> 
-		      <b>OR</b> State:
-		      <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='/#{@calendar.permalink}/events/search/state/' + this.value" %>
+				<% form_tag :permalink => @calendar.permalink, :controller => 'events', :action => 'search' do -%>
+					<table>
+			      <tr><td>Zip Code:</td><td><%= text_field_tag 'zip', nil, :size=>10 %><%= submit_tag "GO" %></td></tr>
+			      <tr><td><b>OR</b> State:</td>
+			      <td><%= select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='/#{@calendar.permalink}/events/search/state/' + this.value" %></td></tr>
+			      <tr><td><b>OR</b> Event type:</td>
+			      <td><%= select_tag 'categories', 
+									options_for_select(@calendar.categories.collect{|c| [c.name, c.id]}.unshift(['Select one...', nil],['All Events', 'all']), nil), 
+									:onchange => "window.location.href='/#{@calendar.permalink}/events/category/' + this.value" %>
+						</td></tr>
+					</table>
 				<% end -%></td></tr></table>
     </div>
     <%= render :partial => "/calendars/flashmap" %>
