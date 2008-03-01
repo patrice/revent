@@ -23,8 +23,8 @@ class UserMailerTest < Test::Unit::TestCase
     response = UserMailer.create_message(@from, @event, @message)
     assert_match(/took place on/, response.body)
 
-    @event.start = 1.day.ago
-    @event.end = 1.day.ago + 2.hours
+    @event.start = 1.day.from_now
+    @event.end = 1.day.from_now + 2.hours
     response = UserMailer.create_message(@from, @event, @message)
     assert_match(/will take place on/, response.body)
   end

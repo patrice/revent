@@ -45,7 +45,7 @@ class Admin::CalendarsControllerTest < Test::Unit::TestCase
     #assert_requires_login(:quentin) {|c| c.get :edit, :id => 1}
     login_as :quentin
     get :edit, :id => 1
-
+    
     assert_response :success
 
     assert_not_nil assigns(:calendar)
