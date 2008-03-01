@@ -1,6 +1,8 @@
 Event.class_eval do
   def sync_to_democracy_in_action
   end
+  def geocode
+  end
 end
 
 User.class_eval do
