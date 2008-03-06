@@ -20,7 +20,7 @@
 <%= f.text_field 'postal_code' %></p>
 
 <p><label for="event_country">Country</label><br/>
-<%= f.select "state", "country_code", CountryCodes::countries_for_select('name', 'numeric').sort,  :selected => (@event.country_code || COUNTRY_CODE_USA) %></p>
+<%= f.select  "country_code", CountryCodes::countries_for_select('name', 'numeric').sort %></p>
 
 <p><label for="event_directions">Directions</label><br/>
 <%= f.text_area 'directions', :rows => 5  %></p>

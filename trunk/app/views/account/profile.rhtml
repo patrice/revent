@@ -25,7 +25,7 @@
 <%= f.text_field 'postal_code'  %></p>
 
 <p><label for="country">Country</label><br/>
-<%= f.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort, :selected => ((@user && @user.country_code) || Event::COUNTRY_CODE_USA) %></p>
+<%= f.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort  %></p>
 
 <p><label for="profile_image">Profile Image</label><br/>
 <%= file_field_tag 'profile_image[uploaded_data]' %></p>
