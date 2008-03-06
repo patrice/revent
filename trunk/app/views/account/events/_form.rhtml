@@ -19,6 +19,9 @@
 <p><label for="event_postal_code">Zip/Postal Code</label><br/>
 <%= f.text_field 'postal_code' %></p>
 
+<p><label for="event_country">Country</label><br/>
+<%= f.select "state", "country_code", CountryCodes::countries_for_select('name', 'numeric').sort,  :selected => (@event.country_code || COUNTRY_CODE_USA) %></p>
+
 <p><label for="event_directions">Directions</label><br/>
 <%= f.text_area 'directions', :rows => 5  %></p>
 
