@@ -208,13 +208,12 @@ end
 				  </td>
 			</tr>
 			
-					      <tr>
-		        <td  class="dia_field_name">
-		          <div align="left">*Country:</div>
-		        </td>
-            <td><%= user.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort, :selected => ((@user && @user.country_code) || Event::COUNTRY_CODE_USA), :title => "Please choose your event's country", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventCountry" %></td>
-
-		      </tr>
+	      <tr>
+        <td  class="dia_field_name">
+          <div align="left">*Country:</div>
+        </td>
+        <td><%= f.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort,  :selected => (@event.country_code || COUNTRY_CODE_USA), :title => "Please choose your event's country", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventCountry" %></td>
+      </tr>
 			
 			<tr valign="top">
         
