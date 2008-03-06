@@ -17,11 +17,15 @@
 <p><label for="city">City</label><br/>
 <%= f.text_field 'city'  %></p>
 
-<p><label for="state">State</label><br/>
-<%= f.select "state", DemocracyInAction::Helpers.state_options_for_select %></p>
+<p><label for="state">State/Provinces</label><br/>
+<%= f.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true, :include_provinces=>true) %></p>
 
-<p><label for="postal_code">Zip</label><br/>
+
+<p><label for="postal_code">Zip/Postal Code</label><br/>
 <%= f.text_field 'postal_code'  %></p>
+
+<p><label for="country">Country</label><br/>
+<%= f.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort, :selected => ((@user && @user.country_code) || Event::COUNTRY_CODE_USA) %></p>
 
 <p><label for="profile_image">Profile Image</label><br/>
 <%= file_field_tag 'profile_image[uploaded_data]' %></p>

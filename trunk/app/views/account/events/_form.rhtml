@@ -13,10 +13,10 @@
 <p><label for="event_city">City</label><br/>
 <%= f.text_field 'city', :rows => 3  %></p>
 
-<p><label for="event_state">State</label><br/>
-<%= f.select "state", DemocracyInAction::Helpers.state_options_for_select %></p>
+<p><label for="event_state">State/Province</label><br/>
+<%= f.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true, :include_provinces=>true) %></p>
 
-<p><label for="event_postal_code">Zip</label><br/>
+<p><label for="event_postal_code">Zip/Postal Code</label><br/>
 <%= f.text_field 'postal_code' %></p>
 
 <p><label for="event_directions">Directions</label><br/>
