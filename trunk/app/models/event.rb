@@ -28,9 +28,9 @@ class Event < ActiveRecord::Base
 
   acts_as_mappable :lat_column_name => 'latitude', :lng_column_name => 'longitude'
   before_validation :geocode
-  before_save :set_calendar, :set_district, :clean_country_state 
+  before_save :set_calendar, :set_district, :clean_country_state, :set_default_end_date
   
-  validates_presence_of :name, :city, :start, :end, :calendar_id, :description, :location, :country_code 
+  validates_presence_of :name, :city, :start, :end, :calendar_id, :country_code
   COUNTRY_CODE_USA = CountryCodes.find_by_name("United States of America")[:numeric] 
   COUNTRY_CODE_CANADA = CountryCodes.find_by_name("Canada")[:numeric] 
 
@@ -41,6 +41,10 @@ class Event < ActiveRecord::Base
       not state.blank? and valid_provinces.include?(state)
   end
 
+  def set_default_end_date
+    self.end ||= self.start + 4.hours
+  end
+  
   def clean_country_state
     # usa is default country, if user sets state to 
     # canadian province, set country to canada
