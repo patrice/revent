@@ -1,13 +1,7 @@
 <%  
-if @calendar.event_start
-	@event.start = @calendar.event_start.beginning_of_day + 12.hours
-	@event.end = 	@calendar.event_start.beginning_of_day + 14.hours 
-else
-	@event.start = Time.now.beginning_of_day + 12.hours
-	@event.end = Time.now.beginning_of_day + 14.hours
-end
-
-@hostform = @calendar.hostform
+	@event.start = (@calendar.event_start || Time.now).beginning_of_day + 12.hours
+	@event.end = @event.start + 2.hours
+	@hostform = @calendar.hostform
  -%>
 <h1>
 	<% if @hostform and @hostform.title -%>
@@ -76,9 +70,9 @@ end
               <td colspan="2" valign="top"  class="dia_field_name">Show phone number on your host profile?&nbsp;&nbsp;<%= user.check_box "show_phone_on_host_profile", :style => "background-color: #ebd897;", :class => "inputStyle" %></td>
             </tr>
             <tr>
-              <td valign="top" class="dia_field_name">*Street</td>
-              <td valign="top"><%= user.text_field "street", :id => "dataStreet", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your street address", :class => "required inputStyle" %></td>
-              
+              <td valign="top" class="dia_field_name">Street</td>
+              <td valign="top"><%= user.text_field "street", :id => "dataStreet", :maxlength => "64", :size => "30", :title => "Please enter your street address", :class => "inputStyle" %></td>
+
             </tr>
             <tr>
               <td valign="top" class="dia_field_name">*City</td>
@@ -149,15 +143,16 @@ end
             </tr>
             <tr>            
               <td valign="top"  class="dia_field_name" colspan="2">
-                <div align="left">*Description:<br />                  <%= f.text_area "description", :title => "Please enter your event's description", :class => "required", :rows => "7", :cols => "45", :style => "background-color: #ebd897;", :id => "dataDescription" %>
+                <div align="left">Description:<br />                  
+								<%= f.text_area "description", :title => "Please enter your event's description", :rows => "7", :cols => "45", :id => "dataDescription" %>
                 </div>
               </td>
              
             </tr>
             <tr>
               <td valign="top"  class="dia_field_name" colspan="2">
-                <div align="left">*Address:<br />
-                  <%= f.text_area 'location', :title => "Please enter your event's address", :class => "required", :rows => "5", :cols => "45", :style => "background-color: #ebd897;" %>
+                <div align="left">Address:<br />
+                  <%= f.text_area 'location', :title => "Please enter your event's address", :rows => "5", :cols => "45" %>
                 </div>
               </td>
             
@@ -182,16 +177,15 @@ end
                 <div align="left">*Zip/Postal Code:</div>
               </td>
               <td>
-              <%= f.text_field "postal_code", :id => 'postal_code', :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your event's zip code", :class => "required inputStyle" %>&nbsp;&nbsp;
+              <%= f.text_field "postal_code", :id => 'postal_code', :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your event's zip code.  If you don't know it, put your zip code.", :class => "required inputStyle" %>&nbsp;&nbsp;
               <span id="spinner" style="font-style: italic; font-size: 90%; display: none;"><%= image_tag 'spinner.gif' %> looking for nearby events</span></td>
-				  <%= observe_field :postal_code,
+				  			<%= observe_field :postal_code,
 										 :on => 'blur',
 										 :update => 'nearbyEvents',
 										 :before => "Element.show('spinner')", 
 										 :complete => "Element.hide('spinner')", 
 										 :url => {:action => 'nearby_events', :only_path => false},
 										 :with => "'postal_code=' + encodeURIComponent(value)" %>
-              
 			<tr>
 				  <td colspan="2">
 					 <div id='nearbyEvents'/>
@@ -221,13 +215,9 @@ end
               <td valign="top"  class="dia_field_name" colspan="2">
 					 <table>
 						<tr>
-							<td><div align="left">*Start</div></td>
+							<td><div align="left">*Date</div></td>
 							<td><%= f.datetime_select 'start', :minute_step => 15, :html => {:style => "background-color: #ebd897;"}, :twelve_hour => true %>
 						</tr>
-						<tr>
-							<td><div align="left">*End</div></td>
-							<td><%= f.datetime_select 'end', :minute_step => 15, :html => {:style => "background-color: #ebd897;"}, :twelve_hour => true %>
-						</tr>							
 					 </table>
               </td>
             </tr>
