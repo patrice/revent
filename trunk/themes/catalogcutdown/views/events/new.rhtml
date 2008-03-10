@@ -70,7 +70,7 @@
               <td colspan="2" valign="top"  class="dia_field_name">Show phone number on your host profile?&nbsp;&nbsp;<%= user.check_box "show_phone_on_host_profile", :style => "background-color: #ebd897;", :class => "inputStyle" %></td>
             </tr>
             <tr>
-              <td valign="top" class="dia_field_name">Street</td>
+              <td valign="top" class="dia_field_name">Street Address</td>
               <td valign="top"><%= user.text_field "street", :id => "dataStreet", :maxlength => "64", :size => "30", :title => "Please enter your street address", :class => "inputStyle" %></td>
 
             </tr>
@@ -150,12 +150,9 @@
              
             </tr>
             <tr>
-              <td valign="top"  class="dia_field_name" colspan="2">
-                <div align="left">Address:<br />
-                  <%= f.text_area 'location', :title => "Please enter your event's address", :rows => "5", :cols => "45" %>
-                </div>
-              </td>
-            
+              <td valign="top" class="dia_field_name">Street Address</td>
+              <td valign="top"><%= f.text_field "location", :id => "dataStreet", :maxlength => "64", :size => "30", :title => "Please enter your street address", :class => "inputStyle" %></td>
+
             </tr>
             <tr>
               <td valign="top" class="dia_field_name">
@@ -177,15 +174,19 @@
                 <div align="left">*Zip/Postal Code:</div>
               </td>
               <td>
-              <%= f.text_field "postal_code", :id => 'postal_code', :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your event's zip code.  If you don't know it, put your zip code.", :class => "required inputStyle" %>&nbsp;&nbsp;
-              <span id="spinner" style="font-style: italic; font-size: 90%; display: none;"><%= image_tag 'spinner.gif' %> looking for nearby events</span></td>
-				  			<%= observe_field :postal_code,
+	              <%= f.text_field "postal_code", :id => 'postal_code', :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your event's zip code.  If you don't know it, put your zip code.", :class => "required inputStyle" %>
+	              <span id="spinner" style="font-style: italic; font-size: 90%; display: none;">
+									<%= image_tag 'spinner.gif' %> looking for nearby events
+								</span>
+							</td>
+				  			<% observe_field :postal_code,
 										 :on => 'blur',
 										 :update => 'nearbyEvents',
 										 :before => "Element.show('spinner')", 
 										 :complete => "Element.hide('spinner')", 
 										 :url => {:action => 'nearby_events', :only_path => false},
-										 :with => "'postal_code=' + encodeURIComponent(value)" %>
+										 :with => "'postal_code=' + encodeURIComponent(value)" -%>
+						</tr>
 			<tr>
 				  <td colspan="2">
 					 <div id='nearbyEvents'/>
