@@ -16,11 +16,10 @@ class TriggerMailer < ActionMailer::Base
     tokens['[EVENT_NAME]'] = event.name
     tokens['[EVENT_CITY]'] = event.city
     tokens['[EVENT_STATE]'] = event.state
-    tokens['[EVENT_ADDRESS]'] = event.address
+    tokens['[EVENT_ADDRESS]'] = event.location
     tokens['[EVENT_START_DATE]'] = event.start_date
     tokens['[EVENT_START_TIME]'] = event.start_time
     tokens['[HOST_NAME]'] = event.host.name
-    tokens['[HOST_PHONE]'] = event.host.phone
     tokens['[HOST_EMAIL]'] = event.host.email
     permalink = event.calendar.permalink
     tokens['[SIGNUP_LINK]'] = signup_url(:host => host, :permalink => permalink)
