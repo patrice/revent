@@ -29,6 +29,7 @@ class TriggerMailer < ActionMailer::Base
     tokens['[REPORT_LINK]'] = url_for(:host => host, :permalink => permalink, :controller => 'reports', :action => 'show', :event_id => event)
     tokens['[NEW_REPORT_LINK]'] = url_for(:host => host, :permalink => permalink, :controller => 'reports', :action => 'new', :id => event)
     tokens.each do |token, value|
+      value = '' if value.nil?
       trigger.email_plain.gsub!(token, value) if trigger.email_plain
       trigger.email_html.gsub!(token, value) if trigger.email_html
     end
