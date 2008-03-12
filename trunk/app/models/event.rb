@@ -28,7 +28,7 @@ class Event < ActiveRecord::Base
 
   acts_as_mappable :lat_column_name => 'latitude', :lng_column_name => 'longitude'
   before_validation :geocode
-  before_save :set_calendar, :set_district, :clean_country_state, :set_default_end_date
+  before_save :set_calendar, :set_district, :clean_country_state, :clean_date_time
   
   validates_presence_of :name, :city, :start, :end, :calendar_id, :country_code
   COUNTRY_CODE_USA = CountryCodes.find_by_name("United States of America")[:numeric] 
@@ -41,7 +41,7 @@ class Event < ActiveRecord::Base
       not state.blank? and valid_provinces.include?(state)
   end
 
-  def set_default_end_date
+  def clean_date_time
     self.end ||= self.start + 4.hours
   end
   
@@ -233,7 +233,7 @@ class Event < ActiveRecord::Base
   alias address address_for_geocode
   
   def start_date
-    self.start.strftime("%B %w, %Y")
+    self.start.strftime("%B %d, %Y")
   end
   
   def start_time
