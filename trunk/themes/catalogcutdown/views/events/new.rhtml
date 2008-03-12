@@ -1,5 +1,5 @@
 <%  
-	@event.start = (@calendar.event_start || Time.now).beginning_of_day + 12.hours
+	@event.start = [@calendar.event_start, Time.now].max.beginning_of_day + 12.hours
 	@event.end = @event.start + 2.hours
 	@hostform = @calendar.hostform
  -%>
@@ -47,22 +47,22 @@
         <table class="dia_field">
           <tbody>
             <tr valign="top">
-              <td valign="top" class="dia_field_name">*First Name</td>
+              <td valign="top" class="dia_field_name">*First Name:</td>
               <td valign="top"><%= user.text_field "first_name", :id => 'dataFirst_Name', :maxlength => "32", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your first name", :class => "required inputStyle" %></td>
               
             </tr>
             <tr>
-              <td valign="top" class="dia_field_name">*Last Name</td>
+              <td valign="top" class="dia_field_name">*Last Name:</td>
               <td valign="top"><%= user.text_field "last_name", :id => "dataLast_Name", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your last name", :class => "required inputStyle" %></td>
               
             </tr>
             <tr>
-              <td valign="top" class="dia_field_name">*Email</td>
+              <td valign="top" class="dia_field_name">*Email:</td>
               <td valign="top"><%= user.text_field "email", :id => "dataEmail", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter a valid email address", :class => "required validate-email inputStyle" %></td>
               
             </tr>
             <tr>
-              <td valign="top" class="dia_field_name">*Phone</td>
+              <td valign="top" class="dia_field_name">*Phone:</td>
               <td valign="top"><%= user.text_field "phone", :id => "dataPhone", :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your phone number", :class => "required inputStyle" %></td>
               
             </tr>
@@ -70,18 +70,18 @@
               <td colspan="2" valign="top"  class="dia_field_name">Show phone number on your host profile?&nbsp;&nbsp;<%= user.check_box "show_phone_on_host_profile", :style => "background-color: #ebd897;", :class => "inputStyle" %></td>
             </tr>
             <tr>
-              <td valign="top" class="dia_field_name">Street Address</td>
+              <td valign="top" class="dia_field_name">Street Address:</td>
               <td valign="top"><%= user.text_field "street", :id => "dataStreet", :maxlength => "64", :size => "30", :title => "Please enter your street address", :class => "inputStyle" %></td>
 
             </tr>
             <tr>
-              <td valign="top" class="dia_field_name">*City</td>
+              <td valign="top" class="dia_field_name">*City:</td>
               <td valign="top"><%= user.text_field "city", :id => "dataCity", :maxlength => "32", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your city", :class => "required inputStyle" %></td>
               
             </tr>
             <tr>
             
-              <td valign="top"  class="dia_field_name">*State/Province </td>
+              <td valign="top"  class="dia_field_name">*State/Province: </td>
               <td><%= user.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true, :include_provinces=>true), {}, :title => "Please select your state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataState" %>
               
      
@@ -89,22 +89,22 @@
               
             </tr>
             <tr>
-              <td  class="dia_field_name">*Zip/Postal Code</td>
-              <td><%= user.text_field "postal_code", :style => "background-color: #ebd897;", :maxlength => "10", :size => "10", :id => "dataZip", :title => "Please enter your zip code", :class => "required inputStyle" %></td>
-             
+              <td valign="top" class="dia_field_name">*Zip/Postal Code:</td>
+              <td valign="top"><%= user.text_field "postal_code", :id => "dataZip", :maxlength => "10", :size => "10", :style => "background-color: #ebd897;", :title => "Please enter your zip code", :class => "required inputStyle" %></td>
+              
             </tr>
             <tr>
-              <td valign="top" class="dia_field_name">Organization</td>
+              <td valign="top" class="dia_field_name">Organization:</td>
               <td valign="top"><%= text_field_tag "user[democracy_in_action][supporter][Organization]", nil, :id => "dataOrganization", :maxlength => "64", :size => "30", :class => "inputStyle" %></td>
            
             </tr>
             <tr>
-              <td valign="top" class="dia_field_name">Position</td>
+              <td valign="top" class="dia_field_name">Position:</td>
               <td valign="top"><%= text_field_tag "user[democracy_in_action][supporter][Occupation]", nil, :id => "dataOccupation", :maxlength => "64", :size => "30", :class => "inputStyle" %></td>
             
             </tr>
             <tr>
-              <td valign="top" colspan="2">A picture for your host profile <%= file_field_tag "profile_image[uploaded_data]", :class => "inputStyle" %></td>
+              <td valign="top" colspan="2">A picture for your host profile: <%= file_field_tag "profile_image[uploaded_data]", :class => "inputStyle" %></td>
             </tr>
  
           </tbody>
@@ -150,7 +150,7 @@
              
             </tr>
             <tr>
-              <td valign="top" class="dia_field_name">Street Address</td>
+              <td valign="top" class="dia_field_name">Street Address:</td>
               <td valign="top"><%= f.text_field "location", :id => "dataStreet", :maxlength => "64", :size => "30", :title => "Please enter your street address", :class => "inputStyle" %></td>
 
             </tr>
@@ -173,7 +173,7 @@
               <td  class="dia_field_name">
                 <div align="left">*Zip/Postal Code:</div>
               </td>
-              <td>
+              <td valign="top">
 	              <%= f.text_field "postal_code", :id => 'postal_code', :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your event's zip code.  If you don't know it, put your zip code.", :class => "required inputStyle" %>
 	              <span id="spinner" style="font-style: italic; font-size: 90%; display: none;">
 									<%= image_tag 'spinner.gif' %> looking for nearby events
@@ -206,7 +206,7 @@
             </tr>
             <tr>
               <td valign="top"  class="dia_field_name" colspan="2">
-                <div align="left">*Directions<br />
+                <div align="left">*Directions:<br />
                   <%= f.text_area "directions", :style => "background-color: #ebd897;", :rows => "5", :cols => "45", :class => "required", :title => "Please enter directions to your event" %>
                 </div>
               </td>
@@ -216,8 +216,8 @@
               <td valign="top"  class="dia_field_name" colspan="2">
 					 <table>
 						<tr>
-							<td><div align="left">*Date</div></td>
-							<td><%= f.datetime_select 'start', :minute_step => 15, :html => {:style => "background-color: #ebd897;"}, :twelve_hour => true %>
+							<td><div align="left">*Date:</div></td>
+              <td><%= f.datetime_select 'start', :html => {:style => "background-color: #ebd897;"}, :class => 'required', :twelve_hour => true, :minute_step =>15 %>
 						</tr>
 					 </table>
               </td>
