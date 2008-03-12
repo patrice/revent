@@ -40,9 +40,12 @@ class Account::EventsController < ApplicationController
     else
       flash[:notice] = 'Event updated'
     end
+    logger.info 'updated attributes'
     redirect_to :action => 'show', :id => @event
   rescue ActiveRecord::RecordInvalid
-    redirect_to :action => 'show', :id => @event
+    logger.info 'event invalid'
+    show
+    render :action => 'show', :id => @event
   end
   
   def update_campaign_scripts(event)
