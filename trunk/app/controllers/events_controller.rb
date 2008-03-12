@@ -45,11 +45,11 @@ class EventsController < ApplicationController
     @category_options = @calendar.categories.collect{|c| [c.name, c.id]}.unshift(['All Events', 'all'])
     if params[:id] and not params[:id] == 'all'
       @category = @calendar.categories.find(params[:id])  
-      @events = @calendar.public_events.paginate_all_by_category_id(@category.id, :order => 'created_at DESC', :page => nil)
+      @events = @calendar.public_events.paginate_all_by_category_id(@category.id, :order => 'created_at DESC', :page => params[:page])
     else
       require 'ostruct'
       @category = OpenStruct.new(:id => 'all', :name => 'All Events')
-      @events = @calendar.public_events.paginate(:all, :order => 'created_at DESC', :page => nil)
+      @events = @calendar.public_events.paginate(:all, :order => 'created_at DESC', :page => params[:page])
     end
   end
 
