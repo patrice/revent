@@ -4,8 +4,7 @@ class Admin::CalendarsController < AdminController
   	config.columns[:democracy_in_action_key].label = "DAI Distributed Event Key"
   	config.columns = 
       [:name, :permalink, :short_description, :democracy_in_action_key,
-      :event_start, :event_end, 
-      :signup_redirect, :hostform, :rsvp_dia_group_key, 
+      :event_start, :event_end, :signup_redirect, :hostform, :rsvp_dia_group_key, 
       :rsvp_dia_trigger_key, :rsvp_redirect,  :map_intro_text, :report_title_text, 
       :report_intro_text, :report_dia_group_key, :report_dia_trigger_key, 
       :report_redirect, :flickr_tag, :flickr_additional_tags, :flickr_photoset, 
@@ -18,7 +17,6 @@ class Admin::CalendarsController < AdminController
   	columns[:hostform].form_ui = :select
   end
   
-
   def index
   end
 

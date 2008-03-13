@@ -1,4 +1,26 @@
 class Admin::ReportsController < AdminController 
+  
+  active_scaffold :reports do |config|
+    config.columns = [:created_at, :event, :reporter_name, :reporter_email, :text, :attendees, :status, :featured, :attachments]
+    config.update.columns = [:status, :featured, :text, :attendees]
+    config.columns[:attendees].label = "Estimated attendance"
+    config.columns[:attachments].label = "# of Attachments"
+    config.columns[:attachments].clear_link    
+  	columns[:featured].list_ui = :checkbox
+  	columns[:featured].form_ui = :checkbox
+  	config.list.sorting = [{:created_at => :desc}]
+  	config.actions.exclude :create
+  end
+  
+
+  def conditions_for_collection
+    ["events.calendar_id IN (#{(@calendar.calendar_ids << @calendar.id).join(',')})"]
+  end
+
+  def index
+  end
+  
+=begin
   def index
     redirect_to :action => :list unless @calendar.nil?
     @calendars = Site.current.calendars
@@ -38,6 +60,7 @@ class Admin::ReportsController < AdminController
       end
     end
   end
+=end
 
   def publish
     @report = Report.publish(params[:id])

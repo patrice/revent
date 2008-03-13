@@ -1,12 +1,2 @@
-<table>
-  <tr><th>Calendar</th></tr>  
-	<% for calendar in @calendars %>
-	  <tr>
-		<td><%= link_to calendar.permalink, url_for(:controller => 'admin/reports', :permalink => calendar.permalink, :action => :list) %><% if calendar.current? -%> <strong>(current)</strong><% end -%></td>
-		<td>Has <%= calendar.events.length %> events.</td>
-	  </tr>
-	<% end %>
-</table>
-
-<br />
-<%= link_to 'Back to admin', url_for(:controller => '/admin')%>
+<%= link_to 'Export Featured Photos', {:action => :export} %><br />
+<%= render :active_scaffold => "admin/reports" %>
