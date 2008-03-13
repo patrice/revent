@@ -3,7 +3,6 @@ require 'fastercsv'
 require 'syslog'
 require 'site'
 require 'calendar'
-# require 'event'
 
 # we already have lat/lng, so over-ride geocode (which occurs after_save) 
 class Event

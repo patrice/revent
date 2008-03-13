@@ -59,7 +59,6 @@ flickr.auth.login_link
 flickr.auth.getToken(FROB)
 flickr.auth.cache_token
 
-
 # set up akismet configuration
 # aquire API key from wordpress: http://wordpress.com/api-keys/ 
 # you don't need to sign up for a new blog, just get a username and they'll email you an api key

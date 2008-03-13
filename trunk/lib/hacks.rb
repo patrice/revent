@@ -328,4 +328,97 @@ HTML
     }
     send_data canvas.to_blob, :type => canvas.mime_type, :disposition => 'inline'
   end
+
+=begin
+  # from pull_legislators.rb
+  require 'open-uri'
+
+  def get_phone
+    Politician.find(:all).each do |p|
+      data = XmlSimple.xml_in(p.xml)
+      p.phone = data['legislator'][0]['phone'][0]
+      p.save
+    end
+  end
+
+  def pull_legislators
+    dia_warehouse_uri = "http://warehouse.democracyinaction.org/dia/api/warehouse/legislator.jsp?method=getLegislatorFromDistrict".freeze
+    states = DemocracyInAction::Helpers.state_options_for_select.collect {|s| s[1]}
+  
+    states.each do |state|
+      next if ((state == "none") || (state == "ot"))
+      # 55 reps in calif, do 60 just to be safe
+      60.times do |district|
+        uri = sprintf("%s%s%s%02d%s", dia_warehouse_uri, "&district=", state, (district+1), "&district_type=FH")
+        puts uri.to_s
+        xml_io = open(uri)
+        data = XmlSimple.xml_in(xml_io)
+        break if data['legislator'].nil?
+        xml_io.rewind
+        xml_as_text = xml_io.read
+        xml_to_legislator(data, xml_as_text) 
+      end
+  
+      # pull data for 2 senators per state
+      2.times do |senator|
+        uri = dia_warehouse_uri + "&district=#{state}#{senator+1}&district_type=FS"
+        puts uri.to_s
+        xml_io = open(uri)
+        data = XmlSimple.xml_in(xml_io)
+        break if data['legislator'].nil?
+        xml_io.rewind
+        xml_as_text = xml_io.read
+        xml_to_legislator(data, xml_as_text) 
+      end
+    end
+  end
+
+  def xml_to_legislator(data, xml_as_text)
+    unless data['legislator'].nil?
+      d = data['legislator'][0]
+      l = Politician.new
+      l.display_name = d['display_name'][0] unless d['display_name'][0][0].nil?
+      l.first_name = d['given_name'][0] unless d['given_name'][0][0].nil?
+      l.last_name = d['family_name'][0] unless d['family_name'][0][0].nil?
+      l.person_legislator_id = d['person_legislator_ID'][0] unless d['person_legislator_ID'][0][0].nil?
+      l.phone = d['preferred_phone'][0] unless d['preferred_phone'][0][0].nil?
+      l.email = d['email'][0] unless d['email'][0][0].nil?
+      l.address = d['address_line'][0] unless d['address_line'][0][0].nil?
+      l.address = l.address.to_s + d['address_line_2'][0].to_s unless d['address_line_2'][0][0].nil?
+      # city not returned by dia l.city] = d[''][0] 
+      l.state = d['region'][0] unless d['region'][0][0].nil?
+      l.postal_code= d['postal_code'][0] unless d['postal_code'][0][0].nil?
+      l.district = d['district_code'][0] unless d['district_code'][0][0].nil?
+      l.district_type = d['district_type'][0] unless d['district_type'][0][0].nil?
+      unless d['official_ID'][0][0].nil?
+        congress_uri = "http://bioguide.congress.gov/bioguide/photo/"
+        id = d['official_ID'][0]
+        l.image_url = congress_uri + id.first + "/" + id + ".jpg"
+      end
+      l.party = d['party'][0] unless d['party'][0][0].nil?
+      l.website = d['website'][0] unless d['website'][0][0].nil?
+      l.xml = xml_as_text
+      puts "#{l.display_name}"
+      l.save
+    end
+  end
+=end
+
+=begin
+  # from db/redirect_path.rb
+  objects = DemocracyInActionObject.find(:all, :conditions => "democracy_in_action_tables.table = 'campaign'")
+  objects.each do |o|
+  	c = o.local
+  	e = o.associated
+  	if c.person_legislator_IDS
+  	  p = Politician.find_by_person_legislator_id(c.person_legislator_IDS)
+  	else
+  	  p = Politician.find(:first, :include => :democracy_in_action_object,
+  	      :conditions => "democracy_in_action_objects.key = #{c.recipient_KEYS}")
+  	end
+  	c.redirect_path = "http://events.stepitup2007.org/november/events/#{e.id}/invite/thank_you/#{p.id}"
+  	c.save
+  end
+=edn
+
 end
