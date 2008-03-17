@@ -10,8 +10,12 @@ class Embed < ActiveRecord::Base
     uri = params_movie['value'] if params_movie && params_movie['value'] =~ /youtube.com/
     uri ||= embed['src'] if embed && embed['src'] =~ /youtube.com/
     return unless uri
-    youtube_video_id = uri.split('/').last 
+    youtube_video_id = uri.split('/').last.split('&').first
     self.youtube_video_id ||= youtube_video_id
+  end
+  
+  def thumbnail_url
+    'http://i.ytimg.com/vi/' + self.youtube_video_id + '/default.jpg'
   end
 
   attr_accessor :tag_depot
