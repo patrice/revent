@@ -247,4 +247,9 @@ class ReportsController < ApplicationController
       @slideshow_url += "&tags=#{@calendar.flickr_tag}#{params[:id]}" if @calendar.flickr_tags
     end
   end
+  
+  def featured
+    @reports = @calendar.featured_reports.find(:all, :limit => 5, :order => 'reports.created_at DESC')
+    render :layout => false
+  end
 end
