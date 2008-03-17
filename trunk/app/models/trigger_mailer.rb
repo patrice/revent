@@ -13,13 +13,13 @@ class TriggerMailer < ActionMailer::Base
   protected
   def sub_tokens(trigger, event, host)                          
     tokens = {}
-    tokens['[EVENT_NAME]'] = event.name
+    tokens['[EVENT_NAME]'] = event.name || 'this event'
     tokens['[EVENT_CITY]'] = event.city
     tokens['[EVENT_STATE]'] = event.state
     tokens['[EVENT_ADDRESS]'] = event.location
     tokens['[EVENT_START_DATE]'] = event.start_date
     tokens['[EVENT_START_TIME]'] = event.start_time
-    tokens['[HOST_NAME]'] = event.host.name
+    tokens['[HOST_NAME]'] = event.host.name || 'the event host'
     tokens['[HOST_EMAIL]'] = event.host.email
     permalink = event.calendar.permalink
     tokens['[SIGNUP_LINK]'] = signup_url(:host => host, :permalink => permalink)
