@@ -14,7 +14,6 @@ class Calendar < ActiveRecord::Base
   belongs_to :site
   
   # self-referential calendar relationship used for 'all' calendar
-  belongs_to  :parent, :class_name => 'Calendar', :foreign_key => 'parent_id'
   has_many :calendars, :class_name => 'Calendar', :foreign_key => 'parent_id' do
     def current
       proxy_target.detect {|c| c.current?} || proxy_target.first
@@ -31,19 +30,18 @@ class Calendar < ActiveRecord::Base
     public_events.finder_sql = "(events.calendar_id IN (#{(calendar_ids << id).join(',')}) AND (events.private IS NULL OR events.private = 0))"
     reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
     published_reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
+    featured_reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
   end
   
   @@deleted_events = []
   @@all_events = []
-  has_many :reports, :through => :events
-  has_many :published_reports, :through => :events, :source => "reports", :conditions => "reports.status = '#{Report::PUBLISHED}'"  
+  
 =begin
-  has_many :public_events, :through => :children, :source => 'events', :conditions => "private IS NULL OR private = FALSE"
-  has_many :events, :through => :children, :source => 'events' do
+  has_many :local_public_events, :class_name => 'Event', :conditions => "events.private IS NULL OR events.private = FALSE"
+  has_many :public_events, :through => :children, :source => 'local_public_events'
+  has_many :local_events, :class_name => 'Event'
+  has_many :events, :through => :children, :source => 'local_events'
 =end
-  has_many :public_events, 
-           :class_name => "Event",
-           :conditions => "private IS NULL OR private = FALSE"
   has_many :events do
     def unique_states
       states = proxy_target.collect {|e| e.state}.compact.uniq.select do |state|
@@ -61,6 +59,10 @@ class Calendar < ActiveRecord::Base
       published_reports.collect {|r| r.event}.uniq
     end
   end
+  has_many :public_events, :class_name => "Event", :conditions => "events.private IS NULL OR events.private = 0"
+  has_many :reports, :through => :events
+  has_many :published_reports, :through => :events, :source => "reports", :conditions => "reports.status = '#{Report::PUBLISHED}'"  
+  has_many :featured_reports, :through => :events, :source => "reports", :conditions => "reports.featured = 1"
 
   def self.any?
     self.count != 0
@@ -92,13 +94,11 @@ class Calendar < ActiveRecord::Base
   end
   
   def democracy_in_action_key=(key)
-    unless key.blank?
-      obj = self.democracy_in_action_object || self.build_democracy_in_action_object(:table => 'distributed_event')
-      obj.key = key 
-      obj.save
-    end
+    return if key.blank?
+    obj = self.democracy_in_action_object || self.build_democracy_in_action_object(:table => 'distributed_event')
+    obj.key = key 
+    obj.save
   end
-  #XXX
 
   has_many :triggers
   has_many :categories
