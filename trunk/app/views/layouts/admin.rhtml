@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title> <%= @page_title ||= "Days of action" %></title>
+  <title> <%= @page_title ||= "Days of Action Tool" %></title>
 
   <%= stylesheet_link_tag 'application' %>
   <%= stylesheet_link_tag 'admin' %>
@@ -22,7 +22,7 @@
           <span><%= current_user.full_name %></span>
           <%= link_to 'Account', :controller => '/account', :action => :profile, :id => current_user.id %>
           <%= link_to 'Log Out', :controller => 'account', :action => 'logout' %>
-          <%= mail_to 'help@radicaldesigns.org', 'help', :subject => site.host + ': ' ,  :id => 'help' %>
+          <%= mail_to 'eventhelp@radicaldesigns.org', 'help', :subject => site.host + ': ' ,  :id => 'help' %>
         </div>
       <% end -%>
         <div id="site_menu">
