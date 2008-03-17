@@ -249,7 +249,12 @@ class ReportsController < ApplicationController
   end
   
   def featured
-    @reports = @calendar.featured_reports.find(:all, :limit => 5, :order => 'reports.created_at DESC')
+    @reports =
+      if params[:id]
+        @calendar.featured_reports.find_all_by_state(params[:id], :all, :limit => 5, :order => 'reports.created_at DESC')
+      else
+        @calendar.featured_reports.find(:all, :limit => 5, :order => 'reports.created_at DESC')
+      end
     render :layout => false
   end
 end
