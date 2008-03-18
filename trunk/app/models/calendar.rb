@@ -27,10 +27,10 @@ class Calendar < ActiveRecord::Base
   # See top of this file for adding finder_sql accessor to HasManyAssociation
   def after_initialize
     events.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
-    public_events.finder_sql = "(events.calendar_id IN (#{(calendar_ids << id).join(',')}) AND (events.private IS NULL OR events.private = 0))"
-    reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
-    published_reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
-    featured_reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
+    public_events.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')}) AND (events.private IS NULL OR events.private = 0)"
+    reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')}) AND (reports.id)"
+    published_reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')}) AND (reports.status = '#{Report::PUBLISHED}')"
+    featured_reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')}) AND (reports.featured = 1)"
   end
   
   @@deleted_events = []
@@ -40,7 +40,7 @@ class Calendar < ActiveRecord::Base
   has_many :local_public_events, :class_name => 'Event', :conditions => "events.private IS NULL OR events.private = FALSE"
   has_many :public_events, :through => :children, :source => 'local_public_events'
   has_many :local_events, :class_name => 'Event'
-  has_many :events, :through => :children, :source => 'local_events'
+  has_many :events, :through => :children, :source => 'local_events' do
 =end
   has_many :events do
     def unique_states
