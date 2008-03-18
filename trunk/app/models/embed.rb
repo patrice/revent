@@ -14,8 +14,16 @@ class Embed < ActiveRecord::Base
     self.youtube_video_id ||= youtube_video_id
   end
   
-  def thumbnail_url
-    'http://i.ytimg.com/vi/' + self.youtube_video_id + '/default.jpg'
+  def youtube_thumbnail_url
+    if self.youtube_video_id
+      "http://i.ytimg.com/vi/#{self.youtube_video_id}/default.jpg"
+    end
+  end
+  
+  def youtube_video_url
+    if self.youtube_video_id
+      "http://www.youtube.com/watch?v=#{self.youtube_video_id}"
+    end
   end
 
   attr_accessor :tag_depot
