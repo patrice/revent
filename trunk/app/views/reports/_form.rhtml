@@ -3,7 +3,7 @@
 <!--[form:report]-->
 
 <p><label for="event_id">*Select Your Event</label><br/>
-<%= f.select 'event_id', @events_select, :include_blank => true %>
+<%= f.select 'event_id', events_select, :include_blank => true %>
 
 <% fields_for :user, @user do |user| %>
 
