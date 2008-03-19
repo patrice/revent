@@ -46,8 +46,12 @@ class AccountController < ApplicationController
     return unless request.post?
     @user.update_attributes(params[:user])
     @user.create_profile_image(params[:profile_image]) unless params[:profile_image][:uploaded_data].blank?
-    @user.save
-    flash.now[:notice] = "Your profile has been updated"
+    if @user.save
+      flash[:notice] = "Your profile has been updated"
+      redirect_to :controller => '/account/events', :action => 'index'
+    else
+      flash[:notice] = "There was an error updating your profile"
+    end
   end
 
 =begin
