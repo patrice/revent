@@ -1,12 +1,6 @@
 <%  
-unless @event.start && @event.end
-	if @calendar.event_start
-		@event.start = [@calendar.event_start, Time.now].max.beginning_of_day + 12.hours
-	else
-		@event.start = ['1/1/08'.to_time, Time.now].max.beginning_of_day + 12.hours
-	end
-	@event.end = @event.start + 2.hours
-end
+@event.start = ['6/1/08'.to_time, Time.now].max.beginning_of_day + 12.hours
+@event.end = @event.start + 4.hours
 @event.state = "CA"
 @event.description = "California House Party for Moms Rising"
 @hostform = @calendar.hostform
