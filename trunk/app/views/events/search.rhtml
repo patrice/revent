@@ -21,7 +21,7 @@
     <%= @map.to_html %>
     <%= gmaps_auto_center_and_zoom(@map) if @auto_center %>
 	</div>
-	<% current = @events.select {|e| e.start > Time.now}
+	<% current = @events.select {|e| e.start > Time.now.at_midnight}
 		past = @events.select {|e| e.start <  Time.now.at_midnight} %>	
 	<% unless current.empty? %>	
 	<div id="event-list-container">
