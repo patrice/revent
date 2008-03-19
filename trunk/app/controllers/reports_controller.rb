@@ -97,7 +97,6 @@ class ReportsController < ApplicationController
 
   include ActionView::Helpers::TextHelper
   def new 
-    @events_select = @calendar.events.find(:all, :order=>"state,city").collect {|e| [truncate("#{e.state || e.country} - #{e.city} - #{e.start.strftime('%m/%d/%y')}: #{e.name}",70), e.id]}
     @report = Report.new(:event_id => params[:id])
     if params[:service] && params[:service_foreign_key]
       @report.event = Event.find_or_import_by_service_foreign_key(params[:service_foreign_key])
