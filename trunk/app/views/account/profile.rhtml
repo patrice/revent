@@ -25,7 +25,7 @@
 <%= f.text_field 'postal_code'  %></p>
 
 <p><label for="country">Country</label><br/>
-<%= f.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort  %></p>
+<%= f.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort.unshift(["Select One...", nil]) %></p>
 
 <p><label for="profile_image">Profile Image</label><br/>
 <%= file_field_tag 'profile_image[uploaded_data]' %></p>
