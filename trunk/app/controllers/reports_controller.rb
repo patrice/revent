@@ -39,7 +39,7 @@ class ReportsController < ApplicationController
 
   def flashmap
     # all events should have lat/lng or fallback lat/lng; remove ones that don't just in case
-    @events = @calendar.events.find(:all, :conditions => ["(latitude <> 0 AND longitude <> 0 AND country_code = ?)", Event::COUNTRY_CODE_USA])
+    @events = @calendar.public_events.find(:all, :conditions => ["(latitude <> 0 AND longitude <> 0 AND country_code = ?)", Event::COUNTRY_CODE_USA])
     respond_to do |format|
       format.xml { render :layout => false }
     end
@@ -208,8 +208,10 @@ class ReportsController < ApplicationController
                         max_lat, 
                         max_lon])
     end
-    @events = @calendar.public_events.paginate(:all, :include => {:reports => :attachments}, :conditions => ["reports.id AND reports.status = '#{Report::PUBLISHED}' AND events.postal_code IN (?)", @zips.collect {|z| z.zip}], :order => "reports.id DESC", :page => params[:page], :per_page => 20)
-    @reports = @events.collect {|e| e.reports.first}
+    #@events = @calendar.public_events.paginate(:all, :include => {:reports => :attachments}, :conditions => ["reports.id AND reports.status = '#{Report::PUBLISHED}' AND events.postal_code IN (?)", @zips.collect {|z| z.zip}], :order => "reports.id DESC", :page => params[:page], :per_page => 20)
+    #@reports = @events.collect {|e| e.reports.first}
+
+    @reports = @calendar.published_reports.paginate(:all, :include => [:event, :attachments], :conditions => ["events.postal_code IN (?)", @zips.collect{|z| z.zip}], :order => "reports.created_at DESC", :page => params[:page], :per_page => 20) 
     @codes = @zips.collect {|z| z.zip}
 #    @reports = @reports.sort_by {|r| @codes.index(r.event.postal_code)}
     @reports.each {|r| r.instance_variable_set(:@distance_from_search, @zips.find {|z| z.zip == r.event.postal_code}.distance_to_search_zip) }
@@ -218,9 +220,9 @@ class ReportsController < ApplicationController
   end
 
   def do_state_search
-    @events = @calendar.public_events.paginate(:all, :include => {:reports => :attachments}, :conditions => ["reports.id AND reports.status = '#{Report::PUBLISHED}' AND events.state = ?", params[:state]], :order => "events.state, events.city", :page => params[:page], :per_page => 20)
-    @reports = @events.collect {|e| e.reports.first}
-
+    #@events = @calendar.public_events.paginate(:all, :include => {:reports => :attachments}, :conditions => ["reports.id AND reports.status = '#{Report::PUBLISHED}' AND events.state = ?", params[:state]], :order => "events.state, events.city", :page => params[:page], :per_page => 20)
+    #@reports = @events.collect {|e| e.reports.first}
+    @reports = @calendar.published_reports.paginate(:all, :include => [:event, :attachments], :conditions => ["events.state = ?", params[:state]], :order => "events.state, events.city", :page => params[:page], :per_page => 20)
     @search_results_message = "Showing reports in #{params[:state]}"
     @search_params = {:state => params[:state]}
   end
