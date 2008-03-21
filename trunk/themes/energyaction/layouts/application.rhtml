@@ -4,21 +4,22 @@
 <head>
   <title>A Call to Action! April 1st 2008 | Energy Action Coalition</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="shortcut icon" href="http://energyactioncoalition.org//sites/all/themes/eac/favicon.ico" type="image/x-icon" />
-  <style type="text/css" media="all">@import "http://energyactioncoalition.org//modules/aggregator/aggregator.css";</style>
-<style type="text/css" media="all">@import "http://energyactioncoalition.org//modules/node/node.css";</style>
-<style type="text/css" media="all">@import "http://energyactioncoalition.org//modules/system/defaults.css";</style>
+<link rel="shortcut icon" href="http://energyactioncoalition.org/sites/energyactioncoalition.org/files/eac_favicon.ico" type="image/x-icon" />
+<style type="text/css" media="all">@import "http://energyactioncoalition.org/modules/node/node.css";</style>
+<style type="text/css" media="all">@import "http://energyactioncoalition.org/modules/system/defaults.css";</style>
+<style type="text/css" media="all">@import "http://energyactioncoalition.org/modules/system/system.css";</style>
 
-<style type="text/css" media="all">@import "http://energyactioncoalition.org//modules/system/system.css";</style>
-<style type="text/css" media="all">@import "http://energyactioncoalition.org//modules/user/user.css";</style>
-<style type="text/css" media="all">@import "http://energyactioncoalition.org//sites/all/themes/eac/style.css";</style>
+<style type="text/css" media="all">@import "http://energyactioncoalition.org/modules/user/user.css";</style>
+<style type="text/css" media="all">@import "http://energyactioncoalition.org/sites/all/modules/logintoboggan/logintoboggan.css";</style>
+<style type="text/css" media="all">@import "http://energyactioncoalition.org/sites/all/themes/eac/style.css";</style>
 
-  <%= javascript_include_tag 'prototype' %>
-  <%= stylesheet_link_tag 'events' %>
-  <%= yield :header %>
-  <%= Cartographer::Gmap::Header.header_for(request) if @map %>
+	<%= javascript_include_tag 'prototype' %>
+	<%= stylesheet_link_tag 'events' %>
+	<%= yield :header %>
+	<%= Cartographer::Gmap::Header.header_for(request) if @map %>
 
-
+<script type="text/javascript" src="http://energyactioncoalition.org/misc/jquery.js"></script>
+<script type="text/javascript" src="http://energyactioncoalition.org/misc/drupal.js"></script>
 </head>
 <body class="not-front not-logged-in ntype-page">
 <div id="sub_body">	
@@ -45,12 +46,20 @@
   </div>
 
 </div>
-<div id="block-block-11" class="block block-block">  
+<div id="block-block-14" class="block block-block">  
   <div class="blockinner">
     <h2 class="title">  </h2>
     <div class="content">
-      <img src="http://energyactioncoalition.org/sites/energyactioncoalition.org/files/header.png" /><br />
-<div align="right"><a href="http://energyactioncoalition.org/fossilfools">call to action</a> | <a href="http://energyactioncoalition.org/fossilfools/spread">spread fossil fools</a> | <a href="http://energyactioncoalition.org/fossilfools/resources">resources</a> | <a href="http://actions.energyactioncoalition.org/fossilfools">find an action</a> | <a href="http://actions.energyactioncoalition.org/fossilfools/signup">register an action</a> | <a href="http://actions.energyactioncoalition.org/profile">manage your action</a></div><br /><br />    </div>    
+      <a id="signup" href="http://energyactioncoalition.org/signup">SIGN UP</a>    </div>    
+  </div>
+</div>
+<div id="block-block-11" class="block block-block">  
+  <div class="blockinner">
+    <h2 class="title">  </h2>
+
+    <div class="content">
+      <img src="http://energyactioncoalition.org/sites/energyactioncoalition.org/files/fossilfoolsheader.jpg" width="790px" style="margin-left:10px;" /><br />
+<div align="right" id="fossilfoolsmenu"><a href="http://energyactioncoalition.org/fossilfools">Home</a> | <a href="http://energyactioncoalition.org/foolies">The Foolies</a> | <a href="http://energyactioncoalition.org/fossilfools/organizers">Organizers HQ</a> | <a href="http://energyactioncoalition.org/fossilfools/newsroom">Newsroom</a> | <a href="http://energyactioncoalition.org/fossilfools/international">International</a></div>    </div>    
   </div>
 
 </div>
@@ -59,17 +68,17 @@
                   
         
 	
-      <div id="main" class="column"><div id="squeeze">
-                        <% if flash[:notice] %>
-</p>
-<div class="flash" id="notice"><%= flash[:notice] %></div>
-<% end %>
-<% if flash[:error] %>
-<div class="flash" id="error"><%= flash[:error] %></div>
-<% end %>
-<%= yield %>
+			      <div id="main" class="column"><div id="squeeze">
+			                        <% if flash[:notice] %>
+			</p>
+			<div class="flash" id="notice"><%= flash[:notice] %></div>
+			<% end %>
+			<% if flash[:error] %>
+			<div class="flash" id="error"><%= flash[:error] %></div>
+			<% end %>
+			<%= yield %>
 
-                      </div></div> <!-- /squeeze /main -->
+			                      </div></div> <!-- /squeeze /main -->
 
       
   </div> <!-- /container -->
@@ -77,15 +86,25 @@
     <div id="footer-wrapper">
       <div id="footer">
         
-      </div> <!-- /footer -->
+<div id="block-block-15" class="block block-block">  
+  <div class="blockinner">
+    <h2 class="title">  </h2>
+    <div class="content">
+      <br />
+<center><a href="http://energyactioncoalition.org/contact">Contacts</a>  |  <a href="http://energyactioncoalition.org/credits">Site Credits</a>  |  <a href="http://energyactioncoalition.org/signup">Sign Up</a>  |  <a href="http://energyactioncoalition.org/donate">Donate</a></center>
 
+<br />    </div>    
+  </div>
+</div>
+      </div> <!-- /footer -->
     </div> <!-- /footer-wrapper -->
     
     <script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>
 <script type="text/javascript">
 _uacct = "UA-707335-4";urchinTracker();
 </script>
-<script type="text/javascript" src="/sites/all/modules/google_analytics/downloadtracker.js"></script>
+<script type="text/javascript" src="http://energyactioncoalition.org/sites/all/modules/google_analytics/downloadtracker.js"></script>
+
     
   </div> <!-- /page -->
 </div> <!-- /sub_body -->
