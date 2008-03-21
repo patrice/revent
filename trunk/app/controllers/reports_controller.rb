@@ -63,9 +63,8 @@ class ReportsController < ApplicationController
   end
 
   def list
-    @events = @calendar.public_events.paginate(:all, :include => {:reports => :attachments}, 
-      :conditions => "reports.id AND reports.status = '#{Report::PUBLISHED}'", :order => "reports.id", :page => params[:page], :per_page => 20)
-    @reports = @events.collect {|e| e.reports.first}
+    @reports = @calendar.published_reports.paginate(:all, :include => :attachments, 
+      :order => 'reports.created_at DESC', :page => params[:page], :per_page => 20)
     # temporary fix to get everythingscool layout to load here
     if File.exists?("#{Theme.path_to_theme(Site.current.theme || @calendar.theme)}/layouts/reports.rhtml")
       render(:layout => "../../themes/#{Site.current.theme || @calendar.theme}/layouts/reports")

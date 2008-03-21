@@ -16,13 +16,13 @@
   <%= @search_results_message %>
 <hr>	
 <div class='pagination-footer'>
-  <%= will_paginate @events %>
+  <%= will_paginate @reports %>
 </div>
 
   <%= render :partial => 'report', :collection => @reports %>
 
   <br><br><div class='pagination-footer'>
-    <%= will_paginate @events %>
+    <%= will_paginate @reports %>
   </div>
 </div>
  <%= render :partial =>'reports/report_nav' %>
