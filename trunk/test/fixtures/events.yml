@@ -87,3 +87,13 @@ siu_private:
   created_at: <%= 1.day.ago.to_s :db %>
   updated_at: <%= 1.day.ago.to_s :db %>
   start: 2007-04-14 12:00:00
+ufpj_event_with_reports:
+  id: 7
+  calendar_id: 10
+  name: UFPJ Event with Reports
+  location: 5th Ave.
+  city: New York City
+  state: New York
+  postal_code: 10001
+  
+  

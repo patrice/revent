@@ -2,8 +2,28 @@ require File.dirname(__FILE__) + '/../test_helper'
 require 'mocha'
 
 class CalendarTest < Test::Unit::TestCase
-  fixtures :calendars, :events
+  fixtures :calendars, :events, :reports
 
+  # incomplete test
+  def test_calendar_has_calendars
+    rolling = Calendar.new
+    dec4 = Calendar.new
+    all = Calendar.new
+    assert true
+  end
+  
+  def test_has_many_featured_reports_includes_featured_reports
+    @featured_report = reports(:ufpj_featured_report)
+    @calendar = calendars(:ufpj_5yearstoomany)
+    assert @calendar.featured_reports.include?(@featured_report)
+  end
+  
+  def test_has_many_featured_reports_does_not_include_non_featured_reports
+    @non_featured_report = reports(:ufpj_non_featured_report)
+    @calendar = calendars(:ufpj_5yearstoomany)
+    assert !@calendar.featured_reports.include?(@non_featured_report)
+  end
+  
   def test_load_from_dia
     assert true
     return # unless connecting to remote, and let's get this out of here

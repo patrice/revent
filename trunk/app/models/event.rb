@@ -4,13 +4,11 @@ class Event < ActiveRecord::Base
   has_many :reports, :conditions => "reports.status = '#{Report::PUBLISHED}'", :include => :attachments, :order => 'reports.position', :dependent => :destroy do
     def slideshow?
       Site.current.flickr_user_id && proxy_target.collect {|r| r.attachments}.flatten.any?
-    end
-    
+    end    
     def attachments
       proxy_target.collect {|r| r.attachments}.flatten
     end
   end
-#  has_many :attachments, :through => :reports
   has_many :attachments, :dependent => :destroy
   has_many :documents, :class_name => 'Attachment', :conditions => Attachment.types_to_conditions([:document])
   has_many :images, :class_name => 'Attachment', :conditions => Attachment.types_to_conditions([:image])
@@ -59,27 +57,10 @@ class Event < ActiveRecord::Base
   def validate
     validate_postal_code
     validate_state
-    if event_start = self.calendar.event_start
-      if event_end = self.calendar.event_end
-        if self.start && self.start < event_start.at_beginning_of_day
-          message = event_start.to_date == event_end.to_date ? "on" : "on or after"
-          errors.add :start, "must be #{message} #{event_start.strftime('%B %e, %Y')}"
-        end
-        if self.end && self.end > (event_end + 1.day).at_beginning_of_day
-          message = event_start.to_date == event_end.to_date ? "on" : "on or before"
-          errors.add :end, "must be #{message} #{event_end.strftime('%B %e, %Y')}"
-        end
-      else
-        unless self.start.to_date == event_start.to_date
-          errors.add :start, "must be on #{event_start.strftime('%B %e, %Y')}"
-        end
-      end
-    end
-    unless (self.latitude and self.longitude) or (country_code != COUNTRY_CODE_USA and country_code != COUNTRY_CODE_CANADA)
-      errors.add_to_base "Not enough information provided to place event on a map. Please give us at minimum a valid postal code."
-    end
+    validate_dates
+    validates_mappable
   end
-
+  
   def validate_postal_code
     if in_usa?
       unless postal_code =~ /^\d{5}(-\d{4})?$/
@@ -105,8 +86,28 @@ class Event < ActiveRecord::Base
     end
   end
 
-  has_many :blogs
+  def validate_dates
+    if (self.start && self.end) && (self.start > self.end)
+      errors.add :start, "date must be before end date"
+    end
+    if (self.start && calendar.event_start) && (self.start < calendar.event_start.at_beginning_of_day)
+      message = (calendar.event_start.to_date == calendar.event_end.to_date) ? "on" : "on or after"
+      errors.add :start, "must be #{message} #{calendar.event_start.strftime('%B %e, %Y')}"
+    end
+    if (self.end && calendar.event_end) && (self.end > calendar.event_end.at_beginning_of_day)
+      message = (calendar.event_start.to_date == calendar.event_end.to_date) ? "on" : "on or before"
+      errors.add :end, "must be #{message} #{calendar.event_end.strftime('%B %e, %Y')}"
+    end
+  end
   
+  def validates_mappable
+    # only check that usa and canadian events are mappable
+    if (in_usa? || in_canada?) && !(self.latitude && self.longitude)
+      errors.add_to_base "Not enough information provided to place event on a map. Please give us at minimum a valid postal code."
+    end
+  end
+
+  has_many :blogs  
   has_many :democracy_in_action_campaigns, :as => :associated, :class_name => 'DemocracyInActionObject', :conditions => "democracy_in_action_objects.table = 'campaign'"
   def campaign_for_politician(politician)
     democracy_in_action_campaigns.each do |c|

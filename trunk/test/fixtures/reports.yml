@@ -12,3 +12,17 @@ another:
   reporter_name: jane doe
   reporter_email: jane@doe.com
   text: this is my report
+ufpj_non_featured_report:
+  id: 3
+  event_id: 7
+  reporter_name: erik frick
+  reporter_email: erockyo@hotmail.com
+  featured: false
+  text: this event was dope
+ufpj_featured_report:
+  id: 4
+  event_id: 7
+  reporter_name: erik frick
+  reporter_email: erockyo@hotmail.com
+  featured: true
+  text: this event was hella dope
