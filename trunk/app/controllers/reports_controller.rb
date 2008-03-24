@@ -5,7 +5,7 @@ class ReportsController < ApplicationController
   verify :method => :post, :only => :create, :redirect_to => {:action => 'index'}
 
   def index
-    @events = @calendar.public_events.find(:all, :include => :reports, :conditions => ["latitude <> 0 AND longitude <> 0 AND country_code = ?", Event::COUNTRY_CODE_USA])
+    # events get pulled up by ReportsController#flashmap
   end
 
   def call
@@ -39,7 +39,7 @@ class ReportsController < ApplicationController
 
   def flashmap
     # all events should have lat/lng or fallback lat/lng; remove ones that don't just in case
-    @events = @calendar.public_events.find(:all, :conditions => ["(latitude <> 0 AND longitude <> 0 AND country_code = ?)", Event::COUNTRY_CODE_USA])
+    @events = @calendar.public_events.find(:all, :select => [:name, :city, :state], :conditions => ["(latitude <> 0 AND longitude <> 0 AND country_code = ?)", Event::COUNTRY_CODE_USA], :include => :reports)
     respond_to do |format|
       format.xml { render :layout => false }
     end
