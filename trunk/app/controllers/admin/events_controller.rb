@@ -1,11 +1,11 @@
 class Admin::EventsController < AdminController
   active_scaffold :events do |config|
   	config.list.columns =  
-  	    [:start, :name, :city, :state, :latitude, :longitude, :host, :tags, :category, :rsvps, :reports, :calendar]
+  	    [:start, :name, :city, :state, :latitude, :longitude, :host, :category, :private, :rsvps, :reports, :calendar]
   	config.show.columns =  
-  	    [:start, :end, :name, :description, :directions, :location, :city, :state, :postal_code, :latitude, :longitude, :host, :tags, :category, :reports, :calendar]
+  	    [:start, :end, :name, :description, :directions, :location, :city, :state, :postal_code, :latitude, :longitude, :host, :private, :tags, :category, :reports, :calendar]
   	config.update.columns =  
-  	    [:start, :name, :description, :directions, :location, :city, :state, :postal_code]
+  	    [:start, :name, :description, :directions, :location, :city, :state, :postal_code, :private]
   	config.actions.exclude :create
   	config.actions.exclude :update
    	config.action_links.add 'manage', 
@@ -20,6 +20,7 @@ class Admin::EventsController < AdminController
   	columns[:rsvps].sort_by :method => 'rsvps.length'
   	columns[:reports].sort_by :method => 'reports.length'
   	columns[:host].sort_by :method => 'host.name'
+  	columns[:private].list_ui = :checkbox
   end
   
   def index
