@@ -1,0 +1,61 @@
+<div id="national-container">
+	<div class="intro-title">
+		<%= @calendar.name %> Reports
+	</div>
+  <div id="national-intro">
+
+<p class="view-all">View <%= link_to "All Reports", :permalink => @calendar.permalink, :controller => "reports", :action => "list"  %> of the <%= @calendar.name %></p>
+      <div class="report_add">
+             <%= link_to 'Add Your Own Report', :permalink => @calendar.permalink, :controller => "reports", :action => "new" %>
+              </div>
+    <div class="national-intro-text">
+      <%#=  @calendar.name %>
+    </div>
+    <div class="national-intro-directions">
+      <br> Click on a state or enter your zip code to find a report from an event near you...
+    </div>
+  </div>
+  <div id="national-map-container">
+    <div id='national-map-search'>
+      <table cellpadding=8><tr><td valign=top><b>Search by: </b></td><td>
+        <% form_tag :permalink => @calendar.permalink, :controller => 'reports', :action => 'search' do -%>
+         
+      &nbsp;Zip Code:  <%= text_field_tag 'zip', nil, :size=>10 %>
+      <%= submit_tag "GO" %><br> 
+      <b>OR</b> State:
+        <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='/#{@calendar.permalink}/reports/search/state/' + this.value" %>
+        <% end -%></td></tr></table>
+    </div>
+
+<%
+	@map = Cartographer::Gmap.new('eventmap')
+	@map.init do |m|
+	  m.center = @map_center || [45,-93]
+	  m.zoom = @map_zoom || 3
+	  m.controls = [:zoom, :large]
+	end
+	@icon = Cartographer::Gicon.new(:name => 'has_reports', :image_url => '/images/marker_green.png', :anchor_x => 10, :anchor_y => 34)
+	@map.icons << @icon	
+	@calendar.events.each do |e|
+		marker = nil
+		if e.latitude && e.longitude
+			options = {:name => "event_#{e.id}_marker", :position => [e.latitude, e.longitude],
+				:click => "window.location.href='#{url_for :permalink => @calendar.permalink, :controller => 'reports', :action => 'show', :event_id => e.id}';"}
+			options.merge!(e.reports.any? ? {:icon => @icon.name} : {})
+      marker = Cartographer::Gmarker.new(options)
+      @map.markers << marker if marker
+		end
+	end
+%>
+
+		<div id="eventmap" style="width: 450px; height: 350px; border: 7px solid #ccc; margin-left:15px;">
+		</div>
+    <%= @map.to_html %>
+    <%= gmaps_auto_center_and_zoom(@map) if @auto_center %>
+
+  </div>
+   <div class="national-intro-count">
+   <p><img src="/images/marker_green.png"> Green Marker = Events with Reports  |  <img src="http://www.google.com/intl/en_us/mapfiles/markerff.gif"> Red Marker = Events without Reports</P>
+	</div>
+	<%= render :partial =>'reports/report_nav' %>                
+</div>
