@@ -131,6 +131,7 @@ module DaysOfAction
       :CA => 5,
       :CO => 5,
       :CT => 7,
+      :DC => 9,
       :DE => 7,
       :FL => 5,
       :GA => 6,

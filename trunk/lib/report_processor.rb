@@ -10,6 +10,7 @@ require 'press_link'
 require 'tag'
 require 'site'
 require 'calendar'
+require 'user'
 require 'trigger'
 
 class ReportProcessor
