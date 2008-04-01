@@ -77,7 +77,7 @@
 
 <% report.embeds.each do |embed| %>
   <div class="report-embed" >
-  <%= white_list embed.html, :tags => %w(object embed param), :attributes => %w(name value type wmode) %>
+  <%= white_list embed.html, :tags => %w(object embed param a), :attributes => %w(name value type wmode width height data href) %>
   <br>
   <%= white_list embed.caption %>
   </div>
