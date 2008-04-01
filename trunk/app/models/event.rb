@@ -94,7 +94,7 @@ class Event < ActiveRecord::Base
       message = (calendar.event_start.to_date == calendar.event_end.to_date) ? "on" : "on or after"
       errors.add :start, "must be #{message} #{calendar.event_start.strftime('%B %e, %Y')}"
     end
-    if (self.end && calendar.event_end) && (self.end > calendar.event_end.at_beginning_of_day)
+    if (self.end && calendar.event_end) && (self.end > (calendar.event_end + 1.day).at_beginning_of_day)
       message = (calendar.event_start.to_date == calendar.event_end.to_date) ? "on" : "on or before"
       errors.add :end, "must be #{message} #{calendar.event_end.strftime('%B %e, %Y')}"
     end
