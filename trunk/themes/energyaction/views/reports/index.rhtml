@@ -2,6 +2,7 @@
 	<div class="intro-title">
 		<%= @calendar.name %> Reports
 	</div>
+  <%= render :partial => "scroll" %>
   <div id="national-intro">
 
 <p class="view-all">View <%= link_to "All Reports", :permalink => @calendar.permalink, :controller => "reports", :action => "list"  %> of the <%= @calendar.name %></p>
