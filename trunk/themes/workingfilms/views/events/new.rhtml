@@ -118,7 +118,7 @@
                   <div align="left">*Film:</div>
 	              </td>
 	              <td valign="top">
-                  <%= f.select "calendar_id", Site.current.calendars.collect{|c| [c.name, c.id]}, {:include_blank => true}, {:title => "Please select the film you will be screening", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEvent_Calendar_Id" } %>
+                  <%= f.select "calendar_id", Site.current.calendars.collect{|c| [c.name.singularize, c.id]}, {:include_blank => true}, {:title => "Please select the film you will be screening", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEvent_Calendar_Id" } %>
 	              </td>
 	            </tr>
             <tr valign="top">
