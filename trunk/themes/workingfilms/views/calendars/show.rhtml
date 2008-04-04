@@ -22,8 +22,8 @@
          <% form_tag :permalink => @calendar.permalink, :controller => 'events', :action => 'search' do -%>
          
       &nbsp;Film:  
-      <%= select_tag 'calendar', options_for_select(Site.current.calendars.map{|c| [c.name, c.permalink]}, @calendar.permalink), :onchange => "window.location.href='/' + this.value" %>
-      <b>OR</b>Zip Code:  <%= text_field_tag 'zip', nil, :size=>10 %>
+      <%= select_tag 'calendar', options_for_select(Site.current.calendars.map{|c| [c.name, c.permalink]}, @calendar.permalink), :onchange => "window.location.href='/' + this.value" %><br />
+      Zip Code:  <%= text_field_tag 'zip', nil, :size=>10 %>
       <%= submit_tag "GO" %><br> 
       <b>OR</b> State:
       <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='/#{@calendar.permalink}/events/search/state/' + this.value" %>
