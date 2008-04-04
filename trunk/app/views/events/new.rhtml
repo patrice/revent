@@ -1,12 +1,9 @@
 <%  
-if @calendar.event_start
-	@event.start = [@calendar.event_start, Time.now].max.beginning_of_day + 12.hours
-else
-	@event.start = Time.now.beginning_of_day + 12.hours
-end
-@event.end = @event.start + 2.hours	
-@hostform = @calendar.hostform
- -%>
+  @event.start = (@calendar.event_start ? [@calendar.event_start, Time.now].max : Time.now)
+  @event.start = @event.start.beginning_of_day + 12.hours
+  @event.end = @event.start + 2.hours 
+  @hostform = @calendar.hostform
+-%>
 
 <h1>
 	<% if @hostform and @hostform.title -%>
