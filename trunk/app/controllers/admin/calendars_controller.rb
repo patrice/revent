@@ -1,11 +1,11 @@
 class Admin::CalendarsController < AdminController 
   active_scaffold :calendar do |config|
   	config.columns.add :democracy_in_action_key
-  	config.columns[:democracy_in_action_key].label = "DAI Distributed Event Key"
+  	config.columns[:democracy_in_action_key].label = "DIA Distributed Event Key"
   	config.columns = 
       [:name, :permalink, :short_description, :democracy_in_action_key,
-      :event_start, :event_end, :signup_redirect, :hostform, :rsvp_dia_group_key, 
-      :rsvp_dia_trigger_key, :rsvp_redirect,  :map_intro_text, :report_title_text, 
+      :event_start, :event_end, :signup_redirect, :hostform, :host_dia_trigger_key, :host_dia_group_key,
+      :rsvp_dia_group_key, :rsvp_dia_trigger_key, :rsvp_redirect,  :map_intro_text, :report_title_text, 
       :report_intro_text, :report_dia_group_key, :report_dia_trigger_key, 
       :report_redirect, :flickr_tag, :flickr_additional_tags, :flickr_photoset, 
       :current, :attendee_invite_subject, :attendee_invite_message ]

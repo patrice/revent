@@ -87,6 +87,31 @@ class User < ActiveRecord::Base
     dia_obj.synced = u
     dia_obj.save
   end
+  
+  def dia_group_key=(group_key)
+    self.democracy_in_action ||= {}
+    self.democracy_in_action['supporter'] ||= {}
+    self.democracy_in_action['supporter']['link'] ||= {}
+    self.democracy_in_action['supporter']['link']['groups'] = group_key
+  end
+
+  def dia_group_key
+    democracy_in_action['supporter'] && 
+    democracy_in_action['supporter']['link'] && 
+    democracy_in_action['supporter']['link']['groups']
+  end
+
+  def dia_trigger_key=(dia_trigger_key)
+    self.democracy_in_action ||= {}
+    self.democracy_in_action['supporter'] ||= {}
+    self.democracy_in_action['supporter']['email_trigger_KEYS'] = dia_trigger_key
+  end
+
+  def dia_trigger_key
+    democracy_in_action['supporter'] && 
+    democracy_in_action['supporter']['email_trigger_KEYS']
+  end
+
   # end extract me
 
   # Virtual attribute for the unencrypted password
