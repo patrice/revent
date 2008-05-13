@@ -1,0 +1,56 @@
+<%= error_messages_for 'report', 'user' %>
+*required fields
+<!--[form:report]-->
+
+<%= hidden_field_tag 'report[event_id]', @calendar.events.first.id %>
+<% fields_for :user, @user do |user| %>
+
+	<p><label for="user_first_name">*First Name:</label><br/>
+	<%= user.text_field 'first_name', :title => "Please enter your first name" %></p>
+	
+	<p><label for="user_last_name">*Last Name:</label><br/>
+	<%= user.text_field 'last_name', :title => "Please enter your last name" %></p>
+
+	<p><label for="user_email">*Email Address (will not be public):</label><br/>
+	<%= user.text_field 'email', :title => "Please enter a valid email address" %></p>
+	
+	<p><label for="user_city">*City:</label><br/>
+	<%= user.text_field 'city', :title => "Please enter a valid city" %></p>
+	
+	<% if @calendar.report_dia_trigger_key %>
+		<%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", @calendar.report_dia_trigger_key %>
+	<% end -%>
+	
+	<% if @calendar.report_dia_group_key %>
+		<%=  hidden_field_tag "user[democracy_in_action][supporter][link][groups]", @calendar.report_dia_group_key%>
+	<% end -%>
+<% end -%>
+
+<p><label for="report_text">*Share Your Story or Comment:</label><br/>
+<%= f.text_area 'text', :rows => 7 %></p>
+
+<div class="form_block">
+	<p class='form_subtitle'>Upload Images</p>
+	Please share a photo of your family so we can include it in our display.
+	We support images up to 2 megabytes in size in the .gif, .jpg, or .png format. <br/> For large file uploads this page may take while to load.  All of your pictures will also be uploaded onto Flickr.  
+	<p>
+	
+<% 1.upto(6) do |n| -%>
+  <div id="report_add_photo_<%= n %>" class="report_add_attachment"<% if n > 1 %> style="display:none;"<% end %>>
+    File:<br/>
+    <%= file_field_tag "attachments[#{n}][uploaded_data]" %><br/>
+    <% if n < 6 -%>
+    <p class="report_add_another"><%= link_to_function 'Add Another Photo', visual_effect(:toggle_blind,"report_add_photo_#{n+1}") %>
+    <% end -%>
+  </div>
+<% end -%>
+
+
+</div>
+
+<% if @calendar.report_redirect %>
+	<%= hidden_field_tag "redirect", @calendar.report_redirect %>
+<% end -%>
+
+<!--[eoform:report]-->
+

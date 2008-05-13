@@ -1,0 +1,44 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+background-image: url(/themes/servicenation/images/bg3.jpg);
+background-position:center top;
+background-repeat: no-repeat;
+margin:0px;
+padding:0px;
+font-family:Arial, Helvetica, sans-serif;
+}
+img {
+border:0;
+}
+.activist2 {
+	position:absolute;
+	width:1251px;
+	left: -144px;
+	top: 22px;
+	background:url(/themes/servicenation/images/activist.png);
+	height:45px;
+}
+.activist {
+	position:absolute;
+	width:1251px;
+	left: -421px;
+	top: 21px;
+	background:url(/themes/servicenation/images/activist.png);
+	height:45px;
+}
+a:link, a:visited, a:active {
+color:#2B6AA3;
+text-decoration:none;
+}
+a:hover {
+color:#D47C35;
+text-decoration:none;
+}
+div.leftmenu:hover {
+background-color:#3375A7;
+cursor:pointer;
+}
+img.pngfix {
+behavior: url(iepngfix.htc);
+}

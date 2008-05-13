@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>title goes here</title>
+<link href="/themes/servicenation/stylesheets/servicenation.css" rel="stylesheet" type="text/css"/>
+<!--[if IE 6]>
+<style>
+.activist2 {
+background-image:url(/themes/servicenation/images/ie6main.jpg) !important;
+}
+.activist {
+background-image:url(/themes/servicenation/images/ie6body.jpg) !important;
+}
+</style>
+<![endif]-->
+<script language="Javascript"  type="text/javascript" src="/themes/servicenation/javascript/functions.js"></script>
+	<%= javascript_include_tag 'prototype' %>
+	<%= theme_javascript_include_tag 'functions' %>
+	<%= stylesheet_link_tag 'events' %>
+	<%= yield :header %>
+	<%= Cartographer::Gmap::Header.header_for(request) if @map %>
+
+</head>
+<body onload="MM_preloadImages('/themes/servicenation/images/mr_12.jpg','/themes/servicenation/images/mr_07.jpg','/themes/servicenation/images/mr_08.jpg','/themes/servicenation/images/mr_10.jpg','/themes/servicenation/images/mr_09.jpg','/themes/servicenation/images/mr_11.jpg','/themes/servicenation/images/ir_05.png','/themes/servicenation/images/ir_06.png','/themes/servicenation/images/ir_07.png','/themes/servicenation/images/ir_08.png','/themes/servicenation/images/ir_09.png')">
+<div style="width:1250px; margin:0 auto">
+    <div style="float:left; width:449px"><img src="/themes/servicenation/images/1_02.jpg" width="449" height="129" /></div>
+    <div style="float:left; width:801px; background:url(/themes/servicenation/images/1_03.jpg); height:129px; color:#F2F723">
+    	<div style="font-size:17pt; padding:38px 0 0 130px; font-weight:bold">Lorem ipsum dolor sit amet!</div> 
+        <div style="text-transform:uppercase; font-size:18pt; font-weight:bold; padding:5px 0 0 155px">consectetuer adipiscing elit</div>
+    </div>
+    <div style="clear:both; width:960px; margin:0 auto">
+    	<div style="float:left; width:288px"><img src="/themes/servicenation/images/1_06.jpg" width="288" height="42" /></div>
+        <div style="float:left; width:56px"><a href="#"><img src="/themes/servicenation/images/1_07.jpg" width="56" height="42" onmouseover="this.src='/themes/servicenation/images/mr_07.jpg'" onmouseout="this.src='/themes/servicenation/images/1_07.jpg'" /></a></div>
+        <div style="float:left; width:108px"><a href="#"><img src="/themes/servicenation/images/1_08.jpg" width="108" height="42" onmouseover="this.src='/themes/servicenation/images/mr_08.jpg'" onmouseout="this.src='/themes/servicenation/images/1_08.jpg'" /></a></div>
+        <div style="float:left; width:118px"><a href="#"><img src="/themes/servicenation/images/1_09.jpg" width="118" height="42" onmouseover="this.src='/themes/servicenation/images/mr_09.jpg'" onmouseout="this.src='/themes/servicenation/images/1_09.jpg'" /></a></div>
+        <div style="float:left; width:134px"><a href="#"><img src="/themes/servicenation/images/1_10.jpg" width="134" height="42" onmouseover="this.src='/themes/servicenation/images/mr_10.jpg'" onmouseout="this.src='/themes/servicenation/images/1_10.jpg'" /></a></div>
+        <div style="float:left; width:124px"><a href="#"><img src="/themes/servicenation/images/1_11.jpg" width="124" height="42" onmouseover="this.src='/themes/servicenation/images/mr_11.jpg'" onmouseout="this.src='/themes/servicenation/images/1_11.jpg'" /></a></div>
+        <div style="float:left; width:132px; position:relative"><a href="#"><img src="/themes/servicenation/images/1_12.jpg" width="132" height="42" onmouseover="this.src='/themes/servicenation/images/mr_12.jpg'" onmouseout="this.src='/themes/servicenation/images/1_12.jpg'" /></a><div style="position:absolute; left: 132px; top: 0px; height: 42px;"><img src="/themes/servicenation/images/uho.jpg" width="82" height="42" /></div>
+      </div>
+        <div style="clear:both"><img src="/themes/servicenation/images/1_14.jpg" width="960" height="9" /></div>
+        <div style="background:url(/themes/servicenation/images/cont_16.jpg); background-repeat:repeat-y">
+       	  <div style="float:left; width:280px">
+       	    <div style="margin:19px 7px 10px 15px; color:#BAE4FA; width:251px; height:275px; background:url(/themes/servicenation/images/2_03.jpg)">
+           	  <div style="padding-top:168px">
+                <div style="border:1px solid #6791B6; border-left:none; border-right:none; margin:0 1px 0 1px; color:#FFFFFF; font-size:9pt; padding:2px 0 2px 7px; cursor:pointer"><div class="leftmenu" onclick="document.location.href='#';">&raquo; What is the Day of Action?</div></div>
+                <div style="border-bottom:1px solid #6791B6; margin:0 1px 0 1px; color:#FFFFFF; font-size:9pt; padding:2px 0 2px 7px; cursor:pointer"><div class="leftmenu" onclick="document.location.href='#';">&raquo; Organize Your Own Event</div></div>
+                <div style="border-bottom:1px solid #6791B6; margin:0 1px 0 1px; color:#FFFFFF; font-size:9pt; padding:2px 0 2px 7px; cursor:pointer "><div class="leftmenu" onclick="document.location.href='#';">&raquo; FAQ’s</div></div>
+                <div style="margin:0 1px 0 1px; color:#FFFFFF; font-size:9pt; padding:2px 0 2px 7px; cursor:pointer "><div class="leftmenu" onclick="document.location.href='#';">&raquo; Download Event Kit</div></div>
+                <div style="padding:4px 0 0 5px">
+                <form style="margin:0">
+<table cellpadding="0" cellspacing="0">
+                    	<tr>
+                       	  <td style="font-size:9pt; color:#FFFFFF">Search Events</td>
+                        	<td style="padding-left:5px"><input type="input" style="width:110px; border:1px solid #666666; height:14px; color:#666666; font-size:9pt; padding-left:5px" value="zip code" onfocus="if(this.value=='zip code')this.value='';" onblur="if(this.value=='')this.value='zip code';" /></td>
+                            <td style="padding-left:8px"><input type="submit" style="width:29px; height:16px; border:0; background-color:#A0BAD1; color:#ffffff; font-size:9pt" value="go &raquo;" /></td>
+                        </tr>
+                </table>
+                </form>
+                </div>
+              </div>
+            </div>
+              <div style="margin:9px 7px 9px 15px; background:url(/themes/servicenation/images/2_12.jpg); width:243px; height:183px; color:#BAE4FA; font-weight:bold; font-family:'Arial Black', Arial, Verdana; padding:5px 0 0 8px; cursor:pointer" onclick="document.location.href='#';">
+            NYC SEPT 18 - 19 2008              </div>
+              <div style="margin:0px 7px 0px 15px; background:url(/themes/servicenation/images/2_14.jpg); width:251px; height:75px">
+              	<div style="color:#FFFFFF; font-size:13px; padding:30px 0 0 7px">Get the latest news about us, from us!</div>
+                <div style="padding:5px 0 0 7px">
+<form style="margin:0">
+                	<table cellpadding="0" cellspacing="0">
+                    	<tr>
+                        	<td><input type="input" style="width:107px; border:1px solid #666666; height:14px; color:#666666; font-size:9pt; padding-left:5px" value="your email" onfocus="if(this.value=='your email')this.value='';" onblur="if(this.value=='')this.value='your email';" /></td>
+                          <td style="padding-left:7px"><input type="input" style="width:66px; border:1px solid #666666; height:14px; color:#666666; font-size:9pt; padding-left:5px" value="zip code" onfocus="if(this.value=='zip code')this.value='';" onblur="if(this.value=='')this.value='zip code';" /></td>
+                            <td style="padding-left:7px"><input type="submit" style="width:30px; height:18px; border:0; background-color:#E19F6D; color:#ffffff" value="go &raquo;" /></td>
+                        </tr>
+                    </table>
+                </form>
+                </div>
+              </div>
+              <div style="border:1px solid #CBD8E8; border-left:none; border-right:none; margin:9px 7px 0px 15px; width:251px"><a href="#"><img src="/themes/servicenation/images/2_16.jpg" width="251" height="84" /></a></div>  
+              <div style="border-bottom:1px solid #CBD8E8; margin:0px 7px 0px 15px; width:251px"><a href="#"><img src="/themes/servicenation/images/2_18.jpg" width="251" height="51" /></a></div>      
+              <div style="border-bottom:1px solid #CBD8E8; margin:0px 7px 9px 15px; width:251px"><a href="#"><img src="/themes/servicenation/images/2_20.jpg" width="251" height="51" /></a></div>      
+          </div>
+          <div style="float:left; width:676px; margin-bottom:80px">
+          <div style="width:655px; background:url(/themes/servicenation/images/2_05.jpg) no-repeat;line-height:37px; text-align:right; color:#FFFFFF; font-family:'Arial Black', Arial, Verdana; padding-right:10px; text-transform:uppercase; margin:19px 0 0 0">Title goes here (uppercase by default)</div>
+          <div style="margin:4px 0 0 0; background:url(/themes/servicenation/images/2_09.jpg) repeat-y">
+          	<div style="width:665px; height:18px"><img src="/themes/servicenation/images/2_08.jpg" width="665" height="18" /></div>
+          	<div style="padding:0 10px 20px 20px; width:625px; color:#666666; font-size:10pt; min-height:666px; height:auto !important; height:666px">
+            <div style="text-align:left; color:#2B6AA3; font-family:'Arial Black', Arial, Verdana; padding-right:10px; text-transform:uppercase; font-size:13pt; padding:5px 0 5px 0">DAY OF ACTION</div>
+
+						<% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
+						<% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
+						<%= yield %>
+
+            </div>
+            <div style="width:665px; height:18px"><img src="/themes/servicenation/images/2_21.jpg" width="665" height="18" /></div>
+          </div> 
+          <div style="height:0px; position:relative">
+        	<div class="activist">
+            	<div style="padding-left:200px; padding-top:1px">
+                <a href="#"><img src="/themes/servicenation/images/in_03.png" width="272" height="35" class="pngfix" /></a><img src="/themes/servicenation/images/in_04.png" width="126" height="34" class="pngfix" /><a href="#"><img src="/themes/servicenation/images/in_05.png" width="82" height="34" class="pngfix" onmouseover="this.src='/themes/servicenation/images/ir_05.png'" onmouseout="this.src='/themes/servicenation/images/in_05.png'" /></a><a href="#"><img src="/themes/servicenation/images/in_06.png" width="82" height="34" class="pngfix" onmouseover="this.src='/themes/servicenation/images/ir_06.png'" onmouseout="this.src='/themes/servicenation/images/in_06.png'" /></a><a href="#"><img src="/themes/servicenation/images/in_07.png" width="51" height="34" class="pngfix" onmouseover="this.src='/themes/servicenation/images/ir_07.png'" onmouseout="this.src='/themes/servicenation/images/in_07.png'"/></a><a href="#"><img src="/themes/servicenation/images/in_08.png" width="66" height="34" class="pngfix" onmouseover="this.src='/themes/servicenation/images/ir_08.png'" onmouseout="this.src='/themes/servicenation/images/in_08.png'" /></a><a href="#"><img src="/themes/servicenation/images/in_09.png" width="80" height="34" class="pngfix" onmouseover="this.src='/themes/servicenation/images/ir_09.png'" onmouseout="this.src='/themes/servicenation/images/in_09.png'" /></a></div>            	
+            </div>
+          </div> 
+          </div>
+            <div style="clear:both; text-align:right"><img src="/themes/servicenation/images/1_32.jpg" width="960" height="4" /></div>             
+        </div>
+        
+<div style="">
+            	<div style="float:right; width:144px"><a href="#"><img src="/themes/servicenation/images/1_68.jpg" width="144" height="60" /></a></div>
+              <div style="float:right; width:194px"><a href="#"><img src="/themes/servicenation/images/1_67.jpg" width="194" height="60" /></a></div>
+              <div style="float:right; width:75px"><a href="#"><img src="/themes/servicenation/images/1_66.jpg" width="75" height="62" /></a></div>
+              <div style="float:right; width:114px"><a href="#"><img src="/themes/servicenation/images/1_65.jpg" width="114" height="62" /></a></div>
+              <div style="float:right; font-family:Arial, Helvetica, sans-serif; font-weight:bold; font-size:9pt; padding:5px 10px 0 0; color:#2B6AA3">ServiceNation Is Brought To You By:</div>
+                <div style="float:left; font-family:Arial, Helvetica, sans-serif; font-weight:bold; font-size:9pt; padding-top:5px; color:#2B6AA3">
+                	SITE MAP &bull; SEARCH THE SITE</div>
+                <div style="clear:both"></div>
+            </div>
+  </div>
+  
+</div>   
+</body>
+</html>
