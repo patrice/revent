@@ -1,9 +1,0 @@
-<%= error_messages_for ':TABLE:' %>
-
-<!--[form::TABLE:]-->
-<% for column in :CLASS:.atts.keys %>
-	<p><label for=":TABLE:_<%= column %>"><%= column %></label><br>
-  <%= text_field ':TABLE:', column %></p>
-<% end %>
-<!--[eoform::TABLE:]-->
-
