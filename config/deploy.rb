@@ -2,6 +2,7 @@ set :application, "revent"
 
 set :scm, :git
 set :repository, "git@github.com:pfdemuizon/#{application}.git"
+set :branch, "master"
 
 set :user, "#{application}"
 set :runner, "#{user}"
