@@ -22,7 +22,7 @@
          <% form_tag :permalink => @calendar.permalink, :controller => 'events', :action => 'search' do -%>
          
       &nbsp;Film:  
-      <%= select_tag 'calendar', options_for_select(Site.current.calendars.map{|c| [c.name, c.permalink]}, @calendar.permalink), :onchange => "window.location.href='/' + this.value" %><br />
+      <%= select_tag 'calendar', options_for_select(calendar_select, @calendar.permalink), :onchange => "window.location.href='/' + this.value" %><br />
       Zip Code:  <%= text_field_tag 'zip', nil, :size=>10 %>
       <%= submit_tag "GO" %><br> 
       <b>OR</b> State:

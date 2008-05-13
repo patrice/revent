@@ -3,21 +3,20 @@ require File.expand_path(File.dirname(__FILE__) + '/../config/boot')
 require File.expand_path(File.dirname(__FILE__) + '/../config/environment')
 ActiveRecord::Base.allow_concurrency = true
 
-#require 'starling_client'
 require 'starling'
 require 'application'
-require 'admin/events_controller'
+require 'admin/reports_controller'
 require 'site'
+require 'attachment'
+
 class ImageProcessor
   def self.run
     queue = Starling.new 'localhost:22122'
     loop do
       data = queue.get 'images'
-      Site.current = data[:site]
+      Site.current = Site.find(data[:site_id])
       puts 'zipping'
-      c = Admin::EventsController.new
-      c.instance_variable_set :@featured_images, data[:images]
-      c.send :zip_em_up, data[:timestamp]
+      Admin::ReportsController.zip_em_up(data[:permalink], data[:timestamp], data[:images])
     end
   end
 end

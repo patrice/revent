@@ -20,13 +20,19 @@ class EventSweeper < ActionController::Caching::Sweeper
 
   protected
   def expire_event_list_pages(event)
-    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,event.calendar.permalink,'events','search','state',"#{event.state}.html")) rescue Errno::ENOENT
-    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','search','state',"#{event.state}.html")) rescue Errno::ENOENT
-    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,event.calendar.permalink,'events','flashmap.xml')) rescue Errno::ENOENT
-    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','flashmap.xml')) rescue Errno::ENOENT
-#    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'events','total.html')) rescue Errno::ENOENT
-    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,"#{event.calendar.permalink}.html")) rescue Errno::ENOENT
-    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'index.html')) rescue Errno::ENOENT
+    expire_event_permalink_list_pages
+    expire_event_permalink_list_pages(event.calendar.permalink)
+    expire_event_permalink_list_pages(event.calendar.parent.permalink) if event.calendar.parent
+  end
+
+  def expire_event_permalink_list_pages(permalink="")
+    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,permalink,'events','search','state',"#{event.state}.html")) rescue Errno::ENOENT
+    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,permalink,'events','flashmap.xml')) rescue Errno::ENOENT
+    if permalink
+      FileUtils.rm(File.join(ActionController::Base.page_cache_directory,"#{permalink}.html")) rescue Errno::ENOENT
+    else
+      FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'index.html')) rescue Errno::ENOENT
+    end
   end
 
   def expire_event_pages_and_fragments(event)

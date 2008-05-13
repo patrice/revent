@@ -6,14 +6,16 @@ class Report < ActiveRecord::Base
   has_many :embeds, :dependent => :destroy
   has_many :press_links, :dependent => :destroy
 
-  after_save :trigger_email  
+  after_create :trigger_email  
   def trigger_email
     calendar = self.event.calendar
     if calendar.report_dia_trigger_key.blank?
-      trigger = calendar.triggers.find_by_name("Report Thank You") || Site.current.triggers.find_by_name("Report Thank You")
-      require 'ostruct'
-      reporter = OpenStruct.new(:name => self.reporter_name, :email => self.reporter_email)
-      TriggerMailer.deliver_trigger(trigger, reporter, self.event) if trigger
+      if calendar.triggers.any?
+        trigger = calendar.triggers.find_by_name("Report Thank You") || Site.current.triggers.find_by_name("Report Thank You")
+        require 'ostruct'
+        reporter = OpenStruct.new(:name => self.reporter_name, :email => self.reporter_email)
+        TriggerMailer.deliver_trigger(trigger, reporter, self.event) if trigger
+      end
     end
   end
     

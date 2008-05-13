@@ -1,0 +1,13 @@
+*.yml
+*.swp
+log/*
+tmp/*
+test/tmp/*
+doc/pxd/*
+public/javascripts/prototype/*
+db/exports/*
+db/imports/*
+public/cache/*
+public/attachments/*
+public/themes/*
+sites/*

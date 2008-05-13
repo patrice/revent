@@ -111,8 +111,10 @@ class ReportsController < ApplicationController
       password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
       @user.password = @user.password_confirmation = password
     end
-    params[:press_links].reject {|link| link[:url].empty? || link[:text].empty?}.each do |link|
-      @report.press_links.build(link)
+    if params[:press_links] and params[:press_links].any?
+      params[:press_links].reject {|link| link[:url].empty? || link[:text].empty?}.each do |link|
+        @report.press_links.build(link)
+      end
     end
     Tag #why not?
     @attachments = params[:attachments].reject {|i,a| a[:uploaded_data].blank?}.collect do |i,a|
@@ -128,10 +130,12 @@ class ReportsController < ApplicationController
       @report.user_id = @user.id
       @report.save
       @attachments.each {|a| a.report_id = @report.id}
-      params[:embeds].reject {|i,embed| embed[:html].empty?}.each do |i,embed|
-        tags = embed.delete(:tags) if embed[:tags]
-        e = @report.embeds.create embed
-        e.tags = tags if tags
+      if params[:embeds] and params[:embeds].any?
+        params[:embeds].reject {|i,embed| embed[:html].empty?}.each do |i,embed|
+          tags = embed.delete(:tags) if embed[:tags]
+          e = @report.embeds.create embed
+          e.tags = tags if tags
+        end
       end
       @event = @report.event
       begin
@@ -163,8 +167,11 @@ class ReportsController < ApplicationController
         @user.sync_to_democracy_in_action
       end
       flash[:notice] = 'Report was successfully created.'
-      index
-      render :permalink => @calendar.permalink, :action => 'index'
+      if @calendar.report_redirect
+        redirect_to @calendar.report_redirect
+      else
+        redirect_to :permalink => @calendar.permalink, :action => 'index'
+      end
     else
       render :permalink => @calendar.permalink, :action => 'new'
     end

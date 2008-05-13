@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 77) do
+ActiveRecord::Schema.define(:version => 80) do
 
   create_table "attachments", :force => true do |t|
     t.column "content_type", :string
@@ -73,6 +73,8 @@ ActiveRecord::Schema.define(:version => 77) do
     t.column "admin_email",             :string
     t.column "map_intro_text",          :text
     t.column "parent_id",               :integer
+    t.column "host_dia_trigger_key",    :integer
+    t.column "host_dia_group_key",      :integer
   end
 
   add_index "calendars", ["permalink"], :name => "index_calendars_on_permalink"
@@ -140,6 +142,7 @@ ActiveRecord::Schema.define(:version => 77) do
     t.column "fallback_longitude",    :float
     t.column "precision",             :string
     t.column "country_code",          :integer,  :default => 840
+    t.column "organization",          :string
   end
 
   add_index "events", ["latitude", "longitude"], :name => "index_events_on_latitude_and_longitude"
@@ -230,6 +233,7 @@ ActiveRecord::Schema.define(:version => 77) do
     t.column "attendees",      :integer
     t.column "created_at",     :datetime
     t.column "updated_at",     :datetime
+    t.column "featured",       :boolean
   end
 
   add_index "reports", ["event_id"], :name => "index_reports_on_event_id"

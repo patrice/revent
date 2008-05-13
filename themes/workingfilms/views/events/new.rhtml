@@ -2,7 +2,9 @@
 	@event.start = (@calendar.event_start ? [@calendar.event_start, Time.now].max : Time.now)
 	@event.start = @event.start.beginning_of_day + 12.hours
 	@event.end = @event.start + 2.hours	
-	@hostform = @calendar.hostform
+  @all_calendar = Site.current.calendars.find_by_permalink("all")
+  @hostform = @calendar.hostform || @all_calendar.hostform
+  @calendars = Site.current.sorted_calendars.reject{|c| c.permalink == "all"}
 -%>
 <h1>
 	<% if @hostform and @hostform.title -%>
@@ -115,10 +117,10 @@
           <tbody>
 			  		<tr valign="top">
 	              <td valign="top"  class="dia_field_name">
-                  <div align="left">*Film:</div>
+                  <div align="left">*Film to be screened:</div>
 	              </td>
 	              <td valign="top">
-                  <%= f.select "calendar_id", Site.current.calendars.collect{|c| [c.name.singularize, c.id]}, {:include_blank => true}, {:title => "Please select the film you will be screening", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEvent_Calendar_Id" } %>
+                  <%= f.select "calendar_id", @calendars.map{|c| [c.name, c.id]}.unshift(["Select One...", nil]), {:title => "Please select the film you will be screening", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEvent_Calendar_Id" } %>
 	              </td>
 	            </tr>
             <tr valign="top">

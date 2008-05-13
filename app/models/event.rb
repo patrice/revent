@@ -28,7 +28,7 @@ class Event < ActiveRecord::Base
   before_validation :geocode
   before_save :set_calendar, :set_district, :clean_country_state, :clean_date_time
   
-  validates_presence_of :name, :city, :start, :end, :calendar_id, :country_code
+  validates_presence_of :name, :city, :start, :calendar_id, :country_code
   COUNTRY_CODE_USA = CountryCodes.find_by_name("United States of America")[:numeric] 
   COUNTRY_CODE_CANADA = CountryCodes.find_by_name("Canada")[:numeric] 
 
@@ -128,7 +128,7 @@ class Event < ActiveRecord::Base
   end
 
   attr_writer :democracy_in_action
-  after_save :sync_to_democracy_in_action, :trigger_email
+  after_save :sync_to_democracy_in_action
   def sync_to_democracy_in_action
     return unless File.exists?(File.join(Site.current_config_path, 'democracyinaction-config.yml'))
     @democracy_in_action ||= {}
@@ -141,10 +141,12 @@ class Event < ActiveRecord::Base
     self.create_democracy_in_action_object :key => key, :table => 'event' unless self.democracy_in_action_object
   end
 
+  after_create :trigger_email
   def trigger_email
-    calendar = self.calendar
-    unless calendar.hostform and calendar.hostform.dia_trigger_key
-      trigger = calendar.triggers.find_by_name("Host Thank You") || Site.current.triggers.find_by_name("Host Thank You")
+    c = self.calendar
+    unless c.hostform and c.hostform.dia_trigger_key
+      trigger =    c.triggers.find_by_name("Host Thank You") || 
+        Site.current.triggers.find_by_name("Host Thank You")
       TriggerMailer.deliver_trigger(trigger, self.host, self) if trigger
     end
   end

@@ -1,10 +1,9 @@
 class Admin::TriggersController < AdminController 
-  def index
-  end
-
 	active_scaffold :trigger do |config|
     config.label = "Email Response Triggers"
   	config.columns = [:name, :calendar, :site, :from_name, :from, :reply_to, :bcc, :subject, :email_plain, :email_html]
+    config.update.columns = [:name, :calendar, :from_name, :from, :reply_to, :bcc, :subject, :email_plain, :email_html]
+    config.create.columns = [:name, :calendar, :from_name, :from, :reply_to, :bcc, :subject, :email_plain, :email_html]
   	config.columns[:calendar].form_ui = :select     # just want drop down on form (no crazy subforms) 	
   	config.columns[:calendar].clear_link            # just want calendar name on list (no links)
 #  	config.columns[:calendar].description = "Calendar triggers over-ride 'All Calendars' triggers"
@@ -19,7 +18,13 @@ class Admin::TriggersController < AdminController
   end
 
   def before_create_save(trigger)
-    trigger.site_id = Site.current.id
+    # only set the site if calendar is not set
+    trigger.site_id = Site.current.id unless trigger.calendar_id
+  end
+
+  def conditions_for_collection
+    @site = Site.current
+    ["triggers.site_id = ? OR triggers.calendar_id IN (?)", @site.id, @site.calendar_ids]
   end
 end
 

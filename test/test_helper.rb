@@ -49,6 +49,7 @@ end
 class Test::Unit::TestCase
   include AuthenticatedTestHelper
   include DemocracyInAction::TestHelper
+  include FixtureReplacement
 
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the
@@ -114,7 +115,7 @@ class Test::Unit::TestCase
     urls.map { |url| assert_not_cached url }
   end
 
-  def test_for_each_site
+  def for_each_site
     return unless block_given?
     Site.find(:all).each do |s|
       @request.host = s.host
@@ -122,7 +123,7 @@ class Test::Unit::TestCase
     end
   end
 
-  def test_for_each_calendar
+  def for_each_calendar
     return unless block_given?
     Calendar.find(:all).each do |c|
       @request.host = c.site.host

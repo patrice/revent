@@ -3,7 +3,7 @@ class Rsvp < ActiveRecord::Base
   belongs_to :user
   belongs_to :attending, :polymorphic => true
   
-  after_save :trigger_email
+  after_create :trigger_email
   def trigger_email
     calendar = self.event.calendar
     unless calendar.rsvp_dia_trigger_key

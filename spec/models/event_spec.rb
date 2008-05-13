@@ -15,8 +15,7 @@ module EventFactory
       :call_script => "Hello, Please attend our event to stop the war. Thank you",
       :private => false, :max_attendees => 200,
       :fallback_latitude => nil, :fallback_longitude => nil,
-      :organization => "United For Peace and Justice"
-    )
+      :organization => "United For Peace and Justice")
     calendar_mock = mock_model(Calendar, :null_object => true, :event_start => 1.month.ago, :event_end => 1.month.from_now)
     event.stub!(:calendar).and_return(calendar_mock)
     event.calendar_id = calendar_mock.id
@@ -40,14 +39,7 @@ describe Event do
     # create event to use in specs
     @event = generate_event
   end
- 
-  describe 'when created' do
-    it "should push event to Democracy In Action" do
-      @dia_api.should_receive(:process).and_return(true)
-      @event.save
-    end
-  end
-  
+
   describe 'in US' do
     before do
       @event.country = "United States of America"
@@ -105,5 +97,12 @@ describe Event do
   end
   it "should be convertible to DemocracyInActionEvent resource" do
     @event.to_democracy_in_action_event.should be_an_instance_of(DemocracyInActionEvent)
+  end
+
+  describe 'when created' do
+    it "should push event to Democracy In Action" do
+      @dia_api.should_receive(:process).and_return(true)
+      @event.save
+    end
   end
 end

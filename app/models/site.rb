@@ -51,6 +51,13 @@ class Site < ActiveRecord::Base
     Cache.delete("site_for_host_#{self.host}")
   end
 
+  def sorted_calendars 
+    @cals = self.calendars.find(:all, :order => "name")
+    @all = @cals.detect {|c| c.permalink == "all"}
+    @cals.unshift(@cals.delete(@all)) if @all
+    @cals
+  end
+
   protected
     def downcase_host
       self.host = host.to_s.downcase

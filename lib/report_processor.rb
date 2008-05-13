@@ -4,7 +4,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../config/environment')
 require File.expand_path(File.dirname(__FILE__) + '/../lib/upload_to_flickr')
 #ActiveRecord::Base.allow_concurrency = true #hopefully the reconnect trick will work intead
 
-#require 'starling_client'
 require 'starling'
 require 'press_link'
 require 'tag'
@@ -13,12 +12,13 @@ require 'calendar'
 require 'user'
 require 'trigger'
 
+ActionMailer::Base.logger = Logger.new("log/report_processor.output")
+
 class ReportProcessor
   def self.run
     starling = Starling.new 'localhost:22122'
     loop do
       data = starling.get 'reports'
-      
       begin
         Site.count #see if our connection is still ok
       rescue ActiveRecord::StatementInvalid
@@ -30,7 +30,6 @@ class ReportProcessor
         end
         raise
       end
-
       report = data[:report]
       attachments = data[:attachments]
       request = data[:request]
@@ -64,3 +63,4 @@ class ReportProcessor
     end
   end
 end
+

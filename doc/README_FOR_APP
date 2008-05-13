@@ -26,7 +26,7 @@ Create MySQL databases; if MySQL password protected, include "-u root -p":
 
 Install necessary libraries:
 	sudo gem install google-geocode
-	gem install rflickr
+	sudo gem install rflickr
 	Download memcached binary
 		./configure
 		make install

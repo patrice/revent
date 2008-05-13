@@ -142,9 +142,9 @@ class EventsController < ApplicationController
   end
 
   def create
-    debugger
     # change calendar selectable from new event form
-    @calendar = Calendar.find(params[:event][:calendar_id]) if params[:event][:calendar_id]
+    @calendar = Site.current.calendars.find(params[:event][:calendar_id]) if params[:event][:calendar_id]
+
     @user = User.find_or_initialize_by_site_id_and_email(Site.current.id, params[:user][:email]) # or current_user
     @user.attributes = params[:user].reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
     unless @user.crypted_password || (@user.password && @user.password_confirmation)
@@ -164,7 +164,7 @@ class EventsController < ApplicationController
       redirect_to params[:redirect] and return if params[:redirect]
       redirect_to @calendar.signup_redirect and return if @calendar.signup_redirect
       flash[:notice] = 'Your event was successfully created.'
-      redirect_to :action => 'show', :id => @event
+      redirect_to :permalink => @calendar.permalink, :controller => 'events', :action => 'show', :id => @event
     else
       flash[:notice] = 'There was a problem creating your event.'
       @categories = @calendar.categories.map {|c| [c.name, c.id] }
