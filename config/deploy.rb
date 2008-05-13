@@ -17,7 +17,7 @@ role :db,  "slicehost.radicaldesigns.org", :primary => true
 
 set :repository_cache, "git_master"
 set :deploy_via, :remote_cache
-set :git_enable_submodules, 1
+#set :git_enable_submodules, 1
 
 after "deploy:update_code", "deploy:symlink_shared"
 after "deploy:symlink_shared", "deploy:after_symlink"
