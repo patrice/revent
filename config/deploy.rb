@@ -8,7 +8,7 @@ set :user, "#{application}"
 set :runner, "#{user}"
 
 set :deploy_to, "/home/revent/revent"
-set :deploy_via, :remote_cache
+#set :deploy_via, :remote_cache
 
 set :use_sudo, true
 set :chmod755, %w(app config db lib public vendor script tmp public/dispatch.cgi public/dispatch.fcgi public/dispatch.rb)
@@ -35,43 +35,17 @@ task :backup, :roles => :db, :only => { :primary => true } do
   end
 end
 
-desc "Demonstrates the various helper methods available to recipes."
-task :helper_demo do
-  setup
-
-  buffer = render("maintenance.rhtml", :deadline => ENV['UNTIL'])
-  put buffer, "#{shared_path}/system/maintenance.html", :mode => 0644
-  sudo "killall -USR1 dispatch.fcgi"
-  run "#{release_path}/script/spin"
-  delete "#{shared_path}/system/maintenance.html"
-end
-
-desc "A task demonstrating the use of transactions."
-task :long_deploy do
-  transaction do
-    deploy:update_code
-    deploy:disable_web
-    deploy:symlink
-    deploy:migrate
-  end
-
-  deploy:restart
-  deploy:enable_web
-end
-
 desc <<-DESC
 Spinner is run by the default cold_deploy task. Instead of using script/spinner, we're just gonna rely on Mongrel to keep itself up.
 DESC
 task :spinner, :roles => :app do
   run "mongrel_rails cluster::start"
-#  run "killall dispatch.fcgi"
 end
 
 desc "Restart the web server"
 task :restart, :roles => :app do
   begin
     run "cd #{current_path} && mongrel_rails cluster::restart"
-#    run "cd #{current_path} && killall dispatch.fcgi"
   rescue RuntimeError => e
     puts e
     puts "Probably not a big deal, so I'll just keep trucking..."
@@ -101,13 +75,6 @@ task :after_symlink, :roles => :app , :except => {:no_symlink => true} do
     rake theme_update_cache
   CMD
 end 
-
-desc "Set the proper permissions for directories and files on HostingRails accounts"
-task :after_deploy do
-  run(chmod755.collect do |item|
-    "chmod 755 #{current_path}/#{item}"
-  end.join(" && "))
-end
 
 desc 'Dumps the production database to db/production_data.sql on the remote server'
 task :remote_db_dump, :roles => :db, :only => { :primary => true } do

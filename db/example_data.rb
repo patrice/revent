@@ -32,13 +32,14 @@ module FixtureReplacement
   states = DemocracyInAction::Helpers.state_options_for_select
 
   attributes_for :event do |a|
+    a.calendar = default_calendar
     a.name = "Step It Up"
     a.location = "1 Market St."
     a.city = cities[rand(cities.length)] # "San Francisco"
     a.state = states[rand(states.length)].last  #"CA"
-    a.postal_code = 94114
+    a.postal_code = "94114"
     a.start = Time.now + 2.months
-    a.end = Time.now + 2.months
+    a.end = Time.now + 2.months + 2.hours
 	end
 
   attributes_for :hostform do |a|
