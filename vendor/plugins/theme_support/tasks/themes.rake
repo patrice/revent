@@ -7,10 +7,10 @@ task :theme_create_cache do
     
     FileUtils.mkdir_p "#{RAILS_ROOT}/public/themes/#{theme_name}"
         
-    FileUtils.cp_r "#{theme}/images", "#{RAILS_ROOT}/public/themes/#{theme_name}/images", :verbose => true
-    FileUtils.cp_r "#{theme}/stylesheets", "#{RAILS_ROOT}/public/themes/#{theme_name}/stylesheets", :verbose => true
-    FileUtils.cp_r "#{theme}/javascript", "#{RAILS_ROOT}/public/themes/#{theme_name}/javascript", :verbose => true
-    FileUtils.cp_r "#{theme}/preview.png", "#{RAILS_ROOT}/public/themes/#{theme_name}/images/theme_preview.png", :verbose => true
+    FileUtils.cp_r("#{theme}/images", "#{RAILS_ROOT}/public/themes/#{theme_name}/images", :verbose => true) if File.exists?("#{theme}/images")
+    FileUtils.cp_r("#{theme}/stylesheets", "#{RAILS_ROOT}/public/themes/#{theme_name}/stylesheets", :verbose => true) if File.exists?("#{theme}/stylesheets")
+    FileUtils.cp_r("#{theme}/javascript", "#{RAILS_ROOT}/public/themes/#{theme_name}/javascript", :verbose => true) if File.exists?("#{theme}/javascript")
+    FileUtils.cp_r("#{theme}/preview.png", "#{RAILS_ROOT}/public/themes/#{theme_name}/preview.png", :verbose => true) if File.exists?("#{theme}/preview.png")
   end
 end
 

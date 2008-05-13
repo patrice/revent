@@ -1,9 +1,10 @@
 set :application, "revent"
-set :user, "revent"
-set :runner, "#{user}"
 
 set :scm, :git
-set :repository, "git://github.com/pfdemuizon/#{application}.git"
+set :repository, "git@github.com:pfdemuizon/#{application}.git"
+
+set :user, "#{application}"
+set :runner, "#{user}"
 
 set :deploy_to, "/home/revent/revent"
 set :deploy_via, :remote_cache
@@ -47,14 +48,14 @@ end
 desc "A task demonstrating the use of transactions."
 task :long_deploy do
   transaction do
-    update_code
-    disable_web
-    symlink
-    migrate
+    deploy:update_code
+    deploy:disable_web
+    deploy:symlink
+    deploy:migrate
   end
 
-  restart
-  enable_web
+  deploy:restart
+  deploy:enable_web
 end
 
 desc <<-DESC
@@ -96,7 +97,7 @@ task :after_symlink, :roles => :app , :except => {:no_symlink => true} do
   run <<-CMD
     cd #{release_path} &&
     ln -nfs #{shared_path}/public/attachments #{release_path}/public/attachments &&
-    rake theme_update_cache --trace
+    rake theme_update_cache
   CMD
 end 
 
