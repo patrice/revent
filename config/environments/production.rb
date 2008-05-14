@@ -27,13 +27,10 @@ config.active_record.verification_timeout = 14400
 # config.action_mailer.raise_delivery_errors = false
 
 #ActionMailer::Base.delivery_method = :sendmail
-ActionMailer::Base.delivery_method = :smtp
-
-ActionMailer::Base.server_settings = {
-  :domain             => "events.radicaldesigns.org",
-   :perform_deliveries => true,
-   :address            => 'npomail.electricembers.net',
-   :port               => 25,
+ActionMailer::Base.smtp_settings = {
+   :domain      => "events.radicaldesigns.org",
+   :address     => 'npomail.electricembers.net',
+   :port        => 25,
    :user_name		=> 'events@radicaldesigns.org',
    :password		=> 'fuckhotmail',
    :authentication	=> :login
