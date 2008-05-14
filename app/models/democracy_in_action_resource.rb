@@ -7,13 +7,8 @@ require 'democracyinaction'
 # This is a thin wrapper between the Rails world and DIA_API.rb
 # that can be found in vendor/DIA.
 
-# let's not depend on edge rails just yet
-class ActiveResource
-  class Base
-    cattr_accessor :logger
-  end
-end
-class DemocracyInActionResource < ActiveResource::Base
+class DemocracyInActionResource 
+  cattr_accessor :logger
   self.logger = ActiveRecord::Base.logger
   require 'democracyinaction'
   @@apis = []

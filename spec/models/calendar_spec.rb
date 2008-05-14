@@ -17,6 +17,7 @@ describe Calendar do
   end
 
   it "should contain featured reports" do
+    pending
     @featured_report = reports(:ufpj_featured_report)
     @calendar = calendars(:ufpj_5yearstoomany)
     assert @calendar.featured_reports.include?(@featured_report)
