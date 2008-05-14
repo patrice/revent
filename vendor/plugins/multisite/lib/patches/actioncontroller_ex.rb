@@ -1,3 +1,7 @@
+# patrice: changed all instances of the word site to theme
+# so that we don't get confused with our own definition of site
+# also allows minimal changes to existing code base.  
+
 # Extend the Base ActionController to support themes
 ActionController::Base.class_eval do 
 
@@ -6,12 +10,7 @@ ActionController::Base.class_eval do
   # Use this in your controller just like the <tt>layout</tt> macro.
   # Example:
   #
-  #  theme 'maybe_domain'
-  #
-  # -or-
-  #
   #  theme :get_theme
-  #
   #  def get_theme
   #    'maybe_domain'
   #  end
