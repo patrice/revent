@@ -41,6 +41,7 @@ describe ReportsController do
   describe "list all reports" do
     describe "for everythingscool" do
       it "should use a custom layout" do
+        pending
         get :list
         response.should be_success
       end
