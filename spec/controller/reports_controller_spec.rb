@@ -38,4 +38,12 @@ describe ReportsController do
     end
   end
 
+  describe "list all reports" do
+    describe "for everythingscool" do
+      it "should use a custom layout" do
+        get :list
+        response.should be_success
+      end
+    end
+  end
 end
