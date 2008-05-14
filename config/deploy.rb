@@ -5,19 +5,15 @@ set :user, "#{application}"
 set :group, "#{user}"
 set :runner, "#{user}"
 
-set :deploy_to, "/home/revent/revent"
+set :deploy_to, "/home/#{user}/#{application}"
 set :scm, :git
 
 role :web, "slicehost.radicaldesigns.org"
 role :app, "slicehost.radicaldesigns.org"
 role :db,  "slicehost.radicaldesigns.org", :primary => true
 
-#set :branch, "origin/deploy"
-#set :remote, "#{user}"
-
-set :repository_cache, "git_master"
 set :deploy_via, :remote_cache
-#set :git_enable_submodules, 1
+set :git_enable_submodules, 1
 
 after "deploy:update_code", "deploy:symlink_shared"
 after "deploy:symlink_shared", "deploy:after_symlink"
