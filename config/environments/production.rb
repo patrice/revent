@@ -4,6 +4,11 @@
 # Code is not reloaded between requests
 config.cache_classes = true
 
+# Need to disable caching of templates for multisite plugin (i.e. theme_support)
+# to work.  This does not effect page caching.
+config.action_view.cache_template_loading = false
+config.action_view.cache_template_extensions = false
+
 # Use a different logger for distributed setups
 #require 'syslog_logger'
 #config.logger = RAILS_DEFAULT_LOGGER = SyslogLogger.new('daysofaction')
