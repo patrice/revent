@@ -65,10 +65,10 @@ class ReportsController < ApplicationController
   def list
     @reports = @calendar.published_reports.paginate(:all, :include => :attachments, 
       :order => 'reports.created_at DESC', :page => params[:page], :per_page => 20)
+
     # temporary fix to get everythingscool layout to load here
-    if File.exists?("#{Theme.path_to_theme(Site.current.theme || @calendar.theme)}/layouts/reports.rhtml")
-      render(:layout => "../../themes/#{Site.current.theme || @calendar.theme}/layouts/reports")
-    end    
+    reports_layout = File.join(RAILS_ROOT, "themes/#{current_theme}/views/layouts/reports.rhtml")
+    render(:layout => 'reports') if File.exists?(reports_layout)
   end
 
   def international 
