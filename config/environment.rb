@@ -62,20 +62,6 @@ include Cartographer
 ExceptionNotifier.exception_recipients = %w(seth@radicaldesigns.org patrice@radicaldesigns.org)
 ExceptionNotifier.email_prefix = "[ERROR - DaysOfAction] "
 
-=begin
-module ActionView::Helpers::AssetTagHelper
-  def theme_image_path(source, theme=nil)
-    "http://s3.amazonaws.com/stepitup2007.org/#{source}"
-  end
-  def theme_javascript_path( source, theme=nil )
-    "http://s3.amazonaws.com/stepitup2007.org/#{source}.js"
-  end
-  def theme_stylesheet_path( source=nil, theme=nil )
-    "http://s3.amazonaws.com/stepitup2007.org/#{source}.css"
-  end
-end
-=end
-
 require 'democracyinaction'
 
 GeoKit::Geocoders::google = 'ABQIAAAA9C-o-5_7dL0qOO28APyPUxRkXutPkvyJzQgIe_vZE5iNiMK4ZBRkjBRIiRuewJiZ3eU47BhDWO0luw'
