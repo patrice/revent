@@ -1,14 +1,26 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
-describe User do
-  before(:all) do
-    DemocracyInAction::API.stub!(:process).and_return(1111)
-    Site.current = Site.find_by_host("events.stepitup2007.org")
-  end
-
+describe "Salesforce::Contact" do
   describe "when created" do
     before do
-      @user = new_user
+      Site.stub!(:current_config_path).and_return(File.join(RAILS_ROOT, 'test', 'config'))
+      @timestamp ||= Time.now.to_i
+      @timestamp += 1
+      @email = "revent_#{@timestamp}@mail.com"
+      @contact = Salesforce::Contact.new(
+        :first_name => 'Revent', :last_name => 'Test', :email => @email, 
+        :phone => '5556667777', :mailing_street => '1370 Mission St.', 
+        :mailing_state => "CA", :mailing_postal_code => '94114', 
+        :mailing_country => "United States of America") 
+    end
+
+    def act!
+      @contact.save
+    end
+
+    it "should create a contact in Salesforce" do
+      act!
+      Salesforce::Contact.find_by_email(@email).should_not be_nil
     end
   end
 end

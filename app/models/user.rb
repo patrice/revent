@@ -27,14 +27,29 @@ class User < ActiveRecord::Base
   end
   attr_accessor :deferred
 
+  after_save :sync_to_salesforce
+  def sync_to_salesforce
+    c = Salesforce::Contact.find_or_initialize_by_email(self.email)
+    c.phone = self.phone
+    c.first_name = self.first_name
+    c.last_name = self.last_name
+    c.mailing_address = [self.street, self.street2].join(" ")
+    c.mailing_state = self.state
+    c.mailing_country = self.country
+    c.mailing_postal_code = self.postal_code
+    unless c.save
+      log.error("Could not sync #{self.email} user data to Salesforce.")
+    end
+  end
+
   has_one :democracy_in_action_object, :as => :synced
   # (extract me) to the plugin!!!
   # acts_as_mirrored? acts_as_synced?
   attr_accessor :democracy_in_action
   after_save :sync_to_democracy_in_action
   def sync_to_democracy_in_action
-    return unless File.exists?(File.join(Site.current_config_path, 'democracyinaction-config.yml'))
-    return if deferred?
+    return true unless File.exists?(File.join(Site.current_config_path, 'democracyinaction-config.yml'))
+    return true if deferred?
 
     # return unless DemocracyInAction.sync? => returns true or can be overridden like authorized?
     # with something lke Site.current.uses_crm(DemocracyInAction)
@@ -59,6 +74,7 @@ class User < ActiveRecord::Base
 
     supporter_custom = @democracy_in_action[:supporter_custom] || {}
     supporter_custom_key = api.process('supporter_custom', {'supporter_KEY' => supporter_key}.merge(supporter_custom))
+    return true
   end
   
   def democracy_in_action_key

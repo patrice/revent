@@ -1,3 +1,3 @@
 class Salesforce::Event < Salesforce::Base
-  #connection.set_class_for_entity(Salesforce::Event, "Event")
+  set_table_name "Event"
 end
