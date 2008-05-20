@@ -2,7 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>title goes here</title>
+<title>Service Nation</title>
+<script language="Javascript"  type="text/javascript" src="/themes/servicenation/javascript/functions.js"></script>
+	<%= javascript_include_tag 'prototype' %>
+	<%= theme_javascript_include_tag 'functions' %>
+
+	<%=  stylesheet_link_tag 'events' %>
+	<%= yield :header 
+	%>
+	<%= Cartographer::Gmap::Header.header_for(request) if @map %>
 <link href="/themes/servicenation/stylesheets/servicenation.css" rel="stylesheet" type="text/css"/>
 <!--[if IE 6]>
 <style>
@@ -14,16 +22,10 @@ background-image:url(/themes/servicenation/images/ie6body.jpg) !important;
 }
 </style>
 <![endif]-->
-<script language="Javascript"  type="text/javascript" src="/themes/servicenation/javascript/functions.js"></script>
-	<%= javascript_include_tag 'prototype' %>
-	<%= theme_javascript_include_tag 'functions' %>
-	<%= stylesheet_link_tag 'events' %>
-	<%= yield :header %>
-	<%= Cartographer::Gmap::Header.header_for(request) if @map %>
 
 </head>
-<body onload="MM_preloadImages('/themes/servicenation/images/mr_12.jpg','/themes/servicenation/images/mr_07.jpg','/themes/servicenation/images/mr_08.jpg','/themes/servicenation/images/mr_10.jpg','/themes/servicenation/images/mr_09.jpg','/themes/servicenation/images/mr_11.jpg','/themes/servicenation/images/ir_05.png','/themes/servicenation/images/ir_06.png','/themes/servicenation/images/ir_07.png','/themes/servicenation/images/ir_08.png','/themes/servicenation/images/ir_09.png')">
-<div style="width:1250px; margin:0 auto">
+<body onload="MM_preloadImages('/themes/servicenation/images/mr_12.jpg','/themes/servicenation/images/mr_07.jpg','/themes/servicenation/images/mr_08.jpg','/themes/servicenation/images/mr_10.jpg','/themes/servicenation/images/mr_09.jpg','/themes/servicenation/images/mr_11.jpg','/themes/servicenation/images/ir_05.png','/themes/servicenation/images/ir_06.png','/themes/servicenation/images/ir_07.png','/themes/servicenation/images/ir_08.png','/themes/servicenation/images/ir_09.png')" style="text-align:center;">
+<div style="text-align:left;width:1250px; margin:0 auto">
     <div style="float:left; width:449px"><img src="/themes/servicenation/images/1_02.jpg" width="449" height="129" /></div>
     <div style="float:left; width:801px; background:url(/themes/servicenation/images/1_03.jpg); height:129px; color:#F2F723">
     	<div style="font-size:17pt; padding:38px 0 0 130px; font-weight:bold">Lorem ipsum dolor sit amet!</div> 
@@ -52,8 +54,8 @@ background-image:url(/themes/servicenation/images/ie6body.jpg) !important;
 <table cellpadding="0" cellspacing="0">
                     	<tr>
                        	  <td style="font-size:9pt; color:#FFFFFF">Search Events</td>
-                        	<td style="padding-left:5px"><input type="input" style="width:110px; border:1px solid #666666; height:14px; color:#666666; font-size:9pt; padding-left:5px" value="zip code" onfocus="if(this.value=='zip code')this.value='';" onblur="if(this.value=='')this.value='zip code';" /></td>
-                            <td style="padding-left:8px"><input type="submit" style="width:29px; height:16px; border:0; background-color:#A0BAD1; color:#ffffff; font-size:9pt" value="go &raquo;" /></td>
+                        	<td style="padding-left:5px"><input type="input" style="width:110px; border:1px solid #666666; height:14px; color:#666666; font-size:9pt; padding-left:5px; margin: 0; padding: 0;" value="zip code" onfocus="if(this.value=='zip code')this.value='';" onblur="if(this.value=='')this.value='zip code';" /></td>
+                            <td style="padding-left:8px"><input type="submit" style="width:29px; height:16px; border:0; background-color:#A0BAD1; color:#ffffff; font-size:9pt; margin: 0; padding: 0;" value="go &raquo;" /></td>
                         </tr>
                 </table>
                 </form>
@@ -68,9 +70,9 @@ background-image:url(/themes/servicenation/images/ie6body.jpg) !important;
 <form style="margin:0">
                 	<table cellpadding="0" cellspacing="0">
                     	<tr>
-                        	<td><input type="input" style="width:107px; border:1px solid #666666; height:14px; color:#666666; font-size:9pt; padding-left:5px" value="your email" onfocus="if(this.value=='your email')this.value='';" onblur="if(this.value=='')this.value='your email';" /></td>
-                          <td style="padding-left:7px"><input type="input" style="width:66px; border:1px solid #666666; height:14px; color:#666666; font-size:9pt; padding-left:5px" value="zip code" onfocus="if(this.value=='zip code')this.value='';" onblur="if(this.value=='')this.value='zip code';" /></td>
-                            <td style="padding-left:7px"><input type="submit" style="width:30px; height:18px; border:0; background-color:#E19F6D; color:#ffffff" value="go &raquo;" /></td>
+                        	<td><input type="input" style="width:107px; border:1px solid #666666; height:14px; color:#666666; font-size:9pt; margin: 0; padding-left:5px" value="your email" onfocus="if(this.value=='your email')this.value='';" onblur="if(this.value=='')this.value='your email';" /></td>
+                          <td style="padding-left:7px"><input type="input" style="width:66px; border:1px solid #666666; height:14px; color:#666666; font-size:9pt; margin: 0; padding-left:5px" value="zip code" onfocus="if(this.value=='zip code')this.value='';" onblur="if(this.value=='')this.value='zip code';" /></td>
+                            <td style="padding-left:7px"><input type="submit" style="width:30px; height:18px; margin: 0; padding: 0; border:0; background-color:#E19F6D; color:#ffffff" value="go &raquo;" /></td>
                         </tr>
                     </table>
                 </form>
@@ -98,7 +100,7 @@ background-image:url(/themes/servicenation/images/ie6body.jpg) !important;
         	<div class="activist">
             	<div style="padding-left:200px; padding-top:1px">
                 <a href="#"><img src="/themes/servicenation/images/in_03.png" width="272" height="35" class="pngfix" /></a><img src="/themes/servicenation/images/in_04.png" width="126" height="34" class="pngfix" /><a href="#"><img src="/themes/servicenation/images/in_05.png" width="82" height="34" class="pngfix" onmouseover="this.src='/themes/servicenation/images/ir_05.png'" onmouseout="this.src='/themes/servicenation/images/in_05.png'" /></a><a href="#"><img src="/themes/servicenation/images/in_06.png" width="82" height="34" class="pngfix" onmouseover="this.src='/themes/servicenation/images/ir_06.png'" onmouseout="this.src='/themes/servicenation/images/in_06.png'" /></a><a href="#"><img src="/themes/servicenation/images/in_07.png" width="51" height="34" class="pngfix" onmouseover="this.src='/themes/servicenation/images/ir_07.png'" onmouseout="this.src='/themes/servicenation/images/in_07.png'"/></a><a href="#"><img src="/themes/servicenation/images/in_08.png" width="66" height="34" class="pngfix" onmouseover="this.src='/themes/servicenation/images/ir_08.png'" onmouseout="this.src='/themes/servicenation/images/in_08.png'" /></a><a href="#"><img src="/themes/servicenation/images/in_09.png" width="80" height="34" class="pngfix" onmouseover="this.src='/themes/servicenation/images/ir_09.png'" onmouseout="this.src='/themes/servicenation/images/in_09.png'" /></a></div>            	
-            </div>
+            </div> 
           </div> 
           </div>
             <div style="clear:both; text-align:right"><img src="/themes/servicenation/images/1_32.jpg" width="960" height="4" /></div>             
