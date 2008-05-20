@@ -42,3 +42,11 @@ cursor:pointer;
 img.pngfix {
 behavior: url(iepngfix.htc);
 }
+div.explanatory_links {
+  padding: 5px 0pt; 
+  text-align: left; 
+  color: rgb(43, 106, 163); 
+  font-family: 'Arial Black',Arial,Verdana; 
+  text-transform: uppercase; 
+  font-size: 13pt; 
+}
