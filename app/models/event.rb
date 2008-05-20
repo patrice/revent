@@ -192,11 +192,14 @@ class Event < ActiveRecord::Base
   def trigger_email
     calendar = self.calendar
     unless calendar.hostform and calendar.hostform.dia_trigger_key
-      trigger = calendar.triggers.find_by_name("Host Thank You") || Site.current.triggers.find_by_name("Host Thank You")
+      if calendar.triggers
+        trigger = calendar.triggers.find_by_name("Host Thank You") 
+      elsif Site.current.triggers
+        trigger = Site.current.triggers.find_by_name("Host Thank You")
+      end
       TriggerMailer.deliver_trigger(trigger, self.host, self) if trigger
     end
   end
-  
   
   before_destroy :delete_from_democracy_in_action
   def delete_from_democracy_in_action
