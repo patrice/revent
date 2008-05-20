@@ -1,2 +1,2 @@
-module BlogsHelper
+module Account::BlogsHelper
 end
