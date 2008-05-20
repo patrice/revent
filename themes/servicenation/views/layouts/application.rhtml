@@ -43,25 +43,6 @@ background-image:url(/themes/servicenation/images/ie6body.jpg) !important;
         <div style="clear:both"><img src="/themes/servicenation/images/1_14.jpg" width="960" height="9" /></div>
         <div style="background:url(/themes/servicenation/images/cont_16.jpg); background-repeat:repeat-y">
        	  <div style="float:left; width:280px">
-       	    <div style="margin:19px 7px 10px 15px; color:#BAE4FA; width:251px; height:275px; background:url(/themes/servicenation/images/2_03.jpg)">
-           	  <div style="padding-top:168px">
-                <div style="border:1px solid #6791B6; border-left:none; border-right:none; margin:0 1px 0 1px; color:#FFFFFF; font-size:9pt; padding:2px 0 2px 7px; cursor:pointer"><div class="leftmenu" onclick="document.location.href='#';">&raquo; What is the Day of Action?</div></div>
-                <div style="border-bottom:1px solid #6791B6; margin:0 1px 0 1px; color:#FFFFFF; font-size:9pt; padding:2px 0 2px 7px; cursor:pointer"><div class="leftmenu" onclick="document.location.href='#';">&raquo; Organize Your Own Event</div></div>
-                <div style="border-bottom:1px solid #6791B6; margin:0 1px 0 1px; color:#FFFFFF; font-size:9pt; padding:2px 0 2px 7px; cursor:pointer "><div class="leftmenu" onclick="document.location.href='#';">&raquo; FAQ’s</div></div>
-                <div style="margin:0 1px 0 1px; color:#FFFFFF; font-size:9pt; padding:2px 0 2px 7px; cursor:pointer "><div class="leftmenu" onclick="document.location.href='#';">&raquo; Download Event Kit</div></div>
-                <div style="padding:4px 0 0 5px">
-                <form style="margin:0">
-<table cellpadding="0" cellspacing="0">
-                    	<tr>
-                       	  <td style="font-size:9pt; color:#FFFFFF">Search Events</td>
-                        	<td style="padding-left:5px"><input type="input" style="width:110px; border:1px solid #666666; height:14px; color:#666666; font-size:9pt; padding-left:5px; margin: 0; padding: 0;" value="zip code" onfocus="if(this.value=='zip code')this.value='';" onblur="if(this.value=='')this.value='zip code';" /></td>
-                            <td style="padding-left:8px"><input type="submit" style="width:29px; height:16px; border:0; background-color:#A0BAD1; color:#ffffff; font-size:9pt; margin: 0; padding: 0;" value="go &raquo;" /></td>
-                        </tr>
-                </table>
-                </form>
-                </div>
-              </div>
-            </div>
               <div style="margin:9px 7px 9px 15px; background:url(/themes/servicenation/images/2_12.jpg); width:243px; height:183px; color:#BAE4FA; font-weight:bold; font-family:'Arial Black', Arial, Verdana; padding:5px 0 0 8px; cursor:pointer" onclick="document.location.href='#';">
             NYC SEPT 18 - 19 2008              </div>
               <div style="margin:0px 7px 0px 15px; background:url(/themes/servicenation/images/2_14.jpg); width:251px; height:75px">
@@ -88,11 +69,13 @@ background-image:url(/themes/servicenation/images/ie6body.jpg) !important;
           	<div style="width:665px; height:18px"><img src="/themes/servicenation/images/2_08.jpg" width="665" height="18" /></div>
           	<div style="padding:0 10px 20px 20px; width:625px; color:#666666; font-size:10pt; min-height:666px; height:auto !important; height:666px">
             <div style="text-align:left; color:#2B6AA3; font-family:'Arial Black', Arial, Verdana; padding-right:10px; text-transform:uppercase; font-size:13pt; padding:5px 0 5px 0">DAY OF ACTION</div>
-
-						<% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
-						<% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
-						<%= yield %>
-
+            <% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
+            <% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
+            <%= yield %>
+            <div onclick="document.location.href='#';">&raquo; What is the Day of Action?</div>
+            <div onclick="document.location.href='#';">&raquo; Organize Your Own Event</div>
+            <div onclick="document.location.href='#';">&raquo; FAQ’s</div>
+            <div onclick="document.location.href='#';">&raquo; Download Event Kit</div>
             </div>
             <div style="width:665px; height:18px"><img src="/themes/servicenation/images/2_21.jpg" width="665" height="18" /></div>
           </div> 
@@ -107,10 +90,10 @@ background-image:url(/themes/servicenation/images/ie6body.jpg) !important;
         </div>
         
 <div style="">
-            	<div style="float:right; width:144px"><a href="#"><img src="/themes/servicenation/images/1_68.jpg" width="144" height="60" /></a></div>
-              <div style="float:right; width:194px"><a href="#"><img src="/themes/servicenation/images/1_67.jpg" width="194" height="60" /></a></div>
-              <div style="float:right; width:75px"><a href="#"><img src="/themes/servicenation/images/1_66.jpg" width="75" height="62" /></a></div>
-              <div style="float:right; width:114px"><a href="#"><img src="/themes/servicenation/images/1_65.jpg" width="114" height="62" /></a></div>
+            	<div style="float:right; width:144px"><a href="http://www.handsonnetwork.org"><img src="/themes/servicenation/images/1_68.jpg" width="144" height="60" /></a></div>
+              <div style="float:right; width:194px"><a href="http://www.civicenterprises.net"><img src="/themes/servicenation/images/1_67.jpg" width="194" height="60" /></a></div>
+              <div style="float:right; width:75px"><a href="http://www.cityyear.org"><img src="/themes/servicenation/images/1_66.jpg" width="75" height="62" /></a></div>
+              <div style="float:right; width:114px"><a href="http://www.bethechangeinc.org"><img src="/themes/servicenation/images/1_65.jpg" width="114" height="62" /></a></div>
               <div style="float:right; font-family:Arial, Helvetica, sans-serif; font-weight:bold; font-size:9pt; padding:5px 10px 0 0; color:#2B6AA3">ServiceNation Is Brought To You By:</div>
                 <div style="float:left; font-family:Arial, Helvetica, sans-serif; font-weight:bold; font-size:9pt; padding-top:5px; color:#2B6AA3">
                 	SITE MAP &bull; SEARCH THE SITE</div>
