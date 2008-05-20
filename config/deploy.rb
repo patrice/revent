@@ -12,7 +12,7 @@ role :web, "slicehost.radicaldesigns.org"
 role :app, "slicehost.radicaldesigns.org"
 role :db,  "slicehost.radicaldesigns.org", :primary => true
 
-set :deploy_via, :remote_cache
+#set :deploy_via, :remote_cache
 set :git_enable_submodules, 1
 
 after "deploy:update_code", "deploy:symlink_shared"
