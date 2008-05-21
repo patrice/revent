@@ -3,7 +3,7 @@ set :repository, "git@github.com:pfdemuizon/#{application}.git"
 
 set :user, "#{application}"
 set :group, "#{user}"
-set :runner, "#{user}"
+#set :runner, "#{user}"
 
 set :deploy_to, "/home/#{user}/#{application}"
 set :scm, :git
@@ -14,6 +14,8 @@ role :db,  "slicehost.radicaldesigns.org", :primary => true
 
 #set :deploy_via, :remote_cache
 set :git_enable_submodules, 1
+
+set :use_sudo, true 
 
 after "deploy:update_code", "deploy:symlink_shared"
 after "deploy:symlink_shared", "deploy:after_symlink"
