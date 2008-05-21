@@ -28,8 +28,14 @@ class User < ActiveRecord::Base
   attr_accessor :deferred
 
 =begin
-  after_save :sync_to_salesforce
-  def sync_to_salesforce
+  after_save :sync_to_sforce
+  def sync_to_sforce
+    # try to connect to salesforce database
+    salesforce_config = File.join(Site.current_config_path, 'salesforce-config.yml')
+    return true unless File.exists?(salesforce_config)
+    Salesforce::Base.establish_connection YAML.load_file(salesforce_config)
+
+    # push user data to salesforce
     c = Salesforce::Contact.find_or_initialize_by_email(self.email)
     c.phone = self.phone
     c.first_name = self.first_name
@@ -39,7 +45,7 @@ class User < ActiveRecord::Base
     c.mailing_country = self.country
     c.mailing_postal_code = self.postal_code
     unless c.save
-      log.error("Could not sync #{self.email} user data to Salesforce.")
+      logger.error("Could not sync user data for #{self.email} to Salesforce.")
     end
   end
 =end
