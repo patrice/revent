@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
   end
   attr_accessor :deferred
 
+=begin
   after_save :sync_to_salesforce
   def sync_to_salesforce
     c = Salesforce::Contact.find_or_initialize_by_email(self.email)
@@ -41,6 +42,7 @@ class User < ActiveRecord::Base
       log.error("Could not sync #{self.email} user data to Salesforce.")
     end
   end
+=end
 
   has_one :democracy_in_action_object, :as => :synced
   # (extract me) to the plugin!!!
