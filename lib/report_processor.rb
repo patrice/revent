@@ -12,8 +12,6 @@ require 'calendar'
 require 'user'
 require 'trigger'
 
-ActionMailer::Base.logger = Logger.new("log/report_processor.output")
-
 class ReportProcessor
   def self.run
     starling = Starling.new 'localhost:22122'
