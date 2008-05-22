@@ -11,7 +11,8 @@
 	<%= yield :header 
 	%>
 	<%= Cartographer::Gmap::Header.header_for(request) if @map %>
-<link href="/themes/servicenation/stylesheets/servicenation.css" rel="stylesheet" type="text/css"/>
+  <%= theme_stylesheet_link_tag 'servicenation.css' %>
+  <%# <link href="/themes/servicenation/stylesheets/servicenation.css" rel="stylesheet" type="text/css"/> %>
 <!--[if IE 6]>
 <style>
 .activist2 {
