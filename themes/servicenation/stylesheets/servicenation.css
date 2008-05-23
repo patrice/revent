@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 body {
-background-image: url(/themes/servicenation/images/bg3.jpg);
+background-image: url(http://events.servicenation.org/themes/servicenation/images/bg3.jpg);
 background-position:center top;
 background-repeat: no-repeat;
 margin:0px;
@@ -16,7 +16,7 @@ border:0;
 	width:1251px;
 	left: -144px;
 	top: 22px;
-	background:url(/themes/servicenation/images/activist.png);
+	background:url(http://events.servicenation.org/themes/servicenation/images/activist.png);
 	height:45px;
 }
 .activist {
@@ -24,7 +24,7 @@ border:0;
 	width:1251px;
 	left: -421px;
 	top: 21px;
-	background:url(/themes/servicenation/images/activist.png);
+	background:url(http://events.servicenation.org/themes/servicenation/images/activist.png);
 	height:45px;
 }
 a:link, a:visited, a:active {
@@ -40,7 +40,7 @@ background-color:#3375A7;
 cursor:pointer;
 }
 img.pngfix {
-behavior: url(/themes/servicenation/stylesheets/iepngfix.htc);
+behavior: url(http://events.servicenation.org/themes/servicenation/iepngfix.htc);
 }
 div.explanatory_links {
   padding: 5px 0pt; 
