@@ -11,7 +11,8 @@
 	<%= yield :header 
 	%>
 	<%= Cartographer::Gmap::Header.header_for(request) if @map %>
-<link href="/themes/servicenation/stylesheets/servicenation.css" rel="stylesheet" type="text/css"/>
+  <%= theme_stylesheet_link_tag 'servicenation.css' %>
+  <%# <link href="/themes/servicenation/stylesheets/servicenation.css" rel="stylesheet" type="text/css"/> %>
 <!--[if IE 6]>
 <style>
 .activist2 {
@@ -98,5 +99,14 @@ background-image:url(/themes/servicenation/images/ie6body.jpg) !important;
   </div>
   
 </div>   
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  var pageTracker = _gat._getTracker("UA-2769465-23");
+  pageTracker._initData();
+  pageTracker._trackPageview();
+</script>
 </body>
 </html>

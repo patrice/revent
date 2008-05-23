@@ -40,7 +40,7 @@ background-color:#3375A7;
 cursor:pointer;
 }
 img.pngfix {
-behavior: url(iepngfix.htc);
+behavior: url(/themes/servicenation/stylesheets/iepngfix.htc);
 }
 div.explanatory_links {
   padding: 5px 0pt; 
