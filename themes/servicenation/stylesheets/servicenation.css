@@ -40,7 +40,7 @@ background-color:#3375A7;
 cursor:pointer;
 }
 img.pngfix {
-behavior: url(http://events.servicenation.org/themes/servicenation/iepngfix.htc);
+behavior: url(http://events.servicenation.org/themes/servicenation/stylesheets/iepngfix.htc);
 }
 div.explanatory_links {
   padding: 5px 0pt; 
