@@ -3,7 +3,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Service Nation</title>
-<script language="Javascript"  type="text/javascript" src="/themes/servicenation/javascript/functions.js"></script>
 	<%= javascript_include_tag 'prototype' %>
 	<%= theme_javascript_include_tag 'functions' %>
 
@@ -12,7 +11,6 @@
 	%>
 	<%= Cartographer::Gmap::Header.header_for(request) if @map %>
   <%= theme_stylesheet_link_tag 'servicenation.css' %>
-  <%# <link href="/themes/servicenation/stylesheets/servicenation.css" rel="stylesheet" type="text/css"/> %>
 <!--[if IE 6]>
 <style>
 .activist2 {
@@ -72,7 +70,7 @@ background-image:url(http://events.servicenation.org/themes/servicenation/images
               <div style="margin:0px 7px 0px 15px; background:url(http://events.servicenation.org/themes/servicenation/images/2_14.jpg); width:251px; height:75px">
               	<div style="color:#FFFFFF; font-size:13px; padding:30px 0 0 7px">Get the latest news about us, from us!</div>
                 <div style="padding:5px 0 0 7px">
-<form style="margin:0; padding:0" action="http://bethechangeinc.org/servicenation/join" method="post">
+<form style="margin:0; padding:0" action="http://bethechangeinc.org/servicenation/join" method="post" id="join-form">
                 	<table cellpadding="0" cellspacing="0">
                     	<tr>
                         	<td><input type="input" style="width:107px; border:1px solid #666666; height:14px; color:#666666; font-size:9pt; padding-left:5px" value="your email" onfocus="if(this.value=='your email')this.value='';" onblur="if(this.value=='')this.value='your email';" /></td>

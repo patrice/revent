@@ -50,3 +50,10 @@ div.explanatory_links {
   text-transform: uppercase; 
   font-size: 13pt; 
 }
+
+/* override default css */
+#join-form input {
+  margin: auto;
+  padding: 1px 0px;
+  font-size: 13px;
+}
