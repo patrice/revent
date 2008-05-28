@@ -1,0 +1,112 @@
+/*ARTICLE PAGES*/
+
+th,td,p,.text {  font-family: Trebuchet, Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: normal; color: #666666; }
+
+.title { font-size: 18px; font-weight: normal; color: #02168e; }
+.subtitle { font-size: 14px; font-weight: normal;}
+.author {  font-size: 12px; font-weight: normal; }
+.date {   font-size: 12px; font-weight: normal; color: #333333; }
+.form {  font-size: 12px; font-weight: bold; color: #333333}
+.photocaption {  font-size: 10px; font-weight: normal; color: #333333; text-align: center; vertical-align: middle; clip:   rect(   ); padding-top: 3px; padding-bottom: 3px}
+.docbox {border : 1px double Black; font-size : 13px; text-align : center; }
+
+blockquote {
+background-color:#E6EAF3;
+border-bottom:1px solid #013C80;
+border-top:1px solid #013C80;
+margin-left:1.5em;
+padding:10px;
+color:#101D27;
+font-style:italic;
+}
+
+.tablerap { border: 1px solid #000 ; }
+.tablemain { padding: 8px; }
+.tablenav {border-right: 1px dashed #666; }
+.tablediv { padding: 8px; border-top: 1px dashed #666; border-bottom: 1px dashed #666;  }
+
+td.divright { padding: 8px; border-right: 1px dashed #666; }
+td.divleft  { padding: 8px; }
+
+.highlights { font-size: 7pt; color: #333; }
+
+/*LINKS*/
+
+a {  color: #2C4C79; text-decoration: none}
+a:hover {  color: #000099; text-decoration: underline}
+
+
+/*LIST PAGES     text */
+
+.listtitle { font-size: 12px; font-weight: bold; color: #02168e;  }
+.bodygreystrong {font-size: 12px; font-weight: bold; color: #333333}
+
+
+/*INDEX PAGE     subtitle  */
+
+.hometitle {  font-size: 14px; font-weight: bolder; color: #006699; text-decoration: none}
+.homebody { font-size: 12px; color: #000000}
+
+/*Design Specific  */
+
+.masborder { border: 2px #000000 solid; }
+.features { font-size: 10px; font-weight: bold; color: #000000}
+
+
+/*NAVIGATION*/
+
+.breadcrumb { font-size: 9px; color: #333333}
+.subside {font-size: 14px; font-weight: normal; color: #02168e}
+.go { font-size: 9px}
+.sidelist {font-size: 10px;  color: #333333; padding-bottom: 5px }
+
+mainnav { color: #000 ; font-size: 11px; font-weight: bold; }
+a.mainnav {color: #fff; font-size: 11px; font-weight: bold; }
+
+/*NEWS and PR PAGES    bodystronggrey*/
+
+.newssubtitle { font-size: 12px; font-weight: bold; color: #333333}
+.newstitle { font-size: 18px; font-weight: bold; color: #000000}
+.bodystrong {font-size: 12px; font-weight: bold; color: #000000}         
+.bodygrey {font-size: 12px; font-weight: normal; color: #333333}
+     /*used in groups*/
+
+
+
+/*CALENDAR*/
+.eventsubtitle {font-size: 12px; font-weight: bold; color: #333333}
+      /*used in groups*/
+
+.eventtitle {font-size: 12px; font-weight: bold}
+      /*used in groups*/
+
+
+/*GROUPS & ENDORSEMENTS bodygrey, eventsubtitle,  eventtitle*/
+
+
+/*not in code */
+
+.rap {
+border: 1px solid #E6F0FE;
+}
+
+.linktype{
+font-size:20px;
+}
+
+.footer { text-align: right; display: block; padding: 15px 20px 10px 0px; color: #7d97bb; } 
+
+.qlinks { text-align: right; display: block; padding: 10px 20px 10px 0px; color: #7d97bb; font-size: 10px;  }
+.qlinks a {  color: #7d97bb;  font-size: 10px;  }
+.fpmission { color: #666666; display: block; line-height: 20px; padding: 5px;}
+.shout {  color: #02168e; font-size: 16px;  }
+
+.fpheader { display: block; padding: 0px 0px 8px 0px; color: #02168e; font-size: 14px; font-weight: bold; }
+
+.fpmore { display: block; padding: 10px 5px 5px 0px; text-align: right; color: #666666;font-size: 10px; }
+.fpmore a { color: #666666; font-size: 10px;} 
+.fptitles { display: block; padding: 0px 0px 5px 0px; color: #666666; font-weight: bold; font-size: 12px; }
+.fpnavs { line-height: 15px; font-size: 11px; }
+.fpnavs .shout {  font-size: 13px; }
+
+#shader { display: none; position: absolute; bottom: 0; left: 45%; }
