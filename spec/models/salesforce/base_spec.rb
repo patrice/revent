@@ -1,13 +1,8 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 describe "Salesforce::Base" do
-  def act!
-    load 'salesforce/base.rb'
-  end
-
   it "should establish connection with Salesforce" do
     Site.stub!(:current_config_path).and_return(File.join(RAILS_ROOT, 'test', 'config'))
-    act!
     Salesforce::Contact.count # use this to initiate connection
     Salesforce::Base.connected?.should be_true
   end

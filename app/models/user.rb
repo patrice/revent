@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
     # try to connect to salesforce database
     salesforce_config = File.join(Site.current_config_path, 'salesforce-config.yml')
     return true unless File.exists?(salesforce_config)
-    Salesforce::Base.establish_connection YAML.load_file(salesforce_config)
+    SalesforceBase.establish_connection YAML.load_file(salesforce_config)
 
     # push user data to salesforce
     c = Salesforce::Contact.find_or_initialize_by_email(self.email)
