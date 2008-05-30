@@ -3,6 +3,11 @@ require File.dirname(__FILE__) + '/../spec_helper.rb'
 #gem 'activesalesforce'
 require 'active_record/connection_adapters/rforce'
 
+def sforce_response_fixture(name)
+  file = File.read("spec/fixtures/salesforce/#{name}_soap_response.dump") || raise('no file')
+  Marshal.load(file)
+end
+
 describe "SalesforceContact" do
   before do
 #    Object.send(:remove_const, :SalesforceBase) if Object.const_defined?(:SalesforceBase)
@@ -11,8 +16,9 @@ describe "SalesforceContact" do
 #    load RAILS_ROOT + '/app/models/salesforce_contact.rb'
 
     RForce::Binding.stub!(:new).and_return(@binding = mock('binding'))
+
     @binding.stub!(:login)
-    @binding.stub!(:describeSObject).and_return(stub_everything)
+    @binding.stub!(:describeSObject).with(:sObjectType => 'Contact').and_return(sforce_response_fixture('describe_contact'))
     SalesforceContact.establish_connection(:adapter => 'activesalesforce')
     SalesforceContact.set_table_name 'Contact'
   end
@@ -22,26 +28,35 @@ describe "SalesforceContact" do
   end
 
   it "should stub the connection" do
-    @binding.stub!(:query).and_return(stub_everything)
+    #very specific
+    @binding.should_receive(:query).with(:queryString => "SELECT COUNT() FROM Contact   ").and_return(sforce_response_fixture('count_contact'))
     lambda {SalesforceContact.count}.should_not raise_error
   end
 
-  it "should save" do
-    contact = SalesforceContact.new# :last_name => 'tester'
-    contact.connection.stub!(:insert).and_return(stub_everything)
-    contact.save
-  end
-
   it "should save to the right connection" do
-#    SalesforceContact.connection_chooser = lambda {Site.current.id}
-    Site.current = (@site1 = stub('site', :id => 1, :theme => 'first'))
-    #SalesforceContact.should connect_to_site_1_acct
+    #just make sure it has COUNT
+    @binding.should_receive(:query) do |args|
+      args[:queryString].should =~ /COUNT/
+      sforce_response_fixture('count_contact')
+    end.twice
+
+    @binding.should_receive(:login).with("firstuser", "firstpass")
+    SalesforceContact.establish_connection(:adapter => 'activesalesforce', :username => 'firstuser', :password => 'firstpass')
+    SalesforceContact.set_table_name('Contact')
     SalesforceContact.count
 
-    Site.current = (@site2 = stub('site', :id => 2, :theme => 'second'))
-    #SalesforceContact.should connect_to_site_2_acct
+    @binding.should_receive(:login).with("seconduser", "secondpass")
+    SalesforceContact.establish_connection(:adapter => 'activesalesforce', :username => 'seconduser', :password => 'secondpass')
+    SalesforceContact.set_table_name('Contact')
     SalesforceContact.count
   end
+
+  it "should save" do
+    pending
+    contact = SalesforceContact.new :last_name => 'tester'
+    contact.save!
+  end
+
 end
 
 =begin
