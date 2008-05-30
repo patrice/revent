@@ -1,9 +1,6 @@
+require 'active_record/connection_adapters/asf_active_record'
+
 class SalesforceBase < ActiveRecord::Base
+  include ActiveSalesforce::ActiveRecord::Mixin
   self.abstract_class = true
-=begin
-  salesforce_config = File.join(Site.current_config_path, 'salesforce-config.yml')
-  if File.exists?(salesforce_config)
-    self.establish_connection YAML.load_file(salesforce_config)
-  end
-=end
 end
