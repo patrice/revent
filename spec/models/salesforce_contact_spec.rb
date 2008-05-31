@@ -33,7 +33,7 @@ describe "SalesforceContact" do
     lambda {SalesforceContact.count}.should_not raise_error
   end
 
-  it "should save to the right connection" do
+  it "should use the right connection" do
     #just make sure it has COUNT
     @binding.should_receive(:query) do |args|
       args[:queryString].should =~ /COUNT/
@@ -57,6 +57,42 @@ describe "SalesforceContact" do
     contact.save!
   end
 
+  describe "create" do
+    before do
+      @user = new_user
+      SalesforceContact.stub!(:make_connection).and_return(true)
+    end
+    it "should accept a user argument" do
+      lambda {SalesforceContact.create(@user)}.should_not raise_error
+    end
+    it "should return a SalesforceContact" do
+      SalesforceContact.create(@user).should be_a_kind_of(SalesforceContact)
+    end
+    it "should set attributes" do
+      @user.first_name = 'firstly'
+      SalesforceContact.create(@user).first_name.should == 'firstly'
+    end
+  end
+
+  describe "translate" do
+    it "should translate a user to a salesforce attribute hash" do
+      user = new_user(:last_name => 'lastly', :first_name => 'firstly', :state => 'CA')
+      SalesforceContact.translate(user)[:mailing_state].should == 'CA'
+    end
+  end
+end
+
+describe "SalesforceContact", "when saving" do
+  it "should use the right connection" do
+    SalesforceContact.establish_connection(:adapter => 'activesalesforce')
+#    binding = SalesforceContact.connection.instance_variable_get(:@connection)
+#    raise binding.inspect
+
+#    SalesforceContact.set_table_name 'Contact'
+
+#    contact = SalesforceContact.new :last_name => 'tester'
+#    contact.save!
+  end
 end
 
 =begin

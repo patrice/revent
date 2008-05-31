@@ -100,8 +100,17 @@ describe User do
     end
 
     it "should push user to DIA supporter" do
+      pending
       @dia_api.should_receive(:process).twice.and_return('1111')
       @user.save
+    end
+  end
+
+  describe "integrates with salesforce" do
+    it "should pass itself to salesforce" do
+      @user = new_user
+      SalesforceContact.should_receive(:create).with(@user)
+      @user.sync_to_sforce
     end
   end
 end
