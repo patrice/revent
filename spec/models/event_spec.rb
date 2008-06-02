@@ -105,4 +105,20 @@ describe Event do
       @event.save
     end
   end
+
+  describe 'when destroyed' do
+    it "should not be in the db" do
+      @event.save
+      Event.find(@event.id).should_not be_nil
+      @event.destroy
+      lambda {Event.find(@event.id)}.should raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it "should delete event in Democracy In Action if it exists" do
+      DemocracyInAction::API.stub!(:new).and_return(@dia_api)
+      @event.stub!(:democracy_in_action_object).and_return(mock('object', :destroy => true, :key => 111))
+      @dia_api.should_receive(:delete)
+      @event.destroy
+    end
+  end
 end

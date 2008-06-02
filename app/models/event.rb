@@ -204,6 +204,7 @@ class Event < ActiveRecord::Base
   before_destroy :delete_from_democracy_in_action
   def delete_from_democracy_in_action
     o = democracy_in_action_object
+    return true unless o
     api = DemocracyInAction::API.new(DemocracyInAction::Config.new(File.join(Site.current_config_path, 'democracyinaction-config.yml')))
     api.delete 'event', 'key' => self.democracy_in_action_key
     o.destroy
