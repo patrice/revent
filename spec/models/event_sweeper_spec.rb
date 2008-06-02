@@ -1,13 +1,46 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe EventSweeper do
-  def act!
-    @event = create_event
+def expire_page(cached_page)
+  assert File.exists?(cached_page)
+end
+
+module CacheTest
+  class ExpirePage
+    def initialize(url)
+      @url = url
+    end
+    def matches?()
+      not File.exist?(url)
+    end
+    def failure_message
+      "expected #{@url} to be expired"
+    end
+    def negative_failure_message
+      "expected #{@url} to not be expired"
+    end
   end
-  describe "when event is saved" do
+  def expire_page(url)
+    CacheTest::ExpirePage.new(url)
+  end
+end
+      
+describe EventSweeper do
+  include CacheTest
+
+  before(:all) do
+    ActionController::Base.stub!(:page_cache_directory).and_return(File.join(RAILS_ROOT,'test','cache'))
+  end
+
+  describe "when an event is saved" do
+    before do
+      @calendar = create_calendar 
+      @cached_dir = File.join(ActionController::Base.page_cache_directory,"#{@calendar.site.host}","#{@calendar.permalink}",'calendars')
+      FileUtils.mkdir_p(@cached_dir)
+      @map_page = File.join(@cached_dir, 'show.html')
+      FileUtils.touch(@map_page)
+    end
     it "should delete the calendar show page" do
-      act!
-      assert_file_exists(File.join(RAILS_ROOT,'spec','models','event_sweeper_spec.rb'))
+      lambda {create_event(:calendar => @calendar)}.should expire_page(@map_page)
     end
   end
 end
