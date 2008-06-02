@@ -30,6 +30,7 @@ class EventSweeper < ActionController::Caching::Sweeper
     FileUtils.rm(File.join(ActionController::Base.page_cache_directory,permalink,'events','flashmap.xml')) rescue Errno::ENOENT
     if permalink
       FileUtils.rm(File.join(ActionController::Base.page_cache_directory,"#{permalink}.html")) rescue Errno::ENOENT
+      FileUtils.rm(File.join(ActionController::Base.page_cache_directory,"#{permalink}",'calendars','show')) rescue Errno::ENOENT
     else
       FileUtils.rm(File.join(ActionController::Base.page_cache_directory,'index.html')) rescue Errno::ENOENT
     end

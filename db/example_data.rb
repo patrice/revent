@@ -28,18 +28,22 @@ module FixtureReplacement
     
 	end
 
-  cities = ["San Francisco", "New York", "Santa Fe", "Seattle", "Miami", "Los Angeles"]
-  states = DemocracyInAction::Helpers.state_options_for_select
+  places = [ {:city => 'San Francisco', :state => 'CA', :postal_code => '94114'},
+      {:city => 'New York', :state => 'NY', :postal_code => '10001'},
+      #{:city => 'Vancouver', :state => 'BC', :postal_code => 'V7H 1J4'},
+      {:city => 'Miami', :state => 'FL', :postal_code => '33178'},
+      {:city => 'Washington', :state => 'DC', :postal_code => '20001'} ]
 
-  attributes_for :event do |a|
-    a.calendar = default_calendar
-    a.name = "Step It Up"
-    a.location = "1 Market St."
-    a.city = cities[rand(cities.length)] # "San Francisco"
-    a.state = states[rand(states.length)].last  #"CA"
-    a.postal_code = "94114"
-    a.start = Time.now + 2.months
-    a.end = Time.now + 2.months + 2.hours
+  attributes_for :event do |e|
+    e.calendar = default_calendar
+    e.name = String.random #"Step It Up"
+    e.location = "1 Market St."
+    place = places[rand(places.length)]
+    e.city = place[:city]
+    e.state = place[:state]
+    e.postal_code = place[:postal_code]
+    e.start = Time.now + 2.months
+    e.end = Time.now + 2.months + 2.hours
 	end
 
   attributes_for :hostform do |a|
