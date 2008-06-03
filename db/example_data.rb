@@ -100,7 +100,7 @@ module FixtureReplacement
     a.password = "secret" 
     a.password_confirmation = "secret" 
     a.activated_at = 1.day.ago
-    a.site_id = 2
+    a.site = site(:stepitup)
 	end
 
   attributes_for :zip_code do |a|
