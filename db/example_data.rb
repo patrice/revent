@@ -35,7 +35,7 @@ module FixtureReplacement
       {:city => 'Washington', :state => 'DC', :postal_code => '20001'} ]
 
   attributes_for :event do |e|
-    e.calendar = default_calendar
+    e.calendar_id = 2 #default_calendar
     e.name = String.random #"Step It Up"
     e.location = "1 Market St."
     place = places[rand(places.length)]

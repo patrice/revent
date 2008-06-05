@@ -30,7 +30,7 @@ dayofaction_sf_techspace:
   end: <%= 2.days.from_now.to_s :db %>
 stepitup:
   id: 3
-  calendar_id: 2
+  calendar: siu_nov
   host_id: 3
   name: stepitup event 1
   location: 5233 Miles Ave.
