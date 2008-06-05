@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
+=begin
 describe "Salesforce::Base" do
   def act!
     load 'salesforce/base.rb'
@@ -17,3 +18,4 @@ describe "Salesforce::Base" do
     lambda { act! }.should raise_error(ActiveRecord::ConnectionNotEstablished)
   end
 end
+=end

@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
+=begin
 describe "Salesforce::Contact" do
   describe "when created" do
     before do
@@ -24,3 +25,4 @@ describe "Salesforce::Contact" do
     end
   end
 end
+=end

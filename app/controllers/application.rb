@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
 #  session :off, :if => Proc.new { |req| !(true == req.parameters[:admin]) }
 
   before_filter  :clean
-  #around_filter :set_site
   before_filter  :set_site, :set_calendar
   before_filter  :set_calendar
   helper_method  :site
@@ -37,8 +36,6 @@ class ApplicationController < ActionController::Base
     Calendar #need this for instantiating from memcache, could also override autoload_missing_constants like we do in events_controller
     Site.current ||= Cache.get("site_for_host_#{request.host}") { Site.find_by_host(request.host) }  #, :include => :calendars) }
     raise 'no site' unless site
-    #yield
-    #Site.current = nil
   end
 
   def set_calendar

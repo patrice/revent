@@ -62,6 +62,7 @@ describe User do
   describe "when already existing" do
     before do
       @user = create_user(:password => "secret", :password_confirmation => "secret")
+      Site.current = Site.find(@user.site_id)
     end
 
     it "should allow resetting the password" do
@@ -97,6 +98,7 @@ describe User do
       @user = new_user
       @dia_api = mock(DemocracyInAction::API)
       DemocracyInAction::API.stub!(:new).and_return(@dia_api)
+      Site.stub!(:current_config_path).and_return(File.join(RAILS_ROOT,'test','config'))
     end
 
     it "should push user to DIA supporter" do
