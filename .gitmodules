@@ -7,3 +7,6 @@
 [submodule "vendor/gems/starling"]
 	path = vendor/gems/starling
 	url = git://github.com/blaine/starling.git
+[submodule "vendor/gems/memcache-client"]
+	path = vendor/gems/memcache-client
+	url = git://github.com/fiveruns/memcache-client.git
