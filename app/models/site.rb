@@ -1,7 +1,12 @@
 class Site < ActiveRecord::Base
   cattr_accessor :current
   def self.current_config_path
-    current ? File.join(RAILS_ROOT, 'sites', current.id.to_s, 'config') : File.join(RAILS_ROOT, 'config')
+    #current ? File.join(RAILS_ROOT, 'sites', current.id.to_s, 'config') : File.join(RAILS_ROOT, 'config')
+    Site.config_path(current ? current.id : nil)
+  end
+
+  def self.config_path(site_id=nil)
+    site_id ? File.join(RAILS_ROOT, 'sites', site_id.to_s, 'config') : File.join(RAILS_ROOT, 'config')
   end
 
   has_many :users

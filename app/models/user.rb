@@ -27,9 +27,10 @@ class User < ActiveRecord::Base
   end
   attr_accessor :deferred
 
-  after_save :sync_to_sforce
-  def sync_to_sforce
-    SalesforceContact.create(self)
+  after_save :sync_to_salesforce
+  def sync_to_salesforce
+    #SalesforceContact.create_with_user(self)
+    SalesforceWorker.asynch_save_contact(self)
   end
 
   has_one :democracy_in_action_object, :as => :synced
