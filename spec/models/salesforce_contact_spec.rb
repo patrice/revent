@@ -63,14 +63,14 @@ describe "SalesforceContact" do
       SalesforceContact.stub!(:make_connection).and_return(true)
     end
     it "should accept a user argument" do
-      lambda {SalesforceContact.create(@user)}.should_not raise_error
+      lambda {SalesforceContact.create_with_user(@user)}.should_not raise_error
     end
     it "should return a SalesforceContact" do
-      SalesforceContact.create(@user).should be_a_kind_of(SalesforceContact)
+      SalesforceContact.create_with_user(@user).should be_a_kind_of(SalesforceContact)
     end
     it "should set attributes" do
       @user.first_name = 'firstly'
-      SalesforceContact.create(@user).first_name.should == 'firstly'
+      SalesforceContact.create_with_user(@user).first_name.should == 'firstly'
     end
   end
 

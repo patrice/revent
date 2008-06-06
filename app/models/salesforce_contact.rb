@@ -11,11 +11,8 @@ class SalesforceContact < SalesforceBase
 
   def self.create_with_user(user) #create_with_user_and_checking_if_we_use_salesforce
     return unless self.make_connection
-
-    if user.is_a?(User)
-      user = translate(user)
-    end
-    create_without_user(user)
+    attributes = user.is_a?(User) ? translate(user) : user
+    create_without_user(attributes)
   end
 
   def self.translate(user)
