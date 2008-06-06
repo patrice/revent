@@ -42,11 +42,8 @@ rescue MissingSourceFile
 end
 
 begin
-  # use memcache-client from git://github.com/fiveruns/memcache-client.git
-  # that is added as a submodule locally in vendor/gems/memcache-client
-  require 'vendor/gems/memcache-client/lib/memcache'
   CACHE = MemCache.new ['127.0.0.1:11211']
-  require 'vendor/gems/memcache-client/lib/memcache_util'
+  require 'memcache_util'
 rescue
 end
 
