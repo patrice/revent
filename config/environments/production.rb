@@ -65,8 +65,12 @@ end
 
 DIA_ENABLED = true
 
-CACHE = MemCache.new 'localhost:11211', :namespace => 'daysofaction'
-require 'memcache_util'
+# use memcache-client from git://github.com/fiveruns/memcache-client.git
+# that is added as a submodule locally in vendor/gems/memcache-client
+require 'vendor/gems/memcache-client/lib/memcache'
+CACHE = MemCache.new ['127.0.0.1:11211']
+require 'vendor/gems/memcache-client/lib/memcache_util'
+
 require 'mem_cache_fragment_store'
 ActionController::Base.fragment_cache_store = :mem_cache_fragment_store, CACHE
 config.action_controller.session_store = :mem_cache_store
