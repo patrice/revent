@@ -10,6 +10,7 @@ class SalesforceContact < SalesforceBase
   end
 
   def self.create_with_user(user) #create_with_user_and_checking_if_we_use_salesforce
+    Site.current = Site.find(user.site_id)
     return unless self.make_connection
     attributes = user.is_a?(User) ? translate(user) : user
     create_without_user(attributes)

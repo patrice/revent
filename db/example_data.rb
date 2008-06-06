@@ -93,6 +93,10 @@ module FixtureReplacement
     a.last_name = "Warnow"
     a.phone = "555-555-5555"
     a.email = "jon.warnow@siu.org"
+    a.location = "1370 Mission St."
+    a.city = "San Francisco"
+    a.state = "CA"
+    a.postal_code = "94114"
     a.password = "secret" 
     a.password_confirmation = "secret" 
     a.activated_at = 1.day.ago

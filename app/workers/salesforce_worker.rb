@@ -2,7 +2,7 @@ class SalesforceWorker < Workling::Base
   def save_contact(options={})
     RAILS_DEFAULT_LOGGER.debug "SalesforceWorker received user id: #{options[:user_id]}"
     u = User.find(options[:user_id])
-#    SalesforceWorker.create_with_user(u)
+    SalesforceContact.create_with_user(u)
   end
 
 =begin
