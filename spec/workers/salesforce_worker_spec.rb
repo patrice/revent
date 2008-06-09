@@ -13,7 +13,7 @@ describe SalesforceWorker do
   
   it "should create a contact" do
     User.stub!(:find).and_return(@user)
-    SalesforceContact.should_receive(:create_with_user)
+    SalesforceContact.should_receive(:save_from_user)
     SalesforceWorker.new.save_contact(:user_id => @user.id)
   end
 end

@@ -19,7 +19,7 @@ Event
       Location string
    IsChild = true boolean ??????
    IsGroupEvent = true
-   Type – may need to set in salesforce as it is a pick type
+   Type may need to set in salesforce as it is a pick type
    Subject  - event name
    WhoId = host contactid
    OwnerId = ?? admin 

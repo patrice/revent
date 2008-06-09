@@ -29,8 +29,7 @@ class User < ActiveRecord::Base
 
   after_save :sync_to_salesforce
   def sync_to_salesforce
-    #SalesforceContact.create_with_user(self)
-    SalesforceWorker.asynch_save_contact(self)
+    SalesforceWorker.asynch_save_contact(:user_id => self.id)
   end
 
   has_one :democracy_in_action_object, :as => :synced
