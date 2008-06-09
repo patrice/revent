@@ -8,14 +8,17 @@ class SalesforceContact < SalesforceBase
     set_table_name 'Contact'
   end
 
-  def self.create_with_user(user) #create_with_user_and_checking_if_we_use_salesforce
+  def self.save_from_user(user) #create_with_user_and_checking_if_we_use_salesforce
     return unless self.make_connection(user.site_id)
     attributes = user.is_a?(User) ? translate(user) : user
-    create(attributes)
+    #create(attributes)
+    c = SalesforceContact.find_or_initialize_by_email(attributes[:email])
+    c.update_attributes(attributes)
   end
 
   def self.translate(user)
     { :phone                => user.phone,
+      :email                => user.email,
       :first_name           => user.first_name,
       :last_name            => user.last_name,
       :mailing_street       => user.street,
@@ -24,6 +27,4 @@ class SalesforceContact < SalesforceBase
       :mailing_country      => user.country,
       :mailing_postal_code  => user.postal_code }
   end
-
-  #(class << self; self; end).alias_method_chain :create, :user
 end
