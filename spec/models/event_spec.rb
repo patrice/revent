@@ -105,4 +105,10 @@ describe Event do
       @event.save
     end
   end
+
+  describe 'should calculate duration of event in minutes' do
+    now = Time.now
+    @event = Event.new(:start => now, :end => now + 2.hours)
+    @event.duration_in_minutes.should == 120
+  end
 end
