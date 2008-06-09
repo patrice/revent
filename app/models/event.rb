@@ -329,6 +329,10 @@ class Event < ActiveRecord::Base
     return nil if rprts.empty?
     rprts.map{|r| r.attendees}.sum / rprts.length
   end
+
+  def duration_in_minutes
+    ((self.end - self.start) / 60).to_i
+  end
   
   # render letter/call scripts that can come from event model (scripts will 
   # have been created by host) or calendar (scripts will have been created 
