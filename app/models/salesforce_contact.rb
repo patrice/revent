@@ -11,7 +11,6 @@ class SalesforceContact < SalesforceBase
   def self.save_from_user(user) #create_with_user_and_checking_if_we_use_salesforce
     return unless self.make_connection(user.site_id)
     attributes = user.is_a?(User) ? translate(user) : user
-    #create(attributes)
     c = SalesforceContact.find_or_initialize_by_email(attributes[:email])
     c.update_attributes(attributes)
   end
