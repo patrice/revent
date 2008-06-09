@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
   end
   attr_accessor :deferred
 
+  has_one :salesforce_object, :as => :pushable, :class_name => 'ServiceObject'
   after_save :sync_to_salesforce
   def sync_to_salesforce
     SalesforceWorker.asynch_save_contact(:user_id => self.id)

@@ -1,13 +1,17 @@
 class SalesforceWorker < Workling::Base
   def save_contact(options={})
     RAILS_DEFAULT_LOGGER.debug "SalesforceWorker received user id: #{options[:user_id]}"
-    u = User.find(options[:user_id])
-    SalesforceContact.save_from_user(u)
+    user = User.find(options[:user_id])
+    sf_contact = SalesforceContact.save_from_user(user)
+    ServiceObject.create(:pushable => user, :service_name => 'Salesforce', :service_table => 'Contact', :service_id => 111) #sf_contact.id)
+    sf_contact
   end
 
   def save_event(options={})
     RAILS_DEFAULT_LOGGER.debug "SalesforceWorker received event id: #{options[:event_id]}"
-    e = Event.find(options[:event_id])
-    SalesforceEvent.save_from_event(e)
+    event = Event.find(options[:event_id])
+    sf_event = SalesforceEvent.save_from_event(event)
+    ServiceObject.create(:pushable => event, :service_name => 'Salesforce', :service_table => 'Event', :service_id => sf_event.id)
+    sf_event
   end
 end

@@ -57,17 +57,15 @@ describe "SalesforceContact" do
       SalesforceContact.stub!(:make_connection).and_return(true)
     end
     it "should accept a user argument" do
-      pending
+      SalesforceContact.stub!(:find_or_initialize_by_email).with(@user.email).and_return(stub_everything)
       lambda {SalesforceContact.save_from_user(@user)}.should_not raise_error
     end
-    it "should return a SalesforceContact" do
-      pending
-      SalesforceContact.save_from_user(@user).should be_a_kind_of(SalesforceContact)
-    end
     it "should set attributes" do
-      pending
       @user.first_name = 'firstly'
-      SalesforceContact.save_from_user(@user).first_name.should == 'firstly'
+      joe = stub_everything
+      joe.should_receive(:update_attributes).with(SalesforceContact.translate(@user))
+      SalesforceContact.stub!(:find_or_initialize_by_email).with(@user.email).and_return(joe)
+      SalesforceContact.save_from_user(@user)
     end
   end
 

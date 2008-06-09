@@ -1,4 +1,7 @@
 class SalesforceContact < SalesforceBase
+
+  #has_one :user, :class_name => 'ServiceObject', :conditions => "service_type = 'salesforce' AND service_table = 'contact' AND local_table = 'user'"
+
   #  cannot set_table_name here because we need a valid connection (because it connects!  when we do set_table_name!  wtf!!!!
   #  set_table_name "Contact"
   def self.make_connection(id)
@@ -13,6 +16,7 @@ class SalesforceContact < SalesforceBase
     attributes = user.is_a?(User) ? translate(user) : user
     c = SalesforceContact.find_or_initialize_by_email(attributes[:email])
     c.update_attributes(attributes)
+    c
   end
 
   def self.translate(user)
