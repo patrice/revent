@@ -5,7 +5,7 @@ class StoreSalesforceId < ActiveRecord::Migration
       t.integer :mirrored_id    # local id 
       t.string  :remote_service
       t.string  :remote_type
-      t.integer :remote_id
+      t.string  :remote_id
     end
   end
 
