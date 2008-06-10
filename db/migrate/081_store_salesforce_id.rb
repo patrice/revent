@@ -1,11 +1,11 @@
 class StoreSalesforceId < ActiveRecord::Migration
   def self.up
     create_table :service_objects do |t|
-      t.integer :pushable_type
-      t.integer :pushable_id
-      t.string  :service_name
-      t.integer :service_table
-      t.integer :service_id
+      t.integer :mirrored_type  # local type 
+      t.integer :mirrored_id    # local id 
+      t.string  :remote_service
+      t.integer :remote_type
+      t.integer :remote_id
     end
   end
 

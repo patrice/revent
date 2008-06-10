@@ -141,13 +141,11 @@ class Event < ActiveRecord::Base
     self.create_democracy_in_action_object :key => key, :table => 'event' unless self.democracy_in_action_object
   end
 
-=begin
-  has_one :salesforce_event, :class_name => 'ServiceObject', :as => :local_object, :conditions => "service_type = 'salesforce' AND service_table = 'Event'"
+  has_one :salesforce_object, :as => :mirrored, :class_name => 'ServiceObject'
   after_save :sync_to_salesforce
   def sync_to_salesforce
-    SalesforceEvent.synch_save_from_event(self)
+    SalesforceWorker.async_save_event(:event_id => self.id)
   end
-=end
 
   after_create :trigger_email
   def trigger_email

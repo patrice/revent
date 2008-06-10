@@ -27,10 +27,10 @@ class User < ActiveRecord::Base
   end
   attr_accessor :deferred
 
-  has_one :salesforce_object, :as => :pushable, :class_name => 'ServiceObject'
+  has_one :salesforce_object, :as => :mirrored, :class_name => 'ServiceObject'
   after_save :sync_to_salesforce
   def sync_to_salesforce
-    SalesforceWorker.asynch_save_contact(:user_id => self.id)
+    SalesforceWorker.async_save_contact(:user_id => self.id)
   end
 
   has_one :democracy_in_action_object, :as => :synced

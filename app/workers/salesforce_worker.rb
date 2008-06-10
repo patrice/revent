@@ -3,7 +3,7 @@ class SalesforceWorker < Workling::Base
     RAILS_DEFAULT_LOGGER.debug "SalesforceWorker received user id: #{options[:user_id]}"
     user = User.find(options[:user_id])
     sf_contact = SalesforceContact.save_from_user(user)
-    ServiceObject.create(:pushable => user, :service_name => 'Salesforce', :service_table => 'Contact', :service_id => 111) #sf_contact.id)
+    ServiceObject.create(:mirrored => user, :remote_service => 'Salesforce', :remote_type => 'Contact', :remote_id => 111) #sf_contact.id)
     sf_contact
   end
 
@@ -11,7 +11,7 @@ class SalesforceWorker < Workling::Base
     RAILS_DEFAULT_LOGGER.debug "SalesforceWorker received event id: #{options[:event_id]}"
     event = Event.find(options[:event_id])
     sf_event = SalesforceEvent.save_from_event(event)
-    ServiceObject.create(:pushable => event, :service_name => 'Salesforce', :service_table => 'Event', :service_id => sf_event.id)
+    ServiceObject.create(:mirrored => event, :remote_service => 'Salesforce', :remote_type => 'Event', :remote_id => sf_event.id)
     sf_event
   end
 end
