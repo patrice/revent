@@ -5,9 +5,11 @@ describe User do
   # Then, you can remove it from this and the functional test.
   include AuthenticatedTestHelper
 
+  def setup; nil; end
+
   before(:all) do
     DemocracyInAction::API.stub!(:process).and_return(1111)
-    Site.current = Site.find_by_host("events.stepitup2007.org")
+    Site.current = mock(Site)  #Site.find_by_host("events.stepitup2007.org")
   end
 
   describe "when saved" do
@@ -60,13 +62,16 @@ describe User do
   end
 
   describe "when already existing" do
+    fixtures :users
+
     before do
-      @user = create_user(:password => "secret", :password_confirmation => "secret")
+      @user = users(:action_host) #create_user(:password => "secret", :password_confirmation => "secret")
+      Site.current = @user.site
     end
 
     it "should allow resetting the password" do
       @user.update_attributes(:password => 'new password', :password_confirmation => 'new password')
-      assert_equal @user, User.authenticate(@user.email, 'new password')
+      User.authenticate(@user.email, 'new password').should == @user
     end
 
     it "should not rehash a new password" do

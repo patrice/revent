@@ -35,12 +35,20 @@ module FixtureReplacement
     a.calendar = default_calendar
     a.name = "Step It Up"
     a.location = "1 Market St."
-    a.city = cities[rand(cities.length)] # "San Francisco"
-    a.state = states[rand(states.length)].last  #"CA"
+    a.description = "This event will be awesome."
+    a.city = cities[rand(cities.length)]
+    a.state = states[rand(states.length)].last
     a.postal_code = "94114"
     a.start = Time.now + 2.months
-    a.end = Time.now + 2.months + 2.hours
+    a.end = a.start + 2.hours
 	end
+
+  attributes_for :service_object do |a|
+    a.mirrored = default_user
+    a.remote_service = "Salesforce"
+    a.remote_id = '555'
+    a.remote_type = 'Contact'
+  end
 
   attributes_for :hostform do |a|
     
