@@ -13,10 +13,10 @@ aaron:
   email: aaron@example.com
   salt: <%= salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--") %>
   crypted_password: <%= User.encrypt('secret', salt) %>
-  activation_code: aaronscode # only if you're activating new signups
+  activation_code: aaronscode 
   created_at: <%= 1.days.ago.to_s(:db) %>
   activated_at: <%= 1.days.ago.to_s(:db) %> 
-  site: stepitup
+  site: etc 
 matt:
   login: <%= login = "matt" %>
   email: matt@truemajority.radicaldesigns.org

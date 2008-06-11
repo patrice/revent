@@ -1,33 +1,34 @@
 class SalesforceContact < SalesforceBase
-
-  #has_one :user, :class_name => 'ServiceObject', :conditions => "service_type = 'salesforce' AND service_table = 'contact' AND local_table = 'user'"
+  has_one :salesforce_object, :as => :remote, :class_name => 'ServiceObject'
 
   #  cannot set_table_name here because we need a valid connection (because it connects!  when we do set_table_name!  wtf!!!!
   #  set_table_name "Contact"
-  def self.make_connection(id)
-    config = File.join(Site.config_path(id), 'salesforce-config.yml')
-    return unless File.exist?(config)
-    establish_connection(YAML.load_file(config))
-    set_table_name 'Contact'
-  end
+  class << self
+    def make_connection(id)
+      config = File.join(Site.config_path(id), 'salesforce-config.yml')
+      return unless File.exist?(config)
+      establish_connection(YAML.load_file(config))
+      set_table_name 'Contact'
+    end
 
-  def self.save_from_user(user) #create_with_user_and_checking_if_we_use_salesforce
-    return unless self.make_connection(user.site_id)
-    attributes = user.is_a?(User) ? translate(user) : user
-    c = SalesforceContact.find_or_initialize_by_email(attributes[:email])
-    c.update_attributes(attributes)
-    c
-  end
+    def save_from_user(user) #create_with_user_and_checking_if_we_use_salesforce
+      return unless self.make_connection(user.site_id)
+      attributes = user.is_a?(User) ? translate(user) : user
+      c = SalesforceContact.find_or_initialize_by_email(attributes[:email])
+      c.update_attributes(attributes)
+      c
+    end
 
-  def self.translate(user)
-    { :phone                => user.phone,
-      :email                => user.email,
-      :first_name           => user.first_name,
-      :last_name            => user.last_name,
-      :mailing_street       => user.street,
-#      :mailing_street2      => user.street_2,
-      :mailing_state        => user.state,
-      :mailing_country      => user.country,
-      :mailing_postal_code  => user.postal_code }
+    def translate(user)
+      { :phone                => user.phone,
+        :email                => user.email,
+        :first_name           => user.first_name,
+        :last_name            => user.last_name,
+        :mailing_street       => user.street,
+  #      :mailing_street2      => user.street_2,
+        :mailing_state        => user.state,
+        :mailing_country      => user.country,
+        :mailing_postal_code  => user.postal_code }
+    end
   end
 end

@@ -1,8 +1,5 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
-#gem 'activesalesforce'
-require 'active_record/connection_adapters/rforce'
-
 def sforce_response_fixture(name)
   file = File.read("spec/fixtures/salesforce/#{name}_soap_response.dump") || raise('no file')
   Marshal.load(file)

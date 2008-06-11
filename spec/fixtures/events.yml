@@ -28,7 +28,7 @@ dayofaction_sf_techspace:
   end: <%= 2.days.from_now.to_s :db %>
 stepitup:
   calendar: siu_nov 
-  host_id: 3
+  host: quentin 
   name: stepitup event 1
   location: 5233 Miles Ave.
   directions: walk
@@ -40,16 +40,16 @@ stepitup:
   start: 2007-04-14 12:00:00
   end: 2007-04-14 14:00:00
   description: description
-etc1:
+etc:
   calendar: etc_screenings 
-  host_id: 3
+  host: aaron 
   name: screening
   location: 1942 15th St. Apt. #2
   directions: walk
   city: San Francisco
   state: CA
-  created_at: <%= 1.day.ago.to_s :db %>
-  updated_at: <%= 1.day.ago.to_s :db %>
+  created_at: <%= 1.day.ago.to_s(:db) %>
+  updated_at: <%= 1.day.ago.to_s(:db) %>
   start: 2007-04-14 12:00:00
   end: 2007-04-14 14:00:00
   postal_code: 94114

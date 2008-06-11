@@ -5,7 +5,6 @@ class SalesforceEvent < SalesforceBase
     def make_connection(id)
       config = File.join(Site.config_path(id), 'salesforce-config.yml')
       return unless File.exist?(config)
-      #raise self.inspect
       SalesforceEvent.establish_connection(YAML.load_file(config))
       set_table_name('Event')
     end
@@ -16,8 +15,8 @@ class SalesforceEvent < SalesforceBase
     end
 
     def translate(event)
-      # need salesforce contact id for who_id below
-      # call save_from_user synchronously, since we're on queue
+      who_id = event.host.salesforce_object ? 
+         event.host.salesforce_object.id : SalesforceContact.save_from_user(event.host).id
       { :subject => event.name,
         :description => event.description,
         :location => event.address_for_geocode,
@@ -27,7 +26,7 @@ class SalesforceEvent < SalesforceBase
         :is_child => true,
         :is_group_event => true,
         :is_private => false,
-        :who_id => event.host.salesforce_object.service_id}
+        :who_id => who_id} 
     end
   end
 end

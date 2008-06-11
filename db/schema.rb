@@ -274,11 +274,11 @@ ActiveRecord::Schema.define(:version => 81) do
   add_index "rsvps", ["user_id"], :name => "index_rsvps_on_user_id"
 
   create_table "service_objects", :force => true do |t|
-    t.integer "mirrored_type"
+    t.string  "mirrored_type"
     t.integer "mirrored_id"
     t.string  "remote_service"
-    t.integer "remote_type"
-    t.integer "remote_id"
+    t.string  "remote_type"
+    t.string  "remote_id"
   end
 
   create_table "sessions", :force => true do |t|
