@@ -1,0 +1,5 @@
+Push to sforce branch from zheng salesforce branch:
+  git push origin salesforce:sforce
+
+Branch from github sforce branch and track remote branch:
+  git checkout -b salesforce origin/sforce
