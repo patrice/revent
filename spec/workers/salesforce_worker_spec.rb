@@ -19,11 +19,4 @@ describe SalesforceWorker do
     SalesforceContact.should_receive(:save_from_user).and_return(@sf_contact)
     SalesforceWorker.new.save_contact(:user_id => @user.id)
   end
-
-  it "should create a service object" do
-    User.stub!(:find).and_return(@user)
-    SalesforceWorker.new.save_contact(:user_id => @user.id)
-    @user.salesforce_object.mirrored_id.should == @user.id
-    @user.salesforce_object.mirrored_type.should == @user.class.to_s
-  end
 end
