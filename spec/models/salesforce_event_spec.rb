@@ -24,7 +24,7 @@ describe SalesforceEvent do
   end
   it "should create a new Salesforce Contact if host does not have a Salesforce object" do
     @event = events(:etc)
-    SalesforceContact.should_receive(:save_from_user).with(@event.host).and_return(stub_everything)
+    SalesforceContact.should_receive(:save_from_user).with(@event.host).and_return(stub(SalesforceContact, :id => 1234))
     SalesforceEvent.translate(@event)
   end
 end
