@@ -33,6 +33,7 @@ module FixtureReplacement
 
   attributes_for :event do |a|
     a.calendar = default_calendar
+    a.host = default_user
     a.name = "Step It Up"
     a.location = "1 Market St."
     a.description = "This event will be awesome."
@@ -43,12 +44,14 @@ module FixtureReplacement
     a.end = a.start + 2.hours
 	end
 
+=begin
   attributes_for :service_object do |a|
     a.mirrored = default_user
     a.remote_service = "Salesforce"
     a.remote_id = '555'
     a.remote_type = 'Contact'
   end
+=end
 
   attributes_for :hostform do |a|
     
@@ -80,7 +83,7 @@ module FixtureReplacement
 	end
 
   attributes_for :site do |a|
-   a.host = "events.stepitup.org"
+   a.host = "events." + String.random(10) + ".org"
    a.theme = "stepitup"
 	end
 
@@ -100,7 +103,7 @@ module FixtureReplacement
     a.first_name = "Jon"
     a.last_name = "Warnow"
     a.phone = "555-555-5555"
-    a.email = "jon.warnow@siu.org"
+    a.email = "jon." + String.random(8) + "@stepitup.org"  #"jon.warnow@siu.org"
     a.street = "1370 Mission St."
     a.city = "San Francisco"
     a.state = "CA"

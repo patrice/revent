@@ -65,8 +65,8 @@ describe User do
     fixtures :users
 
     before do
-      @user = users(:action_host) #create_user(:password => "secret", :password_confirmation => "secret")
-      Site.current = @user.site
+      @user = create_user(:password => "secret", :password_confirmation => "secret") 
+      Site.stub!(:current).and_return(stub(Site, :id => @user.site_id))
     end
 
     it "should allow resetting the password" do

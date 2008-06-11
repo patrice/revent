@@ -1,84 +1,87 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 siu_april:
-  site: stepitup
+  site_id: 2
   permalink: april
   current: false
 siu_nov:
+  site_id: 2
   name: November 3rd - Climate Change Day of Action
   site: stepitup
   permalink: november
   current: true 
 nwnw_oct:
+  site_id: 3
   name: October 
   site: nwnw
   permalink: oct
   current: true
 etc_screenings:
+  site_id: 4
   name: Screenings
   site: etc 
   permalink: screenings
   current: true
 ccd_sears:
+  site_id: 5
   name: Sears Day of Action
-  site: ccd 
   parent_id: 12
   permalink: dec4
   current: false
 ccd_rolling:
+  site_id: 5
   name: Rolling Actions
-  site: ccd 
   parent_id: 12
   permalink: rolling
   current: true
 mr_cahouseparties:
   name: CA House Parties
-  site: momsrising 
+  site_id: 6
   permalink: cahouseparties
   theme: cahouseparties
   current: true
 mr_fairpay:
   name: Fair-Pay Compensation
-  site: momsrising 
+  site_id: 6
   permalink: fair-pay
   current: true
 wa_swan:
   name: SWAN
-  site: womenarts 
+  site_id: 7
   permalink: swan
   current: true
 ufpj_5yearstoomany:
   name: 5 Years Too Many
-  site: ufpj
+  site_id: 8
   permalink: 5yearstoomany
   current: true
 ufpj_ivaw:
   name: IVAW
-  site: ufpj
+  site_id: 8
   permalink: ivaw
   current: true
 ccd_all:
   name: The All Calendar
-  site: ccd  
+  site_id: 5
   permalink: all
   current: false
 ea_fossilfools:
   name: Fossil Fools
-  site: energyaction 
+  site_id: 9
   permalink: fossilfools
   current: true
 wf_banished:
   name: Banished
-  site: workingfilms
+  site_id: 10
   permalink: banished
   current: true
 ft_march10:
   name: Free Tibet March 10
-  site: freetibet
+  site_id: 11
   permalink: march10
   current: true
 ccd_febenews:
   name: February eNews
-  site: ccd 
+  site_id: 5
   parent_id: 12
   permalink: febenews
   current: false
