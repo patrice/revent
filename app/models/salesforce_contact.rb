@@ -13,10 +13,16 @@ class SalesforceContact < SalesforceBase
 
     def save_from_user(user) #create_with_user_and_checking_if_we_use_salesforce
       return unless self.make_connection(user.site_id)
-      attributes = user.is_a?(User) ? translate(user) : user
-      c = SalesforceContact.find_or_initialize_by_email(attributes[:email])
-      c.update_attributes(attributes)
-      c
+      attribs = user.is_a?(User) ? translate(user) : user
+      if user.salesforce_object
+        sf_contact = SalesforceContact.update(user.salesforce_object.remote_id, attribs)
+      else
+        sf_contact = SalesforceContact.create(attribs)
+        user.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => 'Event', :remote_id => sf_contact.id)
+      end
+      sf_contact
+    rescue ActiveSalesforce::ASFError => err
+      logger.error("Error in SalesforceContact.save_from_user with user id #{user.id}: #{err}")
     end
 
     def translate(user)
@@ -26,6 +32,7 @@ class SalesforceContact < SalesforceBase
         :last_name            => user.last_name,
         :mailing_street       => user.street,
   #      :mailing_street2      => user.street_2,
+        :mailing_city         => user.city,
         :mailing_state        => user.state,
         :mailing_country      => user.country,
         :mailing_postal_code  => user.postal_code }

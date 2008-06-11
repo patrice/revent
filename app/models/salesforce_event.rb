@@ -11,12 +11,21 @@ class SalesforceEvent < SalesforceBase
 
     def save_from_event(event) 
       return unless self.make_connection(event.calendar.site.id)
-      SalesforceEvent.create(event.is_a?(Event) ? translate(event) : event)
+      attribs = event.is_a?(Event) ? translate(event) : event
+      if event.salesforce_object
+        sf_event = SalesforceEvent.update(event.salesforce_object.remote_id, attribs) 
+      else
+        sf_event = SalesforceEvent.create(attribs)
+        event.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => 'Event', :remote_id => sf_event.id)
+      end
+      sf_event
+    rescue ActiveSalesforce::ASFError => err
+      logger.error("Error in SalesforceEvent.save_from_event with event id #{event.id}: #{err}")
     end
 
     def translate(event)
       who_id = event.host.salesforce_object ? 
-         event.host.salesforce_object.id : SalesforceContact.save_from_user(event.host).id
+         event.host.salesforce_object.remote_id : SalesforceContact.save_from_user(event.host).id
       { :subject => event.name,
         :description => event.description,
         :location => event.address_for_geocode,

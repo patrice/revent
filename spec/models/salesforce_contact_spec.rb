@@ -48,21 +48,30 @@ describe "SalesforceContact" do
     SalesforceContact.count
   end
 
-  describe "save" do
+  describe "when saved" do
     before do
-      @user = new_user
       SalesforceContact.stub!(:make_connection).and_return(true)
+      @sf_contact = stub(SalesforceContact, :id => '444GGG')
+
+      SalesforceWorker.stub!(:async_save_contact).and_return(true)
+      @user = create_user
+      @user.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => 'Contact', :remote_id => @sf_contact.id)
     end
     it "should accept a user argument" do
-      SalesforceContact.stub!(:find_or_initialize_by_email).with(@user.email).and_return(stub_everything)
+      SalesforceContact.stub!(:update).and_return(@sf_contact)
       lambda {SalesforceContact.save_from_user(@user)}.should_not raise_error
     end
-    it "should set attributes" do
+    it "should update the attributes if contact already exists" do
       @user.first_name = 'firstly'
-      joe = stub_everything
-      joe.should_receive(:update_attributes).with(SalesforceContact.translate(@user))
-      SalesforceContact.stub!(:find_or_initialize_by_email).with(@user.email).and_return(joe)
+      SalesforceContact.should_receive(:update).with(@user.salesforce_object.remote_id, SalesforceContact.translate(@user))
       SalesforceContact.save_from_user(@user)
+    end
+    it "should create a service object" do
+      @user = create_user
+      SalesforceContact.stub!(:update).and_return(@sf_contact)
+      SalesforceContact.save_from_user(@user)
+      @user.salesforce_object.mirrored_id.should == @user.id
+      @user.salesforce_object.mirrored_type.should == @user.class.to_s
     end
   end
 
