@@ -141,6 +141,12 @@ class Event < ActiveRecord::Base
     self.create_democracy_in_action_object :key => key, :table => 'event' unless self.democracy_in_action_object
   end
 
+  has_one :salesforce_object, :as => :mirrored, :class_name => 'ServiceObject'
+  after_save :sync_to_salesforce
+  def sync_to_salesforce
+    SalesforceWorker.async_save_event(:event_id => self.id)
+  end
+
   after_create :trigger_email
   def trigger_email
     c = self.calendar
@@ -329,6 +335,10 @@ class Event < ActiveRecord::Base
     rprts = reports.reject{|r| not r.attendees or r.attendees <= 0}
     return nil if rprts.empty?
     rprts.map{|r| r.attendees}.sum / rprts.length
+  end
+
+  def duration_in_minutes
+    ((self.end - self.start) / 60).to_i
   end
   
   # render letter/call scripts that can come from event model (scripts will 

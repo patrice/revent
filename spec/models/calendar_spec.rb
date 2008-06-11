@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
-require File.dirname(__FILE__) + '/../../test/test_helper.rb'
 
 describe Calendar do 
   fixtures :events, :reports

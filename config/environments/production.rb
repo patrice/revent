@@ -65,8 +65,9 @@ end
 
 DIA_ENABLED = true
 
-CACHE = MemCache.new 'localhost:11211', :namespace => 'daysofaction'
+CACHE = MemCache.new ['127.0.0.1:11211']
 require 'memcache_util'
+
 require 'mem_cache_fragment_store'
 ActionController::Base.fragment_cache_store = :mem_cache_fragment_store, CACHE
 config.action_controller.session_store = :mem_cache_store

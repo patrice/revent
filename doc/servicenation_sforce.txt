@@ -14,12 +14,12 @@ salesforce api secuirty token: fBzpX1QJsZhuAi2SqmWlxpGPO
 Event
    ActivityDate = date
    ActivityDateTime = dateTime required
-      Description
-      DurationInMinutes (required) int
-      Location string
+   Description
+   DurationInMinutes (required) int
+   Location string
    IsChild = true boolean ??????
    IsGroupEvent = true
-   Type – may need to set in salesforce as it is a pick type
+   Type may need to set in salesforce as it is a pick type
    Subject  - event name
    WhoId = host contactid
    OwnerId = ?? admin 

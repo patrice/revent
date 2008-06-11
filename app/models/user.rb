@@ -27,28 +27,11 @@ class User < ActiveRecord::Base
   end
   attr_accessor :deferred
 
-=begin
-  after_save :sync_to_sforce
-  def sync_to_sforce
-    # try to connect to salesforce database
-    salesforce_config = File.join(Site.current_config_path, 'salesforce-config.yml')
-    return true unless File.exists?(salesforce_config)
-    Salesforce::Base.establish_connection YAML.load_file(salesforce_config)
-
-    # push user data to salesforce
-    c = Salesforce::Contact.find_or_initialize_by_email(self.email)
-    c.phone = self.phone
-    c.first_name = self.first_name
-    c.last_name = self.last_name
-    c.mailing_address = [self.street, self.street2].join(" ")
-    c.mailing_state = self.state
-    c.mailing_country = self.country
-    c.mailing_postal_code = self.postal_code
-    unless c.save
-      logger.error("Could not sync user data for #{self.email} to Salesforce.")
-    end
+  has_one :salesforce_object, :as => :mirrored, :class_name => 'ServiceObject'
+  after_save :sync_to_salesforce
+  def sync_to_salesforce
+    SalesforceWorker.async_save_contact(:user_id => self.id)
   end
-=end
 
   has_one :democracy_in_action_object, :as => :synced
   # (extract me) to the plugin!!!

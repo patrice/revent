@@ -1,9 +1,8 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 dayofaction_sf:
-  id: 1
-  calendar_id: 1
+  calendar: siu_april 
   host_id: 4
-  name: seth's house party
+  name: seths house party
   location: 503 Cortland Ave
   description: desc
   city: San Francisco
@@ -15,8 +14,7 @@ dayofaction_sf:
   end: <%= 2.days.from_now.to_s :db %>
   directions: directions
 dayofaction_sf_techspace:
-  id: 2
-  calendar_id: 1
+  calendar: siu_april 
   host_id: 3
   name: tech space
   location: 1370 Mission St
@@ -29,9 +27,8 @@ dayofaction_sf_techspace:
   start: <%= 1.day.from_now.to_s :db %>
   end: <%= 2.days.from_now.to_s :db %>
 stepitup:
-  id: 3
-  calendar: siu_nov
-  host_id: 3
+  calendar: siu_nov 
+  host: quentin 
   name: stepitup event 1
   location: 5233 Miles Ave.
   directions: walk
@@ -43,24 +40,22 @@ stepitup:
   start: 2007-04-14 12:00:00
   end: 2007-04-14 14:00:00
   description: description
-etc1:
-  id: 4
-  calendar_id: 4
-  host_id: 3
+etc:
+  calendar: etc_screenings 
+  host: aaron 
   name: screening
   location: 1942 15th St. Apt. #2
   directions: walk
   city: San Francisco
   state: CA
-  created_at: <%= 1.day.ago.to_s :db %>
-  updated_at: <%= 1.day.ago.to_s :db %>
+  created_at: <%= 1.day.ago.to_s(:db) %>
+  updated_at: <%= 1.day.ago.to_s(:db) %>
   start: 2007-04-14 12:00:00
   end: 2007-04-14 14:00:00
   postal_code: 94114
   description: description
 nwnw_oakland:
-  id: 5
-  calendar_id: 4
+  calendar: nwnw_oct 
   host_id: 3
   name: nwnw oakland
   location: Claremont Ave.
@@ -74,8 +69,7 @@ nwnw_oakland:
   end: 2007-04-14 14:00:00
   description: description
 siu_private:
-  id: 6 
-  calendar_id: 2
+  calendar: siu_nov 
   host_id: 3
   name: stepitup private event
   private: true
@@ -88,12 +82,10 @@ siu_private:
   updated_at: <%= 1.day.ago.to_s :db %>
   start: 2007-04-14 12:00:00
 ufpj_event_with_reports:
-  id: 7
-  calendar_id: 10
+  calendar: ufpj_5yearstoomany 
   name: UFPJ Event with Reports
   location: 5th Ave.
   city: New York City
   state: New York
   postal_code: 10001
-  
-  
+

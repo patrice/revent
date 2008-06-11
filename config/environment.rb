@@ -19,7 +19,7 @@ Rails::Initializer.run do |config|
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
 #  config.load_paths += %W( #{RAILS_ROOT}/vendor/rails/activeresource/lib )
-  config.load_paths += %W( #{RAILS_ROOT}/vendor/democracyinaction-0.0.1/lib #{RAILS_ROOT}/vendor/rflickr-2006.02.01/lib #{RAILS_ROOT}/vendor/mime-types-1.15/lib #{RAILS_ROOT}/vendor/aws-s3-0.3.0/lib )
+  config.load_paths += %W( #{RAILS_ROOT}/vendor/democracyinaction-0.0.1/lib #{RAILS_ROOT}/vendor/rflickr-2006.02.01/lib #{RAILS_ROOT}/vendor/mime-types-1.15/lib #{RAILS_ROOT}/vendor/aws-s3-0.3.0/lib #{RAILS_ROOT}/vendor/gems/memcache-client/lib)
 
   # Force all environments to use the same logger level 
   # (by default production uses :info, the others :debug)
@@ -67,3 +67,5 @@ require 'democracyinaction'
 GeoKit::Geocoders::google = 'ABQIAAAA9C-o-5_7dL0qOO28APyPUxRkXutPkvyJzQgIe_vZE5iNiMK4ZBRkjBRIiRuewJiZ3eU47BhDWO0luw'
 
 require 'tagging_extensions'
+
+Workling::Remote.dispatcher = Workling::Remote::Runners::StarlingRunner.new

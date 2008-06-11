@@ -28,23 +28,27 @@ module FixtureReplacement
     
 	end
 
-  places = [ {:city => 'San Francisco', :state => 'CA', :postal_code => '94114'},
-      {:city => 'New York', :state => 'NY', :postal_code => '10001'},
-      #{:city => 'Vancouver', :state => 'BC', :postal_code => 'V7H 1J4'},
-      {:city => 'Miami', :state => 'FL', :postal_code => '33178'},
-      {:city => 'Washington', :state => 'DC', :postal_code => '20001'} ]
-
-  attributes_for :event do |e|
-    e.calendar_id = 2 #default_calendar
-    e.name = String.random #"Step It Up"
-    e.location = "1 Market St."
-    place = places[rand(places.length)]
-    e.city = place[:city]
-    e.state = place[:state]
-    e.postal_code = place[:postal_code]
-    e.start = Time.now + 2.months
-    e.end = Time.now + 2.months + 2.hours
+  attributes_for :event do |a|
+    a.calendar = default_calendar
+    a.host = default_user
+    a.name = "Step It Up"
+    a.location = "1 Market St."
+    a.description = "This event will be awesome."
+    a.city = cities[rand(cities.length)]
+    a.state = states[rand(states.length)].last
+    a.postal_code = "94114"
+    a.start = Time.now + 2.months
+    a.end = a.start + 2.hours
 	end
+
+=begin
+  attributes_for :service_object do |a|
+    a.mirrored = default_user
+    a.remote_service = "Salesforce"
+    a.remote_id = '555'
+    a.remote_type = 'Contact'
+  end
+=end
 
   attributes_for :hostform do |a|
     
@@ -76,7 +80,7 @@ module FixtureReplacement
 	end
 
   attributes_for :site do |a|
-   a.host = "events.stepitup.org"
+   a.host = "events." + String.random(10) + ".org"
    a.theme = "stepitup"
 	end
 
@@ -96,7 +100,11 @@ module FixtureReplacement
     a.first_name = "Jon"
     a.last_name = "Warnow"
     a.phone = "555-555-5555"
-    a.email = "jon.warnow@siu.org"
+    a.email = "jon." + String.random(8) + "@stepitup.org"  #"jon.warnow@siu.org"
+    a.street = "1370 Mission St."
+    a.city = "San Francisco"
+    a.state = "CA"
+    a.postal_code = "94114"
     a.password = "secret" 
     a.password_confirmation = "secret" 
     a.activated_at = 1.day.ago

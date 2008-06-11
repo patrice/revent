@@ -1,0 +1,6 @@
+sf_contact:
+  mirrored_id: 745185059 
+  mirrored_type: 'User' 
+  remote_service: 'Salesforce'
+  remote_type: 'Contact'
+  remote_id: '4444GGGG'
