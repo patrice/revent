@@ -18,7 +18,7 @@ class SalesforceContact < SalesforceBase
         sf_contact = SalesforceContact.update(user.salesforce_object.remote_id, attribs)
       else
         sf_contact = SalesforceContact.create(attribs)
-        user.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => 'Event', :remote_id => sf_contact.id)
+        user.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => 'Contact', :remote_id => sf_contact.id)
       end
       sf_contact
     rescue ActiveSalesforce::ASFError => err

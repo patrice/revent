@@ -50,6 +50,8 @@ describe "SalesforceContact" do
 
   describe "when saved" do
     before do
+      Site.stub!(:current).and_return(stub(Site, :salesforce_enabled? => false))
+
       SalesforceContact.stub!(:make_connection).and_return(true)
       @sf_contact = stub(SalesforceContact, :id => '444GGG')
 
@@ -70,8 +72,9 @@ describe "SalesforceContact" do
       @user = create_user
       SalesforceContact.stub!(:update).and_return(@sf_contact)
       SalesforceContact.save_from_user(@user)
-      @user.salesforce_object.mirrored_id.should == @user.id
-      @user.salesforce_object.mirrored_type.should == @user.class.to_s
+      @user.salesforce_object.mirrored.should == @user
+      @user.salesforce_object.remote_type.should == 'Contact'
+      @user.salesforce_object.remote_id.should == @sf_contact.id
     end
   end
 
