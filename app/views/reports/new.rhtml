@@ -17,7 +17,7 @@
 		Please take a few minutes to share your stories, videos, and pictures from your event.  This information will be displayed publically.		<% end -%>
 	</div>
 
-<% form_for :report, @report, :url => { :permalink => @calendar.permalink, :action => 'create' }, :html => { :multipart => true } do |f| -%>
+<% form_for :report, @report, :url => { :permalink => @calendar.permalink, :action => 'create' }, :html => {:id => 'report-back-form',  :multipart => true } do |f| -%>
   <%= render :partial => 'form', :locals => { :f => f } %>
   
   <div align="center">
@@ -41,3 +41,8 @@
 
  <%= render :partial =>'reports/report_nav' %>
 </div>
+
+<%= javascript_include_tag "validation.js" %>
+<script type="text/javascript" language="javascript">
+  var valid = new Validation("report-back-form", {useTitles : true});
+</script>

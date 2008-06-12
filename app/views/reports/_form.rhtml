@@ -8,13 +8,13 @@
 <% fields_for :user, @user do |user| %>
 
 	<p><label for="user_first_name">*First Name:</label><br/>
-	<%= user.text_field 'first_name', :title => "Please enter your first name" %></p>
+  <%= user.text_field 'first_name', :title => "Please enter your first name", :class => "required inputStyle", :size => 36 %></p>
 	
 	<p><label for="user_last_name">*Last Name:</label><br/>
-	<%= user.text_field 'last_name', :title => "Please enter your last name" %></p>
+  <%= user.text_field 'last_name', :title => "Please enter your last name", :class => "required inputStyle", :size => 36 %></p>
 
 	<p><label for="user_email">*Your Email Address (will not be public):</label><br/>
-	<%= user.text_field 'email', :title => "Please enter a valid email address" %></p>
+  <%= user.text_field 'email', :title => "Please enter a valid email address", :class => "required inputStyle", :size => 36, :maxlength => "34", :style => "display:inline" %></p>
 	
 	<% if @calendar.report_dia_trigger_key %>
 		<%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", @calendar.report_dia_trigger_key %>

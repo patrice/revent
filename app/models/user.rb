@@ -30,7 +30,11 @@ class User < ActiveRecord::Base
   has_one :salesforce_object, :as => :mirrored, :class_name => 'ServiceObject'
   after_save :sync_to_salesforce
   def sync_to_salesforce
-    SalesforceWorker.async_save_contact(:user_id => self.id) if Site.current.salesforce_enabled?
+    return true unless Site.current.salesforce_enabled?
+    SalesforceWorker.async_save_contact(:user_id => self.id) 
+  rescue Workling::WorklingError => e
+    logger.error("SalesforceWorker.async_save_contact(:user_id => #{self.id}) failed! Perhaps workling is not running. Got Exception: #{e}")
+    return true # don't kill the callback chain since it may still do something useful
   end
 
   has_one :democracy_in_action_object, :as => :synced
