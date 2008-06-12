@@ -144,7 +144,7 @@ class Event < ActiveRecord::Base
   has_one :salesforce_object, :as => :mirrored, :class_name => 'ServiceObject'
   after_save :sync_to_salesforce
   def sync_to_salesforce
-    SalesforceWorker.async_save_event(:event_id => self.id)
+    SalesforceWorker.async_save_event(:event_id => self.id) if Site.current.salesforce_enabled?
   end
 
   after_create :trigger_email
