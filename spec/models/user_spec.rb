@@ -66,7 +66,7 @@ describe User do
 
     before do
       @user = create_user(:password => "secret", :password_confirmation => "secret") 
-      Site.stub!(:current).and_return(stub(Site, :id => @user.site_id))
+      Site.stub!(:current).and_return(stub(Site, :id => @user.site_id, :salesforce_enabled? => false))
     end
 
     it "should allow resetting the password" do

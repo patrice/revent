@@ -28,6 +28,9 @@ module FixtureReplacement
     
 	end
 
+  cities = ["San Francisco", "New York", "Santa Fe", "Seattle", "Miami", "Los Angeles"]
+  states = DemocracyInAction::Helpers.state_options_for_select
+
   attributes_for :event do |a|
     a.calendar = default_calendar
     a.host = default_user

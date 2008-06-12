@@ -14,7 +14,7 @@ describe "SalesforceBase" do
 #  end
 
   before do
-    #Site.stub!(:config_path).and_return(File.join(RAILS_ROOT,'test','config'))
+    Site.stub!(:config_path).and_return(File.join(RAILS_ROOT,'test','config'))
     SalesforceContact.make_connection(6)
     @sf_contact = SalesforceContact.new(SalesforceContact.translate(User.find(:first)))
   end

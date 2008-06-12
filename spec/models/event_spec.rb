@@ -26,6 +26,7 @@ end
 describe Event do 
   include EventFactory
   before(:each) do
+    Site.stub!(:current).and_return(stub(Site, :id => 1, :salesforce_enabled? => false))
     Site.stub!(:current_config_path).and_return(File.join(RAILS_ROOT, 'config'))
 
     # mock geocoder

@@ -1,13 +1,14 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 describe SalesforceEvent do
-  fixtures :events, :service_objects
 
   before do
     @config = File.join(RAILS_ROOT,'test','config')
     Site.stub!(:config_path).and_return(@config)
+    Site.stub!(:current).and_return(stub(Site, :id => 1, :salesforce_enabled? => false))
     SalesforceEvent.stub!(:set_table_name).and_return(true)
   end
+
   it "should be able to establish a connection" do
     lambda {SalesforceEvent.establish_connection(YAML.load_file(@config + '/salesforce-config.yml'))}.should_not raise_error
   end
@@ -21,7 +22,6 @@ describe SalesforceEvent do
 
   describe "when saved" do 
     before do
-      SalesforceWorker.stub!(:async_save_event).and_return(true)
       @event = create_event
       ServiceObject.create(:mirrored => @event.host, :remote_service => 'Salesforce', :remote_type => 'Contact', :remote_id => '1234ABCD')
     end
