@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>EcoSalon | Hope to Action</title>
+      <%= javascript_include_tag 'prototype' %>
+      <%= theme_javascript_include_tag 'functions' %>
+
+      <%=  stylesheet_link_tag 'events' %>
+      <%= yield :header %>
+      <%= Cartographer::Gmap::Header.header_for(request) if @map %>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="EcoSalon is an initiative of Hope to Action:&amp;nbsp; Women for Climate Protection. EcoSalon encourages women to build awareness of global warming and take action to reduce their climate footprint and climate impacts while saving money and having fun." />
+<meta name="keywords" content="EcoSalon,climate footprint,climate protection,Hope to Action" />
+<meta name="robots" content="index,follow" />
+<meta name="DC.title" content="EcoSalon" />
+
+<style type="text/css" media="all">@import "http://hopetoaction.org/modules/fckeditor/fckeditor.css";</style>
+<style type="text/css" media="all">@import "http://hopetoaction.org/modules/node/node.css";</style>
+<style type="text/css" media="all">@import "http://hopetoaction.org/modules/system/defaults.css";</style>
+<style type="text/css" media="all">@import "http://hopetoaction.org/modules/system/system.css";</style>
+<style type="text/css" media="all">@import "http://hopetoaction.org/modules/user/user.css";</style>
+<style type="text/css" media="all">@import "http://hopetoaction.org/sites/all/modules/cck/content.css";</style>
+<style type="text/css" media="all">@import "http://hopetoaction.org/sites/all/modules/feedapi/feedapi_aggregator/aggregator.css";</style>
+<style type="text/css" media="all">@import "http://hopetoaction.org/sites/all/modules/og/og.css";</style>
+<style type="text/css" media="all">@import "http://hopetoaction.org/sites/all/modules/og_teampage/og_teampage.css";</style>
+<style type="text/css" media="all">@import "http://hopetoaction.org/sites/all/modules/cck/fieldgroup.css";</style>
+
+<style type="text/css" media="all">@import "http://hopetoaction.org/themes/hope_to_action/advforum/advanced_forum-structure.css";</style>
+<style type="text/css" media="all">@import "http://hopetoaction.org/themes/hope_to_action/advforum/advanced_forum.css";</style>
+<style type="text/css" media="all">@import "http://hopetoaction.org/sites/all/modules/simplemenu/simplemenu.css";</style>
+<style type="text/css" media="all">@import "http://hopetoaction.org/sites/all/modules/simplemenu/themes/blackblue/blackblue.css";</style>
+<style type="text/css" media="all">@import "http://hopetoaction.org/themes/hope_to_action/style.css";</style>
+		<script type="text/javascript" src="http://hopetoaction.org/misc/jquery.js"></script>
+<script type="text/javascript" src="http://hopetoaction.org/misc/drupal.js"></script>
+<script type="text/javascript" src="http://hopetoaction.org/sites/all/modules/jquery_update/compat-1.0.js"></script>
+
+<script type="text/javascript" src="http://hopetoaction.org/sites/all/modules/simplemenu/simplemenu.js"></script>
+<script type="text/javascript" src="http://hopetoaction.org/sites/all/modules/jquery_update/collapse-fix.js"></script>
+<script type="text/javascript">Drupal.extend({ settings: { "simplemenu": { "basePath": "/", "effect": "height", "effectSpeed": "fast", "element": "#plinks", "hideDelay": "100", "placement": "prepend" } } });</script>
+<script type="text/javascript">var simplemenu = "\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/\" title=\"Home page\"\x3eHome\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"expanded\"\x3e\x3ca href=\"http://hopetoaction.org/About\" title=\"About Gateway\"\x3eAbout\x3c/a\x3e\x3cul\x3e\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/Why+Women\"\x3eWhy Women?\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/Leadership\"\x3eAbout Us\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/Partner+Organizations\"\x3ePartner Organizations\x3c/a\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3cli class=\"expanded\"\x3e\x3ca href=\"http://hopetoaction.org/learn\"\x3eLearn\x3c/a\x3e\x3cul\x3e\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/The+Science\"\x3eThe Science\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/News+and+Views\"\x3eNews and Views\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/EcoResources\"\x3eEcoResources\x3c/a\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3cli class=\"expanded\"\x3e\x3ca href=\"http://hopetoaction.org/Get+Involved\"\x3eAction\x3c/a\x3e\x3cul\x3e\x3cli class=\"expanded\"\x3e\x3ca href=\"http://hopetoaction.org/EcoSalon\" class=\"active\"\x3eEcoSalon\x3c/a\x3e\x3cul\x3e\x3cli class=\"leaf\"\x3e\x3ca href=\"http://org2.democracyinaction.org/o/5180/event/distributedEventSignup.jsp?distributed_event_KEY=19\"\x3ePlan\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/At+Your+EcoSalon\"\x3eParty\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/After+Your+EcoSalon\"\x3eProtect\x3c/a\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3cli class=\"expanded\"\x3e\x3ca href=\"http://org2.democracyinaction.org/o/5180/t/2365/p/dia/action/public/?action_KEY=47\"\x3eInfluence America\x3c/a\x3e\x3cul\x3e\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/Federal+Action\"\x3eFederal Action\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/State+Action\"\x3eState Action\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"expanded\"\x3e\x3ca href=\"http://hopetoaction.org/Local+Action\"\x3eLocal Action\x3c/a\x3e\x3cul\x3e\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/Local+Advocacy+Guide\"\x3eLocal Advocacy Guide\x3c/a\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3cli class=\"expanded\"\x3e\x3ca href=\"http://hopetoaction.org/Climate+Action+Kids\"\x3eClimate Action Kids\x3c/a\x3e\x3cul\x3e\x3cli class=\"expanded\"\x3e\x3ca href=\"http://hopetoaction.org/Climate+Action+Kids+Resources\"\x3eEnvironmental Education Resources\x3c/a\x3e\x3cul\x3e\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/Curriculum+Resources+for+Administrators\"\x3eAdministrators\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/Curriculum+Resources+for+Teachers\"\x3eTeachers\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/Curriculum+Resources+for+Parents\"\x3eParents\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/Curriculum+Resources+for+Students\"\x3eStudents\x3c/a\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://www.carbonrally.com/teams/208\"\x3eCarbon Rally Team\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/files/file/EcoAction/EcoActionGuide.pdf\"\x3eEcoAction Guide\x3c/a\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3cli class=\"expanded\"\x3e\x3ca href=\"http://hopetoaction.org/Community\"\x3eCommunity\x3c/a\x3e\x3cul\x3e\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/Hope+to+Action+Blog\" title=\"weekly posts from guest bloggers\"\x3eBlog of the Month\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/Profiled+Women\"\x3eProfiled Women\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/forum\"\x3eDiscussion Forums\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"expanded\"\x3e\x3ca href=\"http://hopetoaction.org/Community\"\x3eHope to Action\x3c/a\x3e\x3cul\x3e\x3cli class=\"leaf\"\x3e\x3ca href=\"http://apps.facebook.com/causes/87781?h=plw\x26amp;recruiter_id=15195563\" title=\"Hope to Action\x26#039;s cause page on Facebook\"\x3eon Facebook\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://www.cafemom.com/group/Hope2Action\"\x3eon CafeMom\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://groups.yahoo.com/group/hopetoaction/\"\x3eon Yahoo!\x3c/a\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/Join+Us\"\x3eJoin\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/Donations\"\x3eDonate\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://hopetoaction.org/Contact+Us\"\x3eContact Us\x3c/a\x3e\x3c/li\x3e\n";</script>
+		<script type="text/javascript" src="/misc/jquery.js"></script>
+		<style type="text/css" media="all">@import "http://hopetoaction.org/themes/hope_to_action/user_bar.css";</style>
+	</head>
+		<body class="not-front not-logged-in ntype-story sidebar-left">
+
+		<div id="page">
+			<div id="header">
+				
+				<div style="float: right; width: 500px;">
+					<div id="header-top">
+												<a href="http://hopetoaction.org/user">Log In or Become a Member</a> &nbsp;|&nbsp;
+												<!-- <a href="http://hopetoaction.org/Donations">Donate</a> &nbsp;|&nbsp; -->
+						<a href="http://hopetoaction.org/invite">Invite a Friend</a> <!-- &nbsp;|&nbsp; -->
+
+						<!-- <a href="http://hopetoaction.org/Contact+Us">Contact Us</a> -->
+					</div>
+
+
+
+
+				</div>
+				<div id="logo-title">
+										<a href="http://hopetoaction.org/"title="Home"><img src="http://hopetoaction.org/themes/hope_to_action/logo.png" alt="Home" id="logo" /></a>
+									</div> <!-- /logo-title -->
+
+<div id="mission"><img src="http://hopetoaction.org/themes/hope_to_action/images/hope_to_action_women_for_climate_protection-small.gif" alt="Hope to Action:  Women for Climate Protection" top: 20px; left: -30px;></div>
+<div id="plinks">       </div>
+
+				
+ <!-- /navigation -->
+			</div> <!-- /header -->
+			<div id="container" class="clear-block">
+								<div id="sidebar-left" class="column sidebar">
+					<div id="block-block-44" class="block block-block">  
+  <div class="blockinner">
+
+    <h2 class="title">  </h2>
+    <div class="content">
+      <p class="rtecenter"><span style="color: rgb(255, 255, 255);">&quot;My 6-year-old came home from school the other day and said, 'Mom, when you drive your car, does it kill the polar bears?' She deserves a straight answer. And I think the answer is that I've decided to start making some changes in our lives. I think she'll understand that my actions are for her and her future.&quot;</span></p><p class="rtecenter"><i><span style="color: rgb(255, 255, 255);">- Jennifer,<br /> California</span></i></p>    </div>    
+  </div>
+</div>
+				</div> <!-- /sidebar-left -->
+					<div id="squeeze">
+            <% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
+            <% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
+            <%= yield %>
+					</div><!-- /squeeze -->
+				</div> <!-- /main -->
+							</div> <!-- /container -->
+			<div id="footer-wrapper">
+				<div id="footer">
+					
+				</div> <!-- /footer -->
+
+			</div> <!-- /footer-wrapper -->
+					</div> <!-- /page -->
+	</body>
+</html>

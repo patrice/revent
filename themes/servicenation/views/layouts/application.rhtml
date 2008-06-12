@@ -7,8 +7,7 @@
 	<%= theme_javascript_include_tag 'functions' %>
 
 	<%=  stylesheet_link_tag 'events' %>
-	<%= yield :header 
-	%>
+	<%= yield :header %>
 	<%= Cartographer::Gmap::Header.header_for(request) if @map %>
   <%= theme_stylesheet_link_tag 'servicenation.css' %>
 <!--[if IE 6]>
