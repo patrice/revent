@@ -50,7 +50,7 @@ describe "SalesforceContact" do
 
   describe "when saved" do
     before do
-      Site.stub!(:current).and_return(stub(Site, :salesforce_enabled? => false))
+      Site.stub!(:current).and_return(stub(Site, :id => 1, :salesforce_enabled? => false))
 
       SalesforceContact.stub!(:make_connection).and_return(true)
       @sf_contact = stub(SalesforceContact, :id => '444GGG')
@@ -63,14 +63,14 @@ describe "SalesforceContact" do
       SalesforceContact.stub!(:update).and_return(@sf_contact)
       lambda {SalesforceContact.save_from_user(@user)}.should_not raise_error
     end
-    it "should update the attributes if contact already exists" do
+    it "should update the attributes if salesforce object already exists" do
       @user.first_name = 'firstly'
       SalesforceContact.should_receive(:update).with(@user.salesforce_object.remote_id, SalesforceContact.translate(@user))
       SalesforceContact.save_from_user(@user)
     end
-    it "should create a service object" do
-      @user = create_user
-      SalesforceContact.stub!(:update).and_return(@sf_contact)
+    it "should create a salesforce object when it doesn't exists" do
+      @user = create_user # with no existing salesforce_object
+      SalesforceContact.should_receive(:create).and_return(@sf_contact)
       SalesforceContact.save_from_user(@user)
       @user.salesforce_object.mirrored.should == @user
       @user.salesforce_object.remote_type.should == 'Contact'
