@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 81) do
+ActiveRecord::Schema.define(:version => 82) do
 
   create_table "attachments", :force => true do |t|
     t.string   "content_type"
@@ -274,11 +274,13 @@ ActiveRecord::Schema.define(:version => 81) do
   add_index "rsvps", ["user_id"], :name => "index_rsvps_on_user_id"
 
   create_table "service_objects", :force => true do |t|
-    t.string  "mirrored_type"
-    t.integer "mirrored_id"
-    t.string  "remote_service"
-    t.string  "remote_type"
-    t.string  "remote_id"
+    t.string   "mirrored_type"
+    t.integer  "mirrored_id"
+    t.string   "remote_service"
+    t.string   "remote_type"
+    t.string   "remote_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sessions", :force => true do |t|
