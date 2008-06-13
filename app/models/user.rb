@@ -34,6 +34,7 @@ class User < ActiveRecord::Base
     SalesforceWorker.async_save_contact(:user_id => self.id) 
   rescue Workling::WorklingError => e
     logger.error("SalesforceWorker.async_save_contact(:user_id => #{self.id}) failed! Perhaps workling is not running. Got Exception: #{e}")
+  ensure
     return true # don't kill the callback chain since it may still do something useful
   end
 

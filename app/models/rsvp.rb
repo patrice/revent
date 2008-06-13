@@ -2,6 +2,7 @@ class Rsvp < ActiveRecord::Base
   belongs_to :event
   belongs_to :user
   belongs_to :attending, :polymorphic => true
+  has_one :salesforce_object, :class_name => 'ServiceObject', :as => :mirrored
   
   after_create :trigger_email
   def trigger_email
@@ -10,6 +11,16 @@ class Rsvp < ActiveRecord::Base
       trigger = calendar.triggers.find_by_name("RSVP Thank You") || Site.current.triggers.find_by_name("RSVP Thank You")
       TriggerMailer.deliver_trigger(trigger, self.user, self.event) if trigger
     end
+  end
+
+  after_save :sync_to_salesforce
+  def sync_to_salesforce
+    return true unless Site.current.salesforce_enabled?
+    SalesforceWorker.async_save_event_attendee(:rsvp_id => self.id)
+  rescue Workling::WorklingError
+    logger.error("SalesforceWorker.async_save_contact(:user_id => #{self.id}) failed! Perhaps workling is not running. Got Exception: #{e}")
+  ensure
+    return true # don't kill the callback chain since it may still do something useful
   end
 
 =begin
