@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
-describe "SalesforceBase" do
+describe SalesforceBase do
   fixtures :users
 #  it "should establish connection with Salesforce" do
 #    Site.stub!(:current_config_path).and_return(File.join(RAILS_ROOT, 'test', 'config'))

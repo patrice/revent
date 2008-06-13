@@ -30,7 +30,7 @@ describe EventSweeper do
       @permalink = @calendar.permalink
 
       @page_cache_directory = File.join(RAILS_ROOT,'tmp','cache')
-      FileUtils.mkdir_p(page_cache_directory) unless File.exists?(@page_cache_directory)
+      FileUtils.mkdir_p(@page_cache_directory) unless File.exists?(@page_cache_directory)
       ActionController::Base.stub!(:page_cache_directory).and_return(@page_cache_directory)
 
       FileUtils.mkdir_p(File.join(@page_cache_directory,@permalink,'calendars'))
