@@ -21,7 +21,7 @@
         <div id="user_menu">
           <span><%= current_user.full_name %></span>
           <%= link_to 'Account', :controller => '/account', :action => :profile, :id => current_user.id %>
-          <%= link_to 'Log Out', :controller => 'account', :action => 'logout' %>
+          <%= link_to 'Log Out', logout_url %>
           <%= mail_to 'eventhelp@radicaldesigns.org', 'help', :subject => site.host + ': ' ,  :id => 'help' %>
         </div>
       <% end -%>
