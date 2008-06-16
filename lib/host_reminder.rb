@@ -3,7 +3,7 @@ events.each do |e|
   trigger = nil
   if e.calendar.triggers
     trigger = e.calendar.triggers.find_by_name("Report Host Reminder") 
-  elsif
+  elsif e.calendar.site.triggers
     trigger = e.calendar.site.triggers.find_by_name("Report Host Reminder")
   end
   TriggerMailer.deliver_trigger(trigger, e.host, e, e.calendar.site.host) if trigger
