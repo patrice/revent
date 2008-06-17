@@ -211,14 +211,14 @@ class InvitesController < ApplicationController
   def write
     @politician = Politician.find(params[:politician_id])
     @user = current_user
-    @event.letter_script ||= @calendar.letter_script.gsub('CITY_STATE', [@event.city, @event.state].join(', '))
+    @event.letter_script ||= @calendar.letter_script.gsub('CITY_STATE', [@event.city, @event.state].join(', ')) if @calendar.letter_script
     @letter_script = RedCloth.new @event.letter_script
   end
   
   def call
     @politician = Politician.find(params[:politician_id])
     @user = current_user
-    @event.call_script ||= @calendar.call_script.gsub('CITY_STATE', [@event.city, @event.state].join(', '))
+    @event.call_script ||= @calendar.call_script.gsub('CITY_STATE', [@event.city, @event.state].join(', ')) if @calendar.call_script
     @event.call_script.gsub!('POLITICIAN_NAME', @politician.display_name)
     @call_script = RedCloth.new @event.call_script
   end
@@ -228,7 +228,7 @@ class InvitesController < ApplicationController
     @user = current_user
     @recipient = @politician.democracy_in_action_object
     if @recipient && @recipient.local && !@recipient.local['email'] && @recipient.local['web_form_url']
-      @event.letter_script ||= @calendar.letter_script.gsub('CITY_STATE', [@event.city, @event.state].join(', '))
+      @event.letter_script ||= @calendar.letter_script.gsub('CITY_STATE', [@event.city, @event.state].join(', ')) if @calendar.letter_script
       @letter_script = RedCloth.new @event.letter_script
       return
     end
