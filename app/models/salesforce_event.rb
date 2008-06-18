@@ -6,7 +6,7 @@ class SalesforceEvent < SalesforceBase
       config = File.join(Site.config_path(id), 'salesforce-config.yml')
       return unless File.exist?(config)
       SalesforceEvent.establish_connection(YAML.load_file(config))
-      set_table_name('Event')
+      set_table_name('CustomEvent')
     end
 
     def save_from_event(event) 
@@ -16,7 +16,7 @@ class SalesforceEvent < SalesforceBase
         sf_event = SalesforceEvent.update(event.salesforce_object.remote_id, attribs) 
       else
         sf_event = SalesforceEvent.create(attribs)
-        event.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => 'Event', :remote_id => sf_event.id)
+        event.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => 'CustomEvent', :remote_id => sf_event.id)
       end
       sf_event
     rescue ActiveSalesforce::ASFError => err
@@ -24,18 +24,24 @@ class SalesforceEvent < SalesforceBase
     end
 
     def translate(event)
-      who_id = event.host.salesforce_object ? 
+      host_id = event.host.salesforce_object ? 
          event.host.salesforce_object.remote_id : SalesforceContact.save_from_user(event.host).id
-      { :subject => event.name,
-        :description => event.description,
-        :location => event.address_for_geocode,
-        :duration_in_minutes => event.duration_in_minutes,
-        :activity_date => event.start.strftime("%m/%d/%Y"),
-        :activity_date_time => event.start,
-        :is_child => true,
-        :is_group_event => true,
-        :is_private => false,
-        :who_id => who_id} 
+      { # who
+        :host_id__c => host_id, 
+        # what 
+        :name__c  => event.name,
+        :description__c => event.description,
+        # when
+        :start__c => event.start,
+        :end__c => event.end,
+        # where
+        :location__c => event.address_for_geocode,
+        :city__c => event.city,
+        :state__c => event.state,
+        :postal_code__c => event.postal_code,
+        :country__c => event.country,
+        :latitude__c => event.latitude,
+        :longitude__c => event.longitude}
     end
   end
 end

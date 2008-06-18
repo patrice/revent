@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 describe SalesforceEvent do
-
   before do
     @config = File.join(RAILS_ROOT,'test','config')
     Site.stub!(:config_path).and_return(@config)
@@ -23,10 +22,11 @@ describe SalesforceEvent do
   describe "when saved" do 
     before do
       @event = create_event
-      ServiceObject.create(:mirrored => @event.host, :remote_service => 'Salesforce', :remote_type => 'Contact', :remote_id => '1234ABCD')
+      ServiceObject.create(:mirrored => @event.host, :remote_service => 'Salesforce', 
+                           :remote_type => 'Contact', :remote_id => '1234ABCD')
     end
     it "should get who id from salesforce_object, if it exists" do
-      SalesforceEvent.translate(@event)[:who_id].should == @event.host.salesforce_object.remote_id
+      SalesforceEvent.translate(@event)[:host_id__c].should == @event.host.salesforce_object.remote_id
     end
     it "should create a new Salesforce Contact if host does not have a Salesforce object" do
       @event2 = create_event
