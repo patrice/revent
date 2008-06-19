@@ -13,8 +13,6 @@ namespace :db do
           f << `mysqldump -h #{configs[RAILS_ENV]["host"]} -u #{configs[RAILS_ENV]["username"]} -p#{configs[RAILS_ENV]["password"]} #{configs[RAILS_ENV]["database"]}`
         end
       end
-      `zip db/#{RAILS_ENV}_data.zip db/#{RAILS_ENV}_data.sql`
-      FileUtils.rm "db/#{RAILS_ENV}_data.sql"
     else
       raise "Task not supported by '#{configs[RAILS_ENV]['adapter']}'" 
     end
@@ -22,7 +20,7 @@ namespace :db do
 
   desc "Refreshes your local development environment to the current production database" 
   task :production_data_refresh do
-    `rake remote:exec ACTION=remote_db_runner --trace`
+    `rake remote:exec ACTION=remote_runner --trace`
     `rake db:production_data_load --trace`
   end 
 
@@ -34,9 +32,9 @@ namespace :db do
     when 'mysql'
       ActiveRecord::Base.establish_connection(configs[RAILS_ENV])
       if configs[RAILS_ENV]["password"].blank?
-        `mysql -h #{configs[RAILS_ENV]["host"]} -u #{configs[RAILS_ENV]["username"]} #{configs[RAILS_ENV]["database"]} < db/production_data.sql`
+        `mysql -h #{configs[RAILS_ENV]["host"]} -u #{configs[RAILS_ENV]["username"]} #{configs[RAILS_ENV]["database"]} < db/#{RAILS_ENV}_data.sql`
       else
-        `mysql -h #{configs[RAILS_ENV]["host"]} -u #{configs[RAILS_ENV]["username"]} -p#{configs[RAILS_ENV]["password"]} #{configs[RAILS_ENV]["database"]} < db/production_data.sql`
+        `mysql -h #{configs[RAILS_ENV]["host"]} -u #{configs[RAILS_ENV]["username"]} -p#{configs[RAILS_ENV]["password"]} #{configs[RAILS_ENV]["database"]} < db/#{RAILS_ENV}_data.sql`
       end
     else
       raise "Task not supported by '#{configs[RAILS_ENV]['adapter']}'" 
