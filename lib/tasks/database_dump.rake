@@ -22,7 +22,7 @@ namespace :db do
   task :production_data_refresh do
     `cap db:remote_runner`
     `rake db:production_data_load --trace`
-    `rake revent:local_sites --trace`
+    `rake revent:setup_sites --trace`
   end 
 
   desc "Loads the production data downloaded into db/production_data.sql into your local development database" 
