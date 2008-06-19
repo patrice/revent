@@ -33,7 +33,8 @@
       <%= javascript_include_tag 'prototype' %>
       <%= yield :header %>
       <%= Cartographer::Gmap::Header.header_for(request) if @map %>
-      <%=  stylesheet_link_tag 'events' %>
+      <%= stylesheet_link_tag 'events' %>
+      <%= theme_stylesheet_link_tag 'hopetoaction' %> 
 	</head>
 		<body class="not-front not-logged-in ntype-story sidebar-left">
 
