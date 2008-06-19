@@ -1,6 +1,6 @@
 namespace :db do
   desc "Dump the current database to a MySQL file" 
-  task :database_dump do
+  task :dump do
     load 'config/environment.rb'
     configs = ActiveRecord::Base.configurations
     case configs[RAILS_ENV]["adapter"]
