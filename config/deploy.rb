@@ -68,7 +68,7 @@ namespace :db do
   desc 'Compress the production database dump to zip file'
   task :remote_compress, :roles => :db, :only => { :primary => true } do
     invoke_command "cd #{current_path}"
-    invoke_command "zip db/#{RAILS_ENV}_data.zip db/#{RAILS_ENV}_data.sql"
+    invoke_command "zip db/#{rails_env}_data.zip db/#{rails_env}_data.sql"
   end
 
   desc 'Downloads db/production_data.zip from the remote production environment to your local machine'
@@ -82,7 +82,7 @@ namespace :db do
 
   desc 'Uncompress the production database zip file'
   task :local_uncompress, :roles => :db, :only => { :primary => true } do
-    `unzip db/#{RAILS_ENV}_data.zip`
+    `unzip db/#{rails_env}_data.zip`
   end
 
   desc 'Cleans up data dump file and zip file'
