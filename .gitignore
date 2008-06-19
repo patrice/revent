@@ -8,6 +8,7 @@ doc/pxd/*
 public/javascripts/prototype/*
 db/exports/*
 db/imports/*
+db/*.sql
 public/cache/*
 public/attachments/*
 public/themes/*
