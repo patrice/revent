@@ -11,9 +11,9 @@
     <b><%= link_to @event.name, :permalink => @event.calendar.permalink, :controller => '/events', :action => 'show', :id => @event %></b><br/>
     <b><%= @event.city %>, <%= @event.state %> </b>
   </div><br/>
-	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_edit.gif'><%= link_to_function 'Edit Your Event', visual_effect(:toggle_blind,'profile_event_edit') %></p>
+	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_edit.gif'><%= link_to_function 'Edit Your EcoSalon Details', visual_effect(:toggle_blind,'profile_event_edit') %></p>
   <div id='profile_event_edit'<% if @event.errors.empty? %> style="display:none;"<% end %>>
-		<p class='profile_subtitle'>Edit Your Event Information</p>	
+		<p class='profile_subtitle'>Edit Your EcoSalon Details</p>	
     <% form_for :event, @event, :url => {:controller => 'account/events', :action => 'update', :id => @event} do |f| %>
 		<%= render :partial => "form", :locals => {:f => f} %>
 		<%= submit_tag %>
@@ -46,7 +46,7 @@
   </div>
 	</div>	
 	
-  <p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_rsvp.gif'><%= link_to_function 'View RSVPs and Contact Event Guests', visual_effect(:toggle_blind,'profile_event_attend') %></p>
+  <p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_rsvp.gif'><%= link_to_function 'View RSVPs and Contact Guests', visual_effect(:toggle_blind,'profile_event_attend') %></p>
 	
 	<div id='profile_event_attend' style="display:none;">
 		<div id='profile_event_attend_contact'>
@@ -71,13 +71,13 @@
         <% @attendees = @event.attendees || @event.to_democracy_in_action_event.attendees.collect {|a| User.new :email => a.Email, :first_name => a.First_Name, :last_name => a.Last_Name, :phone => a.Phone} %>
 				<%= render :partial => 'attendee', :collection => @attendees %>
 			</table>
-      <br><p><%= link_to 'Download Attendees in a Spreadsheet', :action => 'attendees', :id => @event, :format => 'csv' %></p>
+      <br><p><%= link_to 'Download Guests in a Spreadsheet', :action => 'attendees', :id => @event, :format => 'csv' %></p>
 		</div>
 	</div>
 	
-	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_invite.gif'><%= link_to_function 'Invite Guests to Your Event', visual_effect(:toggle_blind, 'profile_event_invite') %></p>
+	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_invite.gif'><%= link_to_function 'Invite Guests', visual_effect(:toggle_blind, 'profile_event_invite') %></p>
 	<div id='profile_event_invite' style="display:none;">	
-		<p class='profile_subtitle'>Invite Guests to Your </p>
+		<p class='profile_subtitle'>Invite Guests to Your EcoSalon</p>
     <% form_for :invite, :url => {:controller => 'account/events', :action => 'invite', :id => @event} do |f| %>
 		This e-mail will have the event name, date, location, and RSVP link appended to the bottom of the message.  The message box below is for a personal note from you to the recipients.<br /><br />
     	Recipients:<br />
@@ -94,7 +94,7 @@
 	</div>
 	
 	
-	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_blog.gif'><%= link_to_function 'Post an Announcement About Your Event', visual_effect(:toggle_blind, 'profile_event_blog') %></p>
+	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_blog.gif'><%= link_to_function 'Post an Announcement About Your EcoSalon', visual_effect(:toggle_blind, 'profile_event_blog') %></p>
 	<div id='profile_event_blog'<% if @blog.nil? || @blog.errors.empty? %> style="display:none;"<% end %>>
 		<div id='profile_event_blog_add'>	
 			<p class='profile_subtitle'>Add Announcements about Your EcoSalon</p>
@@ -128,11 +128,11 @@
 		</div>
 	</div>
 	
-	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_report.gif'><%= link_to_function 'Manage Event Report Backs', visual_effect(:toggle_blind, 'profile_event_report') %></p>
+	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_report.gif'><%= link_to_function 'Manage EcoSalon Report Backs', visual_effect(:toggle_blind, 'profile_event_report') %></p>
 	<div id='profile_event_report'<% if @report.nil? || @report.errors.empty? %> style="display:none;"<% end %>>
 
 		<div id='profile_event_report_list'>
-			<p class='profile_subtitle'>Event Reports</p>
+			<p class='profile_subtitle'>EcoSalon Reports</p>
 			<%= link_to "Add Report", :controller => '/reports', :action => 'new', :id => @event.id   %>
 			<table class='profile_list_table'>
 				<tr class = "profile_header_row">
@@ -150,7 +150,7 @@
 
 
 		<div id='profile_event_photo_list'>
-			<p class='profile_subtitle'>Event Photos</p>
+			<p class='profile_subtitle'>EcoSalon Photos</p>
     <!--  <%= link_to_function 'Add Photo', visual_effect(:toggle_blind, 'profile_report_photo_add') %>
      <div id ='profile_report_photo_add' style="display:none;" >
         Add form goes here
