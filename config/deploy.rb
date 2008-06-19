@@ -56,7 +56,7 @@ namespace :deploy do
 end
 
 set :rails_env, "production"
-set :rake, "rake"
+set :rake, "/usr/bin/rake"
 
 namespace :db do
   desc 'Dumps the production database to db/production_data.sql on the remote server'
