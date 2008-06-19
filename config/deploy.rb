@@ -55,48 +55,35 @@ namespace :deploy do
   end 
 end
 
-set :rails_env, "production"
-set :rake, "/usr/bin/rake"
 
 namespace :db do
+  set :rails_env, "production"
+
   desc 'Dumps the production database to db/production_data.sql on the remote server'
   task :remote_dump, :roles => :db, :only => { :primary => true } do
-    invoke_command "cd #{current_path}"
-    invoke_command "#{rake} RAILS_ENV=#{rails_env} db:dump --trace" 
+    invoke_command "cd #{current_path} && rake RAILS_ENV=#{rails_env} db:dump --trace" 
   end
 
-  desc 'Compress the production database dump to zip file'
-  task :remote_compress, :roles => :db, :only => { :primary => true } do
-    invoke_command "cd #{current_path}"
-    invoke_command "zip db/#{rails_env}_data.zip db/#{rails_env}_data.sql"
-  end
-
-  desc 'Downloads db/production_data.zip from the remote production environment to your local machine'
+  desc 'Downloads db/production_data.sql from the remote production environment to your local machine'
   task :remote_download, :roles => :db, :only => { :primary => true } do  
+    invoke_command "cd #{current_path} && zip db/#{rails_env}_data.zip db/#{rails_env}_data.sql"
     execute_on_servers(options) do |servers|
-      self.sessions[servers.first].sftp.connect do |tsftp|
-        tsftp.get_file "#{current_path}/db/production_data.zip", "db/production_data.zip" 
-      end
+      self.sessions[servers.first].sftp.download! "#{current_path}/db/#{rails_env}_data.zip", "db/#{rails_env}_data.zip" 
     end
-  end
-
-  desc 'Uncompress the production database zip file'
-  task :local_uncompress, :roles => :db, :only => { :primary => true } do
     `unzip db/#{rails_env}_data.zip`
   end
 
   desc 'Cleans up data dump file and zip file'
   task :remote_cleanup, :roles => :db, :only => { :primary => true } do  
-    delete "#{release_path}/db/production_data.sql" 
-    delete "#{release_path}/db/production_data.zip" 
+    invoke_command "rm -f #{current_path}/db/#{rails_env}_data.zip" 
+    invoke_command "rm -f #{current_path}/db/#{rails_env}_data.sql" 
+    File.delete("db/#{rails_env}_data.zip") if File.exists?("db/#{rails_env}_data.zip")
   end 
 
   desc 'Dumps, compress, downloads and then cleans up the production data dump'
   task :remote_runner do
     remote_dump
-    remote_compress
     remote_download
-    local_uncompress
     remote_cleanup
   end
 end

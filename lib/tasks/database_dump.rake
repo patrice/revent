@@ -20,8 +20,9 @@ namespace :db do
 
   desc "Refreshes your local development environment to the current production database" 
   task :production_data_refresh do
-    `rake remote:exec ACTION=remote_runner --trace`
+    `cap db:remote_runner`
     `rake db:production_data_load --trace`
+    `rake revent:local_sites --trace`
   end 
 
   desc "Loads the production data downloaded into db/production_data.sql into your local development database" 
@@ -32,9 +33,9 @@ namespace :db do
     when 'mysql'
       ActiveRecord::Base.establish_connection(configs[RAILS_ENV])
       if configs[RAILS_ENV]["password"].blank?
-        `mysql -h #{configs[RAILS_ENV]["host"]} -u #{configs[RAILS_ENV]["username"]} #{configs[RAILS_ENV]["database"]} < db/#{RAILS_ENV}_data.sql`
+        `mysql -h #{configs[RAILS_ENV]["host"]} -u #{configs[RAILS_ENV]["username"]} #{configs[RAILS_ENV]["database"]} < db/production_data.sql`
       else
-        `mysql -h #{configs[RAILS_ENV]["host"]} -u #{configs[RAILS_ENV]["username"]} -p#{configs[RAILS_ENV]["password"]} #{configs[RAILS_ENV]["database"]} < db/#{RAILS_ENV}_data.sql`
+        `mysql -h #{configs[RAILS_ENV]["host"]} -u #{configs[RAILS_ENV]["username"]} -p#{configs[RAILS_ENV]["password"]} #{configs[RAILS_ENV]["database"]} < db/production_data.sql`
       end
     else
       raise "Task not supported by '#{configs[RAILS_ENV]['adapter']}'" 
