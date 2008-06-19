@@ -95,16 +95,6 @@
              
             </tr>
             <tr>
-              <td valign="top" class="dia_field_name">Organization</td>
-              <td valign="top"><%= text_field_tag "user[democracy_in_action][supporter][Organization]", nil, :id => "dataOrganization", :maxlength => "64", :size => "30", :class => "inputStyle" %></td>
-           
-            </tr>
-            <tr>
-              <td valign="top" class="dia_field_name">Position</td>
-              <td valign="top"><%= text_field_tag "user[democracy_in_action][supporter][Occupation]", nil, :id => "dataOccupation", :maxlength => "64", :size => "30", :class => "inputStyle" %></td>
-            
-            </tr>
-            <tr>
               <td valign="top" colspan="2">A picture for your host profile <%= file_field_tag "profile_image[uploaded_data]", :class => "inputStyle" %></td>
             </tr>
  
@@ -145,7 +135,7 @@
             <tr>
               <td valign="top"  class="dia_field_name" colspan="2">
                 <div align="left">*Description:<br />                  
-						<%= f.text_area "description", :title => "Please enter your event's description", :class => "required", :rows => "7", :cols => "42", :style => "background-color: #ebd897;", :id => "dataDescription" %>
+                  <%= f.text_area "description", :title => "Please enter your event's description", :class => "required", :rows => "7", :cols => "57", :style => "background-color: #ebd897;", :id => "dataDescription" %>
                 </div>
               </td>
             </tr>
@@ -165,7 +155,7 @@
                 <div align="left">Additional Directions:</div>
               </td>
               <td valign="top">
-                &nbsp;<%= f.text_area "directions", :rows => "2", :cols => "25", :title => "Please enter directions to your event" %>
+                &nbsp;<%= f.text_area "directions", :rows => "2", :cols => "23", :title => "Please enter directions to your event" %>
               </td>  
             </tr>             
 

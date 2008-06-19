@@ -107,6 +107,7 @@ class User < ActiveRecord::Base
   end
 
   def dia_group_key
+    democracy_in_action &&
     democracy_in_action['supporter'] && 
     democracy_in_action['supporter']['link'] && 
     democracy_in_action['supporter']['link']['groups']
@@ -119,6 +120,7 @@ class User < ActiveRecord::Base
   end
 
   def dia_trigger_key
+    democracy_in_action &&
     democracy_in_action['supporter'] && 
     democracy_in_action['supporter']['email_trigger_KEYS']
   end
