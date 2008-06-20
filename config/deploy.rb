@@ -7,12 +7,13 @@ set :group, "#{user}"
 
 set :deploy_to, "/home/#{user}/#{application}"
 set :scm, :git
+set :keep_releases, 10
 
 role :web, "slicehost.radicaldesigns.org"
 role :app, "slicehost.radicaldesigns.org"
 role :db,  "slicehost.radicaldesigns.org", :primary => true
 
-#set :deploy_via, :remote_cache
+set :deploy_via, :remote_cache
 set :git_enable_submodules, 1
 
 set :use_sudo, true 
