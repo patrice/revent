@@ -92,6 +92,10 @@ class Report < ActiveRecord::Base
     user ? user.full_name : read_attribute('reporter_name')
   end
 
+  def reporter_first_name
+    user ? user.first_name : read_attribute('reporter_name').split(' ')[0]
+  end
+
   def reporter_email
     user ? user.email : read_attribute('email')
   end
