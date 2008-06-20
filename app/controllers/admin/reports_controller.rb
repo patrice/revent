@@ -2,12 +2,13 @@ class Admin::ReportsController < AdminController
   cache_sweeper :report_sweeper, :only => [:create, :update, :destroy]
 
   active_scaffold :reports do |config|
-    config.columns = [:created_at, :event, :reporter_name, :attendees, :status, :featured, :attachments, :embeds]
-    config.show.columns = [:created_at, :event, :reporter_email, :reporter_name, :text, :attendees, :status, :featured, :attachments, :embeds]
+    config.columns = [:created_at, :event, :user, :attendees, :status, :featured, :attachments, :embeds]
+    config.show.columns = [:created_at, :event, :reporter_email, :user, :text, :attendees, :status, :featured, :attachments, :embeds]
     config.update.columns = [:status, :featured, :text, :attendees]
     config.columns[:attendees].label = "Estimated attendance"
     config.columns[:attachments].label = "# of Attachments"
     config.columns[:embeds].label = "# of Embeds"
+    config.columns[:user].label = "Reporter"
     config.columns[:attachments].clear_link    
     config.columns[:embeds].clear_link    
   	columns[:featured].list_ui = :checkbox
