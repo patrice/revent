@@ -1,3 +1,20 @@
+service nation:
+  1. Also, we would like to add several staff members  as administrators to manage the events and the users.  
+  Is this something I can do or do I have to send you a list of the individuals we wish to add?
+  2. Lastly, when users are creating an event, would it possible to add an optional field called 
+  "Organization/Company"  that will be used enter the name of the sponsoring organization.
+  follow-up: 
+    should organization go into dia/salesforce?
+    should organization go on show page? 
+
+hope to action:
+  1. The menu and left sidebar
+  The Hope to Action menu seems to have disappeared (not sure if it was there originally). But we will also have a few other changes to the layout including the left sidebar. I don't know how these pages are designed in terms of the format they're drawing from, but we'll finalize what those the left sidebar and headers should be before passing those along.
+  2. The Event Details
+  The Event description is not coming out formatted, so it looks very strange on the page without any line breaks, etc. 
+
+
+
 - receiving banished email trigger for 'after innocence' screening
 - allow for setting calendar end time to never
 - need to expire event show/search pages each night so that add a report link shows up and upcoming events is correct (cronjob)
