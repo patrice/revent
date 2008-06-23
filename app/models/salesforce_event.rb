@@ -35,7 +35,7 @@ class SalesforceEvent < SalesforceBase
         :start__c => event.start,
         :end__c => event.end,
         # where
-        :location__c => event.address_for_geocode,
+        :location__c => event.location,
         :city__c => event.city,
         :state__c => event.state,
         :postal_code__c => event.postal_code,
