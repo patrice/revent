@@ -1,18 +1,23 @@
 <%  
-  @event.start = (@calendar.event_start ? [@calendar.event_start, Time.now].max : Time.now)
-  @event.start = @event.start.beginning_of_day + 12.hours
-  @event.end = @event.start + 2.hours 
+  unless @event.start
+	  @event.start = (@calendar.event_start ? [@calendar.event_start, Time.now].max : Time.now)
+	  @event.start = @event.start.beginning_of_day + 12.hours
+  end
+  @event.end ||= @event.start + 2.hours 
   @hostform = @calendar.hostform
 
-  @event.name = "Jennifer's EcoSalon"
-  @event.description = <<EOS
+  @event.name ||= "Jennifer's EcoSalon"
+  @event.description ||= <<EOS
 We all care about:
+<ul>
+  <li>Protecting our childrens future.</li>
+  <li>Making our homes, communities, and country safer and healthier.</li>
+  <li>Giving women a stronger voice on one of the most important issues of our time.</li>
+</ul>
 
-  - Protecting our childrens future.
-  - Making our homes, communities, and country safer and healthier.
-  - Giving women a stronger voice on one of the most important issues of our time.
-
+<p>
 Come to my EcoSalon and learn what women can do together to be part of the solution to global warming. I'll supply the refreshments, you bring your enthusiasm! Together, well start making a difference where it counts -- at home.
+</p>
 EOS
 
 =begin
