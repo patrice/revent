@@ -11,14 +11,17 @@ Sonia Tapryal, stapryal@bethechangeinc.org
 Jess Camacho, jcamacho@bethechangeinc.org"
 
 Site.current  = Site.find(13)
-admins = admins.split('\n')
+admins = admins.split("\n")
 admins.each do |a|
-  admin = a.split(',')
+  admin = a.split(",")
   full_name = admin.first.strip
   email = admin.last.strip
-  u = Site.current.users.build(:first_name => full_name.split.first, :last_name => full_name.split.last, :email => email)
-  u.password = "changeme"
-  u.password_confirmation = "changeme"
-  u.save
+  u = Site.current.users.find_or_initialize_by_email(email)
+  u.update_attributes(
+    :first_name => full_name.split.first, 
+    :last_name => full_name.split.last, 
+    :password => "changeme", 
+    :password_confirmation => "changeme")
   u.roles << Role.find_by_title("admin")
+  pp u
 end
