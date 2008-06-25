@@ -14,6 +14,7 @@ class Site < ActiveRecord::Base
   end
 
   has_many :users
+  #has_many :admins
   has_many :events
   has_many :triggers
   has_many :hostforms
