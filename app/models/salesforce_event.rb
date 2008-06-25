@@ -31,6 +31,7 @@ class SalesforceEvent < SalesforceBase
         # what 
         :name__c  => event.name,
         :description__c => event.description,
+        :organization__c => event.organization,
         # when
         :start__c => event.start,
         :end__c => event.end,
