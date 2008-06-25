@@ -10,7 +10,7 @@ Irene Jor, ijor@bethechangeinc.org
 Sonia Tapryal, stapryal@bethechangeinc.org
 Jess Camacho, jcamacho@bethechangeinc.org"
 
-Site.current  = Site.find(13)
+Site.current  = Site.find(12)
 admins = admins.split("\n")
 admins.each do |a|
   admin = a.split(",")
@@ -23,5 +23,5 @@ admins.each do |a|
     :password => "changeme", 
     :password_confirmation => "changeme")
   u.roles << Role.find_by_title("admin")
-  pp u
+  pp '.'
 end
