@@ -23,18 +23,23 @@
 <%= stylesheet_link_tag "http://hopetoaction.org/sites/all/modules/simplemenu/simplemenu.css" %>
 <%= stylesheet_link_tag "http://hopetoaction.org/sites/all/modules/simplemenu/themes/blackblue/blackblue.css" %>
 <%= stylesheet_link_tag "http://hopetoaction.org/themes/hope_to_action/style.css" %>
+<%= stylesheet_link_tag "http://hopetoaction.org/themes/hope_to_action/user_bar.css" %>
+<%= stylesheet_link_tag 'events' %>
+<%= theme_stylesheet_link_tag 'hopetoaction' %> 
 
 <script type="text/javascript" src="http://hopetoaction.org/misc/jquery.js"></script>
 <script type="text/javascript" src="http://hopetoaction.org/misc/drupal.js"></script>
 <script type="text/javascript" src="http://hopetoaction.org/sites/all/modules/jquery_update/compat-1.0.js"></script>
-<script type="text/javascript" src="http://hopetoaction.org/sites/all/modules/panels/js/panels.js"></script>
-<script type="text/javascript" src="http://hopetoaction.org/sites/all/modules/jquery_update/collapse-fix.js"></script>
-<%= theme_javascript_include_tag 'simplemenu' %>
 
+<%= theme_javascript_include_tag 'simplemenu' %>
 <script type="text/javascript">Drupal.extend({ settings: { "googleanalytics": { "trackOutgoing": 1, "trackMailto": 1, "trackDownload": 1, "trackDownloadExtensions": "7z|aac|avi|csv|doc|exe|flv|gif|gz|jpe?g|js|mp(3|4|e?g)|mov|pdf|phps|png|ppt|rar|sit|tar|torrent|txt|wma|wmv|xls|xml|zip", "LegacyVersion": 0 }, "simplemenu": { "basePath": "/", "effect": "height", "effectSpeed": "fast", "element": "#plinks", "hideDelay": "100", "placement": "prepend" } } });</script>
 <script type="text/javascript">var simplemenu = "\x3cli class=\"leaf\"\x3e\x3ca href=\"/\" title=\"Home page\"\x3eHome\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"expanded\"\x3e\x3ca href=\"/About\" title=\"About Gateway\"\x3eAbout\x3c/a\x3e\x3cul\x3e\x3cli class=\"leaf\"\x3e\x3ca href=\"/Why+Women\"\x3eWhy Women?\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"/Leadership\"\x3eAbout Us\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"/Partner+Organizations\"\x3ePartner Organizations\x3c/a\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3cli class=\"expanded\"\x3e\x3ca href=\"/learn\"\x3eLearn\x3c/a\x3e\x3cul\x3e\x3cli class=\"leaf\"\x3e\x3ca href=\"/The+Science\"\x3eThe Science\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"/News+and+Views\"\x3eNews and Views\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"/EcoResources\"\x3eEcoResources\x3c/a\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3cli class=\"expanded\"\x3e\x3ca href=\"/Get+Involved\"\x3eAction\x3c/a\x3e\x3cul\x3e\x3cli class=\"leaf\"\x3e\x3ca href=\"/EcoSalon+Dashboard\"\x3eEcoSalon\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"expanded\"\x3e\x3ca href=\"http://org2.democracyinaction.org/o/5180/t/2365/campaign.jsp?campaign_KEY=331\"\x3eInfluence America\x3c/a\x3e\x3cul\x3e\x3cli class=\"leaf\"\x3e\x3ca href=\"/Federal+Action\"\x3eFederal Action\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"/State+Action\"\x3eState Action\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"expanded\"\x3e\x3ca href=\"/Local+Action\"\x3eLocal Action\x3c/a\x3e\x3cul\x3e\x3cli class=\"leaf\"\x3e\x3ca href=\"/Local+Advocacy+Guide\"\x3eLocal Advocacy Guide\x3c/a\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3cli class=\"expanded\"\x3e\x3ca href=\"/EcoAction+Schools\"\x3eEcoAction Schools\x3c/a\x3e\x3cul\x3e\x3cli class=\"expanded\"\x3e\x3ca href=\"/EcoAction+Schools+Resources\"\x3eEnvironmental Education Resources\x3c/a\x3e\x3cul\x3e\x3cli class=\"leaf\"\x3e\x3ca href=\"/Curriculum+Resources+for+Administrators\"\x3eAdministrators\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"/Curriculum+Resources+for+Teachers\"\x3eTeachers\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"/Curriculum+Resources+for+Parents\"\x3eParents\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"/Curriculum+Resources+for+Students\"\x3eStudents\x3c/a\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://www.carbonrally.com/teams/208\"\x3eCarbon Rally Team\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"/files/file/EcoAction/EcoActionGuide.pdf\"\x3eEcoAction Guide\x3c/a\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3cli class=\"expanded\"\x3e\x3ca href=\"/Community+Gateway\"\x3eCommunity\x3c/a\x3e\x3cul\x3e\x3cli class=\"leaf\"\x3e\x3ca href=\"/Hope+to+Action+Blog\" title=\"monthly contributions by women leaders in climate protection\"\x3eWomen of Influence\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"/forum\"\x3eDiscussion Forums\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"expanded\"\x3e\x3ca href=\"/Community\"\x3eHope to Action Groups\x3c/a\x3e\x3cul\x3e\x3cli class=\"leaf\"\x3e\x3ca href=\"http://apps.facebook.com/causes/87781?h=plw\x26amp;recruiter_id=15195563\" title=\"Hope to Action\x26#039;s cause page on Facebook\"\x3eon Facebook\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://www.cafemom.com/group/Hope2Action\"\x3eon CafeMom\x3c/a\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"http://groups.yahoo.com/group/hopetoaction/\"\x3eon Yahoo!\x3c/a\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3c/ul\x3e\x3c/li\x3e\n\x3cli class=\"leaf\"\x3e\x3ca href=\"/Donations\"\x3eDonate\x3c/a\x3e\x3c/li\x3e\n";</script>
+<script type="text/javascript" src="http://hopetoaction.org/sites/all/modules/jquery_update/collapse-fix.js"></script>
 
-<%= stylesheet_link_tag "http://hopetoaction.org/themes/hope_to_action/user_bar.css" %>
+<%= javascript_include_tag 'prototype' %>
+<%= yield :header %>
+<%= Cartographer::Gmap::Header.header_for(request) if @map %>
+
 </head>
 
 <body class="front not-logged-in ntype-story sidebar-left">
@@ -80,38 +85,24 @@
 
     <h2 class="title">  </h2>
     <div class="content">
-      <p><a href="http://hopetoaction.org/EcoSalon+Dashboard" target="_self"><img hspace="10" height="34" border="0" width="181" vspace="5" alt="" src="/files/image/EcoSalon_Logo_Side.jpg" /></a></p>    </div>    
+      <p><a href="http://hopetoaction.org/EcoSalon+Dashboard" target="_self"><img hspace="10" height="34" border="0" width="181" vspace="5" alt="" src="http://hopetoaction.org/files/image/EcoSalon_Logo_Side.jpg" /></a></p>    </div>    
   </div>
 </div>
         </div> <!-- /sidebar-left -->
-                <div id="main" class="column">
-          <div id="squeeze">
-
-            <!-- 
-            <div style="text-align: center;"><img src="http://hopetoaction.org/themes/hope_to_action/images/banner.jpg" width="709" height="115" alt="" /></div>
-             -->
-            <!-- <div id="breadcrumb">
-                          </div>  -->
-            
-            
-            
-            
-                                                <div class="node ntype-story" id="node-79">
-  
-    
-  
-  
-    
+<div id="main" class="column">
+  <div id="squeeze">
+    <div class="node ntype-story" id="node-79">
   <div class="content">
     <!--[if IE 6]><link rel="stylesheet" type="text/css" href="http://hopetoaction.org/themes/hope_to_action/style_ie6_front.css" /><![endif]-->  <!--[if IE 5]><link rel="stylesheet" type="text/css" href="/themes/hope_to_action/style_ie5_front.css" /><![endif]-->  <script type="text/javascript">
   function showBox(intID){$("#block-block-"+intID).show();}
   function hideBox(intID){$("#block-block-"+intID).hide();}
   function initBox(intID,intTop,intLeft){$("#block-block-"+intID).css({marginTop:intTop+"px",marginLeft:intLeft+"px"});}
   $(document).ready(function(){initBox(13,-623,210);initBox(14,-519,10);initBox(31,-623,320);initBox(16,-306,115);});
-</script> <div id="frontpagematrix"><img alt="" usemap="#matrix" src="http://hopetoaction.org/files/image/home_matrix.jpg" /> <p>&nbsp;</p> <p>&nbsp;</p> <p>&nbsp;</p> <p>&nbsp;</p> <p><map name="matrix"> <area alt="Why Women" onmouseout="hideBox(31);" onmouseover="showBox(31);" href="/Why+Women" coords="147,0,275,107" shape="rect" /> <area alt="Climate Action Kids" onmouseout="hideBox(13);" onmouseover="showBox(13);" href="/Climate+Action+Kids" coords="586,0,685,107" shape="rect" /> <area alt="EcoSalon" onmouseout="hideBox(14);" onmouseover="showBox(14);" href="/EcoSalon+Dashboard" coords="337,99,480,195" shape="rect" /> <area alt="Influence America" onmouseout="hideBox(16);" onmouseover="showBox(16);" href="http://org2.democracyinaction.org/o/5180/t/2365/campaign.jsp?campaign_KEY=331" coords="470,315,577,425" shape="rect" /> </map></p></div> <p>&nbsp;</p>  </div>
-
-  
-   
+</script> <div id="frontpagematrix">
+  <% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
+  <%= yield %>
+</div>
 </div>
 <div id="block-block-31" class="blo schools, and in our communities for climate protection.</p></div><p>&nbsp;</p>    </div>    
   </div>
