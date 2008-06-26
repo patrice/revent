@@ -16,6 +16,11 @@ PADDING-BOTTOM: 0px;
 PADDING-BOTTOM: 10px;
 }
 
+#revent-main {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
 .intro-title { 
 font-size:21px;
 font-weight: bold;
