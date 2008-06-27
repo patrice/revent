@@ -47,5 +47,28 @@ describe SalesforceEvent do
         @sf_event.attributes["#{key}__c"].should == value
       end
     end
+    it "should find the object it created" do
+      SalesforceEvent.find(@sf_event.id).id.should == @sf_event.id
+    end
+    describe "update" do
+      before do
+        @sf_event.city__c = "San Francisco"
+        @sf_event.state__c = "CA"
+      end
+      it "save should return true" do
+        @sf_event.save.should be_true
+      end
+      it "should update the object it created" do
+        @sf_event.save
+        SalesforceEvent.find(@sf_event.id).city__c.should == "San Francisco" &&
+        SalesforceEvent.find(@sf_event.id).state__c.should == "CA"
+      end
+    end
+    describe "destroy" do 
+      it "event should no longer exist" do
+        SalesforceEvent.delete_event(@sf_event.id)
+        lambda{SalesforceEvent.find(@sf_event.id)}.should raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 end
