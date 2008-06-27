@@ -17,7 +17,11 @@ class SalesforceContact < SalesforceBase
       if user.salesforce_object
         sf_contact = SalesforceContact.update(user.salesforce_object.remote_id, attribs)
       else
-        sf_contact = SalesforceContact.create(attribs)
+        if sf_contact = SalesforceContact.find(:first, :conditions => {:email => user.email})
+          sf_contact = SalesforceContact.update(sf_contact.id, attribs)
+        else
+          sf_contact = SalesforceContact.create(attribs)
+        end
         user.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => 'Contact', :remote_id => sf_contact.id)
       end
       sf_contact

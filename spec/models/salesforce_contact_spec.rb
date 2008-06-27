@@ -63,13 +63,20 @@ describe "SalesforceContact" do
       SalesforceContact.stub!(:update).and_return(@sf_contact)
       lambda {SalesforceContact.save_from_user(@user)}.should_not raise_error
     end
-    it "should update the attributes if salesforce object already exists" do
+    it "should update the attributes if local salesforce object already exists" do
       @user.first_name = 'firstly'
       SalesforceContact.should_receive(:update).with(@user.salesforce_object.remote_id, SalesforceContact.translate(@user))
       SalesforceContact.save_from_user(@user)
     end
+    it "should update the attributes if remote salesforce object already exists" do
+      @user = create_user # with no existing salesforce_object
+      SalesforceContact.should_receive(:find).with(:first, :conditions => {:email => @user.email}).and_return(@sf_contact)
+      SalesforceContact.should_receive(:update).with(@sf_contact.id, SalesforceContact.translate(@user)).and_return(@sf_contact)
+      SalesforceContact.save_from_user(@user)
+    end
     it "should create a salesforce object when it doesn't exists" do
       @user = create_user # with no existing salesforce_object
+      SalesforceContact.should_receive(:find).with(:first, :conditions => {:email => @user.email}).and_return(nil)
       SalesforceContact.should_receive(:create).and_return(@sf_contact)
       SalesforceContact.save_from_user(@user)
       @user.salesforce_object.mirrored.should == @user

@@ -40,8 +40,8 @@ module FixtureReplacement
     a.city = cities[rand(cities.length)]
     a.state = states[rand(states.length)].last
     a.postal_code = "94114"
-    a.start = Time.now + 2.months
-    a.end = a.start + 2.hours
+    a.start = (start = Time.now + 2.months)
+    a.end = start + 2.hours
 	end
 
 =begin
