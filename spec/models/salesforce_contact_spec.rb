@@ -106,6 +106,17 @@ describe "SalesforceContact", "when saving" do
   end
 end
 
+describe "SalesforceContact", "when deleting a contact" do
+  it "should use a transaction" do
+    SalesforceContact.should_receive(:transaction)
+    SalesforceContact.delete_contact('444GGG')
+  end
+  it "should call delete" do
+    SalesforceContact.should_receive(:delete).with('444GGG')
+    SalesforceContact.delete_contact('444GGG')
+  end
+end
+
 =begin
 describe "Salesforce::Contact" do
   describe "when created" do

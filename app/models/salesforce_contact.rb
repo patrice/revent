@@ -41,5 +41,9 @@ class SalesforceContact < SalesforceBase
         :mailing_country      => user.country,
         :mailing_postal_code  => user.postal_code }
     end
+
+    def delete_contact(contact_id)
+      transaction { delete(contact_id) }
+    end
   end
 end

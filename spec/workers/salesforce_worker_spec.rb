@@ -19,4 +19,9 @@ describe SalesforceWorker do
     SalesforceContact.should_receive(:save_from_user).and_return(@sf_contact)
     SalesforceWorker.new.save_contact(:user_id => @user.id)
   end
+
+  it "should delete a contact" do
+    SalesforceContact.should_receive(:delete_contact).with('444GGG')
+    SalesforceWorker.new.delete_contact(:contact_id => '444GGG')
+  end
 end
