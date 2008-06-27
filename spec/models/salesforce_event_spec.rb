@@ -8,24 +8,13 @@ describe SalesforceEvent do
     SalesforceEvent.stub!(:set_table_name).and_return(true)
   end
 
-  it "should be able to establish a connection" do
-    lambda {SalesforceEvent.establish_connection(YAML.load_file(@config + '/salesforce-config.yml'))}.should_not raise_error
-  end
-  it "should make a connection" do
-    lambda {SalesforceEvent.make_connection(1)}.should_not raise_error
-  end
-  it "should connect to salesforce database" do
-    SalesforceEvent.should_receive(:establish_connection).and_return(true)
-    SalesforceEvent.make_connection(1)
-  end
-
-  describe "when saved" do 
+  describe "translated" do 
     before do
       @event = create_event
       ServiceObject.create(:mirrored => @event.host, :remote_service => 'Salesforce', 
                            :remote_type => 'Contact', :remote_id => '1234ABCD')
     end
-    it "should get who id from salesforce_object, if it exists" do
+    it "host id should match salesforce_object id when exists" do
       SalesforceEvent.translate(@event)[:host_id__c].should == @event.host.salesforce_object.remote_id
     end
     it "should create a new Salesforce Contact if host does not have a Salesforce object" do

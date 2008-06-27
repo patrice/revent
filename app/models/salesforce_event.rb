@@ -1,4 +1,10 @@
 class SalesforceEvent < SalesforceBase
+=begin
+  after_create :create_salesforce_object
+  def create_salesforce_object
+  end
+=end
+
   class << self
     #  cannot set_table_name here because we need a valid connection (because it connects!  when we do set_table_name!  wtf!!!!
     #  set_table_name "Contact"
