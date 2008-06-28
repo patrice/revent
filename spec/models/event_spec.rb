@@ -108,6 +108,10 @@ describe Event do
   end
 
   describe 'when destroyed' do
+    before do
+      Site.stub!(:current).and_return(stub(Site, :salesforce_enabled? => true))
+      SalesforceWorker.stub!(:async_save_event).and_return(true)
+    end
     it "should not be in the db" do
       @event.save
       Event.find(@event.id).should_not be_nil
@@ -119,6 +123,15 @@ describe Event do
       DemocracyInAction::API.stub!(:new).and_return(@dia_api)
       @event.stub!(:democracy_in_action_object).and_return(mock('object', :destroy => true, :key => 111))
       @dia_api.should_receive(:delete)
+      @event.destroy
+    end
+    it "should rescue workling error if an exception is raised by async_delete_event" do
+      SalesforceWorker.stub!(:async_delete_event).and_raise(Workling::WorklingError)
+      @event.logger.should_receive(:error)
+      @event.destroy
+    end
+    it "should delete event from Salesforce if it exists" do
+      SalesforceWorker.should_receive(:async_delete_event).and_return(true)
       @event.destroy
     end
   end

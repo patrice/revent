@@ -13,6 +13,10 @@ class SalesforceWorker < Workling::Base
     SalesforceEvent.save_from_event(Event.find(options[:event_id]))
   end
 
+  def delete_event(options={})
+    SalesforceEvent.delete_event(options[:event_id])
+  end
+
   def save_rsvp(options={})
     RAILS_DEFAULT_LOGGER.info "SalesforceWorker received event id: #{options[:rsvp_id]}"
     SalesforceRsvp.save_from_rsvp(Rsvp.find(options[:rsvp_id]))

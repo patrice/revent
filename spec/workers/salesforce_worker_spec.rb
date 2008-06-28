@@ -24,4 +24,9 @@ describe SalesforceWorker do
     SalesforceContact.should_receive(:delete_contact).with('444GGG')
     SalesforceWorker.new.delete_contact(:contact_id => '444GGG')
   end
+
+  it "should delete a event" do
+    SalesforceEvent.should_receive(:delete_event).with('333EEE')
+    SalesforceWorker.new.delete_event(:event_id => '333EEE')
+  end
 end
