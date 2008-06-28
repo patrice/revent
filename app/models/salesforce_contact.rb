@@ -44,6 +44,8 @@ class SalesforceContact < SalesforceBase
 
     def delete_contact(contact_id)
       transaction { delete(contact_id) }
+    rescue ActiveSalesforce::ASFError => e
+      raise e unless e.message =~ /ENTITY_IS_DELETED/
     end
   end
 end
