@@ -10,7 +10,8 @@
     .content
       %p
         %span{:style => "color:rgb(255,255,255);"}
-          - if @controller.controller_name == "calendars"
+          - case @controller.controller_name
+          - when "calendars"
             - if @controller.action_name == "show"
               %h2 ATTEND AN ECOSALON
               %br
@@ -18,7 +19,7 @@
               enter your zip code to find your EcoSalon now! Or click on your state to
               zoom in on the map. If the EcoSalon you are invited to isn't listed, just
               click on the link from the email invitation to RSVP.
-          - elsif @controller.controller_name == "events"
+          - when "events"
             - if @controller.action_name == "new"
               %h2 ECOSALON
               %br
@@ -41,15 +42,23 @@
               change, why it is important, and how to take action. Bring the EcoSalon
               experience to your city and join the nationwide movement of women for
               climate protection!
-          - elsif @controller.controller_name == "account"
+          - when "account"
             - if @controller.action_name == "login"
               %h2 CO-HOST YOUR ECOSALON
               %br
               You don't have to plan and host your EcoSalon on your own! Save time and
               have fun by co-hosting your EcoSalon with a friend.
-          - elsif @controller.controller_name == "account/events"
+          - when "account/events"
             %h2 HELPFUL RESOURCES
             %br
             Don't forget to check our Resources section, which can give you great ideas
             on how to organize your EcoSalon! Find party plans, a guide to taking
             action, our Hope to Action video, and more!
+          - else 
+            %h2 ECOSALON
+            %br
+            EcoSalon is a grassroots outreach initiative that offers women a fun and
+            simple way to directly influence their communities to learn about climate
+            change, why it is important, and how to take action. Bring the EcoSalon
+            experience to your city and join the nationwide movement of women for
+            climate protection!

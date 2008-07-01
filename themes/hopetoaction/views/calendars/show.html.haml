@@ -1,6 +1,6 @@
 #national-container
   #national-intro
-    = link_to(theme_image_tag('Plan_Bar.gif', {:width => "200", :height => "73", :style => "display: block; margin-left: 100px; margin-right: auto;"}), 'http://hopetoaction.org/ecosalon')
+    = render :partial => 'shared/plan_bar'
     .national-intro-count
       /
         There are <%= pluralize @calendar.events.length, @calendar.name %> in <%= @calendar.events.unique_states %> states.
