@@ -24,17 +24,17 @@ after "deploy:symlink_shared", "deploy:after_symlink"
 namespace :deploy do
   desc "Start the server"
   task :start, :roles => :app do
-    invoke_command "monit -g #{group} start all", :via => run_method
+    invoke_command "monit -g #{group} start all"
   end
 
   desc "Stop the server"
   task :stop, :roles => :app do
-    invoke_command "monit -g #{group} stop all", :via => run_method
+    invoke_command "monit -g #{group} stop all"
   end
 
   desc "Restart the server"
   task :restart, :roles => :app do
-    invoke_command "monit -g #{group} restart all", :via => run_method
+    invoke_command "monit -g #{group} restart all"
   end
 
   task :symlink_shared, :roles => :app, :except => {:no_symlink => true} do
