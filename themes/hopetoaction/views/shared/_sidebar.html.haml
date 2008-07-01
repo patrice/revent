@@ -22,13 +22,10 @@
           - when "events"
             - case @controller.action_name
             - when "new"
-              %h2 ECOSALON
+              %h2 CO-HOST YOUR ECOSALON
               %br
-              EcoSalon is a grassroots outreach initiative that offers women a fun and
-              simple way to directly influence their communities to learn about climate
-              change, why it is important, and how to take action. Bring the EcoSalon
-              experience to your city and join the nationwide movement of women for
-              climate protection!
+              You don't have to plan and host your EcoSalon on your own! Save time and
+              have fun by co-hosting your EcoSalon with a friend.
             - when "search"
               %h2 ATTEND AN ECOSALON
               %br
@@ -45,10 +42,11 @@
               climate protection!
           - when "account"
             - if @controller.action_name == "login"
-              %h2 CO-HOST YOUR ECOSALON
+              %h2 HELPFUL RESOURCES
               %br
-              You don't have to plan and host your EcoSalon on your own! Save time and
-              have fun by co-hosting your EcoSalon with a friend.
+              Don't forget to check our Resources section, which can give you great ideas
+              on how to organize your EcoSalon! Find party plans, a guide to taking
+              action, our Hope to Action video, and more!
           - when "account/events"
             - case @controller.action_name 
             - when "index"
