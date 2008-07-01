@@ -10,7 +10,7 @@
     .content
       %p
         %span{:style => "color:rgb(255,255,255);"}
-          - case @controller.controller_name
+          - case params[:controller] #@controller.controller_name 
           - when "calendars"
             - if @controller.action_name == "show"
               %h2 ATTEND AN ECOSALON
@@ -20,7 +20,8 @@
               zoom in on the map. If the EcoSalon you are invited to isn't listed, just
               click on the link from the email invitation to RSVP.
           - when "events"
-            - if @controller.action_name == "new"
+            - case @controller.action_name
+            - when "new"
               %h2 ECOSALON
               %br
               EcoSalon is a grassroots outreach initiative that offers women a fun and
@@ -28,13 +29,13 @@
               change, why it is important, and how to take action. Bring the EcoSalon
               experience to your city and join the nationwide movement of women for
               climate protection!
-            - if @controller.action_name == "search"
+            - when "search"
               %h2 ATTEND AN ECOSALON
               %br
               Choose your EcoSalon from the list. Don't see yours? If the EcoSalon you are
               invited to isn't shown, go back to your email and click on the link in the
               email invitation to RSVP.
-            - if @controller.action_name == "show"
+            - when "show"
               %h2 ECOSALON
               %br
               EcoSalon is a grassroots outreach initiative that offers women a fun and
@@ -49,11 +50,32 @@
               You don't have to plan and host your EcoSalon on your own! Save time and
               have fun by co-hosting your EcoSalon with a friend.
           - when "account/events"
-            %h2 HELPFUL RESOURCES
-            %br
-            Don't forget to check our Resources section, which can give you great ideas
-            on how to organize your EcoSalon! Find party plans, a guide to taking
-            action, our Hope to Action video, and more!
+            - case @controller.action_name 
+            - when "index"
+              %h2 HELPFUL RESOURCES
+              %br
+              Don't forget to check our Resources section, which can give you great ideas
+              on how to organize your EcoSalon! Find party plans, a guide to taking
+              action, our Hope to Action video, and more!
+            - when "show"
+              %h2 REFRESHMENT TIPS
+              %br
+              Eco-friendly food and drink will fuel thoughtful conversation and satisfied
+              guests!
+              %ul
+                %li Buy locally produced organic foods.
+                %li Use glass bottles and pitchers instead of plastic.
+                %li Avoid unnecessary packaging.
+                %li Use cloth napkins instead of paper.
+              %br
+              %h2 PARTY FAVOR TIPS
+              %br
+              Consider Eco party favors for your guests to encourage them to take action
+              with you! You'll find great ideas in the EcoGift Guide like:
+              %ul
+                %li Lightbulbs
+                %li Reusable bags
+                %li Eco-friendly Beauty products
           - else 
             %h2 ECOSALON
             %br
