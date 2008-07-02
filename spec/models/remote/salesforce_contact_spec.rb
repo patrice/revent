@@ -10,9 +10,11 @@ describe SalesforceContact do
   end
 
   it "should update a contact if one already exists with the users email" do
-    user = create_user(:first_name => 'bob')
-    contact_id = SalesforceContact.create(:email => user.email, :last_name => user.last_name, :first_name => 'charlie').id
-    SalesforceContact.save_from_user(user)
+    SalesforceContact.stub!(:make_connection).and_return(true)
+    bob = new_user(:first_name => 'bob', :site_id => 1)
+    sf_charlie = SalesforceContact.create(:email => bob.email, :last_name => bob.last_name, :first_name => 'charlie')
+    contact_id = sf_charlie.id
+    sf_bob = SalesforceContact.save_from_user(bob)
     SalesforceContact.find(contact_id).first_name.should == 'bob'
   end
 
