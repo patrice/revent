@@ -14,3 +14,4 @@ public/attachments/*
 public/themes/*
 sites/*
 test/cache/*
+coverage/*
