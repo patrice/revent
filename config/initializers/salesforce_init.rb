@@ -6,5 +6,8 @@
 #    You can get the time-zone offset for salesforce account by using owner_id
 #    on any Contact record and then looking up owner in Sforce User table
 SALESFORCE_TZ_OFFSET = {
-  'events.servicenation.org' => -4
+  # this is the difference in time between GMT (i.e. England)  and Washington, DC 
+  # (where pascal@libertyconcepts.com time-zone is set to)
+  # basically, this is used to undo the offset that salesforce adds to the start/end times
+  'events.servicenation.org' => 4  
 }
