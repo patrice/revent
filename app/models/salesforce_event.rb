@@ -30,6 +30,7 @@ class SalesforceEvent < SalesforceBase
       { # who
         :host_id__c => host_id, 
         # what 
+        :name => event.name,
         :name__c  => event.name,
         :description__c => event.description,
         :organization__c => event.organization,
