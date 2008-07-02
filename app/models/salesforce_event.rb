@@ -6,7 +6,7 @@ class SalesforceEvent < SalesforceBase
       config = File.join(Site.config_path(id), 'salesforce-config.yml')
       return unless File.exist?(config)
       SalesforceEvent.establish_connection(YAML.load_file(config))
-      set_table_name('CustomEvent')
+      set_table_name('rEvent')
     end
 
     def save_from_event(event) 

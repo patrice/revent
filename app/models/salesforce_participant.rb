@@ -6,7 +6,7 @@ class SalesforceParticipant < SalesforceBase
       config = File.join(Site.config_path(id), 'salesforce-config.yml')
       return unless File.exist?(config)
       establish_connection(YAML.load_file(config))
-      set_table_name 'Participant'
+      set_table_name 'rParticipant'
     end
 
     def save_from_report(report)
