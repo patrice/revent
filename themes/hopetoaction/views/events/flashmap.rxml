@@ -3,7 +3,7 @@ xml.us_states do
   xml.state( :id => "outline_color" )    { xml.color 777777 }
   xml.state( :id => "default_color" )    { xml.color 'E0DBC8' }
   xml.state( :id => "background_color" ) { xml.color 'FFFFFF' }
-  xml.state( :id => "state_info_icon" )  { xml.src '/icon.swf' }
+  xml.state( :id => "state_info_icon" )  { xml.src "http://#{@calendar.site.host}/icon.swf" }
   xml.state( :id => "default_point" )    { xml.color('75AD50'); xml.size(3) }
   xml.state( :id => "scale_points" )     { xml.data 30 }
 
