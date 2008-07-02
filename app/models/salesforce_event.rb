@@ -24,6 +24,7 @@ class SalesforceEvent < SalesforceBase
     end
 
     def translate(event)
+      site = event.calendar.site
       host_id = event.host.salesforce_object ? 
          event.host.salesforce_object.remote_id : SalesforceContact.save_from_user(event.host).id
       { # who
@@ -33,8 +34,8 @@ class SalesforceEvent < SalesforceBase
         :description__c => event.description,
         :organization__c => event.organization,
         # when
-        :start__c => event.start,
-        :end__c => event.end,
+        :start__c => event.start + SALESFORCE_TZ_OFFSET[site.host],
+        :end__c => event.end + SALESFORCE_TZ_OFFSET[site.host],
         # where
         :location__c => event.location,
         :city__c => event.city,
