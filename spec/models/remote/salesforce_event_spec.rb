@@ -19,6 +19,7 @@ describe SalesforceEvent do
     SalesforceEvent.make_connection(1)
   end
   it "should describe the SalesforceEvent when connected" do
+    SalesforceEvent.make_connection(1)
     SalesforceEvent.inspect.should match(/datetime, start__c: datetime, end__c:/)
   end
 
@@ -34,6 +35,8 @@ describe SalesforceEvent do
 
   describe "when creating" do
     before(:all) do
+      @config = File.join(RAILS_ROOT,'test','config')
+      Site.stub!(:config_path).and_return(@config)
       Site.stub!(:current).and_return(stub(Site, :id => 1, :salesforce_enabled? => false))
       SalesforceEvent.make_connection(12)
       SalesforceContact.make_connection(12)
