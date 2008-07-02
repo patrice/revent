@@ -2,13 +2,11 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 describe SalesforceContact do
   before(:all) do
-    SalesforceContact.make_connection nil
-  end
-
-  before do
     @config = File.join(RAILS_ROOT,'test','config')
     Site.stub!(:config_path).and_return(@config)
     Site.stub!(:current).and_return(stub(Site, :id => 1, :salesforce_enabled? => false))
+    SalesforceContact.make_connection nil
+    #SalesforceContact.find(:all).each {|s| SalesforceContact.delete_contact(s.id) rescue ActiveSalesforce::ASFError}
   end
 
   it "should update a contact if one already exists with the users email" do

@@ -2,15 +2,12 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 describe SalesforceParticipant do
   before(:all) do
-    SalesforceParticipant.make_connection nil
-    SalesforceContact.make_connection nil
-    SalesforceEvent.make_connection nil
-  end
-
-  before do
     @config = File.join(RAILS_ROOT,'test','config')
     Site.stub!(:config_path).and_return(@config)
     Site.stub!(:current).and_return(stub(Site, :id => 1, :salesforce_enabled? => false))
+    SalesforceContact.make_connection nil
+    SalesforceEvent.make_connection nil
+    SalesforceParticipant.make_connection nil
   end
 
   it "should create participants" do
