@@ -1,6 +1,5 @@
 #national-container
   #national-intro
-    = render :partial => 'shared/plan_bar'
     .national-intro-count
       /
         There are <%= pluralize @calendar.events.length, @calendar.name %> in <%= @calendar.events.unique_states %> states.

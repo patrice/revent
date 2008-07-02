@@ -76,6 +76,7 @@
   function initBox(intID,intTop,intLeft){$("#block-block-"+intID).css({marginTop:intTop+"px",marginLeft:intLeft+"px"});}
   $(document).ready(function(){initBox(13,-623,210);initBox(14,-519,10);initBox(31,-623,320);initBox(16,-306,115);});
 </script> <div id="revent-main">
+  <%= link_to(theme_image_tag('Plan_Bar.gif', {:width => "200", :height => "73", :style => "display:block; margin-left:150px;"}), 'http://hopetoaction.org/ecosalon') %>
   <% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
   <% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
   <%= yield %>
