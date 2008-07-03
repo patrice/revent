@@ -9,5 +9,5 @@ SALESFORCE_TZ_OFFSET = {
   # this is the difference in time between GMT (i.e. England)  and Washington, DC 
   # (where pascal@libertyconcepts.com time-zone is set to)
   # basically, this is used to undo the offset that salesforce adds to the start/end times
-  'events.servicenation.org' => 4  
+  'events.servicenation.org' => 14400  # 4 hours  
 }
