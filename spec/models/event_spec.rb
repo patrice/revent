@@ -1,30 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
-module EventFactory
-  def generate_event
-    event = Event.new(
-      :id => 111, 
-      :name => "San Francisco Day of Action", 
-      :short_description => "Die-in in front of Federal Reserve building.",
-      :description => "Arrive early and bring signs.  Perform die-in in front of Fed building.",
-      :directions => "Take BART to Montgomery Station.",
-      :location => "111 Montgomery St.", :city => "San Francisco", :state => "CA", :postal_code => "94114",
-      :country_code => Event::COUNTRY_CODE_USA, :district => "CA08",
-      :start => (Time.now + 1.week), :end => (Time.now + 1.week + 4.hours),
-      :letter_script => "Dear Sir, Please attend our event to stop the war. Thank you, yours",
-      :call_script => "Hello, Please attend our event to stop the war. Thank you",
-      :private => false, :max_attendees => 200,
-      :fallback_latitude => nil, :fallback_longitude => nil,
-      :organization => "United For Peace and Justice")
-    calendar_mock = mock_model(Calendar, :null_object => true, :event_start => 1.month.ago, :event_end => 1.month.from_now)
-    event.stub!(:calendar).and_return(calendar_mock)
-    event.calendar_id = calendar_mock.id
-    event
-  end
-end
-
 describe Event do 
-  include EventFactory
   before(:each) do
     Site.stub!(:current).and_return(stub(Site, :id => 1, :salesforce_enabled? => false))
     Site.stub!(:current_config_path).and_return(File.join(RAILS_ROOT, 'test', 'config'))
@@ -37,8 +13,7 @@ describe Event do
     @dia_api = mock('dia_api', :process => true)
     DemocracyInActionEvent.stub!(:api).and_return(@dia_api)
     
-    # create event to use in specs
-    @event = generate_event
+    @event = new_event
   end
 
   describe 'in US' do
@@ -111,6 +86,9 @@ describe Event do
     before do
       Site.stub!(:current).and_return(stub(Site, :salesforce_enabled? => true))
       SalesforceWorker.stub!(:async_save_event).and_return(true)
+
+      @salesforce_object = stub('sf_object', :remote_id => '444HHH', :destroy => true)
+      @event.stub!(:salesforce_object).and_return(@salesforce_object)
     end
     it "should not be in the db" do
       @event.save
@@ -131,7 +109,7 @@ describe Event do
       @event.destroy
     end
     it "should delete event from Salesforce if it exists" do
-      SalesforceWorker.should_receive(:async_delete_event).and_return(true)
+      SalesforceWorker.should_receive(:async_delete_event).with(@salesforce_object.remote_id).and_return(true)
       @event.destroy
     end
   end

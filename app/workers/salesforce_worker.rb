@@ -4,8 +4,8 @@ class SalesforceWorker < Workling::Base
     SalesforceContact.save_from_user(User.find(options[:user_id]))
   end
 
-  def delete_contact(options={})
-    SalesforceContact.delete_contact(User.find(options[:user_id]))
+  def delete_contact(contact_id)
+    SalesforceContact.delete_contact(contact_id)
   end
 
   def save_event(options={})
@@ -13,13 +13,17 @@ class SalesforceWorker < Workling::Base
     SalesforceEvent.save_from_event(Event.find(options[:event_id]))
   end
 
-  def delete_event(options={})
-    SalesforceEvent.delete_event(Event.find(options[:event_id]))
+  def delete_event(sf_event_id)
+    SalesforceEvent.delete_event(sf_event_id)
   end
 
-  def save_rsvp(options={})
+  def save_participant(options={})
     RAILS_DEFAULT_LOGGER.info "SalesforceWorker received event id: #{options[:rsvp_id]}"
-    SalesforceRsvp.save_from_rsvp(Rsvp.find(options[:rsvp_id]))
+    SalesforceParticipant.save_from_rsvp(Rsvp.find(options[:rsvp_id])) if options[:rsvp_id]
+    SalesforceParticipant.save_from_report(Report.find(options[:report_id])) if options[:report_id]
   end
 
+  def delete_participant(participant_id)
+    SalesforceParticipant.delete(participant_id)
+  end
 end

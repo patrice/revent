@@ -141,7 +141,7 @@ class Event < ActiveRecord::Base
     self.create_democracy_in_action_object :key => key, :table => 'event' unless self.democracy_in_action_object
   end
 
-  has_one :salesforce_object, :as => :mirrored, :class_name => 'ServiceObject'
+  has_one :salesforce_object, :as => :mirrored, :class_name => 'ServiceObject', :dependent => :destroy
   after_save :sync_to_salesforce
   def sync_to_salesforce
     return true unless Site.current.salesforce_enabled?
@@ -153,8 +153,8 @@ class Event < ActiveRecord::Base
 
   before_destroy :delete_from_salesforce
   def delete_from_salesforce
-    return true unless self.calendar.site.salesforce_enabled?
-    SalesforceWorker.async_delete_event(:event_id => self.id) 
+    return true unless self.calendar.site.salesforce_enabled? && self.salesforce_object
+    SalesforceWorker.async_delete_event(self.salesforce_object.remote_id) 
   rescue Workling::WorklingError => e
     logger.error("SalesforceWorker.async_delete_event(:event_id => #{self.id}) failed! Perhaps workling is not running. Got Exception: #{e}")
     return true # don't kill the callback chain since it may still do something useful

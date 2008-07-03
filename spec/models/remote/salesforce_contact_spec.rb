@@ -22,24 +22,23 @@ describe "SalesforceContact delete" do
   before do
     @config = File.join(RAILS_ROOT,'test','config')
     Site.stub!(:config_path).and_return(@config)
-
     @user = create_user(:email => 'test@example.com', :last_name => 'lastly')
     @contact = SalesforceContact.save_from_user(@user)
   end
 
   it "should delete contacts" do
-    SalesforceContact.delete_contact(@user)
+    SalesforceContact.delete_contact(@contact.id)
     lambda { SalesforceContact.find(@contact.id) }.should raise_error(ActiveRecord::RecordNotFound)
   end
 
   it "should not die if contact is already deleted" do
-    SalesforceContact.delete_contact(@user)
-    lambda { SalesforceContact.delete_contact(@user) }.should_not raise_error
+    SalesforceContact.delete_contact(@contact.id)
+    lambda { SalesforceContact.delete_contact(@contact.id) }.should_not raise_error
   end
 
   it "should raise error if asf raises a different kind of error" do
     error = ActiveSalesforce::ASFError.new(SalesforceContact.logger, 'bad')
     SalesforceContact.should_receive(:delete).and_raise(error)
-    lambda { SalesforceContact.delete_contact(@user) }.should raise_error
+    lambda { SalesforceContact.delete_contact(@contact.id) }.should raise_error
   end
 end

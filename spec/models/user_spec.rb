@@ -126,7 +126,7 @@ describe User do
         @user.build_salesforce_object(:remote_id => '444GGG')
       end
       it "should delete itself from salesforce" do
-        SalesforceWorker.should_receive(:async_delete_contact).with(:user_id => @user.id)
+        SalesforceWorker.should_receive(:async_delete_contact).with(@user.salesforce_object.remote_id)
         @user.delete_from_salesforce
       end
       it "should log the error with a workling failure" do

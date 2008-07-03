@@ -24,7 +24,6 @@ describe SalesforceEvent do
   end
 
   EVENT_ATTRIBUTES = { 
-    :name => "Step It Up",
     :location => "1 Market St.",
     :description => "This event will be awesome.",
     :city => "New York",
@@ -71,7 +70,7 @@ describe SalesforceEvent do
     end
     describe "destroy" do 
       it "event should no longer exist" do
-        SalesforceEvent.delete_event(@event)
+        SalesforceEvent.delete_event(@sf_event.id)
         lambda{SalesforceEvent.find(@sf_event.id)}.should raise_error(ActiveRecord::RecordNotFound)
       end
     end

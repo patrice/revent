@@ -42,10 +42,8 @@ class SalesforceContact < SalesforceBase
         :mailing_postal_code  => user.postal_code }
     end
 
-    def delete_contact(user)
-      return true unless user.salesforce_object
-      transaction { delete(user.salesforce_object.remote_id) }
-      user.salesforce_object.destroy
+    def delete_contact(contact_id)
+      transaction { delete(contact_id) }
     rescue ActiveSalesforce::ASFError => e
       raise e unless e.message =~ /ENTITY_IS_DELETED/
     end

@@ -10,26 +10,32 @@ class SalesforceParticipant < SalesforceBase
     end
 
     def save_from_report(report)
-      return unless self.make_connection(report.event.calendar.site_id)
+      return unless self.make_connection(report.user.site_id)
       user = report.user
       event = report.event
       sf_contact_id = user.salesforce_object ? 
         user.salesforce_object.remote_id : SalesforceContact.save_from_user(user).id
       sf_event_id = event.salesforce_object ? 
         event.salesforce_object.remote_id : SalesforceEvent.save_from_event(event).id
-      attribs = {:name => "Reported back on #{report.event.name}", :contact_id__c => contact.id, :event_id__c => event.id, :type__c => 'reporter'}
-      sf_participant = SalesforceParticipant.create(attribs)
+      sf_participant = SalesforceParticipant.create(
+          :name => "Reported back on #{report.event.name}", 
+          :contact_id__c => contact.id, 
+          :event_id__c => event.id, 
+          :type__c => 'reporter')
+      report.create_salesforce_object(
+          :remote_service => 'Salesforce', 
+          :remote_type => self.table_name, 
+          :remote_id => sf_participant.id)
+      sf_participant
+    rescue ActiveSalesforce::ASFError => err
+      logger.error("Error in SalesforceParticipant.save_from_report with report id #{report.id}: #{err}")
     end
 
     def save_from_rsvp(rsvp) #create_with_user_and_checking_if_we_use_salesforce
       return unless self.make_connection(rsvp.user.site_id)
       attribs = self.translate_rsvp(rsvp)
-      if rsvp.salesforce_object
-        sf_rsvp = SalesforceParticipant.update(rsvp.salesforce_object.remote_id, attribs)
-      else
-        sf_rsvp = SalesforceParticipant.create(attribs)
-        rsvp.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => self.table_name, :remote_id => sf_rsvp.id)
-      end
+      sf_rsvp = SalesforceParticipant.create(attribs)
+      rsvp.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => self.table_name, :remote_id => sf_rsvp.id)
       sf_rsvp
     rescue ActiveSalesforce::ASFError => err
       logger.error("Error in SalesforceParticipant.save_from_user with user id #{rsvp.user.id}: #{err}")
@@ -46,6 +52,12 @@ class SalesforceParticipant < SalesforceBase
         :contact_id__c  => sf_contact_id,
         :event_id__c => sf_event_id,
         :type => 'attendee'}
+    end
+
+    def delete_participant(participant_id)
+      transaction { delete(participant_id) }
+    rescue ActiveSalesforce::AsfError => e
+      raise e unless e =~ /ENTITY_IS_DELETED/ 
     end
   end
 end

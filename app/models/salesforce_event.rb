@@ -32,7 +32,6 @@ class SalesforceEvent < SalesforceBase
         :host_id__c => host_id, 
         # what 
         :name => event.name,
-        :name__c  => event.name,
         :description__c => event.description,
         :organization__c => event.organization,
         # when
@@ -47,10 +46,11 @@ class SalesforceEvent < SalesforceBase
         :latitude__c => event.latitude,
         :longitude__c => event.longitude}
     end
-    def delete_event(event)
-      return true unless event.salesforce_object
-      transaction { delete(event.salesforce_object.remote_id) }
-      event.salesforce_object.destroy
+
+    def delete_event(sf_event_id)
+      transaction { delete(sf_event_id) }
+    rescue ActiveSalesforce::AsfError => e
+      raise e unless e.message =~ /ENTITY_IS_DELETED/
     end
   end
 end

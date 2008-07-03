@@ -13,12 +13,23 @@ class Rsvp < ActiveRecord::Base
     end
   end
 
+  has_one :salesforce_object, :as => :mirrored, :class_name => 'ServiceObject', :dependent => :destroy
   after_save :sync_to_salesforce
   def sync_to_salesforce
-    return true unless Site.current.salesforce_enabled?
-    SalesforceWorker.async_save_rsvp(:rsvp_id => self.id)
+    return true unless self.event.calendar.site.salesforce_enabled?
+    SalesforceWorker.async_save_participant(:rsvp_id => self.id)
   rescue Workling::WorklingError
-    logger.error("SalesforceWorker.async_save_contact(:user_id => #{self.id}) failed! Perhaps workling is not running. Got Exception: #{e}")
+    logger.error("SalesforceWorker.async_save_participant(:rsvp_id => #{self.id}) failed! Perhaps workling is not running. Got Exception: #{e}")
+  ensure
+    return true # don't kill the callback chain since it may still do something useful
+  end
+
+  before_destroy :delete_from_salesforce
+  def delete_from_salesforce
+    return true unless self.user.site.salesforce_enabled? && self.salesforce_object
+    SalesforceWorker.async_delete_participant(self.salesforce_object.remote_id)
+  rescue Workling::WorklingError
+    logger.error("SalesforceWorker.async_delete_participant(:rsvp_id => #{self.id}) failed! Perhaps workling is not running. Got Exception: #{e}")
   ensure
     return true # don't kill the callback chain since it may still do something useful
   end
