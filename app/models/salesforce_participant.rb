@@ -28,7 +28,7 @@ class SalesforceParticipant < SalesforceBase
         sf_rsvp = SalesforceParticipant.update(rsvp.salesforce_object.remote_id, attribs)
       else
         sf_rsvp = SalesforceParticipant.create(attribs)
-        rsvp.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => 'Participant', :remote_id => sf_rsvp.id)
+        rsvp.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => self.table_name, :remote_id => sf_rsvp.id)
       end
       sf_rsvp
     rescue ActiveSalesforce::ASFError => err

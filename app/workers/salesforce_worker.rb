@@ -5,7 +5,7 @@ class SalesforceWorker < Workling::Base
   end
 
   def delete_contact(options={})
-    SalesforceContact.delete_contact(options[:contact_id])
+    SalesforceContact.delete_contact(User.find(options[:user_id]))
   end
 
   def save_event(options={})
@@ -14,7 +14,7 @@ class SalesforceWorker < Workling::Base
   end
 
   def delete_event(options={})
-    SalesforceEvent.delete_event(options[:event_id])
+    SalesforceEvent.delete_event(Event.find(options[:event_id]))
   end
 
   def save_rsvp(options={})

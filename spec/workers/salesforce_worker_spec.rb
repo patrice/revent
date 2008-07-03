@@ -21,12 +21,15 @@ describe SalesforceWorker do
   end
 
   it "should delete a contact" do
-    SalesforceContact.should_receive(:delete_contact).with('444GGG')
-    SalesforceWorker.new.delete_contact(:contact_id => '444GGG')
+    User.stub!(:find).and_return(@user)
+    SalesforceContact.should_receive(:delete_contact).with(@user)
+    SalesforceWorker.new.delete_contact(:user_id => @user.id)
   end
 
   it "should delete a event" do
-    SalesforceEvent.should_receive(:delete_event).with('333EEE')
-    SalesforceWorker.new.delete_event(:event_id => '333EEE')
+    @event = create_event
+    Event.stub!(:find).and_return(@event)
+    SalesforceEvent.should_receive(:delete_event).with(@event)
+    SalesforceWorker.new.delete_event(:event_id => @event.id)
   end
 end

@@ -11,12 +11,12 @@ class SalesforceEvent < SalesforceBase
 
     def save_from_event(event) 
       return unless self.make_connection(event.calendar.site.id)
-      attribs = event.is_a?(Event) ? translate(event) : event
+      attribs = translate(event) #event.is_a?(Event) ? translate(event) : event
       if event.salesforce_object
         sf_event = SalesforceEvent.update(event.salesforce_object.remote_id, attribs) 
       else
         sf_event = SalesforceEvent.create(attribs)
-        event.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => 'CustomEvent', :remote_id => sf_event.id)
+        event.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => self.table_name, :remote_id => sf_event.id)
       end
       sf_event
     rescue ActiveSalesforce::ASFError => err
@@ -25,6 +25,7 @@ class SalesforceEvent < SalesforceBase
 
     def translate(event)
       site = event.calendar.site
+      tz_offset = SALESFORCE_TZ_OFFSET[site.host] || 0
       host_id = event.host.salesforce_object ? 
          event.host.salesforce_object.remote_id : SalesforceContact.save_from_user(event.host).id
       { # who
@@ -35,8 +36,8 @@ class SalesforceEvent < SalesforceBase
         :description__c => event.description,
         :organization__c => event.organization,
         # when
-        :start__c => event.start + SALESFORCE_TZ_OFFSET[site.host],
-        :end__c => event.end + SALESFORCE_TZ_OFFSET[site.host],
+        :start__c => event.start + tz_offset,
+        :end__c => event.end + tz_offset,
         # where
         :location__c => event.location,
         :city__c => event.city,
@@ -46,8 +47,10 @@ class SalesforceEvent < SalesforceBase
         :latitude__c => event.latitude,
         :longitude__c => event.longitude}
     end
-    def delete_event(event_id)
-      transaction { delete(event_id) }
+    def delete_event(event)
+      return true unless event.salesforce_object
+      transaction { delete(event.salesforce_object.remote_id) }
+      event.salesforce_object.destroy
     end
   end
 end

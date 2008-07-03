@@ -1,5 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
-require 'active_record/connection_adapters/rforce' 
+unless defined?(RForce)
+  require 'active_record/connection_adapters/rforce' 
+end
 
 def sforce_response_fixture(name)
   file = File.read("spec/fixtures/salesforce/#{name}_soap_response.dump") || raise('no file')
@@ -114,13 +116,17 @@ describe "SalesforceContact", "when deleting a contact" do
     Site.stub!(:current).and_return(stub(Site, :id => 1, :salesforce_enabled? => false))
     SalesforceContact.make_connection nil
   end
+  before do
+    @salesforce_object = stub(ServiceObject, :remote_id => '444GGG', :destroy => true)
+    @user = stub(User, :salesforce_object => @salesforce_object)
+  end
   it "should use a transaction" do
     SalesforceContact.should_receive(:transaction)
-    SalesforceContact.delete_contact('444GGG')
+    SalesforceContact.delete_contact(@user)
   end
   it "should call delete" do
     SalesforceContact.should_receive(:delete).with('444GGG')
-    SalesforceContact.delete_contact('444GGG') 
+    SalesforceContact.delete_contact(@user) 
   end
 end
 

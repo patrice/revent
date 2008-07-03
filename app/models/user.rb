@@ -37,10 +37,11 @@ class User < ActiveRecord::Base
   ensure
     return true # don't kill the callback chain since it may still do something useful
   end
-  after_destroy :delete_from_salesforce
+
+  before_destroy :delete_from_salesforce
   def delete_from_salesforce
-    return true unless Site.current.salesforce_enabled?
-    SalesforceWorker.async_delete_contact(:contact_id => self.salesforce_object.remote_id) 
+    return true unless self.site.salesforce_enabled?
+    SalesforceWorker.async_delete_contact(:user_id => self.id) #:contact_id => self.salesforce_object.remote_id) 
   rescue Workling::WorklingError => e
     logger.error("SalesforceWorker.async_delete_contact(:contact_id => #{self.salesforce_object.remote_id}) failed! Perhaps workling is not running. Got Exception: #{e}")
   ensure

@@ -121,12 +121,12 @@ describe User do
     end
     describe "deleting" do
       before do
-        Site.stub!(:current).and_return(stub('site', :salesforce_enabled? => true))
         @user = new_user
+        @user.site.stub!(:salesforce_enabled?).and_return(true)
         @user.build_salesforce_object(:remote_id => '444GGG')
       end
       it "should delete itself from salesforce" do
-        SalesforceWorker.should_receive(:async_delete_contact).with(:contact_id => '444GGG')
+        SalesforceWorker.should_receive(:async_delete_contact).with(:user_id => @user.id)
         @user.delete_from_salesforce
       end
       it "should log the error with a workling failure" do
