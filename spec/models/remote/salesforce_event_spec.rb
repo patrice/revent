@@ -43,6 +43,8 @@ describe SalesforceEvent do
       @event = create_event(EVENT_ATTRIBUTES)
       @event.host.stub!(:salesforce_object).and_return(stub('sf_object', :remote_id => ""))
       @sf_event = SalesforceEvent.create(SalesforceEvent.translate(@event))
+
+      @event.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => 'rEvent', :remote_id => @sf_event.id)
     end
 
     EVENT_ATTRIBUTES.each do |key, value|
@@ -69,7 +71,7 @@ describe SalesforceEvent do
     end
     describe "destroy" do 
       it "event should no longer exist" do
-        SalesforceEvent.delete_event(@sf_event.id)
+        SalesforceEvent.delete_event(@event)
         lambda{SalesforceEvent.find(@sf_event.id)}.should raise_error(ActiveRecord::RecordNotFound)
       end
     end

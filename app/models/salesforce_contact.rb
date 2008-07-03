@@ -22,7 +22,7 @@ class SalesforceContact < SalesforceBase
         else
           sf_contact = SalesforceContact.create(attribs)
         end
-        user.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => 'Contact', :remote_id => sf_contact.id)
+        user.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => self.table_name, :remote_id => sf_contact.id)
       end
       sf_contact
     rescue ActiveSalesforce::ASFError => err
@@ -42,8 +42,10 @@ class SalesforceContact < SalesforceBase
         :mailing_postal_code  => user.postal_code }
     end
 
-    def delete_contact(contact_id)
-      transaction { delete(contact_id) }
+    def delete_contact(user)
+      return true unless user.salesforce_object
+      transaction { delete(user.salesforce_object.remote_id) }
+      user.salesforce_object.destroy
     rescue ActiveSalesforce::ASFError => e
       raise e unless e.message =~ /ENTITY_IS_DELETED/
     end
