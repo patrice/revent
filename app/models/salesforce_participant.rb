@@ -17,7 +17,7 @@ class SalesforceParticipant < SalesforceBase
         user.salesforce_object.remote_id : SalesforceContact.save_from_user(user).id
       sf_event_id = event.salesforce_object ? 
         event.salesforce_object.remote_id : SalesforceEvent.save_from_event(event).id
-      attribs = {:contact_id__c => contact.id, :event_id__c => event.id, :type__c => 'reporter'}
+      attribs = {:name => "Reported back on #{report.event.name}", :contact_id__c => contact.id, :event_id__c => event.id, :type__c => 'reporter'}
       sf_participant = SalesforceParticipant.create(attribs)
     end
 
@@ -42,7 +42,8 @@ class SalesforceParticipant < SalesforceBase
       event = rsvp.event
       sf_event_id = event.salesforce_object ? 
         event.salesforce_object.remote_id : SalesforceEvent.save_from_event(event).id
-      { :contact_id__c  => sf_contact_id,
+      { :name => "Attending #{rsvp.event.name}", 
+        :contact_id__c  => sf_contact_id,
         :event_id__c => sf_event_id,
         :type => 'attendee'}
     end
