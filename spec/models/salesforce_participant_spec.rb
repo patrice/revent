@@ -34,12 +34,12 @@ describe SalesforceParticipant do
   describe "for salesforce event" do
     it "should use it for event attendee if it exists" do
       @sf_event = stub(ServiceObject, :remote_id => String.random(10)) 
-      @event = stub(Event, :salesforce_object => @sf_event)
+      @event = stub(Event, :salesforce_object => @sf_event, :name => 'Test Event')
       rsvp = stub(Rsvp, :user => stub_everything, :event => @event, :created_at => Time.now)
       SalesforceParticipant.translate_rsvp(rsvp)[:event_id__c].should == @sf_event.remote_id
     end
     it "should create salesforce event if it does not exist" do
-      @event = stub(Event, :salesforce_object => nil)
+      @event = stub(Event, :salesforce_object => nil, :name => 'Test Event 2')
       rsvp = stub(Rsvp, :user => stub_everything, :event => @event, :created_at => Time.now)
       @sf_event = stub(SalesforceEvent, :id => String.random(10)) 
       SalesforceEvent.should_receive(:save_from_event).with(@event).and_return(@sf_event)
