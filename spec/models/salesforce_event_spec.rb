@@ -11,8 +11,10 @@ describe SalesforceEvent do
   describe "translated" do 
     before do
       @event = create_event
-      ServiceObject.create(:mirrored => @event.host, :remote_service => 'Salesforce', 
-                           :remote_type => 'Contact', :remote_id => '1234ABCD')
+      @event.host.create_salesforce_object(:remote_service => 'Salesforce',
+          :remote_type => 'Contact', :remote_id => '5555GGGG')
+      @event.create_salesforce_object(:remote_service => 'Salesforce',
+          :remote_type => 'rEvent', :remote_id => '5555GGGG')
     end
     it "host id should match salesforce_object id when exists" do
       SalesforceEvent.translate(@event)[:host_id__c].should == @event.host.salesforce_object.remote_id
@@ -21,6 +23,11 @@ describe SalesforceEvent do
       @event2 = create_event
       SalesforceContact.should_receive(:save_from_user).with(@event2.host).and_return(stub(SalesforceContact, :id => 1234))
       SalesforceEvent.translate(@event2)
+    end
+    it "should offset the time zone by 4 hours for service nation" do
+      @event.calendar.site.host = "events.servicenation.org"
+      SalesforceEvent.translate(@event)[:start__c].should == @event.start + 4.hours
+      SalesforceEvent.translate(@event)[:end__c].should == @event.end + 4.hours
     end
   end
 end
