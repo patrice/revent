@@ -19,8 +19,8 @@ class SalesforceParticipant < SalesforceBase
         event.salesforce_object.remote_id : SalesforceEvent.save_from_event(event).id
       sf_participant = SalesforceParticipant.create(
           :name => "#{user.name} reported on #{report.event.name}", 
-          :contact_id__c => contact.id, 
-          :event_id__c => event.id, 
+          :contact_id__c => sf_contact_id, 
+          :event_id__c => sf_event_id, 
           :type__c => 'reporter')
       report.create_salesforce_object(
           :remote_service => 'Salesforce', 
