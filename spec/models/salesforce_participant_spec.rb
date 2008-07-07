@@ -19,7 +19,7 @@ describe SalesforceParticipant do
   describe "for salesforce contact" do
     it "should use salesforce contact for attendee if it exists" do
       @sf_contact = stub(ServiceObject, :remote_id => String.random(10)) 
-      @user = stub(User, :salesforce_object => @sf_contact)
+      @user = stub(User, :salesforce_object => @sf_contact, :name => 'test name')
       rsvp = stub(Rsvp, :user => @user, :event => stub_everything, :created_at => Time.now)
       SalesforceParticipant.translate_rsvp(rsvp)[:contact_id__c].should == @sf_contact.remote_id
     end
@@ -50,5 +50,15 @@ describe SalesforceParticipant do
     pending
     r = create_rsvp
     SalesforceParticipant.translate_rsvp(rsvp) 
+  end
+  describe "report" do
+    before do
+      @report = @event
+      @report.event.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => 'rEvent', :remote_id => '4321DEFB')
+    end
+    it "should create a Salesforce Participant" do
+      SalesforceParticipant.should_receive(:create)
+      SalesforceParticipant.save_from_report(@report)
+    end
   end
 end

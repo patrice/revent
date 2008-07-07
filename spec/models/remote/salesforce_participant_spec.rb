@@ -8,14 +8,31 @@ describe SalesforceParticipant do
     SalesforceContact.make_connection nil
     SalesforceEvent.make_connection nil
     SalesforceParticipant.make_connection nil
+    @contact = SalesforceContact.find(:first)
+    @event = SalesforceEvent.find(:first)
   end
 
   it "should create participants" do
     #NOTE: maybe we should create these?
-    contact = SalesforceContact.find(:first)
-    event = SalesforceEvent.find(:first)
-    p = SalesforceParticipant.create :contact_id__c => contact.id, :event_id__c => event.id, :type__c => 'attendee'
+    p = SalesforceParticipant.create :contact_id__c => @contact.id, :event_id__c => @event.id, :type__c => 'attendee'
     p.id.should_not be_blank
+  end
+  
+  it "should create a Salesforce Participant object" do
+    sp = SalesforceParticipant.create(
+      :name => "reported",
+      :contact_id__c => @contact.id,
+      :event_id__c => @event.id,
+      :type__c => 'reporter')
+    lambda{SalesforceParticipant.find(sp.id)}.should_not raise_error(ActiveRecord::RecordNotFound)
+  end
+  it "should set the type to reporter" do 
+    sp = SalesforceParticipant.create(
+      :name => "reported", 
+      :contact_id__c => @contact.id,
+      :event_id__c => @event.id,
+      :type__c => 'reporter')
+    sp.type__c.should == 'reporter'
   end
 =begin
   it "should update a contact if one already exists with the users email" do

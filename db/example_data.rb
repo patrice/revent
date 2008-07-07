@@ -72,6 +72,7 @@ module FixtureReplacement
   attributes_for :report do |a|
     a.event = default_event
     a.user = default_user
+    a.text = "this event was dope"
 	end
 
   attributes_for :role do |a|

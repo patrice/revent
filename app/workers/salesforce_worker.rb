@@ -18,7 +18,6 @@ class SalesforceWorker < Workling::Base
   end
 
   def save_participant(options={})
-    RAILS_DEFAULT_LOGGER.info "SalesforceWorker received event id: #{options[:rsvp_id]}"
     SalesforceParticipant.save_from_rsvp(Rsvp.find(options[:rsvp_id])) if options[:rsvp_id]
     SalesforceParticipant.save_from_report(Report.find(options[:report_id])) if options[:report_id]
   end
