@@ -153,7 +153,7 @@ class Event < ActiveRecord::Base
 
   before_destroy :delete_from_salesforce
   def delete_from_salesforce
-    return true unless self.calendar.site.salesforce_enabled? && self.salesforce_object
+    return true unless Site.current.salesforce_enabled? && self.salesforce_object
     SalesforceWorker.async_delete_event(self.salesforce_object.remote_id) 
   rescue Workling::WorklingError => e
     logger.error("SalesforceWorker.async_delete_event(:event_id => #{self.id}) failed! Perhaps workling is not running. Got Exception: #{e}")

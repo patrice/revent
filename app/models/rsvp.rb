@@ -16,7 +16,7 @@ class Rsvp < ActiveRecord::Base
   has_one :salesforce_object, :as => :mirrored, :class_name => 'ServiceObject', :dependent => :destroy
   after_save :sync_to_salesforce
   def sync_to_salesforce
-    return true unless self.event.calendar.site.salesforce_enabled?
+    return true unless Site.current.salesforce_enabled?
     SalesforceWorker.async_save_participant(:rsvp_id => self.id)
   rescue Workling::WorklingError
     logger.error("SalesforceWorker.async_save_participant(:rsvp_id => #{self.id}) failed! Perhaps workling is not running. Got Exception: #{e}")
