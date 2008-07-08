@@ -10,7 +10,7 @@ class Site < ActiveRecord::Base
   end
 
   def salesforce_enabled?
-    @salesforce_enabled ||= File.exists?(File.join(Site.current_config_path, 'salesforce-config.yml'))
+    @salesforce_enabled ||= File.exists?(File.join(Site.config_path(self.id), 'salesforce-config.yml'))
   end
 
   has_many :users

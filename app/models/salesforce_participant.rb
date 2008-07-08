@@ -51,12 +51,12 @@ class SalesforceParticipant < SalesforceBase
       { :name => "#{rsvp.user.name} is attending #{rsvp.event.name}", 
         :contact_id__c  => sf_contact_id,
         :event_id__c => sf_event_id,
-        :type => 'attendee'}
+        :type__c => 'attendee'}
     end
 
     def delete_participant(participant_id)
       transaction { delete(participant_id) }
-    rescue ActiveSalesforce::AsfError => e
+    rescue ActiveSalesforce::ASFError => e
       raise e unless e =~ /ENTITY_IS_DELETED/ 
     end
   end

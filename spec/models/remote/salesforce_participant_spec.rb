@@ -32,7 +32,7 @@ describe SalesforceParticipant do
       :contact_id__c => @contact.id,
       :event_id__c => @event.id,
       :type__c => 'reporter')
-    sp.type__c.should == 'reporter'
+    SalesforceParticipant.find(sp.id).type__c.should == 'reporter'
   end
 =begin
   it "should update a contact if one already exists with the users email" do
