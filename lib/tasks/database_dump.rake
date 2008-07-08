@@ -33,9 +33,9 @@ namespace :db do
     when 'mysql'
       ActiveRecord::Base.establish_connection(configs[RAILS_ENV])
       if configs[RAILS_ENV]["password"].blank?
-        `mysql -h #{configs[RAILS_ENV]["host"]} -u #{configs[RAILS_ENV]["username"]} #{configs[RAILS_ENV]["database"]} < db/production_data.sql`
+        `mysql5 -h #{configs[RAILS_ENV]["host"]} -u #{configs[RAILS_ENV]["username"]} #{configs[RAILS_ENV]["database"]} < db/production_data.sql`
       else
-        `mysql -h #{configs[RAILS_ENV]["host"]} -u #{configs[RAILS_ENV]["username"]} -p#{configs[RAILS_ENV]["password"]} #{configs[RAILS_ENV]["database"]} < db/production_data.sql`
+        `mysql5 -h #{configs[RAILS_ENV]["host"]} -u #{configs[RAILS_ENV]["username"]} -p#{configs[RAILS_ENV]["password"]} #{configs[RAILS_ENV]["database"]} < db/production_data.sql`
       end
     else
       raise "Task not supported by '#{configs[RAILS_ENV]['adapter']}'" 
