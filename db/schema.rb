@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 84) do
+ActiveRecord::Schema.define(:version => 82) do
 
   create_table "attachments", :force => true do |t|
     t.string   "content_type"
@@ -246,21 +246,6 @@ ActiveRecord::Schema.define(:version => 84) do
   add_index "reports", ["event_id"], :name => "index_reports_on_event_id"
   add_index "reports", ["status", "position"], :name => "index_reports_on_status_and_position"
 
-  create_table "resource_configs", :force => true do |t|
-    t.integer  "site_id"
-    t.string   "type"
-    t.string   "api_key"
-    t.string   "org_key"
-    t.string   "login"
-    t.string   "bucket_name"
-    t.string   "short_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "password"
-    t.string   "shared_secret"
-    t.string   "user_id"
-  end
-
   create_table "roles", :force => true do |t|
     t.string "title"
   end
@@ -317,9 +302,9 @@ ActiveRecord::Schema.define(:version => 84) do
   add_index "sites", ["host"], :name => "index_sites_on_host"
 
   create_table "taggings", :force => true do |t|
-    t.integer  "tag_id",        :default => 0,  :null => false
-    t.integer  "taggable_id",   :default => 0,  :null => false
-    t.string   "taggable_type", :default => "", :null => false
+    t.integer  "tag_id",        :null => false
+    t.integer  "taggable_id",   :null => false
+    t.string   "taggable_type", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -327,7 +312,7 @@ ActiveRecord::Schema.define(:version => 84) do
   add_index "taggings", ["tag_id", "taggable_id", "taggable_type"], :name => "index_taggings_on_tag_id_and_taggable_id_and_taggable_type", :unique => true
 
   create_table "tags", :force => true do |t|
-    t.string   "name",       :default => "", :null => false
+    t.string   "name",       :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -2,6 +2,7 @@ class EventDirectionsToText < ActiveRecord::Migration
   def self.up
     transaction do
       change_column :events, :directions, :text
+      return true if Event.count == 0
       return unless File.exists?(File.join(RAILS_ROOT,'config','democracyinaction-config.yml'))
       opts = YAML.load_file(File.join(RAILS_ROOT,'config','democracyinaction-config.yml'))
 #      require 'DIA_API_Simple'

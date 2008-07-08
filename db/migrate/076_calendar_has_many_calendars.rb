@@ -3,6 +3,7 @@ class CalendarHasManyCalendars < ActiveRecord::Migration
     add_column :calendars, :parent_id, :integer
     add_index :calendars, :parent_id
     s = Site.find_by_theme('catalogcutdown')
+    return unless s
     all_calendar = s.calendars.create(:permalink => 'all', :name => 'Catalog Cutdown', :theme => s.theme)
     s.calendars.each do |c|
       next if c.id == all_calendar.id
@@ -12,8 +13,10 @@ class CalendarHasManyCalendars < ActiveRecord::Migration
   end
 
   def self.down
-    s = Site.find_by_theme('catalogcutdown')
-    s.calendars.find_by_permalink('all').destroy
+    if s = Site.find_by_theme('catalogcutdown')
+      c = s.calendars.find_by_permalink('all')
+      c.destroy if c 
+    end
     remove_index :calendars, :parent_id
     remove_column :calendars, :parent_id
   end

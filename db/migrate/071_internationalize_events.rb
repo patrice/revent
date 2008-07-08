@@ -4,9 +4,9 @@ class InternationalizeEvents < ActiveRecord::Migration
     add_column :users, :country_code, :integer
     
     Event.update_all("country_code = 840")
-    Event.update_all("country_code = 124", "postal_code REGEXP '^[A-Z][0-9][A-Z]")
+    Event.update_all("country_code = 124", "postal_code REGEXP '^[A-Z][0-9][A-Z]'")
     User.update_all("country_code = 840")
-    User.update_all("country_code = 124", "postal_code REGEXP '^[A-Z][0-9][A-Z]")
+    User.update_all("country_code = 124", "postal_code REGEXP '^[A-Z][0-9][A-Z]'")
   end
   
   def self.down
