@@ -49,7 +49,7 @@ class SalesforceEvent < SalesforceBase
 
     def delete_event(sf_event_id)
       transaction { delete(sf_event_id) }
-    rescue ActiveSalesforce::AsfError => e
+    rescue ActiveSalesforce::ASFError => e
       raise e unless e.message =~ /ENTITY_IS_DELETED/
     end
   end

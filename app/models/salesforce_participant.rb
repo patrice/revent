@@ -56,7 +56,7 @@ class SalesforceParticipant < SalesforceBase
 
     def delete_participant(participant_id)
       transaction { delete(participant_id) }
-    rescue ActiveSalesforce::AsfError => e
+    rescue ActiveSalesforce::ASFError => e
       raise e unless e =~ /ENTITY_IS_DELETED/ 
     end
   end
