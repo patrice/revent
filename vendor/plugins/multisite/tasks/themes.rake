@@ -14,8 +14,7 @@ task :theme_create_cache do
     Dir["#{theme}/stylesheets/sass/*.sass"].each do |f|
       css = Sass::Engine.new(File.new(f, "r").read).render
       css_filename = f.gsub(/(.+)\/sass\/(.+).sass$/, '\1/\2.css')
-      puts "Processing #{css_filename}"
-      File.new(css_filename, "w") << css
+      File.open(css_filename, "w") {|f| f << css}
     end
     FileUtils.cp_r("#{theme}/stylesheets", "#{RAILS_ROOT}/public/themes/#{theme_name}/stylesheets", :verbose => true) if File.exists?("#{theme}/stylesheets")
     FileUtils.cp_r("#{theme}/javascript", "#{RAILS_ROOT}/public/themes/#{theme_name}/javascript", :verbose => true) if File.exists?("#{theme}/javascript")
