@@ -275,18 +275,24 @@ class Event < ActiveRecord::Base
       self.calendar_id = calendar.calendars.current.id
     end
   end
+
+  # Move this to a library or DIA module or something
+  require 'hpricot'
+  def self.postal_code_to_district(postal_code)
+    Cache.get "district_for_postal_code_#{postal_code}" do
+      # get congressional district based on postal code
+      dia_warehouse = "http://warehouse.democracyinaction.org/dia/api/warehouse/append.jsp?id=radicaldesigns".freeze
+      uri = dia_warehouse + "&postal_code=" + postal_code.to_s
+      data = Hpricot::XML(open(uri))
+      (data/:district).first.innerHTML if (data/:district)
+    end
+  end
     
   def set_district
     # don't lookup U.S. congressional district for non-us postal_codes
-    return unless (country_code == COUNTRY_CODE_USA and postal_code =~ /^\d{5}(-\d{4})?$/)
-    
-    # get congressional district based on postal code
-    dia_warehouse = "http://warehouse.democracyinaction.org/dia/api/warehouse/append.jsp?id=radicaldesigns".freeze
-    uri = dia_warehouse + "&postal_code=" + postal_code.to_s
-    data = XmlSimple.xml_in(open(uri))
-    unless data['entry'][0]['district'].first.empty? || (self.district && data['entry'][0]['district'].map {|d| d.strip}.include?(self.district))
-      self.district = data['entry'][0]['district'][0].strip 
-    end
+    return unless (self.country_code == COUNTRY_CODE_USA && 
+                   self.postal_code =~ /^\d{5}(-\d{4})?$/)
+    self.district = Event.postal_code_to_district(self.postal_code)
   end
 
   def national_map_coordinates

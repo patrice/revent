@@ -6,14 +6,15 @@ describe Event do
     Site.stub!(:current_config_path).and_return(File.join(RAILS_ROOT, 'test', 'config'))
 
     # mock geocoder
-    @geo = mock('geo', :lat => 77.7777, :lng => -111.1111, :precision => "street", :success => true)
+    @geo = stub('geo', :lat => 77.7777, :lng => -111.1111, :precision => "street", :success => true)
     GeoKit::Geocoders::MultiGeocoder.stub!(:geocode).and_return(@geo)
 
     # mock democracy in action api
-    @dia_api = mock('dia_api', :process => true)
+    @dia_api = stub('dia_api', :process => true)
     DemocracyInActionEvent.stub!(:api).and_return(@dia_api)
     
     @event = new_event
+    @event.stub!(:set_district).and_return(true)
   end
 
   describe 'in US' do
@@ -114,9 +115,27 @@ describe Event do
     end
   end
 
-  describe 'should calculate duration of event in minutes' do
+  it "should calculate duration of event in minutes" do
     now = Time.now
     @event = Event.new(:start => now, :end => now + 2.hours)
     @event.duration_in_minutes.should == 120
+  end
+
+  describe "congressional district" do
+    before do
+      @event = new_event(:postal_code => '94114')
+    end
+    it "should set the congressional districts when saved" do
+      @xml = "<?xml version=\"1.0\"?><data><entry id=\"radicaldesigns\"><address1></address1><address2></address2><region>CA</region><city>Oakland</city><latitude>37.824444</latitude><longitude>-122.230556</longitude><postal_code>94618</postal_code><postal_code_extension></postal_code_extension><district>CA09</district><regional_senate_district></regional_senate_district><regional_house_district></regional_house_district></entry></data>"
+      Event.stub!(:open).and_return(@xml)
+      @event.save
+      @event.district.should == "CA09"
+    end
+    it "should select the first congressional district" do
+      @xml = "<?xml version=\"1.0\"?><data><entry id=\"radicaldesigns\"><address1></address1><address2></address2><region>CA</region><city>San Francisco</city><latitude>37.759122</latitude><longitude>-122.438712</longitude><postal_code>94114</postal_code><postal_code_extension></postal_code_extension><district>CA08</district><district>CA12</district><multidistrict>true</multidistrict><regional_senate_district></regional_senate_district><regional_house_district></regional_house_district></entry></data>"
+      Event.stub!(:open).and_return(@xml)
+      @event.save
+      @event.district.should == "CA08"
+    end
   end
 end

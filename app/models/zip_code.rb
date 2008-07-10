@@ -27,19 +27,11 @@ class ZipCode < ActiveRecord::Base
     zips = ZipCode.find :all, :origin => postal_code.to_s, :within => within, :order => 'distance DESC', :limit => limit 
     codes = zips.collect {|z| z.zip} + [postal_code]
 
-    dia_warehouse = "http://warehouse.democracyinaction.org/dia/api/warehouse/append.jsp?id=radicaldesigns".freeze
     districts = codes.collect do |code|
-      Cache.get "district_for_postal_code_#{code}" do
-        uri = dia_warehouse + "&postal_code=" + code.to_s
-        begin
-          data = XmlSimple.xml_in(open(uri)) 
-          data['entry'][0]['district'].nil? ? :nodistrict : data['entry'][0]['district'][0].strip 
-        rescue REXML::ParseException
-          :nodistrict
-        end
-      end
+      Event.postal_code_to_district(code)
     end.compact.uniq - [:nodistrict]
   end
+
   def self.find_states_near_postal_code(postal_code, within = 20, limit = 100)
     zips = ZipCode.find :all, :origin => postal_code.to_s, :within => within, :order => 'distance DESC', :limit => limit 
     states = zips.collect {|z| z.state}.compact.uniq
