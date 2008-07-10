@@ -46,5 +46,3 @@ begin
   require 'memcache_util'
 rescue
 end
-
-require 'debugger'
