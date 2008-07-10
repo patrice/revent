@@ -8,15 +8,19 @@ task :theme_create_cache do
     puts "Creating #{RAILS_ROOT}/public/themes/#{theme_name}"
     
     FileUtils.mkdir_p "#{RAILS_ROOT}/public/themes/#{theme_name}"
-    FileUtils.cp_r("#{theme}/images", "#{RAILS_ROOT}/public/themes/#{theme_name}/images", :verbose => true) if File.exists?("#{theme}/images")
 
     # convert sass files in themes directory to css prior to copy
+    sass2css_dir = "#{theme}/stylesheets/sass/css"
     Dir["#{theme}/stylesheets/sass/*.sass"].each do |f|
+      FileUtils.mkdir_p(sass2css_dir) unless File.exists?(sass2css_dir)
       css = Sass::Engine.new(File.new(f, "r").read).render
-      css_filename = f.gsub(/(.+)\/sass\/(.+).sass$/, '\1/\2.css')
+      css_filename = f.gsub(/(.+)\/(.+).sass$/, '\1/css/\2.css')
       File.open(css_filename, "w") {|f| f << css}
     end
     FileUtils.cp_r("#{theme}/stylesheets", "#{RAILS_ROOT}/public/themes/#{theme_name}/stylesheets", :verbose => true) if File.exists?("#{theme}/stylesheets")
+    #FileUtils.rm_rf(sass2css_dir)
+
+    FileUtils.cp_r("#{theme}/images", "#{RAILS_ROOT}/public/themes/#{theme_name}/images", :verbose => true) if File.exists?("#{theme}/images")
     FileUtils.cp_r("#{theme}/javascript", "#{RAILS_ROOT}/public/themes/#{theme_name}/javascript", :verbose => true) if File.exists?("#{theme}/javascript")
     FileUtils.cp_r("#{theme}/preview.png", "#{RAILS_ROOT}/public/themes/#{theme_name}/preview.png", :verbose => true) if File.exists?("#{theme}/preview.png")
   end
