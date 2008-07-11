@@ -120,4 +120,15 @@ class Report < ActiveRecord::Base
   def reporter_email
     user ? user.email : read_attribute('email')
   end
+
+  def reporter_data=(attributes)
+    self.user = User.find_or_initialize_by_site_id_and_email( Site.current.id, attributes[:email] )
+    self.user.attributes = attributes.reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
+    unless self.user.crypted_password || (self.user.password && self.user.password_confirmation)
+      password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+      self.user.password = self.user.password_confirmation = password
+    end
+    self.user.save!
+  end
+
 end
