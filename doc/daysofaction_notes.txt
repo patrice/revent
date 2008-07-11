@@ -17,6 +17,8 @@ momsrising:
 
 revent new-features/clean-up:
 ---
+- enable sass in themes directory (started this work vendor/plugins/multisite/tasks/themes.rake"
+- dual authentication system (using ldap or openid)
 - do localization
 - move calendars/show to events/index; consolidate calendars/events helpers
 - write tests for report uploading
