@@ -4,7 +4,9 @@
 <% if @event.past? -%>
 <b>	This Event Has Already Taken Place<br><br>
 	
-  If you attended this event please <%= link_to 'Submit a Report', :permalink => @calendar.permalink, :controller => "reports", :action => "new", :id=>@event.id %>.<br>
+  If you attended this EcoSalon please 
+  <%= link_to 'Submit a Report', :permalink => @calendar.permalink, :controller => "reports", :action => "new", :id=>@event.id %>
+ and share your stories, videos, and pictures.<br>
 
 	<% unless @event.reports.empty? -%>
 	   <%= link_to 'Click here', report_url(:permalink => @calendar.permalink, :event_id => @event.id)  %> to see reports for this event.<br>
