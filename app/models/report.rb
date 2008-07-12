@@ -96,18 +96,6 @@ class Report < ActiveRecord::Base
     self.find_published(id, *args)
   end
   
-  def check_akismet(request)
-    akismet = Akismet.new '8ec4905c5374', 'http://events.stepitup2007.org'
-    unless akismet.comment_check(:user_ip => request[:remote_ip],
-                             :user_agent => request[:user_agent],
-                             :referrer => request[:referer],
-                             :comment_author => reporter_name,
-                             :comment_author_email => reporter_email,
-                             :comment_content => text)
-      self.publish
-    end
-    akismet.last_response
-  end
 
   def reporter_name
     user ? user.full_name : read_attribute('reporter_name')
@@ -121,10 +109,16 @@ class Report < ActiveRecord::Base
     user ? user.email : read_attribute('email')
   end
 
+  before_save :build_press_links, :build_attachments, :check_akismet
+
   attr_accessor :press_link_data
-  before_save :build_press_links
   def build_press_links
     self.press_links.build(press_link_data) if press_link_data
+  end
+
+  attr_accessor :attachment_data
+  def build_attachments
+    self.attachments.build(attachment_data.values) if attachment_data
   end
 
   def reporter_data=(attributes)
@@ -134,9 +128,18 @@ class Report < ActiveRecord::Base
     self.user.save!
   end
 
-  attr_accessor :attachment_data
-  before_save :build_attachments
-  def build_attachments
-    self.attachments.build(attachment_data.values) if attachment_data
+  attr_accessor :upload_request
+  def check_akismet
+    akismet = Akismet.new '8ec4905c5374', 'http://events.stepitup2007.org'
+    unless akismet.comment_check(:user_ip => upload_request[:remote_ip],
+                             :user_agent => upload_request[:user_agent],
+                             :referrer => upload_request[:referer],
+                             :comment_author => reporter_name,
+                             :comment_author_email => reporter_email,
+                             :comment_content => text)
+      self.publish
+    end
+    #akismet.last_response
+    return true
   end
 end

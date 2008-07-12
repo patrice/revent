@@ -8,6 +8,7 @@ describe Report do
       Site.stub!(:current).and_return(@site)
       @calendar = create_calendar(:site => @site)
       @event = create_event( :calendar => @calendar, :country_code => 'GBR' )
+      Akismet.stub!(:new).and_return(stub(Akismet, :comment_check => true, :last_response => true))
     end
 
     describe "user" do
@@ -50,19 +51,32 @@ describe Report do
     end
 
     describe "attachment" do
-      it "should create attachments" do
+      before do
         @uploaded_data = test_uploaded_file
+      end
+      it "should create attachments" do
         @report = create_report(:attachment_data => {'0' => {:caption => 'attachment 0', :uploaded_data => @uploaded_data}})
-        @report.attachments(true).length.should == 1
         File.exist?(@report.attachments(true).first.full_filename).should be_true
+      end
+      it "should tag attachments" do
+        pending 'tagging not high priority now; get this working later'
+        @report = create_report(:attachment_data => {'0' => {:caption => 'attachment 0', :uploaded_data => @uploaded_data, :tag_depot => {'0' => 'tag1', '1' => 'tag2'}  }})
+        @report.attachments.tags.should_not be_empty
       end
     end
 
-    it "should validate all associated models"
+    it "should validate all associated models" do
+      @report = create_report(:press_link_data => [{:url => '#++ &&^ %%$', :text => 'invalid url'}])
+      @report.valid?.should_not be_true
+    end
 
-    it "should tag attachments"
-
-    it "should check akismet"
+    describe "akismet" do
+      it "should check akismet before uploading to flickr" do
+        @report = new_report
+        @report.should_receive(:check_akismet).and_return(true)
+        @report.save
+      end
+    end
 
     it "should save to flickr"
 
