@@ -39,12 +39,13 @@ describe SalesforceParticipant do
   describe "report" do
     before do
       SalesforceParticipant.stub!(:make_connection).and_return(true)
-      Site.stub!(:current).and_return(stub(Site, :salesforce_enabled? => false))
+      Site.stub!(:current).and_return(stub(Site, :id => 4, :salesforce_enabled? => false))
       @report = new_report
       @report.event.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => 'rEvent', :remote_id => '4321DEFB')
       @report.user.create_salesforce_object(:remote_service => 'Salesforce', :remote_type => 'Contact', :remote_id => '2222PPPP')
     end
     it "should create a Salesforce Participant" do
+      SalesforceParticipant.stub!(:table_name).and_return('rParticipant')
       SalesforceParticipant.should_receive(:create).and_return(stub('Participant', :id => '3333GGGG'))
       SalesforceParticipant.save_from_report(@report)
     end

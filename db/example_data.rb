@@ -42,6 +42,7 @@ module FixtureReplacement
     a.postal_code = "94114"
     a.start = (start = Time.now + 2.months)
     a.end = start + 2.hours
+    a.country_code = 'something that will not trigger set_district'
 	end
 
 =begin

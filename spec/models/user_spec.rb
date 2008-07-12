@@ -5,27 +5,27 @@ describe User do
   # Then, you can remove it from this and the functional test.
   include AuthenticatedTestHelper
 
-  def setup; nil; end
-
-  before(:all) do
+  before do
     DemocracyInAction::API.stub!(:process).and_return(1111)
-    Site.current = Site.find_by_host("events.stepitup2007.org") # replace with sites(:stepitup)
+    @site = create_site
+    Site.stub!(:current).and_return(@site)
   end
 
   describe "when saved" do
     before do
-      @user = new_user
+      @user = new_user(:site => @site)
     end
 
     it "should not overwrite an existing password" do
       @user.password = @user.password_confirmation = "secret"
+      @user.activated_at = 1.day.ago
       @user.save
-      User.authenticate(@user.email, "secret")
+      User.authenticate(@user.email, "secret").should == @user
     end
 
     it "should set a default password" do
-      pending "default password currently set in events/rsvps/reports controller create method. move to model."
-      u = create_user 
+      u = new_user(:password => nil, :password_confirmation => nil)
+      u.random_password && u.save!
       u.crypted_password.should_not be_nil
     end
 
@@ -69,8 +69,15 @@ describe User do
       Site.stub!(:current).and_return(stub(Site, :id => @user.site_id, :salesforce_enabled? => false))
     end
 
-    it "should allow resetting the password" do
+    it "should not allow resetting the password with mass assignment" do
       @user.update_attributes(:password => 'new password', :password_confirmation => 'new password')
+      User.authenticate(@user.email, 'new password').should be_nil
+    end
+
+    it "should allow resetting the password explicitly" do
+      @user.password = 'new password'
+      @user.password_confirmation = 'new password'
+      @user.save
       User.authenticate(@user.email, 'new password').should == @user
     end
 

@@ -49,7 +49,7 @@ class Report < ActiveRecord::Base
   end
 
   validates_presence_of :event_id, :text
-  validates_associated :attachments
+  validates_associated :attachments, :press_links, :user
 
   PUBLISHED = 'published'
   UNPUBLISHED = 'unpublished'
@@ -121,14 +121,22 @@ class Report < ActiveRecord::Base
     user ? user.email : read_attribute('email')
   end
 
+  attr_accessor :press_link_data
+  before_save :build_press_links
+  def build_press_links
+    self.press_links.build(press_link_data) if press_link_data
+  end
+
   def reporter_data=(attributes)
     self.user = User.find_or_initialize_by_site_id_and_email( Site.current.id, attributes[:email] )
-    self.user.attributes = attributes.reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
-    unless self.user.crypted_password || (self.user.password && self.user.password_confirmation)
-      password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-      self.user.password = self.user.password_confirmation = password
-    end
+    self.user.attributes = attributes
+    self.user.random_password
     self.user.save!
   end
 
+  attr_accessor :attachment_data
+  before_save :build_attachments
+  def build_attachments
+    self.attachments.build(attachment_data.values) if attachment_data
+  end
 end

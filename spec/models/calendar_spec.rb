@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 describe Calendar do 
-  fixtures :events, :reports
+  fixtures :events, :reports, :calendars
 
   describe 'when created' do
     before do 
