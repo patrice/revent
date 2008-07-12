@@ -45,6 +45,8 @@ class AccountController < ApplicationController
     @user = current_user
     return unless request.post?
     @user.update_attributes(params[:user])
+    @user.password = params[:user][:password]
+    @user.password_confirmation = params[:user][:password_confirmation]
     @user.create_profile_image(params[:profile_image]) unless params[:profile_image][:uploaded_data].blank?
     if @user.save
       flash[:notice] = "Your profile has been updated"
@@ -90,6 +92,8 @@ class AccountController < ApplicationController
 
   def signup
     @user = User.new(params[:user])
+    @user.password = params[:user][:password]
+    @user.password_confirmation = params[:user][:password_confirmation]
     return unless request.post?
     @user.save!
     self.current_user = @user

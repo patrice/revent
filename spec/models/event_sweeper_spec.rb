@@ -22,6 +22,7 @@ module CacheTest
 end
 
 describe EventSweeper do
+  fixtures :calendars
   include CacheTest
 
   describe "when an event is created" do

@@ -24,7 +24,7 @@ Spec::Runner.configure do |config|
   # do so right here. Just uncomment the next line and replace the fixture
   # names with your fixtures.
   #
-  config.global_fixtures = :sites, :calendars
+  #config.global_fixtures = :sites, :calendars
   #
   # If you declare global fixtures, be aware that they will be declared
   # for all of your examples, even those that don't use them.
@@ -45,4 +45,8 @@ Spec::Runner.configure do |config|
   # == Notes
   # 
   # For more information take a look at Spec::Example::Configuration and Spec::Runner
+end
+
+def test_uploaded_file(file = 'arrow.jpg', content_type = 'image/jpg')
+  ActionController::TestUploadedFile.new(File.join(RAILS_ROOT, 'spec', 'fixtures', 'attachments', file), content_type)
 end

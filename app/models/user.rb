@@ -1,5 +1,7 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
+  attr_protected :password, :password_confirmation
+
   has_many :events, :foreign_key => 'host_id'
   has_many :calendars
   has_many :reports
@@ -264,6 +266,11 @@ class User < ActiveRecord::Base
     [city, (state || country)].join(', ')
   end
     
+  def random_password
+    return if crypted_password
+    self.password = self.password_confirmation = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+  end
+
   protected
     # before filter 
     def encrypt_password
