@@ -78,8 +78,9 @@ describe Report do
       end
     end
 
-    it "should save to flickr"
-
-    it "should create embeds"
+    describe "embeds" do
+      it "should create embeds" do
+      end
+    end
   end
 end

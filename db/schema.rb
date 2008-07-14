@@ -302,9 +302,9 @@ ActiveRecord::Schema.define(:version => 82) do
   add_index "sites", ["host"], :name => "index_sites_on_host"
 
   create_table "taggings", :force => true do |t|
-    t.integer  "tag_id",        :null => false
-    t.integer  "taggable_id",   :null => false
-    t.string   "taggable_type", :null => false
+    t.integer  "tag_id",        :default => 0,  :null => false
+    t.integer  "taggable_id",   :default => 0,  :null => false
+    t.string   "taggable_type", :default => "", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -312,7 +312,7 @@ ActiveRecord::Schema.define(:version => 82) do
   add_index "taggings", ["tag_id", "taggable_id", "taggable_type"], :name => "index_taggings_on_tag_id_and_taggable_id_and_taggable_type", :unique => true
 
   create_table "tags", :force => true do |t|
-    t.string   "name",       :null => false
+    t.string   "name",       :default => "", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
