@@ -1,7 +1,9 @@
 module FixtureReplacement
   attributes_for :attachment do |a|
-    
-	end
+    a.filename = "test_file"
+    a.content_type = 'image/jpeg' 
+    a.size = 50
+  end
 
   attributes_for :blog do |a|
     
