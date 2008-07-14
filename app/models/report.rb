@@ -109,16 +109,24 @@ class Report < ActiveRecord::Base
     user ? user.email : read_attribute('email')
   end
 
-  before_save :build_press_links, :build_attachments, :check_akismet
+  before_save :build_press_links, :build_attachments, :build_embeds, :check_akismet
 
   attr_accessor :press_link_data
   def build_press_links
-    self.press_links.build(press_link_data) if press_link_data
+    self.press_links.build(press_link_data.values) if press_link_data
+    true
   end
 
   attr_accessor :attachment_data
   def build_attachments
     self.attachments.build(attachment_data.values) if attachment_data
+    true
+  end
+
+  attr_accessor :embed_data
+  def build_embeds
+    self.embeds.build(embed_data.values) if embed_data
+    true
   end
 
   def reporter_data=(attributes)
@@ -140,6 +148,6 @@ class Report < ActiveRecord::Base
       self.publish
     end
     #akismet.last_response
-    return true
+    true
   end
 end

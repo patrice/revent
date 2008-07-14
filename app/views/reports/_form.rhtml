@@ -66,7 +66,7 @@
   </label></p>
 	
 <% 1.upto(4) do |n| -%>
-  <div id="report_add_video_<%= n %>" class="report_add_attachment"<% if n > 1 %> style="display:none;"<% end %>>
+  <div id="report_add_video_<%= n %>" class="report_add_attachment"<% if n > 1 and @report.errors.empty? %> style="display:none;"<% end %>>
     Video Embed Code<br><%= text_area_tag "embeds[#{n}][html]", nil, :rows => 3, :cols => 40  %><br>
     Video Title: <%= text_field_tag "embeds[#{n}][caption]", nil, :size => 40  %><br/>
   
@@ -82,10 +82,18 @@
 	<p class='form_subtitle'>Press Coverage</p>
 	Did the press cover your event?<br>  If so, paste in links to the press coverage below.<br>
 
-		<div id="report_add_press_1" class="report_add_attachment">
-		Press Coverage URL:<br/><%= text_field_tag 'press_links[][url]', nil, :size => 40 %> <i>(start with http://)</i><br/>
-  Press Coverage Title/Outlet:<br/><%= text_field_tag 'press_links[][text]', nil, :size => 40  %><br>	    <p class="report_add_another"><%= link_to_function 'Add Press Coverage', visual_effect(:toggle_blind,'report_add_press_2') %></p>
-	    </div>
+  <% 1.upto(4) do |n| -%>
+      <div id="report_add_press_<%= n -%>" class="report_add_attachment" <% if n > 1 and @report.errors.empty? -%> style="display:none;"<% end -%>>
+  Press Coverage Title/Outlet:<br/><%= text_field_tag "press_links[#{n}][text]", nil, :size => 40  %><br>
+        <% if n < 4 -%>
+          <p class="report_add_another"><%= link_to_function 'Add Press Coverage', visual_effect(:toggle_blind,"report_add_press_#{n+1}") %></p>
+        <% end %>
+      </div>
+  <% end -%>
+</div>
+</p>
+<%
+=begin
 	    
 	    <div id="report_add_press_2" class="report_add_attachment" <% if @report.errors.empty? %> style="display:none;"<% end %>>
 		Press Coverage URL:<br/><%= text_field_tag 'press_links[][url]', nil, :size => 40 %> <i>(start with http://)</i><br/>
@@ -101,9 +109,9 @@
 		Press Coverage URL:<br/><%= text_field_tag 'press_links[][url]', nil, :size => 40 %> <i>(start with http://)</i><br/>
   Press Coverage Title/Outlet:<br/><%= text_field_tag 'press_links[][text]', nil, :size => 40  %><br>
 	    </div>
+=end
+%>
 
-</div>
-</p>
 
 <% if @calendar.report_redirect %>
 	<%= hidden_field_tag "redirect", @calendar.report_redirect %>

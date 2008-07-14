@@ -45,10 +45,18 @@ describe Report do
       end
     end
 
-    it "should create press links" do
-      @report = create_report(:press_link_data => [{:url => 'http://example.com', :text => 'the example site'}, {:url => 'http://other.example.com', :text => 'another one'}])
-      @report.press_links(true).collect {|link| link.url}.should include('http://example.com')
-    end
+    describe "press links" do
+      before do
+        @press_params  = {'1' => {:url => 'http://example.com', :text => 'the example site'}, '2' => {:url => 'http://other.example.com', :text => 'another one'}}
+        @report = create_report(:press_link_data => @press_params )
+      end
+      it "should create press links" do
+        @report.press_links(true).collect {|link| link.url}.should include('http://example.com')
+      end
+      it "should create correct data" do
+        @report.press_links.first.text.should == 'the example site'
+      end
+     end
 
     describe "attachment" do
       before do
@@ -66,7 +74,7 @@ describe Report do
     end
 
     it "should validate all associated models" do
-      @report = create_report(:press_link_data => [{:url => '#++ &&^ %%$', :text => 'invalid url'}])
+      @report = create_report(:press_link_data => {'1' => {:url => '#++ &&^ %%$', :text => 'invalid url'}})
       @report.valid?.should_not be_true
     end
 
@@ -79,7 +87,79 @@ describe Report do
     end
 
     describe "embeds" do
+      before do
+        @report = new_report
+      end
+      it "should accept embed data" do
+        @report.embed_data = "blah"
+        @report.embed_data.should == "blah"
+      end
+      it "should build embeds before saving" do
+        @report.should_receive(:build_embeds).and_return(true)
+        @report.save
+      end
+      it "should accept the standard params hash coming form" do
+        @report.embed_data = {'1' => {:html => "<tag>", :caption => "yay"}, '2' => {:html => "<html>", :caption => "whoopee"}}
+        @report.build_embeds
+        @report.embeds.first.html.should == "<tag>"
+      end
+    end
+    
+    describe "build from hash" do
+      before do
+        @uploaded_data = test_uploaded_file
+        @params = {:report => {:text => "text", :attendees => '100', :event => create_event,
+                  :reporter_data => {:first_name => "hannah", :last_name => "barbara", :email => "hannah@example.com"},
+                  :press_link_data => {'1' => {:url => 'http://example.com', :text => 'the example site'}, '2' => {:url => 'http://other.example.com', :text => 'another one'}},
+                  :attachment_data => {'1' => {:caption => 'attachment 0', :uploaded_data => @uploaded_data}},
+                  :embed_data => {'1' => {:html => "<tag>", :caption => "yay"}, '2' => {:html => "<html>", :caption => "whoopee"}}
+                }}
+        @report = Report.new(@params[:report])
+        @report.upload_request = stub_everything('request_object')
+        @report.save!
+      end
+      it "gets text" do
+        @report.text.should == 'text'
+      end
+      it "saves successfully" do
+        @report.id.should_not be_nil
+      end
+      it "should copy reporter data to user" do 
+        @report.user.first_name.should == "hannah"
+      end
+      it "should create user" do 
+        @report.user.id.should_not be_nil
+      end
+
+      it "should copy attachment data" do 
+        @report.should_receive(:attachment_data=)
+        @report.update_attributes(@params[:report])
+      end
+
+      it "builds the attachments" do
+        @report.should_receive(:build_attachments)
+        @report.save
+      end
+      it "should copy attachment data to attachment" do 
+        @report.attachments.first.caption.should == "attachment 0"
+      end
+      it "should create attachment" do 
+        @report.attachments.first.id.should_not be_nil
+      end
+
+      it "should create press links" do
+        @report.press_links.first.url.should match(/example/)
+      end
+      it "should save said press links" do
+        @report.press_links.first.id.should_not be_nil
+      end
+
+      it "should save embeds" do
+        @report.embeds.first.id.should_not be_nil
+      end
+
       it "should create embeds" do
+        @report.embeds.first.html.should match(/tag/)
       end
     end
   end

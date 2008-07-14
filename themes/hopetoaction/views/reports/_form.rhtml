@@ -82,26 +82,14 @@
 	<p class='form_subtitle'>Press Coverage</p>
 	Did the press cover your event?<br>  If so, paste in links to the press coverage below.<br>
 
-		<div id="report_add_press_1" class="report_add_attachment">
-		Press Coverage URL:<br/><%= text_field_tag 'press_links[][url]', nil, :size => 40 %> <i>(start with http://)</i><br/>
-  Press Coverage Title/Outlet:<br/><%= text_field_tag 'press_links[][text]', nil, :size => 40  %><br>	    <p class="report_add_another"><%= link_to_function 'Add Press Coverage', visual_effect(:toggle_blind,'report_add_press_2') %></p>
-	    </div>
-	    
-	    <div id="report_add_press_2" class="report_add_attachment" <% if @report.errors.empty? %> style="display:none;"<% end %>>
-		Press Coverage URL:<br/><%= text_field_tag 'press_links[][url]', nil, :size => 40 %> <i>(start with http://)</i><br/>
-  Press Coverage Title/Outlet:<br/><%= text_field_tag 'press_links[][text]', nil, :size => 40  %><br>	    <p class="report_add_another"><%= link_to_function 'Add Press Coverage', visual_effect(:toggle_blind,'report_add_press_3') %></p>
-	    </div>
-	    
-	    <div id="report_add_press_3" class="report_add_attachment" <% if @report.errors.empty? %> style="display:none;"<% end %>>
-		Press Coverage URL:<br/><%= text_field_tag 'press_links[][url]', nil, :size => 40 %> <i>(start with http://)</i><br/>
-  Press Coverage Title/Outlet:<br/><%= text_field_tag 'press_links[][text]', nil, :size => 40  %><br>	    <p class="report_add_another"><%= link_to_function 'Add Press Coverage', visual_effect(:toggle_blind,'report_add_press_4') %></p>
-	    </div>
-	    
-	    <div id="report_add_press_4" class="report_add_attachment" <% if @report.errors.empty? %> style="display:none;"<% end %>>
-		Press Coverage URL:<br/><%= text_field_tag 'press_links[][url]', nil, :size => 40 %> <i>(start with http://)</i><br/>
-  Press Coverage Title/Outlet:<br/><%= text_field_tag 'press_links[][text]', nil, :size => 40  %><br>
-	    </div>
-
+  <% 1.upto(4) do |n| -%>
+      <div id="report_add_press_<%= n -%>" class="report_add_attachment" <% if n > 1 and @report.errors.empty? -%> style="display:none;"<% end -%>>
+  Press Coverage Title/Outlet:<br/><%= text_field_tag "press_links[#{n}][text]", nil, :size => 40  %><br>
+        <% if n < 4 -%>
+          <p class="report_add_another"><%= link_to_function 'Add Press Coverage', visual_effect(:toggle_blind,"report_add_press_#{n+1}") %></p>
+        <% end %>
+      </div>
+  <% end -%>
 </div>
 </p>
 
