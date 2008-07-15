@@ -1,5 +1,6 @@
 class Embed < ActiveRecord::Base
   belongs_to :report
+  validates_presence_of :html
 
   before_create :extract_youtube_video_id
   def extract_youtube_video_id
