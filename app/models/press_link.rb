@@ -1,7 +1,8 @@
 class PressLink < ActiveRecord::Base
   belongs_to :report
   
-  def validate 
+  validate :verify_url
+  def verify_url
     begin
       URI.parse(self.url)
     rescue URI::InvalidURIError

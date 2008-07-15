@@ -2,9 +2,11 @@ class Report < ActiveRecord::Base
   belongs_to :event
   belongs_to :user
   acts_as_list :scope => :event_id
+
   has_many :attachments, :dependent => :destroy
   has_many :embeds, :dependent => :destroy
   has_many :press_links, :dependent => :destroy
+  validates_associated :attachments, :press_links, :embeds, :user
 
   after_create :trigger_email  
   def trigger_email
@@ -49,7 +51,6 @@ class Report < ActiveRecord::Base
   end
 
   validates_presence_of :event_id, :text
-  validates_associated :attachments, :press_links, :user
 
   PUBLISHED = 'published'
   UNPUBLISHED = 'unpublished'
@@ -113,19 +114,26 @@ class Report < ActiveRecord::Base
 
   attr_accessor :press_link_data
   def build_press_links
-    self.press_links.build(press_link_data.values) if press_link_data
+    return true unless press_link_data
+    links = press_link_data.values.select {|p| !p[:url].blank?}
+    self.press_links.build(links) if links.any?
+    #self.press_links.build(press_link_data.values) if press_link_data
     true
   end
 
   attr_accessor :attachment_data
   def build_attachments
-    self.attachments.build(attachment_data.values) if attachment_data
+    return true unless attachment_data
+    attaches = attachment_data.values.select{ |att| att[:uploaded_data] }
+    self.attachments.build(attaches) if attaches.any?
     true
   end
 
   attr_accessor :embed_data
   def build_embeds
-    self.embeds.build(embed_data.values) if embed_data
+    return true unless embed_data
+    embeddables = embed_data.values.select{ |emb| !emb[:html].blank? }
+    self.embeds.build(embeddables) if embeddables.any?
     true
   end
 
