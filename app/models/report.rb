@@ -6,7 +6,7 @@ class Report < ActiveRecord::Base
   has_many :attachments, :dependent => :destroy
   has_many :embeds, :dependent => :destroy
   has_many :press_links, :dependent => :destroy
-  validates_associated :attachments, :press_links, :embeds, :user
+#  validates_associated :attachments, :press_links, :embeds, :user
 
   after_create :trigger_email  
   def trigger_email
@@ -155,6 +155,7 @@ class Report < ActiveRecord::Base
       :referrer => request[:referer] }
   end
   def check_akismet
+    return true if self.published?
     akismet = Akismet.new '8ec4905c5374', 'http://events.stepitup2007.org'
     unless akismet.comment_check( 
       akismet_params.merge({ 
