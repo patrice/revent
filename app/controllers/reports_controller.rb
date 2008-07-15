@@ -103,7 +103,7 @@ class ReportsController < ApplicationController
   end
 
   def create
-    ReportWorker.new.save_report(params[:report])
+    ReportWorker.new.save_report(params[:report].merge(:akismet_params => request))
     flash[:notice] = 'Report was successfully created.'
     if @calendar.report_redirect
       redirect_to @calendar.report_redirect
