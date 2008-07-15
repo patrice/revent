@@ -114,9 +114,7 @@ describe Report do
                   :attachment_data => {'1' => {:caption => 'attachment 0', :uploaded_data => @uploaded_data}},
                   :embed_data => {'1' => {:html => "<tag>", :caption => "yay"}, '2' => {:html => "<html>", :caption => "whoopee"}}
                 }}
-        @report = Report.new(@params[:report])
-        @report.upload_request = stub_everything('request_object')
-        @report.save!
+        @report = Report.create!(@params[:report].merge( :akismet_params => stub_everything('request_object')))
       end
       it "gets text" do
         @report.text.should == 'text'

@@ -76,7 +76,7 @@ module FixtureReplacement
     a.event = default_event
     a.user = default_user
     a.text = "this event was dope"
-    a.upload_request = {:remote_ip => '333.333.333.333', 
+    a.akismet_params = {:remote_ip => '333.333.333.333', 
                         :user_agent => 'Mozilla', 
                         :referer => 'http://www.google.com'}
 	end

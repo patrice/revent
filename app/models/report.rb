@@ -136,15 +136,24 @@ class Report < ActiveRecord::Base
     self.user.save!
   end
 
-  attr_accessor :upload_request
+  attr_accessor :akismet_params
+  def akismet_params
+    @akismet_params ||= {} 
+  end
+  def akismet_params=( request )
+    @akismet_params = { 
+      :remote_ip => request[:remote_ip],
+      :user_agent => request[:user_agent],
+      :referrer => request[:referer] }
+  end
   def check_akismet
     akismet = Akismet.new '8ec4905c5374', 'http://events.stepitup2007.org'
-    unless akismet.comment_check(:user_ip => upload_request[:remote_ip],
-                             :user_agent => upload_request[:user_agent],
-                             :referrer => upload_request[:referer],
-                             :comment_author => reporter_name,
-                             :comment_author_email => reporter_email,
-                             :comment_content => text)
+    unless akismet.comment_check( 
+      akismet_params.merge({ 
+        :comment_author => reporter_name,   
+        :comment_author_email => reporter_email, 
+        :comment_content => text })
+      )
       self.publish
     end
     #akismet.last_response
