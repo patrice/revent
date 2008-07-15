@@ -43,7 +43,7 @@
     For large file uploads this page may take while to load.  All of your pictures will also be uploaded onto Flickr.
     %p
       - allowed_attachments = 6
-      - f.fields_for :attachments do |ff|
+      - f.fields_for :attachment_data do |ff|
         - 1.upto( allowed_attachments ) do |n|
           .report_add_attachment{ :id=>"report_add_photo_#{n}", :style => ( n > 1 ?  "display:none;" : "") }
 
@@ -80,7 +80,7 @@
       %a{ :href => "http://youtube.com/signup?next=/my_videos_upload", :target => "_blank" } here.
 
   - allowed_embeds = 4
-  - f.fields_for :embeds do |ff|
+  - f.fields_for :embed_data do |ff|
     - 1.upto(allowed_embeds) do |n|
       .report_add_attachment{ :id => "report_add_video_#{n}", :style => (n > 1 and @report.errors.empty? ? "display:none;" : "") }
         %p
@@ -101,14 +101,19 @@
     If so, paste in links to the press coverage below.
     %br/
     - allowed_press_links = 4
-    - f.fields_for :press_links do |ff|
+    - f.fields_for :press_link_data do |ff|
       - 1.upto(allowed_press_links) do |n|
         .report_add_attachment{ :id => "report_add_press_#{n}", :style => (n > 1 and @report.errors.empty? ? "display:none;" : "")}
+          %p 
+            = ff.label "#{n}_url", "Press Coverage URL:"
+            %br/
+            = ff.text_field "url", :size => 40, :index => n
+            %em
+              (start with http://)
           %p 
             = ff.label "#{n}_text", "Press Coverage Title/Outlet:"
             %br/
             = ff.text_field "text", :size => 40, :index => n
-          %br/
           - if n < allowed_press_links
             %p.report_add_another
               = link_to_function 'Add Press Coverage', visual_effect(:toggle_blind,"report_add_press_#{n+1}")
