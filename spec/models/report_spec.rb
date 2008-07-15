@@ -106,11 +106,14 @@ describe Report do
     end
     
     describe "build from hash" do
-      describe "full params hash" do
+      describe "params hash with no attachments, embed, or press links" do
         before do
           @uploaded_data = test_uploaded_file
           @params = {:report => {:text => "text", :attendees => '100', :event => create_event,
-                    :reporter_data => {:first_name => "hannah", :last_name => "barbara", :email => "hannah@example.com"}}}
+                    :reporter_data => {:first_name => "hannah", :last_name => "barbara", :email => "hannah@example.com"},
+                    :press_link_data => {'1' => {:url => '', :text => ''}, '2' => {:url => '', :text => ''}},
+                    :attachment_data => {'1' => {:caption => '', :uploaded_data => nil }},
+                    :embed_data => {'1' => {:html => "", :caption => ""}, '2' => {:html => "", :caption => ""}}}}
           @report = Report.create!(@params[:report].merge( :akismet_params => stub_everything('request_object')))
         end
         it "should not create attachments when no attachment data is provided" do
