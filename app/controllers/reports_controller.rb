@@ -103,80 +103,13 @@ class ReportsController < ApplicationController
   end
 
   def create
-    #redirect_to(:action => :index) and return unless params[:user]
-    @report = Report.new(params[:report])
-    @user = User.find_or_initialize_by_site_id_and_email(Site.current.id, params[:user][:email]) # or current_user
-    @user.attributes = params[:user].reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
-    unless @user.crypted_password || (@user.password && @user.password_confirmation)
-      password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-      @user.password = @user.password_confirmation = password
-    end
-    if params[:press_links] and params[:press_links].any?
-      params[:press_links].reject {|link| link[:url].empty? || link[:text].empty?}.each do |link|
-        @report.press_links.build(link)
-      end
-    end
-    Tag #why not?
-    @attachments = params[:attachments].reject {|i,a| a[:uploaded_data].blank?}.collect do |i,a|
-      tags = a.delete(:tags).join(' ') if a[:tags]
-      attachment = Attachment.new(a)
-      attachment.tag_depot = tags
-      attachment
-    end
-
-    if @user.valid? && @report.valid? && @attachments.all? {|a| a.valid?}
-      @user.deferred = true
-      @user.save
-      @report.user_id = @user.id
-      @report.save
-      @attachments.each {|a| a.report_id = @report.id}
-      if params[:embeds] and params[:embeds].any?
-        params[:embeds].reject {|i,embed| embed[:html].empty?}.each do |i,embed|
-          tags = embed.delete(:tags) if embed[:tags]
-          e = @report.embeds.create embed
-          e.tags = tags if tags
-        end
-      end
-      @event = @report.event
-      begin
-#        require 'starling_client'
-        require 'starling'
-        queue = Starling.new 'localhost:22122'
-        r = {:remote_ip => request.remote_ip, :user_agent => request.user_agent, :referer => request.referer}
-        attachments = @attachments.collect {|a| [a, a.temp_data]}
-        attachments.each {|a| a[0].clear_temp_paths}
-        queue.set 'reports', {:report => @report, :attachments => attachments, :request => r, :site => Site.current, 
-              :flickr_tags => @event.calendar.flickr_tags(@event.id), :flickr_photoset => @event.calendar.flickr_photoset}
-        queue.set 'users', {:user => @user, :site => Site.current}
-      rescue Exception => e
-        attachments.each do |a| 
-          a[0].temp_data = a[1]
-          a[0].save
-          a[0].tags = a[0].tag_depot  if a[0].tag_depot
-        end
-        @report.attachments = attachments.collect {|a| a[0]}
-        @report.embeds.each {|e| e.tags = e.tag_depot if e.tag_depot }
-        require 'upload_to_flickr'
-        upload_images_to_flickr(@report.attachments, 
-              :site_id => Site.current, 
-              :title => "#{@report.event.name} - #{@report.event.city_state}",
-              :flickr_tags =>  @event.calendar.flickr_tags(@event.id), 
-              :flickr_photoset => @event.calendar.flickr_photoset)
-        @report.check_akismet(r)
-        @user.deferred = false
-        @user.sync_to_democracy_in_action
-      end
-      flash[:notice] = 'Report was successfully created.'
-      if @calendar.report_redirect
-        redirect_to @calendar.report_redirect
-      else
-        redirect_to :permalink => @calendar.permalink, :action => 'index'
-      end
+    ReportWorker.new.save_report(params[:report])
+    flash[:notice] = 'Report was successfully created.'
+    if @calendar.report_redirect
+      redirect_to @calendar.report_redirect
     else
-      render :permalink => @calendar.permalink, :action => 'new'
+      redirect_to :permalink => @calendar.permalink, :action => 'index'
     end
-  rescue NoMethodError
-    redirect_to :permalink => @calendar.permalink, :action => 'index'
   end
 
   def lightbox

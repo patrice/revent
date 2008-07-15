@@ -106,58 +106,72 @@ describe Report do
     end
     
     describe "build from hash" do
-      before do
-        @uploaded_data = test_uploaded_file
-        @params = {:report => {:text => "text", :attendees => '100', :event => create_event,
-                  :reporter_data => {:first_name => "hannah", :last_name => "barbara", :email => "hannah@example.com"},
-                  :press_link_data => {'1' => {:url => 'http://example.com', :text => 'the example site'}, '2' => {:url => 'http://other.example.com', :text => 'another one'}},
-                  :attachment_data => {'1' => {:caption => 'attachment 0', :uploaded_data => @uploaded_data}},
-                  :embed_data => {'1' => {:html => "<tag>", :caption => "yay"}, '2' => {:html => "<html>", :caption => "whoopee"}}
-                }}
-        @report = Report.create!(@params[:report].merge( :akismet_params => stub_everything('request_object')))
+      describe "full params hash" do
+        before do
+          @uploaded_data = test_uploaded_file
+          @params = {:report => {:text => "text", :attendees => '100', :event => create_event,
+                    :reporter_data => {:first_name => "hannah", :last_name => "barbara", :email => "hannah@example.com"}}}
+          @report = Report.create!(@params[:report].merge( :akismet_params => stub_everything('request_object')))
+        end
+        it "should not create attachments when no attachment data is provided" do
+          @report.attachments.should be_empty
+        end
+        it "should not create embeds when no embed data is provided" do
+          @report.embeds.should be_empty
+        end
+        it "should not create press links when no press link data is provided" do
+          @report.press_links.should be_empty
+        end
       end
-      it "gets text" do
-        @report.text.should == 'text'
-      end
-      it "saves successfully" do
-        @report.id.should_not be_nil
-      end
-      it "should copy reporter data to user" do 
-        @report.user.first_name.should == "hannah"
-      end
-      it "should create user" do 
-        @report.user.id.should_not be_nil
-      end
-
-      it "should copy attachment data" do 
-        @report.should_receive(:attachment_data=)
-        @report.update_attributes(@params[:report])
-      end
-
-      it "builds the attachments" do
-        @report.should_receive(:build_attachments)
-        @report.save
-      end
-      it "should copy attachment data to attachment" do 
-        @report.attachments.first.caption.should == "attachment 0"
-      end
-      it "should create attachment" do 
-        @report.attachments.first.id.should_not be_nil
-      end
-
-      it "should create press links" do
-        @report.press_links.first.url.should match(/example/)
-      end
-      it "should save said press links" do
-        @report.press_links.first.id.should_not be_nil
-      end
-
-      it "should save embeds" do
-        @report.embeds.first.id.should_not be_nil
-      end
-
-      it "should create embeds" do
-        @report.embeds.first.html.should match(/tag/)
+      describe "full params hash" do
+        before do
+          @uploaded_data = test_uploaded_file
+          @params = {:report => {:text => "text", :attendees => '100', :event => create_event,
+                    :reporter_data => {:first_name => "hannah", :last_name => "barbara", :email => "hannah@example.com"},
+                    :press_link_data => {'1' => {:url => 'http://example.com', :text => 'the example site'}, '2' => {:url => 'http://other.example.com', :text => 'another one'}},
+                    :attachment_data => {'1' => {:caption => 'attachment 0', :uploaded_data => @uploaded_data}},
+                    :embed_data => {'1' => {:html => "<tag>", :caption => "yay"}, '2' => {:html => "<html>", :caption => "whoopee"}}
+                  }}
+          @report = Report.create!(@params[:report].merge( :akismet_params => stub_everything('request_object')))
+        end
+        it "gets text" do
+          @report.text.should == 'text'
+        end
+        it "saves successfully" do
+          @report.id.should_not be_nil
+        end
+        it "should copy reporter data to user" do 
+          @report.user.first_name.should == "hannah"
+        end
+        it "should create user" do 
+          @report.user.id.should_not be_nil
+        end
+        it "should copy attachment data" do 
+          @report.should_receive(:attachment_data=)
+          @report.update_attributes(@params[:report])
+        end
+        it "builds the attachments" do
+          @report.should_receive(:build_attachments)
+          @report.save
+        end
+        it "should copy attachment data to attachment" do 
+          @report.attachments.first.caption.should == "attachment 0"
+        end
+        it "should create attachment" do 
+          @report.attachments.first.id.should_not be_nil
+        end
+        it "should create press links" do
+          @report.press_links.first.url.should match(/example/)
+        end
+        it "should save said press links" do
+          @report.press_links.first.id.should_not be_nil
+        end
+        it "should save embeds" do
+          @report.embeds.first.id.should_not be_nil
+        end
+        it "should create embeds" do
+          @report.embeds.first.html.should match(/tag/)
+        end
       end
     end
   end
