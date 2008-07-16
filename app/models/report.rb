@@ -159,12 +159,13 @@ class Report < ActiveRecord::Base
   def check_akismet
     return true if self.published?
     akismet = Akismet.new '8ec4905c5374', 'http://events.stepitup2007.org'
-    unless akismet.comment_check( 
-      akismet_params.merge({ 
-        :comment_author => reporter_name,   
-        :comment_author_email => reporter_email, 
-        :comment_content => text })
-      )
+    logger.debug( akismet_params.inspect )
+    if !akismet.comment_check( 
+        akismet_params.merge({ 
+          :comment_author => reporter_name,   
+          :comment_author_email => reporter_email, 
+          :comment_content => text })
+        ) || ( RAILS_ENV == 'development' )
       self.status = PUBLISHED
     end
     # use akismet.last_response to get result
