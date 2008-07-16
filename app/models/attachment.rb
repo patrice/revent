@@ -99,8 +99,8 @@ class Attachment < ActiveRecord::Base
 
     data = self.temp_data || File.read(full_filename) 
     calendar = report.event.calendar
-    if self.flickr_id = Site.flickr.photos.upload.upload_image( data, content_type, filename, flickr_title, caption, calendar.tags)
-      photoset_result = Site.flickr.photosets.addPhoto( calendar.photoset, flickr_id ) if calendar.photoset and primary? 
+    if self.flickr_id = Site.flickr.photos.upload.upload_image( data, content_type, filename, flickr_title, caption, calendar.flickr_tags)
+      photoset_result = Site.flickr.photosets.addPhoto( calendar.flickr_photoset, flickr_id ) if calendar.flickr_photoset and primary? 
       update_attribute(:flickr_id, self.flickr_id)
     end
     

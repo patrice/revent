@@ -150,9 +150,15 @@ class Report < ActiveRecord::Base
   end
   def akismet_params=( request )
     @akismet_params = { 
+      :remote_ip => request.remote_ip,
+      :user_agent => request.user_agent,
+      :referrer => request.referer 
+=begin
       :remote_ip => request[:remote_ip],
       :user_agent => request[:user_agent],
-      :referrer => request[:referer] }
+      :referrer => request[:referer] 
+=end
+      }
   end
   def check_akismet
     return true if self.published?

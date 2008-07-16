@@ -16,4 +16,17 @@ describe Site do
       Site.current_config_path.should == Site.config_path(1)
     end
   end
+
+  describe "flickr" do
+    before do
+      @test_config_path = File.join(RAILS_ROOT, "test", "config" )
+      Site.stub!(:current_config_path).and_return(@test_config_path)
+      @site = create_site
+      Site.stub!(:current).and_return( @site )
+    end
+    it "calls file exist" do
+      File.should_receive(:exist?).with( File.join( @test_config_path, 'flickr','test', 'flickr.yml' ))
+      Site.flickr
+    end
+  end
 end
