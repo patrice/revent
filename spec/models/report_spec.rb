@@ -6,7 +6,7 @@ describe Report do
       @site = create_site
       @site.stub!(:salesforce_enabled?).and_return(false)
       Site.stub!(:current).and_return(@site)
-      @calendar = create_calendar(:site => @site)
+      @calendar = create_calendar(:site => @site, :flickr_photoset => '1234567890', :flickr_tag => 'testing')
       @event = create_event( :calendar => @calendar, :country_code => 'GBR' )
       Akismet.stub!(:new).and_return(stub(Akismet, :comment_check => true, :last_response => true))
     end
@@ -175,6 +175,77 @@ describe Report do
         it "should create embeds" do
           @report.embeds.first.html.should match(/tag/)
         end
+      end
+    end
+
+    describe "upload attachments to flickr" do
+      before do
+        @upload_proxy = stub( 'uploads_proxy', :upload_image => true )
+        @photo_proxy  = stub( 'photos_proxy', :upload => @upload_proxy )
+        @photoset_proxy = stub( 'photoset_proxy', :addPhoto => true )
+        @flickr_api = stub( 'flickr_api', :photos => @photo_proxy, :photosets => @photoset_proxy )
+        Site.stub!(:flickr).and_return( @flickr_api )
+        @attach = create_attachment(:primary => true)
+        @report = create_report(:event => @event)
+        @report.attachments << @attach
+        @report.status = Report::PUBLISHED
+      end
+      it "does not work without a valid Flickr connection" do
+        @upload_proxy.should_not_receive(:upload_image)
+        Site.stub!(:flickr).and_return(false)
+        @report.send_attachments_to_flickr
+      end
+      it "should not send unpublished items to flickr" do
+        @report.stub!(:published?).and_return(false)
+        @upload_proxy.should_not_receive(:upload_image)
+        @report.send_attachments_to_flickr
+      end
+      it "should not send items that already have been uploaded"  do
+        @report.attachments.first.flickr_id = "123"
+        @upload_proxy.should_not_receive(:upload_image)
+        @report.send_attachments_to_flickr
+      end
+      it "checks for metadata" do
+        @report.should_receive(:flickr_title)
+        @report.send_attachments_to_flickr
+      end
+      it "works from tempfiles or full files" do
+        @attach.should_receive(:temp_data).and_return( false )
+        @report.send_attachments_to_flickr
+      end
+      it "calls upload on the flickr api" do
+        @upload_proxy.should_receive(:upload_image)
+        @report.send_attachments_to_flickr
+      end
+      it "sets the flickr id attribute" do
+        @upload_proxy.stub!(:upload_image).and_return(5)
+        @attach.should_receive(:flickr_id=).with(5)
+        @report.send_attachments_to_flickr
+      end
+      it "does not save if the flickr upload failed" do
+        @upload_proxy.stub!(:upload_image).and_return false 
+        @attach.should_not_receive(:save)
+        @report.send_attachments_to_flickr
+      end
+      it "adds the photoset if the attachment is primary and the photoset is defined" do
+        @upload_proxy.stub!(:upload_image).and_return('998988978')
+        @photoset_proxy.should_receive(:addPhoto)
+        @report.send_attachments_to_flickr
+      end
+      it "does not add the photoset if no photoset is defined" do
+        @calendar.stub!(:flickr_photoset).and_return(nil)
+        @photoset_proxy.should_not_receive(:addPhoto)
+        @report.send_attachments_to_flickr
+      end
+      it "does not add the photoset if the attachment is not primary" do
+        @calendar.stub!(:flickr_photoset).and_return( 5 )
+        @report.attachments.first.primary = false
+        @photoset_proxy.should_not_receive(:addPhoto)
+        @report.send_attachments_to_flickr
+      end
+      it "rescues XMLRPC errors" do
+        @flickr_api.stub!(:photos).and_raise( XMLRPC::FaultException.new( "problem", "yeah" ) )
+        lambda{ @report.send_attachments_to_flickr }.should_not raise_error
       end
     end
   end

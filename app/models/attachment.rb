@@ -87,28 +87,4 @@ class Attachment < ActiveRecord::Base
   end
 
   attr_accessor :tag_depot
-#  after_save { GC.start } # please, hope this helps
-
-  def flickr_title
-    "#{report.event.name} - #{report.event.city}, #{report.event.state}"
-  end
-
-  after_save :send_to_flickr
-  def send_to_flickr
-    return true unless Site.flickr and report and report.published? and flickr_id.nil?
-
-    data = self.temp_data || File.read(full_filename) 
-    calendar = report.event.calendar
-    if self.flickr_id = Site.flickr.photos.upload.upload_image( data, content_type, filename, flickr_title, caption, calendar.flickr_tags)
-      photoset_result = Site.flickr.photosets.addPhoto( calendar.flickr_photoset, flickr_id ) if calendar.flickr_photoset and primary? 
-      update_attribute(:flickr_id, self.flickr_id)
-    end
-    
-    logger.info(flickr_id ? "FLICKR photo #{flickr_id} saved" : "FLICKR could not save photo #{flickr_title} to flickr")
-    return true
-
-    rescue XMLRPC::FaultException
-      logger.error("FLICKR XMLRPC::Exception occurred while trying to upload #{flickr_title}.")
-      return true
-  end
 end
