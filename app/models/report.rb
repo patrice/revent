@@ -110,7 +110,8 @@ class Report < ActiveRecord::Base
     user ? user.email : read_attribute('email')
   end
 
-  before_save :build_press_links, :build_attachments, :build_embeds, :check_akismet
+  before_save :build_press_links, :build_attachments, :build_embeds, 
+              :check_akismet, :send_attachments_to_flickr
 
   attr_accessor :press_link_data
   def build_press_links
@@ -124,7 +125,7 @@ class Report < ActiveRecord::Base
   attr_accessor :attachment_data
   def build_attachments
     return true unless attachment_data
-    attaches = attachment_data.values.select{ |att| att[:uploaded_data] }
+    attaches = attachment_data.values.select{ |att| !att[:uploaded_data].blank? }
     self.attachments.build(attaches) if attaches.any?
     true
   end
@@ -153,12 +154,7 @@ class Report < ActiveRecord::Base
       :remote_ip => request.remote_ip,
       :user_agent => request.user_agent,
       :referrer => request.referer 
-=begin
-      :remote_ip => request[:remote_ip],
-      :user_agent => request[:user_agent],
-      :referrer => request[:referer] 
-=end
-      }
+    }
   end
   def check_akismet
     return true if self.published?
@@ -169,9 +165,30 @@ class Report < ActiveRecord::Base
         :comment_author_email => reporter_email, 
         :comment_content => text })
       )
-      self.publish
+      self.status = PUBLISHED
     end
-    #akismet.last_response
+    # use akismet.last_response to get result
+    true
+  end
+
+  def flickr_title
+    "#{event.name} - #{event.city}, #{event.state}"
+  end
+
+  def send_attachments_to_flickr
+    return true unless Site.flickr and self.published?
+    self.attachments.each do |att|
+      next if att.flickr_id # maybe also verify that its an image???
+      begin
+        att.flickr_id = Site.flickr.photos.upload.upload_image(att.temp_data, att.content_type, att.filename, flickr_title, att.caption, event.calendar.flickr_tags)
+        if event.calendar.flickr_photoset and att.flickr_id and att.primary?
+          photoset_result = Site.flickr.photosets.addPhoto(event.calendar.flickr_photoset, att.flickr_id)
+        end
+        logger.info(att.flickr_id ? "FLICKR photo #{att.flickr_id} saved" : "FLICKR could not save photo #{flickr_title} to flickr")
+      rescue XMLRPC::FaultException
+        logger.error("FLICKR XMLRPC::Exception occurred while trying to upload #{flickr_title}.")
+      end
+    end
     true
   end
 end
