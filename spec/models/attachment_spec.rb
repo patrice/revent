@@ -4,7 +4,7 @@ describe "Attachment" do
   before do
     Site.stub!(:current).and_return(stub('current_site', :id => 1, :salesforce_enabled? => false ))
     @attach = create_attachment
-    @calendar = stub( Calendar, :tags => 'hello', :photoset => 'actionphotos') 
+    @calendar = stub( Calendar, :flickr_tags => 'hello', :flickr_photoset => 'actionphotos') 
     @event = stub( Event, :name => 'test_event', :calendar => @calendar, :city => 'test city', :state => 'BL' )
     @attach.stub!(:report).and_return( stub( 'attached_report', :event => @event, :published? => false))
   end
@@ -55,20 +55,20 @@ describe "Attachment" do
       end
 
       it "adds the photoset if the attachment is primary and the photoset is defined" do
-        @calendar.stub!(:photoset).and_return( 5 )
+        @calendar.stub!(:flickr_photoset).and_return( 5 )
         @attach.primary = true
         @photoset_proxy.should_receive(:addPhoto)
         @attach.send_to_flickr
       end
 
       it "does not add the photoset if no photoset is defined" do
-        @calendar.stub!(:photoset).and_return(nil)
+        @calendar.stub!(:flickr_photoset).and_return(nil)
         @attach.primary = true
         @photoset_proxy.should_not_receive(:addPhoto)
         @attach.send_to_flickr
       end
       it "does not add the photoset if the attachment is not primary" do
-        @calendar.stub!(:photoset).and_return( 5 )
+        @calendar.stub!(:flickr_photoset).and_return( 5 )
         @photoset_proxy.should_not_receive(:addPhoto)
         @attach.send_to_flickr
       end
