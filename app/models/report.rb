@@ -145,10 +145,18 @@ class Report < ActiveRecord::Base
     self.user.save!
   end
 
+  def self.akismet_params( request )
+    { 
+      :user_ip => request.remote_ip,
+      :user_agent => request.user_agent,
+      :referrer => request.referer 
+    }
+  end
   attr_accessor :akismet_params
   def akismet_params
     @akismet_params ||= {} 
   end
+=begin
   def akismet_params=( request )
     @akismet_params = { 
       :user_ip => request.remote_ip,
@@ -156,6 +164,7 @@ class Report < ActiveRecord::Base
       :referrer => request.referer 
     }
   end
+=end
   def check_akismet
     return true if self.published?
     akismet = Akismet.new '8ec4905c5374', 'http://events.stepitup2007.org'
