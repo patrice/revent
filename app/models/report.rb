@@ -151,7 +151,7 @@ class Report < ActiveRecord::Base
   end
   def akismet_params=( request )
     @akismet_params = { 
-      :remote_ip => request.remote_ip,
+      :user_ip => request.remote_ip,
       :user_agent => request.user_agent,
       :referrer => request.referer 
     }
@@ -159,7 +159,7 @@ class Report < ActiveRecord::Base
   def check_akismet
     return true if self.published?
     akismet = Akismet.new '8ec4905c5374', 'http://events.stepitup2007.org'
-    logger.debug( akismet_params.inspect )
+
     if !akismet.comment_check( 
         akismet_params.merge({ 
           :comment_author => reporter_name,   
