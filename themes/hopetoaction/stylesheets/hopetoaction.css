@@ -15,3 +15,17 @@ ul {
 
 #nav-report {
   text-align: right; }
+
+#main-banner { width: 520px; float: left; text-align: right;  } 
+
+#main-bar { width: 240px; float: left; text-align: right; } 
+
+#national-container {margin: 15px; }
+
+#nav-event {margin: 15px 5px 5px 5px; border: 1px solid #cccccc; padding: 5px; }
+
+#event-container { margin: 15px; } 
+#plinkextras { width: 383px; }
+#plinks { width: 420px; }
+.report-nav {margin-top: 8px; }
+

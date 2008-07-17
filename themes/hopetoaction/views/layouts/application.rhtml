@@ -53,6 +53,7 @@
           </div>
         <div id="logo-title">
           <a href="http://hopetoaction.org/"title="Home"><img src="http://hopetoaction.org/files/hope_to_action_logo.png" alt="Home" id="logo" /></a>
+
         </div> <!-- /logo-title -->
         <div id="plinks">   
         </div>
@@ -76,13 +77,15 @@
   function initBox(intID,intTop,intLeft){$("#block-block-"+intID).css({marginTop:intTop+"px",marginLeft:intLeft+"px"});}
   $(document).ready(function(){initBox(13,-623,210);initBox(14,-519,10);initBox(31,-623,320);initBox(16,-306,115);});
 </script> <div id="revent-main">
-  <%= link_to(theme_image_tag('Plan_Bar.gif', {:width => "200", :height => "73", :style => "display:block; margin-left:150px;"}), 'http://hopetoaction.org/ecosalon') %>
+<div id="main-banner"><%= link_to(theme_image_tag('EcoSalon_Logo.gif', {:width => "240", :height => "164" }), 'http://hopetoaction.org/ecosalon') %></div>
+<div id="main-bar"><%= link_to(theme_image_tag('Plan_Bar.gif', {:width => "200", :height => "73" }), 'http://hopetoaction.org/ecosalon') %></div>
+<div style="clear: both;"></div>
   <% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
   <% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
   <%= yield %>
 </div>
 </div>
-<div id="block-block-31" class="blo schools, and in our communities for climate protection.</p></div><p>&nbsp;</p>    </div>    
+<!-- <div id="block-block-31" class="blo schools, and in our communities for climate protection.</p></div> --> <p>&nbsp;</p>    </div>   
   </div>
 </div>
 <div id="block-block-13" class="block block-block">  
@@ -95,7 +98,7 @@
 </div>
 <div id="block-block-16" class="block block-block">  
   <div class="blockinner">
-    <h2 class="ti    <div class="content">
+    <div class="content">
 
       <div><img width="140" height="103" alt="" src="http://hopetoaction.org/files/image/block_photo_influence.jpg" /></div><div><h3>Influence America</h3><p>Make sure your voice is head and counted. Take political action now!<a target="_self" href="/Influence+America"></a></p></div><p>&nbsp;</p>    </div>    
   </div>
@@ -117,4 +120,3 @@
     </div> <!-- /page -->
   </body>
 </html>
-
