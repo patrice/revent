@@ -103,7 +103,14 @@ class ReportsController < ApplicationController
   end
 
   def create
-    ReportWorker.new.save_report(params[:report].merge(:akismet_params => request))
+    begin 
+      async_params = params[:report].merge(:akismet_params => Report.akismet_params(request))
+      async_attachments = async_params[:attachment_data].each { |key, att| async_params[:attachment_data][key][:data_dump] = att[:uploaded_data].read unless att[:uploaded_data].blank? }
+      ReportWorker.async_save_report( async_params )
+    rescue Workling::WorklingError
+      logger.info("Workling unable to connect.")
+      ReportWorker.new.save_report(params[:report].merge(:akismet_params => Report.akismet_params(request)))
+    end
     flash[:notice] = 'Report was successfully created.'
     if @calendar.report_redirect
       redirect_to @calendar.report_redirect
