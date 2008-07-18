@@ -6,7 +6,7 @@ class Report < ActiveRecord::Base
   has_many :attachments, :dependent => :destroy
   has_many :embeds, :dependent => :destroy
   has_many :press_links, :dependent => :destroy
-#  validates_associated :attachments, :press_links, :embeds, :user
+  validates_associated :attachments, :press_links, :embeds, :user
 
   after_create :trigger_email  
   def trigger_email
@@ -128,6 +128,17 @@ class Report < ActiveRecord::Base
     attaches = attachment_data.values.select{ |att| !att[:uploaded_data].blank? }
     self.attachments.build(attaches) if attaches.any?
     true
+  end
+
+  def marshal_dump
+    attachment_data.each do |key, att|
+      att.uploaded_data = att.uploaded_data.read
+    end
+    attributes
+  end
+
+  def marshal_load(dumped_data)
+    attributes = dumped_data
   end
 
   attr_accessor :embed_data

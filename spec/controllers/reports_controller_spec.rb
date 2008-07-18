@@ -19,9 +19,7 @@ describe ReportsController do
       post :create, @create_params
     end
     it "should save the report" do
-      worker = mock('report_worker')
-      worker.should_receive(:save_report)
-      ReportWorker.stub!(:new).and_return(worker)
+      ReportWorker.should_receive(:async_save_report)
       act!
     end
   end
