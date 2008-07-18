@@ -125,16 +125,17 @@ describe Event do
   describe "congressional district" do
     before do
       @event = new_event(:postal_code => '94114', :country_code => Event::COUNTRY_CODE_USA)
+      Cache.delete "district_for_postal_code_94114"
     end
     it "should set the congressional districts when saved" do
       @xml = "<?xml version=\"1.0\"?><data><entry id=\"radicaldesigns\"><address1></address1><address2></address2><region>CA</region><city>Oakland</city><latitude>37.824444</latitude><longitude>-122.230556</longitude><postal_code>94618</postal_code><postal_code_extension></postal_code_extension><district>CA09</district><regional_senate_district></regional_senate_district><regional_house_district></regional_house_district></entry></data>"
-      Event.stub!(:open).and_return(@xml)
+      Kernel.stub!(:open).and_return(@xml)
       @event.save
       @event.district.should == "CA09"
     end
     it "should select the first congressional district" do
       @xml = "<?xml version=\"1.0\"?><data><entry id=\"radicaldesigns\"><address1></address1><address2></address2><region>CA</region><city>San Francisco</city><latitude>37.759122</latitude><longitude>-122.438712</longitude><postal_code>94114</postal_code><postal_code_extension></postal_code_extension><district>CA08</district><district>CA12</district><multidistrict>true</multidistrict><regional_senate_district></regional_senate_district><regional_house_district></regional_house_district></entry></data>"
-      Event.stub!(:open).and_return(@xml)
+      Kernel.stub!(:open).and_return(@xml)
       @event.save
       @event.district.should == "CA08"
     end
