@@ -1,6 +1,5 @@
 <%  
-  @event.start = (@calendar.event_start ? [@calendar.event_start, Time.now].max : Time.now)
-  @event.start = @event.start.beginning_of_day + 12.hours
+  @event.start = "9/27/2008".to_time.beginning_of_day + 12.hours
   @event.end = @event.start + 2.hours 
   @hostform = @calendar.hostform
 -%>
