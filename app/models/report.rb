@@ -6,7 +6,7 @@ class Report < ActiveRecord::Base
   has_many :attachments, :dependent => :destroy
   has_many :embeds, :dependent => :destroy
   has_many :press_links, :dependent => :destroy
-#  validates_associated :attachments, :press_links, :embeds, :user
+  validates_associated :attachments, :press_links, :embeds, :user
 
   after_create :trigger_email  
   def trigger_email
@@ -130,6 +130,17 @@ class Report < ActiveRecord::Base
     true
   end
 
+  def marshal_dump
+    attachment_data.each do |key, att|
+      att.uploaded_data = att.uploaded_data.read
+    end
+    attributes
+  end
+
+  def marshal_load(dumped_data)
+    attributes = dumped_data
+  end
+
   attr_accessor :embed_data
   def build_embeds
     return true unless embed_data
@@ -190,7 +201,7 @@ class Report < ActiveRecord::Base
     self.attachments.each do |att|
       next if att.flickr_id # maybe also verify that its an image???
       begin
-        att.flickr_id = Site.flickr.photos.upload.upload_image(att.temp_data, att.content_type, att.filename, flickr_title, att.caption, event.calendar.flickr_tags)
+        att.flickr_id = Site.flickr.photos.upload.upload_image(att.data_dump, att.content_type, att.filename, flickr_title, att.caption, event.calendar.flickr_tags)
         if event.calendar.flickr_photoset and att.flickr_id and att.primary?
           photoset_result = Site.flickr.photosets.addPhoto(event.calendar.flickr_photoset, att.flickr_id)
         end

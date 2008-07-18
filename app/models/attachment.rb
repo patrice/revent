@@ -87,4 +87,31 @@ class Attachment < ActiveRecord::Base
   end
 
   attr_accessor :tag_depot
+
+  attr_accessor :data_dump
+  def data_dump
+    @data_dump || 
+      self.temp_data || 
+      File.read( full_filename ) 
+  rescue
+    begin
+      open(public_filename).read if public_filename
+    rescue
+      nil
+    end
+  end
+
+=begin
+  def marshal_dump
+    data = data_dump
+    clear_temp_paths
+    a.uploaded_data = nil
+    [ attributes, data ]
+  end
+
+  def marshal_load( dumped_data )
+    attributes, temp_data  = *dumped_data
+  end
+=end
+
 end
