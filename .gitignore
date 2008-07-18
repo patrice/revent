@@ -9,9 +9,11 @@ public/javascripts/prototype/*
 db/exports/*
 db/imports/*
 db/*.sql
+db/*.zip
 public/cache/*
 public/attachments/*
 public/themes/*
 sites/*
 test/cache/*
 coverage/*
+
