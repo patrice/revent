@@ -283,11 +283,11 @@ class Event < ActiveRecord::Base
       # get congressional district based on postal code
       dia_warehouse = "http://warehouse.democracyinaction.org/dia/api/warehouse/append.jsp?id=radicaldesigns".freeze
       uri = dia_warehouse + "&postal_code=" + postal_code.to_s
-      data = Hpricot::XML(open(uri))
+      data = Hpricot::XML(Kernel.open(uri))
       (data/:district).first.innerHTML if (data/:district)
     end
   end
-    
+
   def set_district
     # don't lookup U.S. congressional district for non-us postal_codes
     return unless (self.country_code == COUNTRY_CODE_USA && 

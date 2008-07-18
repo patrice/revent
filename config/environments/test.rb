@@ -25,6 +25,6 @@ DIA_ENABLED = true
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
 
-CACHE = MemCache.new ['127.0.0.1:11211'], :namespace => 'daysofaction_test'
+CACHE = MemCache.new ['127.0.0.1:11211'], :namespace => 'daysofaction_test' #, :readonly => true
 require 'memcache_util'
 require 'ruby-debug'
