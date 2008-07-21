@@ -188,7 +188,7 @@ class Report < ActiveRecord::Base
   def send_attachments_to_flickr
     return true unless Site.flickr and self.published?
     self.attachments.each do |att|
-      data = att.temp_data || File.read( att.full_filename ) rescue open( att.public_filename ).read
+      data = att.temp_data || File.read( att.full_filename ) rescue open( att.public_filename ).read rescue nil
       next unless att.flickr_id.nil? and data # maybe also verify that its an image???
       begin
         att.flickr_id = Site.flickr.photos.upload.upload_image(data, att.content_type, att.filename, flickr_title, att.caption, event.calendar.flickr_tags)
