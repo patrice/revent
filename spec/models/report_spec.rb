@@ -185,7 +185,7 @@ describe Report do
         @photoset_proxy = stub( 'photoset_proxy', :addPhoto => true )
         @flickr_api = stub( 'flickr_api', :photos => @photo_proxy, :photosets => @photoset_proxy )
         Site.stub!(:flickr).and_return( @flickr_api )
-        @attach = create_attachment(:primary => true)
+        @attach = create_attachment(:primary => true, :temp_data => 'data data data')
         @report = create_report(:event => @event)
         @report.attachments << @attach
         @report.status = Report::PUBLISHED
