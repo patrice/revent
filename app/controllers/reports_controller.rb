@@ -106,10 +106,11 @@ class ReportsController < ApplicationController
     @report = Report.new(params[:report].merge(:akismet_params => Report.akismet_params(request)))
     if @report.valid?
       begin 
+        @report.make_local_copies!
         ReportWorker.async_save_report( @report )
       rescue Workling::WorklingError
         logger.info("Workling unable to connect.")
-        @report = Report.create(params[:report].merge(:akismet_params => Report.akismet_params(request)))
+        @report.save
       end
       flash[:notice] = 'Report was successfully created.'
       if @calendar.report_redirect
