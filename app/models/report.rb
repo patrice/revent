@@ -110,8 +110,8 @@ class Report < ActiveRecord::Base
     user ? user.email : read_attribute('email')
   end
 
-  before_save :build_press_links, :build_attachments, :build_embeds, 
-              :check_akismet, :send_attachments_to_flickr
+  before_save :build_press_links, :build_embeds, :check_akismet, 
+              :send_attachments_to_flickr
 
   attr_accessor :press_link_data
   def build_press_links
@@ -122,23 +122,21 @@ class Report < ActiveRecord::Base
     true
   end
 
-  attr_accessor :attachment_data
-  def build_attachments
-    return true unless attachment_data
-    attaches = attachment_data.values.select{ |att| !att[:uploaded_data].blank? }
+  def attachment_data=(data)
+    attaches = data.values.select {|att| !att[:uploaded_data].blank? }
     self.attachments.build(attaches) if attaches.any?
-    true
   end
 
-  def marshal_dump
-    attachment_data.each do |key, att|
-      att.uploaded_data = att.uploaded_data.read
-    end
-    attributes
+  # copy tempfiles to presistent files because attachments stored as 
+  # tempfiles are not guaranteed to persist if app server dies
+  def make_local_copies!
+    self.attachments.each {|a| a.make_local_copy}
   end
 
-  def marshal_load(dumped_data)
-    attributes = dumped_data
+  # undo make_local_copies so that local attachment files
+  # get deleted (at some point)
+  def move_to_temp_files!
+    self.attachments.each {|a| a.move_to_temp_files}
   end
 
   attr_accessor :embed_data
