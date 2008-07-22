@@ -153,10 +153,6 @@ describe Report do
           @report.should_receive(:attachment_data=)
           @report.update_attributes(@params[:report])
         end
-        it "builds the attachments" do
-          @report.should_receive(:build_attachments)
-          @report.save
-        end
         it "should copy attachment data to attachment" do 
           @report.attachments.first.caption.should == "attachment 0"
         end
