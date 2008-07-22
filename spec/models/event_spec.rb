@@ -125,7 +125,7 @@ describe Event do
   describe "congressional district" do
     before do
       @event = new_event(:postal_code => '94114', :country_code => Event::COUNTRY_CODE_USA)
-      Cache.delete "district_for_postal_code_94114"
+      Cache.stub!(:get).and_yield
     end
     it "should set the congressional districts when saved" do
       @xml = "<?xml version=\"1.0\"?><data><entry id=\"radicaldesigns\"><address1></address1><address2></address2><region>CA</region><city>Oakland</city><latitude>37.824444</latitude><longitude>-122.230556</longitude><postal_code>94618</postal_code><postal_code_extension></postal_code_extension><district>CA09</district><regional_senate_district></regional_senate_district><regional_house_district></regional_house_district></entry></data>"
