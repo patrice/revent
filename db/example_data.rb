@@ -77,6 +77,8 @@ module FixtureReplacement
     a.user = default_user
     a.text = "this event was dope"
     a.akismet_params = {}
+    a.embed_data = {'0' => {:caption => 'video!', :html => '<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/f31PLcCXD0U&hl=en&fs=1"></param><param name="allowFullScreen" value="true"></param><embed src="http://www.youtube.com/v/f31PLcCXD0U&hl=en&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="425" height="344"></embed></object>'}} 
+    a.press_link_data = {'0' => {:url => 'http://press.link.example.com', :text => 'link!'}}
 	end
 
   attributes_for :role do |a|
