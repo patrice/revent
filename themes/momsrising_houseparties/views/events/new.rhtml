@@ -1,10 +1,10 @@
 <%  
-@event.start = '2/29/08'.to_time.beginning_of_day + 12.hours unless @event.start
-@event.end = @event.start + 2.hours unless @event.end
-@event.description = "Fair Pay Meeting with my Senator"
+@event.start = ['6/1/08'.to_time, Time.now].max.beginning_of_day + 12.hours
+@event.end = @event.start + 4.hours
+@event.state = "CA"
+@event.description = "California House Party for Moms Rising"
 @hostform = @calendar.hostform
  -%>
-
 <h1><%= @hostform.title if @hostform %></h1>
 <p class="text">
 
@@ -65,7 +65,7 @@
             </tr>
             <tr>
               <td valign="top"  class="dia_field_name">*State/Region</td>
-              <td><%= user.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), :title => "Please select your state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1" %>     
+              <td><%= user.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), :selected => "CA",  :title => "Please select your state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1" %>     
               </td>
             </tr>
             <tr>
@@ -89,7 +89,7 @@
       <%= error_messages_for 'event' %>
       <h3>Event Information<br /></h3>
       <% if @hostform and @hostform.event_info_text %>
-      	<p><strong><font color="#ff0000"><%= @hostform.event_info_text %></font></strong></p>
+      	<p><strong><font color="#ff0000"><em><%= @hostform.event_info_text %></em></font></strong></p>
       <%- end %>
       <div id="eventFields" class="eventFields">
         <table class="dia_field">
@@ -100,10 +100,28 @@
               </td>
               <td valign="top">
                 <%= f.text_field "name", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your event's name", :class => "required inputStyle" %><br />
-					 &nbsp;&nbsp;<em>e.g. "Fair Pay Meeting with my Senator"</em>
+					 &nbsp;&nbsp;<em>e.g. "Cover All Kids - Berkeley House Party"</em>
               </td>
             </tr>          
    			<%= f.hidden_field "description" %>
+            <tr>
+              <td colspan="2" valign="top"  class="dia_field_name">Copy your address from above?&nbsp;&nbsp;
+					<%= check_box_tag "copy_address", :style => "background-color: #ebd897;", :class => "inputStyle" %>
+				  </td>
+            </tr>
+				<%= observe_field :copy_address,
+										:frequency => 0.2,
+										:function => "if($('copy_address').checked) { 
+																$('event_location').value = $('user_street').value;
+																$('event_state').value = $('user_state').value;
+																$('event_city').value = $('user_city').value;
+																$('event_postal_code').value = $('user_postal_code').value;
+														  } else { 
+																$('event_location').value = '';
+																$('event_state').value = 'CA';
+															   $('event_city').value = '';
+																$('event_postal_code').value = '';
+															}" %>
             <tr valign="top">
               <td valign="top"  class="dia_field_name">
                 <div align="left">*Street Address:</div>
@@ -134,22 +152,10 @@
               <td valign="top"  class="dia_field_name">
                 <div align="left">*State:</div>
               </td>
-              <td>
-					<%= f.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), :title => "Please choose your event's state", :class => "required validate-selection", :id => 'event_state', :style => "background-color: #ebd897;", :size => "1" %>
-	            <span id="spinner" style="font-style: italic; font-size: 90%; display: none;"><%= image_tag 'spinner.gif' %> looking for other events in this state</span></td>
-					  <%= observe_field :event_state,
-											 :update => 'otherStateEvents',
-											 :before => "Element.show('spinner')", 
-											 :complete => "Element.hide('spinner')", 
-											 :url => {:permalink => @calendar.permalink, :controller => 'events', :action => 'other_state_events', :only_path => false},
-											 :with => "'event_state=' + encodeURIComponent(value)" %>
+              <td>	 
+					<%= f.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), :title => "Please choose your event's state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1" %>
 				  </td>
             </tr>
-				<tr>
-					  <td colspan="2">
-						 <div id='otherStateEvents'/>
-					  </td>
-				</tr>
             <tr>
               <td  class="dia_field_name">
                 <div align="left">*Zip Code:</div>
@@ -158,6 +164,14 @@
                  <%= f.text_field "postal_code", :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your event's zip code", :class => "required inputStyle" %>&nbsp;&nbsp;
 				  </td>
 				</tr>
+				<tr valign="top">
+              <td valign="top" colspan=2>
+              Privacy and Searches:<br>
+                <% @event.private = false -%>
+                <%= f.radio_button "private", "false", :id => "dataEvent_Private", :title => "Please enter your event's public status",  :class => "inputStyle"  %> Please make this event public, so anyone may search for it.<br>
+                <%= f.radio_button "private", "true",  :id => "dataEvent_Private", :title => "Please enter your event's public status", :class => "inputStyle" %> Please make this event private, so it will not show up in any public listings.
+              </td>
+            </tr>
             <tr>
               <td valign="top"  class="dia_field_name" colspan="2">
 					 <table>
@@ -171,6 +185,15 @@
 						</tr>							
 					 </table>
               </td>
+            </tr>
+            <tr valign="top">
+              <td valign="top"  class="dia_field_name">
+                <div align="left">Maximum Attendees:</div>
+              </td>
+              <td valign="top">
+                <%= f.text_field "max_attendees", :id => "dataEvent_Max",  :size => "16", :title => "Please enter your event's maximun atendees"  %>
+              </td>
+              
             </tr>
             <tr>
           </tbody>
@@ -205,6 +228,3 @@
       </div>
     </div>
 <% end -%>
-
-
-
