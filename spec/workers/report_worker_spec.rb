@@ -21,6 +21,14 @@ describe ReportWorker do
     worker.save_report( @report )
   end
 
+  it "should create multiple attachments" do
+    @uploaded_data = test_uploaded_file
+    @report = new_report(:attachment_data => {'0' => {:caption => 'attachment 0', :uploaded_data => @uploaded_data}, '1' => {:caption => 'attachment 1', :uploaded_data => @uploaded_data}})
+    @report.make_local_copies!
+    ReportWorker.new.save_report(@report)
+    @report.attachments(true).all? {|a| File.exist?(a.full_filename)}.should be_true
+  end
+
   describe "on the queue" do
     it "should be marshalable" do
       @report.attachment_data = {'0' => {:uploaded_data => test_uploaded_file}}
