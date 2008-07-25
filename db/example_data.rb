@@ -1,7 +1,9 @@
 module FixtureReplacement
   attributes_for :attachment do |a|
-    
-	end
+    a.filename = "test_file"
+    a.content_type = 'image/jpeg' 
+    a.size = 50
+  end
 
   attributes_for :blog do |a|
     
@@ -42,6 +44,7 @@ module FixtureReplacement
     a.postal_code = "94114"
     a.start = (start = Time.now + 2.months)
     a.end = start + 2.hours
+    a.country_code = 'something that will not trigger set_district'
 	end
 
 =begin
@@ -73,6 +76,9 @@ module FixtureReplacement
     a.event = default_event
     a.user = default_user
     a.text = "this event was dope"
+    a.akismet_params = {}
+    a.embed_data = {'0' => {:caption => 'video!', :html => '<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/f31PLcCXD0U&hl=en&fs=1"></param><param name="allowFullScreen" value="true"></param><embed src="http://www.youtube.com/v/f31PLcCXD0U&hl=en&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" width="425" height="344"></embed></object>'}} 
+    a.press_link_data = {'0' => {:url => 'http://press.link.example.com', :text => 'link!'}}
 	end
 
   attributes_for :role do |a|

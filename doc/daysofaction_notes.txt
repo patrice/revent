@@ -20,9 +20,8 @@ revent new-features/clean-up:
 - enable sass in themes directory (started this work vendor/plugins/multisite/tasks/themes.rake"
 - dual authentication system (using ldap or openid)
 - do localization
+- allow attendees to specify number of guests
 - move calendars/show to events/index; consolidate calendars/events helpers
-- write tests for report uploading
-- store attachments in tmp file and pass file pointers through starling
 - tie email triggers to hostforms (in addition to calendars & sites), since custom signup pages will need custom email triggers
 - cap deploy updates: mkdir public/cache, chmod 777 public/cache, chmod 777 tmp/attachment_fu, clear memcache
 - ability to add new admin user accounts from admin interface
@@ -33,11 +32,10 @@ revent new-features/clean-up:
 - admin: add Canada/USA as an option to calendar
 - MomsRising: CA House Parties - send excel spreadsheet of all new sign ups within last 24 hours.
 - use same color for all required fields (state/date/time) 
-- fix admin using active_scaffold validation sucks!
+- fix admin, active_scaffold validation sucks!
 - signup form validation errors redirect to new page for partners
 - change 'location' to 'address' since its mappable
 - get caching working (turn off cron job that deletes page caches)
-- get akismet instancing working
 - active_scaffold: errors not displayed when validation fails 
   update: works with prototype.js v1.4, not v1.5
   update: prototype.js v1.4 breaks link_to_function used on /profile/events (and elsewhere)
@@ -61,7 +59,6 @@ Questions for ForestEthics:
 
 - each time an attachment is uploaded, attachment_fu creates 2 additional 
   copies that are linked through parent_id (self-referential)
-- having trouble getting report processor to start; using: "ruby lib/report_processor_runner.rb start": caused by logger
 
 dia:
 login/pw:  patrice@radicaldesigns.org/password
@@ -862,3 +859,7 @@ done - all screenings doesn't show 'after innocence' screening
 done - rails v2.0; incompatibilities with theme_support (plugin hasn't been updated in ages)
   * redirect_back_or_default has been deprecated (used in admin_controller.rb)
 done - get off of theme_support; remove hack for everythingscool
+done - having trouble getting report processor to start; using: "ruby lib/report_processor_runner.rb start": caused by logger
+done - write tests for report uploading
+done - store attachments in tmp file and pass file pointers through starling
+done - get akismet instancing working

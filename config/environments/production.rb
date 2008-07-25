@@ -21,7 +21,7 @@ config.action_controller.consider_all_requests_local = false
 config.action_controller.perform_caching             = true
 config.active_record.observers = 
     :event_sweeper, :politician_invite_sweeper, :rsvp_sweeper, 
-    :calendar_sweeper, :attachment_sweeper
+    :calendar_sweeper, :attachment_sweeper, :report_sweeper
 
 config.active_record.verification_timeout = 14400
 

@@ -69,3 +69,4 @@ GeoKit::Geocoders::google = 'ABQIAAAA9C-o-5_7dL0qOO28APyPUxRkXutPkvyJzQgIe_vZE5i
 require 'tagging_extensions'
 
 Workling::Remote.dispatcher = Workling::Remote::Runners::StarlingRunner.new
+Workling::Base.logger = Logger.new(File.join(RAILS_ROOT, 'log', 'workling.log'))

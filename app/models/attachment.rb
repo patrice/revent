@@ -87,5 +87,40 @@ class Attachment < ActiveRecord::Base
   end
 
   attr_accessor :tag_depot
-#  after_save { GC.start } # please, hope this helps
+
+  attr_accessor :data_dump
+  def data_dump
+    @data_dump || 
+      self.temp_data || 
+      File.read( full_filename ) 
+  rescue
+    begin
+      open(public_filename).read if public_filename
+    rescue
+      nil
+    end
+  end
+
+  # copy tempfiles to presistent files because attachments stored as 
+  # tempfiles are not guaranteed to persist if app server dies
+  def make_local_copy
+    self.temp_paths.map! do |tempfile_path|
+      tmp = Tempfile.new(File.basename(tempfile_path), File.join(RAILS_ROOT, 'tmp')) # specific folder please
+      path = tmp.path
+      tmp.close(true)
+      FileUtils.cp tempfile_path, path
+      path
+    end
+  end
+
+  # undo make_local_copy (above) so that files used
+  # in processing attachment are deleted (at some point)
+  def move_to_temp_files
+    self.temp_paths.map! do |file|
+      tmp = Tempfile.new(random_tempfile_filename, Technoweenie::AttachmentFu.tempfile_path)
+      tmp.close
+      FileUtils.mv file, tmp.path
+      tmp.path
+    end
+  end
 end

@@ -36,7 +36,8 @@ class Site < ActiveRecord::Base
   @@flickr = []
   def self.flickr
     site_id = Site.current.id
-    flickr_config_file = File.join(RAILS_ROOT,'sites',site_id.to_s,'config','flickr',RAILS_ENV,'flickr.yml')
+    flickr_config_file = File.join( Site.current_config_path, 'flickr', RAILS_ENV, 'flickr.yml' )
+
     return nil if not File.exist?(flickr_config_file)
     @@flickr[site_id] ||= {}
     @@flickr[site_id][:config] ||= YAML.load_file(flickr_config_file)    

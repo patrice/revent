@@ -2,9 +2,11 @@ class Report < ActiveRecord::Base
   belongs_to :event
   belongs_to :user
   acts_as_list :scope => :event_id
+
   has_many :attachments, :dependent => :destroy
   has_many :embeds, :dependent => :destroy
   has_many :press_links, :dependent => :destroy
+  validates_associated :attachments, :press_links, :embeds, :user
 
   after_create :trigger_email  
   def trigger_email
@@ -49,7 +51,6 @@ class Report < ActiveRecord::Base
   end
 
   validates_presence_of :event_id, :text
-  validates_associated :attachments
 
   PUBLISHED = 'published'
   UNPUBLISHED = 'unpublished'
@@ -96,18 +97,6 @@ class Report < ActiveRecord::Base
     self.find_published(id, *args)
   end
   
-  def check_akismet(request)
-    akismet = Akismet.new '8ec4905c5374', 'http://events.stepitup2007.org'
-    unless akismet.comment_check(:user_ip => request[:remote_ip],
-                             :user_agent => request[:user_agent],
-                             :referrer => request[:referer],
-                             :comment_author => reporter_name,
-                             :comment_author_email => reporter_email,
-                             :comment_content => text)
-      self.publish
-    end
-    akismet.last_response
-  end
 
   def reporter_name
     user ? user.full_name : read_attribute('reporter_name')
@@ -119,5 +108,107 @@ class Report < ActiveRecord::Base
 
   def reporter_email
     user ? user.email : read_attribute('email')
+  end
+
+  before_save :build_press_links, :build_embeds, :check_akismet, 
+              :send_attachments_to_flickr
+
+  attr_accessor :press_link_data
+  def build_press_links
+    return true unless press_link_data
+    links = press_link_data.values.select {|p| !p[:url].blank?}
+    self.press_links.build(links) if links.any?
+    #self.press_links.build(press_link_data.values) if press_link_data
+    true
+  end
+
+  def attachment_data=(data)
+    attaches = data.values.select {|att| !att[:uploaded_data].blank? }
+    self.attachments.build(attaches) if attaches.any?
+  end
+
+  # copy tempfiles to presistent files because attachments stored as 
+  # tempfiles are not guaranteed to persist if app server dies
+  def make_local_copies!
+    self.attachments.each {|a| a.make_local_copy}
+  end
+
+  # undo make_local_copies so that local attachment files
+  # get deleted (at some point)
+  def move_to_temp_files!
+    self.attachments.each {|a| a.move_to_temp_files}
+  end
+
+  attr_accessor :embed_data
+  def build_embeds
+    return true unless embed_data
+    embeddables = embed_data.values.select{ |emb| !emb[:html].blank? }
+    self.embeds.build(embeddables) if embeddables.any?
+    true
+  end
+
+  def reporter_data=(attributes)
+    self.user = User.find_or_initialize_by_site_id_and_email( Site.current.id, attributes[:email] )
+    self.user.attributes = attributes
+    self.user.random_password
+    self.user.save!
+  end
+
+  def self.akismet_params( request )
+    { 
+      :user_ip => request.remote_ip,
+      :user_agent => request.user_agent,
+      :referrer => request.referer 
+    }
+  end
+  attr_accessor :akismet_params
+  def akismet_params
+    @akismet_params ||= {} 
+  end
+=begin
+  def akismet_params=( request )
+    @akismet_params = { 
+      :user_ip => request.remote_ip,
+      :user_agent => request.user_agent,
+      :referrer => request.referer 
+    }
+  end
+=end
+  def check_akismet
+    return true if self.published?
+    akismet = Akismet.new '8ec4905c5374', 'http://events.stepitup2007.org'
+
+    if !akismet.comment_check( 
+        akismet_params.merge({ 
+          :comment_author => reporter_name,   
+          :comment_author_email => reporter_email, 
+          :comment_content => text })
+        ) || ( RAILS_ENV == 'development' )
+      self.status = PUBLISHED
+    end
+    # use akismet.last_response to get result
+    true
+  end
+
+  def flickr_title
+    "#{event.name} - #{event.city}, #{event.state}"
+  end
+
+  def send_attachments_to_flickr
+    return true unless Site.flickr and self.published?
+    self.attachments.each do |att|
+      data = att.temp_data || File.read( att.full_filename ) rescue open( att.public_filename ).read rescue nil
+      next unless att.flickr_id.nil? and data # maybe also verify that its an image???
+      begin
+        att.flickr_id = Site.flickr.photos.upload.upload_image(data, att.content_type, att.filename, flickr_title, att.caption, event.calendar.flickr_tags)
+        if event.calendar.flickr_photoset and att.flickr_id and att.primary?
+          photoset_result = Site.flickr.photosets.addPhoto(event.calendar.flickr_photoset, att.flickr_id)
+        end
+        logger.info(att.flickr_id ? "FLICKR photo #{att.flickr_id} saved" : "FLICKR could not save photo #{flickr_title} to flickr")
+      rescue XMLRPC::FaultException
+        logger.error("FLICKR XMLRPC::Exception occurred while trying to upload #{flickr_title}.")
+      end
+    end
+    true
   end
 end
