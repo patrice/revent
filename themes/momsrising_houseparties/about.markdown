@@ -1,3 +1,3 @@
-### Cahouseparties
+### Momsrising
 
-This description can be found in themes/cahouseparties/about.markdown
+This description can be found in themes/momsrising/about.markdown

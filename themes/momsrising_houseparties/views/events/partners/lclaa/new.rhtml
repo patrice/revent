@@ -4,7 +4,6 @@
 @event.description = "Fair Pay Meeting with my Senator"
 @hostform = @calendar.hostform
  -%>
-
 <h1><%= @hostform.title if @hostform %></h1>
 <p class="text">
 
@@ -19,7 +18,8 @@
       <h3>Your Information</h3>
 		<em>*Required Fields</em><br /><br />
       <% fields_for :user, @user do |user| %>
-      
+      <%= hidden_field_tag "user[democracy_in_action][supporter_custom][VARCHAR3]", "lclaa" %>
+
       <% if @hostform and @hostform.dia_user_tracking_code %>
         <%= hidden_field_tag "user[democracy_in_action][supporter][Tracking_Code]", @hostform.dia_user_tracking_code %>
 	  <%- end %>
@@ -119,7 +119,7 @@
                 <div align="left">Additional Directions:</div>
               </td>
               <td valign="top">
-                &nbsp;&nbsp;<%= f.text_area "directions", :rows => "2", :cols => "32", :title => "Please enter directions to your event" %>
+                &nbsp;&nbsp;<%= f.text_area "directions", :rows => "2", :cols => "32", :class => "required", :title => "Please enter directions to your event" %>
               </td>  
             </tr>             
             <tr>
@@ -134,22 +134,10 @@
               <td valign="top"  class="dia_field_name">
                 <div align="left">*State:</div>
               </td>
-              <td>
-					<%= f.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), :title => "Please choose your event's state", :class => "required validate-selection", :id => 'event_state', :style => "background-color: #ebd897;", :size => "1" %>
-	            <span id="spinner" style="font-style: italic; font-size: 90%; display: none;"><%= image_tag 'spinner.gif' %> looking for other events in this state</span></td>
-					  <%= observe_field :event_state,
-											 :update => 'otherStateEvents',
-											 :before => "Element.show('spinner')", 
-											 :complete => "Element.hide('spinner')", 
-											 :url => {:permalink => @calendar.permalink, :controller => 'events', :action => 'other_state_events', :only_path => false},
-											 :with => "'event_state=' + encodeURIComponent(value)" %>
+              <td>	 
+					<%= f.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), :title => "Please choose your event's state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1" %>
 				  </td>
             </tr>
-				<tr>
-					  <td colspan="2">
-						 <div id='otherStateEvents'/>
-					  </td>
-				</tr>
             <tr>
               <td  class="dia_field_name">
                 <div align="left">*Zip Code:</div>
@@ -172,6 +160,15 @@
 					 </table>
               </td>
             </tr>
+            <tr valign="top">
+              <td valign="top"  class="dia_field_name">
+                <div align="left">Maximum Attendees:</div>
+              </td>
+              <td valign="top">
+                <%= f.text_field "max_attendees", :id => "dataEvent_Max",  :size => "16", :title => "Please enter your event's maximun atendees"  %>
+              </td>
+              
+            </tr>
             <tr>
           </tbody>
         </table>
@@ -186,6 +183,8 @@
         
         <%= hidden_field_tag "event[democracy_in_action][event][Maximum_Attendees]", 10000 %>
         <%= hidden_field_tag "event[democracy_in_action][event][Status]", "Unconfirmed" %>
+        <%= hidden_field_tag "event[democracy_in_action][event][Default_Tracking_Code]", "lclaa" %>
+
 
 		<% if @hostform and @hostform.dia_event_tracking_code %>
         	<%= hidden_field_tag "event[democracy_in_action][event][Default_Tracking_Code]", @hostform.dia_event_tracking_code %>
