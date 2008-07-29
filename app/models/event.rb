@@ -284,7 +284,7 @@ class Event < ActiveRecord::Base
       dia_warehouse = "http://warehouse.democracyinaction.org/dia/api/warehouse/append.jsp?id=radicaldesigns".freeze
       uri = dia_warehouse + "&postal_code=" + postal_code.to_s
       data = Hpricot::XML(Kernel.open(uri))
-      (data/:district).first.innerHTML if (data/:district)
+      (data/:district).first.innerHTML if (data/:district) && !(data/:district).empty?
     end
   end
 
