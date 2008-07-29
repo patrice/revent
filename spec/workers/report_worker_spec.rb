@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe ReportWorker do
   before do
-    Site.stub!(:current).and_return(stub('site', :id => 1, :salesforce_enabled? => false))
+    Site.stub!(:current).and_return(stub('site', :id => 1, :salesforce_enabled? => false, :host => 'test.example.org'))
     @report = Report.new({:text => 'dope', :event_id => create_event.id, :reporter_data => {:email => 'dude@example.com'}, :akismet_params => {}})
   end
   it "should save the report with the report_params" do
