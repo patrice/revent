@@ -137,20 +137,9 @@
               <td>
 					<%= f.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), :title => "Please choose your event's state", :class => "required validate-selection", :id => 'event_state', :style => "background-color: #ebd897;", :size => "1" %>
 	            <span id="spinner" style="font-style: italic; font-size: 90%; display: none;"><%= image_tag 'spinner.gif' %> looking for other events in this state</span></td>
-					  <%= observe_field :event_state,
-											 :update => 'otherStateEvents',
-											 :before => "Element.show('spinner')", 
-											 :complete => "Element.hide('spinner')", 
-											 :url => {:permalink => @calendar.permalink, :controller => 'events', :action => 'other_state_events', :only_path => false},
-											 :with => "'event_state=' + encodeURIComponent(value)" %>
-				  </td>
+					  				  </td>
             </tr>
-				<tr>
-					  <td colspan="2">
-						 <div id='otherStateEvents'/>
-					  </td>
-				</tr>
-            <tr>
+				            <tr>
               <td  class="dia_field_name">
                 <div align="left">*Zip Code:</div>
               </td>
