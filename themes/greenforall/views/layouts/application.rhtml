@@ -1,17 +1,192 @@
-<!DOCTYPE html PUBLIC "-//W4C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-  <head>
-    <title>Revent</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <%= stylesheet_link_tag 'events' %>
-      <%= javascript_include_tag 'prototype' %>
-      <%= yield :header %>
-      <%= Cartographer::Gmap::Header.header_for(request) if @map %>
-  </head>
-  <body>
-    <% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
-    <% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
-    <%= yield %>
-  </body>
-</html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en-us" xmlns="http://www.w3.org/1999/xhtml" lang="en-us"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <!-- base href="http://files.greenjobsnow.com/" --><!--[if lt IE 7]></base><![endif]-->
+    <meta name="generator" content="Plone - http://plone.org">
+    <link rel="kss-base-url" href="http://files.greenjobsnow.com">
+      <script type="text/javascript" src="greenjobsnow-template_files/jquery-cachekey0422.js">
+      </script>
+      <script type="text/javascript" src="greenjobsnow-template_files/resourcebase2-dom-fp-cachekey8249.js">
+      </script>
+    
+      <style type="text/css" media="screen"><!-- @import url(http://files.greenjobsnow.com/portal_css/Day%20of%20Action/base.css); --></style>
+      <style type="text/css" media="screen"><!-- @import url(http://files.greenjobsnow.com/portal_css/Day%20of%20Action/public.css); --></style>
+      <style type="text/css" media="screen"><!-- @import url(http://files.greenjobsnow.com/portal_css/Day%20of%20Action/columns.css); --></style>
+      <style type="text/css" media="screen"><!-- @import url(http://files.greenjobsnow.com/portal_css/Day%20of%20Action/invisibles.css); --></style>
+      <style type="text/css" media="screen"><!-- @import url(http://files.greenjobsnow.com/portal_css/Day%20of%20Action/forms.css); --></style>
+      <style type="text/css" media="all"><!-- @import url(http://files.greenjobsnow.com/portal_css/Day%20of%20Action/onenwTemplate.css); --></style>
+      <style type="text/css" media="screen"><!-- @import url(http://files.greenjobsnow.com/portal_css/Day%20of%20Action/plonetheme.dayofaction.css); --></style>
+      <style type="text/css" media="all"><!-- @import url(http://files.greenjobsnow.com/portal_css/Day%20of%20Action/ploneCustom.css); --></style>
+   <title>Green Jobs Now</title>
 
+
+    <!-- Internet Explorer CSS Fixes -->
+    <!--[if IE]>
+        <style type="text/css" media="all">@import url(http://files.greenjobsnow.com/IEFixes.css);</style>
+    <![endif]-->
+
+    
+    <link rel="author" href="http://www.greenjobsnow.com/author/" title="Author information">
+    <link rel="shortcut icon" type="image/x-icon" href="http://files.greenjobsnow.com/favicon.ico">
+    <link rel="home" href="http://www.greenjobsnow.com" title="Front page">
+    <link rel="contents" href="http://www.greenjobsnow.com/sitemap" title="Site Map">
+    <link rel="search" href="http://www.greenjobsnow.com/search_form" title="Search this site">
+
+
+
+    <!-- Disable IE6 image toolbar -->
+    <meta http-equiv="imagetoolbar" content="no">
+
+    
+  <%= javascript_include_tag 'prototype' %>
+  <%= stylesheet_link_tag 'events' %>
+  <%= yield :header %>
+  <%= Cartographer::Gmap::Header.header_for(request) if @map %>   
+    
+  </head><body class="None template-homepage_view" dir="ltr">
+                        
+    <div id="visual-portal-top-wrapper">
+      <a href="http://www.greenjobsnow.com" title="Green Jobs Now: National Day of Action to Build the New Economy"><span class="site-name">Green Jobs Now</span></a>
+    </div>
+    <div id="visual-portal-wrapper">
+      <div id="visual-portal-inner-wrapper">
+        <div id="portal-top">
+          <div id="portal-header">
+
+<p class="hiddenStructure">
+  <a accesskey="2" href="http://www.greenjobsnow.com#documentContent">Skip to content.</a> |
+
+  <a accesskey="6" href="http://www.greenjobsnow.com#portlet-navigation-tree">Skip to navigation</a>
+</p>
+
+
+    <h5 class="hiddenStructure">Sections</h5>
+    <div id="portal-globalnav-wrapper">
+    <ul id="portal-globalnav">
+
+        <li id="portaltab-about">
+            <a href="http://www.greenjobsnow.com/about">
+               <span class="tabname">About</span>
+            </a></li>
+
+        <li id="portaltab-media">
+            <a href="http://www.greenjobsnow.com/media">
+               <span class="tabname">Media</span>
+
+            </a></li>
+
+        <li id="portaltab-hq">
+            <a href="http://www.greenjobsnow.com/hq">
+               <span class="tabname">Organizer's HQ</span>
+            </a></li>
+
+        <li id="portaltab-blog">
+            <a href="http://www.greenjobsnow.com/blog">
+
+               <span class="tabname">Blog</span>
+            </a></li>
+
+    </ul>
+    </div>
+
+</div>
+        </div>
+
+        <div class="visualClear" id="clear-space-before-wrapper-table"><!-- --></div>
+
+        <table id="portal-columns">
+          <tbody>
+            <tr>
+              <td id="portal-column-content">
+                  <div class="">
+
+                    <div id="region-content" class="documentContent">
+
+                      <span id="contentTopLeft"></span>
+                      <span id="contentTopRight"></span>
+                    
+                      <a name="documentContent"></a>
+                      
+                      <div id="content" style="padding-left:26px; padding-right: 26px;">
+                        
+                          <% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
+                          <% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
+                          <%= yield %>
+                        <br/><br/><br/>
+
+                      </div>
+                      
+
+                      <span id="contentBottomLeft"></span>
+                      <span id="contentBottomRight"></span>
+
+                    </div>
+
+                  </div>
+
+                
+              </td>
+              
+            </tr>
+
+          </tbody>
+        </table>
+        
+
+        <div class="visualClear" id="clear-space-before-footer"><!-- --></div>
+      
+        
+
+
+        <div class="visualClear"><!-- --></div>
+      </div>
+    </div>
+    <div id="visual-portal-bottom-wrapper" style="background:transparent url(http://files.greenjobsnow.com/header_footer_build_1_0.jpg) no-repeat scroll left -291px;">
+      
+        <div class="visualClear"><!-- --></div>
+
+<div id="portal-footer" style="padding-right:30px;">
+
+     <div>
+      Green Jobs Day of Action is a collaboration of Green for All, 1Sky
+      and many other partner organizations.  Together we are working for
+      national policies that create a new green economy strong enough
+      to lift people out of poverty and stop global warming.
+     </div>
+
+</div>
+
+<div id="portal-colophon">
+
+    <span id="powered-by-plone">
+        powered by 
+        <span> <a href="http://plone.org/" title="This website is built on the Plone Content Management System. Click to learn more.">Plone</a> </span>
+
+    </span>
+    |
+    <span id="site-by">
+        site by
+        <span> <a href="http://www.onenw.org/" title="Powering the voice of the NW environmental movement.">ONE/Northwest</a> </span>
+    </span>
+    
+    <span id="clean-energy">
+        and served with
+        <span> <a href="http://www.greentagsusa.org/" title="Green Tags from Bonneville Environmental Foundation">clean energy</a> </span>
+
+    </span>
+
+</div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="greenjobsnow-template_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3015140-2");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+      
+    </div>
+    
+</body></html>
