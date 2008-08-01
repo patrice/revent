@@ -25,7 +25,7 @@ describe User do
 
     it "should set a default password" do
       u = new_user(:password => nil, :password_confirmation => nil)
-      u.random_password && u.save!
+      u.save!
       u.crypted_password.should_not be_nil
     end
 
@@ -37,19 +37,19 @@ describe User do
     end
 
     it "should require a password" do
-      assert_no_difference User, :count do
-        @user.password = nil
+      lambda {
+        @user.password = ""
+        @user.password_confirmation = ""
         @user.save
         assert @user.errors.on(:password)
-      end
+      }.should_not change( User, :count  )
     end
 
     it "should require password confirmation" do
-      assert_no_difference User, :count do
-        @user.password_confirmation = nil
-        @user.save
-        assert @user.errors.on(:password_confirmation)
-      end
+      @user.password = "blah"
+      @user.password_confirmation = "blahz"
+      @user.save
+      @user.errors.any? { |e| e.to_s =~ /confirmation/ }.should be_true
     end
 
     it "should require email" do

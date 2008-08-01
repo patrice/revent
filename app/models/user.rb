@@ -102,10 +102,10 @@ class User < ActiveRecord::Base
       dia_obj = DemocracyInActionObject.new(:table => 'supporter', :key => supporter.key)
       dia_obj.save
     end
-    unless u.crypted_password || (u.password && host.password_confirmation)
-      password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-      u.password = u.password_confirmation = password
-    end
+    #unless u.crypted_password || (u.password && u.password_confirmation)
+    #  password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+    #  u.password = u.password_confirmation = password
+    #end
     unless u.save
       logger.warn("Validation error(s) occurred when trying to create user from DemocracyInActionSupporter: #{u.errors.inspect}")
       u.save_with_validation(false)
@@ -147,7 +147,6 @@ class User < ActiveRecord::Base
 
   validates_presence_of     :email
   validates_presence_of     :password,                   :if => :password_required?
-  validates_presence_of     :password_confirmation,      :if => :password_required?
   validates_length_of       :password, :within => 4..40, :if => :password_required?
   validates_confirmation_of :password,                   :if => :password_required?
   validates_length_of       :email,    :within => 3..100
@@ -268,9 +267,19 @@ class User < ActiveRecord::Base
     [city, (state || country)].join(', ')
   end
     
-  def random_password
-    return if crypted_password
-    self.password = self.password_confirmation = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+  before_validation :assign_password
+  def assign_password
+    return true if self.password || crypted_password
+    randomize_password
+  end
+
+  def randomize_password
+    return true if crypted_password
+    self.password = self.password_confirmation = User.random_password
+  end
+
+  def self.random_password
+    Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
   end
 
   def custom_attributes_data

@@ -270,10 +270,10 @@ class InvitesController < ApplicationController
     @event = @calendar.events.find(params[:id])
     @user = User.find_or_initialize_by_email(params[:user][:email]) # or current_user
     @user.attributes = params[:user]
-    unless @user.crypted_password || (@user.password && @user.password_confirmation)
-      password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-      @user.password = @user.password_confirmation = password
-    end
+#    unless @user.crypted_password || (@user.password && @user.password_confirmation)
+#      password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+#      @user.password = @user.password_confirmation = password
+#    end
     @user.save
     invite = {}
     invite[:user_id] = @user.id

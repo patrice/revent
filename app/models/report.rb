@@ -150,7 +150,6 @@ class Report < ActiveRecord::Base
   def reporter_data=(attributes)
     self.user = User.find_or_initialize_by_site_id_and_email( Site.current.id, attributes[:email] )
     self.user.attributes = attributes
-    self.user.random_password
     self.user.save!
   end
 

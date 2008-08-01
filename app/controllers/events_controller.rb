@@ -126,18 +126,17 @@ class EventsController < ApplicationController
     @event = Event.new
     @categories = @calendar.categories.map {|c| [c.name, c.id] }
     if current_theme
-      self.class.ignore_missing_templates = true #themes only
-      if params[:form]
-        if is_partner(params[:form])
-          cookies[:partner] = {:value => params[:form], :expires => 3.hours.from_now}
-          render :template => "events/partners/#{params[:form]}/new"
-        elsif is_signup(params[:form])
-          render :template => "signup/#{params[:form]}" and return
-        end
-      elsif cookies[:partner] && is_partner(cookies[:partner])
-        render :template => "events/partners/#{cookies[:partner]}/new"
+      #self.class.ignore_missing_templates = true #themes only
+
+      if params[:event_type] && is_signup_form( params[:event_type] )
+        render :template => "signup/#{params[:event_type]}" and return
       end
-      self.class.ignore_missing_templates = false
+
+      cookies[:partner_id] = {:value => params[:partner_id], :expires => 3.hours.from_now} if params[:partner_id] 
+      if cookies[:partner_id] && is_partner_form(cookies[:partner_id])
+        render :template => "events/partners/#{cookies[:partner_id]}/new" and return
+      end
+      #self.class.ignore_missing_templates = false
     end
   end
 
@@ -146,11 +145,9 @@ class EventsController < ApplicationController
     @calendar = Site.current.calendars.find(params[:event][:calendar_id]) if params[:event][:calendar_id]
 
     @user = User.find_or_initialize_by_site_id_and_email(Site.current.id, params[:user][:email]) # or current_user
-    @user.attributes = params[:user].reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
-    unless @user.crypted_password || (@user.password && @user.password_confirmation)
-      password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-      @user.password = @user.password_confirmation = password
-    end
+    user_params = params[:user].reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
+    user_params[:partner_id] ||= cookies[:partner_id] if cookies[:partner_id]
+    @user.attributes = user_params
     @user.dia_group_key ||= @calendar.host_dia_group_key
     @user.dia_trigger_key ||= @calendar.host_dia_trigger_key
     @event = @calendar.events.build(params[:event])
@@ -197,14 +194,14 @@ class EventsController < ApplicationController
     @event = @calendar.events.find(params[:id])
     @user = User.find_or_initialize_by_site_id_and_email(Site.current.id, params[:user][:email]) # or current_user
     @user.attributes = params[:user].reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
-    unless @user.crypted_password || (@user.password && @user.password_confirmation)
-      password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-      @user.password = @user.password_confirmation = password
-    end
+#    unless @user.crypted_password || (@user.password && @user.password_confirmation)
+#      password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+#      @user.password = @user.password_confirmation = password
+#    end
 
     @rsvp = Rsvp.new(:event_id => params[:id])
     if @user.valid? && @rsvp.valid?
-      if is_partner(cookies[:partner])
+      if is_partner_form(cookies[:partner])
         @user.democracy_in_action ||= {}
         if @calendar.id == 8 # momsrising.fair-pay
           @user.democracy_in_action['supporter_custom'] ||= {}
@@ -405,11 +402,11 @@ class EventsController < ApplicationController
     end  
 
   private
-    def is_partner(form)
+    def is_partner_form(form)
       File.exist?("themes/#{current_theme}/views/events/partners/#{form}")
     end
 
-    def is_signup(form)
+    def is_signup_form(form)
       File.exist?("themes/#{current_theme}/views/signup/#{form}.rhtml")
     end
 end
