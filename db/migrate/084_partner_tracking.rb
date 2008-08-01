@@ -1,6 +1,6 @@
 class PartnerTracking < ActiveRecord::Migration
   def self.up
-    add_column :users, :partner_id, :integer
+    add_column :users, :partner_id, :string
   end
 
   def self.down

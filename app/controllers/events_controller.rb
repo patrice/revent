@@ -124,6 +124,7 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+    @user = User.new
     @categories = @calendar.categories.map {|c| [c.name, c.id] }
     if current_theme
       #self.class.ignore_missing_templates = true #themes only
@@ -186,6 +187,7 @@ class EventsController < ApplicationController
   def rsvp
     @event = @calendar.events.find(params[:id])
     @user = find_or_build_related_user( params[:user] )
+    
 #    @user = User.find_or_initialize_by_site_id_and_email(Site.current.id, params[:user][:email]) # or current_user
 #    user_params = params[:user].reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
 #    user_params[:partner_id] ||= cookies[:partner_id] if cookies[:partner_id]

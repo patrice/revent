@@ -1,4 +1,5 @@
 require 'digest/sha1'
+require 'ostruct'
 class User < ActiveRecord::Base
   attr_protected :password, :password_confirmation
 
@@ -283,7 +284,7 @@ class User < ActiveRecord::Base
   end
 
   def custom_attributes_data
-    HashWithIndifferentAccess[ *custom_attributes.map { |attr| [ attr.name, attr.value ] }.flatten ]
+    OpenStruct.new( Hash[ *custom_attributes.map { |attr| [ attr.name, attr.value ] }.flatten ] )
   end
 
   def custom_attributes_data=(values)

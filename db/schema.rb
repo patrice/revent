@@ -364,7 +364,7 @@ ActiveRecord::Schema.define(:version => 84) do
     t.boolean  "show_phone_on_host_profile"
     t.integer  "site_id"
     t.integer  "country_code"
-    t.integer  "partner_id"
+    t.string   "partner_id"
   end
 
   add_index "users", ["email", "site_id"], :name => "unique_index_on_email_and_site_id"
