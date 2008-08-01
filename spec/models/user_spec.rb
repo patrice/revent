@@ -143,4 +143,21 @@ describe User do
       end
     end
   end
+
+  describe "accepts custom attributes" do
+    before do
+      @user = new_user
+    end
+    it "accepts them as a hash" do
+      @user.custom_attributes_data = { :ethnicity => 'Kentucky' }
+      @user.custom_attributes_data[:ethnicity].should == 'Kentucky'
+    end
+
+    it "saves and reloads with them intact" do
+      @user.custom_attributes_data = { :ethnicity => 'Kentucky' }
+      @user.save!
+      usr = User.find @user.id
+      usr.custom_attributes_data[:ethnicity].should == 'Kentucky'
+    end
+  end
 end

@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   has_many :rsvps
   has_many :attending, :through => :rsvps, :source => :event
   has_many :politician_invites
+  has_many :custom_attributes
+
   belongs_to :profile_image, :class_name => 'Attachment', :foreign_key => 'profile_image_id'
   belongs_to :site
   before_create :set_site_id
@@ -269,6 +271,18 @@ class User < ActiveRecord::Base
   def random_password
     return if crypted_password
     self.password = self.password_confirmation = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+  end
+
+  def custom_attributes_data
+    HashWithIndifferentAccess[ *custom_attributes.map { |attr| [ attr.name, attr.value ] }.flatten ]
+  end
+
+  def custom_attributes_data=(values)
+    values.each do | name, value |
+      attr = custom_attributes.find_by_name( name.to_s ) || custom_attributes.build( :name => name.to_s )
+      attr.value = value
+    end
+    
   end
 
   protected

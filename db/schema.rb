@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 82) do
+ActiveRecord::Schema.define(:version => 83) do
 
   create_table "attachments", :force => true do |t|
     t.string   "content_type"
@@ -93,6 +93,12 @@ ActiveRecord::Schema.define(:version => 82) do
     t.string  "description"
     t.integer "calendar_id"
     t.integer "site_id"
+  end
+
+  create_table "custom_attributes", :force => true do |t|
+    t.integer "user_id"
+    t.string  "name"
+    t.string  "value"
   end
 
   create_table "democracy_in_action_objects", :force => true do |t|
