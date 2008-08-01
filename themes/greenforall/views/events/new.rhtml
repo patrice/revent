@@ -1,5 +1,5 @@
 <%  
-  @event.start = (@calendar.event_start ? [@calendar.event_start, Time.now].max : Time.now)
+  @event.start = [Time.parse('2008-09-27'), Time.now].max
   @event.start = @event.start.beginning_of_day + 12.hours
   @event.end = @event.start + 2.hours
   @hostform = @calendar.hostform
@@ -260,7 +260,7 @@
               
             </tr>
       <% fields_for :user, @user do |user| %>
-            <% f.fields_for :custom_attributes_data, @user.custom_attributes_data do |custom| %>
+            <% user.fields_for :custom_attributes_data, @user.custom_attributes_data do |custom| %>
               
                       <tr><td colspan="2">
                                     <h3>Join our Petition</h3>
