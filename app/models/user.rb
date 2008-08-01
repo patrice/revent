@@ -86,7 +86,7 @@ class User < ActiveRecord::Base
     supporter_custom_key = api.process('supporter_custom', {'supporter_KEY' => supporter_key}.merge(supporter_custom))
     return true
   end
-  
+
   def democracy_in_action_key
     democracy_in_action_object.key if democracy_in_action_object
   end

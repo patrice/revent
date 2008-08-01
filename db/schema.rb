@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 83) do
+ActiveRecord::Schema.define(:version => 84) do
 
   create_table "attachments", :force => true do |t|
     t.string   "content_type"
@@ -364,6 +364,7 @@ ActiveRecord::Schema.define(:version => 83) do
     t.boolean  "show_phone_on_host_profile"
     t.integer  "site_id"
     t.integer  "country_code"
+    t.integer  "partner_id"
   end
 
   add_index "users", ["email", "site_id"], :name => "unique_index_on_email_and_site_id"

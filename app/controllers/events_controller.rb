@@ -128,14 +128,10 @@ class EventsController < ApplicationController
     if current_theme
       #self.class.ignore_missing_templates = true #themes only
 
-      if params[:event_type] && is_signup_form( params[:event_type] )
-        render :template => "signup/#{params[:event_type]}" and return
-      end
+      return if render_custom_signup_form
 
       cookies[:partner_id] = {:value => params[:partner_id], :expires => 3.hours.from_now} if params[:partner_id] 
-      if cookies[:partner_id] && is_partner_form(cookies[:partner_id])
-        render :template => "events/partners/#{cookies[:partner_id]}/new" and return
-      end
+      return if render_partner_signup_form
       #self.class.ignore_missing_templates = false
     end
   end
@@ -144,11 +140,8 @@ class EventsController < ApplicationController
     # change calendar selectable from new event form
     @calendar = Site.current.calendars.find(params[:event][:calendar_id]) if params[:event][:calendar_id]
 
-    @user = User.find_or_initialize_by_site_id_and_email(Site.current.id, params[:user][:email]) # or current_user
-    user_params = params[:user].reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
-    user_params[:partner_id] ||= cookies[:partner_id] if cookies[:partner_id]
-    @user.attributes = user_params
-    @user.dia_group_key ||= @calendar.host_dia_group_key
+    @user = find_or_build_related_user params[:user ]
+    @user.dia_group_key   ||= @calendar.host_dia_group_key
     @user.dia_trigger_key ||= @calendar.host_dia_trigger_key
     @event = @calendar.events.build(params[:event])
 
@@ -192,8 +185,11 @@ class EventsController < ApplicationController
 
   def rsvp
     @event = @calendar.events.find(params[:id])
-    @user = User.find_or_initialize_by_site_id_and_email(Site.current.id, params[:user][:email]) # or current_user
-    @user.attributes = params[:user].reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
+    @user = find_or_build_related_user( params[:user] )
+#    @user = User.find_or_initialize_by_site_id_and_email(Site.current.id, params[:user][:email]) # or current_user
+#    user_params = params[:user].reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
+#    user_params[:partner_id] ||= cookies[:partner_id] if cookies[:partner_id]
+#    @user.attributes = user_params
 #    unless @user.crypted_password || (@user.password && @user.password_confirmation)
 #      password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
 #      @user.password = @user.password_confirmation = password
@@ -201,16 +197,7 @@ class EventsController < ApplicationController
 
     @rsvp = Rsvp.new(:event_id => params[:id])
     if @user.valid? && @rsvp.valid?
-      if is_partner_form(cookies[:partner])
-        @user.democracy_in_action ||= {}
-        if @calendar.id == 8 # momsrising.fair-pay
-          @user.democracy_in_action['supporter_custom'] ||= {}
-          @user.democracy_in_action['supporter_custom']['VARCHAR3'] = cookies[:partner]
-        else
-          @user.democracy_in_action['supporter'] ||= {}
-          @user.democracy_in_action['supporter']['Tracking_Code'] = "#{cookies[:partner]}_rsvp"
-        end
-      end
+      assign_democracy_in_action_tracking_code( @user, cookies[:partner_id] ) if cookies[:partner_id]
       @user.save
       @rsvp.user_id = @user.id
       @rsvp.save
@@ -390,6 +377,39 @@ class EventsController < ApplicationController
   end
 
   protected
+
+    def find_or_build_related_user( user_params )
+      user = User.find_or_initialize_by_site_id_and_email(Site.current.id, user_params[:email]) 
+      user_params.reject! {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
+      user_params[:partner_id] ||= cookies[:partner_id] if cookies[:partner_id]
+      user.attributes = user_params
+      user
+    end
+
+    def render_custom_signup_form
+      if params[:event_type] && is_signup_form( params[:event_type] )
+        render :template => "signup/#{params[:event_type]}"
+      end
+    end
+
+    def render_partner_signup_form
+      if cookies[:partner_id] && is_partner_form(cookies[:partner_id])
+        render :template => "events/partners/#{cookies[:partner_id]}/new"
+      end
+    end
+  
+    def assign_democracy_in_action_tracking_code( user, code )
+      return unless code
+      user.democracy_in_action ||= {}
+      if @calendar.id == 8 # momsrising.fair-pay  #credit: seth walker
+        user.democracy_in_action['supporter_custom'] ||= {}
+        user.democracy_in_action['supporter_custom']['VARCHAR3'] = code
+      else
+        user.democracy_in_action['supporter'] ||= {}
+        user.democracy_in_action['supporter']['Tracking_Code'] = "#{code}_rsvp"
+      end
+    end
+
     #hmm, why is this here? oh yes, for objects retrieved from memcache?
     def autoload_missing_constants
       yield
