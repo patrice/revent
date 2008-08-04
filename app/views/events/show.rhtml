@@ -77,7 +77,7 @@
 <% end -%>
 <% end -%>
 
-  <p align="center" style="font-size: 14px; font-weight: bold;"><a href="#" onclick="window.open('http://democracyinaction.org/dia/api/event/email.jsp?event_KEY=<%= @event.democracy_in_action_key %>','','width=500,height=450'); return false;">Questions? Email the Host</a>
+<p align="center" style="font-size: 14px; font-weight: bold;"><a href="#" onclick="window.open('http://<%= URI.parse(DemocracyInActionResource.api.urls['get']).host -%>/dia/api/event/email.jsp?event_KEY=<%= @event.democracy_in_action_key -%>','','width=500,height=450'); return false;">Questions? Email the Host</a>
 	</p>
 
 <p></p>
