@@ -1,5 +1,4 @@
-<h3>RSVP</h3>Please let us know you will be coming by RSVPing below
-
+<h3>RSVP</h3>Fill out the form below to let us know you will be attending. We'll also keep you informed about how you can stay involved.
 <div id="signupForm" class="signupForm">
 
 <% form_for :user, :url => { :action => "rsvp", :id => event.id }, :html => {:id => 'event-rsvp-form'} do |f| -%>
@@ -32,7 +31,8 @@
         
         <% f.fields_for :custom_attributes_data do |custom| -%>
         
-            <TR><td valign="top" align="right" class="dia_field_organization" id="dia_field_name_data_Organization">Organization</td><td valign="top"><%= custom.text_field 'organization', :size => 30,  :title => "Please enter your organization."  %></td><td></td>
+        <TR><td valign="top" align="right" class="dia_field_organization" id="dia_field_name_data_Organization">How did you first hear about Green Jobs Now?</td><td valign="top"><%= custom.select "organization", [ '',"Link from blog or website","Email from someone I know personally","Email (or link) from an organization (e.g. Green for All, 1Sky, We)","Someone mentioned it on stage (e.g. Van Jones) Facebook event or message","Online social networking site (e.g. MySpace) Poster","Radio or TV"], :style => "background-color: #ebd897;", :maxlength => "10", :size => "10", :id => "dataRace", :title => "Please enter your race"  %>
+            </td><td></td>
                       </TR>
                       
                              <tr>
@@ -41,11 +41,16 @@
 
                                                                        </tr>
                                                                                            
-                      
+                      <tr>
+
+                                          <td colspan="2">People from all backgrounds, races, and ethnicities are encouraged to participate in this Day of Action. If you choose to, we thank you for sharing your racial identity. Doing so helps us track progress as we strive to build a diverse and inclusive movement for green jobs and the green economy.
+                                                        </td>
+                                                                  </tr>
+
                       <tr><td colspan="2">
-                                    <h3>Join our Petition</h3>
+                                    <h3>Sign onto the "I'm Ready" Petition</h3>
                                     <%= custom.check_box 'petition', :value => true, :checked => true, :id => 'petition_confirmation'  %>
-                                    <strong><label for='petition_confirmation'> I am ready for Green Jobs Now in my community.</label></strong><br>
+                                    <strong><label for='petition_confirmation'> I am ready for Green Jobs Now.</label></strong><br>
              I urge my elected representatives to invest in creating 5 million new green jobs and to provide pathways out of poverty for low-income people through job training and national service programs that address global warming and create energy independence.
                                 </td></tr>
             <% end -%>

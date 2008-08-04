@@ -4,7 +4,7 @@
   @event.end = @event.start + 2.hours
   @hostform = @calendar.hostform
 -%>
-
+<%= render :partial => 'nav' %>
 <h1>
 	<% if @hostform and @hostform.title -%>
 	  <%= @hostform.title %>
@@ -28,7 +28,7 @@
     <div id="profile" class="profileInformation">
       <%= error_messages_for 'user' %>
 		<em>*Required fields</em><br />
-      <h3>Your Information</h3>
+      <h3>Event Host Information</h3>
       <% fields_for :user, @user do |user| %>
       
       <% if @hostform and @hostform.dia_user_tracking_code %>
@@ -60,7 +60,7 @@
 
             <% user.fields_for :custom_attributes_data, @user.custom_attributes_data do |custom| %>
               <tr>
-                <td valign="top" class="dia_field_name">Organiation</td>
+                <td valign="top" class="dia_field_name">Organization/Affiliation</td>
                 <td valign="top"><%= custom.text_field "organization", :id => "dataOrganization", :size => "30",  :title => "Please enter your organization" %></td>
 
               </tr>
@@ -195,7 +195,7 @@
             </tr>
             <tr>
               <td valign="top"  class="dia_field_name">
-                <div align="left">*State:</div>
+                <div align="left">*State/Region:</div>
               </td>
               <td><%= f.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), {}, :title => "Please choose your event's state", :class => "required validate-selection",  :size => "1", :id => "dataEventState" %></td>
               
@@ -223,7 +223,7 @@
 			<tr valign="top">
         
               <td valign="top" colspan=2>
-                Privacy: Your event will be listed publicly by default so that others can find and so that we can help you promote it.  If you are hosting a private event, check the box below to remove it from public view (don't worry, we'll still include you in the total count of events).
+                Privacy: Your event will be listed publicly by default so that others can find it and so that we can help you promote it.  If you are hosting a private event, check the box below to remove it from public view (don't worry, we'll still include you in the total count of events).
                 
                 <br>
                 <% @event.private = false -%>
@@ -263,11 +263,10 @@
             <% user.fields_for :custom_attributes_data, @user.custom_attributes_data do |custom| %>
               
                       <tr><td colspan="2">
-                                    <h3>Join our Petition</h3>
+                                    <h3>Sign onto the "I'm Ready" Petition</h3>
                                     <%= custom.check_box 'petition', :value => true, :checked => true, :id => 'petition_confirmation'  %>
-                                    <strong><label for='petition_confirmation'> I am ready for Green Jobs Now in my community.</label></strong><br>
-             I urge my elected representatives to invest in creating 5 million new green jobs and to provide pathways out of poverty for low-income people through job training and national service programs that address global warming and create energy independence.
-                                </td></tr>
+                                    <strong><label for='petition_confirmation'> I am ready for Green Jobs Now.</label></strong><br>
+             I urge our elected officials to invest in millions of green jobs and a Clean Energy Corps. We can create new pathways out of poverty and curb global warming at the same time. We will do this by retooling our factories, revamping our schools, and rebuilding our communities. It's time to build an inclusive green economy strong enough to lift people out of poverty. </td></tr>
             <% end -%>
           <% end -%>
 
