@@ -332,6 +332,7 @@ class EventsController < ApplicationController
     end
     @map_zoom = 12
     @auto_center = true
+    @search_area = params[:zip]
   end
 
 =begin
