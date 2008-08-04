@@ -2,7 +2,7 @@
 <div id="event-container">
 	<div id="event-list-intro">
 		<div class="event-list-intro-title">
-    <%= @calendar.name.pluralize %> in <%= @search_area %>
+    <%= @calendar.name.pluralize %> <%= @search_area %>
 		</div>
 		<div class="event-list-intro-results">
 			Found <%= pluralize @events.length, (@category ? @category.name : @calendar.name) %><br />

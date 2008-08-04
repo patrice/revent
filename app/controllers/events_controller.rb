@@ -332,7 +332,7 @@ class EventsController < ApplicationController
     end
     @map_zoom = 12
     @auto_center = true
-    @search_area = params[:zip]
+    @search_area = "within 50 miles of #{params[:zip]}"
   end
 
 =begin
@@ -361,7 +361,7 @@ class EventsController < ApplicationController
       @events = @calendar.public_events.find(:all, :conditions => ["state = ?", params[:id]])
       render :partial => 'report', :collection => @events and return
     end
-    @search_area = params[:state]
+    @search_area = "in #{params[:state]}"
     if params[:category] and not params[:category] == "all"
       @events = @calendar.public_events.find(:all, :conditions => ["state = ? AND category_id = ?", params[:state], params[:category]])
     else
