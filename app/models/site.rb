@@ -9,6 +9,10 @@ class Site < ActiveRecord::Base
     site_id ? File.join(RAILS_ROOT, 'sites', site_id.to_s, 'config') : File.join(RAILS_ROOT, 'config')
   end
 
+  def config_file
+    File.join(RAILS_ROOT,'config','sites',self.host.gsub('.','_') + '.yml')
+  end
+
   def salesforce_enabled?
     @salesforce_enabled ||= File.exists?(File.join(Site.config_path(self.id), 'salesforce-config.yml'))
   end
