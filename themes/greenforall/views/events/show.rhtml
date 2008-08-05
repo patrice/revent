@@ -40,6 +40,12 @@
 </div>
 <% end -%>
 
+<% eventurl = url_for(:host => @event.calendar.site.host, :permalink => @event.calendar.permalink, :id => @event.id) %>
+<div id="event-tellafriend">
+  <a href="http://org2.democracyinaction.org/o/5379/t/2952/tellafriend.jsp?tell_a_friend_KEY=172&content=<%= eventurl -%>">Invite Friends to this Event</a>
+  <br /><br />
+</div>
+
 <%  unless @event.tags.empty? %>
 <div id="">
 	<b>Event Tags:</B> <%= @event.tags.collect {|t| link_to(t.name, :permalink => @calendar.permalink, :controller => 'events', :action => 'tagged', :id => t.name )}.join(', ') %>

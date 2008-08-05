@@ -75,7 +75,8 @@ class Account::EventsController < ApplicationController
   end
 
   def remove
-    @event.destroy
+    @rsvp = @event.rsvps.find(:first, :conditions => {:user_id => current_user.id})
+    @rsvp.destroy
     redirect_to :action => 'index'
   end
 

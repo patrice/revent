@@ -72,11 +72,14 @@ ActionController::Routing::Routes.draw do |map|
 # end of work-around
 
   map.connect 'partners/:id', :controller => 'partners'
+  map.connect 'partners/:id/rsvp/:event_id', :controller => 'partners'
   map.connect ':permalink/partners/:id', :controller => 'partners'
+
   map.with_options :controller => 'events', :action => 'new' do |m|
-    m.signup ':permalink/signup/:form', :defaults => {:form => nil}
-    m.connect 'calendars/:calendar_id/signup/:form', :defaults => {:form => nil}
-    m.connect 'signup/:form', :defaults => {:form => nil}
+    m.connect ':permalink/options/:event_type/signup'
+    m.signup ':permalink/signup/:partner_id', :defaults => {:partner_id => nil}
+    m.connect 'calendars/:calendar_id/signup/:partner_id', :defaults => {:partner_id => nil}
+    m.connect 'signup/:partner_id', :defaults => {:partner_id => nil}
     #m.connect 'signup/:form.:format', :defaults => {:form => nil, :format => ''}
   end
 

@@ -1,0 +1,71 @@
+<h3>RSVP</h3>Fill out the form below to let us know you will be attending. We'll also keep you informed about how you can stay involved.
+<div id="signupForm" class="signupForm">
+
+<% form_for :user, :url => { :action => "rsvp", :id => event.id }, :html => {:id => 'event-rsvp-form'} do |f| -%>
+  <%= hidden_field_tag "user[democracy_in_action][supporter][link][event]", event.democracy_in_action_key %>
+  <%= hidden_field_tag "user[democracy_in_action][supporter][_Status]", "Signed Up" %>
+  <%= hidden_field_tag "user[democracy_in_action][supporter][_Type]", "Supporter" %>
+
+
+  <% if @calendar.rsvp_dia_group_key %>
+  <%= hidden_field_tag "user[democracy_in_action][supporter][link][groups]", @calendar.rsvp_dia_group_key %>	
+  <%- end %>
+  <% if @calendar.rsvp_dia_trigger_key %>
+  <%= hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", @calendar.rsvp_dia_trigger_key %>
+   <%- end %>
+	<TABLE class="dia_field">
+
+	<TR>
+  <td valign="top" align="right" class="dia_field_name" id="dia_field_name_data_First_Name">First Name</td><td valign="top"><%= f.text_field 'first_name', :size => 30, :class => "required inputStyle", :title => "Please enter your first name." %></td><td class="dia_required"></td>
+       </TR><TR><td valign="top" align="right" class="dia_field_name" id="dia_field_name_data_Last_Name">Last Name</td><td valign="top"><%= f.text_field 'last_name', :size => 30, :class => "required inputStyle", :title => "Please enter your last name."  %></td><td class="dia_required"></td>
+       </TR><TR><td valign="top" align="right" class="dia_field_name" id="dia_field_name_data_Email">Email</td><td valign="top"><%= f.text_field 'email', :size => 30, :class => "required inputStyle", :title => "Please enter a valid email address." %></td><td class="dia_required"></td>
+
+	    </TR><TR><td valign="top" align="right" class="dia_field_name" id="dia_field_name_data_Phone">Phone</td><td valign="top"><%= f.text_field 'phone', "size" => 30  %></td><td class="dia_required"></td>
+	    </TR><TR><td align="right" class="dia_field_name">Zip/Postal Code</td><td><%= f.text_field 'postal_code', "size" => 10  %> 
+
+	      </td>
+	      <td class="dia_required">
+
+        </td></TR>
+        </TR>
+        
+        <% f.fields_for :custom_attributes_data do |custom| -%>
+        
+        <TR><td valign="top" align="right" class="dia_field_organization" id="dia_field_name_data_Organization">How did you first hear about Green Jobs Now?</td><td valign="top"><%= custom.select "channel", [ '',"Link from blog or website","Email from someone I know personally","Email (or link) from an organization (e.g. Green for All, 1Sky, We)","Someone mentioned it on stage (e.g. Van Jones) Facebook event or message","Online social networking site (e.g. MySpace) Poster","Radio or TV"], :style => "background-color: #ebd897;", :maxlength => "10", :size => "10", :id => "dataRace", :title => "Please enter your race"  %>
+            </td><td></td>
+                      </TR>
+                      
+                             <tr>
+                                             <td  class="dia_field_name" align="right">Racial Identity</td>
+                                                           <td><%= custom.select "race", [ '', "Black/African American","Native American/Indigenous/India/","First Nation/Alaska Native","White/European American","Hawaiian/Pacific Islander","Laina/o/Mestizo/a","Middle Eastern/Arab/Persian","Asian/Asian American/East Indian","Mixed Race/Multiracial/Biracial"], :style => "background-color: #ebd897;", :maxlength => "10", :size => "10", :id => "dataRace", :title => "Please enter your race"  %></td>
+
+                                                                       </tr>
+                                                                                           
+                      <tr>
+
+                                          <td colspan="2">People from all backgrounds, races, and ethnicities are encouraged to participate in this Day of Action. If you choose to, we thank you for sharing your racial identity. Doing so helps us track progress as we strive to build a diverse and inclusive movement for green jobs and the green economy.
+                                                        </td>
+                                                                  </tr>
+
+                      <tr><td colspan="2">
+                                    <h3>Sign onto the "I'm Ready" Petition</h3>
+                                    <%= custom.check_box 'petition', :value => true, :checked => true, :id => 'petition_confirmation'  %>
+                                    <strong><label for='petition_confirmation'> I am ready for Green Jobs Now.</label></strong><br>
+             I urge my elected representatives to invest in creating 5 million new green jobs and to provide pathways out of poverty for low-income people through job training and national service programs that address global warming and create energy independence.
+                                </td></tr>
+            <% end -%>
+        <TR>
+	</TR></TABLE>
+
+<% if @calendar.rsvp_redirect %>
+	<%= hidden_field_tag "redirect", @calendar.rsvp_redirect %>
+<% end -%>
+
+	<%= submit_tag "Sign up!" %>
+<% end -%>
+
+</div>
+<%= javascript_include_tag "validation.js" %>
+<script type="text/javascript" language="javascript">
+  var valid = new Validation("event-rsvp-form", {useTitles : true});
+</script>

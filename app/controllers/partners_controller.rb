@@ -4,7 +4,7 @@ class PartnersController < ApplicationController
 
   before_filter :set_partner_cookie
   def set_partner_cookie
-    cookies[:partner] = {:value => params[:id], :expires => 3.hours.from_now} if params[:id]
+    cookies[:partner_id] = {:value => params[:id], :expires => 3.hours.from_now} if params[:id]
   end
   before_filter(:only => :index) {|c| c.request.env["HTTP_IF_MODIFIED_SINCE"] = nil} #don't 304
   caches_action :index
@@ -15,9 +15,12 @@ class PartnersController < ApplicationController
     else
       if params[:permalink]
         redirect_to :permalink => @calendar.permalink, :controller => 'calendars', :action => 'show', :id => nil, :format => nil 
+      elsif params[:event_id]
+        redirect_to :permalink => @calendar.permalink, :controller => 'events', :action => 'show', :id => params[:event_id], :format => nil 
       else
         redirect_to home_url
       end
     end
   end
+
 end

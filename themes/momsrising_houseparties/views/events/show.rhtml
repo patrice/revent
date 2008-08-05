@@ -18,7 +18,11 @@
   <% end -%>
 
   <h2><%= white_list @event.name %></h2>
-  <h3><%= white_list @event.city_state %></h3>
+  <% if @event.in_usa? or @event.in_canada? -%>
+    <h3><%= white_list @event.city %>, <%= @event.state %></h3>
+  <% else -%>
+    <h3><%= white_list @event.city %>, <%= @event.country %></h3>
+  <% end -%>
   <p class="start"><b><%= @event.start? ? @event.start.strftime('%B %e, %Y  %I:%M%p') : '?' %> to <%= @event.end? ? @event.end.strftime('%I:%M%p') : '?' %></b></p>
   <% if @event.host -%>
     <h4>Hosted by <%= link_to @event.host.full_name, :action => :host, :id => @event %></h4>
@@ -33,28 +37,11 @@
 </div>
 <% end -%>
 
-<% if @event.max_attendees %>  
-  <div class="">
-	<B>Max Attendees:</B> <%=  @event.max_attendees %> (Currently <%=  @event.attendees.length %> Registered)
-	<br><br>
-</div>
-<% end -%>
-
-<%  unless @event.tags.empty? %>
-<div id="">
-	<b>Event Tags:</B> <%= @event.tags.collect {|t| link_to(t.name, :permalink => @calendar.permalink, :controller => 'events', :action => 'tagged', :id => t.name )}.join(', ') %>
-	<br><br>
-</div>
-<% end -%>
-  
   <div id="location"><b>Location:</b><br><%= white_list @event.location %></div>
 <% unless @event.directions.blank? %>
 <div id="directions"><b>Directions:</b><br><%= white_list word_wrap(auto_link(@event.directions) {|text| truncate(text, 40) + " " }) %></div>
 <% end -%>
-<br />
- 
-<% if @event.attachments.any? -%>
-<B>Attachments From Host:</B><br /><br />
+
 <% if @event.documents.any? -%>
 <div id="files">
   <b>Files provided by host:<b><br/>
@@ -67,17 +54,12 @@
 <% if @event.images.any? %>
 <div id="images">
   <% @event.images.collect do |image| -%>
-  <%= image_tag image.public_filename(:display) %><br />
-    <% if image.caption %>
-      <%= image.caption %><br />
-    <% end -%>
-    <br />
+  <%= image_tag image.public_filename(:display) %>
   <% end.join('<br/>') -%>
 </div>
 <% end -%>
-<% end -%>
 
-<p align="center" style="font-size: 14px; font-weight: bold;"><a href="#" onclick="window.open('http://<%= URI.parse(DemocracyInActionResource.api.urls['get']).host -%>/dia/api/event/email.jsp?event_KEY=<%= @event.democracy_in_action_key -%>','','width=500,height=450'); return false;">Questions? Email the Host</a>
+  <p align="center" style="font-size: 14px; font-weight: bold;"><a href="#" onclick="window.open('http://democracyinaction.org/dia/api/event/email.jsp?event_KEY=<%= @event.democracy_in_action_key %>','','width=500,height=450'); return false;">Questions? Email the Host</a>
 	</p>
 
 <p></p>

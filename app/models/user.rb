@@ -1,4 +1,5 @@
 require 'digest/sha1'
+require 'ostruct'
 class User < ActiveRecord::Base
   attr_protected :password, :password_confirmation
 
@@ -8,6 +9,8 @@ class User < ActiveRecord::Base
   has_many :rsvps
   has_many :attending, :through => :rsvps, :source => :event
   has_many :politician_invites
+  has_many :custom_attributes
+
   belongs_to :profile_image, :class_name => 'Attachment', :foreign_key => 'profile_image_id'
   belongs_to :site
   before_create :set_site_id
@@ -84,7 +87,7 @@ class User < ActiveRecord::Base
     supporter_custom_key = api.process('supporter_custom', {'supporter_KEY' => supporter_key}.merge(supporter_custom))
     return true
   end
-  
+
   def democracy_in_action_key
     democracy_in_action_object.key if democracy_in_action_object
   end
@@ -100,10 +103,10 @@ class User < ActiveRecord::Base
       dia_obj = DemocracyInActionObject.new(:table => 'supporter', :key => supporter.key)
       dia_obj.save
     end
-    unless u.crypted_password || (u.password && host.password_confirmation)
-      password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-      u.password = u.password_confirmation = password
-    end
+    #unless u.crypted_password || (u.password && u.password_confirmation)
+    #  password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+    #  u.password = u.password_confirmation = password
+    #end
     unless u.save
       logger.warn("Validation error(s) occurred when trying to create user from DemocracyInActionSupporter: #{u.errors.inspect}")
       u.save_with_validation(false)
@@ -145,7 +148,6 @@ class User < ActiveRecord::Base
 
   validates_presence_of     :email
   validates_presence_of     :password,                   :if => :password_required?
-  validates_presence_of     :password_confirmation,      :if => :password_required?
   validates_length_of       :password, :within => 4..40, :if => :password_required?
   validates_confirmation_of :password,                   :if => :password_required?
   validates_length_of       :email,    :within => 3..100
@@ -266,9 +268,31 @@ class User < ActiveRecord::Base
     [city, (state || country)].join(', ')
   end
     
-  def random_password
-    return if crypted_password
-    self.password = self.password_confirmation = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+  before_validation :assign_password
+  def assign_password
+    return true if self.password || crypted_password
+    randomize_password
+  end
+
+  def randomize_password
+    return true if crypted_password
+    self.password = self.password_confirmation = User.random_password
+  end
+
+  def self.random_password
+    Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+  end
+
+  def custom_attributes_data
+    OpenStruct.new( Hash[ *custom_attributes.map { |attr| [ attr.name, attr.value ] }.flatten ] )
+  end
+
+  def custom_attributes_data=(values)
+    values.each do | name, value |
+      attr = custom_attributes.find_by_name( name.to_s ) || custom_attributes.build( :name => name.to_s )
+      attr.value = value
+    end
+    
   end
 
   protected
