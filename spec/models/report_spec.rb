@@ -66,6 +66,13 @@ describe Report do
         @report = create_report(:attachment_data => {'0' => {:caption => 'attachment 0', :uploaded_data => @uploaded_data}})
         File.exist?(@report.attachments(true).first.full_filename).should be_true
       end
+      it "should create multiple attachments" do
+        @report = new_report(:attachment_data => {'0' => {:caption => 'attachment 0', :uploaded_data => @uploaded_data}, '1' => {:caption => 'attachment 1', :uploaded_data => @uploaded_data}})
+        @report.make_local_copies!
+        @report.move_to_temp_files!
+        @report.save
+        @report.attachments(true).all? {|a| File.exist?(a.full_filename)}.should be_true
+      end
       it "should tag attachments" do
         pending 'tagging not high priority now; get this working later'
         @report = create_report(:attachment_data => {'0' => {:caption => 'attachment 0', :uploaded_data => @uploaded_data, :tag_depot => {'0' => 'tag1', '1' => 'tag2'}  }})
