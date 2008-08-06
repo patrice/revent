@@ -12,7 +12,7 @@ namespace :revent do
   task :consolidate_yaml do
     config_sites_dir = File.join(RAILS_ROOT,'config','sites')
     FileUtils.mkdir_p(config_sites_dir) unless File.exists?(config_sites_dir)
-    Site.find(:all).each |site|
+    Site.find(:all).each do |site|
       config = {}
       Dir["#{Site.config_path(site.id)}/*.yml"].each do |old_config_file|
         resource = old_config_file[/(.*)-config/, 1]
