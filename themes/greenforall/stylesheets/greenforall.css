@@ -2,3 +2,16 @@
 color:#639431;
 font-size:185%;
 }
+.report-intro-text h3 {
+  font-weight: bold;
+}
+.report-intro-text b {
+  font-family:Helvetica,Verdana,Arial,sans-serif;
+}
+.report-intro-text h4 {
+  font-size: 12px;
+  padding-bottom: 10px;
+}
+#signupForm { 
+margin: 10px 0px 5px 10px;
+}
