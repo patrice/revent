@@ -17,6 +17,8 @@ class PartnersController < ApplicationController
         redirect_to :permalink => @calendar.permalink, :controller => 'calendars', :action => 'show', :id => nil, :format => nil 
       elsif params[:event_id]
         redirect_to :permalink => @calendar.permalink, :controller => 'events', :action => 'show', :id => params[:event_id], :format => nil 
+      elsif Site.current.partner_redirect_url
+        redirect_to Site.current.partner_redirect_url
       else
         redirect_to home_url
       end

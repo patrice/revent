@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 84) do
+ActiveRecord::Schema.define(:version => 85) do
 
   create_table "attachments", :force => true do |t|
     t.string   "content_type"
@@ -303,6 +303,7 @@ ActiveRecord::Schema.define(:version => 84) do
     t.string   "theme"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "partner_redirect_url"
   end
 
   add_index "sites", ["host"], :name => "index_sites_on_host"
