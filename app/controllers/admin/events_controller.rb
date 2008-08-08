@@ -27,6 +27,18 @@ class Admin::EventsController < AdminController
     # need this since active scaffold is embeded in order to provide export link
   end
 
+  def list
+    if request.format == Mime::XML
+      if params[:updated_since] && start_time = Time.parse( params[:updated_since ] )
+        render :xml => @calendar.events.find_updated_since(start_time).to_xml
+      else
+        render :xml => @calendar.events.to_xml
+      end
+    else
+      super
+    end
+  end
+
   def conditions_for_collection
     ["events.calendar_id IN (#{(@calendar.calendar_ids << @calendar.id).join(',')})"]
   end

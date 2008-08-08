@@ -210,4 +210,10 @@ class Report < ActiveRecord::Base
     end
     true
   end
+
+  def to_xml(options={})
+    options[:include] ||= []
+    options[:include] |= [:user]
+    super(options)
+  end
 end

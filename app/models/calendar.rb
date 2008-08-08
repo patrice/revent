@@ -59,6 +59,9 @@ class Calendar < ActiveRecord::Base
     def with_reports
       published_reports.collect {|r| r.event}.uniq
     end
+    def find_updated_since( time )
+      find :all, :include => [ :host, { :reports => :user }, :attendees ], :conditions => [ "events.updated_at > :time OR users.updated_at > :time OR reports.updated_at > :time", { :time => time } ]
+    end
   end
   has_many :public_events, :class_name => "Event", :conditions => "events.private IS NULL OR events.private = 0"
   has_many :reports, :through => :events
