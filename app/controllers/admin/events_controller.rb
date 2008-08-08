@@ -29,10 +29,17 @@ class Admin::EventsController < AdminController
 
   def list
     if request.format == Mime::XML
+      xml_options = { :include => 
+                      { :attendees => { :include => :custom_attributes },
+                        :host =>      { :include => :custom_attributes }, 
+                        :reports =>   { :include => {:user => {:include => :custom_attributes}}}
+                      },
+                      :except => [:crypted_password, :activation_code, :salt, :password_reset_code]
+                    }
       if params[:updated_since] && start_time = Time.parse( params[:updated_since ] )
-        render :xml => @calendar.events.find_updated_since(start_time).to_xml
+        render :xml => @calendar.events.find_updated_since(start_time).to_xml(xml_options)
       else
-        render :xml => @calendar.events.to_xml
+        render :xml => @calendar.events.to_xml(xml_options)
       end
     else
       super

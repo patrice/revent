@@ -404,13 +404,6 @@ class Event < ActiveRecord::Base
     end
   end
 =end
-  def to_xml(options= {})
-    options[:include ] ||= []
-    options[:include ] |= [ :attendees, :host, :reports ]
-    options[:except] ||= []
-    options[:except] |= [:crypted_password, :activation_code, :salt, :password_reset_code]
-    super(options)
-  end
 
 private
   def geocode
