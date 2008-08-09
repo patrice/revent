@@ -37,10 +37,11 @@ class Admin::EventsController < AdminController
                       :except => [:crypted_password, :activation_code, :salt, :password_reset_code]
                     }
       if params[:updated_since] && start_time = Time.parse( params[:updated_since ] )
-        render :xml => @calendar.events.find_updated_since(start_time).to_xml(xml_options)
+        @events = @calendar.events.find_updated_since(start_time)
       else
-        render :xml => @calendar.events.to_xml(xml_options)
+        @events = @calendar.events
       end
+      render :xml => @events.to_xml(xml_options)
     else
       super
     end
