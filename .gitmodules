@@ -7,3 +7,6 @@
 [submodule "vendor/gems/memcache-client"]
 	path = vendor/gems/memcache-client
 	url = git://github.com/fiveruns/memcache-client.git
+[submodule "vendor/plugins/acts_as_tree"]
+	path = vendor/plugins/acts_as_tree
+	url = git://github.com/rails/acts_as_tree.git
