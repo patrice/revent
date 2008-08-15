@@ -5,10 +5,45 @@ describe Calendar do
 
   describe 'when created' do
     before do 
-      @calendar = Calendar.new
+      Site.current = stub('site_stub', :salesforce_enabled? => false, :id => 777)
+      @calendar = create_calendar
+      @event = create_event :calendar => @calendar
+      @report = create_report :event => @event, :status => 'published'
+      @other_calendar = create_calendar
+      @other_event = create_event :calendar => @other_calendar
+      @other_report = create_report :event => @other_event, :status => 'published'
     end
-    describe 'for calendars that contain all calendars' do
+    describe 'for calendars that are singular' do
+      it "finds just the included events" do
+        @calendar.events.should == [ @event ]
+      end
+      it "counts just the included events" do
+        @calendar.events.size.should == 1
+      end
+      it "finds the reports" do
+        @calendar.reports.should == [ @report ]
+      end
+    end
+    describe 'for calendars that contain other calendars' do
+      before do
+        @other_calendar.parent = @calendar
+        @calendar.calendars << @other_calendar
+      end
+      it "finder_sql should include both calendar ids" do
+        @calendar.events.finder_sql.should match( Regexp.new( @calendar.id.to_s ))
+        @calendar.events.finder_sql.should match( Regexp.new( @other_calendar.id.to_s ))
+      end
       it "should contain all events from children calendars" do        
+        @calendar.events.should == [ @event, @other_event ]
+      end
+      it "should count all events from child calendars" do        
+        @calendar.events.size.should == 2
+      end
+      it "should support find" do        
+        @calendar.events.find(:all).should == [ @event, @other_event ]
+      end
+      it "finds the reports" do
+        @calendar.reports.should == [ @report, @other_report ]
       end
       it "should contain featured reports children calendars" do        
       end

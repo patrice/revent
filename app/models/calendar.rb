@@ -1,5 +1,3 @@
-# see comments for def extend_scope in this file 
-#class ActiveRecord::Associations::HasManyAssociation
 class ActiveRecord::Associations::AssociationProxy
   attr_accessor :finder_sql
 end
@@ -12,7 +10,7 @@ class Calendar < ActiveRecord::Base
     self.permalink = PermalinkFu.escape(self.permalink)
   end
   belongs_to :site
-  
+
   # self-referential calendar relationship used for 'all' calendar
   belongs_to :parent, :class_name => 'Calendar', :foreign_key => 'parent_id'
   has_many :calendars, :class_name => 'Calendar', :foreign_key => 'parent_id' do
@@ -27,16 +25,16 @@ class Calendar < ActiveRecord::Base
   # explicitly to have access to events.find(:all), etc.
   # See top of this file for adding finder_sql accessor to HasManyAssociation
   def after_initialize
-    events.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
+  #  events.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
     public_events.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')}) AND (events.private IS NULL OR events.private = 0)"
-    reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')}) AND (reports.id)"
+    #reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')}) AND (reports.id)"
     published_reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')}) AND (reports.status = '#{Report::PUBLISHED}')"
     featured_reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')}) AND (reports.featured = 1)"
   end
-  
+
   @@deleted_events = []
   @@all_events = []
-  
+
 =begin
   has_many :local_public_events, :class_name => 'Event', :conditions => "events.private IS NULL OR events.private = FALSE"
   has_many :public_events, :through => :children, :source => 'local_public_events'
@@ -44,6 +42,12 @@ class Calendar < ActiveRecord::Base
   has_many :events, :through => :children, :source => 'local_events' do
 =end
   has_many :events do
+    def construct_sql 
+      result = super
+      #@finder_sql = "events.calendar_id IN (#{((proxy_owner.calendar_ids || []) << proxy_owner.id).join(',')})"
+      @counter_sql = @finder_sql = "events.calendar_id IN (#{((proxy_owner.calendar_ids || []) << proxy_owner.id).join(',')})"
+      result
+    end
     def unique_states
       states = proxy_target.collect {|e| e.state}.compact.uniq.select do |state|
         DaysOfAction::Geo::STATE_CENTERS.keys.reject {|c| :DC == c}.map{|c| c.to_s}.include?(state)
@@ -64,7 +68,18 @@ class Calendar < ActiveRecord::Base
     end
   end
   has_many :public_events, :class_name => "Event", :conditions => "events.private IS NULL OR events.private = 0"
-  has_many :reports, :through => :events
+  has_many :reports, :through => :events do
+    def construct_conditions
+      table_name = @reflection.through_reflection.table_name
+      conditions = [ "events.calendar_id IN (#{((proxy_owner.calendar_ids || []) << proxy_owner.id).join(',')})" ]
+      puts conditions
+      conditions << sql_conditions if sql_conditions
+      #"(" + conditions.join(') AND (') + ")"
+      final_conditions = "(" + conditions.join(') AND (') + ")"
+      puts final_conditions
+      final_conditions
+    end
+  end
   has_many :published_reports, :through => :events, :source => "reports", :conditions => "reports.status = '#{Report::PUBLISHED}'"  
   has_many :featured_reports, :through => :events, :source => "reports", :conditions => "reports.featured = 1"
 
