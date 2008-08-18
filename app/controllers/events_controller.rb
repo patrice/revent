@@ -115,7 +115,7 @@ class EventsController < ApplicationController
       end
       @icon = Cartographer::Gicon.new(:image_url => '/images/green_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
       @map.icons << @icon
-      @marker = Cartographer::Gmarker.new( :position => [@event.latitude, @event.longitude], :icon => @icon.name )
+      @marker = Cartographer::Gmarker.new( :position => [@event.latitude, @event.longitude], :icon => @icon.name, :click => '' )
       @map.markers << @marker
     else
       @map = false
