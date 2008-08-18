@@ -1,4 +1,8 @@
+require 'has_finder'
 class Report < ActiveRecord::Base
+  PUBLISHED = 'published'
+  UNPUBLISHED = 'unpublished'
+
   belongs_to :event
   belongs_to :user
   acts_as_list :scope => :event_id
@@ -7,6 +11,8 @@ class Report < ActiveRecord::Base
   has_many :embeds, :dependent => :destroy
   has_many :press_links, :dependent => :destroy
   validates_associated :attachments, :press_links, :embeds, :user
+
+  has_finder :published, :conditions => ["status = ?", PUBLISHED]
 
   after_create :trigger_email  
   def trigger_email
@@ -51,9 +57,6 @@ class Report < ActiveRecord::Base
   end
 
   validates_presence_of :event_id, :text
-
-  PUBLISHED = 'published'
-  UNPUBLISHED = 'unpublished'
 
   def published?
     PUBLISHED == status

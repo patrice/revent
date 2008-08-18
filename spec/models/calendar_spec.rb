@@ -45,7 +45,27 @@ describe Calendar do
       it "finds the reports" do
         @calendar.reports.should == [ @report, @other_report ]
       end
-      it "should contain featured reports children calendars" do        
+      it "finds published reports" do 
+        @calendar.reports.published.should == [  @report, @other_report ]
+      end
+      it "doesn't find unpublished reports" do 
+        @unpublished = create_report :status => Report::UNPUBLISHED, :event => @event
+        @calendar.reports.published.should_not include(@unpublished)
+      end
+      it "doesn't find unpublished reports on the all calendar" do
+        @unpublished = create_report :status => Report::UNPUBLISHED, :event => @other_event
+        @calendar.reports.published.should_not include(@unpublished)
+      end
+      it "finds searchable events" do 
+        @calendar.events.searchable.should == [ @event, @other_event ]
+      end
+      it "hides private events from search results" do 
+        @private_event = create_event :private => true, :calendar => @calendar
+        @calendar.events.searchable.should_not include(@private_event)
+      end
+      it "hides private events from the all calendar" do
+        @private_event = create_event :private => true, :calendar => @other_calendar
+        @calendar.events.searchable.should_not include(@private_event)
       end
     end
   end

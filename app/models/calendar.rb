@@ -72,11 +72,11 @@ class Calendar < ActiveRecord::Base
     def construct_conditions
       table_name = @reflection.through_reflection.table_name
       conditions = [ "events.calendar_id IN (#{((proxy_owner.calendar_ids || []) << proxy_owner.id).join(',')})" ]
-      puts conditions
+#      puts conditions
       conditions << sql_conditions if sql_conditions
       #"(" + conditions.join(') AND (') + ")"
       final_conditions = "(" + conditions.join(') AND (') + ")"
-      puts final_conditions
+#      puts final_conditions
       final_conditions
     end
   end

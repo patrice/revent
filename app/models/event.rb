@@ -21,6 +21,7 @@ class Event < ActiveRecord::Base
   has_many :supporting_politicians, :through => :rsvps, :source => :attending, 
       :source_type => 'Politician', :conditions => '(rsvps.proxy IS NOT NULL) AND (rsvps.proxy)'
   has_many :politician_invites
+  has_finder :searchable, :conditions => ["private = ? OR private IS NULL", false]
 
   belongs_to :category
 
