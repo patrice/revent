@@ -1,5 +1,5 @@
 set :application, "revent"
-set :repository, "git@github.com:pfdemuizon/#{application}.git"
+set :repository, "git@github.com:radicaldesigns/#{application}.git"
 
 set :user, "#{application}"
 set :group, "#{user}"
