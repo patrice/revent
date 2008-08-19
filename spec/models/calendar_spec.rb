@@ -27,10 +27,6 @@ describe Calendar do
         @other_calendar.parent = @calendar
         @calendar.calendars << @other_calendar
       end
-      it "finder_sql should include both calendar ids" do
-        @calendar.events.finder_sql.should match( Regexp.new( @calendar.id.to_s ))
-        @calendar.events.finder_sql.should match( Regexp.new( @other_calendar.id.to_s ))
-      end
       it "should contain all events from children calendars" do        
         @calendar.events.should == [ @event, @other_event ]
       end

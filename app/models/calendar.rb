@@ -1,7 +1,3 @@
-class ActiveRecord::Associations::AssociationProxy
-  attr_accessor :finder_sql
-end
-
 class Calendar < ActiveRecord::Base
   validates_uniqueness_of :permalink, :scope => :site_id
   validates_presence_of :site_id, :permalink, :name
