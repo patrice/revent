@@ -4,7 +4,8 @@
       <%#=  @calendar.name %>
     </div>
     <div class="national-intro-count">
-      <h1>There are <%= pluralize @calendar.events.length, @calendar.name %> in <%= @calendar.events.unique_states %> states.</h1>
+      <h1>There are <%= @calendar.events.length %> <%= @calendar.name %> Events in <%= @calendar.events.unique_states %> states.</h1>
+
     </div>
     <div class="national-intro-directions">
       <br />
