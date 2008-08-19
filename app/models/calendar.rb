@@ -47,7 +47,6 @@ class Calendar < ActiveRecord::Base
       final_conditions
     end
   end
-  has_many :featured_reports, :through => :events, :source => "reports", :conditions => "reports.featured = 1"
 
   def self.any?
     self.count != 0

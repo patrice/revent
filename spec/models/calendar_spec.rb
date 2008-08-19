@@ -1,8 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 describe Calendar do 
-  fixtures :events, :reports, :calendars
-
   describe 'when created' do
     before do 
       Site.current = stub('site_stub', :salesforce_enabled? => false, :id => 777)
@@ -70,17 +68,20 @@ describe Calendar do
     end
   end
 
-  it "should contain featured reports" do
-    pending
-    @featured_report = reports(:ufpj_featured_report)
-    @calendar = calendars(:ufpj_5yearstoomany)
-    @calendar.featured_reports.should include(@featured_report)
-  end
-  
-  def test_has_many_featured_reports_does_not_include_non_featured_reports
-    @non_featured_report = reports(:ufpj_non_featured_report)
-    @calendar = calendars(:ufpj_5yearstoomany)
-    @calendar.featured_reports.should_not include(@non_featured_report)
+  describe 'featured' do 
+    before do
+      Site.current = stub('site_stub', :salesforce_enabled? => false, :id => 777)
+      @calendar = create_calendar
+      @event = create_event :calendar => @calendar
+      @featured_report = create_report(:featured => true, :event => @event)
+    end
+    it "should contain featured reports" do
+      @calendar.reports.featured.should include(@featured_report)
+    end
+    it "not include featured reports" do
+      @non_featured_report = create_report(:featured => false, :event => @event)
+      @calendar.reports.featured.should_not include(@non_featured_report)
+    end
   end
   
   def test_load_from_dia
@@ -94,13 +95,5 @@ describe Calendar do
     e = Event.find_by_service_foreign_key('1111')
     assert e
     assert e.tags.include?(Tag.find_by_name('stepitup'))
-  end
-
-    
-  def test_private_events
-    @calendar = calendars(:siu_nov)
-    @event = events(:siu_private)
-    @calendar.events.should include(@event)
-    @calendar.events.searchable.should_not include(@event)
   end
 end

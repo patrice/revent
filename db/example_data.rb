@@ -73,6 +73,7 @@ module FixtureReplacement
 	end
 
   attributes_for :report do |a|
+    a.status = Report::PUBLISHED
     a.event = default_event
     a.user = default_user
     a.text = "this event was dope"

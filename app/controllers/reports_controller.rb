@@ -196,9 +196,9 @@ class ReportsController < ApplicationController
 
   def featured
     if params[:id]
-      @reports = @calendar.featured_reports.find(:all, :conditions => ["events.state = ?", params[:id]], :include => :event, :limit => 7, :order => 'reports.created_at DESC')
+      @reports = @calendar.reports.featured.find(:all, :conditions => ["events.state = ?", params[:id]], :include => :event, :limit => 7, :order => 'reports.created_at DESC')
     else
-      @reports = @calendar.featured_reports.find(:all, :include => :event, :limit => 7, :order => 'reports.created_at DESC')
+      @reports = @calendar.reports.featured.find(:all, :include => :event, :limit => 7, :order => 'reports.created_at DESC')
     end
     render :layout => false
   end
