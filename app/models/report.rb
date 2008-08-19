@@ -13,6 +13,7 @@ class Report < ActiveRecord::Base
   validates_associated :attachments, :press_links, :embeds, :user
 
   has_finder :published, :conditions => ["status = ?", PUBLISHED]
+  has_finder :featured, :conditions => ["featured = ?", true]
 
   after_create :trigger_email  
   def trigger_email

@@ -140,4 +140,8 @@ describe Event do
       @event.district.should == "CA08"
     end
   end
+
+  it "shows nearby events" do
+    @event.nearby_events.should be_empty
+  end
 end

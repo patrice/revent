@@ -39,7 +39,7 @@ class ReportsController < ApplicationController
 
   def flashmap
     # all events should have lat/lng or fallback lat/lng; remove ones that don't just in case
-    @events = @calendar.public_events.find(:all, :select => [:name, :city, :state], :conditions => ["(latitude <> 0 AND longitude <> 0 AND country_code = ?)", Event::COUNTRY_CODE_USA], :include => :reports)
+    @events = @calendar.events.searchable.find(:all, :select => [:name, :city, :state], :conditions => ["(latitude <> 0 AND longitude <> 0 AND country_code = ?)", Event::COUNTRY_CODE_USA], :include => :reports)
     respond_to do |format|
       format.xml { render :layout => false }
     end
@@ -75,10 +75,10 @@ class ReportsController < ApplicationController
     @country_a3 = params[:id] || "all"
     @country_code = CountryCodes.find_by_a3(@country_a3)[:numeric] || "all"
     if @country_code == "all"
-      @events = @calendar.public_events.paginate(:all, :include => {:reports => :attachments}, 
+      @events = @calendar.events.searchable.paginate(:all, :include => {:reports => :attachments}, 
         :conditions => "reports.id AND reports.status = '#{Report::PUBLISHED}' AND country_code <> '#{Event::COUNTRY_CODE_USA}'", :order => "reports.id", :page => params[:page], :per_page => 20)
     else
-      @events = @calendar.public_events.paginate(:all, :include => {:reports => :attachments}, 
+      @events = @calendar.events.searchable.paginate(:all, :include => {:reports => :attachments}, 
         :conditions => ["reports.id AND reports.status = '#{Report::PUBLISHED}' AND country_code = ?", @country_code], :order => "reports.id", :page => params[:page], :per_page => 20)
     end
     @reports = @events.collect {|e| e.reports.first}
@@ -169,9 +169,7 @@ class ReportsController < ApplicationController
   end
 
   def do_state_search
-    #@events = @calendar.public_events.paginate(:all, :include => {:reports => :attachments}, :conditions => ["reports.id AND reports.status = '#{Report::PUBLISHED}' AND events.state = ?", params[:state]], :order => "events.state, events.city", :page => params[:page], :per_page => 20)
-    #@reports = @events.collect {|e| e.reports.first}
-    @reports = @calendar.published_reports.paginate(:all, :include => :attachments, :conditions => ["events.state = ?", params[:state]], :order => "events.state, events.city", :page => params[:page], :per_page => 20)
+    @reports = @calendar.reports.published.paginate(:all, :include => :attachments, :conditions => ["events.state = ?", params[:state]], :order => "events.state, events.city", :page => params[:page], :per_page => 20)
     @search_results_message = "Showing reports in #{params[:state]}"
     @search_params = {:state => params[:state]}
   end

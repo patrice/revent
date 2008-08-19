@@ -268,7 +268,7 @@ class Event < ActiveRecord::Base
   end
   
   def nearby_events
-    self.calendar.public_events.find(:all, :origin => self, :within => 50, :conditions => ["events.id <> ?", self.id])
+    self.calendar.events.searchable.find(:all, :origin => self, :within => 50, :conditions => ["events.id <> ?", self.id])
   end
 
   def set_calendar

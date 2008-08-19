@@ -74,13 +74,13 @@ describe Calendar do
     pending
     @featured_report = reports(:ufpj_featured_report)
     @calendar = calendars(:ufpj_5yearstoomany)
-    assert @calendar.featured_reports.include?(@featured_report)
+    @calendar.featured_reports.should include(@featured_report)
   end
   
   def test_has_many_featured_reports_does_not_include_non_featured_reports
     @non_featured_report = reports(:ufpj_non_featured_report)
     @calendar = calendars(:ufpj_5yearstoomany)
-    assert !@calendar.featured_reports.include?(@non_featured_report)
+    @calendar.featured_reports.should_not include(@non_featured_report)
   end
   
   def test_load_from_dia
@@ -100,7 +100,7 @@ describe Calendar do
   def test_private_events
     @calendar = calendars(:siu_nov)
     @event = events(:siu_private)
-    assert @calendar.events.include?(@event)
-    assert !@calendar.public_events.include?(@event)
+    @calendar.events.should include(@event)
+    @calendar.events.searchable.should_not include(@event)
   end
 end

@@ -19,32 +19,12 @@ class Calendar < ActiveRecord::Base
     end
   end
 
-  # set-up 'all calendar': see events across all calendars associated through has_many children.
-  # This method overwrites HasManyAssociation#finder_sql for events and public_events associations
-  # finder_sql is an option for has_many (:finder_sql => 'SQL statement'), but we need to set it 
-  # explicitly to have access to events.find(:all), etc.
-  # See top of this file for adding finder_sql accessor to HasManyAssociation
-  def after_initialize
-  #  events.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')})"
-    public_events.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')}) AND (events.private IS NULL OR events.private = 0)"
-    #reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')}) AND (reports.id)"
-    published_reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')}) AND (reports.status = '#{Report::PUBLISHED}')"
-    featured_reports.finder_sql = "events.calendar_id IN (#{(calendar_ids << id).join(',')}) AND (reports.featured = 1)"
-  end
-
   @@deleted_events = []
   @@all_events = []
 
-=begin
-  has_many :local_public_events, :class_name => 'Event', :conditions => "events.private IS NULL OR events.private = FALSE"
-  has_many :public_events, :through => :children, :source => 'local_public_events'
-  has_many :local_events, :class_name => 'Event'
-  has_many :events, :through => :children, :source => 'local_events' do
-=end
   has_many :events do
     def construct_sql 
       result = super
-      #@finder_sql = "events.calendar_id IN (#{((proxy_owner.calendar_ids || []) << proxy_owner.id).join(',')})"
       @counter_sql = @finder_sql = "events.calendar_id IN (#{((proxy_owner.calendar_ids || []) << proxy_owner.id).join(',')})"
       result
     end
@@ -67,16 +47,12 @@ class Calendar < ActiveRecord::Base
       find :all, :include => [ :host, { :reports => :user }, :attendees ], :conditions => [ "events.updated_at > :time OR users.updated_at > :time OR reports.updated_at > :time", { :time => time } ]
     end
   end
-  has_many :public_events, :class_name => "Event", :conditions => "events.private IS NULL OR events.private = 0"
   has_many :reports, :through => :events do
     def construct_conditions
       table_name = @reflection.through_reflection.table_name
       conditions = [ "events.calendar_id IN (#{((proxy_owner.calendar_ids || []) << proxy_owner.id).join(',')})" ]
-#      puts conditions
       conditions << sql_conditions if sql_conditions
-      #"(" + conditions.join(') AND (') + ")"
       final_conditions = "(" + conditions.join(') AND (') + ")"
-#      puts final_conditions
       final_conditions
     end
   end

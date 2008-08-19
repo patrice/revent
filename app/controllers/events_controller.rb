@@ -45,16 +45,16 @@ class EventsController < ApplicationController
     @category_options = @calendar.categories.collect{|c| [c.name, c.id]}.unshift(['All Events', 'all'])
     if params[:id] and not params[:id] == 'all'
       @category = @calendar.categories.find(params[:id])  
-      @events = @calendar.public_events.paginate_all_by_category_id(@category.id, :order => 'created_at DESC', :page => params[:page])
+      @events = @calendar.events.searchable.paginate_all_by_category_id(@category.id, :order => 'created_at DESC', :page => params[:page])
     else
       require 'ostruct'
       @category = OpenStruct.new(:id => 'all', :name => 'All Events')
-      @events = @calendar.public_events.paginate(:all, :order => 'created_at DESC', :page => params[:page])
+      @events = @calendar.events.searchable.paginate(:all, :order => 'created_at DESC', :page => params[:page])
     end
   end
 
   def flashmap
-    @events = @calendar.public_events.find(:all, :conditions => ["(latitude <> 0 AND longitude <> 0) AND (state IS NOT NULL AND state <> '') AND country_code = ?", Event::COUNTRY_CODE_USA])
+    @events = @calendar.events.searchable.find(:all, :conditions => ["(latitude <> 0 AND longitude <> 0) AND (state IS NOT NULL AND state <> '') AND country_code = ?", Event::COUNTRY_CODE_USA])
     respond_to do |format|
       format.xml { render :layout => false }
     end
@@ -64,10 +64,10 @@ class EventsController < ApplicationController
   def recently_updated
     respond_to do |format|
       format.html do 
-        @events = @calendar.public_events.paginate(:all, :order => 'updated_at DESC', :page => params[:page])
+        @events = @calendar.events.searchable.paginate(:all, :order => 'updated_at DESC', :page => params[:page])
       end
       format.xml do 
-        @events = @calendar.public_events.find(:all, :order => 'updated_at DESC', :limit => 4)
+        @events = @calendar.events.searchable.find(:all, :order => 'updated_at DESC', :limit => 4)
         render :action => 'recently_updated.rxml', :layout => false
       end
     end
@@ -76,10 +76,10 @@ class EventsController < ApplicationController
   def recently_added 
     respond_to do |format|
       format.html do 
-        @events = @calendar.public_events.paginate(:all, :order => 'created_at DESC', :page => params[:page])
+        @events = @calendar.events.searchable.paginate(:all, :order => 'created_at DESC', :page => params[:page])
       end
       format.xml do 
-        @events = @calendar.public_events.find(:all, :order => 'created_at DESC', :limit => 4)
+        @events = @calendar.events.searchable.find(:all, :order => 'created_at DESC', :limit => 4)
         render :action => 'recently_added.rxml', :layout => false
       end
     end
@@ -88,10 +88,10 @@ class EventsController < ApplicationController
   def upcoming
     respond_to do |format|
       format.html do 
-        @events = @calendar.public_events.paginate(:all, :conditions => ["start > ?", Time.now], :order => 'start, state', :page => params[:page])
+        @events = @calendar.events.searchable.paginate(:all, :conditions => ["start > ?", Time.now], :order => 'start, state', :page => params[:page])
       end
       format.xml do 
-        @events = @calendar.public_events.find(:all, :conditions => ["end >= ?", Time.now], :order => "start, state")
+        @events = @calendar.events.searchable.find(:all, :conditions => ["end >= ?", Time.now], :order => "start, state")
         render :action => 'upcoming.rxml', :layout => false
       end
     end
@@ -222,7 +222,7 @@ class EventsController < ApplicationController
   def other_state_events
     state = params[:event_state]
     unless state.blank?
-      @other_state_events = @calendar.public_events.find_all_by_state(state)
+      @other_state_events = @calendar.events.searchable.find_all_by_state(state)
       unless @other_state_events.empty?
         render(:partial => 'other_state_events', :layout => false) && return
       end
@@ -234,7 +234,7 @@ class EventsController < ApplicationController
     postal_code = params[:postal_code]
     unless postal_code.blank?
       begin
-        @nearby_events = @calendar.public_events.find(:all, :origin => postal_code, :within => 25)
+        @nearby_events = @calendar.events.searchable.find(:all, :origin => postal_code, :within => 25)
       rescue GeoKit::Geocoders::GeocodeError
         render(:text => "", :layout => false) and return
       end
@@ -259,9 +259,9 @@ class EventsController < ApplicationController
     @country_a3 = params[:id] || 'all'
     @country_code = CountryCodes.find_by_a3(@country_a3.upcase)[:numeric] || 'all'
     if @country_code == 'all'
-      @events = @calendar.public_events.paginate(:all, :conditions => ["country_code <> ?", Event::COUNTRY_CODE_USA], :order => 'country_code, city, start', :page => params[:page])
+      @events = @calendar.events.searchable.paginate(:all, :conditions => ["country_code <> ?", Event::COUNTRY_CODE_USA], :order => 'country_code, city, start', :page => params[:page])
     else
-      @events = @calendar.public_events.paginate(:all, :conditions => ["country_code = ?", @country_code], :order => 'start, city', :page => params[:page])
+      @events = @calendar.events.searchable.paginate(:all, :conditions => ["country_code = ?", @country_code], :order => 'start, city', :page => params[:page])
     end
   end
   
@@ -326,28 +326,22 @@ class EventsController < ApplicationController
     end    
     flash.now[:notice] = "Could not find postal code" and return unless @map_center
     if params[:category] and not params[:category] == "all"
-      @events = @calendar.public_events.find(:all, :origin => @map_center, :within => 50, :order => 'distance', :conditions => ['category_id = ?', params[:category]])
+      @events = @calendar.events.searchable.find(:all, :origin => @map_center, :within => 50, :order => 'distance', :conditions => ['category_id = ?', params[:category]])
     else
-      @events = @calendar.public_events.find(:all, :origin => @map_center, :within => 50, :order => 'distance')
+      @events = @calendar.events.searchable.find(:all, :origin => @map_center, :within => 50, :order => 'distance')
     end
     @map_zoom = 12
     @auto_center = true
     @search_area = "within 50 miles of #{params[:zip]}"
   end
 
-=begin
-    if params[:category] and not params[:category] == "all"
-      @events = @calendar.public_events.find(:all, :origin => @map_center, :within => 50, :order => 'distance', :conditions => ["category_id = ?", params[:category]])
-    else
-=end
-
   def by_geo
-    @events = @calendar.public_events.find(:all, :origin => [params[:lat], params[:lng]], :within => 50)
+    @events = @calendar.events.searchable.find(:all, :origin => [params[:lat], params[:lng]], :within => 50)
     @zips = ZipCode.find(:all, :origin => [params[:lat], params[:lng]], :within => 50, :order => 'distance')
     code = @zips.first.zip
     @district = Event.postal_code_to_district(code)
     @codes = @zips.collect {|z| z.zip}
-    @events += @calendar.public_events.find(:all, :conditions => ["postal_code IN (?)", @codes])
+    @events += @calendar.events.searchable.find(:all, :conditions => ["postal_code IN (?)", @codes])
     @events.uniq!
     @events.each {|e| e.instance_variable_set(:@distance_from_search, e.respond_to?(:distance) ? e.distance.to_f : @zips.find {|z| z.zip == e.postal_code}.distance.to_f) }
     @events = @events.sort_by {|e| e.instance_variable_get(:@distance_from_search)}
@@ -358,14 +352,14 @@ class EventsController < ApplicationController
     params[:state] ||= params[:id]
     if request.xhr?
       # this looks weird because by_state was traditionally not called directly, now it's being called by the map using xhr.  should refactor this.
-      @events = @calendar.public_events.find(:all, :conditions => ["state = ?", params[:id]])
+      @events = @calendar.events.searchable.find(:all, :conditions => ["state = ?", params[:id]])
       render :partial => 'report', :collection => @events and return
     end
     @search_area = "in #{params[:state]}"
     if params[:category] and not params[:category] == "all"
-      @events = @calendar.public_events.find(:all, :conditions => ["state = ? AND category_id = ?", params[:state], params[:category]])
+      @events = @calendar.events.searchable.find(:all, :conditions => ["state = ? AND category_id = ?", params[:state], params[:category]])
     else
-      @events = @calendar.public_events.find(:all, :conditions => ["state = ?", params[:state]])
+      @events = @calendar.events.searchable.find(:all, :conditions => ["state = ?", params[:state]])
     end
     @map_center = DaysOfAction::Geo::STATE_CENTERS[params[:state].to_sym]
     @map_zoom = DaysOfAction::Geo::STATE_ZOOM_LEVELS[params[:state].to_sym]
