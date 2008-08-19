@@ -25,10 +25,7 @@ View <%= link_to "All Reports", :permalink => @calendar.permalink, :controller =
 
   </div>
     <div class="national-intro-count">
-      <p><img src="/images/green_dot.png"> Green Dot = Events with Reports  |  <img src="/images/red_dot.png"> Red Dot = Events without Reports</P>
-      
-<!--      There are <%= @calendar.events.with_reports.length %> reports from  <%= @calendar.events.count %> scheduled events.
-    -->      </div>
-              
-               <%= render :partial =>'reports/report_nav' %>                
+      <p><img src="/images/green_dot.png"> Green Dot = Events with Reports  |  <img src="/images/red_dot.png"> Red Dot = Events without Reports</p>
+      </div>
+     <%= render :partial =>'reports/report_nav' %>                
 </div>

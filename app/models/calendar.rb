@@ -34,15 +34,6 @@ class Calendar < ActiveRecord::Base
       end
       states.length
     end
-    def reports
-      @reports ||= proxy_target.collect {|e| e.reports}.flatten.compact
-    end
-    def published_reports
-      @published_reports ||= reports.select {|r| r.published?}
-    end
-    def with_reports
-      published_reports.collect {|r| r.event}.uniq
-    end
     def find_updated_since( time )
       find :all, :include => [ :host, { :reports => :user }, :attendees ], :conditions => [ "events.updated_at > :time OR users.updated_at > :time OR reports.updated_at > :time", { :time => time } ]
     end
@@ -56,7 +47,6 @@ class Calendar < ActiveRecord::Base
       final_conditions
     end
   end
-  has_many :published_reports, :through => :events, :source => "reports", :conditions => "reports.status = '#{Report::PUBLISHED}'"  
   has_many :featured_reports, :through => :events, :source => "reports", :conditions => "reports.featured = 1"
 
   def self.any?

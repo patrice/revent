@@ -150,7 +150,7 @@ module Hacks
   end
 
   def self.all_images
-    @attachments = Report.find_published(:all, :include => :attachments).collect {|r| r.attachments}.flatten
+    @attachments = Report.published.find(:all, :include => :attachments).collect {|r| r.attachments}.flatten
     render :inline => "<%= Digest::MD5.hexdigest(@attachments.collect {|a| a.full_filename}.sort.join(' ')) %>"
 #    send_data `zip -j - #{attachments.collect {|a| a.full_filename}.join(' ')}`, :filename => 'all_images.zip'
   end

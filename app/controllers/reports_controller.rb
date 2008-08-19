@@ -20,7 +20,7 @@ class ReportsController < ApplicationController
       @embeds = tag.embeds.find(:all, :include => {:report => :event}, :conditions => "events.calendar_id = #{@calendar.id}")
       @reports = @embeds.collect {|e| e.report}.uniq
     else
-      @reports = @calendar.published_reports.find(:all, :conditions => "embeds.id", :include => [:event, :embeds])
+      @reports = @calendar.reports.published.find(:all, :conditions => "embeds.id", :include => [:event, :embeds])
     end
   end
 
@@ -29,12 +29,12 @@ class ReportsController < ApplicationController
       tag = Tag.find_by_name params[:tag]
       @photos = tag.attachments.find(:all, :include => {:report => :event}, :conditions => "events.calendar_id = #{@calendar.id}")
     else
-      @photos = @calendar.published_reports.find(:all, :include => [:attachments, :event], :conditions => "attachments.id").collect {|r| r.attachments}.flatten
+      @photos = @calendar.reports.published.find(:all, :include => [:attachments, :event], :conditions => "attachments.id").collect {|r| r.attachments}.flatten
     end
   end
 
   def press
-    @press_links = @calendar.published_reports.find(:all, :include => [:event, :press_links], :conditions => "press_links.id").collect {|r| r.press_links}.flatten
+    @press_links = @calendar.reports.published.find(:all, :include => [:event, :press_links], :conditions => "press_links.id").collect {|r| r.press_links}.flatten
   end
 
   def flashmap
@@ -48,22 +48,21 @@ class ReportsController < ApplicationController
   def scrolling_photos 
     # not quite ready to scroll dynamic content
     redirect_to :action => 'index' and return
-    @reports = @calendar.published_reports.find(:all, :include => [:attachments], :conditions => "attachments.id AND attachments.content_type = 'image/jpeg'", :limit => 5)
-    #@reports = @calendar.published_reports.find(:all, :include => :attachments, :conditions => "events.id IN (3144, 3155, 3215, 3178, 3181, 3136) AND attachments.primary = 1")
+    @reports = @calendar.reports.published.find(:all, :include => [:attachments], :conditions => "attachments.id AND attachments.content_type = 'image/jpeg'", :limit => 5)
     respond_to do |format|
       format.xml {render :layout => false}
     end
   end
 
   def rss
-    @reports = @calendar.published_reports(:all, :order => "updated_at DESC")
+    @reports = @calendar.reports.published(:all, :order => "updated_at DESC")
     respond_to do |format|
       format.xml { render :layout => false }
     end
   end
 
   def list
-    @reports = @calendar.published_reports.paginate(:all, :include => :attachments, 
+    @reports = @calendar.reports.published.paginate(:all, :include => :attachments, 
       :order => 'reports.created_at DESC', :page => params[:page], :per_page => 20)
 
     # temporary fix to get everythingscool layout to load here
@@ -138,7 +137,7 @@ class ReportsController < ApplicationController
 
   def widget
     if params[:id]
-      @report = Report.find_published(params[:id], :include => :attachments)
+      @report = Report.published.find(params[:id], :include => :attachments)
       @image = @report.attachments.first
     else
 #      @image = Attachment.find(:first, :joins => 'LEFT OUTER JOIN reports ON attachments.report_id = reports.id', :conditions => ['report_id AND reports.status = ?', Report::PUBLISHED], :order => 'RAND()')
@@ -160,7 +159,7 @@ class ReportsController < ApplicationController
                         max_lat, 
                         max_lon])
     end
-    @reports = @calendar.published_reports.paginate(:all, :include => :attachments, :conditions => ["events.postal_code IN (?)", @zips.collect{|z| z.zip}], :order => "reports.created_at DESC", :page => params[:page], :per_page => 20) 
+    @reports = @calendar.reports.published.paginate(:all, :include => :attachments, :conditions => ["events.postal_code IN (?)", @zips.collect{|z| z.zip}], :order => "reports.created_at DESC", :page => params[:page], :per_page => 20) 
     @codes = @zips.collect {|z| z.zip}
 #    @reports = @reports.sort_by {|r| @codes.index(r.event.postal_code)}
     @reports.each {|r| r.instance_variable_set(:@distance_from_search, @zips.find {|z| z.zip == r.event.postal_code}.distance_to_search_zip) }

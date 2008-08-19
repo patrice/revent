@@ -6,7 +6,7 @@
     Add Your Own <%= link_to 'Report of the Event',  :permalink => @calendar.permalink, :controller => "reports", :action => "new" %>
 	</div>
 	<div class="intro-text">
-		<br>There are <%= @calendar.published_reports.length %> reports. 
+		<br>There are <%= @calendar.reports.published.count %> reports. 
 	</div>
 	<div id='report-search'>
     <% form_tag :permalink => @calendar.permalink, :controller => "reports", :action => "search", :zip => nil, :state => nil do -%>
