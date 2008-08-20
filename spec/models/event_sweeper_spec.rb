@@ -24,5 +24,15 @@ describe EventSweeper do
       cache_url(url = "#{@calendar.permalink}.html")
       lambda {create_event}.should expire_page(url)
     end
+
+    it "should expire total.js" do
+      cache_url(url = "events/total.js")
+      lambda {create_event}.should expire_page(url)
+    end
+
+    it "should expire total.html" do
+      cache_url(url = "events/total.html")
+      lambda {create_event}.should expire_page(url)
+    end
   end
 end

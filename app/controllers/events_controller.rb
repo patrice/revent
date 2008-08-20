@@ -106,8 +106,20 @@ class EventsController < ApplicationController
 #    cache_page nil, :permalink => params[:permalink]
   end
 
+  include ActionView::Helpers::JavaScriptHelper
   def total
-    render :layout => false
+    @states = @calendar.events.find(:all).collect {|e| e.state}.compact.uniq.select do |state|
+      DaysOfAction::Geo::STATE_CENTERS.keys.reject {|c| :DC == c}.map{|c| c.to_s}.include?(state)
+    end
+    @event_count = @calendar.events.count
+    respond_to do |format|
+      format.js { 
+        html = escape_javascript(render_to_string(:layout => false).strip)
+        headers["Content-Type"] = "text/javascript; charset=utf-8"
+        render :text => "var revent_total_html = \"#{html}\"; document.write(revent_total_html);"
+      }
+      format.html { render :layout => false }
+    end
   end
   
   def show
