@@ -17,6 +17,61 @@ describe Event do
     @event.stub!(:set_district).and_return(true)
   end
 
+  describe "finding by query" do
+    before do
+      @event.save!
+      Site.current.stub!(:calendars).and_return([@event.calendar])
+    end
+    it "finds by calendar id" do
+      @events = Event.searchable.by_query(:calendar_id => @event.calendar_id).find :all
+      @events.should include(@event)
+    end
+
+    it "finds by state" do
+      @event.update_attribute :state, 'CA'
+      @events = Event.searchable.by_query( :state => 'CA' ).find :all
+      @events.should include(@event)
+    end
+
+    it "finds by category" do
+      cat = Category.create :name => 'servicenation'
+      @event.update_attribute :category_id, cat.id
+      @events = Event.by_query( :category_id => cat.id )
+      @events.should include(@event)
+    end
+
+    it "finds by permalink" do
+      @event.calendar.update_attribute :permalink, 'jenkey'
+      Event.by_query( :permalink => 'jenkey').should include( @event )
+    end
+
+    it "should not find private events" do
+      @event.update_attribute :private, true
+      Event.searchable.by_query( :private => true ).should_not include(@event)
+    end
+
+    it "should be compatible with will_paginate" do
+      create_event
+      Event.by_query({ }).paginate(:all, :page => 1, :per_page => 1).length.should == 1
+    end
+
+    it "should accept some predefined sorting needs" do
+      cat = create_category :name => 'green jobs'
+      categorized = create_event :category_id => cat.id
+      Event.by_query({}).prioritize(:first_category => cat.id ).first.should == categorized
+    end
+
+    it "works on the calendar association" do
+      other_cal_event = create_event
+      @event.calendar.events.prioritize(nil).should_not include( other_cal_event )
+    end
+
+    it "does not affect the search to have an empty prioritize block" do
+      ev = create_event :state => 'WI'
+      Event.prioritize(nil).by_query(:state => 'CA').should_not include(ev)
+    end
+  end
+
   describe 'in US' do
     before do
       @event.country = "United States of America"

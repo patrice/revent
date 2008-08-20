@@ -34,6 +34,35 @@ class Event < ActiveRecord::Base
   COUNTRY_CODE_USA = CountryCodes.find_by_name("United States of America")[:numeric] 
   COUNTRY_CODE_CANADA = CountryCodes.find_by_name("Canada")[:numeric] 
 
+  has_finder :first_category, lambda { |category_id|
+    { :order => "if( category_id = #{category_id.to_i}, 1, 0) DESC" }
+  }
+
+  has_finder :all, lambda { { :conditions => 'TRUE' }}
+  has_finder :first, lambda { { :limit => 1 }}
+
+  # finder-chainer!!!
+  def self.prioritize(sort)
+    return self.all if sort.nil?
+    sort.inject(self.all) { |search, (finder, value) | sorted = search.send( finder.to_sym, value ) if finders[ finder.to_sym ]; sorted || search }
+  end
+
+  has_finder :by_query, lambda {|query| 
+    unless query.empty?
+      Event.verify_calendar_id( query )
+      {:conditions => query }
+    else
+      {}
+    end
+  }
+
+  def self.verify_calendar_id(query)
+    return query unless permalink = query.delete(:permalink) 
+    if calendar_id = Site.current.calendars.inject(nil) { |memo, c| memo ||= ( c.permalink == permalink ? c.id : memo ) }
+      query[:calendar_id] = calendar_id
+    end
+  end
+
   def state_is_canadian_province?
       usa_valid_states = DemocracyInAction::Helpers.state_options_for_select.map{|a| a[1]}
       all_valid_states = DemocracyInAction::Helpers.state_options_for_select(:include_provinces => true).map{|a| a[1]}

@@ -19,7 +19,7 @@ class Site < ActiveRecord::Base
 
   has_many :users
   #has_many :admins
-  has_many :events
+  has_many :events, :through => :calendars
   has_many :triggers
   has_many :hostforms
   has_many :categories

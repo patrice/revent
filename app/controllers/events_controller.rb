@@ -171,40 +171,11 @@ class EventsController < ApplicationController
     end
   end
 
-=begin
-  def edit
-    @event = @calendar.events.find(params[:id])
-  end
-
-  def update
-    @event = @calendar.events.find(params[:id])
-    if @event.update_attributes(params[:event])
-      flash[:notice] = 'Event was successfully updated.'
-      redirect_to :action => 'show', :id => @event
-    else
-      render :action => 'edit'
-    end
-  end
-
-  def destroy
-    @calendar.events.find(params[:id]).destroy
-    redirect_to :action => 'list'
-  end
-=end
 
   def rsvp
     @event = @calendar.events.find(params[:id])
     @user = find_or_build_related_user( params[:user] )
     
-#    @user = User.find_or_initialize_by_site_id_and_email(Site.current.id, params[:user][:email]) # or current_user
-#    user_params = params[:user].reject {|k,v| [:password, :password_confirmation].include?(k.to_sym)}
-#    user_params[:partner_id] ||= cookies[:partner_id] if cookies[:partner_id]
-#    @user.attributes = user_params
-#    unless @user.crypted_password || (@user.password && @user.password_confirmation)
-#      password = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-#      @user.password = @user.password_confirmation = password
-#    end
-
     @rsvp = Rsvp.new(:event_id => params[:id])
     if @user.valid? && @rsvp.valid?
       assign_democracy_in_action_tracking_code( @user, cookies[:partner_id] ) if cookies[:partner_id]
@@ -259,8 +230,13 @@ class EventsController < ApplicationController
   end
 
   def index
-    #redirect_to home_url
-    redirect_to :permalink => @calendar.permalink, :controller => 'calendars', :action => 'show'
+    redirect_to :permalink => @calendar.permalink, :controller => 'calendars', :action => 'show' unless params[:query]
+
+    @events = Event.prioritize(params[:sort]).searchable.by_query(params[:query].merge(:calendar_id => @calendar.id)).paginate(:all, :page => params[:page] || 1, :per_page => params[:per_page] || Event.per_page)
+    respond_to do |format|
+      format.xml { render :xml => @events }
+      format.json { render :json => @events }
+    end
   end
   
   def international
