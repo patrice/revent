@@ -33,7 +33,12 @@ class Calendar < ActiveRecord::Base
     def find_updated_since( time )
       find :all, :include => [ :host, { :reports => :user }, :attendees ], :conditions => [ "events.updated_at > :time OR users.updated_at > :time OR reports.updated_at > :time", { :time => time } ]
     end
+
+    def prioritize( sort )
+      Event.prioritize(sort).by_query( :calendar_id => proxy_owner.id )
+    end
   end
+
   has_many :reports, :through => :events do
     def construct_conditions
       table_name = @reflection.through_reflection.table_name

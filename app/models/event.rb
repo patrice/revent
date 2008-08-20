@@ -34,11 +34,14 @@ class Event < ActiveRecord::Base
   COUNTRY_CODE_USA = CountryCodes.find_by_name("United States of America")[:numeric] 
   COUNTRY_CODE_CANADA = CountryCodes.find_by_name("Canada")[:numeric] 
 
+  def find_by_calendar_id( calendar_id )
+  end
+
   has_finder :first_category, lambda { |category_id|
     { :order => "if( category_id = #{category_id.to_i}, 1, 0) DESC" }
   }
 
-  has_finder :all, lambda { { :conditions => 'TRUE' }}
+  has_finder :all, lambda { { }}
   has_finder :first, lambda { { :limit => 1 }}
 
   # finder-chainer!!!
@@ -48,7 +51,7 @@ class Event < ActiveRecord::Base
   end
 
   has_finder :by_query, lambda {|query| 
-    unless query.empty?
+    if query && !query.empty?
       Event.verify_calendar_id( query )
       {:conditions => query }
     else
@@ -57,10 +60,11 @@ class Event < ActiveRecord::Base
   }
 
   def self.verify_calendar_id(query)
-    return query unless permalink = query.delete(:permalink) 
-    if calendar_id = Site.current.calendars.inject(nil) { |memo, c| memo ||= ( c.permalink == permalink ? c.id : memo ) }
-      query[:calendar_id] = calendar_id
+    return query unless permalink = query.delete(:permalink) || calendar_id = query.delete(:calendar_id)
+    if permalink 
+      calendar_id ||= Site.current.calendars.inject(nil) { |memo, c| memo ||= ( c.permalink == permalink ? c.id : memo ) }
     end
+    query[:calendar_id] = Calendar.find(calendar_id).calendar_ids + [ calendar_id ]
   end
 
   def state_is_canadian_province?

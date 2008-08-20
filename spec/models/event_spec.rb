@@ -61,6 +61,13 @@ describe Event do
       Event.by_query({}).prioritize(:first_category => cat.id ).first.should == categorized
     end
 
+    it "works with child calendars" do
+      parent_calendar = create_calendar
+      parent_calendar.calendars << @event.calendar
+      parent_calendar.save!
+      Event.by_query( :calendar_id => parent_calendar.id ).should include(@event)
+    end
+
     it "works on the calendar association" do
       other_cal_event = create_event
       @event.calendar.events.prioritize(nil).should_not include( other_cal_event )
