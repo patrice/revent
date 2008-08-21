@@ -67,7 +67,7 @@ describe Report do
         File.exist?(@report.attachments(true).first.full_filename).should be_true
       end
       it "should create multiple attachments" do
-        @report = new_report(:attachment_data => {'0' => {:caption => 'attachment 0', :uploaded_data => @uploaded_data}, '1' => {:caption => 'attachment 1', :uploaded_data => @uploaded_data}})
+        @report = new_report(:attachment_data => {'0' => {:caption => 'attachment 0', :uploaded_data => test_uploaded_file}, '1' => {:caption => 'attachment 1', :uploaded_data => test_uploaded_file}})
         @report.make_local_copies!
         @report.move_to_temp_files!
         @report.save
@@ -249,6 +249,15 @@ describe Report do
       it "rescues XMLRPC errors" do
         @flickr_api.stub!(:photos).and_raise( XMLRPC::FaultException.new( "problem", "yeah" ) )
         lambda{ @report.send_attachments_to_flickr }.should_not raise_error
+      end
+    end
+
+    describe 'email trigger' do
+      it "delivers a trigger if the calendar has no triggers but the site does" do
+        TriggerMailer.should_receive(:deliver_trigger)
+        @site.stub!(:triggers).and_return(stub('triggers', :any? => true, :find_by_name => true ))
+        @report = new_report(:event => @event)
+        @report.trigger_email
       end
     end
   end

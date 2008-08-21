@@ -19,7 +19,7 @@ class Report < ActiveRecord::Base
   def trigger_email
     calendar = self.event.calendar
     if calendar.report_dia_trigger_key.blank?
-      if calendar.triggers.any?
+      if calendar.triggers.any? || Site.current.triggers.any?
         trigger = calendar.triggers.find_by_name("Report Thank You") || Site.current.triggers.find_by_name("Report Thank You")
         require 'ostruct'
         reporter = OpenStruct.new(:name => self.reporter_name, :email => self.reporter_email)
