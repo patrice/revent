@@ -2,6 +2,8 @@
   @event.start = "9/27/2008".to_time.beginning_of_day + 12.hours
   @event.end = @event.start + 2.hours 
   @hostform = @calendar.hostform
+  organizations = [] #just add some orgs, like this: organizations = ['some org', 'other org']
+  @event.organization = organizations.first
 -%>
 
 <h1>
@@ -142,8 +144,10 @@
                 <div align="left">Sponsoring Organization:</div>
               </td>
               <td valign="top">
-                  <%= f.text_field "organization", :title => "Please enter your event's sponsoring organization", :style => "background-color: #ebd897;", :id => "dataOrganization" %>
-               </td>
+                <% if organizations.any? %>
+                  <%= select_tag "organization_select", organizations.inject('') {|options, organization| options << "<option>#{organization}</option>"} + "<option>Other</option>", {:id => "organization_select"} %>
+                <% end %>
+                <%= f.text_field "organization", :title => "Please enter your event's sponsoring organization", :id => "dataOrganization" %>
               </td>
             </tr>
             <tr valign="top">
@@ -264,6 +268,19 @@
 				<%= javascript_include_tag "validation.js" %>
         <script type="text/javascript" language="javascript">
           var valid = new Validation("event-signup-form", {useTitles : true});
+          <% if organizations.any? %>
+          $('organization_select').observe('change', 
+              function(ev) { 
+                var org_select = Event.element(ev);
+                $('dataOrganization').value = org_select.value;
+                if (org_select.value == 'Other') {
+                  $('dataOrganization').show();
+                } else {
+                  $('dataOrganization').hide();
+                }
+              });
+          $('dataOrganization').hide();
+          <% end %>
         </script>
         </p>
       </div>
