@@ -60,6 +60,13 @@ if (window.addEventListener) {
         <tr>
           <td id="shadowboxlefttd"><img src="http://workingfilms.org/img/layout/shadow-top-left.jpg" /></td>
           <td><div id="content">
+              <%= 
+#                  if File.exists?(File.join(RAILS_ROOT, theme_image_path("#{@calendar.permalink}_header.jpg")))
+#                    theme_image_tag("#{@calendar.permalink}_header.jpg")
+#                  else
+#                    theme_image_tag("default_header.jpg")
+#                  end
+              %>
               <div id="leftfilmbluetop"><img src="http://workingfilms.org/img/layout/leftfilmbluetop.jpg" /></div>
               <div id="leftfilmbluebottom"><img src="http://workingfilms.org/img/layout/leftfilmbluebottom.jpg" /></div>
               <div id="contentbox">
