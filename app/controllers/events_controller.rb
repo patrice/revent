@@ -244,7 +244,10 @@ class EventsController < ApplicationController
   def index
     redirect_to( :permalink => @calendar.permalink, :controller => 'calendars', :action => 'show' ) and return unless params[:query]
 
-    @events = @calendar.events.prioritize(params[:sort]).searchable.by_query(params[:query]).paginate(:all, :page => params[:page] || 1, :per_page => params[:per_page] || Event.per_page)
+    origin = params[:query].delete(:origin) || params[:query].delete(:zip)
+    options = origin ? {:origin => origin, :within => 50, :order => 'distance'} : {}
+    options.merge!(:page => params[:page] || 1, :per_page => params[:per_page] || Event.per_page)
+    @events = @calendar.events.prioritize(params[:sort]).searchable.by_query(params[:query]).paginate(:all, options)
     respond_to do |format|
       format.xml { render :xml => @events }
       format.json { render :json => @events }
