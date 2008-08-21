@@ -250,7 +250,13 @@ class EventsController < ApplicationController
     @events = @calendar.events.prioritize(params[:sort]).searchable.by_query(params[:query]).paginate(:all, options)
     respond_to do |format|
       format.xml { render :xml => @events }
-      format.json { render :json => @events }
+      format.json { 
+        if params[:callback]
+          render :json => "Event.observe( window, 'load', function() { #{params[:callback]}(#{@events.to_json( :methods => :start_date )}, '#{params[:target]}'); });"
+        else
+          render :json => @events 
+        end
+      }
     end
   end
   

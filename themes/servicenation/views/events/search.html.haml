@@ -1,0 +1,50 @@
+= render :partial => 'nav'
+#event-container
+  #event-list-intro
+    .event-list-intro-title
+      = @calendar.name.pluralize
+      = @search_area
+    .event-list-intro-results
+      Found
+      = pluralize @events.length, (@category ? @category.name : @calendar.name)
+      %br/
+      - if @categories and not @categories.empty?
+        - form_tag :permalink => @calendar.permalink, :controller => 'events', :action => 'search', :zip => params[:zip] do
+          View:
+          = select_tag 'category', options_for_select(@categories, (@category and @category.id))
+          = submit_tag 'Go'
+
+  #event-map-container
+    #eventmap{ :style => "width: 430px; height: 290px; border: 7px solid #ccc; margin-left:15px;" }
+    = @map.to_html
+    = gmaps_auto_center_and_zoom(@map) if @auto_center
+
+  - current, past = @events.partition{|e| e.start > Time.now.at_midnight}
+  -#- past = @events.select {|e| e.start <  Time.now.at_midnight}
+  - unless current.empty?
+    #event-list-container
+      %b Upcoming Events:
+      %br/
+      = render :partial => "report", :collection => current
+
+  #partner-events
+    - partner_domain = "http://greenforall.local_revent.org"
+    = javascript_include_tag "#{partner_domain}/javascripts/widgets.js"
+    = javascript_include_tag "#{partner_domain}/events/index.json?query[state]=#{params[:state]}&callback=rEvent.display.list&target=partner-events-list"
+    %h4 Upcoming events hosted by our partner Green Jobs Now
+    #partner-events-list
+      = link_to "Green Jobs Events", "#{partner_domain}/events/category/16"
+
+  - unless past.empty?
+    #event-list-container
+      %b Past Events:
+      %br/
+      = render :partial => "report", :collection => past
+
+  #event-map-footer
+    = link_to 'Click here',  :permalink =>  @calendar.permalink, :controller => 'calendars', :action => 'show'
+    to go back to the national map and see all the
+    = @calendar.name.pluralize.downcase
+    across the country.
+
+  #event-list-footer
