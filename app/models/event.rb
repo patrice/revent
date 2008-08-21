@@ -44,6 +44,8 @@ class Event < ActiveRecord::Base
   has_finder :all, lambda { { }}
   has_finder :first, lambda { { :limit => 1 }}
 
+  has_finder :upcoming, :conditions => ["end >= ?", Time.now], :order => 'start, state'
+
   # finder-chainer!!!
   def self.prioritize(sort)
     return self.all if sort.nil?

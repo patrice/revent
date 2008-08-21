@@ -96,10 +96,10 @@ class EventsController < ApplicationController
   def upcoming
     respond_to do |format|
       format.html do 
-        @events = @calendar.events.searchable.paginate(:all, :conditions => ["start > ?", Time.now], :order => 'start, state', :page => params[:page])
+        @events = @calendar.events.searchable.upcoming.paginate(:page => params[:page])
       end
       format.xml do 
-        @events = @calendar.events.searchable.find(:all, :conditions => ["end >= ?", Time.now], :order => "start, state")
+        @events = @calendar.events.searchable.upcoming
         render :action => 'upcoming.rxml', :layout => false
       end
     end
