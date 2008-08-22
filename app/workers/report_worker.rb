@@ -1,6 +1,6 @@
-require 'user'
-require 'democracy_in_action_object'
-require 'press_link'
+require_dependency 'user'
+require_dependency 'democracy_in_action_object'
+require_dependency 'press_link'
 
 class ReportWorker < Workling::Base
   def save_report(report)
