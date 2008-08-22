@@ -11,7 +11,7 @@ describe ReportSweeper do
   end
   describe "on create" do
     before do 
-      Site.current = stub('site', :id => 1, :salesforce_enabled? => false)
+      Site.current = new_site(:id => 1)
       @event = create_event
       permalink = @event.calendar.permalink
       @urls = [ 

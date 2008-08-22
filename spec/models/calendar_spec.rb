@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper.rb'
 describe Calendar do 
   describe 'when created' do
     before do 
-      Site.current = stub('site_stub', :salesforce_enabled? => false, :id => 777)
+      Site.current = new_site(:id => 777)
       @calendar = create_calendar
       @event = create_event :calendar => @calendar
       @report = create_report :event => @event, :status => 'published'
@@ -66,7 +66,7 @@ describe Calendar do
 
   describe 'featured' do 
     before do
-      Site.current = stub('site_stub', :salesforce_enabled? => false, :id => 777)
+      Site.current = new_site(:id => 777)
       @calendar = create_calendar
       @event = create_event :calendar => @calendar
       @featured_report = create_report(:featured => true, :event => @event)
