@@ -28,6 +28,9 @@ class EventSweeper < ActionController::Caching::Sweeper
   def expire_event_permalink_list_pages(permalink="")
     FileUtils.rm(File.join(ActionController::Base.page_cache_directory,permalink,'events','search','state',"#{event.state}.html")) rescue Errno::ENOENT
     FileUtils.rm(File.join(ActionController::Base.page_cache_directory,permalink,'events','flashmap.xml')) rescue Errno::ENOENT
+    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,permalink,'events','total.js')) rescue Errno::ENOENT
+    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,permalink,'events','total.html')) rescue Errno::ENOENT
+    Cache.delete("site_#{Site.current.id}_all_events_version")
     if permalink
       FileUtils.rm(File.join(ActionController::Base.page_cache_directory,"#{permalink}.html")) rescue Errno::ENOENT
       FileUtils.rm(File.join(ActionController::Base.page_cache_directory,"#{permalink}",'calendars','show.html')) rescue Errno::ENOENT
