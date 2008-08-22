@@ -252,7 +252,7 @@ class EventsController < ApplicationController
       format.xml { render :xml => @events }
       format.json { 
         if params[:callback]
-          render :json => "Event.observe( window, 'load', function() { #{params[:callback]}(#{@events.to_json( :methods => :start_date )}, '#{params[:target]}'); });"
+          render :json => "Event.observe( window, 'load', function() { #{params[:callback]}(#{@events.to_json( :methods => [ :start_date, :segmented_date ] )}, '#{params[:target]}'); });"
         else
           render :json => @events 
         end

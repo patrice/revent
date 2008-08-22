@@ -299,6 +299,10 @@ class Event < ActiveRecord::Base
     self.start.strftime("%B %d, %Y")
   end
   
+  def segmented_date
+    Hash[*([ :month, :day, :year, :month_name ].zip(self.start.strftime("%m %d %Y %B").split)).flatten]
+  end
+  
   def start_time
     self.start.strftime("%I:%M%p").downcase
   end
