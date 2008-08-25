@@ -27,14 +27,6 @@
       %br/
       = render :partial => "report", :collection => current
 
-  #partner-events
-    - partner_domain = "http://greenforall.local_revent.org"
-    = javascript_include_tag "#{partner_domain}/javascripts/widgets.js"
-    = javascript_include_tag "#{partner_domain}/events/index.json?query[state]=#{params[:state]}&callback=rEvent.display.list&target=partner-events-list"
-    %h4 Upcoming events hosted by our partner Green Jobs Now
-    #partner-events-list
-      = link_to "Green Jobs Events", "#{partner_domain}/events/category/16"
-
   - unless past.empty?
     #event-list-container
       %b Past Events:

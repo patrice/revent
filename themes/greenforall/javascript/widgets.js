@@ -32,9 +32,9 @@ rEvent.display = ( function() {
         container.innerHTML = '';
       }
       if( items.length > 0 ) {      
-        var introtext = $(document.createElement('div')).addClassName('intro-text').update( 'Join our partners at Green for All for events in your area >>');
+        var introtext = $(document.createElement('div')).addClassName('intro-text').update( 'Join our partners at Service Nation for events in your area >>');
         container.appendChild( introtext );
-      }      
+      }
       items.each( function(item) {
         container.appendChild( rEvent.display.item( item ) );
       } );

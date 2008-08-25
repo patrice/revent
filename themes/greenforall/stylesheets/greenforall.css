@@ -31,3 +31,68 @@ a.tiny {
 color: #000000;
 font-size: 10px;
 }
+#partner-events-list {
+font-size: 12px;
+padding: 2px 0 2px 0;
+margin: 0;
+}
+#parnter-events .intro-text { 
+  margin: 0 0 15px 0;
+  display: block;
+}
+#partner-events-list h4 {
+font-size: 
+padding: 2px 0 2px 0;
+margin: 0;
+font-weight: normal;
+color: #666666;
+display: inline;
+}
+#partner-events-list {
+margin: 5px 0 5px 0;
+}
+#partner-events-list .revent_location {
+  color: #639431;
+margin: 5px 0 0 0;
+font-weight: bold;
+}
+#partner-events-list .revent_location a {
+  color: #639431;
+font-weight: bold;
+}
+#partner-events-list .revent_date { 
+  display: inline;
+  margin: 0 0 0 5px;
+color: #666666;
+}
+.revent_total {  
+height: 44px;
+width: 779px;
+background: url(/themes/greenforall/images/counter-design-bg_03.gif) top left no-repeat;
+}
+.revent-total-count { 
+display: block;
+color: #990000;
+font-size: 28px;
+font-weight: bold;
+float: left;
+margin: 10px 0px 0px 85px;
+width: 100px;
+}
+.revent-total-state { 
+display: block;
+color: #990000;
+font-size: 28px;
+font-weight: bold;
+float: left;
+margin: 10px 0px 0px 185px;
+width: 100px;
+}
+#event-container {
+width: 500px;
+float: left;
+}
+#event-left-nav { 
+width: 220px;
+float: left;
+}
