@@ -15,6 +15,8 @@ ActionController::Routing::Routes.draw do |map|
 
 #  raise Calendar.find(:first).inspect => WORKS!!!
   map.home '', :controller => 'calendars', :action => 'show', :format => 'html'
+  map.connect "logged_exceptions/:action/:id", :controller => "logged_exceptions"
+  map.connect "logged_exceptions/:action.:format", :controller => "logged_exceptions"
   map.connect 'crossdomain.xml', :controller => 'cross_domain', :format => 'xml'
 
   map.connect ':permalink/invites/flashmap/pois', :controller => 'invites', :action => 'flashmap_pois'

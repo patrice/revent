@@ -2,7 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
-  include ExceptionNotifiable
+  include ExceptionLoggable
   before_filter :login_from_cookie
   session :session_key => '_daysofaction_session_id'
 #  session :off, :if => Proc.new { |req| !(true == req.parameters[:admin]) }
@@ -49,19 +49,16 @@ class ApplicationController < ActionController::Base
     site.theme if site
   end
 
-  def render_404
-    if File.exists?(file = File.join(Theme.path_to_theme(current_theme), '404.html'))
-      render :file => file, :status => "404 Not Found"
+  def render_optional_error_file(status_code)
+    status = interpret_status(status_code)
+    theme_path = File.join(Theme.path_to_theme(current_theme), "#{status[0,3]}.html")
+    path = "#{RAILS_ROOT}/public/#{status[0,3]}.html"
+    if File.exist?(theme_path)
+      render :file => theme_path, :status => status
+    elsif File.exist?(path)
+      render :file => path, :status => status
     else
-      render :file => "#{RAILS_ROOT}/public/404.html", :status => "404 Not Found"
-    end
-  end
-
-  def render_500
-    if File.exists?(file = File.join(Theme.path_to_theme(current_theme), '500.html'))
-      render :file => file, :status => "500 Error"
-    else
-      render :file => "#{RAILS_ROOT}/public/500.html", :status => "500 Error"
+      head status
     end
   end
 end

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 85) do
+ActiveRecord::Schema.define(:version => 86) do
 
   create_table "attachments", :force => true do |t|
     t.string   "content_type"
@@ -178,6 +178,17 @@ ActiveRecord::Schema.define(:version => 85) do
     t.string  "redirect"
     t.integer "calendar_id"
     t.integer "site_id"
+  end
+
+  create_table "logged_exceptions", :force => true do |t|
+    t.string   "exception_class"
+    t.string   "controller_name"
+    t.string   "action_name"
+    t.text     "message"
+    t.text     "backtrace"
+    t.text     "environment"
+    t.text     "request"
+    t.datetime "created_at"
   end
 
   create_table "politician_invites", :force => true do |t|
