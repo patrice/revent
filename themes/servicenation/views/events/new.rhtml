@@ -114,17 +114,6 @@
       <div id="eventFields" class="eventFields">
         <table class="dia_field">
           <tbody>
-				<% if @categories.any? -%>
-			  		<tr valign="top">
-	              <td valign="top"  class="dia_field_name">
-	                <div align="left">*Event Type:</div>
-	              </td>
-	              <td valign="top">
-	                <%= f.select "category_id", @categories, {:include_blank => true}, {:title => "Please select your event type", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEvent_Category_Id" } %>
-	              </td>
-	            </tr>
-				<% end -%>
-
             <tr valign="top">
               <td valign="top"  class="dia_field_name">
                 <div align="left">*Event Name:</div>
@@ -148,6 +137,14 @@
                   <%= select_tag "organization_select", organizations.inject('') {|options, organization| options << "<option>#{organization}</option>"} + "<option>Other</option>", {:id => "organization_select"} %>
                 <% end %>
                 <%= f.text_field "organization", :title => "Please enter your event's sponsoring organization", :id => "dataOrganization" %>
+              </td>
+            </tr>
+            <tr valign="top">
+              <td valign="top"  class="dia_field_name">
+                <div align="left">This is a Green Jobs event:</div>
+              </td>
+              <td valign="top">
+                <%= f.check_box 'category_id', {}, '17', nil %>
               </td>
             </tr>
             <tr valign="top">

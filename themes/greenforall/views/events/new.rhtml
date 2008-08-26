@@ -139,17 +139,6 @@
       <div id="eventFields" class="eventFields">
         <table class="dia_field">
           <tbody>
-				<% if @categories.any? -%>
-			  		<tr valign="top">
-	              <td valign="top"  class="dia_field_name">
-	                <div align="left">*Event Type:</div>
-	              </td>
-	              <td valign="top">
-	                <%= f.select "category_id", @categories, {:include_blank => true}, {:title => "Please select your event type", :class => "required validate-selection",  :size => "1", :id => "dataEvent_Category_Id" } %>
-	              </td>
-	            </tr>
-				<% end -%>
-
             <tr valign="top">
               <td valign="top"  class="dia_field_name">
                 <div align="left">*Event Name:</div>
@@ -163,6 +152,14 @@
                 <div align="left">*Description:<br />                  
                   <%= f.text_area "description", :title => "Please enter your event's description", :class => "required", :rows => "7", :cols => "57",  :id => "dataDescription" %>
                 </div>
+              </td>
+            </tr>
+            <tr valign="top">
+              <td valign="top"  class="dia_field_name">
+                <div align="left">This is a Service Nation event:</div>
+              </td>
+              <td valign="top">
+                <%= f.check_box 'category_id', {}, '16', nil %>
               </td>
             </tr>
             <tr valign="top">
