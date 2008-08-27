@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
 describe Event do 
-  before(:each) do
-    Site.stub!(:current).and_return(stub(Site, :id => 1, :salesforce_enabled? => false))
+  before do
+    Site.current = new_site(:id => 1)
     Site.stub!(:current_config_path).and_return(File.join(RAILS_ROOT, 'test', 'config'))
 
     # mock geocoder
@@ -148,7 +148,8 @@ describe Event do
 
   describe 'when destroyed' do
     before do
-      Site.stub!(:current).and_return(stub(Site, :salesforce_enabled? => true))
+      Site.current = new_site
+      Site.current.stub!(:salesforce_enabled?).and_return(true)
       SalesforceWorker.stub!(:async_save_event).and_return(true)
 
       @salesforce_object = stub('sf_object', :remote_id => '444HHH', :destroy => true)
