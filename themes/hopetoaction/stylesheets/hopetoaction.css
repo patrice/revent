@@ -29,3 +29,6 @@ ul {
 #plinks { width: 420px; }
 .report-nav {margin-top: 8px; }
 
+.block-block .content h2 { 
+text-align: center;
+}

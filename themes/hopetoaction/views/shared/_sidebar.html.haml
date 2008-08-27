@@ -15,17 +15,18 @@
             - if @controller.action_name == "show"
               %h2 ATTEND AN ECOSALON
               %br
-              Need to RSVP? Looking for an EcoSalon open to the public to attend? Just
-              enter your zip code to find your EcoSalon now! Or click on your state to
-              zoom in on the map. If the EcoSalon you are invited to isn't listed, just
-              click on the link from the email invitation to RSVP.
+              If you would like to attend an EcoSalon in your area, just click on your state to 
+              zoom in on the map or enter your zip code to locate an EcoSalon open to the public near you.  
+              %p
+              If you have already been invited to an EcoSalon and wish to RSVP, you can locate your EcoSalon 
+              here or respond to the email sent to you by your host.
           - when "events"
             - case @controller.action_name
             - when "new"
               %h2 CO-HOST YOUR ECOSALON
               %br
-              You don't have to plan and host your EcoSalon on your own! Save time and
-              have fun by co-hosting your EcoSalon with a friend.
+              Consider co-hosting an EcoSalon with a friend.  Just enter one of your names in the sign-up form here.  
+              Then edit the invitation text to include both your names to let your guests know that you'll be hosting it together. 
             - when "search"
               %h2 ATTEND AN ECOSALON
               %br
@@ -44,9 +45,9 @@
             - if @controller.action_name == "login"
               %h2 HELPFUL RESOURCES
               %br
-              Don't forget to check our Resources section, which can give you great ideas
-              on how to organize your EcoSalon! Find party plans, a guide to taking
-              action, our Hope to Action video, and more!
+              Don't forget to check our <a href="http://hopetoaction.org/ecosalon/party/resources">Resources</a> section, 
+              which can give you great ideas on how to organize your EcoSalon! 
+              Find party plans, a guide to taking action, our Hope to Action video, and more! 
           - when "account/events"
             - case @controller.action_name 
             - when "index"
@@ -58,18 +59,17 @@
             - when "show"
               %h2 REFRESHMENT TIPS
               %br
-              Eco-friendly food and drink will fuel thoughtful conversation and satisfied
-              guests!
+              Eco-friendly food and drink will fuel thoughtful conversation and satisfied guests! 
+              Buy locally produced organic foods.
               %ul
-                %li Buy locally produced organic foods.
                 %li Use glass bottles and pitchers instead of plastic.
                 %li Avoid unnecessary packaging.
                 %li Use cloth napkins instead of paper.
               %br
               %h2 PARTY FAVOR TIPS
               %br
-              Consider Eco party favors for your guests to encourage them to take action
-              with you! You'll find great ideas in the EcoGift Guide like:
+              Consider Eco party favors for your guests to encourage them to take action with you! 
+              You'll find great ideas in the EcoGift Guide like:  
               %ul
                 %li Lightbulbs
                 %li Reusable bags
@@ -77,8 +77,7 @@
           - else 
             %h2 ECOSALON
             %br
-            EcoSalon is a grassroots outreach initiative that offers women a fun and
-            simple way to directly influence their communities to learn about climate
-            change, why it is important, and how to take action. Bring the EcoSalon
-            experience to your city and join the nationwide movement of women for
-            climate protection!
+            EcoSalon is a grassroots outreach initiative that offers women a fun and simple way to directly 
+            influence their communities to learn about climate change, why it is important, and how to take 
+            action. Bring the EcoSalon experience to your city and join the nationwide movement of women 
+            for climate protection! 
