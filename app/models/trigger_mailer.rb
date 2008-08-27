@@ -20,6 +20,8 @@ class TriggerMailer < ActionMailer::Base
     tokens['[EVENT_START_DATE]'] = event.start_date
     tokens['[EVENT_START_TIME]'] = event.start_time
     tokens['[HOST_NAME]'] = event.host.name || 'the event host'
+    tokens['[HOST_FIRST_NAME]'] = event.host.first_name || 'the event host'
+    tokens['[HOST_LAST_NAME]'] = event.host.last_name
     tokens['[HOST_EMAIL]'] = event.host.email
     permalink = event.calendar.permalink
     tokens['[SIGNUP_LINK]'] = signup_url(:host => host, :permalink => permalink)
