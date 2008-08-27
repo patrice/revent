@@ -76,11 +76,12 @@ font-size: 12px;
 padding: 2px 0 2px 0;
 margin: 0;
 }
-#parnter-events .intro-text { 
+#partner-events-list .intro-text { 
   margin: 0 0 15px 0;
   display: block;
-  font-size: 14px;
-
+  font-size: 16px;
+  color: #00568c;
+  font-weight:bold;
 }
 #partner-events-list h4 {
 font-size: 
@@ -106,4 +107,8 @@ font-weight: bold;
   display: inline;
   margin: 0 0 0 5px;
 color: #666666;
+}
+.partner-event-item {
+padding: 0 0 0 16px; 
+background: url('http://www.greenjobsnow.com/green_arrow_build_2_0.gif') top left no-repeat; 
 }

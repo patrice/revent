@@ -4,7 +4,7 @@ rEvent.display = ( function() {
   var self =  {
     url: "http://servicenation.e.zheng.radicaldesigns.org/greenforall/events/show/",
     item: function( item ) {
-      var item_container = $(document.createElement('div'));
+      var item_container = $(document.createElement('div').addClassName('partner-event-item'));
       if ( !(item.category === undefined)) {
         item_container.addClassName('category_'+item.category); 
       }
@@ -32,7 +32,7 @@ rEvent.display = ( function() {
         container.innerHTML = '';
       }
       if( items.length > 0 ) {      
-        var introtext = $(document.createElement('div')).addClassName('intro-text').update( 'Join our partners at Green for All for events in your area >>');
+        var introtext = $(document.createElement('div')).addClassName('intro-text').update( 'Join our partners at Service Nation for events in your area >>');
         container.appendChild( introtext );
       }      
       items.each( function(item) {

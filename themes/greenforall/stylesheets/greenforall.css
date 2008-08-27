@@ -63,7 +63,7 @@ font-weight: bold;
 #partner-events-list .revent_date { 
   display: inline;
   margin: 0 0 0 5px;
-color: #666666;
+  color: #666666;
 }
 .revent_total {  
 height: 44px;
@@ -96,3 +96,44 @@ float: left;
 width: 220px;
 float: left;
 }
+#upcoming-events-list {
+font-size: 12px;
+padding: 2px 0 2px 0;
+margin: 0;
+}
+#parnter-events .intro-text { 
+  margin: 0 0 15px 0;
+  display: block;
+}
+
+#upcoming-events-list {
+  font-size: 12px;
+  padding: 2px 0 2px 0;
+  margin: 0;
+}
+#upcoming-events-list h4 {
+font-size: 
+padding: 2px 0 2px 0;
+margin: 0;
+font-weight: normal;
+color: #666666;
+display: inline;
+}
+#upcoming-events-list {
+margin: 5px 0 5px 0;
+}
+#upcoming-events-list .revent_location {
+  color: #639431;
+margin: 5px 0 0 0;
+font-weight: bold;
+}
+#upcoming-events-list .revent_location a {
+  color: #639431;
+font-weight: bold;
+}
+#upcoming-events-list .revent_date { 
+  display: inline;
+  margin: 0 0 0 5px;
+color: #666666;
+}
+
