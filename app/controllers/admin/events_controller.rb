@@ -1,9 +1,9 @@
 class Admin::EventsController < AdminController
   active_scaffold :events do |config|
   	config.list.columns =  
-  	    [:start, :name, :city, :state, :latitude, :longitude, :host, :category, :private, :rsvps, :reports, :calendar]
+  	    [:start, :created_at, :name, :city, :state, :latitude, :longitude, :host, :category, :private, :rsvps, :reports, :calendar]
   	config.show.columns =  
-  	    [:start, :end, :name, :description, :directions, :location, :city, :state, :postal_code, :latitude, :longitude, :host, :private, :tags, :category, :reports, :calendar]
+  	    [:start, :end, :created_at, :name, :description, :directions, :location, :city, :state, :postal_code, :latitude, :longitude, :host, :private, :tags, :category, :reports, :calendar]
   	config.update.columns =  
   	    [:start, :name, :description, :directions, :location, :city, :state, :postal_code, :private]
   	config.actions.exclude :create
