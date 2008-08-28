@@ -57,14 +57,14 @@ class Admin::EventsController < AdminController
     string = FasterCSV.generate do |csv|
       csv << ["Event ID", "Event Name", "Start Date", "Start Time", "Address", "City", "State", 
        	      "Postal Code", "District", "Host Name", "Host Email", "Host Phone", 
-	            "Host Address", "High Attendees", "Low Attendees", "Average Attendees", "Organized/Sponsored by"]
+	            "Host Address", "High Attendees", "Low Attendees", "Average Attendees", "Organized/Sponsored by", "Created At"]
       @events.each do |event|
         host = event.host
         csv << [event.id, event.name, event.start.strftime("%m/%d/%Y"), event.start_time, 
                 event.location, event.city, event.state, event.postal_code, event.district, 
                 (host ? host.full_name : nil), (host ? host.email : nil), (host ? host.phone : nil), 
                 (host ? host.address : nil), event.attendees_high, event.attendees_low, event.attendees_average,
-                event.organization]
+                event.organization, event.created_at]
       end
     end
     send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "#{@calendar.permalink}_events.csv")
