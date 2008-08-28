@@ -24,7 +24,7 @@
       &nbsp;Zip Code:  <%= text_field_tag 'zip', nil, :size=>10 %>
       <%= submit_tag "GO" %><br> 
       <b>OR</b> State:
-      <%= select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='/#{@calendar.permalink}/events/search/state/' + this.value" %>
+      <%= select_tag 'state', options_for_select(['--'] + DemocracyInAction::Helpers.state_options_for_select.map {|state| state[1]}), :onchange => "window.location.href='/#{@calendar.permalink}/events/search/state/' + this.value" %>
         <% end -%></td></tr></table>
     </div>
     <%= render :partial => "/calendars/flashmap" %>
