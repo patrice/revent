@@ -269,15 +269,15 @@
           $('organization_select').observe('change', 
               function(ev) { 
                 var org_select = Event.element(ev);
-                $('dataOrganization').value = org_select.value;
-                if (org_select.value == 'Other') {
+                $('dataOrganization').value = org_select.getValue();
+                if (org_select.getValue() == 'Other') {
                   $('dataOrganization').show();
                 } else {
                   $('dataOrganization').hide();
                 }
               });
           $('dataOrganization').hide();
-          $('dataOrganization').observe('click', function(event) {event.target.value=""});
+          $('dataOrganization').observe('click', function(event) {Event.element(event).value=""});
           <% end %>
         </script>
         </p>
