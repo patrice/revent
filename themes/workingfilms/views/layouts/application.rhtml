@@ -60,22 +60,23 @@ if (window.addEventListener) {
         <tr>
           <td id="shadowboxlefttd"><img src="http://workingfilms.org/img/layout/shadow-top-left.jpg" /></td>
           <td><div id="content">
-              <%= 
-#                  if File.exists?(File.join(RAILS_ROOT, theme_image_path("#{@calendar.permalink}_header.jpg")))
-#                    theme_image_tag("#{@calendar.permalink}_header.jpg")
-#                  else
-#                    theme_image_tag("default_header.jpg")
-#                  end
-              %>
-              <div id="leftfilmbluetop"><img src="http://workingfilms.org/img/layout/leftfilmbluetop.jpg" /></div>
+                            <div id="leftfilmbluetop"><img src="http://workingfilms.org/img/layout/leftfilmbluetop.jpg" /></div>
               <div id="leftfilmbluebottom"><img src="http://workingfilms.org/img/layout/leftfilmbluebottom.jpg" /></div>
               <div id="contentbox">
-                <div id="contentpath"> <!-- BEGIN BREADCRUMB CODE -->
 
+                <!-- BEGIN BREADCRUMB CODE 
+ <div id="contentpath">
 <span class='breadcrumb'><a href="http://workingfilms.org/index.php" class='breadcrumb'>Home</a> &nbsp;&nbsp;<b>&#187;</b>&nbsp;&nbsp;<a href="http://workingfilms.org/article.php?list=type&type=4" class="breadcrumb">Films & Projects</a>&nbsp;&nbsp;<b>&#187;</b>&nbsp;&nbsp;Films & Projects
 </span>
-<br /><br /><!-- END BREADCRUMB CODE --></div>
-               
+<br /><br /> </div>END BREADCRUMB CODE -->
+               <%= 
+                 if File.exists?(File.join(RAILS_ROOT, theme_image_path("#{@calendar.permalink}_header.jpg")))
+                   theme_image_tag("#{@calendar.permalink}_header.jpg")
+                 else
+                   #theme_image_tag("default_header.jpg")
+                 end
+              %>
+
 
  <div id="pagecontent">
 								<% if flash[:notice] %>
