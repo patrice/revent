@@ -88,6 +88,15 @@ float: left;
 margin: 10px 0px 0px 185px;
 width: 100px;
 }
+.revent-total-countdown { 
+display: block;
+color: #990000;
+font-size: 28px;
+font-weight: bold;
+float: left;
+margin: 10px 0px 0px 285px;
+width: 100px;
+}
 #event-container {
 width: 500px;
 float: left;
