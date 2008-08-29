@@ -1,7 +1,7 @@
 class TriggerMailer < ActionMailer::Base
   def trigger(trigger, recipient, event, host=nil)
     host ||= Site.current.host
-    sub_tokens(trigger, event, host)
+    sub_tokens(trigger, event, host, recipient)
     @from                 = ["#{trigger.from_name} <#{trigger.from}>"]
     @headers["reply-to"]  = trigger.reply_to
     @recipients           = ["#{recipient.name} <#{recipient.email}>"]
@@ -11,7 +11,7 @@ class TriggerMailer < ActionMailer::Base
   end
 
   protected
-  def sub_tokens(trigger, event, host)                          
+  def sub_tokens(trigger, event, host, recipient)                          
     tokens = {}
     tokens['[EVENT_NAME]'] = event.name || 'this event'
     tokens['[EVENT_CITY]'] = event.city
@@ -23,6 +23,9 @@ class TriggerMailer < ActionMailer::Base
     tokens['[HOST_FIRST_NAME]'] = event.host.first_name || 'the event host'
     tokens['[HOST_LAST_NAME]'] = event.host.last_name
     tokens['[HOST_EMAIL]'] = event.host.email
+    tokens['[RECIPIENT_FIRST_NAME]'] = recipient.first_name
+    tokens['[RECIPIENT_LAST_NAME]'] = recipient.last_name
+    tokens['[RECIPIENT_NAME]'] = recipient.name
     permalink = event.calendar.permalink
     tokens['[SIGNUP_LINK]'] = signup_url(:host => host, :permalink => permalink)
     tokens['[EVENT_LINK]'] = url_for(:host => host, :permalink => permalink, :controller => 'events', :action => 'show', :id => event)
