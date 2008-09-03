@@ -32,7 +32,7 @@ rEvent.display = ( function() {
         container.innerHTML = '';
       }
       if( items.length > 0 ) {      
-        var introtext = $(document.createElement('div')).addClassName('intro-text').update( 'Join our partners at Green Jobs Now for events in your area >>');
+        var introtext = $(document.createElement('div')).addClassName('intro-text').update( 'If you are ready to help build a green economy, check out these events organized by our partners at Green Jobs Now >>');
         container.appendChild( introtext );
       }
       items.each( function(item) {
