@@ -2,7 +2,7 @@ if( rEvent === undefined ) { var rEvent = function() { return { }; }; }
 
 rEvent.display = ( function() {
   var self =  {
-    url: "http://servicenation.e.zheng.radicaldesigns.org/greenforall/events/show/",
+    url: "http://events.servicenation.org/greenforall/events/show/",
     item: function( item ) {
       var item_container = $(document.createElement('div').addClassName('partner-event-item'));
       if ( !(item.category === undefined)) {
