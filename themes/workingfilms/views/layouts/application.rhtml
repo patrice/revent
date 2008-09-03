@@ -70,7 +70,7 @@ if (window.addEventListener) {
 </span>
 <br /><br /> </div>END BREADCRUMB CODE -->
                <%= 
-                 if File.exists?(File.join(RAILS_ROOT, theme_image_path("#{@calendar.permalink}_header.jpg")))
+                 if File.exists?(File.join(RAILS_ROOT, theme_image_path("#{@calendar.permalink}_header.jpg").gsub(/\?\d+$/,'')))
                    theme_image_tag("#{@calendar.permalink}_header.jpg")
                  else
                    #theme_image_tag("default_header.jpg")
