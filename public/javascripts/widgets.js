@@ -4,8 +4,8 @@ rEvent.display = ( function() {
   var self =  {
     item: function( item ) {
       var item_container = $(document.createElement('div'));
-      if ( !(item.category === undefined)) {
-        item_container.addClassName('category_'+item.category); 
+      if ( !(item.category_id === null)) {
+        item_container.addClassName('category_'+item.category_id); 
       }
       var title = $(document.createElement('h4')).addClassName('revent_title title' ).update( item.name );
       var description = $(document.createElement('p')).addClassName('revent_desc desc').update( ( item.description || "" ) );

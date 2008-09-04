@@ -2,11 +2,11 @@ if( rEvent === undefined ) { var rEvent = function() { return { }; }; }
 
 rEvent.display = ( function() {
   var self =  {
-    url: "http://greenforall.e.zheng.radicaldesigns.org/greenforall/events/show/",
+    url: "http://events.greenjobsnow.com/greenforall/events/show/",
     item: function( item ) {
-      var item_container = $(document.createElement('div').addClassName('partner-event-item'));
-      if ( !(item.category === undefined)) {
-        item_container.addClassName('category_'+item.category); 
+      var item_container = $(document.createElement('div')).addClassName('partner-event-item');
+      if ( !(item.category_id === null )) {
+        item_container.addClassName('category_'+item.category_id); 
       }
       var location = $(document.createElement('div')).addClassName('revent_location location').update( '<a href="'+self.url+item.id+'">'+( item.city || "" ) + ", " + ( item.state || "" )+'</a>');
       var title = $(document.createElement('h4')).addClassName('revent_title title' ).update( item.name );

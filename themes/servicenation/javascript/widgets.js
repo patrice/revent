@@ -2,11 +2,11 @@ if( rEvent === undefined ) { var rEvent = function() { return { }; }; }
 
 rEvent.display = ( function() {
   var self =  {
-    url: "http://events.servicenation.org/greenforall/events/show/",
+    url: "http://events.servicenation.org/servicenation/events/show/",
     item: function( item ) {
-      var item_container = $(document.createElement('div').addClassName('partner-event-item'));
-      if ( !(item.category === undefined)) {
-        item_container.addClassName('category_'+item.category); 
+      var item_container = $(document.createElement('div')).addClassName('partner-event-item');
+      if ( !(item.category_id === null)) {
+        item_container.addClassName('category_'+item.category_id); 
       }
       var location = $(document.createElement('div')).addClassName('revent_location location').update( '<a href="'+self.url+item.id+'">'+( item.city || "" ) + ", " + ( item.state || "" )+'</a>');
       var title = $(document.createElement('h4')).addClassName('revent_title title' ).update( item.name );
@@ -32,7 +32,7 @@ rEvent.display = ( function() {
         container.innerHTML = '';
       }
       if( items.length > 0 ) {      
-        var introtext = $(document.createElement('div')).addClassName('intro-text').update( 'Join our partners at Service Nation for events in your area >>');
+        var introtext = $(document.createElement('div')).addClassName('intro-text').update( 'Check out these events from our partners at Service Nation.');
         container.appendChild( introtext );
       }      
       items.each( function(item) {
