@@ -46,6 +46,10 @@ class Event < ActiveRecord::Base
 
   has_finder :upcoming, :conditions => ["end >= ?", Time.now], :order => 'start, state'
 
+  has_finder :created_at, lambda { |order|
+    { :order => "created_at #{order =~ /desc/i ? 'DESC' : 'ASC'}" }
+  }
+
   # finder-chainer!!!
   def self.prioritize(sort)
     return self.all if sort.nil?

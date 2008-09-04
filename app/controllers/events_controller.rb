@@ -242,9 +242,9 @@ class EventsController < ApplicationController
   end
 
   def index
-    redirect_to( :permalink => @calendar.permalink, :controller => 'calendars', :action => 'show' ) and return unless params[:query]
+    redirect_to( :permalink => @calendar.permalink, :controller => 'calendars', :action => 'show' ) and return unless params[:query] || params[:sort]
 
-    origin = params[:query].delete(:origin) || params[:query].delete(:zip)
+    origin = params[:query].delete(:origin) || params[:query].delete(:zip) if params[:query]
     options = origin ? {:origin => origin, :within => 50, :order => 'distance'} : {}
     options.merge!(:page => params[:page] || 1, :per_page => params[:per_page] || Event.per_page)
     @events = @calendar.events.prioritize(params[:sort]).searchable.by_query(params[:query]).paginate(:all, options)
