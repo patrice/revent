@@ -45,9 +45,9 @@ class Admin::UsersController < AdminController
     @attribute_names = @users.inject([]) {|names, u| names << u.custom_attributes.map {|a| a.name }; names.flatten.compact.uniq }
     require 'fastercsv'
     string = FasterCSV.generate do |csv|
-      csv << ["Email", "First_Name", "Last_Name", "Phone", "Street", "Street_2", "City", "State", "Postal_Code", "Events_Hosting_IDS", "Events_Attending_IDS"] + @attribute_names
+      csv << ["Email", "First_Name", "Last_Name", "Phone", "Street", "Street_2", "City", "State", "Postal_Code", "Partner_Code", "Events_Hosting_IDS", "Events_Attending_IDS"] + @attribute_names
       @users.each do |user|
-        csv << [user.email, user.first_name, user.last_name, user.phone, user.street, user.street_2, user.city, user.state, user.postal_code] + [ user.event_ids.join(','), user.attending_ids.join(',') ] + @attribute_names.map {|a| user.custom_attributes_data.send(a.to_sym) }
+        csv << [user.email, user.first_name, user.last_name, user.phone, user.street, user.street_2, user.city, user.state, user.postal_code, user.partner_id] + [ user.event_ids.join(','), user.attending_ids.join(',') ] + @attribute_names.map {|a| user.custom_attributes_data.send(a.to_sym) }
       end
     end
     send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "#{Site.current.theme}_users.csv")

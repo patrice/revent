@@ -64,7 +64,7 @@ class Admin::EventsController < AdminController
                 event.location, event.city, event.state, event.postal_code, event.district, 
                 (host ? host.full_name : nil), (host ? host.email : nil), (host ? host.phone : nil), 
                 (host ? host.address : nil), event.attendees_high, event.attendees_low, event.attendees_average,
-                event.organization, event.created_at]
+                event.organization, event.created_at.to_s(:db)]
       end
     end
     send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "#{@calendar.permalink}_events.csv")
