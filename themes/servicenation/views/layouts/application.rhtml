@@ -86,9 +86,9 @@ background-image:url(http://events.servicenation.org/themes/servicenation/images
               <div style="border-bottom:1px solid #CBD8E8; margin:0px 7px 9px 15px; width:251px"><a href="http://bethechangeinc.org/servicenation/sntv"><img src="http://events.servicenation.org/themes/servicenation/images/2_20.jpg" width="251" height="51" /></a></div>      
               <script src="http://events.greenjobsnow.com/themes/greenforall/javascript/widgets.js" type="text/javascript"></script>
                  <% if !params[:state].blank? -%>
-                    <script src="http://events.greenjobsnow.com/events/index.json?query[state]=<%= params[:state] -%>&callback=rEvent.display.list&target=partner-events-list&per_page=6&sort[first_category]=16" type="text/javascript"></script>
+                    <script src="http://events.greenjobsnow.com/events/index.json?query[state]=<%= params[:state] -%>&callback=rEvent.display.list&target=partner-events-list&per_page=12&sort[first_category]=16" type="text/javascript"></script>
                  <% elsif !params[:zip].blank?  -%>
-                    <script src="http://events.greenjobsnow.com/events/index.json?query[origin]=<%= params[:zip] -%>&callback=rEvent.display.list&target=partner-events-list&per_page=6&sort[first_category]=16" type="text/javascript"></script>
+                    <script src="http://events.greenjobsnow.com/events/index.json?query[origin]=<%= params[:zip] -%>&callback=rEvent.display.list&target=partner-events-list&per_page=12&sort[first_category]=16" type="text/javascript"></script>
                  <% end -%>
 
                  <div id="partner-events">
