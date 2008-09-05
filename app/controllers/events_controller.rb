@@ -113,11 +113,7 @@ class EventsController < ApplicationController
     end
     @event_count = @calendar.events.count
     respond_to do |format|
-      format.js { 
-        html = escape_javascript(render_to_string(:layout => false).strip)
-        headers["Content-Type"] = "text/javascript; charset=utf-8"
-        render :text => "var revent_total_html = \"#{html}\"; document.write(revent_total_html);"
-      }
+      format.js { headers["Content-Type"] = "text/javascript; charset=utf-8" }
       format.html { render :layout => false }
     end
   end
