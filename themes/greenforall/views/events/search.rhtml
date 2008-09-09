@@ -25,6 +25,7 @@
 		past = @events.select {|e| e.start <  Time.now.at_midnight} %>	
 	<% unless current.empty? %>	
 	<div id="event-list-container">
+    Don't see an event in your area? <a href="http://events.greenjobsnow.com/greenforall/signup">Click here to host your own event.</a><br /><br />
 	 <b>Upcoming Events:</b><br>
     <%= render :partial => "report", :collection => current %>
 	</div>
