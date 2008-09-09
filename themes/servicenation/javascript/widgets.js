@@ -32,7 +32,7 @@ rEvent.display = ( function() {
         container.innerHTML = '';
       }
       if( items.length > 0 ) {      
-        var introtext = $(document.createElement('div')).addClassName('intro-text').update( 'Check out these events from our partners at Service Nation.');
+        var introtext = $(document.createElement('div')).addClassName('intro-text').update( 'If you want to celebrate the power of service, check out these great Day of Action events organized by our partner, ServiceNation!');
         container.appendChild( introtext );
       }      
       items.each( function(item) {
