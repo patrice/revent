@@ -6,6 +6,8 @@ describe EventSweeper do
     before do
       ActionController::Base.page_cache_directory = File.join(RAILS_ROOT,'tmp','cache')
       Site.stub!(:current).and_return new_site
+      # so sync to DIA does not happen
+      Site.stub!(:current_config_path).and_return('tmp')
       @calendar = new_calendar
       @permalink = @calendar.permalink
     end
