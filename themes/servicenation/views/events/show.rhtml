@@ -19,11 +19,19 @@
 
   <h2><%= white_list @event.name %></h2>
   <h3><%= white_list @event.city_state %></h3>
-  <% unless @event.category_id == 18 -%>
+
+  <% if @event.start -%>
     <p class="start">
-      <b><%= @event.start? ? @event.start.strftime('%B %e, %Y  %I:%M%p') : '?' %> to <%= @event.end? ? @event.end.strftime('%I:%M%p') : '?' %></b>
+      <b>
+        <%= @event.start.strftime('%B %e, %Y') %>
+        <% unless (@event.category_id == 18) -%>
+          <%= @event.start.strftime('%I:%M%p') %>
+          <%= @event.end.strftime('to %I:%M%p') if @event.end %>
+        <% end -%>
+      </b>
     </p>
   <% end -%>
+
   <% if @event.host -%>
     <h4>Hosted by <%= link_to @event.host.full_name, :action => :host, :id => @event %></h4>
     <% if @event.organization -%>
