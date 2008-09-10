@@ -129,7 +129,7 @@ class EventsController < ApplicationController
         m.controls = [:zoom, :large]
         m.zoom = 15
       end
-      @icon = Cartographer::Gicon.new(:image_url => '/images/green_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
+      @icon = Cartographer::Gicon.new(:image_url => 'http://s3.amazonaws.com/events.radicaldesigns.org/images/green_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
       @map.icons << @icon
       @marker = Cartographer::Gmarker.new( :position => [@event.latitude, @event.longitude], :icon => @icon.name, :click => '' )
       @map.markers << @marker
@@ -278,7 +278,7 @@ class EventsController < ApplicationController
       m.zoom = @map_zoom || 3
       m.controls = [:zoom, :large]
     end
-    @icon = Cartographer::Gicon.new(:image_url => '/images/green_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
+    @icon = Cartographer::Gicon.new(:image_url => 'http://s3.amazonaws.com/events.radicaldesigns.org/images/green_dot.png', :shadow_url => '', :width => 10, :height => 10, :anchor_x => 5, :anchor_y => 5)
     @map.icons << @icon
     @events.each do |e|
       marker = nil
