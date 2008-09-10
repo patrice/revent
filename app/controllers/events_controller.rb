@@ -62,7 +62,7 @@ class EventsController < ApplicationController
   end
 
   def flashmap
-    @events = @calendar.events.searchable.find(:all, :conditions => ["(latitude <> 0 AND longitude <> 0) AND (state IS NOT NULL AND state <> '') AND country_code = ?", Event::COUNTRY_CODE_USA])
+    @events = @calendar.events.searchable.find(:all, :conditions => ["(latitude <> 0 AND longitude <> 0) AND (state IS NOT NULL AND state <> '') AND country_code = ?", Event::COUNTRY_CODE_USA] )
     respond_to do |format|
       format.xml { render :layout => false }
     end
@@ -327,9 +327,9 @@ class EventsController < ApplicationController
     end    
     flash.now[:notice] = "Could not find postal code" and return unless @map_center
     if params[:category] and not params[:category] == "all"
-      @events = @calendar.events.searchable.find(:all, :origin => @map_center, :within => 50, :order => 'distance', :conditions => ['category_id = ?', params[:category]])
+      @events = @calendar.events.searchable.find(:all, :origin => @map_center, :within => 50, :order => 'distance', :conditions => ['category_id = ?', params[:category]], :include => :calendar )
     else
-      @events = @calendar.events.searchable.find(:all, :origin => @map_center, :within => 50, :order => 'distance')
+      @events = @calendar.events.searchable.find(:all, :origin => @map_center, :within => 50, :order => 'distance', :include => :calendar )
     end
     @map_zoom = 12
     @auto_center = true
@@ -358,9 +358,9 @@ class EventsController < ApplicationController
     end
     @search_area = "in #{params[:state]}"
     if params[:category] and not params[:category] == "all"
-      @events = @calendar.events.searchable.find(:all, :conditions => ["state = ? AND category_id = ?", params[:state], params[:category]])
+      @events = @calendar.events.searchable.find(:all, :include => :calendar, :conditions => ["state = ? AND category_id = ?", params[:state], params[:category]])
     else
-      @events = @calendar.events.searchable.find(:all, :conditions => ["state = ?", params[:state]])
+      @events = @calendar.events.searchable.find(:all, :include => :calendar, :conditions => ["state = ?", params[:state]])
     end
     @map_center = DaysOfAction::Geo::STATE_CENTERS[params[:state].to_sym]
     @map_zoom = DaysOfAction::Geo::STATE_ZOOM_LEVELS[params[:state].to_sym]

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 86) do
+ActiveRecord::Schema.define(:version => 87) do
 
   create_table "attachments", :force => true do |t|
     t.string   "content_type"
@@ -95,6 +95,8 @@ ActiveRecord::Schema.define(:version => 86) do
     t.integer "site_id"
   end
 
+  add_index "categories", ["calendar_id"], :name => "index_categories_on_calendar_id"
+
   create_table "custom_attributes", :force => true do |t|
     t.integer "user_id"
     t.string  "name"
@@ -160,8 +162,8 @@ ActiveRecord::Schema.define(:version => 86) do
 
   add_index "events", ["latitude", "longitude"], :name => "index_events_on_latitude_and_longitude"
   add_index "events", ["postal_code"], :name => "index_events_on_postal_code"
-  add_index "events", ["state", "city"], :name => "index_events_on_state_and_city"
   add_index "events", ["calendar_id"], :name => "index_events_on_calendar_id"
+  add_index "events", ["state", "city"], :name => "index_events_on_state_and_city"
 
   create_table "hostforms", :force => true do |t|
     t.string  "title"
@@ -179,6 +181,8 @@ ActiveRecord::Schema.define(:version => 86) do
     t.integer "calendar_id"
     t.integer "site_id"
   end
+
+  add_index "hostforms", ["calendar_id"], :name => "index_hostforms_on_calendar_id"
 
   create_table "logged_exceptions", :force => true do |t|
     t.string   "exception_class"
@@ -317,7 +321,7 @@ ActiveRecord::Schema.define(:version => 86) do
     t.string   "partner_redirect_url"
   end
 
-  add_index "sites", ["host"], :name => "index_sites_on_host"
+  add_index "sites", ["host"], :name => "index_sites_on_host", :unique => true
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id",        :default => 0,  :null => false
@@ -392,9 +396,9 @@ ActiveRecord::Schema.define(:version => 86) do
     t.datetime "updated_at"
   end
 
-  add_index "zip_codes", ["zip"], :name => "index_zip_codes_on_zip"
   add_index "zip_codes", ["latitude"], :name => "index_zip_codes_on_latitude"
   add_index "zip_codes", ["longitude"], :name => "index_zip_codes_on_longitude"
   add_index "zip_codes", ["latitude", "longitude"], :name => "index_zip_codes_on_latitude_and_longitude"
+  add_index "zip_codes", ["zip"], :name => "index_zip_codes_on_zip"
 
 end
