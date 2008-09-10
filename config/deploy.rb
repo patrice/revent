@@ -52,6 +52,7 @@ namespace :deploy do
 
   task :after_symlink, :roles => :app , :except => {:no_symlink => true} do
     invoke_command "ln -nfs #{shared_path}/public/attachments #{release_path}/public/attachments"
+    invoke_command "ln -nfs #{shared_path}/public/cache #{release_path}/public/cache"
     invoke_command "cd #{release_path} && rake theme_update_cache"
   end 
 end
