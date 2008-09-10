@@ -188,7 +188,7 @@
               </td>
               <td>
               <%= f.text_field "postal_code", :id => 'postal_code', :maxlength => "16", :size => "16", :style => "background-color: #ebd897;", :title => "Please enter your event's zip code", :class => "required inputStyle" %>&nbsp;&nbsp;
-              <span id="spinner" style="font-style: italic; font-size: 90%; display: none;"><%= image_tag 'spinner.gif' %> looking for nearby events</span></td>
+              <span id="spinner" style="font-style: italic; font-size: 90%; display: none;"><%= image_tag 'http://s3.amazonaws.com/events.servicenation.org/images/spinner.gif' %> looking for nearby events</span></td>
 				  <%= observe_field :postal_code,
 										 :on => 'blur',
 										 :update => 'nearbyEvents',
@@ -262,7 +262,7 @@
          <br><%= @hostform.pre_submit_text %>. <br>
         <%- end %>
         <br /><input type="submit" value="Submit" />
-				<%= javascript_include_tag "validation.js" %>
+				<%= javascript_include_tag "http://s3.amazonaws.com/events.servicenation.org/javascripts/validation.js" %>
         <script type="text/javascript" language="javascript">
           var valid = new Validation("event-signup-form", {useTitles : true});
           <% if organizations.any? %>
