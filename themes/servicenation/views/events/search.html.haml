@@ -6,7 +6,8 @@
       = @search_area
     .event-list-intro-results
       Found
-      = pluralize @events.length, (@category ? @category.name : @calendar.name)
+      = pluralize @events.length, (@category ? @category.name : @calendar.name) 
+      Events
       %br/
       - if @categories and not @categories.empty?
         -# form_tag :permalink => @calendar.permalink, :controller => 'events', :action => 'search', :zip => params[:zip] do
