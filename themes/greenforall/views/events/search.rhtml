@@ -144,7 +144,7 @@
   </table>
 
 <!-- end of  html ripped from greenjobnow.com -->
-     <script src="http://events.servicenation.org/themes/servicenation/javascript/widgets.js" type="text/javascript"></script>
+     <script src="http://s3.amazonaws.com/events.servicenation.org/themes/servicenation/javascript/widgets.js" type="text/javascript"></script>
     <% if !params[:state].blank? -%>
     <script src="http://events.servicenation.org/events/index.json?query[state]=<%= params[:state] -%>&callback=rEvent.display.list&target=partner-events-list&per_page=12&sort[first_category]=17" type="text/javascript"></script>
     <% elsif !params[:zip].blank?  -%>
