@@ -237,6 +237,26 @@ class EventsController < ApplicationController
     @host = @event.host
   end
 
+  def email_host
+    @event = @calendar.events.find(params[:id], :include => :host)
+    @host = @event.host
+    if request.post?
+      # if hidden text field set, likely bot request
+      return render(:action => 'show', :id => @event) unless params[:first_name].blank?
+      if params[:from_email] && params[:from_email ] =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
+        message = {
+          :from => "\"#{params[:from_name]}\" <#{params[:from_email]}>", 
+          :subject => params[:subject], 
+          :body => params[:body] }
+        UserMailer.deliver_message_to_host(message, host)
+        flash.now[:notice] = "Your email was sent."
+        render(:action => 'show', :id => @event)
+      else
+        flash.now[:notice] = "You must specify your email."
+      end
+    end
+  end
+
   def index
     redirect_to( :permalink => @calendar.permalink, :controller => 'calendars', :action => 'show' ) and return unless params[:query] || params[:sort]
 

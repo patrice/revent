@@ -84,4 +84,11 @@ class UserMailer < ActionMailer::Base
       end
     calendar ? calendar.admin_email : nil
   end  
+
+  def message_to_host(message, host)
+    @recipients = host.email
+    @from       = message[:from]
+    @subject    = message[:subject]
+    @body       = message[:body]
+  end
 end

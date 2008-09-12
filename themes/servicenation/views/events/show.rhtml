@@ -92,13 +92,15 @@
 <% end -%>
 <% end -%>
 
-  <p align="center" style="font-size: 14px; font-weight: bold;"><a href="#" onclick="window.open('http://democracyinaction.org/dia/api/event/email.jsp?event_KEY=<%= @event.democracy_in_action_key %>','','width=500,height=450'); return false;">Questions? Email the Host</a>
-	</p>
-
-<p></p>
-
+  <p align="center" style="font-size: 14px; font-weight: bold;">
+  <% if @event.democracy_in_action_key %>
+    <a href="#" onclick="window.open('http://democracyinaction.org/dia/api/event/email.jsp?event_KEY=<%= @event.democracy_in_action_key %>','','width=500,height=450'); return false;">Questions? Email the Host</a>
+  <% else %>
+    <%= link_to "Questions? Email the Host", {:action => 'email_host', :id => @event}, :popup => true %>
+  <% end -%>
+  </p>
+  
 <% unless @event.past? -%>
- 
 <%= render :partial => "rsvp", :locals => { :event => @event} %>
 <% end -%>
 <% if !@event.blogs.empty? -%>
