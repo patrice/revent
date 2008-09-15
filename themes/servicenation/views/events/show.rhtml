@@ -96,7 +96,7 @@
   <% if @event.democracy_in_action_key %>
     <a href="#" onclick="window.open('http://democracyinaction.org/dia/api/event/email.jsp?event_KEY=<%= @event.democracy_in_action_key %>','','width=500,height=450'); return false;">Questions? Email the Host</a>
   <% else %>
-    <%= link_to "Questions? Email the Host", {:action => 'email_host', :id => @event}, :popup => true %>
+    <%= link_to "Questions? Email the Host", :action => 'email_host', :id => @event %>
   <% end -%>
   </p>
   
