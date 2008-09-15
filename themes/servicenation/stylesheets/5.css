@@ -1,0 +1,167 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+background-image: url(http://s3.amazonaws.com/btcreal/610/bg3.jpg);
+background-position:center top;
+background-repeat: no-repeat;
+margin:0px;
+padding:0px;
+display:table;
+width:100%;
+}
+
+.bodyContent {
+  font-family:Arial;  
+  line-height:14pt;
+
+}
+
+img {
+border:0;
+}
+
+.activist2 {
+  position:absolute;
+  width:1251px;
+  left: -144px;
+  top: 22px;
+  background:url(http://s3.amazonaws.com/btcreal/485/activist.png);
+  height:45px;
+}
+
+.activist {
+  position:absolute;
+  width:1251px;
+  left: -421px;
+  top: 21px;
+  background:url(http://s3.amazonaws.com/btcreal/485/activist.png);
+  height:45px;
+}
+
+a:link, a:visited, a:active {
+  color:#1B9AD9;
+  text-decoration:none;
+  font-weight:bold;
+  font-size:12px;
+}
+
+a:hover {
+  color:#1B9AD9;
+  text-decoration:none;
+  font-weight:extra-bold;
+}
+div.leftmenu:hover {
+background-color:#3375A7;
+cursor:pointer;
+}
+img.pngfix {
+behavior: url(http://s3.amazonaws.com/events.servicenation.org/themes/servicenation/stylesheets/iepngfix.htc);
+}
+
+.popup_menu {
+  width:200px;
+  background-color:#4276A5;
+  padding-top:5px
+  padding-bottom:5px;
+  border:1px solid #809FBB;
+  border-top:none;
+}
+
+.popup_item {
+}
+
+.popup_item a {
+  color:#FFFFFF;
+  text-decoration:none;
+  padding-left:20px;
+  display:block;
+  padding-top:5px;
+  padding-bottom:5px;
+  border-bottom:1px solid #809FBB;
+  font-family:arial;
+  font-weight:bold;
+}
+
+.popup_item a:hover {
+  text-decoration:none;
+  color:#F07C31;
+  background-color:#4276A5;
+  font-weight:extra-bold;
+}
+
+.rss_feed_item {
+  padding:5px 0px;
+  font-family:arial;
+  font-size:12px;
+  color:#808080;
+
+  
+}
+
+.rss_feed_item h2 {
+ font-size:16pt;
+}
+
+
+img {
+  border:0px;
+}
+
+a img {
+ border: 0px;
+}
+p {
+    
+  margin-bottom:10px;
+  margin-left:8px;
+  margin-right:8px;
+}
+
+ul {
+padding-left:20px;
+}
+
+ol {
+padding-left:20px;
+
+}
+a.visionLink {
+  color:#FFFFFF; 
+  font-family:arial;
+ font-size:8.5pt;
+  text-decoration:none;
+}
+
+
+* {
+ margin:0px;
+ padding:0px;
+}
+
+h1 {
+  font-family:Century Gothic;
+  margin-bottom:10px;
+  font-weight:bold;
+  font-size:14pt;
+  color:#2b6aa3;
+  margin-left:8px;
+  
+}
+
+h2 {
+  font-family:century gothic;
+  margin-bottom:10px;
+  font-weight:bold;
+  font-size:11pt;
+  color:#2b6aa3;
+  margin-left:8px;
+  
+}
+
+
+
+
+
+
+
+
