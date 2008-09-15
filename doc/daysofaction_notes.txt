@@ -17,6 +17,7 @@ momsrising:
 
 revent new-features/clean-up:
 ---
+- admin: add Canada/USA as an option to calendar
 - enable sass in themes directory (started this work vendor/plugins/multisite/tasks/themes.rake"
 - dual authentication system (using ldap or openid)
 - do localization
@@ -29,7 +30,6 @@ revent new-features/clean-up:
 - find clean solution for 'all calendars'
 - admin side: calendar radio-buttons misleading because users are per site (not calendar)
 - admin interface redesign: considering having just users and calendars tab, and have calendars tab drill down into events
-- admin: add Canada/USA as an option to calendar
 - MomsRising: CA House Parties - send excel spreadsheet of all new sign ups within last 24 hours.
 - use same color for all required fields (state/date/time) 
 - fix admin, active_scaffold validation sucks!

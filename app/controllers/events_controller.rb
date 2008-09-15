@@ -241,7 +241,7 @@ class EventsController < ApplicationController
     @event = @calendar.events.find(params[:id], :include => :host)
     @host = @event.host
     if request.post?
-      # if hidden text field set, likely bot request
+      # if the hidden first_name field is set, it is likely bot request, so ignore
       return render(:action => 'show', :id => @event) unless params[:first_name].blank?
       if params[:from_email] && params[:from_email ] =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
         message = {
