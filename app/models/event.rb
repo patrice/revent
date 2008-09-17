@@ -22,6 +22,7 @@ class Event < ActiveRecord::Base
       :source_type => 'Politician', :conditions => '(rsvps.proxy IS NOT NULL) AND (rsvps.proxy)'
   has_many :politician_invites
   has_finder :searchable, :conditions => ["private = ? OR private IS NULL", false]
+  has_finder :private, :conditions => "private = 1"
   has_finder :with_reports, :include => :reports, :conditions => ["reports.status = ?", Report::PUBLISHED]
 
   belongs_to :category

@@ -5,6 +5,7 @@ xml.us_states do
   xml.state( :id => "background_color" ) { xml.color 'FFFFFF' }
   xml.state( :id => "state_info_icon" )  { xml.src "http://#{@calendar.site.host}/icon.swf" }
   xml.state( :id => "default_point" )    { xml.color('75AD50'); xml.size(3) }
+  xml.state( :id => "point_range" )      { xml.data 1; xml.color('3E99ED'); xml.size(3) }
   xml.state( :id => "scale_points" )     { xml.data 30 }
 
   @events.each do |e|
@@ -14,6 +15,17 @@ xml.us_states do
       xml.loc "#{e.latitude},#{e.longitude}"
       xml.url state_search_url(:permalink => @calendar.permalink, :state => e.state)
       xml.hover e.name
+    end
+  end
+
+  @calendar.events.private.each do |e|
+    next unless (e.latitude && e.longitude)
+    xml.state :id => "point" do
+      xml.name e.city
+      xml.loc "#{e.latitude},#{e.longitude}"
+      xml.url state_search_url(:permalink => @calendar.permalink, :state => e.state)
+      xml.hover e.name
+      xml.data 1
     end
   end
 

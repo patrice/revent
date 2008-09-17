@@ -30,4 +30,9 @@
               State:
               = select_tag 'state', us_state_options_for_select( '', {:show => :abbreviations, :include_blank => true}), :onchange => "window.location.href='/#{@calendar.permalink}/events/search/state/' + this.value"
     = render :partial => "/calendars/flashmap" 
+    %p.national-intro-count
+      %img{:src => "http://s3.amazonaws.com/events.radicaldesigns.org/images/green_dot.png"}
+      Green Dot = Public Events |
+      %img{:src => "http://s3.amazonaws.com/events.servicenation.org/images/blue_dot.png"}
+      Blue Dot = Private Events 
   #national-footer
