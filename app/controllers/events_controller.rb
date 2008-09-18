@@ -16,7 +16,7 @@ class EventsController < ApplicationController
   caches_page :total, :by_state, :show, :simple, :international
   caches_action :index
   def action_fragment_key(options)
-    (url_for(options). + '?' + params.sort.collect {|k,v| "#{k}=#{v}"}.join('&') + "&version=#{all_events_cache_version}").gsub(/\s+/,'')
+    request.host + Digest::SHA1.hexdigest(params.to_a.sort.to_s) + "version#{all_events_cache_version}"
   end
   def all_events_cache_version
     Cache.get("site_#{Site.current.id}_all_events_version") { rand(10000) }
