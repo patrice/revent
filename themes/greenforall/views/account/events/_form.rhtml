@@ -7,9 +7,6 @@
 <p><label for="event_description">Description</label><br/>
 <%= f.text_area 'description', :rows => 5  %></p>
 
-<p><label for="event_organization">Sponsoring Organization</label><br/>
-<%= f.text_field 'organization' %></p>
-
 <p><label for="event_location">Address (real street addresses will allow us to map the event)</label><br/>
 <%= f.text_area 'location', :rows => 3  %></p>
 
@@ -40,6 +37,6 @@
 <p><label for="event_max_attendees">Max Attendees</label><br/>
 <%= f.text_field 'max_attendees' %></p>
 
-<p><%= f.check_box 'category_id', {}, '17', nil %>
-<label for="event_category_id">This is a Green Jobs event</label></p>
+<p><%= f.check_box 'category_id', {}, '16', nil %>
+<label for="event_category_id">This is a Service Nation event</label></p>
 <!--[eoform:event]-->
