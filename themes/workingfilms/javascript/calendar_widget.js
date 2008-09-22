@@ -12,9 +12,9 @@ rEvent.display = ( function() {
       var title = $(document.createElement('h4')).addClassName('revent_title title' ).update( item.name );
       // var description = $(document.createElement('p')).addClassName('revent_desc desc').update( ( item.description || "" ) );
       var start_date = $(document.createElement('div')).addClassName('revent_date date').update( ( (item.segmented_date.month+'/'+item.segmented_date.day) || "" ) );
+      item_container.appendChild( start_date );
       item_container.appendChild( location );
       item_container.appendChild( title );
-      item_container.appendChild( start_date );
       //item_container.appendChild( description );
       return item_container;
     },
