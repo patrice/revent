@@ -32,8 +32,18 @@
       %br/
     = render :partial => "report", :collection => past
   #event-map-footer
-    = link_to 'Click here',  :permalink =>  @calendar.permalink, :controller => 'calendars', :action => 'show'  
-    to go back to the national map and see all the 
-    = @calendar.name.pluralize.downcase 
-    across the country.
+    %p
+      - private_events = @calendar.events.private
+      - if private_events.any?
+        There are 
+        = private_events.length 
+        private events
+        = @search_area
+        %br/
+        %br/
+    %p
+      = link_to 'Click here',  :permalink =>  @calendar.permalink, :controller => 'calendars', :action => 'show'  
+      to go back to the national map and see all the 
+      = @calendar.name.pluralize.downcase 
+      across the country.
   #event-list-footer
