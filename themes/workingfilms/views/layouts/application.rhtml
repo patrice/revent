@@ -34,6 +34,7 @@ if (window.addEventListener) {
 
   <%= javascript_include_tag 'prototype' %>
   <%= stylesheet_link_tag 'events' %>
+  <%= theme_stylesheet_link_tag 'workingfilms.css' %>
   <%= yield :header %>
   <%= Cartographer::Gmap::Header.header_for(request) if @map %>
 
