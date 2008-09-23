@@ -43,8 +43,7 @@ class Admin::UsersController < AdminController
   def export
     if params[:id].blank?
       @start = Time.now.strftime("%Y%m%d%H%M%S")
-      #ExportWorker.async_export_users(Site.current.id, @start)
-      ExportWorker.new.export_users(Site.current.id, @start)
+      ExportWorker.async_export_users(:site_id => Site.current.id, :start => @start)
     else
       @start = params[:id]
       download_file = File.join(RAILS_ROOT, 'tmp', "#{Site.current.theme}_users_#{@start}.csv")
@@ -54,8 +53,6 @@ class Admin::UsersController < AdminController
       end
 
       send_file(download_file, :type => 'text/csv; charset=utf-8; header=present', :filename => "#{Site.current.theme}_users_#{@start}.csv") 
-#      flash[:notice] = "Export downloaded successfully"
-#      redirect_to :controller => 'admin/users', :action => 'index'
     end
   end
 end

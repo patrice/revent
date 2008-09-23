@@ -1,7 +1,7 @@
 class ExportWorker < Workling::Base
-  def export_users(*args) #site_id, start)
-    site_id = args.shift
-    start = args.shift
+  def export_users(args)
+    site_id = args[:site_id]
+    start = args[:start]
     Site.current = Site.find(site_id)
     @users = Site.current.users.find(:all)#, :include => :custom_attributes)
     @attribute_names = @users.inject([]) {|names, u| names << u.custom_attributes.map {|a| a.name }; names.flatten.compact.uniq }
