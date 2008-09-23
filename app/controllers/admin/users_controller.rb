@@ -41,18 +41,21 @@ class Admin::UsersController < AdminController
   end
 
   def export
-    @start = Time.now.strftime("%Y%m%d%H%M")
-    ExportWorker.async_export_users(Site.current.id, start)
-  end
+    if params[:id].blank?
+      @start = Time.now.strftime("%Y%m%d%H%M%S")
+      #ExportWorker.async_export_users(Site.current.id, @start)
+      ExportWorker.new.export_users(Site.current.id, @start)
+    else
+      @start = params[:id]
+      download_file = File.join(RAILS_ROOT, 'tmp', "#{Site.current.theme}_users_#{@start}.csv")
+      unless File.exists?(download_file)
+        flash[:notice] = "Export not ready to download. Check back in a few minutes"
+        render && return
+      end
 
-  def download_export
-    download_file = File.join(RAILS_ROOT, 'tmp', "#{Site.current.theme}_users_#{start}.csv")
-    unless File.exists?(
-      flash[:notice] = "Export not ready to download. Check back in a few minutes"
-      redirect_to(:action => 'export') && return
-    end
-    File.new("#{Site.current.theme}_users.csv") do |f|
-      send_data(string, :type => 'text/csv; charset=utf-8; header=present', :filename => "#{Site.current.theme}_users.csv")
+      send_file(download_file, :type => 'text/csv; charset=utf-8; header=present', :filename => "#{Site.current.theme}_users_#{@start}.csv") 
+#      flash[:notice] = "Export downloaded successfully"
+#      redirect_to :controller => 'admin/users', :action => 'index'
     end
   end
 end
