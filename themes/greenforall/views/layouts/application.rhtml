@@ -4,9 +4,9 @@
       <!-- base href="http://greenjobsnow.com/" --><!--[if lt IE 7]></base><![endif]-->
     <meta name="generator" content="Plone - http://plone.org">
     <link rel="kss-base-url" href="http://greenjobsnow.com">
-    <script type="text/javascript" src="http://www.greenjobsnow.com/portal_javascripts/Day%20of%20Action/jquery-cachekey6050.js">
+    <script type="text/javascript" src="http://www.greenjobsnow.com/portal_javascripts/Day%20of%20Action/jquery-cachekey5882.js">
       </script>
-      <script type="text/javascript" src="http://www.greenjobsnow.com/portal_javascripts/Day%20of%20Action/resourcebase2-dom-fp-cachekey1040.js">
+      <script type="text/javascript" src="http://www.greenjobsnow.com/portal_javascripts/Day%20of%20Action/resourcebase2-dom-fp-cachekey1557.js">
       </script>
  
       <style type="text/css" media="screen"><!-- @import url(http://greenjobsnow.com/portal_css/Day%20of%20Action/base.css); --></style>    
@@ -44,9 +44,9 @@
     <meta http-equiv="imagetoolbar" content="no">
 
     
-  <%= javascript_include_tag 'prototype' %>
-  <%= stylesheet_link_tag 'events' %>
-  <%= theme_stylesheet_link_tag 'greenforall.css' %>
+  <%= javascript_include_tag 'http://events.greenjobsnow.com.s3.amazonaws.com/javascripts/prototype.js' %>
+  <%= stylesheet_link_tag 'http://events.greenjobsnow.com.s3.amazonaws.com/stylesheets/events.css' %>
+  <%= theme_stylesheet_link_tag 'http://events.greenjobsnow.com.s3.amazonaws.com/themes/greenforall/stylesheets/greenforall.css' %>
   <%= yield :header %>
   <%= Cartographer::Gmap::Header.header_for(request) if @map %>   
     
