@@ -203,7 +203,7 @@
               </td>
               <td>
               <%= f.text_field "postal_code", :id => 'postal_code', :maxlength => "16", :size => "16",  :title => "Please enter your event's zip code", :class => "required inputStyle" %>&nbsp;&nbsp;
-              <span id="spinner" style="font-style: italic; font-size: 90%; display: none;"><%= image_tag 'spinner.gif' %> looking for nearby events</span></td>
+              <span id="spinner" style="font-style: italic; font-size: 90%; display: none;"><%= image_tag 'http://events.greenjobsnow.com.s3.amazonaws.com/images/spinner.gif' %> looking for nearby events</span></td>
 				  <%= observe_field :postal_code,
 										 :on => 'blur',
 										 :update => 'nearbyEvents',
