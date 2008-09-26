@@ -19,8 +19,7 @@ class ApplicationController < ActionController::Base
 	end
 
   def set_cartographer_keys
-    Cartographer::Header.send :cattr_accessor, :keys
-    Cartographer::Header.keys = YAML.load_file(File.join(Site.current_config_path, 'cartographer-config.yml'))
+    Cartographer::Header.load_configuration(File.join(Site.current_config_path, 'cartographer-config.yml'))
   end
 
   def clean
