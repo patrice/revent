@@ -63,6 +63,9 @@ include Cartographer
 require 'democracyinaction'
 
 GeoKit::Geocoders::google = 'ABQIAAAA9C-o-5_7dL0qOO28APyPUxRkXutPkvyJzQgIe_vZE5iNiMK4ZBRkjBRIiRuewJiZ3eU47BhDWO0luw'
+GeoKit::Geocoders::yahoo  = '8Sv48NvV34GWdPp6lFPy0PGQQVRctmxKcYgq3dmDBeBG5f1ZoIBIpjF5v1P5oZFO'
+GeoKit::Geocoders::provider_order = [:yahoo, :google]
+GeoKit::Geocoders::timeout = 4
 
 require 'tagging_extensions'
 
