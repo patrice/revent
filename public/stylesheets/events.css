@@ -6,7 +6,9 @@ body { line-height: auto; }
 th,td,p {
 line-height: auto; 
 }
-
+h1 {
+font-size: 22px;
+}
 #detail-container{ 
 PADDING-TOP: 0px;
 PADDING-BOTTOM: 0px;
