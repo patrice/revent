@@ -2,14 +2,9 @@
 <%= render :partial => 'nav' %>
 <% if @event.past? -%>
 <b>	This Event Has Already Taken Place<br><br>
-	
-  If you attended this event please <%= link_to 'Submit a Report', :permalink => @calendar.permalink, :controller => "reports", :action => "new", :id=>@event.id %>.<br>
 
-	<% unless @event.reports.empty? -%>
-	   <%= link_to 'Click here', report_url(:permalink => @calendar.permalink, :event_id => @event.id)  %> to see reports for this event.<br>
-	<% end -%>
-  See all <%= link_to 'Event Reports', :permalink => @calendar.permalink, :controller => 'reports', :action => 'index' %>.<br><br>
-</b>
+  If you attended this event please <a href="http://www.bethechangeinc.org/servicenation/day_of_action/event_report">Submit a Report</a>.<br><br><br>
+
 <% end -%>
 
 <div class="report-intro-text">

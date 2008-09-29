@@ -112,3 +112,7 @@ color: #666666;
 padding: 0 0 0 16px; 
 background: url('http://www.greenjobsnow.com/green_arrow_build_3_0.gif') top left no-repeat; 
 }
+.report-intro-text b {  
+  font-size:14px;
+  line-height:16px;
+}
