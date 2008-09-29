@@ -8,3 +8,7 @@ BODY {
 select {
 background-color:#EBD897;
 }
+h1 { 
+  font-size: 18px;
+  line-height: 20px;
+}
