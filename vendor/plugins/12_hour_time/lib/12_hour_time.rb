@@ -23,7 +23,7 @@ module ActionView::Helpers::DateHelper
 
   def select_hour_with_ampm(datetime, options = {}, html_options = {}) 
     options[:twelve_hour] or
-      return select_hour_without_ampm(datetime, options, html_options)
+      return select_hour_without_ampm(datetime, options)#, html_options)
 
     val = _12_hour(datetime)
 
@@ -40,7 +40,7 @@ module ActionView::Helpers::DateHelper
        hour_options << "\n"
     end
 
-    select_html(options[:field_name] || 'hour', hour_options, options, html_options)
+    select_html(options[:field_name] || 'hour', hour_options, options)#, html_options)
   end
 
   alias_method_chain :select_hour, :ampm
@@ -65,7 +65,7 @@ module ActionView::Helpers::DateHelper
       )
       ampm_options << "\n"
     end
-    select_html(options[:field_name] || 'ampm', ampm_options, options, html_options)
+    select_html(options[:field_name] || 'ampm', ampm_options, options)#, html_options)
   end
 
   def select_time_with_ampm(datetime = Time.now, options = {}, html_options = {})
@@ -92,7 +92,7 @@ end
 class ActionView::Helpers::InstanceTag
   def date_or_time_select_with_ampm(options, html_options = {})
     options[:twelve_hour] and not options[:discard_hour] or
-      return date_or_time_select_without_ampm(options, html_options)
+      return date_or_time_select_without_ampm(options)#, html_options)
 
     defaults = { :discard_type => true }
     options = defaults.merge(options)
@@ -100,8 +100,8 @@ class ActionView::Helpers::InstanceTag
     datetime = value(object)
     datetime ||= default_time_from_options(options[:default]) unless options[:include_blank]
 
-    date_or_time_select_without_ampm(options, html_options) +
-      select_ampm(datetime, options_with_prefix(6, options.merge(:use_hidden => options[:discard_hour])), html_options)
+    date_or_time_select_without_ampm(options) + #, html_options) +
+      select_ampm(datetime, options_with_prefix(6, options.merge(:use_hidden => options[:discard_hour]))) #, html_options)
   end
 
   alias_method_chain :date_or_time_select, :ampm
