@@ -180,7 +180,7 @@ class Report < ActiveRecord::Base
       data = att.temp_data || File.read( att.full_filename ) rescue open( att.public_filename ).read rescue nil
       next unless att.flickr_id.nil? and data # maybe also verify that its an image???
       begin
-        att.flickr_id = Site.flickr.photos.upload.upload_image(data, att.content_type, att.filename, flickr_title, att.caption, event.calendar.flickr_tags)
+        att.flickr_id = Site.flickr.photos.upload.upload_image(data, att.content_type, att.filename, flickr_title, att.caption, event.calendar.flickr_tags(event_id))
         if event.calendar.flickr_photoset and att.flickr_id and att.primary?
           photoset_result = Site.flickr.photosets.addPhoto(event.calendar.flickr_photoset, att.flickr_id)
         end

@@ -118,7 +118,7 @@ class Attachment < ActiveRecord::Base
   def move_to_temp_files
     self.temp_paths.map! do |file|
       tmp = Tempfile.new(random_tempfile_filename, Technoweenie::AttachmentFu.tempfile_path)
-      tmp.close
+      tmp.close(true)
       FileUtils.mv file, tmp.path
       tmp.path
     end
