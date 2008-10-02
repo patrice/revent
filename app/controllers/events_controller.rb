@@ -139,8 +139,8 @@ class EventsController < ApplicationController
   end
 
   def new
-    @event = Event.new
-    @user = User.new
+    @event = Event.new params[:event]
+    @user = User.new params[:user]
     @categories = @calendar.categories.map {|c| [c.name, c.id] }
     if current_theme
       #self.class.ignore_missing_templates = true #themes only
