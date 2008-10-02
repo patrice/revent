@@ -9,6 +9,7 @@ class EventSweeper < ActionController::Caching::Sweeper
   def after_update(event)
     expire_event_pages_and_fragments(event)
     FileUtils.rm(File.join(ActionController::Base.page_cache_directory,event.calendar.permalink,'events','search','state',"#{event.state}.html")) rescue Errno::ENOENT
+    FileUtils.rm(File.join(ActionController::Base.page_cache_directory,event.calendar.parent.permalink,'events','search','state',"#{event.state}.html")) if event.calendar.parent rescue Errno::ENOENT
     RAILS_DEFAULT_LOGGER.info("Expired caches for updated event #{event.id}")
   end
 
