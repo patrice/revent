@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 87) do
+ActiveRecord::Schema.define(:version => 88) do
 
   create_table "attachments", :force => true do |t|
     t.string   "content_type"
@@ -103,6 +103,8 @@ ActiveRecord::Schema.define(:version => 87) do
     t.string  "value"
   end
 
+  add_index "custom_attributes", ["user_id"], :name => "index_custom_attributes_on_user_id"
+
   create_table "democracy_in_action_objects", :force => true do |t|
     t.string   "synced_type"
     t.integer  "synced_id"
@@ -164,6 +166,7 @@ ActiveRecord::Schema.define(:version => 87) do
   add_index "events", ["postal_code"], :name => "index_events_on_postal_code"
   add_index "events", ["calendar_id"], :name => "index_events_on_calendar_id"
   add_index "events", ["state", "city"], :name => "index_events_on_state_and_city"
+  add_index "events", ["host_id"], :name => "index_events_on_host_id"
 
   create_table "hostforms", :force => true do |t|
     t.string  "title"
@@ -384,6 +387,7 @@ ActiveRecord::Schema.define(:version => 87) do
   end
 
   add_index "users", ["email", "site_id"], :name => "unique_index_on_email_and_site_id"
+  add_index "users", ["site_id"], :name => "index_users_on_site_id"
 
   create_table "zip_codes", :force => true do |t|
     t.string   "zip"
