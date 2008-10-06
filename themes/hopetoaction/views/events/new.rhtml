@@ -75,6 +75,11 @@ EOS
               <td valign="top"><%= user.text_field "last_name", :id => "dataLast_Name", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your last name", :class => "required inputStyle" %></td>
               
             </tr>
+              <tr>
+                <td valign="top" class="dia_field_name">Organization/Affiliation</td>
+                <td valign="top"><input id="dataOrganization" name="user[custom_attributes_data][organization]" size="30" title="Please enter your organization" type="text" /></td>
+
+              </tr>
             <tr>
               <td valign="top" class="dia_field_name">*Email</td>
               <td valign="top"><%= user.text_field "email", :id => "dataEmail", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter a valid email address", :class => "required validate-email inputStyle" %></td>
