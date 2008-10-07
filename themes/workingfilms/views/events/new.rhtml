@@ -63,6 +63,11 @@
               <td colspan="2" valign="top"  class="dia_field_name">Show phone number on your host profile?&nbsp;&nbsp;<%= user.check_box "show_phone_on_host_profile", :style => "background-color: #ebd897;", :class => "inputStyle" %></td>
             </tr>
             <tr>
+              <td valign="top" class="dia_field_name">Cell  Phone</td>
+              <td valign="top"  class="dia_field_name"><%= text_field_tag "user[democracy_in_action][supporter][Cell_Phone]" %></td>
+            </tr>
+
+            <tr>
               <td valign="top" class="dia_field_name">*Street</td>
               <td valign="top"><%= user.text_field "street", :id => "dataStreet", :maxlength => "64", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your street address", :class => "required inputStyle" %></td>
               
@@ -115,7 +120,18 @@
       <div id="eventFields" class="eventFields">
         <table class="dia_field">
           <tbody>
-			  		<tr valign="top">
+ <% if @categories.any? -%>
+             <tr valign="top">
+              <td valign="top"  class="dia_field_name">
+                   <div align="left">*Event Type:</div>
+                </td>
+                <td valign="top">
+                    <%= f.select "category_id", @categories, {:include_blank => true}, {:title => "Please select your event type", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEvent_Category_Id" } %>
+              </td>
+              </tr>
+       <% end -%>
+
+          <tr valign="top">
 	              <td valign="top"  class="dia_field_name">
                   <div align="left">*Film to be screened:</div>
 	              </td>
