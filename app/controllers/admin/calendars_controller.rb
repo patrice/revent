@@ -16,6 +16,10 @@ class Admin::CalendarsController < AdminController
   	columns[:current].form_ui = :checkbox
   	columns[:hostform].form_ui = :select
   end
+
+  def before_update_save(record)
+    record.event_end = nil if params[:never] == '1'
+  end
   
   def index
   end
