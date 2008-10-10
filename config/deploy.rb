@@ -9,8 +9,8 @@ set :deploy_to, "/home/#{user}/#{application}"
 set :scm, :git
 set :keep_releases, 10
 
-role :web, 'slicehost.radicaldesigns.org', 'cluster.radicaldesigns.org', 'cluster2.radicaldesigns.org'
-role :app, 'slicehost.radicaldesigns.org', 'cluster.radicaldesigns.org', 'cluster2.radicaldesigns.org'
+role :web, 'slicehost.radicaldesigns.org', 'cluster.radicaldesigns.org'
+role :app, 'slicehost.radicaldesigns.org', 'cluster.radicaldesigns.org'
 role :db,  "slicehost.radicaldesigns.org", :primary => true
 
 set :deploy_via, :remote_cache
