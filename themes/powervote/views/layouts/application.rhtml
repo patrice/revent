@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+  <title>Leader's HQ | Power Vote</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="http://www.powervote.org/sites/default/themes/pv/favicon.ico" type="image/x-icon" />
+  <script type="text/javascript" src="http://www.powervote.org/misc/jquery.js?k"></script>
+<script type="text/javascript" src="http://www.powervote.org/misc/drupal.js?k"></script>
+<script type="text/javascript" src="http://www.powervote.org/sites/default/themes/pv/js/jquery.innerfade.js?k"></script>
+
+<script type="text/javascript" src="http://www.powervote.org/sites/default/themes/pv/js/pv.js?k"></script>
+<script type="text/javascript">jQuery.extend(Drupal.settings, { "basePath": "/" });</script>
+  <link type="text/css" rel="stylesheet" media="all" href="http://www.powervote.org/modules/node/node.css?k" />
+<link type="text/css" rel="stylesheet" media="all" href="http://www.powervote.org/modules/system/defaults.css?k" />
+<link type="text/css" rel="stylesheet" media="all" href="http://www.powervote.org/modules/system/system.css?k" />
+<link type="text/css" rel="stylesheet" media="all" href="http://www.powervote.org/modules/system/system-menus.css?k" />
+<link type="text/css" rel="stylesheet" media="all" href="http://www.powervote.org/modules/user/user.css?k" />
+<link type="text/css" rel="stylesheet" media="all" href="http://www.powervote.org/sites/default/themes/pv/style.css?k" />
+  <!--[if IE 6]>
+    <link type="text/css" rel="stylesheet" media="all" href="http://www.powervote.org/sites/default/themes/pv/ie6.css" />
+  <![endif]-->
+
+
+</style>
+
+        <%= javascript_include_tag 'prototype' %>
+        <%= stylesheet_link_tag 'events' %>
+        <%= yield :header %>
+        <%= Cartographer::Gmap::Header.header_for(request) if @map %>
+
+</head>
+
+<body class="not-front not-logged-in page-node node-type-page one-sidebar sidebar-left" onload='load()'>
+  <div id="wrapper" class="clear-block">
+    <div id="header" class="clear-block">
+      <h1><a href="http://www.powervote.org/">Power Vote</a></h1>
+      <ul id="primary"><li class="about first"><a href="http://www.powervote.org/about">About</a></li>
+<li class="leader"><a href="http://www.powervote.org/organize">Leader's HQ</a></li>
+<li class="newsroom last"><a href="http://www.powervote.org/newsroom">Newsroom</a></li>
+</ul><a href="http://www.powervote.org/platform" id="people">Clean energy. Climate justice. Green jobs. No coal.</a>          </div><!--/header-->
+
+    <div id="pagebody" class="clear-block">
+      
+              <div id="left">
+          <div id="block-menu-menu-organize" class="block block-menu">
+
+  <div class="content">
+    <ul class="menu"><li class="leaf first active-trail"><a href="http://www.powervote.org/organize" title="" class="active">Leader's HQ</a></li>
+<li class="leaf"><a href="http://www.powervote.org/organize/resources" title="Resources">Resources</a></li>
+<li class="leaf"><a href="http://www.powervote.org/organize/materials" title="Materials">Materials</a></li>
+<li class="leaf"><a href="http://www.powervote.org/labelrequest" title="Label Request">Label Request</a></li>
+
+<li class="leaf last"><a href="http://www.powervote.org/Update" title="Power Updating">Power Updating</a></li>
+</ul>  </div>
+</div>
+<div id="block-powervote-7" class="block block-powervote">
+
+  <div class="content">
+    <object width="260" height="214"><param name="movie" value="http://www.youtube.com/v/Uz7f3miZv64&f=gdata_videos"></param><embed src="http://www.youtube.com/v/Uz7f3miZv64&f=gdata_videos" type="application/x-shockwave-flash" width="260" height="214"></embed></object>  </div>
+</div>
+<div id="block-powervote-10" class="block block-powervote">
+
+  <div class="content">
+
+    <div id="rtvwaw-launch" onclick="if(typeof(WAReg)=='object')return false;if(!/WebKit\/[4-7]|MSIE [6-9]|Gecko\/200(51[12]|[6-9])|Opera\/9/.test(navigator.userAgent))return true;WAReg={launcherHtml:this.innerHTML,isStandalone:0};var d=document;var s=d.createElement('script');s.src='http://www.registrationbyworkingassets.com/client/wareg.js?popin=1&api_key=6QYOvnBJ2vGo3Mq7yVIIzzhsLCA〈=&%72eg_id=&r='+Math.random();d.body.appendChild(s);this.innerHTML='Please wait...';return false;">
+              <a href="http://www.rockthevote.com/indexNoPop.html"><img border="0" alt="Register to Vote: Rock the Vote, powered by Credo Mobile" style="cursor: pointer;" src="http://www.rockthevote.com/images/ovr-web-banners/150x200_e.gif" /></a>
+            </div>  </div>
+</div>
+        </div><!--/left-->
+            
+            
+      <div id="main">
+      
+      
+    <% if flash[:notice] %><div class="flash" id="notice"><%= flash[:notice] %></div><% end %>
+                          <% if flash[:error] %><div class="flash" id="error"><%= flash[:error] %></div><% end %>
+                          <%= yield %>
+      
+      
+      </div><!--/main-->
+      
+    </div><!--/pagebody-->
+    <div id="footer">
+      <div id="eac"><a href="http://energyactioncoalition.org/">A project of Energy Action Coalition.</a></div>
+      <a href="http://www.powervote.org/contact">Contact</a> | <a href="http://www.powervote.org/privacy">Your Privacy</a> | <a href="https://salsa.democracyinaction.org/o/614/t/7407/shop/custom.jsp?donate_page_KEY=3825">Donate</a>          </div><!--/footer-->
+
+  </div> <!--/wrapper-->
+  </body>
+</html>
+
+
