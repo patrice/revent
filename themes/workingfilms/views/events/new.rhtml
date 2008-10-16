@@ -78,6 +78,11 @@
               
             </tr>
             <tr>
+                  <td colspan="2"><span style="display: block; padding-top: 6px; width: 380px; font-size: 90%;">
+                 &nbsp;<em>State and Postal Code not required for events outside the United States.</em>
+                 </span></td>
+            </tr>
+            <tr>
             
               <td valign="top"  class="dia_field_name">*State/Region</td>
               <td><%= user.select "state", DemocracyInAction::Helpers.state_options_for_select(:include_none=>true), {}, :title => "Please select your state", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataState" %>
@@ -91,6 +96,12 @@
               <td><%= user.text_field "postal_code", :style => "background-color: #ebd897;", :maxlength => "10", :size => "10", :id => "dataZip", :title => "Please enter your zip code", :class => "required inputStyle" %></td>
              
             </tr>
+            <tr>
+		        <td  class="dia_field_name">
+		          <div align="left">*Country:</div>
+		        </td>
+            <td><%= user.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort, :selected => ((@user && @user.country_code) || Event::COUNTRY_CODE_USA), :title => "Please choose your event's country", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventCountry" %></td>
+		      </tr>
             <tr>
               <td valign="top" class="dia_field_name">Organization</td>
               <td valign="top"><%= text_field_tag "user[democracy_in_action][supporter][Organization]", nil, :id => "dataOrganization", :maxlength => "64", :size => "30", :class => "inputStyle" %></td>
@@ -173,6 +184,10 @@
               <%= f.text_field "city", :id => "dataEventCity", :maxlength => "128", :size => "30", :style => "background-color: #ebd897;", :title => "Please enter your event's city", :class => "required inputStyle" %></td>
              
             </tr>
+            <tr><td colspan="2"><span style="display: block; padding-top: 10px; width: 380px; font-size: 90%;">
+					  <em>State and Postal Code not required for events outside the United States.</em></span></td></tr>
+            <tr>
+
             <tr>
               <td valign="top"  class="dia_field_name">
                 <div align="left">*State:</div>
@@ -209,6 +224,12 @@
                 &nbsp;<%= f.text_area "directions", :rows => "2", :cols => "25", :class => "required", :title => "Please enter directions to your event" %>
               </td>  
             </tr>             
+<tr>
+        <td  class="dia_field_name">
+          <div align="left">*Country:</div>
+        </td>
+        <td><%= f.select "country_code", CountryCodes::countries_for_select('name', 'numeric').sort,  :selected => (@event.country_code || COUNTRY_CODE_USA), :title => "Please choose your event's country", :class => "required validate-selection", :style => "background-color: #ebd897;", :size => "1", :id => "dataEventCountry" %></td>
+      </tr>
 
 			<tr valign="top">
         
