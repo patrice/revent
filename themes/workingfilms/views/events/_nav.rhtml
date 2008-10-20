@@ -1,6 +1,8 @@
 <div id="nav-event">
   <%= link_to(image_tag("/themes/workingfilms/images/wf_fint_icon.gif"), {:permalink =>  @calendar.permalink, :controller => 'calendars', :action => 'show'}) %>
-  <%= link_to(image_tag("/themes/workingfilms/images/wf_host_icon.gif"), {:permalink =>  @calendar.permalink, :controller => 'events', :action => 'new'})  %> 
+  <%= if @calendar.permalink != "praythedevilbacktohell" 
+        link_to(image_tag("/themes/workingfilms/images/wf_host_icon.gif"), {:permalink =>  @calendar.permalink, :controller => 'events', :action => 'new'})  
+      end %> 
   <%= link_to(image_tag("/themes/workingfilms/images/wf_manage_icon.gif"), {:controller => 'account/events'}) %>
   <%= link_to(image_tag("/themes/workingfilms/images/wf_report_icon.gif"), {:permalink => @calendar.permalink, :controller => 'reports', :action => 'new'}) %>
 
