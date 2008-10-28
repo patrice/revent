@@ -13,7 +13,7 @@
       <% if @calendar.map_intro_text -%>
         <%= @calendar.map_intro_text %>
       <% else -%>
-        Select a film, click on a state, or enter your zip code to find Working Films screenings near you...
+     Select a film, click on a state, or enter your zip code to find <%= @calendar.name.pluralize %> near you. For events happening outside the United States, <%= link_to 'click here', :permalink => @calendar.permalink, :controller => 'events', :action => 'international' %>.
       <% end -%>
       <br /><br />
     </div>
