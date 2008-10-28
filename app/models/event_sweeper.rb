@@ -31,7 +31,7 @@ class EventSweeper < ActionController::Caching::Sweeper
     FileUtils.rm(File.join(ActionController::Base.page_cache_directory,permalink,'events','flashmap.xml')) rescue Errno::ENOENT
     FileUtils.rm(File.join(ActionController::Base.page_cache_directory,permalink,'events','total.js')) rescue Errno::ENOENT
     FileUtils.rm(File.join(ActionController::Base.page_cache_directory,permalink,'events','total.html')) rescue Errno::ENOENT
-    Cache.delete("site_#{Site.current.id}_all_events_version")
+    Cache.delete("site_#{Site.current.id}_all_events_version") rescue IndexError
 
     unless permalink.blank?
       FileUtils.rm(File.join(ActionController::Base.page_cache_directory,"#{permalink}.html")) rescue Errno::ENOENT
