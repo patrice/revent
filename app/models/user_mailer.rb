@@ -79,8 +79,8 @@ class UserMailer < ActionMailer::Base
         user.rsvps.last.event.calendar
       elsif user.reports.any?
         user.reports.last.event.calendar
-      elsif 
-        Site.current.calendars.current
+      else
+        Site.current.calendars.detect {|c| c.current?} || Site.current.calendars.first
       end
     calendar ? calendar.admin_email : nil
   end  

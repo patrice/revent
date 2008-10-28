@@ -11,9 +11,6 @@ config.whiny_nils = true
 # Show full error reports and disable caching
 config.action_controller.consider_all_requests_local = true
 config.action_controller.perform_caching             = false
-config.active_record.observers = 
-    :event_sweeper, :politician_invite_sweeper, :rsvp_sweeper, 
-    :calendar_sweeper, :attachment_sweeper
 
 config.action_view.cache_template_extensions         = false
 config.action_view.debug_rjs                         = true

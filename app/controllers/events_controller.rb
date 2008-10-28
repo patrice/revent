@@ -139,6 +139,7 @@ class EventsController < ApplicationController
   end
 
   def new
+    redirect_to(signup_path(:permalink => (@calendar.calendars.detect {|c| c.current?} || @calendar.calendars.first).permalink)) if @calendar.calendars.any?
     @event = Event.new params[:event]
     @user = User.new params[:user]
     @categories = @calendar.categories.map {|c| [c.name, c.id] }

@@ -253,7 +253,7 @@ class User < ActiveRecord::Base
 
   # get calendar for most recently hosted or attended event
   def effective_calendar
-    effective_event ? effective_event.calendar : (Site.current.calendars.current || Site.current.calendars.first)
+    effective_event ? effective_event.calendar : (Site.current.calendars.detect {|c| c.current?} || Site.current.calendars.first)
   end
   
   def country

@@ -35,7 +35,7 @@ class Admin::CalendarsController < AdminController
   def index
     if Site.current.calendars.count > 1
       @calendars = Site.current.calendars
-      @calendar = Site.current.calendars.current
+      @calendar = Site.current.calendars.detect {|c| c.current?}
     else
       redirect_to :controller => 'admin/events', :permalink => Site.current.calendars.current.permalink
     end

@@ -318,7 +318,7 @@ class Event < ActiveRecord::Base
 
   def set_calendar
     if self.calendar and self.calendar.calendars.any?
-      self.calendar_id = calendar.calendars.current.id
+      self.calendar_id = (calendar.calendars.detect {|c| c.current? } || calendar.calendars.first).id
     end
   end
 

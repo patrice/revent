@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_calendar
-    @calendar = site.calendars.detect {|c| params[:permalink] == c.permalink } || site.calendars.current || site.calendars.first    
+    @calendar = site.calendars.detect {|c| params[:permalink] == c.permalink } || site.calendars.detect {|c| c.current?} || site.calendars.first    
     raise 'no calendar' unless @calendar
   end
 

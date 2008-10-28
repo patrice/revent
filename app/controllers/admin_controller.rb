@@ -43,7 +43,7 @@ class AdminController < ApplicationController
 
   def set_calendar
     @calendar = site.calendars.detect {|c| current_permalink == c.permalink} ||
-                site.calendars.current ||
+                site.calendars.detect {|c| c.current?} ||
                 site.calendars.first
     raise 'no calendar' unless @calendar
   end

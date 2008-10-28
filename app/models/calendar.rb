@@ -9,11 +9,11 @@ class Calendar < ActiveRecord::Base
 
   # self-referential calendar relationship used for 'all' calendar
   belongs_to :parent, :class_name => 'Calendar', :foreign_key => 'parent_id'
-  has_many :calendars, :class_name => 'Calendar', :foreign_key => 'parent_id' do
-    def current
-      proxy_target.detect {|c| c.current?} || proxy_target.first
-    end
-  end
+  has_many :calendars, :class_name => 'Calendar', :foreign_key => 'parent_id'
+#    def current
+#      proxy_target.detect {|c| c.current?} || proxy_target.first
+#    end
+  has_finder :current, :conditions => {:current => true}
 
   @@deleted_events = []
   @@all_events = []
