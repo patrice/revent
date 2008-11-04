@@ -136,7 +136,7 @@ end
         <% if @categories.any? -%>
 			  		<tr valign="top">
 	              <td valign="top"  class="dia_field_name">
-	                <div align="left">*Collabloration:</div>
+	                <div align="left">*Collaboration:</div>
 	              </td>
 	              <td valign="top">
 	                <%= f.select "category_id", @categories, {:include_blank => true}, {:title => "Please indicate if you are seeking collaboration", :style => "background-color: #ebd897;", :size => "1", :id => "dataEvent_Category_Id" } %>
