@@ -46,7 +46,7 @@
     
   <%= javascript_include_tag 'http://events.greenjobsnow.com.s3.amazonaws.com/javascripts/prototype.js' %>
   <%= stylesheet_link_tag 'http://events.greenjobsnow.com.s3.amazonaws.com/stylesheets/events.css' %>
-  <%= theme_stylesheet_link_tag 'http://events.greenjobsnow.com.s3.amazonaws.com/themes/greenforall/stylesheets/greenforall.css' %>
+  <%= theme_stylesheet_link_tag '/themes/greenforall/stylesheets/greenforall.css' %>
   <%= yield :header %>
   <%= Cartographer::Gmap::Header.header_for(request) if @map %>   
     
