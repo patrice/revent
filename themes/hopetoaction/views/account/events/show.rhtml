@@ -94,7 +94,7 @@
 	</div>
 	
 	
-	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_blog.gif'><%= link_to_function 'Post an Announcement About Your EcoSalon', visual_effect(:toggle_blind, 'profile_event_blog') %></p>
+	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_blog.gif'><%= link_to_function 'Post Additional Information to Your Event Page', visual_effect(:toggle_blind, 'profile_event_blog') %></p>
 	<div id='profile_event_blog'<% if @blog.nil? || @blog.errors.empty? %> style="display:none;"<% end %>>
 		<div id='profile_event_blog_add'>	
 			<p class='profile_subtitle'>Add Announcements about Your EcoSalon</p>
@@ -128,7 +128,7 @@
 		</div>
 	</div>
 	
-	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_report.gif'><%= link_to_function 'Manage EcoSalon Report Backs', visual_effect(:toggle_blind, 'profile_event_report') %></p>
+	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_report.gif'><%= link_to_function 'Manage Event Report Backs', visual_effect(:toggle_blind, 'profile_event_report') %></p>
 	<div id='profile_event_report'<% if @report.nil? || @report.errors.empty? %> style="display:none;"<% end %>>
 
 		<div id='profile_event_report_list'>
