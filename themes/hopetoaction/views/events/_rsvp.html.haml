@@ -1,0 +1,52 @@
+%h3
+  RSVP
+Please let us know you will be coming by RSVPing below
+#signupForm.signupForm
+  - form_for :user, :url => { :action => "rsvp", :id => event.id }, :html => {:id => 'event-rsvp-form'} do |f|
+    = hidden_field_tag "user[democracy_in_action][supporter][link][event]", event.democracy_in_action_key
+    = hidden_field_tag "user[democracy_in_action][supporter][_Status]", "Signed Up"
+    = hidden_field_tag "user[democracy_in_action][supporter][_Type]", "Supporter"
+    
+    
+    - if @calendar.rsvp_dia_group_key
+      = hidden_field_tag "user[democracy_in_action][supporter][link][groups]", @calendar.rsvp_dia_group_key
+    - if @calendar.rsvp_dia_trigger_key
+      = hidden_field_tag "user[democracy_in_action][supporter][email_trigger_KEYS]", @calendar.rsvp_dia_trigger_key
+    %table.dia_field
+      %tr
+        %td#dia_field_name_data_First_Name.dia_field_name{ :valign => "top", :align => "right" }
+          First Name
+        %td{ :valign => "top" }
+          = f.text_field 'first_name', :size => 30, :class => "required inputStyle", :title => "Please enter your first name."
+        %td{ :rowspan => 3}
+          If you cannot attend this EcoSalon but would like to join the movement of women for climate protection and be contacted about other Hope to Action events and activities:
+          %br/
+          = link_to 'Sign-up for a Free Membership', 'http://hopetoaction.org/user/register'
+      %tr
+        %td#dia_field_name_data_Last_Name.dia_field_name{ :valign => "top", :align => "right" }
+          Last Name
+        %td{ :valign => "top" }
+          = f.text_field 'last_name', :size => 30, :class => "required inputStyle", :title => "Please enter your last name." 
+      %tr
+        %td#dia_field_name_data_Email.dia_field_name{ :valign => "top", :align => "right" }
+          Email
+        %td{ :valign => "top" }
+          = f.text_field 'email', :size => 30, :class => "required inputStyle", :title => "Please enter a valid email address."
+      %tr
+        %td#dia_field_name_data_Phone.dia_field_name{ :valign => "top", :align => "right" }
+          Phone
+        %td{ :valign => "top" }
+          = f.text_field 'phone', "size" => 30 
+      %tr
+        %td.dia_field_name{ :align => "right" }
+          Zip/Postal Code
+        %td
+          = f.text_field 'postal_code', "size" => 10 
+      %tr
+      - if @calendar.rsvp_redirect
+        = hidden_field_tag "redirect", @calendar.rsvp_redirect
+      
+    = submit_tag "Sign up!"
+= javascript_include_tag "validation.js"
+%script{ :language => "javascript", :type => "text/javascript" }
+  var valid = new Validation("event-rsvp-form", {useTitles : true});
