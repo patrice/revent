@@ -36,3 +36,11 @@ text-align: center;
 color: #FFFFFF;
 text-decoration: underline;
 }
+
+#membership-signup {
+text-align: center;
+}
+
+#squeeze #description p {
+  margin: 10px 0;
+}
