@@ -5,7 +5,13 @@ input, select {
   padding-left: 0px; }
 
 #profile_event_location {
+  margin-left: 20px;
+  float: left;
   font-size: 15px; }
+
+#profile_event_location_header {
+  float: left;
+}
 
 ul {
   list-style-type: disc; }

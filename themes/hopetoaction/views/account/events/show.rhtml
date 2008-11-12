@@ -6,11 +6,13 @@
   <div class='profile_title'>Manage Your EcoSalon</div>
 	<p><em>Changes to your event information might take a few moments to update.
 	Please check back soon to see if your edits have registered. Thanks.</em></p>
-  <em>Click this link to see what your event looks like online:</em><br/><br/>
+  <br/>
+  <p id="profile_event_location_header"><em>Click this link to see what your event looks like online:</em></p>
   <div id='profile_event_location' >
     <b><%= link_to @event.name, :permalink => @event.calendar.permalink, :controller => '/events', :action => 'show', :id => @event %></b><br/>
     <b><%= @event.city %>, <%= @event.state %> </b>
-  </div><br/>
+  </div>
+  <br style="clear:both;"/>
 	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_edit.gif'><%= link_to_function 'Edit Your EcoSalon Details', visual_effect(:toggle_blind,'profile_event_edit') %></p>
   <div id='profile_event_edit'<% if @event.errors.empty? %> style="display:none;"<% end %>>
 		<p class='profile_subtitle'>Edit Your EcoSalon Details</p>	
@@ -128,7 +130,7 @@
 		</div>
 	</div>
 	
-	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_report.gif'><%= link_to_function 'Manage Event Report Backs', visual_effect(:toggle_blind, 'profile_event_report') %></p>
+	<p class="profile_dashboard_item"><img src='/themes/stepitup/images/profile_report.gif'><%= link_to_function 'Post and Share Stories, Photos, and Press Coverage of Your Event', visual_effect(:toggle_blind, 'profile_event_report') %></p>
 	<div id='profile_event_report'<% if @report.nil? || @report.errors.empty? %> style="display:none;"<% end %>>
 
 		<div id='profile_event_report_list'>
