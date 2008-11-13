@@ -4,15 +4,16 @@ require 'daemons'
 
 ENV['RAILS_ENV'] ||= 'production'
 
-workling = "vendor/plugins/workling/script/listen.rb"
+workling = File.join(File.dirname(__FILE__), '..', 'vendor', 'plugins', 'workling', 'script', 'listen.rb')
 options = {
   :app_name   => "workling",
   :ARGV       => ARGV,
   :dir_mode   => :normal,
-  :dir        => 'log',
+  :dir        => File.join(File.dirname(__FILE__), '..', 'log'),
+  :log_output => true,
   :multiple   => false,
-  :backtrace  => true,
-  :monitor    => true
+  :backtrace  => true
+#  :monitor    => true
 }
 
 Daemons.run(workling, options)
