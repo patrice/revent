@@ -1,4 +1,5 @@
 config/*.yml
+config/initializers/hoptoad.rb
 test/config/*.yml
 *.swp
 log/*

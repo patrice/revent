@@ -48,6 +48,7 @@ namespace :deploy do
     invoke_command "ln -nfs #{shared_path}/vendor/mime-types-1.15 #{release_path}/vendor/mime-types-1.15"
     invoke_command "ln -nfs #{shared_path}/vendor/rflickr-2006.02.01 #{release_path}/vendor/rflickr-2006.02.01"
     invoke_command "ln -nfs #{shared_path}/sites #{release_path}/sites"
+    invoke_command "ln -nfs #{shared_path}/config/initializers/hoptoad.rb #{release_path}/config/initializers/hoptoad.rb"
   end
 
   task :after_symlink, :roles => :app , :except => {:no_symlink => true} do
