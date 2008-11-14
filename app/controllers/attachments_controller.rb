@@ -1,11 +1,13 @@
 class AttachmentsController < ApplicationController
-  skip_before_filter :set_site
+#  skip_before_filter :set_site
   skip_before_filter :set_calendar
   skip_before_filter :set_cache_root
 
   session :disabled => false, :only => [:destroy]
   before_filter :login_required, :only => [:destroy]
-  access_control :destroy => 'admin'
+  def authorized?
+    current_user.admin?
+  end
 
   def show
     if params[:id]
