@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 88) do
+ActiveRecord::Schema.define(:version => 89) do
 
   create_table "attachments", :force => true do |t|
     t.string   "content_type"
@@ -270,17 +270,6 @@ ActiveRecord::Schema.define(:version => 88) do
   add_index "reports", ["event_id"], :name => "index_reports_on_event_id"
   add_index "reports", ["status", "position"], :name => "index_reports_on_status_and_position"
 
-  create_table "roles", :force => true do |t|
-    t.string "title"
-  end
-
-  create_table "roles_users", :id => false, :force => true do |t|
-    t.integer "role_id"
-    t.integer "user_id"
-  end
-
-  add_index "roles_users", ["role_id", "user_id"], :name => "unique_index_on_role_id_and_user_id", :unique => true
-
   create_table "rsvps", :force => true do |t|
     t.integer  "event_id"
     t.integer  "user_id"
@@ -384,6 +373,7 @@ ActiveRecord::Schema.define(:version => 88) do
     t.integer  "site_id"
     t.integer  "country_code"
     t.string   "partner_id"
+    t.boolean  "admin"
   end
 
   add_index "users", ["email", "site_id"], :name => "unique_index_on_email_and_site_id"

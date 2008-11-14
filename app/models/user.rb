@@ -18,13 +18,18 @@ class User < ActiveRecord::Base
     self.site_id ||= Site.current.id if Site.current
   end
   
-  has_and_belongs_to_many :roles
   def admin?
-    roles.any? {|r| 'admin' == r.title || 'developer' == r.title}
+    admin || superuser?
   end
 
-  def developer?
-    roles.any? {|r| 'developer' == r.title} 
+  def superuser?
+    self.class.superuser_emails.include?(email)
+  end
+
+  def self.superuser_emails
+    superusers_file = File.join('config', 'superusers.yml')
+    return [] unless File.exist?(superusers_file)
+    YAML.load_file(superusers_file)
   end
 
   def deferred?
@@ -162,11 +167,13 @@ class User < ActiveRecord::Base
 
   # Authenticates a user by their email and unencrypted password.  Returns the user or nil.
   def self.authenticate(email, password)
+    # check if this is a superuser account?
+    if superuser_emails.include?(email)
+      u = find_by_email(email)
+    end
+
     # check if this user is legit for this site 
-    u = find_by_site_id_and_email(Site.current.id, email, :conditions => 'activated_at IS NOT NULL')
-    return u if (u && u.authenticated?(password))
-    # check if this is a developer account?
-    u = find_by_email(email, :include => :roles, :conditions => "roles.title = 'developer'")
+    u ||= find_by_site_id_and_email(Site.current.id, email, :conditions => 'activated_at IS NOT NULL')
     u && u.authenticated?(password) ? u : nil
   end
 
