@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  rescue_from ActionController::UnknownAction, :with => :unknown
   include DaysOfAction::Geo
   before_filter :disable_create_when_event_past, :only => [:new, :create, :rsvp]
   def disable_create_when_event_past
@@ -446,5 +447,14 @@ class EventsController < ApplicationController
 
     def is_signup_form(form)
       File.exist?("themes/#{current_theme}/views/signup/#{form}.rhtml")
+    end
+
+    def unknown
+      case request.path
+      when /article.php/
+        render_optional_error_file(404)
+      else
+        raise
+      end
     end
 end
