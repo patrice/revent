@@ -66,11 +66,16 @@ class ApplicationController < ActionController::Base
   private
 
   def unknown
-    case request.path
-    when /\.php$/, /;/
-      render_optional_error_file(404)
-    else
-      raise
+    case action_name
+    when /;/
+      render_optional_error_file(404) && return
     end
+
+    case request.path
+    when /\.php$/
+      render_optional_error_file(404) && return
+    end
+
+    raise
   end
 end
