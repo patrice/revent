@@ -130,6 +130,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':permalink/reports/photos/tagged/:tag', :controller => 'reports', :action => 'photos'
   map.connect ':permalink/reports/video/tagged/:tag', :controller => 'reports', :action => 'video'
   map.report ':permalink/reports/:event_id', :controller => 'reports', :action => 'show', :requirements => {:event_id => /\d+/}
+  map.legacy_report 'reports/:event_id', :controller => 'reports', :action => 'redirect_to_show_with_permalink', :requirements => {:event_id => /\d+/}
 
   map.connect ':permalink/:controller/page/:page', :action => 'list'
   map.connect ':controller/page/:page', :action => 'list'

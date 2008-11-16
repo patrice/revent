@@ -202,4 +202,9 @@ class ReportsController < ApplicationController
     end
     render :layout => false
   end
+
+  def redirect_to_show_with_permalink
+    @event = Event.find(params[:event_id])
+    redirect_to report_url(:permalink => @event.calendar.permalink, :event_id => @event.id), :status => :moved_permanently
+  end
 end

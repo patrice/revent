@@ -170,7 +170,8 @@ and this is your chance to sell your No War No Warming action to the world!</em>
                 <div align="left">Start:</div>
               </td>
               <td valign="top">
-                <%= f.datetime_select 'start', :minute_step => 15, :style => "background-color: #ebd897;", :order => [:month, :day, :year, "&#151", :hour, ':', :minute, :ampm]  %>
+                <%#= f.datetime_select 'start', :minute_step => 15, :style => "background-color: #ebd897;", :order => [:month, :day, :year, "&#151", :hour, ':', :minute, :ampm]  %>
+                <%= f.datetime_select 'start', :minute_step => 15, :style => "background-color: #ebd897;" %>
               </td>
               <td class="dia_required"><strong>*</strong></td>
             </tr>
@@ -179,7 +180,8 @@ and this is your chance to sell your No War No Warming action to the world!</em>
                 <div align="left">End:</div>
               </td>
               <td valign="top">
-                <%= f.datetime_select 'end', :minute_step => 15, :style => "background-color: #ebd897;", :order => [:month, :day, :year, "&#151", :hour, ':', :minute, :ampm]  %>
+                <%#= f.datetime_select 'end', :minute_step => 15, :style => "background-color: #ebd897;", :order => [:month, :day, :year, "&#151", :hour, ':', :minute, :ampm]  %>
+                <%= f.datetime_select 'end', :minute_step => 15, :style => "background-color: #ebd897;" %>
               </td>
               <td class="dia_required"><strong>*</strong></td>
             </tr>
