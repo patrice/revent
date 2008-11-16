@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   include HoptoadNotifier::Catcher
+  rescue_from ActionController::UnknownAction, :with => :unknown
 
   before_filter :login_from_cookie
   session :session_key => '_daysofaction_session_id'
@@ -59,6 +60,17 @@ class ApplicationController < ActionController::Base
       render :file => path, :status => status
     else
       head status
+    end
+  end
+
+  private
+
+  def unknown
+    case request.path
+    when /\.php$/
+      render_optional_error_file(404)
+    else
+      raise
     end
   end
 end
