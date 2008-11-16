@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
 
   def unknown
     case request.path
-    when /\.php$/
+    when /\.php$/, /;/
       render_optional_error_file(404)
     else
       raise
