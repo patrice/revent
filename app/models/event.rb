@@ -361,7 +361,8 @@ class Event < ActiveRecord::Base
   end
 
   def past?
-    start && start < Time.now
+    end_datetime = self.end || self.start
+    end_datetime && (end_datetime < Time.now)
   end
   
   def in_usa?
