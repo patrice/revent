@@ -45,7 +45,7 @@ class Event < ActiveRecord::Base
   has_finder :all, lambda { { }}
   has_finder :first, lambda { { :limit => 1 }}
 
-  has_finder :upcoming, :conditions => ["end >= ?", Time.now], :order => 'start, state'
+  has_finder :upcoming, lambda {{:conditions => ["end >= ?", Time.now], :order => 'start, state'}}
 
   has_finder :created_at, lambda { |order|
     { :order => "created_at #{order =~ /desc/i ? 'DESC' : 'ASC'}" }
