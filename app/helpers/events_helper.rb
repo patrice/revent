@@ -55,4 +55,13 @@ else {
   def state_centers
     EventsController::STATE_CENTERS
   end
+
+  def event_date_range(event)
+    html = "#{event.start? ? event.start.strftime('%B %e, %Y  %I:%M%p') : '?'}"
+    if event.end
+      event_end = (event.start.beginning_of_day == event.end.beginning_of_day) ? 
+        event.end.strftime('%I:%M%p') : event.end.strftime('%B %e, %Y  %I:%M%p')
+      html << " to #{event_end}"
+    end
+  end
 end
