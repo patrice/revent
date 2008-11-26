@@ -4,7 +4,7 @@
 	@event.end = @event.start + 2.hours	
   @all_calendar = Site.current.calendars.find_by_permalink("all")
   @hostform = @calendar.hostform || @all_calendar.hostform
-  @calendars = Site.current.sorted_calendars.reject{|c| c.permalink == "all"}
+  @calendars = Site.current.sorted_calendars.reject{|c| c.permalink == "all" || c.permalink == "praythedevilbacktohell" }
 -%>
 <h1>
 	<% if @hostform and @hostform.title -%>
